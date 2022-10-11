@@ -14,10 +14,10 @@ CONTAINS
       !- Name: Tempamp -Version: 1.0, -Time step: 1
       !- Description:
       !            * Title: Tempamp model
-      !            * Author: STICS
+      !            * Authors: STICS
       !            * Reference: doi:http://dx.doi.org/10.1016/j.agrformet.2014.05.002
       !            * Institution: INRAE
-      !            * Abstract: Calculates temperature amplitude
+      !            * ExtendedDescription: Calculates temperature amplitude
       !- inputs:
       !            * name: min_temp
       !                          ** description : current minimum temperature
