@@ -1,0 +1,46 @@
+<?xml version="1.0" standalone="yes"?>
+<StrategyDefinition>
+  <Global>
+    <SimpleStrategy />
+    <CompositeStrategy>checked</CompositeStrategy>
+    <DataInterfacesDLL>C:\Users\mancealo\Documents\Sirius Quality\branches\TestSoilMay\Code\SiriusQuality-SoilTemperatureStrategies\bin\Debug\SiriusQuality-SoilTemperatureDomainClasses.dll</DataInterfacesDLL>
+    <StrategiesDLL>C:\Users\mancealo\Documents\Sirius Quality\branches\TestSoilMay\Code\SiriusQuality-SoilTemperatureStrategies\bin\Debug\SiriusQuality-SoilTemperatureStrategies.dll</StrategiesDLL>
+    <IStrategyComponentName>IStrategySiriusQualitySoilT</IStrategyComponentName>
+  </Global>
+  <General>
+    <NameSpace>SiriusQualitySoilTemperature.Strategies</NameSpace>
+    <StrategyName>SoilTemperature</StrategyName>
+    <StrategyDescription>Composite Class for soil temperature</StrategyDescription>
+    <TimeSteps />
+    <AuthorFirstRelease>Loic Manceau</AuthorFirstRelease>
+    <Institution>INRA</Institution>
+    <Email>loic.manceau@inra.fr</Email>
+  </General>
+  <Parameters>
+    <VarName>isHourlyTemperatureCalculated</VarName>
+    <Description>1 to calculate hourly temperature or 0 if not</Description>
+    <MaxValue>1</MaxValue>
+    <MinValue>0</MinValue>
+    <DefaultValue>0</DefaultValue>
+    <Units>Dimenssionless</Units>
+    <ValueType>Integer</ValueType>
+  </Parameters>
+  <AssociatedStrategies>
+    <StrategyFullName>SiriusQualitySoilTemperature.Strategies.CalculateSoilTemperature</StrategyFullName>
+  </AssociatedStrategies>
+  <AssociatedStrategies>
+    <StrategyFullName>SiriusQualitySoilTemperature.Strategies.CalculateHourlySoilTemperature</StrategyFullName>
+  </AssociatedStrategies>
+  <LoadedAssemblies>
+    <Name>SiriusQuality-SoilTemperatureDomainClasses, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Name>
+  </LoadedAssemblies>
+  <LoadedAssemblies>
+    <Name>CRA.ModelLayer, Version=1.0.5212.29139, Culture=neutral, PublicKeyToken=null</Name>
+  </LoadedAssemblies>
+  <LoadedAssemblies>
+    <Name>mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Name>
+  </LoadedAssemblies>
+  <LoadedAssemblies>
+    <Name>System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Name>
+  </LoadedAssemblies>
+</StrategyDefinition>
