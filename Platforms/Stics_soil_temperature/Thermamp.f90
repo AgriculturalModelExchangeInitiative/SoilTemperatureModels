@@ -14,10 +14,10 @@ CONTAINS
       !- Name: Thermamp -Version: 1.0, -Time step: 1
       !- Description:
       !            * Title: thermal amplitude calculation
-      !            * Author: STICS
+      !            * Authors: STICS
       !            * Reference: doi:http://dx.doi.org/10.1016/j.agrformet.2014.05.002
       !            * Institution: INRAE
-      !            * Abstract:
+      !            * ExtendedDescription:
       !- inputs:
       !            * name: thermdif
       !                          ** description : soil thermal diffusivity
