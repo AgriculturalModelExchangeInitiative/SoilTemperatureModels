@@ -92,7 +92,7 @@ CONTAINS
 
       !%%CyML Compute Begin%%
       Do i=1, size(layerstemp_t1)
-         vexp(i) = exp(i*thermamp)
+         vexp(i) = exp(-i*thermamp)
       END DO
       !vexp(:) = exp(-(/(i, i=1, size(layerstemp_t1))/)*thermamp)
 
