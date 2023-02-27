@@ -36,16 +36,14 @@ __pycache__
 
 # Installer logs
 pip-log.txt
-.amlog
-.sconsign.dblite
 
 # Unit test / coverage reports
 .coverage
 .tox
 nosetests.xml
 
-# Designer files
-*visualea/src/visualea/ui_*
+# jupyter 
+.ipynb_checkpoints
 
 # Translations
 *.mo
