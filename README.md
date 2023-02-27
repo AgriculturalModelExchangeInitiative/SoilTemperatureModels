@@ -1,4 +1,4 @@
-# AMEI_10_14_2022
-Montpellier AMEI Workshop 10 to 14 October 2022
+# Soil Temperature Models
+AMEI Workshop on Soil Temperature Models Exchange between different platforms
 
 Platforms folder contains the crop modeling platfoms adapted to meet the Crop2ML requirements
