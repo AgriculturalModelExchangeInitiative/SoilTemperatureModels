@@ -96,6 +96,35 @@ CONTAINS
   
       REAL, intent(in)     :: layer_thick(:)
       REAL, intent(out) :: layer_depth(size(layer_thick))
+      !- Name: Layer thickness to depth -Version: 1.0, -Time step: 
+      !- Description:
+      !            * Title: layers thickness conversion to bottom depth
+      !            * Author: STICS
+      !            * Reference: doi:http://dx.doi.org/10.1016/j.agrformet.2014.05.002
+      !            * Institution: INRAE
+      !            * Abstract: Calculates soil layers bottom depth
+      !- inputs:
+      !            * name: layer_thick
+      !                          ** description : layers thickness
+      !                          ** inputtype : variable
+      !                          ** variablecategory : state
+      !                          ** datatype : DOUBLEARRAY
+      !                          ** default : 0.0
+      !                          ** min : 
+      !                          ** max :
+      !                          ** unit : cm
+      !                          ** uri :
+      !                          ** len : 
+      !- outputs:
+      !            * name: layer_depth
+      !                          ** description : soil layers depth
+      !                          ** variablecategory : state
+      !                          ** datatype : DOUBLEARRAY
+      !                          ** min :
+      !                          ** max :
+      !                          ** unit : cm
+      !                          ** uri :
+      !                          ** len : 
       INTEGER :: layers_nb, z
 
       !%%CyML Compute Begin%%
@@ -116,6 +145,35 @@ CONTAINS
   
       REAL, intent(in)     :: layer_depth(:)        
       REAL, intent(out) :: layer_thick(size(layer_depth))
+      !- Name: Layer depth to thickness  -Version: 1.0, -Time step: 
+      !- Description:
+      !            * Title: layers bottom depth  conversion to thickness 
+      !            * Author: STICS
+      !            * Reference: doi:http://dx.doi.org/10.1016/j.agrformet.2014.05.002
+      !            * Institution: INRAE
+      !            * Abstract: Calculates soil layers thickness
+      !- inputs:
+      !            * name: layer_depth 
+      !                          ** description : soil layers depth
+      !                          ** inputtype : variable
+      !                          ** variablecategory : state
+      !                          ** datatype : DOUBLEARRAY
+      !                          ** default : 0.0
+      !                          ** min : 
+      !                          ** max :
+      !                          ** unit : cm
+      !                          ** uri :
+      !                          ** len : 
+      !- outputs:
+      !            * name: layer_thick
+      !                          ** description : layers thickness 
+      !                          ** variablecategory : state
+      !                          ** datatype : DOUBLEARRAY
+      !                          ** min :
+      !                          ** max :
+      !                          ** unit : cm
+      !                          ** uri :
+      !                          ** len : 
       INTEGER :: layers_nb, z
 
       !%%CyML Compute Begin%%
@@ -142,8 +200,36 @@ CONTAINS
       IMPLICIT NONE
   
       REAL, intent(in)     :: layer_thick(:)
-      REAL, intent(out)    :: soil_depth_out  
-
+      REAL, intent(out)    :: soil_depth_out
+      !- Name: Soil depth  -Version: 1.0, -Time step: 
+      !- Description:
+      !            * Title: layers thickness conversion to soil depth 
+      !            * Author: STICS
+      !            * Reference: doi:http://dx.doi.org/10.1016/j.agrformet.2014.05.002
+      !            * Institution: INRAE
+      !            * Abstract: Calculates soil depth
+      !- inputs:
+      !            * name: layer_thick 
+      !                          ** description : layers thickness
+      !                          ** inputtype : variable
+      !                          ** variablecategory : state
+      !                          ** datatype : DOUBLEARRAY
+      !                          ** default : 0.0
+      !                          ** min : 
+      !                          ** max :
+      !                          ** unit : cm
+      !                          ** uri :
+      !                          ** len : 
+      !- outputs:
+      !            * name: soil_depth_out
+      !                          ** description :  soil depth
+      !                          ** variablecategory : state
+      !                          ** datatype : DOUBLEARRAY
+      !                          ** min :
+      !                          ** max :
+      !                          ** unit : cm
+      !                          ** uri :
+      !                          ** len : 
       !%%CyML Compute Begin%%
       soil_depth_out = sum(layer_thick)
       !%%CyML Compute End%%
@@ -151,13 +237,42 @@ CONTAINS
     END SUBROUTINE get_soil_depth
     !%%CyML Model End%%
 
-    
+
     !%%CyML Model Begin%%
     SUBROUTINE get_layers_number(layer_thick_or_depth, layers_number)
       IMPLICIT NONE
   
       REAL, intent(in)     :: layer_thick_or_depth(:)
       INTEGER, intent(out)    :: layers_number  
+      !- Name: Layer number  -Version: 1.0, -Time step: 
+      !- Description:
+      !            * Title: layers number 
+      !            * Author: STICS
+      !            * Reference: doi:http://dx.doi.org/10.1016/j.agrformet.2014.05.002
+      !            * Institution: INRAE
+      !            * Abstract: Calculates layers number from thickness/depth
+      !- inputs:
+      !            * name: layer_thick_or_depth 
+      !                          ** description : layers number
+      !                          ** inputtype : variable
+      !                          ** variablecategory : state
+      !                          ** datatype : DOUBLEARRAY
+      !                          ** default :
+      !                          ** min : 
+      !                          ** max :
+      !                          ** unit : cm
+      !                          ** uri :
+      !                          ** len : 
+      !- outputs:
+      !            * name: layers_number
+      !                          ** description :  layers number
+      !                          ** variablecategory : state
+      !                          ** datatype : DOUBLEARRAY
+      !                          ** min :
+      !                          ** max :
+      !                          ** unit : 
+      !                          ** uri :
+      !                          ** len : 
       
       !%%CyML Compute Begin%%
       layers_number = count(layer_thick_or_depth/=0.)
