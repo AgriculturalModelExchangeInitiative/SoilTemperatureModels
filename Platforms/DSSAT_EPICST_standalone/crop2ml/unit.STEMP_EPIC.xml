@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ModelUnit PUBLIC " " "https://raw.githubusercontent.com/AgriculturalModelExchangeInitiative/crop2ml/master/ModelUnit.dtd">
+<ModelUnit modelid="DSSAT_.STEMP_EPIC" name="STEMP_EPIC" timestep=" 1" version=" 1.0">
+    <Description>
+        <Title>Model of STEMP_EPIC</Title>
+        <Authors>Kenneth N. Potter , Jimmy R. Williams </Authors>
+        <Institution>USDA-ARS, USDA-ARS</Institution>
+        <URI></URI>
+        <Reference>https://doi.org/10.2134/agronj1994.00021962008600060014x</Reference>
+        <ExtendedDescription></ExtendedDescription>
+        <ShortDescription>Determines soil temperature by layer test encore</ShortDescription></Description>
+    <Inputs>
+        <Input name="NL" description="Number of soil layers" inputtype="parameter" parametercategory="constant" datatype="INT" max="" min="" default="" unit="dimensionless"/>
+        <Input name="ISWWAT" description="Water simulation control switch (Y or N)" inputtype="parameter" parametercategory="constant" datatype="STRING" max="" min="" default="Y" unit="dimensionless"/>
+        <Input name="BD" description="Bulk density, soil layer NL" inputtype="parameter" parametercategory="soil" datatype="DOUBLEARRAY" len="NL" max="" min="" default="" unit="g [soil] / cm3 [soil]"/>
+        <Input name="DLAYR" description="Thickness of soil layer NL" inputtype="parameter" parametercategory="constant" datatype="DOUBLEARRAY" len="NL" max="" min="" default="" unit="cm"/>
+        <Input name="DS" description="Cumulative depth in soil layer NL" inputtype="parameter" parametercategory="soil" datatype="DOUBLEARRAY" len="NL" max="" min="" default="" unit="cm"/>
+        <Input name="DUL" description="Volumetric soil water content at Drained Upper Limit in soil layer L" inputtype="parameter" parametercategory="soil" datatype="DOUBLEARRAY" len="NL" max="" min="" default="" unit="cm3[water]/cm3[soil]"/>
+        <Input name="LL" description="Volumetric soil water content in soil layer NL at lower limit" inputtype="parameter" parametercategory="soil" datatype="DOUBLEARRAY" len="NL" max="" min="" default="" unit="cm3 [water] / cm3 [soil]"/>
+        <Input name="NLAYR" description="Actual number of soil layers" inputtype="parameter" parametercategory="constant" datatype="INT" max="" min="" default="" unit="dimensionless"/>
+        <Input name="TAMP" description="Annual amplitude of the average air temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit="degC"/>
+        <Input name="RAIN" description="daily rainfall" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit="mm"/>
+        <Input name="CUMDPT" description="Cumulative depth of soil profile" inputtype="variable" variablecategory="state" datatype="DOUBLE" max="" min="" default="" unit="mm"/>
+        <Input name="DSMID" description="Depth to midpoint of soil layer NL" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="NL" max="" min="" default="" unit="cm"/>
+        <Input name="SW" description="Volumetric soil water content in layer NL" inputtype="parameter" parametercategory="soil" datatype="DOUBLEARRAY" len="NL" max="" min="" default="" unit="cm3 [water] / cm3 [soil]"/>
+        <Input name="TAVG" description="Average daily temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit="degC"/>
+        <Input name="TMAX" description="Maximum daily temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit="degC"/>
+        <Input name="TMIN" description="Minimum Temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit="degC"/>
+        <Input name="TAV" description="Average annual soil temperature, used with TAMP to calculate soil temperature." inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit="degC"/>
+        <Input name="SRFTEMP" description="Temperature of soil surface litter" inputtype="variable" variablecategory="state" datatype="DOUBLE" max="" min="" default="" unit="degC"/>
+        <Input name="NDays" description="Number of days ..." inputtype="variable" variablecategory="state" datatype="INT" max="" min="" default="" unit="day"/>
+        <Input name="TDL" description="Total water content of soil at drained upper limit" inputtype="variable" variablecategory="state" datatype="DOUBLE" max="" min="" default="" unit="cm"/>
+        <Input name="WetDay" description="Wet Days" inputtype="variable" variablecategory="state" datatype="INTARRAY" len="30" max="" min="" default="" unit="day"/>
+        <Input name="ST" description="Soil temperature in soil layer NL" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="NL" max="" min="" default="" unit="degC"/>
+        <Input name="TMA" description="Array of previous 5 days of average soil temperatures." inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="5" max="" min="" default="" unit="degC"/>
+        <Input name="X2_PREV" description="Temperature of soil surface at precedent timestep" inputtype="variable" variablecategory="state" datatype="DOUBLE" max="" min="" default="" unit="degC"/>
+        <Input name="DEPIR" description="Depth of irrigation" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit="mm"/>
+        <Input name="BIOMAS" description="Biomass" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit="kg/ha"/>
+        <Input name="MULCHMASS" description="Mulch Mass" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit="kg/ha"/>
+        <Input name="SNOW" description="Snow cover" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit="mm"/></Inputs>
+    <Outputs>
+        <Output name="SRFTEMP" description="Temperature of soil surface litter" datatype="DOUBLE" variablecategory="state" max="" min="" unit="degC"/>
+        <Output name="NDays" description="Number of days ..." datatype="INT" variablecategory="state" max="" min="" unit="day"/>
+        <Output name="TDL" description="Total water content of soil at drained upper limit" datatype="DOUBLE" variablecategory="state" max="" min="" unit="cm"/>
+        <Output name="WetDay" description="Wet Days" datatype="INTARRAY" variablecategory="state" len="30" max="" min="" unit="day"/>
+        <Output name="ST" description="Soil temperature in soil layer NL" datatype="DOUBLEARRAY" variablecategory="state" len="NL" max="" min="" unit="degC"/>
+        <Output name="TMA" description="Array of previous 5 days of average soil temperatures." datatype="DOUBLEARRAY" variablecategory="state" len="5" max="" min="" unit="degC"/>
+        <Output name="X2_PREV" description="Temperature of soil surface at precedent timestep" datatype="DOUBLE" variablecategory="state" max="" min="" unit="degC"/></Outputs>
+    <Initialization name="init.STEMP_EPIC" language="cyml" filename="algo/pyx/init.STEMP_EPIC.pyx"/>
+    <Function name="SOILT_EPIC" description="" language="cyml" type="external" filename="algo/pyx/SOILT_EPIC.pyx"/>
+    <Algorithm language="cyml" platform="" filename="algo/pyx/STEMP_EPIC.pyx"/>
+
+    <Parametersets>
+        <Parameterset name="soiltemp" description="some values in there" >
+        	<Param name="LL">[1.4, 1.4,1.4,1.4]</Param>
+        	<Param name="DUL">[1.4, 1.4,1.4,1.4]</Param>
+            <Param name="DUL">[1.4, 1.4,1.4,1.4]</Param>
+            <Param name="DUL">[1.4, 1.4,1.4,1.4]</Param>
+            <Param name="BD">[1.4, 1.4,1.4,1.4]</Param>
+            <Param name="NL">20</Param>
+			<Param name="ISWWAT">Y</Param>
+        </Parameterset>
+     </Parametersets>
+     <Testsets>
+        <Testset name="check DSSAT model" parameterset = "soiltemp" description="some values in there" >
+        	<Test name ="test_ST">
+ 				<InputValue name="NL">20</InputValue>
+				<InputValue name="ISWWAT">Y</InputValue>
+				<InputValue name="BD">[1.4, 1.4,1.4,1.4]</InputValue>
+				<InputValue name="BD">972.970888983105</InputValue>
+                <InputValue name="ISWWAT">[0.0, 112.330110409888, 354.582294511779, 741.510096671757, 853.999637026622, 954.59002776961]</InputValue>
+				<InputValue name="BD">972.970888983105</InputValue>
+				<OutputValue name="cumulTTFromZC_65" precision ="2">18.38</OutputValue>
+				<OutputValue name="cumulTTFromZC_39" precision ="2">231.46</OutputValue>
+        	</Test>
+        </Testset>
+      </Testsets>
+
+    
+    
+    </ModelUnit>
