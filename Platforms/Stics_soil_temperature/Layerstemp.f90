@@ -1,108 +1,168 @@
-MODULE Layerstempmod
+MODULE layers_temp_mod
    IMPLICIT NONE
 CONTAINS
    !%%CyML Model Begin%%
-   SUBROUTINE model_layerstemp(tempamp, &
-                               thermamp, &
-                               layerstemp_t1, &
-                               canopytemp_t1, &
-                               min_temp, &
-                               layerstemp)
+   SUBROUTINE model_layers_temp(temp_profile, &
+                               layer_thick, &
+                               layer_temp)
 
       IMPLICIT NONE
 
-      REAL, INTENT(IN)  :: tempamp
-      REAL, INTENT(IN)  :: thermamp
-      REAL, INTENT(IN)  :: layerstemp_t1(:)
-      REAL, INTENT(IN)  :: canopytemp_t1
-      REAL, INTENT(IN)  :: min_temp
-      REAL, INTENT(OUT) :: layerstemp(size(layerstemp_t1))
+      REAL, INTENT(IN)    ::  temp_profile(:)
+      REAL, INTENT(IN) ::  layer_thick(:)
+      REAL, INTENT(OUT)   ::  layer_temp(size(layer_thick))
 
       !- Name: Layerstemp -Version: 1.0, -Time step: 1
       !- Description:
-      !            * Title: layerstemp model
-      !            * Authors: STICS
+      !            * Title: layers mean temperature model
+      !            * Author: STICS
       !            * Reference: doi:http://dx.doi.org/10.1016/j.agrformet.2014.05.002
       !            * Institution: INRAE
-      !            * ExtendedDescription: Calculates soil temperature profile
+      !            * Abstract: Calculates soil layers mean temperature
       !- inputs:
-      !            * name: tempamp
-      !                          ** description : current temperature amplitude
+      !            * name: temp_profile
+      !                          ** description : soil temperature profile
       !                          ** inputtype : variable
       !                          ** variablecategory : state
-      !                          ** datatype : DOUBLE
+      !                          ** datatype : DOUBLEARRAY
       !                          ** default : 0.0
-      !                          ** min : 0.0
-      !                          ** max : 500.0
+      !                          ** min : -50.0
+      !                          ** max : 50.0
       !                          ** unit : degC
       !                          ** uri :
-      !            * name: thermamp
-      !                          ** description : thermal amplitude
+      !                          ** len : 
+      !            * name: layer_thick
+      !                          ** description : layers thickness
       !                          ** inputtype : parameter
       !                          ** parametercategory : constant
-      !                          ** datatype : DOUBLE
+      !                          ** datatype : DOUBLEARRAY
       !                          ** default :
       !                          ** min :
       !                          ** max :
-      !                          ** unit :
+      !                          ** unit : cm
       !                          ** uri :
-      !            * name: layerstemp_t1
-      !                          ** description : previous soil temperature profile (for 1 cm layers)
-      !                          ** inputtype : variable
-      !                          ** variablecategory : auxiliary
-      !                          ** datatype : DOUBLELIST
-      !                          ** default : 0.0
-      !                          ** min : 0.0
-      !                          ** max : 500.0
-      !                          ** unit : degC
-      !                          ** uri :
-      !            * name: canopytemp_t1
-      !                          ** description : previous crop temperature
-      !                          ** inputtype : variable
-      !                          ** variablecategory : auxiliary
-      !                          ** datatype : DOUBLE
-      !                          ** default : 0.0
-      !                          ** min : 0.0
-      !                          ** max : 500.0
-      !                          ** unit : degC
-      !                          ** uri :
-      !            * name: min_temp
-      !                          ** description : current minimum air temperature
-      !                          ** inputtype : variable
-      !                          ** variablecategory : auxiliary
-      !                          ** datatype : DOUBLE
-      !                          ** default : 0.0
-      !                          ** min : 0.0
-      !                          ** max : 500.0
-      !                          ** unit : degC
-      !                          ** uri :
+      !                          ** len : 
       !- outputs:
-      !            * name: layerstemp
-      !                          ** description : current soil profile temperature (for 1 cm layers)
+      !            * name: layer_temp
+      !                          ** description : soil layers temperature
       !                          ** variablecategory : state
-      !                          ** datatype : DOUBLELIST
-      !                          ** min : 0.0
-      !                          ** max : 500.0
+      !                          ** datatype : DOUBLEARRAY
+      !                          ** min : -50.0
+      !                          ** max : 50.0
       !                          ** unit : degC
       !                          ** uri :
+      !                          ** len : 
 
-
-      INTEGER :: i
-      REAL, DIMENSION(size(layerstemp_t1)) :: vexp
+      INTEGER :: z
+      INTEGER :: layers_nb
+      INTEGER :: up_depth(size(layer_thick) + 1) 
+      REAL :: layer_depth(size(layer_thick))
+      REAL :: soil_depth
 
       !%%CyML Compute Begin%%
-      Do i=1, size(layerstemp_t1)
-         vexp(i) = exp(-i*thermamp)
-      END DO
-      !vexp(:) = exp(-(/(i, i=1, size(layerstemp_t1))/)*thermamp)
+      layers_nb = size(layer_thick)
+     
+      up_depth = 0
+     
+     ! Getting layers bottom depth
+     CALL layer_thickness2depth(layer_thick, layer_depth)
+     up_depth(2:(layers_nb + 1)) = nint(layer_depth)
 
-      Do i=1, size(layerstemp_t1)
-         layerstemp(i) = layerstemp_t1(i) - &
-                   vexp(i) * (canopytemp_t1 - min_temp) + &
-                   0.1*(canopytemp_t1 - layerstemp_t1(i)) + &
-                   (tempamp * vexp(i))/2
+     ! Getting soil depth
+     CALL get_soil_depth(layer_thick, soil_depth)
+
+     ! Checking temp profile and soil depth consistency
+   !   if (.NOT. size(temp_profile) .EQ. nint(soil_depth)) then
+   !      print *, ""
+   !      print *, "Temperature profile for elemental layers: ", size(temp_profile)
+   !      print *, "is not consistent with soil elemental"
+   !      print *, "layers number (or depth):", nint(soil_depth)
+   !      print *, ""
+   !      call exit(9)
+   !   end if
+
+     DO z = 1, layers_nb
+      layer_temp(z) = sum(temp_profile((up_depth(z) + 1):up_depth(z + 1))) / &
+                      layer_thick(z)
+     END DO 
+     !%%CyML Compute End%%
+   END SUBROUTINE model_layers_temp
+   !%%CyML Model End%%
+
+
+   !%%CyML Model Begin%%
+   SUBROUTINE layer_thickness2depth(layer_thick, layer_depth)
+      IMPLICIT NONE
+  
+      REAL, intent(in)     :: layer_thick(:)
+      REAL, intent(out) :: layer_depth(size(layer_thick))
+      INTEGER :: layers_nb, z
+
+      !%%CyML Compute Begin%%
+      layers_nb = size(layer_thick) 
+  
+      DO z = 1, layers_nb
+         layer_depth(z) = sum(layer_thick(1:z))
       END DO
       !%%CyML Compute End%%
-   END SUBROUTINE model_layerstemp
-   !%%CyML Model End%%
-END MODULE Layerstempmod
+
+    END SUBROUTINE layer_thickness2depth
+    !%%CyML Model End%%
+
+
+    !%%CyML Model Begin%%
+    SUBROUTINE layer_depth2thickness(layer_depth, layer_thick)
+      IMPLICIT NONE
+  
+      REAL, intent(in)     :: layer_depth(:)        
+      REAL, intent(out) :: layer_thick(size(layer_depth))
+      INTEGER :: layers_nb, z
+
+      !%%CyML Compute Begin%%
+      layers_nb = size(layer_depth)
+
+      layer_thick(1) = layer_depth(1)
+
+      DO z = 2, layers_nb
+         layer_thick(z) = layer_depth(z)-layer_depth(z-1)
+      END DO
+
+      ! if a layer depth is 0
+      WHERE (layer_thick < 0)
+         layer_thick = 0
+      END WHERE
+      !%%CyML Compute End%%
+
+    END SUBROUTINE layer_depth2thickness
+    !%%CyML Model End%%
+
+
+    !%%CyML Model Begin%%
+    SUBROUTINE get_soil_depth(layer_thick, soil_depth_out)
+      IMPLICIT NONE
+  
+      REAL, intent(in)     :: layer_thick(:)
+      REAL, intent(out)    :: soil_depth_out  
+
+      !%%CyML Compute Begin%%
+      soil_depth_out = sum(layer_thick)
+      !%%CyML Compute End%%
+
+    END SUBROUTINE get_soil_depth
+    !%%CyML Model End%%
+
+    
+    !%%CyML Model Begin%%
+    SUBROUTINE get_layers_number(layer_thick_or_depth, layers_number)
+      IMPLICIT NONE
+  
+      REAL, intent(in)     :: layer_thick_or_depth(:)
+      INTEGER, intent(out)    :: layers_number  
+      
+      !%%CyML Compute Begin%%
+      layers_number = count(layer_thick_or_depth/=0.)
+      !%%CyML Compute End%%
+
+    END SUBROUTINE get_layers_number
+    !%%CyML Model End%%
+END MODULE layers_temp_mod

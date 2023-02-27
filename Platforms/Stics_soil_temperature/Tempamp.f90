@@ -1,57 +1,60 @@
-MODULE Tempampmod
+MODULE temp_amp_mod
    IMPLICIT NONE
 CONTAINS
    !%%CyML Model Begin%%
-   SUBROUTINE model_tempamp(min_temp, &
+   SUBROUTINE model_temp_amp(min_temp, &
                             max_temp, &
-                            tempamp)
+                            temp_amp)
       IMPLICIT NONE
 
       REAL, INTENT(IN) :: min_temp
       REAL, INTENT(IN) :: max_temp
-      REAL, INTENT(OUT) :: tempamp
+      REAL, INTENT(OUT) :: temp_amp
 
-      !- Name: Tempamp -Version: 1.0, -Time step: 1
+      !- Name: temp_amp -Version: 1.0, -Time step: 1
       !- Description:
-      !            * Title: Tempamp model
-      !            * Authors: STICS
+      !            * Title: temp_amp model
+      !            * Author: STICS
       !            * Reference: doi:http://dx.doi.org/10.1016/j.agrformet.2014.05.002
       !            * Institution: INRAE
-      !            * ExtendedDescription: Calculates temperature amplitude
+      !            * Abstract: Calculates temperature amplitude
       !- inputs:
       !            * name: min_temp
       !                          ** description : current minimum temperature
       !                          ** inputtype : variable
-      !                          ** variablecategory : auxiliary
+      !                          ** variablecategory : exogenous
       !                          ** datatype : DOUBLE
       !                          ** default : 0.0
-      !                          ** min : 0.0
-      !                          ** max : 500.0
+      !                          ** min : -50.0
+      !                          ** max : 50.0
       !                          ** unit : degC
       !                          ** uri :
+      !                          ** len : 1
       !            * name: max_temp
       !                          ** description : current maximum temperature
       !                          ** inputtype : variable
-      !                          ** variablecategory : auxiliary
+      !                          ** variablecategory : exogenous
       !                          ** datatype : DOUBLE
       !                          ** default : 0.0
-      !                          ** min : 0.0
-      !                          ** max : 100.0
+      !                          ** min : -50.0
+      !                          ** max : 50.0
       !                          ** unit : degC
       !                          ** uri :
+      !                          ** len : 1
       !- outputs:
-      !            * name: tempamp
+      !            * name: temp_amp
       !                          ** description : current temperature amplitude
       !                          ** variablecategory : state
       !                          ** datatype : DOUBLE
       !                          ** min : 0.0
-      !                          ** max : 500.0
+      !                          ** max : 100.0
       !                          ** unit : degC
       !                          ** uri :
+      !                          ** len : 1
       !%%CyML Compute Begin%%
-      tempamp = max_temp - min_temp
+      temp_amp = max_temp - min_temp
       !%%CyML Compute End%%
-   
-   END SUBROUTINE model_tempamp
+
+   END SUBROUTINE model_temp_amp
    !%%CyML Model End%%
-END MODULE Tempampmod
+END MODULE temp_amp_mod

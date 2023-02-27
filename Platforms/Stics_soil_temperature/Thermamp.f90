@@ -1,69 +1,69 @@
-MODULE Thermampmod
+MODULE therm_amp_mod
    IMPLICIT NONE
 CONTAINS
    !%%CyML Model Begin%%
-   SUBROUTINE model_thermamp(thermdif, &
-                             tempwave_freq, &
-                             thermamp)
+   SUBROUTINE model_therm_amp(therm_diff, &
+                             temp_wave_freq, &
+                             therm_amp)
       IMPLICIT NONE
 
-      REAL, INTENT(IN) :: thermdif
-      REAL, INTENT(IN), OPTIONAL :: tempwave_freq
-      REAL, INTENT(OUT) :: thermamp
+      REAL, INTENT(IN) :: therm_diff
+      REAL, INTENT(IN), OPTIONAL :: temp_wave_freq
+      REAL, INTENT(OUT) :: therm_amp
 
-      !- Name: Thermamp -Version: 1.0, -Time step: 1
+      !- Name: therm_amp -Version: 1.0, -Time step: 1
       !- Description:
       !            * Title: thermal amplitude calculation
-      !            * Authors: STICS
+      !            * Author: STICS
       !            * Reference: doi:http://dx.doi.org/10.1016/j.agrformet.2014.05.002
       !            * Institution: INRAE
-      !            * ExtendedDescription:
+      !            * Abstract:
       !- inputs:
-      !            * name: thermdif
+      !            * name: therm_diff
       !                          ** description : soil thermal diffusivity
       !                          ** inputtype : variable
       !                          ** variablecategory : auxiliary
       !                          ** datatype : DOUBLE
-      !                          ** default : 0.0
+      !                          ** default : 5.37e-3
       !                          ** min : 0.0
-      !                          ** max : 500.0
+      !                          ** max : 1.0e-1
       !                          ** unit : cm2 s-1
       !                          ** uri :
-      !            * name: tempwave_freq
-      !                          ** description : angular frequency of the diurnal sine wave
+      !                          ** len : 1
+      !            * name: temp_wave_freq
+      !                          ** description : angular frequency of the diurnal temperature sine wave
       !                          ** inputtype : variable
       !                          ** variablecategory : auxiliary
       !                          ** datatype : DOUBLE
-      !                          ** default : 0.0
+      !                          ** default : 7.272e-5
       !                          ** min : 0.0
-      !                          ** max : 500.0
-      !                          ** unit : radians cm2
+      !                          ** max :
+      !                          ** unit : radians s-1
       !                          ** uri :
+      !                          ** len : 1
       !- outputs:
-      !            * name: thermamp
+      !            * name: therm_amp
       !                          ** description : thermal amplitude
       !                          ** variablecategory : state
       !                          ** datatype : DOUBLE
       !                          ** min : 
       !                          ** max : 
-      !                          ** unit : 
+      !                          ** unit : radians cm-2
       !                          ** uri :
-
+      !                          ** len : 1
       ! 
 
       REAL :: temp_freq
 
-      !
-
-      !if(.NOT. present(tempwave_freq)) then 
-         !temp_freq = 7.272e-5
+      !if(.NOT. present(temp_wave_freq)) then 
+      !   temp_freq = 7.272e-5
       !else
       !%%CyML Compute Begin%%
-      temp_freq = tempwave_freq
+         temp_freq = temp_wave_freq
       !end if
 
-      thermamp = sqrt(temp_freq/2/thermdif)
+      therm_amp = sqrt(temp_freq/2/therm_diff)
       !%%CyML Compute End%%
-   END SUBROUTINE model_thermamp
-   !%%CyML Model End%%
-END MODULE Thermampmod
+   END SUBROUTINE model_therm_amp
+
+END MODULE therm_amp_mod
