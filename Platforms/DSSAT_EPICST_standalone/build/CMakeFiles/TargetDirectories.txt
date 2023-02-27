@@ -1,3 +1,0 @@
-C:/Users/midingoy/Documents/dssat/SoilTemperature/DSSAT_EPICST_standalone/build/CMakeFiles/executable_st.dir
-C:/Users/midingoy/Documents/dssat/SoilTemperature/DSSAT_EPICST_standalone/build/CMakeFiles/edit_cache.dir
-C:/Users/midingoy/Documents/dssat/SoilTemperature/DSSAT_EPICST_standalone/build/CMakeFiles/rebuild_cache.dir

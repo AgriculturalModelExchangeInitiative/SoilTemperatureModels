@@ -1,3 +1,0 @@
-C:\Users\midingoy\Anaconda3\envs\py37\Library\bin\cmake.exe -E rm -f CMakeFiles\executable_st.dir/objects.a
-C:\MinGW\bin\ar.exe cr CMakeFiles\executable_st.dir/objects.a @CMakeFiles\executable_st.dir\objects1.rsp
-C:\MinGW\bin\gfortran.exe  -fd-lines-as-comments -fbounds-check -ffixed-line-length-none -ffree-line-length-none -finit-character=32 -cpp -ffpe-trap=invalid,zero,overflow -g -Og -Wall -fbacktrace -fcheck=bounds  -static -static-libgcc -static-libgfortran -Wl,--whole-archive CMakeFiles\executable_st.dir/objects.a -Wl,--no-whole-archive -o bin\executable_st.exe -Wl,--out-implib,libexecutable_st.dll.a -Wl,--major-image-version,0,--minor-image-version,0 
