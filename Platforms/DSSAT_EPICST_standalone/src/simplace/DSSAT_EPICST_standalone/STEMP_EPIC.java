@@ -211,6 +211,7 @@ public class STEMP_EPIC extends FWSimComponent
     @Override
     protected void process()
     {
+        SOILT_EPIC zz_SOILT_EPIC;
         Integer t_NL = NL.getValue();
         String t_ISWWAT = ISWWAT.getValue();
         Double [] t_BD = BD.getValue();
@@ -241,6 +242,76 @@ public class STEMP_EPIC extends FWSimComponent
         Double t_SNOW = SNOW.getValue();
         Integer I;
         Integer L;
+        Integer NWetDays;
+        Double ABD;
+        Double B;
+        Double DP;
+        Double FX;
+        Double PESW;
+        Double TBD;
+        Double WW;
+        Double TLL;
+        Double TSW;
+        Double X2_AVG;
+        Double WFT;
+        Double BCV;
+        Double CV;
+        Double BCV1;
+        Double BCV2;
+        TBD = 0.0d;
+        TLL = 0.0d;
+        TSW = 0.0d;
+        for (L=1 ; L!=t_NLAYR + 1 ; L+=1)
+        {
+            TBD = TBD + (t_BD[(L - 1)] * t_DLAYR[(L - 1)]);
+            t_TDL = t_TDL + (t_DUL[(L - 1)] * t_DLAYR[(L - 1)]);
+            TLL = TLL + (t_LL[(L - 1)] * t_DLAYR[(L - 1)]);
+            TSW = TSW + (t_SW[(L - 1)] * t_DLAYR[(L - 1)]);
+        }
+        ABD = TBD / t_DS[(t_NLAYR - 1)];
+        FX = ABD / (ABD + (686.0d * Math.exp(-(5.63d * ABD))));
+        DP = 1000.0d + (2500.0d * FX);
+        WW = 0.356d - (0.144d * ABD);
+        B = Math.log(500.0d / DP);
+        if (t_ISWWAT == "Y")
+        {
+            PESW = Math.max(0.0d, TSW - TLL);
+        }
+        else
+        {
+            PESW = Math.max(0.0d, t_TDL - TLL);
+        }
+        if (t_NDays == 30)
+        {
+            for (I=1 ; I!=29 + 1 ; I+=1)
+            {
+                t_WetDay[I - 1] = t_WetDay[I + 1 - 1];
+            }
+        }
+        else
+        {
+            t_NDays = t_NDays + 1;
+        }
+        if (t_RAIN + t_DEPIR > 1.E-6d)
+        {
+            t_WetDay[t_NDays - 1] = 1;
+        }
+        else
+        {
+            t_WetDay[t_NDays - 1] = 0;
+        }
+        NWetDays = Arrays.stream(t_WetDay).mapToInt(Integer::intValue).sum();
+        WFT = (double)(NWetDays) / (double)(t_NDays);
+        CV = (t_BIOMAS + t_MULCHMASS) / 1000.d;
+        BCV1 = CV / (CV + Math.exp(5.3396d - (2.3951d * CV)));
+        BCV2 = t_SNOW / (t_SNOW + Math.exp(2.303d - (0.2197d * t_SNOW)));
+        BCV = Math.max(BCV1, BCV2);
+        zz_SOILT_EPIC = Calculate_SOILT_EPIC(t_NL, B, BCV, t_CUMDPT, DP, t_DSMID, t_NLAYR, PESW, t_TAV, t_TAVG, t_TMAX, t_TMIN, t_WetDay[t_NDays - 1], WFT, WW, t_TMA, t_X2_PREV, t_ST);
+        t_TMA = zz_SOILT_EPIC.getTMA();
+        t_X2_PREV = zz_SOILT_EPIC.getX2_PREV();
+        t_ST = zz_SOILT_EPIC.getST();
+        t_SRFTEMP = zz_SOILT_EPIC.getSRFTEMP();
+        X2_AVG = zz_SOILT_EPIC.getX2_AVG();
         SRFTEMP.setValue(t_SRFTEMP, this);
         NDays.setValue(t_NDays, this);
         TDL.setValue(t_TDL, this);

@@ -3,34 +3,34 @@
 <configuration class="net.simplace.sim.components.DSSAT_EPICST_standalone.STEMP_EPIC_">
     <simgroup>
         <simcomponent id="STEMP_EPIC" class="net.simplace.sim.components.DSSAT_EPICST_standalone.STEMP_EPIC">
-            <input id="MULCHMASS" source="STEMP_EPIC_.MULCHMASS"/>
-            <input id="DLAYR" source="STEMP_EPIC_.DLAYR"/>
-            <input id="TAV" source="STEMP_EPIC_.TAV"/>
-            <input id="TMAX" source="STEMP_EPIC_.TMAX"/>
+            <input id="DSMID" source="STEMP_EPIC_.DSMID"/>
+            <input id="DEPIR" source="STEMP_EPIC_.DEPIR"/>
+            <input id="LL" source="STEMP_EPIC_.LL"/>
+            <input id="BD" source="STEMP_EPIC_.BD"/>
+            <input id="X2_PREV" source="STEMP_EPIC_.X2_PREV"/>
+            <input id="CUMDPT" source="STEMP_EPIC_.CUMDPT"/>
             <input id="SRFTEMP" source="STEMP_EPIC_.SRFTEMP"/>
+            <input id="ISWWAT" source="STEMP_EPIC_.ISWWAT"/>
+            <input id="BIOMAS" source="STEMP_EPIC_.BIOMAS"/>
+            <input id="ST" source="STEMP_EPIC_.ST"/>
+            <input id="SNOW" source="STEMP_EPIC_.SNOW"/>
             <input id="NL" source="STEMP_EPIC_.NL"/>
+            <input id="RAIN" source="STEMP_EPIC_.RAIN"/>
+            <input id="TMAX" source="STEMP_EPIC_.TMAX"/>
+            <input id="TAV" source="STEMP_EPIC_.TAV"/>
             <input id="TAMP" source="STEMP_EPIC_.TAMP"/>
             <input id="DS" source="STEMP_EPIC_.DS"/>
-            <input id="BIOMAS" source="STEMP_EPIC_.BIOMAS"/>
-            <input id="DSMID" source="STEMP_EPIC_.DSMID"/>
-            <input id="BD" source="STEMP_EPIC_.BD"/>
-            <input id="SNOW" source="STEMP_EPIC_.SNOW"/>
-            <input id="TDL" source="STEMP_EPIC_.TDL"/>
-            <input id="ISWWAT" source="STEMP_EPIC_.ISWWAT"/>
-            <input id="DUL" source="STEMP_EPIC_.DUL"/>
-            <input id="RAIN" source="STEMP_EPIC_.RAIN"/>
-            <input id="LL" source="STEMP_EPIC_.LL"/>
-            <input id="CUMDPT" source="STEMP_EPIC_.CUMDPT"/>
-            <input id="TMA" source="STEMP_EPIC_.TMA"/>
-            <input id="ST" source="STEMP_EPIC_.ST"/>
-            <input id="WetDay" source="STEMP_EPIC_.WetDay"/>
-            <input id="SW" source="STEMP_EPIC_.SW"/>
             <input id="NDays" source="STEMP_EPIC_.NDays"/>
-            <input id="X2_PREV" source="STEMP_EPIC_.X2_PREV"/>
-            <input id="DEPIR" source="STEMP_EPIC_.DEPIR"/>
-            <input id="TAVG" source="STEMP_EPIC_.TAVG"/>
-            <input id="NLAYR" source="STEMP_EPIC_.NLAYR"/>
+            <input id="SW" source="STEMP_EPIC_.SW"/>
             <input id="TMIN" source="STEMP_EPIC_.TMIN"/>
+            <input id="MULCHMASS" source="STEMP_EPIC_.MULCHMASS"/>
+            <input id="TDL" source="STEMP_EPIC_.TDL"/>
+            <input id="NLAYR" source="STEMP_EPIC_.NLAYR"/>
+            <input id="DUL" source="STEMP_EPIC_.DUL"/>
+            <input id="TMA" source="STEMP_EPIC_.TMA"/>
+            <input id="WetDay" source="STEMP_EPIC_.WetDay"/>
+            <input id="TAVG" source="STEMP_EPIC_.TAVG"/>
+            <input id="DLAYR" source="STEMP_EPIC_.DLAYR"/>
             <output id="SRFTEMP" destination="STEMP_EPIC_.SRFTEMP"/>
             <output id="NDays" destination="STEMP_EPIC_.NDays"/>
             <output id="TDL" destination="STEMP_EPIC_.TDL"/>
