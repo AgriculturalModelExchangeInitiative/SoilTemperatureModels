@@ -66,17 +66,17 @@ CONTAINS
      
      ! Getting layers bottom depth
      CALL layer_thickness2depth(layer_thick, layer_depth)
-     up_depth(2:(layers_nb + 1)) = nint(layer_depth)
+     up_depth(2:(layers_nb + 1)) = int(layer_depth)
 
      ! Getting soil depth
      CALL get_soil_depth(layer_thick, soil_depth)
 
      ! Checking temp profile and soil depth consistency
-   !   if (.NOT. size(temp_profile) .EQ. nint(soil_depth)) then
+   !   if (.NOT. size(temp_profile) .EQ. int(soil_depth)) then
    !      print *, ""
    !      print *, "Temperature profile for elemental layers: ", size(temp_profile)
    !      print *, "is not consistent with soil elemental"
-   !      print *, "layers number (or depth):", nint(soil_depth)
+   !      print *, "layers number (or depth):", int(soil_depth)
    !      print *, ""
    !      call exit(9)
    !   end if
@@ -183,12 +183,14 @@ CONTAINS
 
       DO z = 2, layers_nb
          layer_thick(z) = layer_depth(z)-layer_depth(z-1)
+         IF (layer_thick(z) < 0) layer_thick(z) = 0.
       END DO
 
       ! if a layer depth is 0
-      WHERE (layer_thick < 0)
-         layer_thick = 0
-      END WHERE
+      !WHERE (layer_thick < 0)
+      !   layer_thick = 0
+      !END WHERE
+      
       !%%CyML Compute End%%
 
     END SUBROUTINE layer_depth2thickness

@@ -74,7 +74,7 @@ program test_soiltemp
    call get_soil_depth(layer_thick, soil_depth)
 
    ! Number of elemental layers (1 cm)
-   soil_dim = nint(soil_depth)
+   soil_dim = int(soil_depth)
 
    ! In Stics the soil temperature profile and the previous day canopy temperature
    ! are initialized with the mean temperature of day 1
