@@ -58,7 +58,7 @@ CONTAINS
       INTEGER :: up_depth(size(layer_thick) + 1) 
       REAL :: layer_depth(size(layer_thick))
       REAL :: soil_depth
-
+      INTEGER :: depth_value
       !%%CyML Compute Begin%%
       layers_nb = size(layer_thick)
      
@@ -66,8 +66,11 @@ CONTAINS
      
      ! Getting layers bottom depth
      CALL layer_thickness2depth(layer_thick, layer_depth)
-     up_depth(2:(layers_nb + 1)) = int(layer_depth)
-
+     !up_depth(2:(layers_nb + 1)) = int(layer_depth)
+     DO z = 1, layers_nb
+      depth_value = layer_depth(z)
+      up_depth(z+1) = int(depth_value)
+     END DO
      ! Getting soil depth
      CALL get_soil_depth(layer_thick, soil_depth)
 
@@ -277,7 +280,12 @@ CONTAINS
       !                          ** len : 
       
       !%%CyML Compute Begin%%
-      layers_number = count(layer_thick_or_depth/=0.)
+      ! count not considered by cyml layers_number = count(layer_thick_or_depth/=0.)
+      layers_number = 0
+      DO z = 1, size(layer_thick_or_depth)
+        IF(layer_thick_or_depth(z) /= 0.) layers_number = layers_number+1
+      END DO
+        
       !%%CyML Compute End%%
 
     END SUBROUTINE get_layers_number
