@@ -281,9 +281,11 @@ CONTAINS
       
       !%%CyML Compute Begin%%
       ! count not considered by cyml layers_number = count(layer_thick_or_depth/=0.)
+      integer :: z
+      
       layers_number = 0
       DO z = 1, size(layer_thick_or_depth)
-        IF(layer_thick_or_depth(z) /= 0.) layers_number = layers_number+1
+        IF(layer_thick_or_depth(z) /= 0.) layers_number = layers_number + 1
       END DO
         
       !%%CyML Compute End%%
