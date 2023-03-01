@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ModelUnit PUBLIC " " "https://raw.githubusercontent.com/AgriculturalModelExchangeInitiative/crop2ml/master/ModelUnit.dtd">
+<ModelUnit modelid="Crop2ML.BiomaSurfacePartonSoilSWATHourlyPartonC.RangeOfSoilTemperaturesDAYCENT" name="RangeOfSoilTemperaturesDAYCENT" timestep="1" version="001">
+    <Description>
+        <Title>RangeOfSoilTemperaturesDAYCENT model</Title>
+        <Authors>simone.bregaglio@unimi.it</Authors>
+        <Institution>University Of Milan</Institution>
+        <URI>http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl</URI>
+        <Reference>(&apos;http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl&apos;,)</Reference>
+        <ExtendedDescription>Strategy for the calculation of soil thermal conductivity.Reference: DAYCENT model written in C code </ExtendedDescription>
+        <ShortDescription></ShortDescription></Description>
+    <Inputs>
+        <Input name="LayerThickness" description="Soil layer thickness" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="" max="3" min="0.005" default="0.05" unit="m"/>
+        <Input name="SoilTemperatureByLayers" description="Soil temperature of each layer" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="" max="60" min="-60" default="15" unit="Â°C"/>
+        <Input name="SurfaceTemperatureMaximum" description="Maximum surface soil temperature" inputtype="variable" variablecategory="auxiliary" datatype="DOUBLE" max="60" min="-60" default="25" unit="Â°C"/>
+        <Input name="ThermalDiffusivity" description="Thermal diffusivity of soil layer" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="" max="1" min="0" default="0.0025" unit="mm s-1"/>
+        <Input name="SurfaceTemperatureMinimum" description="Minimum surface soil temperature" inputtype="variable" variablecategory="auxiliary" datatype="DOUBLE" max="60" min="-60" default="10" unit="Â°C"/></Inputs>
+    <Outputs>
+        <Output name="SoilTemperatureMinimum" description="Minimum soil temperature by layers" datatype="DOUBLEARRAY" variablecategory="state" len="" max="60" min="-60" unit="Â°C"/>
+        <Output name="SoilTemperatureRangeByLayers" description="Soil temperature range by layers" datatype="DOUBLEARRAY" variablecategory="state" len="" max="50" min="0" unit="Â°C"/>
+        <Output name="SoilTemperatureMaximum" description="Maximum soil temperature by layers" datatype="DOUBLEARRAY" variablecategory="state" len="" max="60" min="-60" unit="Â°C"/></Outputs>
+    <Algorithm language="cyml" platform="" filename="algo/pyx/RangeOfSoilTemperaturesDAYCENT.pyx"/>
+    <Parametersets/>
+    <Testsets/></ModelUnit>
