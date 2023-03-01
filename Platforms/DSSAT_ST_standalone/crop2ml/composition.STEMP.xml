@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ModelComposition PUBLIC " " "https://raw.githubusercontent.com/AgriculturalModelExchangeInitiative/crop2ml/master/ModelComposition.dtd">
+<ModelComposition name="STEMP_" id="DSSAT_.STEMP_" version=" 1.0" timestep=" 1">
+    <Description>
+        <Title>STEMP_ model</Title>
+        <Authors>DSSAT </Authors>
+        <Institution>DSSAT Florida</Institution>
+        <Reference>https://doi.org/10.2134/agronj1994.00021962008600060014x</Reference>
+        <ExtendedDescription></ExtendedDescription>
+        <ShortDescription>Determines soil temperature by layer</ShortDescription></Description>
+    <Composition>
+        <Model name="STEMP" id="DSSAT_.STEMP" filename="unit.STEMP.xml"/>
+        <Links>
+            <InputLink target="STEMP.DSMID" source="DSMID"/>
+            <InputLink target="STEMP.TAVG" source="TAVG"/>
+            <InputLink target="STEMP.ST" source="ST"/>
+            <InputLink target="STEMP.TMAX" source="TMAX"/>
+            <InputLink target="STEMP.TAV" source="TAV"/>
+            <InputLink target="STEMP.DLAYR" source="DLAYR"/>
+            <InputLink target="STEMP.CUMDPT" source="CUMDPT"/>
+            <InputLink target="STEMP.SW" source="SW"/>
+            <InputLink target="STEMP.TAMP" source="TAMP"/>
+            <InputLink target="STEMP.NLAYR" source="NLAYR"/>
+            <InputLink target="STEMP.DOY" source="DOY"/>
+            <InputLink target="STEMP.LL" source="LL"/>
+            <InputLink target="STEMP.TMA" source="TMA"/>
+            <InputLink target="STEMP.ISWWAT" source="ISWWAT"/>
+            <InputLink target="STEMP.DUL" source="DUL"/>
+            <InputLink target="STEMP.BD" source="BD"/>
+            <InputLink target="STEMP.SRFTEMP" source="SRFTEMP"/>
+            <InputLink target="STEMP.DS" source="DS"/>
+            <InputLink target="STEMP.NL" source="NL"/>
+            <InputLink target="STEMP.XLAT" source="XLAT"/>
+            <InputLink target="STEMP.SRAD" source="SRAD"/>
+            <InputLink target="STEMP.MSALB" source="MSALB"/>
+            <InputLink target="STEMP.ATOT" source="ATOT"/>
+            <OutputLink target="CUMDPT" source="STEMP.CUMDPT"/>
+            <OutputLink target="DSMID" source="STEMP.DSMID"/>
+            <OutputLink target="TMA" source="STEMP.TMA"/>
+            <OutputLink target="ATOT" source="STEMP.ATOT"/>
+            <OutputLink target="SRFTEMP" source="STEMP.SRFTEMP"/>
+            <OutputLink target="ST" source="STEMP.ST"/></Links></Composition></ModelComposition>

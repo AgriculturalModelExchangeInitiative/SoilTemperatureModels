@@ -26,7 +26,6 @@ C
 C  @Reference
 C  https://doi.org/10.2134/agronj1994.00021962008600060014x
 C------------------------------------------------------------------------
-C
 C  Revision history
 C  12/01/1980     Originally based on EPIC soil temperature routines
 !  09/16/2010 CHP / MSC modified for EPIC soil temperature method.
@@ -37,16 +36,40 @@ C  Calls  : SOILT
 C=======================================================================
 !%%CyML Model Begin%%
       SUBROUTINE STEMP_EPIC(CONTROL, ISWITCH,  
-     &    SOILPROP,CUMDPT,DSMID, SW,   !Input
-     &    TAVG, TMAX, TMIN, TAV, WEATHER,   !Input
-     &    SRFTEMP, NDays, TDL, WetDay, ST,TMA, X2_PREV)         !InOut
-
+     &    SOILPROP,      !Input
+     &    SW,            !Input
+     &    TAVG,          !Input
+     &    TMAX,          !Input
+     &    TMIN,          !Input
+     &    TAV,           !Input
+     &    WEATHER,       !Input
+     &    CUMDPT,        !InOut
+     &    DSMID,         !InOut
+     &    TMA,           !InOut
+     &    NDays,         !InOut
+     &    WetDay,        !InOut
+     &    X2_PREV,       !InOut
+     &    SRFTEMP,       !InOut
+     &    ST)            !InOut
+!%%CyML Ignore Begin%%
+!     &    RAIN,          !Input
+!     &    TAMP,          !Input
+!     &    ISWWAT,        !Input   
+!     &    BD,            !Input
+!     &    DLAYR,         !Input
+!     &    DS,            !Input
+!     &    DUL,           !Input
+!     &    LL,            !Input
+!     &    NLAYR,         !Input  
+!     &    X2_AVG,        !InOut
+!%%CyML Ignore End%%
 C-----------------------------------------------------------------------
       USE ModuleDefs
       USE ModuleData
 
       IMPLICIT  NONE
       SAVE
+
 !%%CyML Ignore Begin%%
       CHARACTER*1  RNMODE
       INTEGER DYNAMIC
@@ -71,23 +94,23 @@ C-----------------------------------------------------------------------
       REAL, DIMENSION(NL) :: BD, DLAYR, DS, DUL, LL, ST, SW, SWI, DSMID
 
 !-----------------------------------------------------------------------
-!%%CyML Ignore Begin%%
+!%%CyML Ignore Begin%%      
       TYPE (ControlType) CONTROL
-!%%CyML Ignore End%%
+!%%CyML Ignore End%%      
 
       TYPE (SoilType)    SOILPROP
       TYPE (SwitchType)  ISWITCH
       TYPE (WeatherType) WEATHER
 
-!     Transfer values from constructed data types into local variables.
 !%%CyML Ignore Begin%%
+!     Transfer values from constructed data types into local variables.
       DYNAMIC = CONTROL % DYNAMIC  
-      YRDOY   = CONTROL % YRDOY  
-!%%CyML Ignore End%%  
-
+      YRDOY   = CONTROL % YRDOY    
+!%%CyML Ignore End%%      
 
       ISWWAT = ISWITCH % ISWWAT
 !      METMP  = ISWITCH % METMP
+
       BD     = SOILPROP % BD     
       DLAYR  = SOILPROP % DLAYR  
       DS     = SOILPROP % DS     
@@ -98,9 +121,9 @@ C-----------------------------------------------------------------------
       TAMP = WEATHER % TAMP
 
 !-----------------------------------------------------------------------
-!%%CyML Ignore Begin%%
+!%%CyML Ignore Begin%%      
       CALL YR_DOY(YRDOY, YEAR, DOY)
-!%%CyML Ignore End%%
+!%%CyML Ignore End%%      
 
 !***********************************************************************
 !***********************************************************************
@@ -190,12 +213,12 @@ C-----------------------------------------------------------------------
         WFT = 0.1
         WetDay = 0
         NDays = 0
-      
+
 !       Soil cover function
-!%%CyML Ignore Begin%%
+!%%CyML Ignore Begin%%      
         CALL GET('ORGC' ,'MULCHMASS',MULCHMASS)   !kg/ha
         CALL GET('WATER','SNOW'     , SNOW)       !mm
-!%%CyML Ignore End%%
+!%%CyML Ignore End%%      
       
         CV = (MULCHMASS) / 1000.         !t/ha
         BCV1 = CV / (CV + EXP(5.3396 - 2.3951 * CV))
@@ -206,24 +229,20 @@ C-----------------------------------------------------------------------
           CALL SOILT_EPIC (
      &    B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV,    !Input
      &    TAVG, TMAX, TMIN, 0, WFT, WW,                   !Input
-     &    TMA,X2_PREV, ST, SRFTEMP, X2_AVG)                       !Output
+     &    TMA, SRFTEMP, ST, X2_AVG, X2_PREV)              !Output
         END DO
-!%%CyML Init End%%
+!%%CyML Init End%%        
       ENDIF
 
-!%%CyML Ignore Begin%%
+!%%CyML Ignore Begin%%      
 !     Print soil temperature data in STEMP.OUT
       CALL OPSTEMP(CONTROL, ISWITCH, DOY, SRFTEMP, ST, TAV, TAMP)
 
       MSG(1) = "Running EPIC soil temperature routine."
       MSG(2) = "Start simulation at least 30 days early to initialize"
       MSG(3) = "  soil temperature parameters."
+      CALL WARNING(3,ERRKEY,MSG)
 !%%CyML Ignore End%%
-
-
-! - ASKE ORIGINAL START      
-!      CALL WARNING(3,ERRKEY,MSG)
-! - ASKE ORIGINAL END
 !***********************************************************************
 !***********************************************************************
 !     Daily rate calculations
@@ -234,6 +253,7 @@ C-----------------------------------------------------------------------
       TBD = 0.0
       TLL = 0.0
       TSW = 0.0
+      TDL = 0.0
       DO L = 1, NLAYR
         TBD = TBD + BD(L) * DLAYR(L) 
         TDL = TDL + DUL(L)* DLAYR(L)
@@ -257,9 +277,9 @@ C-----------------------------------------------------------------------
 !     Save 30 day memory of:
 !     WFT = fraction of wet days (rainfall + irrigation)
       RAIN = WEATHER % RAIN
-!%%CyML Ignore Begin%%
+!%%CyML Ignore Begin%%     
       CALL GET('MGMT','DEPIR',DEPIR)
-!%%CyML Ignore End%%
+!%%CyML Ignore End%%     
       IF (NDays == 30) THEN
         DO I = 1, 29
           WetDay(I) = WetDay(I+1)
@@ -281,7 +301,6 @@ C-----------------------------------------------------------------------
       CALL GET('ORGC' ,'MULCHMASS',MULCHMASS)   !kg/ha
       CALL GET('WATER','SNOW'     , SNOW)       !mm
 !%%CyML Ignore End%%
-
       CV = (BIOMAS + MULCHMASS) / 1000.         !t/ha
       BCV1 = CV / (CV + EXP(5.3396 - 2.3951 * CV))
       BCV2 = SNOW / (SNOW + EXP(2.303 - 0.2197 * SNOW))
@@ -290,22 +309,20 @@ C-----------------------------------------------------------------------
       CALL SOILT_EPIC (
      &    B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV,    !Input
      &    TAVG, TMAX, TMIN, WetDay(NDays), WFT, WW,       !Input
-     &    TMA,X2_PREV, ST, SRFTEMP, X2_AVG)                       !Output
+     &    TMA, SRFTEMP, ST, X2_AVG, X2_PREV)              !Output
 !%%CyML Rate End%%
-
 !***********************************************************************
 !***********************************************************************
 !     Output & Seasonal summary
 !***********************************************************************
-!%%CyML Ignore Begin%%
+!%%CyML Ignore Begin%%            
       ELSEIF (DYNAMIC .EQ. OUTPUT .OR. DYNAMIC .EQ. SEASEND) THEN
 !-----------------------------------------------------------------------
       CALL OPSTEMP(CONTROL, ISWITCH, DOY, SRFTEMP, ST, TAV, TAMP)
-
+!%%CyML Ignore End%%
 !***********************************************************************
 !***********************************************************************
 !     END OF DYNAMIC IF CONSTRUCT
-!%%CyML Ignore End%%
 !***********************************************************************
       ENDIF
 !***********************************************************************
@@ -334,8 +351,8 @@ C=======================================================================
       SUBROUTINE SOILT_EPIC (
      &    B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV,    !Input
      &    TAVG, TMAX, TMIN, WetDay, WFT, WW,              !Input
-     &    TMA,X2_PREV,ST,                                             !InOut
-     &    SRFTEMP, X2_AVG)                      !Output
+     &    TMA, SRFTEMP, ST, X2_AVG, X2_PREV)              !Output
+      
 !     ------------------------------------------------------------------
       USE ModuleDefs
       IMPLICIT  NONE
@@ -428,7 +445,6 @@ C=======================================================================
 C=======================================================================
 
 
-
 !=======================================================================
 ! STEMP and SOILT Variable definitions - updated 2/15/2004
 !=======================================================================
@@ -511,45 +527,3 @@ C=======================================================================
 ! ZD
 !%%CyML Description End%%
 !=======================================================================
-!<CyML Parametersets Start> 
-!
-! wetParam description of this set of parameters
-!  NL = 4 
-!  ISWWAT = 'Y'
-!  BD    = 1.6
-!  DLAYR = 10.2
-!  DS = (/10.0,20.0 ,30.0, 40.0/)
-!  DUL   = 0.3 
-!  LL    = 0.2 
-!  NLAYR = 4 
-!  MSALB = 0.13
-!  SRAD    = 20.0
-!  SW      = 0.2
-!  TAVG    = 25.0
-!  TMAX    = 30.0
-!  TMIN    = 20.0
-!  XLAT    = 28.0
-!  TAV     = 20.0
-!  TAMP    = 10.0
-!  TAMP = 10.0
-!  RAIN = 0.0
-!  MULCHMASS = 0.0
-!  SNOW = 0.0
-!  DEPIR = 0.0
-!  BIOMAS = 0.0
-!  TMA = (/27.5, 27.5, 27.5, 27.5/)
-!  CUMDPT = 400.0
-!  DSMID = (/50.0, 150.0, 250.0, 350.0, 0.0/)
-!  SRFTEMP = 27.5
-!  NDays = 0
-!  TDL = 12.0
-!  WetDay = (/0, 0, 0, 0/)
-!  ST = (/25.8049, 23.2596, 21.7681, 20.9658/)
-
-!!<CyML Parametersets End> 
-
-!<CyML Testsets Start> 
-!<CyML Testset Start>
-
-!<CyML Testset End>
-!<CyML Testsets End> 
