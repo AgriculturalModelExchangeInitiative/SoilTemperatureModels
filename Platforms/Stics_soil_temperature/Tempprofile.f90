@@ -18,7 +18,7 @@ CONTAINS
       REAL, INTENT(IN)  :: min_air_temp
       REAL, allocatable, INTENT(OUT) :: temp_profile(:)
 
-      !- Name: Tempprofile -Version: 1.0, -Time step: 1
+      !- Name: temp_profile -Version: 1.0, -Time step: 1
       !- Description:
       !            * Title: tempprofile model
       !            * Author: STICS
