@@ -68,8 +68,8 @@ CONTAINS
      CALL layer_thickness2depth(layer_thick, layer_depth)
      !up_depth(2:(layers_nb + 1)) = int(layer_depth)
      DO z = 1, layers_nb
-      depth_value = layer_depth(z)
-      up_depth(z+1) = int(depth_value)
+      depth_value = int(layer_depth(z))
+      up_depth(z+1) = depth_value
      END DO
      ! Getting soil depth
      CALL get_soil_depth(layer_thick, soil_depth)
