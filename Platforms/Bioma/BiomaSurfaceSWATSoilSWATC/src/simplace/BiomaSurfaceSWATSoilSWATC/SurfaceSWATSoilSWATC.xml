@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//SIMPLACE/DTD GRP 1.0//EN" "http://simplace.net/dtd/GroupComponent.dtd">
+<configuration class="net.simplace.sim.components.BiomaSurfaceSWATSoilSWATC.SurfaceSWATSoilSWATC">
+    <simgroup>
+        <simcomponent id="SurfaceTemperatureSWAT" class="net.simplace.sim.components.BiomaSurfaceSWATSoilSWATC.SurfaceTemperatureSWAT">
+            <input id="AirTemperatureMinimum" source="SurfaceSWATSoilSWATC.AirTemperatureMinimum"/>
+            <input id="GlobalSolarRadiation" source="SurfaceSWATSoilSWATC.GlobalSolarRadiation"/>
+            <input id="AboveGroundBiomass" source="SurfaceSWATSoilSWATC.AboveGroundBiomass"/>
+            <input id="WaterEquivalentOfSnowPack" source="SurfaceSWATSoilSWATC.WaterEquivalentOfSnowPack"/>
+            <input id="AirTemperatureMaximum" source="SurfaceSWATSoilSWATC.AirTemperatureMaximum"/>
+            <input id="Albedo" source="SurfaceSWATSoilSWATC.Albedo"/>
+            <output id="SurfaceSoilTemperature" destination="SurfaceSWATSoilSWATC.SurfaceSoilTemperature"/></simcomponent>
+        <simcomponent id="SoilTemperatureSWAT" class="net.simplace.sim.components.BiomaSurfaceSWATSoilSWATC.SoilTemperatureSWAT">
+            <input id="AirTemperatureAnnualAverage" source="SurfaceSWATSoilSWATC.AirTemperatureAnnualAverage"/>
+            <input id="VolumetricWaterContent" source="SurfaceSWATSoilSWATC.VolumetricWaterContent"/>
+            <input id="BulkDensity" source="SurfaceSWATSoilSWATC.BulkDensity"/>
+            <input id="SoilProfileDepth" source="SurfaceSWATSoilSWATC.SoilProfileDepth"/>
+            <input id="LayerThickness" source="SurfaceSWATSoilSWATC.LayerThickness"/>
+            <input id="LagCoefficient" source="SurfaceSWATSoilSWATC.LagCoefficient"/>
+            <input id="SurfaceSoilTemperature" source="SurfaceTemperatureSWAT.SurfaceSoilTemperature"/>
+            <output id="SoilTemperatureByLayers" destination="SurfaceSWATSoilSWATC.SoilTemperatureByLayers"/></simcomponent></simgroup></configuration>
