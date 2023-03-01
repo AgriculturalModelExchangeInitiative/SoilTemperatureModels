@@ -65,5 +65,5 @@ CONTAINS
       therm_amp = sqrt(temp_freq/2/therm_diff)
       !%%CyML Compute End%%
    END SUBROUTINE model_therm_amp
-
+   !%%CyML Model End%%
 END MODULE therm_amp_mod
