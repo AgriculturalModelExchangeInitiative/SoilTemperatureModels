@@ -101,13 +101,13 @@ CONTAINS
       !%%CyML Compute Begin%%
       n = size(prev_temp_profile)
 
-      if (.NOT. ALLOCATED(temp_profile)) then
+      !if (.NOT. ALLOCATED(temp_profile)) then
          allocate(temp_profile(n))
-      end if
+      !end if
       
-      if (.NOT. ALLOCATED(vexp)) then
+      !if (.NOT. ALLOCATED(vexp)) then
          allocate(vexp(n))
-      end if
+      !end if
 
       DO z=1, n
          vexp(z) = exp(-z*therm_amp)
