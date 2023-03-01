@@ -21,7 +21,7 @@ CONTAINS
       REAL, INTENT(IN)  :: min_air_temp
       REAL, INTENT(IN)  :: therm_diff
       REAL, INTENT(IN), OPTIONAL :: temp_wave_freq
-      REAL, INTENT(OUT) :: temp_profile(size(prev_temp_profile))
+      REAL, allocatable, INTENT(OUT) :: temp_profile(:)
 
       REAL :: temp_amp
       REAL :: therm_amp
@@ -125,7 +125,7 @@ CONTAINS
       call model_temp_amp(min_canopy_temp, max_canopy_temp, temp_amp)
 
       call model_therm_amp(therm_diff, temp_wave_freq, therm_amp)
-
+      
       call model_temp_profile(temp_amp, therm_amp, prev_temp_profile, & 
                               prev_canopy_temp, min_air_temp, temp_profile)
 

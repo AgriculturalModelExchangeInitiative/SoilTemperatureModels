@@ -10,7 +10,8 @@ CONTAINS
 
       REAL, INTENT(IN)    ::  temp_profile(:)
       REAL, INTENT(IN) ::  layer_thick(:)
-      REAL, INTENT(OUT)   ::  layer_temp(size(layer_thick))
+      !REAL, INTENT(OUT)   ::  layer_temp(size(layer_thick))
+      REAL, allocatable, INTENT(OUT)   ::  layer_temp(:)
 
       !- Name: Layerstemp -Version: 1.0, -Time step: 1
       !- Description:
@@ -55,17 +56,33 @@ CONTAINS
 
       INTEGER :: z
       INTEGER :: layers_nb
-      INTEGER :: up_depth(size(layer_thick) + 1) 
-      REAL :: layer_depth(size(layer_thick))
+      !INTEGER :: up_depth(size(layer_thick) + 1) 
+      INTEGER, allocatable :: up_depth(:)
+      !REAL :: layer_depth(size(layer_thick))
+      REAL, allocatable :: layer_depth(:)
       REAL :: soil_depth
       INTEGER :: depth_value
+
       !%%CyML Compute Begin%%
       layers_nb = size(layer_thick)
+
+      if (.NOT. ALLOCATED(layer_temp)) then
+        allocate(layer_temp(layers_nb))
+      end if
+
+      if (.NOT. ALLOCATED(up_depth)) then
+        allocate(up_depth(layers_nb + 1))
+      end if
      
+      if (.NOT. ALLOCATED(layer_depth)) then
+        allocate(layer_depth(layers_nb))
+      end if
+
       up_depth = 0
      
      ! Getting layers bottom depth
      CALL layer_thickness2depth(layer_thick, layer_depth)
+
      !up_depth(2:(layers_nb + 1)) = int(layer_depth)
      DO z = 1, layers_nb
       depth_value = int(layer_depth(z))
@@ -98,7 +115,8 @@ CONTAINS
       IMPLICIT NONE
   
       REAL, intent(in)     :: layer_thick(:)
-      REAL, intent(out) :: layer_depth(size(layer_thick))
+      !REAL, intent(out) :: layer_depth(size(layer_thick))
+      REAL, allocatable, intent(out) :: layer_depth(:)
       !- Name: Layer thickness to depth -Version: 1.0, -Time step: 
       !- Description:
       !            * Title: layers thickness conversion to bottom depth
@@ -132,6 +150,10 @@ CONTAINS
 
       !%%CyML Compute Begin%%
       layers_nb = size(layer_thick) 
+
+      if (.NOT. ALLOCATED(layer_depth)) then
+        allocate(layer_depth(layers_nb))
+      end if
   
       DO z = 1, layers_nb
          layer_depth(z) = sum(layer_thick(1:z))
@@ -147,7 +169,8 @@ CONTAINS
       IMPLICIT NONE
   
       REAL, intent(in)     :: layer_depth(:)        
-      REAL, intent(out) :: layer_thick(size(layer_depth))
+      !REAL, intent(out) :: layer_thick(size(layer_depth))
+      REAL, allocatable, intent(out) :: layer_thick(:)
       !- Name: Layer depth to thickness  -Version: 1.0, -Time step: 
       !- Description:
       !            * Title: layers bottom depth  conversion to thickness 
@@ -181,6 +204,10 @@ CONTAINS
 
       !%%CyML Compute Begin%%
       layers_nb = size(layer_depth)
+
+      if (.NOT. ALLOCATED(layer_thick)) then
+        allocate(layer_thick(layers_nb))
+      end if
 
       layer_thick(1) = layer_depth(1)
 
@@ -282,7 +309,7 @@ CONTAINS
       !%%CyML Compute Begin%%
       ! count not considered by cyml layers_number = count(layer_thick_or_depth/=0.)
       integer :: z
-      
+
       layers_number = 0
       DO z = 1, size(layer_thick_or_depth)
         IF(layer_thick_or_depth(z) /= 0.) layers_number = layers_number + 1

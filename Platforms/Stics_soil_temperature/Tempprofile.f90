@@ -16,7 +16,7 @@ CONTAINS
       REAL, INTENT(INOUT)  :: prev_temp_profile(:)
       REAL, INTENT(IN)  :: prev_canopy_temp
       REAL, INTENT(IN)  :: min_air_temp
-      REAL, INTENT(OUT) :: temp_profile(size(prev_temp_profile))
+      REAL, allocatable, INTENT(OUT) :: temp_profile(:)
 
       !- Name: Tempprofile -Version: 1.0, -Time step: 1
       !- Description:
@@ -94,10 +94,20 @@ CONTAINS
 
 
       INTEGER :: z,n
-      REAL, DIMENSION(size(prev_temp_profile)) :: vexp
+      REAL, allocatable :: vexp(:)
+
+      
 
       !%%CyML Compute Begin%%
       n = size(prev_temp_profile)
+
+      if (.NOT. ALLOCATED(temp_profile)) then
+         allocate(temp_profile(n))
+      end if
+      
+      if (.NOT. ALLOCATED(vexp)) then
+         allocate(vexp(n))
+      end if
 
       DO z=1, n
          vexp(z) = exp(-z*therm_amp)
