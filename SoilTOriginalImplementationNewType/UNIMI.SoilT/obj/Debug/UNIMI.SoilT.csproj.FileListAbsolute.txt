@@ -1,0 +1,15 @@
+C:\git_amei_bioma\amei_bioma\SoilTOriginalImplementationNewType\UNIMI.SoilT\obj\Debug\UNIMI.SoilT.csproj.AssemblyReference.cache
+C:\git_amei_bioma\amei_bioma\SoilTOriginalImplementationNewType\UNIMI.SoilT\obj\Debug\UNIMI.SoilT.Properties.Resources.resources
+C:\git_amei_bioma\amei_bioma\SoilTOriginalImplementationNewType\UNIMI.SoilT\obj\Debug\UNIMI.SoilT.csproj.GenerateResource.cache
+C:\git_amei_bioma\amei_bioma\SoilTOriginalImplementationNewType\UNIMI.SoilT\obj\Debug\UNIMI.SoilT.csproj.CoreCompileInputs.cache
+C:\git_amei_bioma\amei_bioma\SoilTOriginalImplementationNewType\UNIMI.SoilT\bin\Debug\UNIMI.SoilT.dll
+C:\git_amei_bioma\amei_bioma\SoilTOriginalImplementationNewType\UNIMI.SoilT\bin\Debug\UNIMI.SoilT.pdb
+C:\git_amei_bioma\amei_bioma\SoilTOriginalImplementationNewType\UNIMI.SoilT\bin\Debug\CRA.AgroManagement2014.dll
+C:\git_amei_bioma\amei_bioma\SoilTOriginalImplementationNewType\UNIMI.SoilT\bin\Debug\CRA.AgroManagement2014.Impacts.dll
+C:\git_amei_bioma\amei_bioma\SoilTOriginalImplementationNewType\UNIMI.SoilT\bin\Debug\CRA.AgroManagement2014.Rules.dll
+C:\git_amei_bioma\amei_bioma\SoilTOriginalImplementationNewType\UNIMI.SoilT\bin\Debug\CRA.ModelLayer.dll
+C:\git_amei_bioma\amei_bioma\SoilTOriginalImplementationNewType\UNIMI.SoilT\bin\Debug\UNIMI.SoilT.Interfaces.dll
+C:\git_amei_bioma\amei_bioma\SoilTOriginalImplementationNewType\UNIMI.SoilT\bin\Debug\UNIMI.SoilT.Interfaces.pdb
+C:\git_amei_bioma\amei_bioma\SoilTOriginalImplementationNewType\UNIMI.SoilT\obj\Debug\UNIMI.SoilT.csproj.CopyComplete
+C:\git_amei_bioma\amei_bioma\SoilTOriginalImplementationNewType\UNIMI.SoilT\obj\Debug\UNIMI.SoilT.dll
+C:\git_amei_bioma\amei_bioma\SoilTOriginalImplementationNewType\UNIMI.SoilT\obj\Debug\UNIMI.SoilT.pdb

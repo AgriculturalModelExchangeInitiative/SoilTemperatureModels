@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ModelComposition PUBLIC " " "https://raw.githubusercontent.com/AgriculturalModelExchangeInitiative/crop2ml/master/ModelComposition.dtd">
+<ModelComposition name="SurfacePartonSoilCampbellC" id="Crop2ML.SoilTOriginalImplementationNewType.SurfacePartonSoilCampbellC" version="001" timestep="1">
+    <Description>
+        <Title>SurfacePartonSoilCampbellC model</Title>
+        <Authors>simone.bregaglio@unimi.it</Authors>
+        <Institution>Universiy Of Milan</Institution>
+        <Reference>(&apos;http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl&apos;,)</Reference>
+        <ExtendedDescription>Composite strategy for the calculation of surface temperature with Parton&apos;s method and soil temperature with Campbell&apos;s method. Parton, W. J. 1984. Predicting soil temperatures in a shortgrass steppe. Soil Science 138:93-101. and Campbell, G.S., Soil physics with basic. Elsevier 1985.  Composite strategy. See also references of the associated strategies.</ExtendedDescription>
+        <ShortDescription></ShortDescription></Description>
+    <Composition>
+        <Model name="SurfaceTemperatureParton" id="Crop2ML.SoilTOriginalImplementationNewType.SurfaceTemperatureParton" filename="unit.SurfaceTemperatureParton.xml"/>
+        <Model name="SoilTemperatureCampbell" id="Crop2ML.SoilTOriginalImplementationNewType.SoilTemperatureCampbell" filename="unit.SoilTemperatureCampbell.xml"/>
+        <Links>
+            <InputLink target="SurfaceTemperatureParton.DayLength" source="DayLength"/>
+            <InputLink target="SurfaceTemperatureParton.AirTemperatureMaximum" source="AirTemperatureMaximum"/>
+            <InputLink target="SurfaceTemperatureParton.AirTemperatureMinimum" source="AirTemperatureMinimum"/>
+            <InputLink target="SurfaceTemperatureParton.AboveGroundBiomass" source="AboveGroundBiomass"/>
+            <InputLink target="SurfaceTemperatureParton.GlobalSolarRadiation" source="GlobalSolarRadiation"/>
+            <InputLink target="SoilTemperatureCampbell.Clay" source="Clay"/>
+            <InputLink target="SoilTemperatureCampbell.ThermalK" source="ThermalK"/>
+            <InputLink target="SoilTemperatureCampbell.VolumetricWaterContent" source="VolumetricWaterContent"/>
+            <InputLink target="SoilTemperatureCampbell.DepthConstantSoilTemperature" source="DepthConstantSoilTemperature"/>
+            <InputLink target="SoilTemperatureCampbell.Timestep" source="Timestep"/>
+            <InputLink target="SoilTemperatureCampbell.BottomTemperature" source="BottomTemperature"/>
+            <InputLink target="SoilTemperatureCampbell.BulkDensity" source="BulkDensity"/>
+            <InputLink target="SoilTemperatureCampbell.NetRadiation" source="NetRadiation"/>
+            <InputLink target="SoilTemperatureCampbell.ETA" source="ETA"/>
+            <InputLink target="SoilTemperatureCampbell.LayerThickness" source="LayerThickness"/>
+            <InternalLink target="SoilTemperatureCampbell.SurfaceTemperatureMaximum" source="SurfaceTemperatureParton.SurfaceTemperatureMaximum"/>
+            <InternalLink target="SoilTemperatureCampbell.SurfaceSoilTemperature" source="SurfaceTemperatureParton.SurfaceSoilTemperature"/>
+            <OutputLink target="SurfaceTemperatureMinimum" source="SurfaceTemperatureParton.SurfaceTemperatureMinimum"/>
+            <OutputLink target="SurfaceSoilTemperature" source="SurfaceTemperatureParton.SurfaceSoilTemperature"/>
+            <OutputLink target="SurfaceTemperatureMaximum" source="SurfaceTemperatureParton.SurfaceTemperatureMaximum"/>
+            <OutputLink target="HeatCapacity" source="SoilTemperatureCampbell.HeatCapacity"/>
+            <OutputLink target="SoilTemperatureByLayersChange" source="SoilTemperatureCampbell.SoilTemperatureByLayersChange"/>
+            <OutputLink target="SoilTemperatureByLayers" source="SoilTemperatureCampbell.SoilTemperatureByLayers"/>
+            <OutputLink target="LatentHeatFlux" source="SoilTemperatureCampbell.LatentHeatFlux"/>
+            <OutputLink target="TemperatureConductance" source="SoilTemperatureCampbell.TemperatureConductance"/></Links></Composition></ModelComposition>

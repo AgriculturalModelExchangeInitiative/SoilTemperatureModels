@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ModelComposition PUBLIC " " "https://raw.githubusercontent.com/AgriculturalModelExchangeInitiative/crop2ml/master/ModelComposition.dtd">
+<ModelComposition name="SurfacePartonSoilSWATHourlyPartonC" id="Crop2ML.SoilTOriginalImplementationNewType.SurfacePartonSoilSWATHourlyPartonC" version="001" timestep="1">
+    <Description>
+        <Title>SurfacePartonSoilSWATHourlyPartonC model</Title>
+        <Authors>simone.bregaglio@unimi.it</Authors>
+        <Institution>Universiy Of Milan</Institution>
+        <Reference>(&apos;http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl&apos;,)</Reference>
+        <ExtendedDescription>Composite strategy for the calculation of surface temperature with Parton&apos;s method and soil temperature with SWAT method. See also references of the associated strategies.</ExtendedDescription>
+        <ShortDescription></ShortDescription></Description>
+    <Composition>
+        <Model name="SurfaceTemperatureParton" id="Crop2ML.SoilTOriginalImplementationNewType.SurfaceTemperatureParton" filename="unit.SurfaceTemperatureParton.xml"/>
+        <Model name="SoilTemperatureSWAT" id="Crop2ML.SoilTOriginalImplementationNewType.SoilTemperatureSWAT" filename="unit.SoilTemperatureSWAT.xml"/>
+        <Model name="RangeOfSoilTemperaturesDAYCENT" id="Crop2ML.SoilTOriginalImplementationNewType.RangeOfSoilTemperaturesDAYCENT" filename="unit.RangeOfSoilTemperaturesDAYCENT.xml"/>
+        <Model name="HourlySoilTemperaturesPartonLogan" id="Crop2ML.SoilTOriginalImplementationNewType.HourlySoilTemperaturesPartonLogan" filename="unit.HourlySoilTemperaturesPartonLogan.xml"/>
+        <Links>
+            <InputLink target="SurfaceTemperatureParton.DayLength" source="DayLength"/>
+            <InputLink target="SurfaceTemperatureParton.AirTemperatureMaximum" source="AirTemperatureMaximum"/>
+            <InputLink target="SurfaceTemperatureParton.AirTemperatureMinimum" source="AirTemperatureMinimum"/>
+            <InputLink target="SurfaceTemperatureParton.AboveGroundBiomass" source="AboveGroundBiomass"/>
+            <InputLink target="SurfaceTemperatureParton.GlobalSolarRadiation" source="GlobalSolarRadiation"/>
+            <InputLink target="SoilTemperatureSWAT.LagCoefficient" source="LagCoefficient"/>
+            <InputLink target="SoilTemperatureSWAT.SoilProfileDepth" source="SoilProfileDepth"/>
+            <InputLink target="SoilTemperatureSWAT.VolumetricWaterContent" source="VolumetricWaterContent"/>
+            <InputLink target="SoilTemperatureSWAT.BulkDensity" source="BulkDensity"/>
+            <InputLink target="SoilTemperatureSWAT.LayerThickness" source="LayerThickness"/>
+            <InputLink target="SoilTemperatureSWAT.AirTemperatureAnnualAverage" source="AirTemperatureAnnualAverage"/>
+            <InputLink target="RangeOfSoilTemperaturesDAYCENT.LayerThickness" source="LayerThickness"/>
+            <InputLink target="RangeOfSoilTemperaturesDAYCENT.ThermalDiffusivity" source="ThermalDiffusivity"/>
+            <InputLink target="HourlySoilTemperaturesPartonLogan.DayLength" source="DayLength"/>
+            <InputLink target="HourlySoilTemperaturesPartonLogan.HourOfSunrise" source="HourOfSunrise"/>
+            <InputLink target="HourlySoilTemperaturesPartonLogan.HourOfSunset" source="HourOfSunset"/>
+            <InternalLink target="SoilTemperatureSWAT.SurfaceSoilTemperature" source="SurfaceTemperatureParton.SurfaceSoilTemperature"/>
+            <InternalLink target="RangeOfSoilTemperaturesDAYCENT.SurfaceTemperatureMinimum" source="SurfaceTemperatureParton.SurfaceTemperatureMinimum"/>
+            <InternalLink target="RangeOfSoilTemperaturesDAYCENT.SurfaceTemperatureMaximum" source="SurfaceTemperatureParton.SurfaceTemperatureMaximum"/>
+            <InternalLink target="RangeOfSoilTemperaturesDAYCENT.SoilTemperatureByLayers" source="SoilTemperatureSWAT.SoilTemperatureByLayers"/>
+            <InternalLink target="HourlySoilTemperaturesPartonLogan.SoilTemperatureMinimum" source="RangeOfSoilTemperaturesDAYCENT.SoilTemperatureMinimum"/>
+            <InternalLink target="HourlySoilTemperaturesPartonLogan.SoilTemperatureMaximum" source="RangeOfSoilTemperaturesDAYCENT.SoilTemperatureMaximum"/>
+            <OutputLink target="SurfaceTemperatureMinimum" source="SurfaceTemperatureParton.SurfaceTemperatureMinimum"/>
+            <OutputLink target="SurfaceSoilTemperature" source="SurfaceTemperatureParton.SurfaceSoilTemperature"/>
+            <OutputLink target="SurfaceTemperatureMaximum" source="SurfaceTemperatureParton.SurfaceTemperatureMaximum"/>
+            <OutputLink target="SoilTemperatureByLayers" source="SoilTemperatureSWAT.SoilTemperatureByLayers"/>
+            <OutputLink target="SoilTemperatureMinimum" source="RangeOfSoilTemperaturesDAYCENT.SoilTemperatureMinimum"/>
+            <OutputLink target="SoilTemperatureRangeByLayers" source="RangeOfSoilTemperaturesDAYCENT.SoilTemperatureRangeByLayers"/>
+            <OutputLink target="SoilTemperatureMaximum" source="RangeOfSoilTemperaturesDAYCENT.SoilTemperatureMaximum"/>
+            <OutputLink target="SoilTemperatureByLayersHourly" source="HourlySoilTemperaturesPartonLogan.SoilTemperatureByLayersHourly"/></Links></Composition></ModelComposition>

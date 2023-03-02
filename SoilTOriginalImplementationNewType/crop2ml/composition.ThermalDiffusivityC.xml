@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ModelComposition PUBLIC " " "https://raw.githubusercontent.com/AgriculturalModelExchangeInitiative/crop2ml/master/ModelComposition.dtd">
+<ModelComposition name="ThermalDiffusivityC" id="Crop2ML.SoilTOriginalImplementationNewType.ThermalDiffusivityC" version="001" timestep="1">
+    <Description>
+        <Title>ThermalDiffusivityC model</Title>
+        <Authors>simone.bregaglio@unimi.it</Authors>
+        <Institution>Universiy Of Milan</Institution>
+        <Reference>(&apos;http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl&apos;,)</Reference>
+        <ExtendedDescription>Composite strategy for the calculation of soil thermal diffusivity. J.M.H.Hendrickx, H. Xie, B. Borchers, J.B.J. Harrison, 2008. Global Prediction of Thermal Soil Regimes. SPIE Proceedings Volume 6953 Detection and Sensing of Mines, Explosive Objects, and Obscured Targets XIII.</ExtendedDescription>
+        <ShortDescription></ShortDescription></Description>
+    <Composition>
+        <Model name="VolumetricHeatCapacityKluitenberg" id="Crop2ML.SoilTOriginalImplementationNewType.VolumetricHeatCapacityKluitenberg" filename="unit.VolumetricHeatCapacityKluitenberg.xml"/>
+        <Model name="ThermalConductivitySIMULAT" id="Crop2ML.SoilTOriginalImplementationNewType.ThermalConductivitySIMULAT" filename="unit.ThermalConductivitySIMULAT.xml"/>
+        <Links>
+            <InputLink target="VolumetricHeatCapacityKluitenberg.Clay" source="Clay"/>
+            <InputLink target="VolumetricHeatCapacityKluitenberg.Sand" source="Sand"/>
+            <InputLink target="VolumetricHeatCapacityKluitenberg.VolumetricWaterContent" source="VolumetricWaterContent"/>
+            <InputLink target="VolumetricHeatCapacityKluitenberg.BulkDensity" source="BulkDensity"/>
+            <InputLink target="VolumetricHeatCapacityKluitenberg.OrganicMatter" source="OrganicMatter"/>
+            <InputLink target="VolumetricHeatCapacityKluitenberg.Silt" source="Silt"/>
+            <InputLink target="ThermalConductivitySIMULAT.BulkDensity" source="BulkDensity"/>
+            <InputLink target="ThermalConductivitySIMULAT.Clay" source="Clay"/>
+            <InputLink target="ThermalConductivitySIMULAT.VolumetricWaterContent" source="VolumetricWaterContent"/>
+            <OutputLink target="HeatCapacity" source="VolumetricHeatCapacityKluitenberg.HeatCapacity"/>
+            <OutputLink target="ThermalConductivity" source="ThermalConductivitySIMULAT.ThermalConductivity"/></Links></Composition></ModelComposition>

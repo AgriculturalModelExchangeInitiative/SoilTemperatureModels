@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ModelComposition PUBLIC " " "https://raw.githubusercontent.com/AgriculturalModelExchangeInitiative/crop2ml/master/ModelComposition.dtd">
+<ModelComposition name="SurfaceSWATSoilSWATC" id="Crop2ML.SoilTOriginalImplementationNewType.SurfaceSWATSoilSWATC" version="001" timestep="1">
+    <Description>
+        <Title>SurfaceSWATSoilSWATC model</Title>
+        <Authors>simone.bregaglio@unimi.it</Authors>
+        <Institution>Universiy Of Milan</Institution>
+        <Reference>(&apos;http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl&apos;,)</Reference>
+        <ExtendedDescription>Composite strategy for the calculation of surface and soil temperature with SWAT method. Neitsch,S.L., Arnold, J.G., Kiniry, J.R., Williams, J.R., King, K.W. Soil and Water Assessment Tool. Theoretical documentation. Version 2000. http://swatmodel.tamu.edu/media/1290/swat2000theory.pdf.  Composite strategy. See also references of the associated strategies.</ExtendedDescription>
+        <ShortDescription></ShortDescription></Description>
+    <Composition>
+        <Model name="SurfaceTemperatureSWAT" id="Crop2ML.SoilTOriginalImplementationNewType.SurfaceTemperatureSWAT" filename="unit.SurfaceTemperatureSWAT.xml"/>
+        <Model name="SoilTemperatureSWAT" id="Crop2ML.SoilTOriginalImplementationNewType.SoilTemperatureSWAT" filename="unit.SoilTemperatureSWAT.xml"/>
+        <Links>
+            <InputLink target="SurfaceTemperatureSWAT.AirTemperatureMaximum" source="AirTemperatureMaximum"/>
+            <InputLink target="SurfaceTemperatureSWAT.AirTemperatureMinimum" source="AirTemperatureMinimum"/>
+            <InputLink target="SurfaceTemperatureSWAT.AboveGroundBiomass" source="AboveGroundBiomass"/>
+            <InputLink target="SurfaceTemperatureSWAT.Albedo" source="Albedo"/>
+            <InputLink target="SurfaceTemperatureSWAT.GlobalSolarRadiation" source="GlobalSolarRadiation"/>
+            <InputLink target="SurfaceTemperatureSWAT.WaterEquivalentOfSnowPack" source="WaterEquivalentOfSnowPack"/>
+            <InputLink target="SoilTemperatureSWAT.LagCoefficient" source="LagCoefficient"/>
+            <InputLink target="SoilTemperatureSWAT.SoilProfileDepth" source="SoilProfileDepth"/>
+            <InputLink target="SoilTemperatureSWAT.VolumetricWaterContent" source="VolumetricWaterContent"/>
+            <InputLink target="SoilTemperatureSWAT.BulkDensity" source="BulkDensity"/>
+            <InputLink target="SoilTemperatureSWAT.LayerThickness" source="LayerThickness"/>
+            <InputLink target="SoilTemperatureSWAT.AirTemperatureAnnualAverage" source="AirTemperatureAnnualAverage"/>
+            <InternalLink target="SoilTemperatureSWAT.SurfaceSoilTemperature" source="SurfaceTemperatureSWAT.SurfaceSoilTemperature"/>
+            <OutputLink target="SurfaceSoilTemperature" source="SurfaceTemperatureSWAT.SurfaceSoilTemperature"/>
+            <OutputLink target="SoilTemperatureByLayers" source="SoilTemperatureSWAT.SoilTemperatureByLayers"/></Links></Composition></ModelComposition>
