@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
-
+from pathlib import Path
 from setuptools import setup, find_packages
 
 version = '0.1.0'
@@ -14,12 +14,26 @@ authors_email = 'christophe.pradal@cirad.fr'
 url = 'https://github.com/AgriculturalModelExchangeInitiative/SoilTemperatureModels'
 license = 'BSD'
 
-pkgs = find_packages('src')
-packages = pkgs
+packages = find_packages('src')
 package_dir = {'':'src'}
 
 setup_requires = ['openalea.deploy']
 install_requires = []
+
+def find_workflows_entry_points(dir):
+    """ Find the wralea files """
+    d = Path(dir)
+    wraleas = d.glob('**/__wralea__.py')
+    wralea_epoint = []
+    for wralea in wraleas:
+        wdir = str(wralea.parent)
+        dirs = wdir.split(os.sep)[1:]
+        name = '.'.join(dirs)
+        wralea_epoint.append('%s = %s'%(name, name))
+    return wralea_epoint
+
+entry_points = dict()
+entry_points['wralea'] = find_workflows_entry_points('src')
 
 setup(
     # Meta data (no edition needed if you correctly defined the variables above)
@@ -31,7 +45,7 @@ setup(
     author_email=authors_email,
     url=url,
     license=license,
-    keywords = '',	
+    keywords = 'AMEI, SimPlace, OpenAlea, DSSAT, BioMA',	
     
     # package installation
     packages= packages,	
@@ -48,17 +62,6 @@ setup(
     
     include_package_data = True,
     
-    entry_points = {
-            "wralea": [ "pylab = openalea.pylab_main_wralea",
-                        "pylab.demo = openalea.pylab_demo_wralea",
-                        "pylab.plotting = openalea.pylab_plotting_wralea",
-                        "pylab.datasets = openalea.pylab_datasets_wralea",
-                        "pylab.decorators = openalea.pylab_decorators_wralea",
-                        "pylab.Drawing = openalea.pylab_drawing_wralea",
-                        "pylab.test = openalea.pylab_test_wralea",
-                        "pylab.patches = openalea.pylab_patches_wralea",
-                        "pylab.mplot3d = openalea.pylab_3d_wralea",
-            ]
-            },
+    entry_points = entry_points,
 
     )
