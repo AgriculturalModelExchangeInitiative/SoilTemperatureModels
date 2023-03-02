@@ -143,7 +143,7 @@ model_soiltemperature <- function (deepLayerT,
     #'                          ** max : 80
     #'                          ** min : -30
     #'                          ** unit : °C
-    hourlySoilT <- array(numeric(), dim=c(24,1,1))
+    hourlySoilT <- vector(,24)
     list[deepLayerT_t1, maxTSoil, minTSoil] <- model_calculatesoiltemperature(deepLayerT, lambda_, heatFlux, meanTAir, minTAir, deepLayerT_t1, maxTAir)
     hourlySoilT <- model_calculatehourlysoiltemperature(c, dayLength, maxTSoil, b, a, minTSoil)
     return (list ("deepLayerT_t1" = deepLayerT_t1,"maxTSoil" = maxTSoil,"minTSoil" = minTSoil,"hourlySoilT" = hourlySoilT))

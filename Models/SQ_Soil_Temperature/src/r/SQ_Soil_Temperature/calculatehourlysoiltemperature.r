@@ -78,7 +78,7 @@ model_calculatehourlysoiltemperature <- function (c,
     #'                          ** max : 80
     #'                          ** min : -30
     #'                          ** unit : °C
-    hourlySoilT <- array(numeric(), dim=c(24,1,1))
+    hourlySoilT <- vector(,24)
     if (maxTSoil == as.double(-999) && minTSoil == as.double(999))
     {
         for( i in seq(0, 12-1, 1)){
@@ -104,7 +104,7 @@ getHourlySoilSurfaceTemperature <- function (TMax,
          b,
          c,
          a){
-    result <- array(numeric(), dim=c(24,1,1))
+    result <- vector(,24)
     ahou <- pi * (ady / 24.0)
     ani <- 24 - ady
     bb <- 12 - (ady / 2) + c

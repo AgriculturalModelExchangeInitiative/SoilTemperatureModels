@@ -30,9 +30,24 @@ public class CalculateHourlySoilTemperature extends FWSimComponent
     public CalculateHourlySoilTemperature(){
         super();
     }
+
+    @Override
+    public HashMap<String, FWSimVariable<?>> createVariables()
+    {
+        addVariable(FWSimVariable.createSimVariable("c", "Nighttime temperature coefficient", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"Dpmensionless", 0, 10, 0.49, this));
+        addVariable(FWSimVariable.createSimVariable("dayLength", "Length of the day", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"hour", 0, 24, 12, this));
+        addVariable(FWSimVariable.createSimVariable("maxTSoil", "Maximum Soil Temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"°C", -30, 80, 20, this));
+        addVariable(FWSimVariable.createSimVariable("b", "Delay between sunrise and time when minimum temperature is reached", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"Hour", 0, 10, 1.81, this));
+        addVariable(FWSimVariable.createSimVariable("a", "Delay between sunset and time when maximum temperature is reached", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"Hour", 0, 10, 0.5, this));
+        addVariable(FWSimVariable.createSimVariable("minTSoil", "Minimum Soil Temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"°C", -30, 80, 20, this));
+        addVariable(FWSimVariable.createSimVariable("hourlySoilT", "Hourly Soil Temperature", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"°C", -30, 80, null, this));
+
+        return iFieldMap;
+    }
     @Override
     protected void process()
     {
+        getHourlySoilSurfaceTemperature zz_getHourlySoilSurfaceTemperature;
         Double t_c = c.getValue();
         Double t_dayLength = dayLength.getValue();
         Double t_maxTSoil = maxTSoil.getValue();
@@ -62,7 +77,7 @@ public class CalculateHourlySoilTemperature extends FWSimComponent
         }
         hourlySoilT.setValue(t_hourlySoilT, this);
     }
-    public static Double [] getHourlySoilSurfaceTemperature(Double TMax, Double TMin, Double ady, Double b, Double c, Double a)
+    public static Double [] getHourlySoilSurfaceTemperature(Double TMax, Double TMin, Double ady, Double t_b, Double t_c, Double t_a)
     {
         Integer i;
         Double[] result = new Double[24];
@@ -114,19 +129,5 @@ public class CalculateHourlySoilTemperature extends FWSimComponent
     protected FWSimComponent clone(FWSimVarMap aVarMap)
     {
         return new CalculateHourlySoilTemperature(iName, iFieldMap, iInputMap, iSimComponentElement, aVarMap, iOrderNumber);
-    }
-
-    @Override
-    public HashMap<String, FWSimVariable<?>> createVariables()
-    {
-        addVariable(FWSimVariable.createSimVariable("c", "Nighttime temperature coefficient", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"", 0, 10, 0.49, this));
-        addVariable(FWSimVariable.createSimVariable("dayLength", "Length of the day", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"", 0, 24, 12, this));
-        addVariable(FWSimVariable.createSimVariable("maxTSoil", "Maximum Soil Temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"", -30, 80, 20, this));
-        addVariable(FWSimVariable.createSimVariable("b", "Delay between sunrise and time when minimum temperature is reached", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"", 0, 10, 1.81, this));
-        addVariable(FWSimVariable.createSimVariable("a", "Delay between sunset and time when maximum temperature is reached", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"", 0, 10, 0.5, this));
-        addVariable(FWSimVariable.createSimVariable("minTSoil", "Minimum Soil Temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"", -30, 80, 20, this));
-        addVariable(FWSimVariable.createSimVariable("hourlySoilT", "Hourly Soil Temperature", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"", -30, 80, null, this));
-
-        return iFieldMap;
     }
 }
