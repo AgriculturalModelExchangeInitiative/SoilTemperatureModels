@@ -353,8 +353,8 @@ namespace SiriusQualitySoilTemperature.Strategies
             double SnowWaterContent = 0.0;
             double SoilSurfaceTemperature = 0.0;
             int AgeOfSnow = 0;
-            Albedo = 0.0d;
-            Albedo = 0.0226d * Math.Log(cCarbonContent, 10) + 0.1502d;
+            Albedo = 0.00d;
+            Albedo = 0.02260d * Math.Log(cCarbonContent, 10) + 0.15020d;
             s.Albedo= Albedo;
             s.SnowWaterContent= SnowWaterContent;
             s.SoilSurfaceTemperature= SoilSurfaceTemperature;
@@ -388,28 +388,28 @@ namespace SiriusQualitySoilTemperature.Strategies
             double EAJ;
             double ageOfSnowFactor;
             double SNPKT;
-            tiCropResidues = iCropResidues * 10.0d;
+            tiCropResidues = iCropResidues * 10.00d;
             tiSoilTempArray = iSoilTempArray[0];
-            TMEAN = 0.5d * (iTempMax + iTempMin);
-            TAMPL = 0.5d * (iTempMax - iTempMin);
+            TMEAN = 0.50d * (iTempMax + iTempMin);
+            TAMPL = 0.50d * (iTempMax - iTempMin);
             DST = TMEAN + (TAMPL * (iRadiation * (1 - Albedo) - 14) / 20);
             if (iRAIN > (double)(0) && (tiSoilTempArray < (double)(1) || (SnowWaterContent > (double)(3) || SoilSurfaceTemperature < (double)(0))))
             {
                 SnowWaterContent = SnowWaterContent + iRAIN;
             }
-            tSnowIsolationIndex = 1.0d;
+            tSnowIsolationIndex = 1.00d;
             if (tiCropResidues < (double)(10))
             {
-                tSnowIsolationIndex = tiCropResidues / (tiCropResidues + Math.Exp(5.34d - (2.4d * tiCropResidues)));
+                tSnowIsolationIndex = tiCropResidues / (tiCropResidues + Math.Exp(5.340d - (2.40d * tiCropResidues)));
             }
-            if (SnowWaterContent < 1E-10d)
+            if (SnowWaterContent < 1E-10)
             {
-                tSnowIsolationIndex = tSnowIsolationIndex * 0.85d;
-                tSoilSurfaceTemperature = 0.5d * (DST + ((1 - tSnowIsolationIndex) * DST) + (tSnowIsolationIndex * tiSoilTempArray));
+                tSnowIsolationIndex = tSnowIsolationIndex * 0.850d;
+                tSoilSurfaceTemperature = 0.50d * (DST + ((1 - tSnowIsolationIndex) * DST) + (tSnowIsolationIndex * tiSoilTempArray));
             }
             else
             {
-                tSnowIsolationIndex = Math.Max(SnowWaterContent / (SnowWaterContent + Math.Exp(0.47d - (0.62d * SnowWaterContent))), tSnowIsolationIndex);
+                tSnowIsolationIndex = Math.Max(SnowWaterContent / (SnowWaterContent + Math.Exp(0.470d - (0.620d * SnowWaterContent))), tSnowIsolationIndex);
                 tSoilSurfaceTemperature = (1 - tSnowIsolationIndex) * DST + (tSnowIsolationIndex * tiSoilTempArray);
             }
             if (SnowWaterContent == (double)(0) && !(iRAIN > (double)(0) && tiSoilTempArray < (double)(1)))
@@ -418,17 +418,17 @@ namespace SiriusQualitySoilTemperature.Strategies
             }
             else
             {
-                EAJ = .5d;
+                EAJ = .50d;
                 if (SnowWaterContent < (double)(5))
                 {
-                    EAJ = Math.Exp(-Math.Max((0.4d * iLeafAreaIndex), (0.1d * (tiCropResidues + 0.1d))));
+                    EAJ = Math.Exp(-Math.Max((0.40d * iLeafAreaIndex), (0.10d * (tiCropResidues + 0.10d))));
                 }
                 SNOWEVAPORATION = iPotentialSoilEvaporation * EAJ;
-                ageOfSnowFactor = AgeOfSnow / (AgeOfSnow + Math.Exp(5.34d - (2.395d * AgeOfSnow)));
-                SNPKT = .3333d * (2 * Math.Min(tSoilSurfaceTemperature, tiSoilTempArray) + iTempMax);
+                ageOfSnowFactor = AgeOfSnow / (AgeOfSnow + Math.Exp(5.340d - (2.3950d * AgeOfSnow)));
+                SNPKT = .33330d * (2 * Math.Min(tSoilSurfaceTemperature, tiSoilTempArray) + iTempMax);
                 if (TMEAN > (double)(0))
                 {
-                    SNOWMELT = Math.Max(0, Math.Sqrt(iTempMax * iRadiation) * (1.52d + (.54d * ageOfSnowFactor * SNPKT)));
+                    SNOWMELT = Math.Max(0, Math.Sqrt(iTempMax * iRadiation) * (1.520d + (.540d * ageOfSnowFactor * SNPKT)));
                 }
                 else
                 {
