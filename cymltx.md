@@ -1,6 +1,6 @@
-**CyMLTx Requirements**
+# CyMLTx Requirements
 
-**Use case**
+## Use case
 
 A user provides an autonomous crop model component source code. This component can be defined by a set of simpler independent units (routines, functions, methods) called sequentially. Units can be tested independently of others. By using CyMLTx, the result of this component transformation is a Crop2ML model consisting of:
 
@@ -14,7 +14,7 @@ A user provides an autonomous crop model component source code. This component c
 
 The specification is generated in an XML format validated by the Crop2ML DTDs while Algorithms, Initialization, and Functions are generated in CyML language.
 
-**General Requirements:**
+## General Requirements:
 
 The source code should follow these guidelines (**in bold the high constraints**):
 
@@ -50,52 +50,28 @@ The source code should follow these guidelines (**in bold the high constraints**
 
 Table: 1. CyMLT annotations
 
-+------------------------------------+-----------------------------------------------------+
-| Annotations                        | Part of source code                                 |
-+====================================+=====================================================+
-| %%CyML Model Begin%%               | ModelUnit                                           |
-|                                    |                                                     |
-| %%CyML Model End%%                 |                                                     |
-+------------------------------------+-----------------------------------------------------+
-| %%CyML Initialization Begin%%      | Initialization                                      |
-|                                    |                                                     |
-| %%CyML Initialization End%%        |                                                     |
-+------------------------------------+-----------------------------------------------------+
-| %%CyML Rate Begin%%                | Rate (if separated from state)                      |
-|                                    |                                                     |
-| %%CyML Rate End%%                  |                                                     |
-+------------------------------------+-----------------------------------------------------+
-| %%CyML State Begin%%               | State (if separated from rate)                      |
-|                                    |                                                     |
-| %%CyML State End%%                 |                                                     |
-+------------------------------------+-----------------------------------------------------+
-| %%CyML Compute Begin%%             | Algorithm (including rate and/or state calculation) |
-|                                    |                                                     |
-| %%CyML Compute End%%               |                                                     |
-+------------------------------------+-----------------------------------------------------+
-| %%CyML Ignore Begin%%              | Ignored statements                                  |
-|                                    |                                                     |
-| %%CyML Ignore End%%                |                                                     |
-+------------------------------------+-----------------------------------------------------+
-| %%CyML Description Begin%%         | Meta-information                                    |
-|                                    |                                                     |
-| %%CyML Description End%%           |                                                     |
-+------------------------------------+-----------------------------------------------------+
-| %%CyML ModelComposition Begin%%    | ModelComposition                                    |
-|                                    |                                                     |
-| %%CyML ModelComposition End%%      |                                                     |
-+------------------------------------+-----------------------------------------------------+
 
-8- Pattern used for inputs and outputs meta-information:
+| Annotations                                   | Part of source code |
+| :--- | :--- |
+| %%CyML Model Begin%% <br> %%CyML Model End%%  | ModelUnit  |
+| %%CyML Initialization Begin%% <br> %%CyML Initialization End%% | Initialization    |
+| %%CyML Rate Begin%% <br> %%CyML Rate End%% | Rate (if separated from state) |
+| %%CyML State Begin%% <br> %%CyML State End%% | State (if separated from rate) |
+| %%CyML Compute Begin%% <br> %%CyML Compute End%%  | Algorithm (including rate and/or state calculation) |
+| %%CyML Ignore Begin%% <br> %%CyML  Ignore End%%  | Ignored statements  |
+| %%CyML Description Begin%%  <br> %%CyML Description End%% | Meta-information  |
+| %%CyML ModelComposition Begin%% <br> %%CyML ModelComposition End%% | ModelComposition   |
 
-Meta-information are included between "%%CyML Description Begin%%" and "%%CyML Description End%%" annotations.
+9. Pattern used for inputs and outputs meta-information:
+
+Meta-information are included between ```%%CyML Description Begin%%``` and ```%%CyML Description End%%``` annotations.
 
 Annotations and meta-information started with the symbol of a single comment statement of language.
 
 Name (item)? description (units) (default, \[mini, maxi\]) category type
 
-**Examples:**
-
+## Examples:
+```
 !%%CyML Description Begin%%
 
 ! ABD Average bulk density for soil profile (g \[soil\] / cm3 \[soil\])
@@ -107,40 +83,80 @@ Name (item)? description (units) (default, \[mini, maxi\]) category type
 !     plant-extractable water (cm) (, \[0.0 - 10000\]) exogenous variable
 
 !%%CyML Description End%%
+```
 
+```python
 #%%CyML Description Begin%%
 
-\# ABD(L)      Average bulk density for soil profile (g \[soil\] / cm3 \[soil\])
+# ABD(L)      Average bulk density for soil profile (g \[soil\] / cm3 \[soil\])
 
-\#            (10.5, \[0.5 - 100.0\])  state variable  
+#            (10.5, \[0.5 - 100.0\])  state variable  
 
 #%%CyML Description End%%
+```
 
 The complete pattern is:
 
-![][1]
+```python
+pattern = r'(?P<name>^[a-zA-Z][\w]+)'\
+            r'\(?'\
+            r'(?P<item>(\d+|[^  ,\(\)\[\]\s]*))?'\
+            r'\)?'\
+            r'\s+'\
+            r'(?P<description>.*\S)'\
+            r'\s+'\
+            r'\((?P<unit>[a-zA-Z].*)?\)'\
+            r'\s*'\
+            r'\('\
+            r'(?P<default>(\d+\.?\d*|[^  ,\(\)\[\]\s]*))?'\
+            r'\s*'\
+            r',?'\
+            r'\s*'\
+            r'\[?'\
+            r'\s*'\
+            r'(?P<mini>(\d+\.?\d*|[^  ,\(\)\[\]\s]*))?'\
+            r'\s*'\
+            r'-?'\
+            r'\s*'\
+            r'(?P<maxi>(\d+\.?\d*|[^  ,\(\)\[\]\s]*))?'\
+            r'\s*'\
+            r'\]?'\
+            r'\s*'\
+            r'\)'\
+            r'\s*'\
+            r'(?P<category>(state|rate|auxiliary|exogenous|soil|constant|genotypic))?'\
+            r'\s*'\
+            r'\s*'\
+            r'(?P<type>(variable|parameter))?'
+
+```
 
 Fig. 1: Pattern of meta-information
 
-**Fortran, DSSAT, and STICS requirements (+ the general requirements)**
+## Fortran, DSSAT, and STICS requirements (+ the general requirements)
 
-1\. Arguments
+### Arguments
 
-1.1 Use INTENT option: IN, OUT and INOUT
+* Use INTENT option: IN, OUT and INOUT
 
-1.2. Or put a comment next to arguments that represent inputs (!Input), and outputs (!output). If a subroutine argument can receive a value that is changed during computations its intent is INOUT, then for that case "InOut" will be put.
+* Or put a comment next to arguments that represent inputs (!Input), and outputs (!output). If a subroutine argument can receive a value that is changed during computations its intent is INOUT, then for that case "InOut" will be put.
 
-1.3. Variables without the "INTENT" keyword are considered local variables. Their values should not be saved and used for the next routine call.
+* Variables without the "INTENT" keyword are considered local variables. Their values should not be saved and used for the next routine call.
 
-2\. "SAVE" statement preserves the values of the local variables for the next invocation that breaks **Requirement 3**. To change that manually, this local variable should be defined as subroutine arguments.
+### SAVE Statement
 
-3\. Exhaustive use of the \"IMPLICIT NONE\" directive to detect bad variable usage
+* "SAVE" statement preserves the values of the local variables for the next invocation that breaks **Requirement 3**. To change that manually, this local variable should be defined as subroutine arguments.
 
-4\. Use "allocatable" arrays to mimic List type (array with variable size)
+### IMPLICIT NONE
+* Exhaustive use of the \"IMPLICIT NONE\" directive to detect bad variable usage
 
-5\. Fortran array indices start at 1 by default, rather than at 0 as in CyML. The user needs to keep this default rule rather than fix the start from 1. CyMLTx will manage this difference.
+### ALLOCATABLE ARRAYS
+* Use "allocatable" arrays to mimic List type (array with variable size)
 
-**Example: DSSAT-EPIC Soil Temperature component.**
+### Index start from 1
+* Fortran array indices start at 1 by default, rather than at 0 as in CyML. The user needs to keep this default rule rather than fix the start from 1. CyMLTx will manage this difference.
+
+## Example: DSSAT-EPIC Soil Temperature component.
 
 This component is provided with a CMakeLists file that indicates 5 files:
 
@@ -160,18 +176,18 @@ After analyzing the component, few changes are needed:
 
 NDays, TDL, WetDay, CUMPDT, and TMA are considered as local variables in the original code and are not defined as subroutine arguments. The code is expressive and limits the number of arguments since that SAVE statement is used and their values can be preserved. We define them as subroutine arguments since they are initialized in the Initialization part and their values are used in the computation part. As in Requirement 6, the computation part will take initialized variables as arguments. Likewise, in the rate calculation, the previous values of these variables are required, which allows considering them as arguments with INOUT INTENT. ST variable has INOUT intent.
 
-Regarding the called routine SOILT_EPIC, it uses a local variable X2_PREV which is used in an assignment without being assigned and which is then assigned with X2_AVG. So, for the first invocation of SOILT_EPIC, X2_PREV takes the default value 0.0 and it will assign X2_AVG. For the next invocation, the value of X2_PREV is the previous value of X2_AVG, which breaks Genereral Requirement 3. X2_PREV is defined explicitly as an argument to satisfy this requirement.
+Regarding the called routine SOILT_EPIC, it uses a local variable `X2_PREV` which is used in an assignment without being assigned and which is then assigned with `X2_AVG`. So, for the first invocation of `SOILT_EPIC`, `X2_PREV` takes the default value 0.0 and it will assign `X2_AVG`. For the next invocation, the value of `X2_PREV` is the previous value of `X2_AVG`, which breaks Genereral Requirement 3. `X2_PREV` is defined explicitly as an argument to satisfy this requirement.
 
-Complete the result with a unit test based on the ASKEE_DSSAT_EPIC file.
+Complete the result with a unit test based on the `ASKEE_DSSAT_EPIC` file.
 
-**Example STICS Soil Temperature component**
+## Example STICS Soil Temperature component
 
 This component contains the first format of the model description proposed. This format was kept for STICS components transformation.
 
 Some operations on arrays are changed to satisfy the general requirement 8
 
-**BioMA requirements**
+## BioMA requirements**
 
-**Simplace requirements**
+## Simplace requirements**
 
-  [1]: media/image1.emf
+
