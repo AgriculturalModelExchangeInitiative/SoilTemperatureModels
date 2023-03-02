@@ -4,10 +4,10 @@ import shutil
 def populate():
 
     cwd = Path.cwd()
-    src = cwd/'..'/'..'/'Models'
+    src = cwd/'..'/'..'/'..'/'Models'
     src = src.absolute()
 
-    dest = Path('src')/'openalea'
+    dest = Path('src')/'amei'
 
     # Check if the openalea package is not empty
     exclude = []
@@ -23,7 +23,7 @@ def populate():
             model = model_dir.name
             print('Found ', model)
             if model in exclude:
-                print(model ,' already exists in src/openalea. Skip it!')
+                print(model ,' already exists in src/amei. Skip it!')
             else:
                 print('Copy %s from %s'%(model, oa))
                 to_copy.append(model)
