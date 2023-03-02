@@ -32,9 +32,28 @@ public class CalculateSoilTemperature extends FWSimComponent
     public CalculateSoilTemperature(){
         super();
     }
+
+    @Override
+    public HashMap<String, FWSimVariable<?>> createVariables()
+    {
+        addVariable(FWSimVariable.createSimVariable("deepLayerT", "Temperature of the last soil layer", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"°C", -30, 80, 20, this));
+        addVariable(FWSimVariable.createSimVariable("lambda_", "Latente heat of water vaporization at 20°C", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"MJ.kg-1", 0, 10, 2.454, this));
+        addVariable(FWSimVariable.createSimVariable("heatFlux", "Soil Heat Flux from Energy Balance Component", DATA_TYPE.DOUBLE, CONTENT_TYPE.rate,"g m-2 d-1", 0, 100, 50, this));
+        addVariable(FWSimVariable.createSimVariable("meanTAir", "Mean Air Temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"°C", -30, 80, 22, this));
+        addVariable(FWSimVariable.createSimVariable("minTAir", "Minimum Air Temperature from Weather files", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"°C", -30, 80, 20, this));
+        addVariable(FWSimVariable.createSimVariable("deepLayerT_t1", "Temperature of the last soil layer", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"°C", -30, 80, 20, this));
+        addVariable(FWSimVariable.createSimVariable("maxTAir", "Maximum Air Temperature from Weather Files", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"°C", -30, 80, 25, this));
+        addVariable(FWSimVariable.createSimVariable("maxTSoil", "Maximum Soil Temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"°C", -30, 80, null, this));
+        addVariable(FWSimVariable.createSimVariable("minTSoil", "Minimum Soil Temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"°C", -30, 80, null, this));
+
+        return iFieldMap;
+    }
     @Override
     protected void process()
     {
+        SoilMinimumTemperature zz_SoilMinimumTemperature;
+        SoilMaximumTemperature zz_SoilMaximumTemperature;
+        UpdateTemperature zz_UpdateTemperature;
         Double t_deepLayerT = deepLayerT.getValue();
         Double t_lambda_ = lambda_.getValue();
         Double t_heatFlux = heatFlux.getValue();
@@ -64,7 +83,7 @@ public class CalculateSoilTemperature extends FWSimComponent
     {
         return (weatherMinTemp + deepTemperature) / 2.0d;
     }
-    public static Double SoilTempA(Double weatherMaxTemp, Double weatherMeanTemp, Double soilHeatFlux, Double lambda_)
+    public static Double SoilTempA(Double weatherMaxTemp, Double weatherMeanTemp, Double soilHeatFlux, Double t_lambda_)
     {
         Double TempAdjustment;
         Double SoilAvailableEnergy;
@@ -72,11 +91,11 @@ public class CalculateSoilTemperature extends FWSimComponent
         SoilAvailableEnergy = soilHeatFlux * t_lambda_ / 1000;
         return weatherMaxTemp + (11.2d * (1.0d - Math.exp(-0.07d * (SoilAvailableEnergy - 5.5d)))) + TempAdjustment;
     }
-    public static Double SoilMinimumTemperature(Double weatherMaxTemp, Double weatherMeanTemp, Double weatherMinTemp, Double soilHeatFlux, Double lambda_, Double deepTemperature)
+    public static Double SoilMinimumTemperature(Double weatherMaxTemp, Double weatherMeanTemp, Double weatherMinTemp, Double soilHeatFlux, Double t_lambda_, Double deepTemperature)
     {
         return Math.min(SoilTempA(weatherMaxTemp, weatherMeanTemp, soilHeatFlux, t_lambda_), SoilTempB(weatherMinTemp, deepTemperature));
     }
-    public static Double SoilMaximumTemperature(Double weatherMaxTemp, Double weatherMeanTemp, Double weatherMinTemp, Double soilHeatFlux, Double lambda_, Double deepTemperature)
+    public static Double SoilMaximumTemperature(Double weatherMaxTemp, Double weatherMeanTemp, Double weatherMinTemp, Double soilHeatFlux, Double t_lambda_, Double deepTemperature)
     {
         return Math.max(SoilTempA(weatherMaxTemp, weatherMeanTemp, soilHeatFlux, t_lambda_), SoilTempB(weatherMinTemp, deepTemperature));
     }
@@ -101,21 +120,5 @@ public class CalculateSoilTemperature extends FWSimComponent
     protected FWSimComponent clone(FWSimVarMap aVarMap)
     {
         return new CalculateSoilTemperature(iName, iFieldMap, iInputMap, iSimComponentElement, aVarMap, iOrderNumber);
-    }
-
-    @Override
-    public HashMap<String, FWSimVariable<?>> createVariables()
-    {
-        addVariable(FWSimVariable.createSimVariable("deepLayerT", "Temperature of the last soil layer", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"", -30, 80, 20, this));
-        addVariable(FWSimVariable.createSimVariable("lambda_", "Latente heat of water vaporization at 20°C", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"", 0, 10, 2.454, this));
-        addVariable(FWSimVariable.createSimVariable("heatFlux", "Soil Heat Flux from Energy Balance Component", DATA_TYPE.DOUBLE, CONTENT_TYPE.rate,"", 0, 100, 50, this));
-        addVariable(FWSimVariable.createSimVariable("meanTAir", "Mean Air Temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"", -30, 80, 22, this));
-        addVariable(FWSimVariable.createSimVariable("minTAir", "Minimum Air Temperature from Weather files", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"", -30, 80, 20, this));
-        addVariable(FWSimVariable.createSimVariable("deepLayerT_t1", "Temperature of the last soil layer", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"", -30, 80, 20, this));
-        addVariable(FWSimVariable.createSimVariable("maxTAir", "Maximum Air Temperature from Weather Files", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"", -30, 80, 25, this));
-        addVariable(FWSimVariable.createSimVariable("maxTSoil", "Maximum Soil Temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"", -30, 80, null, this));
-        addVariable(FWSimVariable.createSimVariable("minTSoil", "Minimum Soil Temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"", -30, 80, null, this));
-
-        return iFieldMap;
     }
 }

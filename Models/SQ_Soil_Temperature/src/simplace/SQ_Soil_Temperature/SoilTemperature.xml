@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//SIMPLACE/DTD GRP 1.0//EN" "http://simplace.net/dtd/GroupComponent.dtd">
+<configuration class="net.simplace.sim.components.SQ_Soil_Temperature.SoilTemperature">
+    <simgroup>
+        <simcomponent id="CalculateSoilTemperature" class="net.simplace.sim.components.SQ_Soil_Temperature.CalculateSoilTemperature">
+            <input id="deepLayerT" source="SoilTemperature.deepLayerT"/>
+            <input id="lambda_" source="SoilTemperature.lambda_"/>
+            <input id="heatFlux" source="SoilTemperature.heatFlux"/>
+            <input id="meanTAir" source="SoilTemperature.meanTAir"/>
+            <input id="minTAir" source="SoilTemperature.minTAir"/>
+            <input id="maxTAir" source="SoilTemperature.maxTAir"/>
+            <output id="deepLayerT_t1" destination="SoilTemperature.deepLayerT_t1"/>
+            <output id="maxTSoil" destination="SoilTemperature.maxTSoil"/>
+            <output id="minTSoil" destination="SoilTemperature.minTSoil"/></simcomponent>
+        <simcomponent id="CalculateHourlySoilTemperature" class="net.simplace.sim.components.SQ_Soil_Temperature.CalculateHourlySoilTemperature">
+            <input id="a" source="SoilTemperature.a"/>
+            <input id="b" source="SoilTemperature.b"/>
+            <input id="c" source="SoilTemperature.c"/>
+            <input id="dayLength" source="SoilTemperature.dayLength"/>
+            <input id="maxTSoil" source="CalculateSoilTemperature.maxTSoil"/>
+            <input id="minTSoil" source="CalculateSoilTemperature.minTSoil"/>
+            <output id="hourlySoilT" destination="SoilTemperature.hourlySoilT"/></simcomponent></simgroup></configuration>
