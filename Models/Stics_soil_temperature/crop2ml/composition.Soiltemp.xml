@@ -13,13 +13,13 @@
         <Model name="therm_amp" id="Stics.soiltemperature.therm_amp" filename="unit.therm_amp.xml"/>
         <Model name="temp_profile" id="Stics.soiltemperature.temp_profile" filename="unit.temp_profile.xml"/>
         <Links>
-            <InputLink target="temp_amp.min_temp" source="min_temp"/>
             <InputLink target="temp_amp.max_temp" source="max_temp"/>
-            <InputLink target="therm_amp.temp_wave_freq" source="temp_wave_freq"/>
+            <InputLink target="temp_amp.min_temp" source="min_temp"/>
             <InputLink target="therm_amp.therm_diff" source="therm_diff"/>
+            <InputLink target="therm_amp.temp_wave_freq" source="temp_wave_freq"/>
             <InputLink target="temp_profile.prev_temp_profile" source="prev_temp_profile"/>
-            <InputLink target="temp_profile.min_air_temp" source="min_air_temp"/>
             <InputLink target="temp_profile.prev_canopy_temp" source="prev_canopy_temp"/>
+            <InputLink target="temp_profile.min_air_temp" source="min_air_temp"/>
             <InternalLink target="temp_profile.temp_amp" source="temp_amp.temp_amp"/>
             <InternalLink target="temp_profile.therm_amp" source="therm_amp.therm_amp"/>
             <OutputLink target="temp_amp" source="temp_amp.temp_amp"/>
