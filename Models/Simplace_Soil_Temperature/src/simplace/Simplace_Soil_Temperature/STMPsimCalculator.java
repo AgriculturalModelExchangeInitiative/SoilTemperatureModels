@@ -58,8 +58,8 @@ public class STMPsimCalculator extends FWSimComponent
         Double t_cDampingDepth = cDampingDepth.getValue();
         Double t_iSoilWaterContent = iSoilWaterContent.getValue();
         Double t_iSoilSurfaceTemperature = iSoilSurfaceTemperature.getValue();
-        Double [] t_SoilTempArray = SoilTempArray.getDefault();
-        Double [] t_pSoilLayerDepth = pSoilLayerDepth.getDefault();
+        Double [] t_SoilTempArray = new Double[ = SoilTempArray.getValue();];
+        Double [] t_pSoilLayerDepth = new Double[ = pSoilLayerDepth.getValue();];
         Double tProfileDepth;
         Double additionalDepth;
         Double firstAdditionalLayerHight;
