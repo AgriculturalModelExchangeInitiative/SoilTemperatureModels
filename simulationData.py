@@ -17,7 +17,7 @@ def simulationdata(rep_sens_analysis_file, rep_weather_folder, code_var_column_n
     
     """
     Parameters:
-            rep_sens_analysis_file (str: xml file) : Path of Soil temperature sensitivity analysis file where simulations are described
+            rep_sens_analysis_file (str: excel file) : Path of Soil temperature sensitivity analysis file where simulations are described
             rep_weather (str): Path of weather data folder (contains files .WTH)
             code_var_column_name (str): name of the column specifying model variables
             
