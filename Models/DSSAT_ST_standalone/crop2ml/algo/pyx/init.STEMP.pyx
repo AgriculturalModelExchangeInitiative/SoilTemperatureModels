@@ -2,7 +2,7 @@ cdef int I , L
 cdef float ABD , ALBEDO , B 
 cdef float DP , FX , HDAY , PESW 
 cdef float TBD , WW 
-cdef float TDL , TLL , TSW 
+cdef float TLL , TSW 
 cdef float DLI[NL], DSI[NL], SWI[NL]
 SWI=SW
 DSI=DS

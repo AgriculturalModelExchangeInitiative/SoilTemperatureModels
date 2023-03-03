@@ -2,7 +2,7 @@ cdef int I , L
 cdef float ABD , B 
 cdef float DP , FX , PESW 
 cdef float TBD , WW 
-cdef float TDL , TLL , TSW 
+cdef float TLL , TSW 
 cdef float X2_AVG 
 cdef float WFT , BCV 
 cdef float CV , BCV1 , BCV2 

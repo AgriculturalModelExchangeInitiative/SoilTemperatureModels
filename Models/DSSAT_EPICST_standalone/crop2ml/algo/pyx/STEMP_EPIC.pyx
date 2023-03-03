@@ -3,14 +3,13 @@ cdef int NWetDays
 cdef float ABD , B 
 cdef float DP , FX , PESW 
 cdef float TBD , WW 
-cdef float TDL , TLL , TSW 
+cdef float TLL , TSW 
 cdef float X2_AVG 
 cdef float WFT , BCV 
 cdef float CV , BCV1 , BCV2 
 TBD=0.0
 TLL=0.0
 TSW=0.0
-TDL=0.0
 for L in range(1 , NLAYR + 1 , 1):
     TBD=TBD + (BD[(L - 1)] * DLAYR[(L - 1)])
     TDL=TDL + (DUL[(L - 1)] * DLAYR[(L - 1)])
