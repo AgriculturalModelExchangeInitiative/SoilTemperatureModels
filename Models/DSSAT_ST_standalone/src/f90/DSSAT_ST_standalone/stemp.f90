@@ -19,6 +19,7 @@ CONTAINS
         XLAT, &
         TAV, &
         TAMP, &
+        TDL, &
         DOY, &
         CUMDPT, &
         DSMID, &
@@ -44,6 +45,7 @@ CONTAINS
         REAL, INTENT(IN) :: XLAT
         REAL, INTENT(IN) :: TAV
         REAL, INTENT(IN) :: TAMP
+        REAL, INTENT(IN) :: TDL
         INTEGER, INTENT(IN) :: DOY
         REAL, INTENT(OUT) :: CUMDPT
         REAL , DIMENSION(NL ), INTENT(OUT) :: DSMID
@@ -62,7 +64,6 @@ CONTAINS
         REAL:: PESW
         REAL:: TBD
         REAL:: WW
-        REAL:: TDL
         REAL:: TLL
         REAL:: TSW
         REAL , DIMENSION(NL ):: DLI
@@ -141,6 +142,7 @@ CONTAINS
         TAMP, &
         CUMDPT, &
         DSMID, &
+        TDL, &
         TMA, &
         ATOT, &
         SRFTEMP, &
@@ -166,6 +168,7 @@ CONTAINS
         REAL, INTENT(IN) :: TAMP
         REAL, INTENT(INOUT) :: CUMDPT
         REAL , DIMENSION(NL ), INTENT(INOUT) :: DSMID
+        REAL, INTENT(INOUT) :: TDL
         REAL , DIMENSION(NL ), INTENT(INOUT) :: TMA
         REAL, INTENT(INOUT) :: ATOT
         REAL, INTENT(INOUT) :: SRFTEMP
@@ -182,7 +185,6 @@ CONTAINS
         REAL:: PESW
         REAL:: TBD
         REAL:: WW
-        REAL:: TDL
         REAL:: TLL
         REAL:: TSW
         !- Name: STEMP -Version:  1.0, -Time step:  1
@@ -363,6 +365,15 @@ CONTAINS
     !                          ** min : 
     !                          ** default : 
     !                          ** unit : cm
+    !            * name: TDL
+    !                          ** description : Total water content of soil at drained upper limit
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : soil
+    !                          ** datatype : DOUBLE
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 
+    !                          ** unit : cm
     !            * name: TMA
     !                          ** description : Array of previous 5 days of average soil temperatures
     !                          ** inputtype : variable
@@ -426,6 +437,13 @@ CONTAINS
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : cm
+    !            * name: TDL
+    !                          ** description : Total water content of soil at drained upper limit
+    !                          ** datatype : DOUBLE
+    !                          ** variablecategory : soil
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** unit : cm
     !            * name: TMA
     !                          ** description : Array of previous 5 days of average soil temperatures
     !                          ** datatype : DOUBLEARRAY
@@ -459,7 +477,6 @@ CONTAINS
         TBD = 0.0
         TLL = 0.0
         TSW = 0.0
-        TDL = 0.0
         DO L = 1 , NLAYR + 1-1, 1
             TBD = TBD + (BD((L - 1)+1) * DLAYR((L - 1)+1))
             TDL = TDL + (DUL((L - 1)+1) * DLAYR((L - 1)+1))
