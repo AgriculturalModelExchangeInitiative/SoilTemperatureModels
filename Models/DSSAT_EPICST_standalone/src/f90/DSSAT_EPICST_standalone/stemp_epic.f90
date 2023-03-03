@@ -24,6 +24,7 @@ CONTAINS
         SNOW, &
         CUMDPT, &
         DSMID, &
+        TDL, &
         TMA, &
         NDays, &
         WetDay, &
@@ -53,6 +54,7 @@ CONTAINS
         REAL, INTENT(IN) :: SNOW
         REAL, INTENT(OUT) :: CUMDPT
         REAL , DIMENSION(NL ), INTENT(OUT) :: DSMID
+        REAL, INTENT(OUT) :: TDL
         REAL , DIMENSION(5 ), INTENT(OUT) :: TMA
         INTEGER, INTENT(OUT) :: NDays
         INTEGER , DIMENSION(30 ), INTENT(OUT) :: WetDay
@@ -68,7 +70,6 @@ CONTAINS
         REAL:: PESW
         REAL:: TBD
         REAL:: WW
-        REAL:: TDL
         REAL:: TLL
         REAL:: TSW
         REAL:: X2_AVG
@@ -80,6 +81,7 @@ CONTAINS
         REAL , DIMENSION(NL ):: SWI
         CUMDPT = 0.0
         DSMID = 0.0
+        TDL = 0.0
         TMA = 0.0
         NDays = 0
         WetDay = 0
@@ -126,7 +128,7 @@ CONTAINS
         BCV = MAX(BCV1, BCV2)
         DO I = 1 , 8 + 1-1, 1
             call SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV,  &
-                    TAVG, TMAX, TMIN, 0, WFT, WW,TMA,SRFTEMP,ST,X2_AVG,X2_PREV)
+                    TAVG, TMAX, TMIN, 0, WFT, WW, X2_PREV,TMA,SRFTEMP,ST,X2_AVG)
         END DO
     END SUBROUTINE init_stemp_epic
 
@@ -147,6 +149,7 @@ CONTAINS
         TAV, &
         CUMDPT, &
         DSMID, &
+        TDL, &
         TMA, &
         NDays, &
         WetDay, &
@@ -176,6 +179,7 @@ CONTAINS
         REAL, INTENT(IN) :: TAV
         REAL, INTENT(INOUT) :: CUMDPT
         REAL , DIMENSION(NL ), INTENT(INOUT) :: DSMID
+        REAL, INTENT(INOUT) :: TDL
         REAL , DIMENSION(5 ), INTENT(INOUT) :: TMA
         INTEGER, INTENT(INOUT) :: NDays
         INTEGER , DIMENSION(30 ), INTENT(INOUT) :: WetDay
@@ -196,7 +200,6 @@ CONTAINS
         REAL:: PESW
         REAL:: TBD
         REAL:: WW
-        REAL:: TDL
         REAL:: TLL
         REAL:: TSW
         REAL:: X2_AVG
@@ -374,6 +377,15 @@ CONTAINS
     !                          ** min : 
     !                          ** default : 
     !                          ** unit : cm
+    !            * name: TDL
+    !                          ** description : Total water content of soil at drained upper limit
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : DOUBLE
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 
+    !                          ** unit : cm
     !            * name: TMA
     !                          ** description : Array of previous 5 days of average soil temperatures.
     !                          ** inputtype : variable
@@ -483,6 +495,13 @@ CONTAINS
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : cm
+    !            * name: TDL
+    !                          ** description : Total water content of soil at drained upper limit
+    !                          ** datatype : DOUBLE
+    !                          ** variablecategory : state
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** unit : cm
     !            * name: TMA
     !                          ** description : Array of previous 5 days of average soil temperatures.
     !                          ** datatype : DOUBLEARRAY
@@ -531,7 +550,6 @@ CONTAINS
         TBD = 0.0
         TLL = 0.0
         TSW = 0.0
-        TDL = 0.0
         DO L = 1 , NLAYR + 1-1, 1
             TBD = TBD + (BD((L - 1)+1) * DLAYR((L - 1)+1))
             TDL = TDL + (DUL((L - 1)+1) * DLAYR((L - 1)+1))
@@ -567,8 +585,8 @@ CONTAINS
         BCV2 = SNOW / (SNOW + EXP(2.303 - (0.2197 * SNOW)))
         BCV = MAX(BCV1, BCV2)
         call SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV,  &
-                TAVG, TMAX, TMIN, WetDay(NDays - 1+1), WFT,  &
-                WW,TMA,SRFTEMP,ST,X2_AVG,X2_PREV)
+                TAVG, TMAX, TMIN, WetDay(NDays - 1+1), WFT, WW,  &
+                X2_PREV,TMA,SRFTEMP,ST,X2_AVG)
     END SUBROUTINE model_stemp_epic
 
     SUBROUTINE SOILT_EPIC(NL, &
@@ -586,11 +604,11 @@ CONTAINS
         WetDay, &
         WFT, &
         WW, &
+        X2_PREV, &
         TMA, &
         SRFTEMP, &
         ST, &
-        X2_AVG, &
-        X2_PREV)
+        X2_AVG)
         IMPLICIT NONE
         INTEGER:: i_cyml_r
         INTEGER, INTENT(IN) :: NL
@@ -608,6 +626,7 @@ CONTAINS
         INTEGER, INTENT(IN) :: WetDay
         REAL, INTENT(IN) :: WFT
         REAL, INTENT(IN) :: WW
+        REAL, INTENT(INOUT) :: X2_PREV
         INTEGER:: K
         INTEGER:: L
         REAL:: DD
@@ -622,7 +641,6 @@ CONTAINS
         REAL:: X3
         REAL:: F
         REAL, INTENT(OUT) :: X2_AVG
-        REAL, INTENT(OUT) :: X2_PREV
         REAL:: LAG
         LAG = 0.5
         WC = MAX(0.01, PESW) / (WW * CUMDPT) * 10.0

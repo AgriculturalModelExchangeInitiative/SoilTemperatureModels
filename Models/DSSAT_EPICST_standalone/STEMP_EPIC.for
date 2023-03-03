@@ -45,6 +45,7 @@ C=======================================================================
      &    WEATHER,       !Input
      &    CUMDPT,        !InOut
      &    DSMID,         !InOut
+     &    TDL,           !InOut
      &    TMA,           !InOut
      &    NDays,         !InOut
      &    WetDay,        !InOut
@@ -253,7 +254,6 @@ C-----------------------------------------------------------------------
       TBD = 0.0
       TLL = 0.0
       TSW = 0.0
-      TDL = 0.0
       DO L = 1, NLAYR
         TBD = TBD + BD(L) * DLAYR(L) 
         TDL = TDL + DUL(L)* DLAYR(L)
@@ -351,7 +351,9 @@ C=======================================================================
       SUBROUTINE SOILT_EPIC (
      &    B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV,    !Input
      &    TAVG, TMAX, TMIN, WetDay, WFT, WW,              !Input
-     &    TMA, SRFTEMP, ST, X2_AVG, X2_PREV)              !Output
+     &    TMA, SRFTEMP, ST, X2_AVG,                       !Output
+     &    X2_PREV)                                        !InOut
+
       
 !     ------------------------------------------------------------------
       USE ModuleDefs

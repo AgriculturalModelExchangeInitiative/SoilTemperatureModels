@@ -3,14 +3,13 @@ cdef int NWetDays
 cdef float ABD , B 
 cdef float DP , FX , PESW 
 cdef float TBD , WW 
-cdef float TDL , TLL , TSW 
+cdef float TLL , TSW 
 cdef float X2_AVG 
 cdef float WFT , BCV 
 cdef float CV , BCV1 , BCV2 
 TBD=0.0
 TLL=0.0
 TSW=0.0
-TDL=0.0
 for L in range(1 , NLAYR + 1 , 1):
     TBD=TBD + (BD[(L - 1)] * DLAYR[(L - 1)])
     TDL=TDL + (DUL[(L - 1)] * DLAYR[(L - 1)])
@@ -50,4 +49,4 @@ CV=(BIOMAS + MULCHMASS) / 1000.
 BCV1=CV / (CV + exp(5.3396 - (2.3951 * CV)))
 BCV2=SNOW / (SNOW + exp(2.303 - (0.2197 * SNOW)))
 BCV=max(BCV1, BCV2)
-(TMA, SRFTEMP, ST, X2_AVG, X2_PREV)=SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, WetDay[NDays - 1], WFT, WW)
+(TMA, SRFTEMP, ST, X2_AVG, X2_PREV)=SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, WetDay[NDays - 1], WFT, WW, X2_PREV)

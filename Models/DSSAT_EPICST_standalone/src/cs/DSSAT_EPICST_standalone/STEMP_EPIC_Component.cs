@@ -18,6 +18,28 @@ public class STEMP_EPIC_Component
             _STEMP_EPIC.DLAYR = value;
         }
     }
+    public string ISWWAT
+    {
+        get
+        {
+             return _STEMP_EPIC.ISWWAT; 
+        }
+        set
+        {
+            _STEMP_EPIC.ISWWAT = value;
+        }
+    }
+    public int NL
+    {
+        get
+        {
+             return _STEMP_EPIC.NL; 
+        }
+        set
+        {
+            _STEMP_EPIC.NL = value;
+        }
+    }
     public double[] SW
     {
         get
@@ -40,15 +62,15 @@ public class STEMP_EPIC_Component
             _STEMP_EPIC.BD = value;
         }
     }
-    public string ISWWAT
+    public int NLAYR
     {
         get
         {
-             return _STEMP_EPIC.ISWWAT; 
+             return _STEMP_EPIC.NLAYR; 
         }
         set
         {
-            _STEMP_EPIC.ISWWAT = value;
+            _STEMP_EPIC.NLAYR = value;
         }
     }
     public double[] DS
@@ -84,28 +106,6 @@ public class STEMP_EPIC_Component
             _STEMP_EPIC.LL = value;
         }
     }
-    public int NL
-    {
-        get
-        {
-             return _STEMP_EPIC.NL; 
-        }
-        set
-        {
-            _STEMP_EPIC.NL = value;
-        }
-    }
-    public int NLAYR
-    {
-        get
-        {
-             return _STEMP_EPIC.NLAYR; 
-        }
-        set
-        {
-            _STEMP_EPIC.NLAYR = value;
-        }
-    }
 
     public void  CalculateModel(STEMP_EPIC_State s, STEMP_EPIC_State s1, STEMP_EPIC_Rate r, STEMP_EPIC_Auxiliary a, STEMP_EPIC_Exogenous ex)
     {
@@ -119,6 +119,8 @@ public class STEMP_EPIC_Component
             for (int i = 0; i < 100; i++)
             { _DLAYR[i] = toCopy._DLAYR[i]; }
     
+        ISWWAT = toCopy.ISWWAT;
+        NL = toCopy.NL;
         
             for (int i = 0; i < 100; i++)
             { _SW[i] = toCopy._SW[i]; }
@@ -127,7 +129,7 @@ public class STEMP_EPIC_Component
             for (int i = 0; i < 100; i++)
             { _BD[i] = toCopy._BD[i]; }
     
-        ISWWAT = toCopy.ISWWAT;
+        NLAYR = toCopy.NLAYR;
         
             for (int i = 0; i < 100; i++)
             { _DS[i] = toCopy._DS[i]; }
@@ -140,7 +142,5 @@ public class STEMP_EPIC_Component
             for (int i = 0; i < 100; i++)
             { _LL[i] = toCopy._LL[i]; }
     
-        NL = toCopy.NL;
-        NLAYR = toCopy.NLAYR;
     }
 }

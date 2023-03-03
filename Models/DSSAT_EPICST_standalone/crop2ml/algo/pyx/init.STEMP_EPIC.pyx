@@ -2,7 +2,7 @@ cdef int I , L
 cdef float ABD , B 
 cdef float DP , FX , PESW 
 cdef float TBD , WW 
-cdef float TDL , TLL , TSW 
+cdef float TLL , TSW 
 cdef float X2_AVG 
 cdef float WFT , BCV 
 cdef float CV , BCV1 , BCV2 
@@ -52,4 +52,4 @@ BCV1=CV / (CV + exp(5.3396 - (2.3951 * CV)))
 BCV2=SNOW / (SNOW + exp(2.303 - (0.2197 * SNOW)))
 BCV=max(BCV1, BCV2)
 for I in range(1 , 8 + 1 , 1):
-    (TMA, SRFTEMP, ST, X2_AVG, X2_PREV)=SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, 0, WFT, WW)
+    (TMA, SRFTEMP, ST, X2_AVG, X2_PREV)=SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, 0, WFT, WW, X2_PREV)

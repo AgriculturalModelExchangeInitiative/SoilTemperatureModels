@@ -21,30 +21,30 @@ class STEMP_EPIC_Wrapper
     }
 
         double[] DLAYR =  new double [100];
+    string ISWWAT;
+    int NL;
     double[] SW =  new double [100];
     double[] BD =  new double [100];
-    string ISWWAT;
+    int NLAYR;
     double[] DS =  new double [100];
     double[] DUL =  new double [100];
     double[] LL =  new double [100];
-    int NL;
-    int NLAYR;
 
-    public int NDays{ get { return s.NDays;}} 
+    public double[] TMA{ get { return s.TMA;}} 
      
     public double CUMDPT{ get { return s.CUMDPT;}} 
      
-    public double SRFTEMP{ get { return s.SRFTEMP;}} 
-     
-    public int[] WetDay{ get { return s.WetDay;}} 
-     
-    public double X2_PREV{ get { return s.X2_PREV;}} 
-     
-    public double[] TMA{ get { return s.TMA;}} 
+    public double[] ST{ get { return s.ST;}} 
      
     public double[] DSMID{ get { return s.DSMID;}} 
      
-    public double[] ST{ get { return s.ST;}} 
+    public double SRFTEMP{ get { return s.SRFTEMP;}} 
+     
+    public int NDays{ get { return s.NDays;}} 
+     
+    public double X2_PREV{ get { return s.X2_PREV;}} 
+     
+    public int[] WetDay{ get { return s.WetDay;}} 
      
 
     public STEMP_EPIC_Wrapper(STEMP_EPIC_Wrapper toCopy, bool copyAll) : this()
@@ -67,28 +67,28 @@ class STEMP_EPIC_Wrapper
     private void loadParameters()
     {
         stemp_epic_Component.DLAYR = DLAYR;
+        stemp_epic_Component.ISWWAT = ISWWAT;
+        stemp_epic_Component.NL = NL;
         stemp_epic_Component.SW = SW;
         stemp_epic_Component.BD = BD;
-        stemp_epic_Component.ISWWAT = ISWWAT;
+        stemp_epic_Component.NLAYR = NLAYR;
         stemp_epic_Component.DS = DS;
         stemp_epic_Component.DUL = DUL;
         stemp_epic_Component.LL = LL;
-        stemp_epic_Component.NL = NL;
-        stemp_epic_Component.NLAYR = NLAYR;
     }
 
-    public void EstimateSTEMP_EPIC_(double RAIN, double TAV, double TAVG, double MULCHMASS, double DEPIR, double SNOW, double TMAX, double BIOMAS, double TAMP, double TMIN)
+    public void EstimateSTEMP_EPIC_(double SNOW, double TAMP, double DEPIR, double TMIN, double MULCHMASS, double TAVG, double TAV, double TMAX, double BIOMAS, double RAIN)
     {
-        a.RAIN = RAIN;
-        a.TAV = TAV;
-        a.TAVG = TAVG;
-        a.MULCHMASS = MULCHMASS;
-        a.DEPIR = DEPIR;
         a.SNOW = SNOW;
+        a.TAMP = TAMP;
+        a.DEPIR = DEPIR;
+        a.TMIN = TMIN;
+        a.MULCHMASS = MULCHMASS;
+        a.TAVG = TAVG;
+        a.TAV = TAV;
         a.TMAX = TMAX;
         a.BIOMAS = BIOMAS;
-        a.TAMP = TAMP;
-        a.TMIN = TMIN;
+        a.RAIN = RAIN;
         stemp_epic_Component.CalculateModel(s,s1, r, a, ex);
     }
 

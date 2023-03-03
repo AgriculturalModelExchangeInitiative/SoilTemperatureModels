@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Crop2ML_STEMP_EPIC_.DomainClass;
-using Crop2ML_STEMP_EPIC_.Strategies;
+using SQCrop2ML_STEMP_EPIC_.DomainClass;
+using SQCrop2ML_STEMP_EPIC_.Strategies;
 
-namespace Model.Model.STEMP_EPIC_
+namespace SiriusModel.Model.STEMP_EPIC_
 {
     class STEMP_EPIC_Wrapper :  UniverseLink
     {

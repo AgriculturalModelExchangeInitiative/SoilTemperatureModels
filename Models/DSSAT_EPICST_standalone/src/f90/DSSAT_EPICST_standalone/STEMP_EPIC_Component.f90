@@ -3,62 +3,64 @@ MODULE Stemp_epic_mod
     IMPLICIT NONE
 CONTAINS
 
-    SUBROUTINE model_stemp_epic_(RAIN, &
-        TAV, &
-        NDays, &
-        CUMDPT, &
-        SRFTEMP, &
-        DLAYR, &
-        SW, &
-        WetDay, &
-        X2_PREV, &
-        BD, &
-        ISWWAT, &
+    SUBROUTINE model_stemp_epic_(DUL, &
         TAVG, &
-        MULCHMASS, &
-        DS, &
-        DEPIR, &
-        TMA, &
-        DSMID, &
-        SNOW, &
         ST, &
+        TAV, &
         TMAX, &
+        TMA, &
+        SRFTEMP, &
+        ISWWAT, &
         BIOMAS, &
-        DUL, &
-        TAMP, &
-        LL, &
-        NL, &
+        SNOW, &
         TMIN, &
-        NLAYR)
+        LL, &
+        DS, &
+        SW, &
+        NDays, &
+        DEPIR, &
+        DSMID, &
+        CUMDPT, &
+        X2_PREV, &
+        TAMP, &
+        MULCHMASS, &
+        BD, &
+        RAIN, &
+        NLAYR, &
+        TDL, &
+        WetDay, &
+        NL, &
+        DLAYR)
         IMPLICIT NONE
         INTEGER:: i_cyml_r
-        REAL, INTENT(IN) :: RAIN
-        REAL, INTENT(IN) :: TAV
-        INTEGER, INTENT(INOUT) :: NDays
-        REAL, INTENT(INOUT) :: CUMDPT
-        REAL, INTENT(INOUT) :: SRFTEMP
-        REAL , DIMENSION(NL ), INTENT(IN) :: DLAYR
-        REAL , DIMENSION(NL ), INTENT(IN) :: SW
-        INTEGER , DIMENSION(30 ), INTENT(INOUT) :: WetDay
-        REAL, INTENT(INOUT) :: X2_PREV
-        REAL , DIMENSION(NL ), INTENT(IN) :: BD
-        CHARACTER(65), INTENT(IN) :: ISWWAT
-        REAL, INTENT(IN) :: TAVG
-        REAL, INTENT(IN) :: MULCHMASS
-        REAL , DIMENSION(NL ), INTENT(IN) :: DS
-        REAL, INTENT(IN) :: DEPIR
-        REAL , DIMENSION(5 ), INTENT(INOUT) :: TMA
-        REAL , DIMENSION(NL ), INTENT(INOUT) :: DSMID
-        REAL, INTENT(IN) :: SNOW
-        REAL , DIMENSION(NL ), INTENT(INOUT) :: ST
-        REAL, INTENT(IN) :: TMAX
-        REAL, INTENT(IN) :: BIOMAS
         REAL , DIMENSION(NL ), INTENT(IN) :: DUL
-        REAL, INTENT(IN) :: TAMP
-        REAL , DIMENSION(NL ), INTENT(IN) :: LL
-        INTEGER, INTENT(IN) :: NL
+        REAL, INTENT(IN) :: TAVG
+        REAL , DIMENSION(NL ), INTENT(INOUT) :: ST
+        REAL, INTENT(IN) :: TAV
+        REAL, INTENT(IN) :: TMAX
+        REAL , DIMENSION(5 ), INTENT(INOUT) :: TMA
+        REAL, INTENT(INOUT) :: SRFTEMP
+        CHARACTER(65), INTENT(IN) :: ISWWAT
+        REAL, INTENT(IN) :: BIOMAS
+        REAL, INTENT(IN) :: SNOW
         REAL, INTENT(IN) :: TMIN
+        REAL , DIMENSION(NL ), INTENT(IN) :: LL
+        REAL , DIMENSION(NL ), INTENT(IN) :: DS
+        REAL , DIMENSION(NL ), INTENT(IN) :: SW
+        INTEGER, INTENT(INOUT) :: NDays
+        REAL, INTENT(IN) :: DEPIR
+        REAL , DIMENSION(NL ), INTENT(INOUT) :: DSMID
+        REAL, INTENT(INOUT) :: CUMDPT
+        REAL, INTENT(INOUT) :: X2_PREV
+        REAL, INTENT(IN) :: TAMP
+        REAL, INTENT(IN) :: MULCHMASS
+        REAL , DIMENSION(NL ), INTENT(IN) :: BD
+        REAL, INTENT(IN) :: RAIN
         INTEGER, INTENT(IN) :: NLAYR
+        REAL, INTENT(INOUT) :: TDL
+        INTEGER , DIMENSION(30 ), INTENT(INOUT) :: WetDay
+        INTEGER, INTENT(IN) :: NL
+        REAL , DIMENSION(NL ), INTENT(IN) :: DLAYR
         !- Name: STEMP_EPIC_ -Version:  1.0, -Time step:  1
         !- Description:
     !            * Title: STEMP_EPIC_ model
@@ -68,63 +70,8 @@ CONTAINS
     !            * ExtendedDescription: None
     !            * ShortDescription: Determines soil temperature by layer test encore
         !- inputs:
-    !            * name: RAIN
-    !                          ** description : daily rainfall
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
-    !                          ** datatype : DOUBLE
-    !                          ** max : 
-    !                          ** min : 
-    !                          ** default : 
-    !                          ** unit : mm
-    !            * name: TAV
-    !                          ** description : Average annual soil temperature, used with TAMP to calculate soil temperature.
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
-    !                          ** datatype : DOUBLE
-    !                          ** max : 
-    !                          ** min : 
-    !                          ** default : 
-    !                          ** unit : degC
-    !            * name: NDays
-    !                          ** description : Number of days ...
-    !                          ** inputtype : variable
-    !                          ** variablecategory : state
-    !                          ** datatype : INT
-    !                          ** max : 
-    !                          ** min : 
-    !                          ** default : 
-    !                          ** unit : day
-    !            * name: CUMDPT
-    !                          ** description : Cumulative depth of soil profile
-    !                          ** inputtype : variable
-    !                          ** variablecategory : state
-    !                          ** datatype : DOUBLE
-    !                          ** max : 
-    !                          ** min : 
-    !                          ** default : 
-    !                          ** unit : mm
-    !            * name: SRFTEMP
-    !                          ** description : Temperature of soil surface litter
-    !                          ** inputtype : variable
-    !                          ** variablecategory : state
-    !                          ** datatype : DOUBLE
-    !                          ** max : 
-    !                          ** min : 
-    !                          ** default : 
-    !                          ** unit : degC
-    !            * name: DLAYR
-    !                          ** description : Thickness of soil layer NL
-    !                          ** inputtype : parameter
-    !                          ** parametercategory : constant
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NL
-    !                          ** max : 
-    !                          ** min : 
-    !                          ** default : 
-    !                          ** unit : cm
-    !            * name: SW
-    !                          ** description : Volumetric soil water content in layer NL
+    !            * name: DUL
+    !                          ** description : Volumetric soil water content at Drained Upper Limit in soil layer L
     !                          ** inputtype : parameter
     !                          ** parametercategory : soil
     !                          ** datatype : DOUBLEARRAY
@@ -132,45 +79,7 @@ CONTAINS
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
-    !                          ** unit : cm3 [water] / cm3 [soil]
-    !            * name: WetDay
-    !                          ** description : Wet Days
-    !                          ** inputtype : variable
-    !                          ** variablecategory : state
-    !                          ** datatype : INTARRAY
-    !                          ** len : 30
-    !                          ** max : 
-    !                          ** min : 
-    !                          ** default : 
-    !                          ** unit : day
-    !            * name: X2_PREV
-    !                          ** description : Temperature of soil surface at precedent timestep
-    !                          ** inputtype : variable
-    !                          ** variablecategory : state
-    !                          ** datatype : DOUBLE
-    !                          ** max : 
-    !                          ** min : 
-    !                          ** default : 
-    !                          ** unit : degC
-    !            * name: BD
-    !                          ** description : Bulk density, soil layer NL
-    !                          ** inputtype : parameter
-    !                          ** parametercategory : soil
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NL
-    !                          ** max : 
-    !                          ** min : 
-    !                          ** default : 
-    !                          ** unit : g [soil] / cm3 [soil]
-    !            * name: ISWWAT
-    !                          ** description : Water simulation control switch (Y or N)
-    !                          ** inputtype : parameter
-    !                          ** parametercategory : constant
-    !                          ** datatype : STRING
-    !                          ** max : 
-    !                          ** min : 
-    !                          ** default : Y
-    !                          ** unit : dimensionless
+    !                          ** unit : cm3[water]/cm3[soil]
     !            * name: TAVG
     !                          ** description : Average daily temperature
     !                          ** inputtype : variable
@@ -180,69 +89,21 @@ CONTAINS
     !                          ** min : 
     !                          ** default : 
     !                          ** unit : degC
-    !            * name: MULCHMASS
-    !                          ** description : Mulch Mass
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
-    !                          ** datatype : DOUBLE
-    !                          ** max : 
-    !                          ** min : 
-    !                          ** default : 
-    !                          ** unit : kg/ha
-    !            * name: DS
-    !                          ** description : Cumulative depth in soil layer NL
-    !                          ** inputtype : parameter
-    !                          ** parametercategory : soil
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NL
-    !                          ** max : 
-    !                          ** min : 
-    !                          ** default : 
-    !                          ** unit : cm
-    !            * name: DEPIR
-    !                          ** description : Depth of irrigation
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
-    !                          ** datatype : DOUBLE
-    !                          ** max : 
-    !                          ** min : 
-    !                          ** default : 
-    !                          ** unit : mm
-    !            * name: TMA
-    !                          ** description : Array of previous 5 days of average soil temperatures.
-    !                          ** inputtype : variable
-    !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : 5
-    !                          ** max : 
-    !                          ** min : 
-    !                          ** default : 
-    !                          ** unit : degC
-    !            * name: DSMID
-    !                          ** description : Depth to midpoint of soil layer NL
-    !                          ** inputtype : variable
-    !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NL
-    !                          ** max : 
-    !                          ** min : 
-    !                          ** default : 
-    !                          ** unit : cm
-    !            * name: SNOW
-    !                          ** description : Snow cover
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
-    !                          ** datatype : DOUBLE
-    !                          ** max : 
-    !                          ** min : 
-    !                          ** default : 
-    !                          ** unit : mm
     !            * name: ST
     !                          ** description : Soil temperature in soil layer NL
     !                          ** inputtype : variable
     !                          ** variablecategory : state
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : NL
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 
+    !                          ** unit : degC
+    !            * name: TAV
+    !                          ** description : Average annual soil temperature, used with TAMP to calculate soil temperature.
+    !                          ** inputtype : variable
+    !                          ** variablecategory : exogenous
+    !                          ** datatype : DOUBLE
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -256,6 +117,34 @@ CONTAINS
     !                          ** min : 
     !                          ** default : 
     !                          ** unit : degC
+    !            * name: TMA
+    !                          ** description : Array of previous 5 days of average soil temperatures.
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : DOUBLEARRAY
+    !                          ** len : 5
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 
+    !                          ** unit : degC
+    !            * name: SRFTEMP
+    !                          ** description : Temperature of soil surface litter
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : DOUBLE
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 
+    !                          ** unit : degC
+    !            * name: ISWWAT
+    !                          ** description : Water simulation control switch (Y or N)
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
+    !                          ** datatype : STRING
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : Y
+    !                          ** unit : dimensionless
     !            * name: BIOMAS
     !                          ** description : Biomass
     !                          ** inputtype : variable
@@ -265,18 +154,17 @@ CONTAINS
     !                          ** min : 
     !                          ** default : 
     !                          ** unit : kg/ha
-    !            * name: DUL
-    !                          ** description : Volumetric soil water content at Drained Upper Limit in soil layer L
-    !                          ** inputtype : parameter
-    !                          ** parametercategory : soil
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NL
+    !            * name: SNOW
+    !                          ** description : Snow cover
+    !                          ** inputtype : variable
+    !                          ** variablecategory : exogenous
+    !                          ** datatype : DOUBLE
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
-    !                          ** unit : cm3[water]/cm3[soil]
-    !            * name: TAMP
-    !                          ** description : Annual amplitude of the average air temperature
+    !                          ** unit : mm
+    !            * name: TMIN
+    !                          ** description : Minimum Temperature
     !                          ** inputtype : variable
     !                          ** variablecategory : exogenous
     !                          ** datatype : DOUBLE
@@ -294,17 +182,74 @@ CONTAINS
     !                          ** min : 
     !                          ** default : 
     !                          ** unit : cm3 [water] / cm3 [soil]
-    !            * name: NL
-    !                          ** description : Number of soil layers
+    !            * name: DS
+    !                          ** description : Cumulative depth in soil layer NL
     !                          ** inputtype : parameter
-    !                          ** parametercategory : constant
+    !                          ** parametercategory : soil
+    !                          ** datatype : DOUBLEARRAY
+    !                          ** len : NL
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 
+    !                          ** unit : cm
+    !            * name: SW
+    !                          ** description : Volumetric soil water content in layer NL
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : soil
+    !                          ** datatype : DOUBLEARRAY
+    !                          ** len : NL
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 
+    !                          ** unit : cm3 [water] / cm3 [soil]
+    !            * name: NDays
+    !                          ** description : Number of days ...
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
     !                          ** datatype : INT
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
-    !                          ** unit : dimensionless
-    !            * name: TMIN
-    !                          ** description : Minimum Temperature
+    !                          ** unit : day
+    !            * name: DEPIR
+    !                          ** description : Depth of irrigation
+    !                          ** inputtype : variable
+    !                          ** variablecategory : exogenous
+    !                          ** datatype : DOUBLE
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 
+    !                          ** unit : mm
+    !            * name: DSMID
+    !                          ** description : Depth to midpoint of soil layer NL
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : DOUBLEARRAY
+    !                          ** len : NL
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 
+    !                          ** unit : cm
+    !            * name: CUMDPT
+    !                          ** description : Cumulative depth of soil profile
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : DOUBLE
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 
+    !                          ** unit : mm
+    !            * name: X2_PREV
+    !                          ** description : Temperature of soil surface at precedent timestep
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : DOUBLE
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 
+    !                          ** unit : degC
+    !            * name: TAMP
+    !                          ** description : Annual amplitude of the average air temperature
     !                          ** inputtype : variable
     !                          ** variablecategory : exogenous
     !                          ** datatype : DOUBLE
@@ -312,6 +257,34 @@ CONTAINS
     !                          ** min : 
     !                          ** default : 
     !                          ** unit : degC
+    !            * name: MULCHMASS
+    !                          ** description : Mulch Mass
+    !                          ** inputtype : variable
+    !                          ** variablecategory : exogenous
+    !                          ** datatype : DOUBLE
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 
+    !                          ** unit : kg/ha
+    !            * name: BD
+    !                          ** description : Bulk density, soil layer NL
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : soil
+    !                          ** datatype : DOUBLEARRAY
+    !                          ** len : NL
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 
+    !                          ** unit : g [soil] / cm3 [soil]
+    !            * name: RAIN
+    !                          ** description : daily rainfall
+    !                          ** inputtype : variable
+    !                          ** variablecategory : exogenous
+    !                          ** datatype : DOUBLE
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 
+    !                          ** unit : mm
     !            * name: NLAYR
     !                          ** description : Actual number of soil layers
     !                          ** inputtype : parameter
@@ -321,6 +294,44 @@ CONTAINS
     !                          ** min : 
     !                          ** default : 
     !                          ** unit : dimensionless
+    !            * name: TDL
+    !                          ** description : Total water content of soil at drained upper limit
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : DOUBLE
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 
+    !                          ** unit : cm
+    !            * name: WetDay
+    !                          ** description : Wet Days
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : INTARRAY
+    !                          ** len : 30
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 
+    !                          ** unit : day
+    !            * name: NL
+    !                          ** description : Number of soil layers
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
+    !                          ** datatype : INT
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 
+    !                          ** unit : dimensionless
+    !            * name: DLAYR
+    !                          ** description : Thickness of soil layer NL
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
+    !                          ** datatype : DOUBLEARRAY
+    !                          ** len : NL
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 
+    !                          ** unit : cm
         !- outputs:
     !            * name: CUMDPT
     !                          ** description : Cumulative depth of soil profile
@@ -334,6 +345,13 @@ CONTAINS
     !                          ** datatype : DOUBLEARRAY
     !                          ** variablecategory : state
     !                          ** len : NL
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** unit : cm
+    !            * name: TDL
+    !                          ** description : Total water content of soil at drained upper limit
+    !                          ** datatype : DOUBLE
+    !                          ** variablecategory : state
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : cm
@@ -383,8 +401,8 @@ CONTAINS
     !                          ** min : 
     !                          ** unit : degC
         call model_stemp_epic(NL, ISWWAT, BD, DLAYR, DS, DUL, LL, NLAYR,  &
-                TAMP, RAIN, SW, TAVG, TMAX, TMIN, TAV, CUMDPT, DSMID, TMA, NDays,  &
-                WetDay, X2_PREV, SRFTEMP, ST, DEPIR, BIOMAS, MULCHMASS, SNOW)
+                TAMP, RAIN, SW, TAVG, TMAX, TMIN, TAV, CUMDPT, DSMID, TDL, TMA,  &
+                NDays, WetDay, X2_PREV, SRFTEMP, ST, DEPIR, BIOMAS, MULCHMASS, SNOW)
     END SUBROUTINE model_stemp_epic_
 
 END MODULE

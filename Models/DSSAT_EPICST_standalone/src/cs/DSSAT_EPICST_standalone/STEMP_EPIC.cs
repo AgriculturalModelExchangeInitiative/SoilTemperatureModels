@@ -96,7 +96,7 @@ public class STEMP_EPIC
         BCV = Math.Max(BCV1, BCV2);
         for (I=1 ; I!=8 + 1 ; I+=1)
         {
-            Tuple.Create(TMA, SRFTEMP, ST, X2_AVG, X2_PREV) = SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, 0, WFT, WW);
+            Tuple.Create(TMA, SRFTEMP, ST, X2_AVG, X2_PREV) = SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, 0, WFT, WW, X2_PREV);
         }
         s.CUMDPT= CUMDPT;
         s.DSMID= DSMID;
@@ -574,7 +574,7 @@ public class STEMP_EPIC
         BCV1 = CV / (CV + Math.Exp(5.33960d - (2.39510d * CV)));
         BCV2 = SNOW / (SNOW + Math.Exp(2.3030d - (0.21970d * SNOW)));
         BCV = Math.Max(BCV1, BCV2);
-        Tuple.Create(TMA, SRFTEMP, ST, X2_AVG, X2_PREV) = SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, WetDay[NDays - 1], WFT, WW);
+        Tuple.Create(TMA, SRFTEMP, ST, X2_AVG, X2_PREV) = SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, WetDay[NDays - 1], WFT, WW, X2_PREV);
         s.CUMDPT= CUMDPT;
         s.DSMID= DSMID;
         s.TMA= TMA;
@@ -584,7 +584,7 @@ public class STEMP_EPIC
         s.SRFTEMP= SRFTEMP;
         s.ST= ST;
     }
-    public static Tuple<double[],double,double[],double,double>  SOILT_EPIC(int NL, double B, double BCV, double CUMDPT, double DP, double[] DSMID, int NLAYR, double PESW, double TAV, double TAVG, double TMAX, double TMIN, int WetDay, double WFT, double WW)
+    public static Tuple<double[],double,double[],double,double>  SOILT_EPIC(int NL, double B, double BCV, double CUMDPT, double DP, double[] DSMID, int NLAYR, double PESW, double TAV, double TAVG, double TMAX, double TMIN, int WetDay, double WFT, double WW, double X2_PREV)
     {
         int K;
         int L;
@@ -600,7 +600,6 @@ public class STEMP_EPIC
         double X3;
         double F;
         double X2_AVG;
-        double X2_PREV;
         double LAG;
         LAG = 0.50d;
         WC = Math.Max(0.010d, PESW) / (WW * CUMDPT) * 10.00d;

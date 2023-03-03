@@ -2,11 +2,10 @@ cdef int I , L
 cdef float ABD , ALBEDO , B 
 cdef float DP , FX , HDAY , PESW 
 cdef float TBD , WW 
-cdef float TDL , TLL , TSW 
+cdef float TLL , TSW 
 TBD=0.0
 TLL=0.0
 TSW=0.0
-TDL=0.0
 for L in range(1 , NLAYR + 1 , 1):
     TBD=TBD + (BD[(L - 1)] * DLAYR[(L - 1)])
     TDL=TDL + (DUL[(L - 1)] * DLAYR[(L - 1)])

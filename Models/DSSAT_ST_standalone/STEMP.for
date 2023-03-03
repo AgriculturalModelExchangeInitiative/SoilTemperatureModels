@@ -55,6 +55,7 @@ C=======================================================================
      &    TAMP,     !Input
      &    CUMDPT,   !InOut
      &    DSMID,    !InOut
+     &    TDL,      !InOut
      &    TMA,      !InOut
      &    ATOT,     !InOut
      &    SRFTEMP,  !InOut
@@ -253,7 +254,6 @@ C-----------------------------------------------------------------------
       TBD = 0.0
       TLL = 0.0
       TSW = 0.0
-      TDL = 0.0
       DO L = 1, NLAYR
         TBD = TBD + BD(L) * DLAYR(L) 
         TDL = TDL + DUL(L)* DLAYR(L)

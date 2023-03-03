@@ -5,7 +5,7 @@ using CRA.ModelLayer.Core;
 using System.Reflection;
 using CRA.ModelLayer.ParametersManagement;   
 
-namespace STEMP_EPIC_.DomainClass
+namespace SiriusQualitySTEMP_EPIC_.DomainClass
 {
     public class STEMP_EPIC_Exogenous : ICloneable, IDomainClass
     {

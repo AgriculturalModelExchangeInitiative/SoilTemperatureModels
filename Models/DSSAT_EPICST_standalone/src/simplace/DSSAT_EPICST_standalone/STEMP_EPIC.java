@@ -90,15 +90,15 @@ public class STEMP_EPIC extends FWSimComponent
         SOILT_EPIC zz_SOILT_EPIC;
         Integer t_NL = NL.getValue();
         String t_ISWWAT = ISWWAT.getValue();
-        Double [] t_BD = new Double[t_NL];
-        Double [] t_DLAYR = new Double[t_NL];
-        Double [] t_DS = new Double[t_NL];
-        Double [] t_DUL = new Double[t_NL];
-        Double [] t_LL = new Double[t_NL];
+        Double [] t_BD = BD.getValue();
+        Double [] t_DLAYR = DLAYR.getValue();
+        Double [] t_DS = DS.getValue();
+        Double [] t_DUL = DUL.getValue();
+        Double [] t_LL = LL.getValue();
         Integer t_NLAYR = NLAYR.getValue();
         Double t_TAMP = TAMP.getValue();
         Double t_RAIN = RAIN.getValue();
-        Double [] t_SW = new Double[t_NL];
+        Double [] t_SW = SW.getValue();
         Double t_TAVG = TAVG.getValue();
         Double t_TMAX = TMAX.getValue();
         Double t_TMIN = TMIN.getValue();
@@ -188,7 +188,7 @@ public class STEMP_EPIC extends FWSimComponent
         BCV = Math.max(BCV1, BCV2);
         for (I=1 ; I!=8 + 1 ; I+=1)
         {
-            zz_SOILT_EPIC = Calculate_SOILT_EPIC(t_NL, B, BCV, t_CUMDPT, DP, t_DSMID, t_NLAYR, PESW, t_TAV, t_TAVG, t_TMAX, t_TMIN, 0, WFT, WW);
+            zz_SOILT_EPIC = Calculate_SOILT_EPIC(t_NL, B, BCV, t_CUMDPT, DP, t_DSMID, t_NLAYR, PESW, t_TAV, t_TAVG, t_TMAX, t_TMIN, 0, WFT, WW, t_X2_PREV);
             t_TMA = zz_SOILT_EPIC.getTMA();
             t_SRFTEMP = zz_SOILT_EPIC.getSRFTEMP();
             t_ST = zz_SOILT_EPIC.getST();
@@ -210,15 +210,15 @@ public class STEMP_EPIC extends FWSimComponent
         SOILT_EPIC zz_SOILT_EPIC;
         Integer t_NL = NL.getValue();
         String t_ISWWAT = ISWWAT.getValue();
-        Double [] t_BD = new Double[t_NL];
-        Double [] t_DLAYR = new Double[t_NL];
-        Double [] t_DS = new Double[t_NL];
-        Double [] t_DUL = new Double[t_NL];
-        Double [] t_LL = new Double[t_NL];
+        Double [] t_BD = BD.getValue();
+        Double [] t_DLAYR = DLAYR.getValue();
+        Double [] t_DS = DS.getValue();
+        Double [] t_DUL = DUL.getValue();
+        Double [] t_LL = LL.getValue();
         Integer t_NLAYR = NLAYR.getValue();
         Double t_TAMP = TAMP.getValue();
         Double t_RAIN = RAIN.getValue();
-        Double [] t_SW = new Double[t_NL];
+        Double [] t_SW = SW.getValue();
         Double t_TAVG = TAVG.getValue();
         Double t_TMAX = TMAX.getValue();
         Double t_TMIN = TMIN.getValue();
@@ -303,7 +303,7 @@ public class STEMP_EPIC extends FWSimComponent
         BCV1 = CV / (CV + Math.exp(5.3396d - (2.3951d * CV)));
         BCV2 = t_SNOW / (t_SNOW + Math.exp(2.303d - (0.2197d * t_SNOW)));
         BCV = Math.max(BCV1, BCV2);
-        zz_SOILT_EPIC = Calculate_SOILT_EPIC(t_NL, B, BCV, t_CUMDPT, DP, t_DSMID, t_NLAYR, PESW, t_TAV, t_TAVG, t_TMAX, t_TMIN, t_WetDay[t_NDays - 1], WFT, WW);
+        zz_SOILT_EPIC = Calculate_SOILT_EPIC(t_NL, B, BCV, t_CUMDPT, DP, t_DSMID, t_NLAYR, PESW, t_TAV, t_TAVG, t_TMAX, t_TMIN, t_WetDay[t_NDays - 1], WFT, WW, t_X2_PREV);
         t_TMA = zz_SOILT_EPIC.getTMA();
         t_SRFTEMP = zz_SOILT_EPIC.getSRFTEMP();
         t_ST = zz_SOILT_EPIC.getST();
@@ -318,7 +318,7 @@ public class STEMP_EPIC extends FWSimComponent
         SRFTEMP.setValue(t_SRFTEMP, this);
         ST.setValue(t_ST, this);
     }
-    public SOILT_EPIC Calculate_SOILT_EPIC (Integer t_NL, Double B, Double BCV, Double t_CUMDPT, Double DP, Double [] t_DSMID, Integer t_NLAYR, Double PESW, Double t_TAV, Double t_TAVG, Double t_TMAX, Double t_TMIN, Integer t_WetDay, Double WFT, Double WW)
+    public SOILT_EPIC Calculate_SOILT_EPIC (Integer t_NL, Double B, Double BCV, Double t_CUMDPT, Double DP, Double [] t_DSMID, Integer t_NLAYR, Double PESW, Double t_TAV, Double t_TAVG, Double t_TMAX, Double t_TMIN, Integer t_WetDay, Double WFT, Double WW, Double t_X2_PREV)
     {
         Integer K;
         Integer L;
@@ -334,7 +334,6 @@ public class STEMP_EPIC extends FWSimComponent
         Double X3;
         Double F;
         Double X2_AVG;
-        Double t_X2_PREV;
         Double LAG;
         LAG = 0.5d;
         WC = Math.max(0.01d, PESW) / (WW * t_CUMDPT) * 10.0d;

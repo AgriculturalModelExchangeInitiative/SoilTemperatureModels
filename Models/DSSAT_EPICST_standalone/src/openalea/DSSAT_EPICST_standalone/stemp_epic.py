@@ -97,7 +97,7 @@ def init_stemp_epic(NL:int,
     BCV2 = SNOW / (SNOW + exp(2.303 - (0.2197 * SNOW)))
     BCV = max(BCV1, BCV2)
     for I in range(1 , 8 + 1 , 1):
-        (TMA, SRFTEMP, ST, X2_AVG, X2_PREV) = SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, 0, WFT, WW)
+        (TMA, SRFTEMP, ST, X2_AVG, X2_PREV) = SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, 0, WFT, WW, X2_PREV)
     return (CUMDPT, DSMID, TMA, NDays, WetDay, X2_PREV, SRFTEMP, ST)
 #%%CyML Init End%%
 
@@ -180,7 +180,7 @@ def model_stemp_epic(NL:int,
     BCV1 = CV / (CV + exp(5.3396 - (2.3951 * CV)))
     BCV2 = SNOW / (SNOW + exp(2.303 - (0.2197 * SNOW)))
     BCV = max(BCV1, BCV2)
-    (TMA, SRFTEMP, ST, X2_AVG, X2_PREV) = SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, WetDay[NDays - 1], WFT, WW)
+    (TMA, SRFTEMP, ST, X2_AVG, X2_PREV) = SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, WetDay[NDays - 1], WFT, WW, X2_PREV)
     return (CUMDPT, DSMID, TMA, NDays, WetDay, X2_PREV, SRFTEMP, ST)
 
 def SOILT_EPIC(NL:int,
@@ -197,7 +197,8 @@ def SOILT_EPIC(NL:int,
          TMIN:float,
          WetDay:int,
          WFT:float,
-         WW:float):
+         WW:float,
+         X2_PREV:float):
     K:int
     L:int
     DD:float
@@ -212,7 +213,6 @@ def SOILT_EPIC(NL:int,
     X3:float
     F:float
     X2_AVG:float
-    X2_PREV:float
     LAG:float
     LAG = 0.5
     WC = max(0.01, PESW) / (WW * CUMDPT) * 10.0

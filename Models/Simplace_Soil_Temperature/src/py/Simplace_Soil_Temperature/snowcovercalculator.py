@@ -5,7 +5,6 @@ from math import *
 from typing import *
 from datetime import datetime
 
-import numpy
 
 #%%CyML Init Begin%%
 def init_snowcovercalculator(cCarbonContent:float,

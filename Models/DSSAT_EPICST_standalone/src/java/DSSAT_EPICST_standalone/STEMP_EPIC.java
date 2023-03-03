@@ -99,7 +99,7 @@ public class STEMP_EPIC
         BCV = Math.max(BCV1, BCV2);
         for (I=1 ; I!=8 + 1 ; I+=1)
         {
-            zz_SOILT_EPIC = Calculate_SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, 0, WFT, WW);
+            zz_SOILT_EPIC = Calculate_SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, 0, WFT, WW, X2_PREV);
             TMA = zz_SOILT_EPIC.getTMA();
             SRFTEMP = zz_SOILT_EPIC.getSRFTEMP();
             ST = zz_SOILT_EPIC.getST();
@@ -591,7 +591,7 @@ public class STEMP_EPIC
         BCV1 = CV / (CV + Math.exp(5.3396d - (2.3951d * CV)));
         BCV2 = SNOW / (SNOW + Math.exp(2.303d - (0.2197d * SNOW)));
         BCV = Math.max(BCV1, BCV2);
-        zz_SOILT_EPIC = Calculate_SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, WetDay[NDays - 1], WFT, WW);
+        zz_SOILT_EPIC = Calculate_SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, WetDay[NDays - 1], WFT, WW, X2_PREV);
         TMA = zz_SOILT_EPIC.getTMA();
         SRFTEMP = zz_SOILT_EPIC.getSRFTEMP();
         ST = zz_SOILT_EPIC.getST();
@@ -606,7 +606,7 @@ public class STEMP_EPIC
         s.setSRFTEMP(SRFTEMP);
         s.setST(ST);
     }
-    public SOILT_EPIC Calculate_SOILT_EPIC (Integer NL, Double B, Double BCV, Double CUMDPT, Double DP, Double [] DSMID, Integer NLAYR, Double PESW, Double TAV, Double TAVG, Double TMAX, Double TMIN, Integer WetDay, Double WFT, Double WW)
+    public SOILT_EPIC Calculate_SOILT_EPIC (Integer NL, Double B, Double BCV, Double CUMDPT, Double DP, Double [] DSMID, Integer NLAYR, Double PESW, Double TAV, Double TAVG, Double TMAX, Double TMIN, Integer WetDay, Double WFT, Double WW, Double X2_PREV)
     {
         Integer K;
         Integer L;
@@ -622,7 +622,6 @@ public class STEMP_EPIC
         Double X3;
         Double F;
         Double X2_AVG;
-        Double X2_PREV;
         Double LAG;
         LAG = 0.5d;
         WC = Math.max(0.01d, PESW) / (WW * CUMDPT) * 10.0d;
