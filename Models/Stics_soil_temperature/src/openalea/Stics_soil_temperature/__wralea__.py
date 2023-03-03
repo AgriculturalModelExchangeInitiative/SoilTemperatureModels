@@ -1,10 +1,11 @@
 
-# This file has been generated at Thu Mar  2 15:02:02 2023
+# -*- coding: latin-1 -*-
+# This file has been generated at Fri Mar  3 09:19:20 2023
 
 from openalea.core import *
 
 
-__name__ = 'amei.stics.soiltemperature.soiltemp'
+__name__ = 'amei.stics.soiltemperature'
 
 __editable__ = True
 __version__ = '0.0.1'
@@ -94,21 +95,21 @@ Soiltemp = CompositeNodeFactory(name='Soiltemp',
                              outputs=[  {'interface': IFloat(min=0, max=100, step=1.000000), 'name': 'temp_amp'},
    {'interface': IFloat, 'name': 'therm_amp'},
    {'interface': ISequence, 'name': 'temp_profile'}],
-                             elt_factory={  2: ('amei.stics.soiltemperature.soiltemp', 'temp_amp'),
-   3: ('amei.stics.soiltemperature.soiltemp', 'therm_amp'),
-   4: ('amei.stics.soiltemperature.soiltemp', 'temp_profile')},
-                             elt_connections={  140732969689456: (2, 0, '__out__', 0),
-   140732969689488: (3, 0, '__out__', 1),
-   140732969689520: (4, 0, '__out__', 2),
-   140732969689552: ('__in__', 0, 2, 1),
-   140732969689584: ('__in__', 1, 2, 0),
-   140732969689616: ('__in__', 2, 3, 0),
-   140732969689648: ('__in__', 3, 3, 1),
-   140732969689680: ('__in__', 4, 4, 2),
-   140732969689712: ('__in__', 5, 4, 3),
-   140732969689744: ('__in__', 6, 4, 4),
-   140732969689776: (2, 0, 4, 0),
-   140732969689808: (3, 0, 4, 1)},
+                             elt_factory={  2: ('amei.stics.soiltemperature', 'temp_amp'),
+   3: ('amei.stics.soiltemperature', 'therm_amp'),
+   4: ('amei.stics.soiltemperature', 'temp_profile')},
+                             elt_connections={  4477251904: (2, 0, '__out__', 0),
+   4477251936: (3, 0, '__out__', 1),
+   4477251968: (4, 0, '__out__', 2),
+   4477252000: ('__in__', 0, 2, 1),
+   4477252032: ('__in__', 1, 2, 0),
+   4477252064: ('__in__', 2, 3, 0),
+   4477252096: ('__in__', 3, 3, 1),
+   4477252128: ('__in__', 4, 4, 2),
+   4477252160: ('__in__', 5, 4, 3),
+   4477252192: ('__in__', 6, 4, 4),
+   4477252224: (2, 0, 4, 0),
+   4477252256: (3, 0, 4, 1)},
                              elt_data={  2: {  'block': False,
          'caption': 'temp_amp',
          'delay': 0,

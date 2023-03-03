@@ -1,6 +1,6 @@
 library(gsubfn)
 library (gsubfn) 
-setwd('D:/Docs/AMEI_Workshop/AMEI_10_14_2022/Platforms/Bioma/BiomaSurfaceSWATSoilSWATC/src/r')
+setwd('/src/r')
 source('Surfacetemperatureswat.r')
 source('Soiltemperatureswat.r')
 

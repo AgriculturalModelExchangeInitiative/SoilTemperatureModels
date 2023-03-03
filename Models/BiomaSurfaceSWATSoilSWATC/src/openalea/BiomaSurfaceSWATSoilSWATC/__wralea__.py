@@ -1,10 +1,11 @@
 
-# This file has been generated at Wed Mar  1 23:34:00 2023
+# -*- coding: latin-1 -*-
+# This file has been generated at Fri Mar  3 09:18:37 2023
 
 from openalea.core import *
 
 
-__name__ = 'amei.crop2ml.biomasurfaceswatsoilswatc.surfaceswatsoilswatc'
+__name__ = 'amei.crop2ml.biomasurfaceswatsoilswatc'
 
 __editable__ = True
 __version__ = '0.0.1'
@@ -102,25 +103,23 @@ SurfaceSWATSoilSWATC = CompositeNodeFactory(name='SurfaceSWATSoilSWATC',
                              outputs=[  {  'interface': IFloat(min=-60, max=60, step=1.000000),
       'name': 'SurfaceSoilTemperature'},
    {'interface': ISequence, 'name': 'SoilTemperatureByLayers'}],
-                             elt_factory={  2: (  'amei.crop2ml.biomasurfaceswatsoilswatc.surfaceswatsoilswatc',
-         'SurfaceTemperatureSWAT'),
-   3: (  'amei.crop2ml.biomasurfaceswatsoilswatc.surfaceswatsoilswatc',
-         'SoilTemperatureSWAT')},
-                             elt_connections={  140732844646768: (2, 0, '__out__', 0),
-   140732844646800: (3, 0, '__out__', 1),
-   140732844646832: ('__in__', 0, 2, 0),
-   140732844646864: ('__in__', 1, 2, 1),
-   140732844646896: ('__in__', 2, 2, 3),
-   140732844646928: ('__in__', 3, 2, 4),
-   140732844646960: ('__in__', 4, 2, 5),
-   140732844646992: ('__in__', 5, 2, 6),
-   140732844647024: ('__in__', 6, 3, 1),
-   140732844647056: ('__in__', 7, 3, 2),
-   140732844647088: ('__in__', 8, 3, 3),
-   140732844647120: ('__in__', 9, 3, 4),
-   140732844647152: ('__in__', 10, 3, 5),
-   140732844647184: ('__in__', 11, 3, 6),
-   140732844647216: (2, 0, 3, 7)},
+                             elt_factory={  2: ('amei.crop2ml.biomasurfaceswatsoilswatc', 'SurfaceTemperatureSWAT'),
+   3: ('amei.crop2ml.biomasurfaceswatsoilswatc', 'SoilTemperatureSWAT')},
+                             elt_connections={  4447048000: (2, 0, '__out__', 0),
+   4447048032: (3, 0, '__out__', 1),
+   4447048064: ('__in__', 0, 2, 0),
+   4447048096: ('__in__', 1, 2, 1),
+   4447048128: ('__in__', 2, 2, 3),
+   4447048160: ('__in__', 3, 2, 4),
+   4447048192: ('__in__', 4, 2, 5),
+   4447048224: ('__in__', 5, 2, 6),
+   4447048256: ('__in__', 6, 3, 1),
+   4447048288: ('__in__', 7, 3, 2),
+   4447048320: ('__in__', 8, 3, 3),
+   4447048352: ('__in__', 9, 3, 4),
+   4447048384: ('__in__', 10, 3, 5),
+   4447048416: ('__in__', 11, 3, 6),
+   4447048448: (2, 0, 3, 7)},
                              elt_data={  2: {  'block': False,
          'caption': 'SurfaceTemperatureSWAT',
          'delay': 0,

@@ -1,6 +1,6 @@
 library(gsubfn)
 library (gsubfn) 
-setwd('D:/Docs/AMEI_Workshop/AMEI_10_14_2022/Platforms/Bioma/BiomaSurfacePartonSoilSWATHourlyPartonC/src/r')
+setwd('/src/r')
 source('Surfacetemperatureparton.r')
 source('Soiltemperatureswat.r')
 source('Volumetricheatcapacitykluitenberg.r')

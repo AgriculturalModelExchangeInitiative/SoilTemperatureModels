@@ -119,7 +119,7 @@ public class CalculateSoilTemperature
         {
             minTSoil = (double)(999);
             maxTSoil = (double)(-999);
-            deepLayerT_t1 = 0.0d;
+            deepLayerT_t1 = 0.00d;
         }
         else
         {
@@ -133,15 +133,15 @@ public class CalculateSoilTemperature
     }
     public static double SoilTempB(double weatherMinTemp, double deepTemperature)
     {
-        return (weatherMinTemp + deepTemperature) / 2.0d;
+        return (weatherMinTemp + deepTemperature) / 2.00d;
     }
     public static double SoilTempA(double weatherMaxTemp, double weatherMeanTemp, double soilHeatFlux, double lambda_)
     {
         double TempAdjustment;
         double SoilAvailableEnergy;
-        TempAdjustment = weatherMeanTemp < 8.0d ? -0.5d * weatherMeanTemp + 4.0d : (double)(0);
+        TempAdjustment = weatherMeanTemp < 8.00d ? -0.50d * weatherMeanTemp + 4.00d : (double)(0);
         SoilAvailableEnergy = soilHeatFlux * lambda_ / 1000;
-        return weatherMaxTemp + (11.2d * (1.0d - Math.Exp(-0.07d * (SoilAvailableEnergy - 5.5d)))) + TempAdjustment;
+        return weatherMaxTemp + (11.20d * (1.00d - Math.Exp(-0.070d * (SoilAvailableEnergy - 5.50d)))) + TempAdjustment;
     }
     public static double SoilMinimumTemperature(double weatherMaxTemp, double weatherMeanTemp, double weatherMinTemp, double soilHeatFlux, double lambda_, double deepTemperature)
     {
@@ -154,8 +154,8 @@ public class CalculateSoilTemperature
     public static double UpdateTemperature(double minSoilTemp, double maxSoilTemp, double Temperature)
     {
         double meanTemp;
-        meanTemp = (minSoilTemp + maxSoilTemp) / 2.0d;
-        Temperature = (9.0d * Temperature + meanTemp) / 10.0d;
+        meanTemp = (minSoilTemp + maxSoilTemp) / 2.00d;
+        Temperature = (9.00d * Temperature + meanTemp) / 10.00d;
         return Temperature;
     }
 }

@@ -1,10 +1,11 @@
 
-# This file has been generated at Wed Mar  1 23:34:42 2023
+# -*- coding: latin-1 -*-
+# This file has been generated at Fri Mar  3 09:18:08 2023
 
 from openalea.core import *
 
 
-__name__ = 'amei.crop2ml.biomasurfacepartonsoilswatc.surfacepartonsoilswatc'
+__name__ = 'amei.crop2ml.biomasurfacepartonsoilswatc'
 
 __editable__ = True
 __version__ = '0.0.1'
@@ -105,26 +106,24 @@ SurfacePartonSoilSWATC = CompositeNodeFactory(name='SurfacePartonSoilSWATC',
    {  'interface': IFloat(min=-60, max=60, step=1.000000),
       'name': 'SurfaceTemperatureMinimum'},
    {'interface': ISequence, 'name': 'SoilTemperatureByLayers'}],
-                             elt_factory={  2: (  'amei.crop2ml.biomasurfacepartonsoilswatc.surfacepartonsoilswatc',
-         'SurfaceTemperatureParton'),
-   3: (  'amei.crop2ml.biomasurfacepartonsoilswatc.surfacepartonsoilswatc',
-         'SoilTemperatureSWAT')},
-                             elt_connections={  140732844646768: (2, 0, '__out__', 0),
-   140732844646800: (2, 1, '__out__', 1),
-   140732844646832: (2, 2, '__out__', 2),
-   140732844646864: (3, 0, '__out__', 3),
-   140732844646896: ('__in__', 0, 2, 1),
-   140732844646928: ('__in__', 1, 2, 2),
-   140732844646960: ('__in__', 2, 2, 4),
-   140732844646992: ('__in__', 3, 2, 0),
-   140732844647024: ('__in__', 4, 2, 6),
-   140732844647056: ('__in__', 5, 3, 0),
-   140732844647088: ('__in__', 6, 3, 1),
-   140732844647120: ('__in__', 7, 3, 3),
-   140732844647152: ('__in__', 8, 3, 4),
-   140732844647184: ('__in__', 9, 3, 5),
-   140732844647216: ('__in__', 10, 3, 7),
-   140732844647248: (2, 0, 3, 2)},
+                             elt_factory={  2: ('amei.crop2ml.biomasurfacepartonsoilswatc', 'SurfaceTemperatureParton'),
+   3: ('amei.crop2ml.biomasurfacepartonsoilswatc', 'SoilTemperatureSWAT')},
+                             elt_connections={  4427174208: (2, 0, '__out__', 0),
+   4427174240: (2, 1, '__out__', 1),
+   4427174272: (2, 2, '__out__', 2),
+   4427174304: (3, 0, '__out__', 3),
+   4427174336: ('__in__', 0, 2, 1),
+   4427174368: ('__in__', 1, 2, 2),
+   4427174400: ('__in__', 2, 2, 4),
+   4427174432: ('__in__', 3, 2, 0),
+   4427174464: ('__in__', 4, 2, 6),
+   4427174496: ('__in__', 5, 3, 0),
+   4427174528: ('__in__', 6, 3, 1),
+   4427174560: ('__in__', 7, 3, 3),
+   4427174592: ('__in__', 8, 3, 4),
+   4427174624: ('__in__', 9, 3, 5),
+   4427174656: ('__in__', 10, 3, 7),
+   4427174688: (2, 0, 3, 2)},
                              elt_data={  2: {  'block': False,
          'caption': 'SurfaceTemperatureParton',
          'delay': 0,
