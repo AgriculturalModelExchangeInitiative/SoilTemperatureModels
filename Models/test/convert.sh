@@ -33,7 +33,7 @@ echo 'DONE '$PKG
 
 #####################################################
 # Step 3
- PKG=SQ_Soil_Temperature
+PKG=SQ_Soil_Temperature
 echo 'Tranform '$PKG
 cp -R ../$PKG .
 rm -rf $PKG/doc $PKG/src $PKG/test $PKG/crop2ml
@@ -46,7 +46,7 @@ echo 'DONE '$PKG
 
 #####################################################
 # Step 4
- PKG=BiomaSurfacePartonSoilSWATC
+PKG=BiomaSurfacePartonSoilSWATC
 echo 'Tranform '$PKG
 cp -R ../$PKG .
 rm -rf $PKG/doc $PKG/src $PKG/test $PKG/crop2ml
@@ -59,7 +59,7 @@ echo 'DONE '$PKG
 
 #####################################################
 # Step 5
- PKG=BiomaSurfacePartonSoilSWATHourlyPartonC
+PKG=BiomaSurfacePartonSoilSWATHourlyPartonC
 echo 'Tranform '$PKG
 cp -R ../$PKG .
 rm -rf $PKG/doc $PKG/src $PKG/test $PKG/crop2ml
@@ -72,7 +72,7 @@ echo 'DONE '$PKG
 
 #####################################################
 # Step 6
- PKG=BiomaSurfaceSWATSoilSWATC
+PKG=BiomaSurfaceSWATSoilSWATC
 echo 'Tranform '$PKG
 cp -R ../$PKG .
 rm -rf $PKG/doc $PKG/src $PKG/test $PKG/crop2ml
@@ -85,7 +85,7 @@ echo 'DONE '$PKG
 
 #####################################################
 # Step 7
- PKG=Simplace_Soil_Temperature
+PKG=Simplace_Soil_Temperature
 echo 'Tranform '$PKG
 cp -R ../$PKG .
 rm -rf $PKG/doc $PKG/src $PKG/test $PKG/crop2ml
@@ -98,7 +98,7 @@ echo 'DONE '$PKG
 
 #####################################################
 # Step 8
- PKG=Stics_soil_temperature
+PKG=Stics_soil_temperature
 echo 'Tranform '$PKG
 cp -R ../$PKG .
 rm -rf $PKG/doc $PKG/src $PKG/test $PKG/crop2ml
