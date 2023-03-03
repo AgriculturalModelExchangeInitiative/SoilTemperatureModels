@@ -1,6 +1,6 @@
 library(gsubfn)
 library (gsubfn) 
-setwd('D:/Docs/AMEI_Workshop/AMEI_10_14_2022/Platforms/DSSAT_EPICST_standalone/src/r')
+setwd('/src/r')
 source('Stemp_epic.r')
 
 model_stemp_epic_ <- function (RAIN,

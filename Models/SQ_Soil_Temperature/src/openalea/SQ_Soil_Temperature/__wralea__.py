@@ -1,10 +1,11 @@
 
-# This file has been generated at Thu Mar  2 16:38:11 2023
+# -*- coding: latin-1 -*-
+# This file has been generated at Fri Mar  3 09:18:59 2023
 
 from openalea.core import *
 
 
-__name__ = 'amei.crop2ml.sq_soil_temperature.soiltemperature'
+__name__ = 'amei.crop2ml.sq_soil_temperature'
 
 __editable__ = True
 __version__ = '0.0.1'
@@ -98,26 +99,24 @@ SoilTemperature = CompositeNodeFactory(name='SoilTemperature',
    {'interface': IFloat(min=-30, max=80, step=1.000000), 'name': 'maxTSoil'},
    {'interface': IFloat(min=-30, max=80, step=1.000000), 'name': 'minTSoil'},
    {'interface': ISequence, 'name': 'hourlySoilT'}],
-                             elt_factory={  2: (  'amei.crop2ml.sq_soil_temperature.soiltemperature',
-         'CalculateSoilTemperature'),
-   3: (  'amei.crop2ml.sq_soil_temperature.soiltemperature',
-         'CalculateHourlySoilTemperature')},
-                             elt_connections={  4550938944: (2, 0, '__out__', 0),
-   4550938976: (2, 1, '__out__', 1),
-   4550939008: (2, 2, '__out__', 2),
-   4550939040: (3, 0, '__out__', 3),
-   4550939072: ('__in__', 0, 2, 0),
-   4550939104: ('__in__', 1, 2, 1),
-   4550939136: ('__in__', 2, 2, 2),
-   4550939168: ('__in__', 3, 2, 3),
-   4550939200: ('__in__', 4, 2, 4),
-   4550939232: ('__in__', 5, 2, 6),
-   4550939264: ('__in__', 6, 3, 4),
-   4550939296: ('__in__', 7, 3, 3),
-   4550939328: ('__in__', 8, 3, 0),
-   4550939360: ('__in__', 9, 3, 1),
-   4550939392: (2, 1, 3, 2),
-   4550939424: (2, 2, 3, 5)},
+                             elt_factory={  2: ('amei.crop2ml.sq_soil_temperature', 'CalculateSoilTemperature'),
+   3: ('amei.crop2ml.sq_soil_temperature', 'CalculateHourlySoilTemperature')},
+                             elt_connections={  4490223936: (2, 0, '__out__', 0),
+   4490223968: (2, 1, '__out__', 1),
+   4490224000: (2, 2, '__out__', 2),
+   4490224032: (3, 0, '__out__', 3),
+   4490224064: ('__in__', 0, 2, 0),
+   4490224096: ('__in__', 1, 2, 1),
+   4490224128: ('__in__', 2, 2, 2),
+   4490224160: ('__in__', 3, 2, 3),
+   4490224192: ('__in__', 4, 2, 4),
+   4490224224: ('__in__', 5, 2, 6),
+   4490224256: ('__in__', 6, 3, 4),
+   4490224288: ('__in__', 7, 3, 3),
+   4490224320: ('__in__', 8, 3, 0),
+   4490224352: ('__in__', 9, 3, 1),
+   4490224384: (2, 1, 3, 2),
+   4490224416: (2, 2, 3, 5)},
                              elt_data={  2: {  'block': False,
          'caption': 'CalculateSoilTemperature',
          'delay': 0,

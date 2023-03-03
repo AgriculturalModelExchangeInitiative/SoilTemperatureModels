@@ -1,6 +1,6 @@
 library(gsubfn)
 library (gsubfn) 
-setwd('D:/Docs/AMEI_Workshop/AMEI_10_14_2022/Models/Stics_soil_temperature/src/r')
+setwd('/src/r')
 source('Temp_amp.r')
 source('Therm_amp.r')
 source('Temp_profile.r')

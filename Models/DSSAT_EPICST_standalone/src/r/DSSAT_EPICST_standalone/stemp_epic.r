@@ -1,3 +1,4 @@
+library(gsubfn)
 
 init_stemp_epic <- function (NL,
          ISWWAT,
@@ -18,7 +19,10 @@ init_stemp_epic <- function (NL,
          BIOMAS,
          MULCHMASS,
          SNOW){
-
+    DSMID <- vector(,NL)
+    TMA <- vector(,5)
+    WetDay <- vector(,30)
+    ST <- vector(,NL)
     CUMDPT <- 0.0
     DSMID <-  rep(0.0,NL)
     TMA <-  rep(0.0,5)
@@ -27,6 +31,7 @@ init_stemp_epic <- function (NL,
     X2_PREV <- 0.0
     SRFTEMP <- 0.0
     ST <-  rep(0.0,NL)
+    SWI <- vector(,NL)
     SWI <- SW
     TBD <- 0.0
     TLL <- 0.0

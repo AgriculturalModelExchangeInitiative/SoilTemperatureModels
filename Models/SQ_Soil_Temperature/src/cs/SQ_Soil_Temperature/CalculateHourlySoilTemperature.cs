@@ -117,7 +117,7 @@ public class CalculateHourlySoilTemperature
         {
             for (i=0 ; i!=24 ; i+=1)
             {
-                hourlySoilT[i] = 0.0d;
+                hourlySoilT[i] = 0.00d;
             }
             hourlySoilT = getHourlySoilSurfaceTemperature(maxTSoil, minTSoil, dayLength, b, c, a);
         }
@@ -134,7 +134,7 @@ public class CalculateHourlySoilTemperature
         double bbd;
         double ddy;
         double tsn;
-        ahou = Math.PI * (ady / 24.0d);
+        ahou = Math.PI * (ady / 24.00d);
         ani = 24 - ady;
         bb = 12 - (ady / 2) + c;
         be = 12 + (ady / 2);
@@ -142,7 +142,7 @@ public class CalculateHourlySoilTemperature
         {
             if (i >= (int)(bb) && i <= (int)(be))
             {
-                result[i] = (TMax - TMin) * Math.Sin(3.14d * (i - bb) / (ady + (2 * a))) + TMin;
+                result[i] = (TMax - TMin) * Math.Sin(3.140d * (i - bb) / (ady + (2 * a))) + TMin;
             }
             else
             {
@@ -155,7 +155,7 @@ public class CalculateHourlySoilTemperature
                     bbd = 24 + be + i;
                 }
                 ddy = ady - c;
-                tsn = (TMax - TMin) * Math.Sin(3.14d * ddy / (ady + (2 * a))) + TMin;
+                tsn = (TMax - TMin) * Math.Sin(3.140d * ddy / (ady + (2 * a))) + TMin;
                 result[i] = TMin + ((tsn - TMin) * Math.Exp(-b * bbd / ani));
             }
         }
