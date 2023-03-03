@@ -74,7 +74,7 @@ init_stemp_epic <- function (NL,
     BCV2 <- SNOW / (SNOW + exp(2.303 - (0.2197 * SNOW)))
     BCV <- max(BCV1, BCV2)
     for( I in seq(1, 8 + 1-1, 1)){
-        list[TMA, SRFTEMP, ST, X2_AVG, X2_PREV] <- SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, 0, WFT, WW)
+        list[TMA, SRFTEMP, ST, X2_AVG, X2_PREV] <- SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, 0, WFT, WW, X2_PREV)
     }
     return (list ("CUMDPT" = CUMDPT,"DSMID" = DSMID,"TMA" = TMA,"NDays" = NDays,"WetDay" = WetDay,"X2_PREV" = X2_PREV,"SRFTEMP" = SRFTEMP,"ST" = ST))
 }
@@ -476,7 +476,7 @@ model_stemp_epic <- function (NL,
     BCV1 <- CV / (CV + exp(5.3396 - (2.3951 * CV)))
     BCV2 <- SNOW / (SNOW + exp(2.303 - (0.2197 * SNOW)))
     BCV <- max(BCV1, BCV2)
-    list[TMA, SRFTEMP, ST, X2_AVG, X2_PREV] <- SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, WetDay[NDays - 1+1], WFT, WW)
+    list[TMA, SRFTEMP, ST, X2_AVG, X2_PREV] <- SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, WetDay[NDays - 1+1], WFT, WW, X2_PREV)
     return (list ("CUMDPT" = CUMDPT,"DSMID" = DSMID,"TMA" = TMA,"NDays" = NDays,"WetDay" = WetDay,"X2_PREV" = X2_PREV,"SRFTEMP" = SRFTEMP,"ST" = ST))
 }
 
@@ -494,7 +494,8 @@ SOILT_EPIC <- function (NL,
          TMIN,
          WetDay,
          WFT,
-         WW){
+         WW,
+         X2_PREV){
     TMA <- vector(,5)
     ST <- vector(,NL)
     LAG <- 0.5

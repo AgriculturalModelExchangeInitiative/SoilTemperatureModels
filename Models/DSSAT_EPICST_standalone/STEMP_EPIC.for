@@ -351,7 +351,9 @@ C=======================================================================
       SUBROUTINE SOILT_EPIC (
      &    B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV,    !Input
      &    TAVG, TMAX, TMIN, WetDay, WFT, WW,              !Input
-     &    TMA, SRFTEMP, ST, X2_AVG, X2_PREV)              !Output
+     &    TMA, SRFTEMP, ST, X2_AVG,                       !Output
+     &    X2_PREV)                                        !InOut
+
       
 !     ------------------------------------------------------------------
       USE ModuleDefs

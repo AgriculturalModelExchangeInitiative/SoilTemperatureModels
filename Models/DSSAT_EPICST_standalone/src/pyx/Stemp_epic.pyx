@@ -89,7 +89,7 @@ def init_stemp_epic(int NL,
     BCV2=SNOW / (SNOW + exp(2.303 - (0.2197 * SNOW)))
     BCV=max(BCV1, BCV2)
     for I in range(1 , 8 + 1 , 1):
-        (TMA, SRFTEMP, ST, X2_AVG, X2_PREV)=SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, 0, WFT, WW)
+        (TMA, SRFTEMP, ST, X2_AVG, X2_PREV)=SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, 0, WFT, WW, X2_PREV)
     return  CUMDPT, DSMID, TMA, NDays, WetDay, X2_PREV, SRFTEMP, ST
 def model_stemp_epic(int NL,
                      str ISWWAT,
@@ -180,7 +180,7 @@ def model_stemp_epic(int NL,
     BCV1=CV / (CV + exp(5.3396 - (2.3951 * CV)))
     BCV2=SNOW / (SNOW + exp(2.303 - (0.2197 * SNOW)))
     BCV=max(BCV1, BCV2)
-    (TMA, SRFTEMP, ST, X2_AVG, X2_PREV)=SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, WetDay[NDays - 1], WFT, WW)
+    (TMA, SRFTEMP, ST, X2_AVG, X2_PREV)=SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, WetDay[NDays - 1], WFT, WW, X2_PREV)
     return  CUMDPT, DSMID, TMA, NDays, WetDay, X2_PREV, SRFTEMP, ST
 
 
@@ -217,14 +217,15 @@ def SOILT_EPIC(int NL,
          float TMIN,
          int WetDay,
          float WFT,
-         float WW):
+         float WW,
+         float X2_PREV):
     cdef int K , L 
     cdef float DD , FX 
     cdef float SRFTEMP 
     cdef float WC , ZD 
     cdef float TMA[5]
     cdef float ST[NL]
-    cdef float X1 , X2 , X3 , F , X2_AVG , X2_PREV 
+    cdef float X1 , X2 , X3 , F , X2_AVG 
     cdef float LAG 
     LAG=0.5
     #-----------------------------------------------------------------------
