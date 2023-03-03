@@ -21,7 +21,6 @@ def simulationdata(rep_sens_analysis_file, rep_weather_folder, code_var_column_n
             rep_weather (str): Path of weather data folder (contains files .WTH)
             code_var_column_name (str): name of the column specifying model variables
             
-
     Returns:
         datas (list): data of all simulation unit
         list(datas[0]) = "sm" (str), "soil" (dict), "param_weather"(dict), "weather" (dict[Var:dataframe])
@@ -35,13 +34,10 @@ def simulationdata(rep_sens_analysis_file, rep_weather_folder, code_var_column_n
     
     datas = []
     dict_var = {} # matching common variables/parameters names and model variables.parameters
-    
-    
     # sheat of simulation description
     df_file_model_inputs = pd.read_excel(rep_sens_analysis_file, sheet_name=0)
     # Replacing empty string with np.NaN
     df_file_model_inputs[code_var_column_name] = df_file_model_inputs[code_var_column_name].replace('', np.nan)
-
     # Dropping rows where NaN is present. Keeping only rows where model variables are defined
     model_vars = df_file_model_inputs.dropna(subset=[code_var_column_name])
 
@@ -62,9 +58,7 @@ def simulationdata(rep_sens_analysis_file, rep_weather_folder, code_var_column_n
         var_weather[name_weather] = {}
         var_weather[name_weather] = data
       
-
-    stations = list(var_weather.keys())
-            
+    stations = list(var_weather.keys())    
     dd1 = df_file_model_inputs_wthdata
     dd1 = dd1.set_index("WST_ID")
             
@@ -77,16 +71,12 @@ def simulationdata(rep_sens_analysis_file, rep_weather_folder, code_var_column_n
     dd4 = df_file_model_inputs_treatments
     dd4 = dd4.set_index("SM")
 
-    for k, j in enumerate(df_file_model_inputs_treatments.iloc):
-        
+    for k, j in enumerate(df_file_model_inputs_treatments.iloc): 
         wst = j["WST_DATASET"]
-        
         if wst in stations:  #only if weather data exists. There are some treatments without weather data
             data = {}
-           
             sm = j["SM"]
-            treat = j["TREAT_ID"]
-            
+            treat = j["TREAT_ID"]   
             soil_id = j["SOIL_ID"]
             wst_id = j["WST_ID"]
                 
@@ -97,46 +87,38 @@ def simulationdata(rep_sens_analysis_file, rep_weather_folder, code_var_column_n
             par_w = {}
             treat_ = {}
             r = []
-            
             data["sm"] = sm
      
             for u, v in dict_var.items():
-                
                 if u in weather.columns:
                     var_w[v] = weather[[u]]
-                    r.append(v)
-                    
+                    r.append(v)      
                     data["weather"] = var_w
         
                 if u in dd2.loc[[soil_id]]:
                     soil[v] = int(dd2.loc[soil_id][u])
-                    r.append(v)
-                    
-                
+                    r.append(v)      
                 if u in dd3.loc[[soil_id]]:
                     soil[v] = list(dd3.loc[soil_id][u])
                     r.append(v)
-                    
                     data["soil"] = soil
                 
         
                 if u in dd1.loc[[wst_id]]:
                     par_w[v] = dd1.loc[wst_id][u]
                     r.append(v)
-                    
                     data["param_weather"] = par_w
                 
                 if u in dd4.loc[[sm]]:
                     treat_[v] = dd4.loc[sm][u]
                     r.append(v)
-                    
                     data["treat"] = treat_
             
             missing = set(dict_var.keys()) - set(r)
             " raise exception for missing values: TODO"
-
+            
             datas.append(data) 
-    
+            
     return datas
         
         
