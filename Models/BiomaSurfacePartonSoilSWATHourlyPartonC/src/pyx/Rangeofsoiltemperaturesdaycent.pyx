@@ -1,10 +1,10 @@
 import numpy 
 from math import *
 def model_rangeofsoiltemperaturesdaycent(float LayerThickness[],
-                                         float SoilTemperatureByLayers[],
-                                         float SurfaceTemperatureMaximum,
+                                         float SurfaceTemperatureMinimum,
                                          float ThermalDiffusivity[],
-                                         float SurfaceTemperatureMinimum):
+                                         float SoilTemperatureByLayers[],
+                                         float SurfaceTemperatureMaximum):
     """
 
     RangeOfSoilTemperaturesDAYCENT model
@@ -15,8 +15,8 @@ def model_rangeofsoiltemperaturesdaycent(float LayerThickness[],
     ShortDescription: None
 
     """
-    cdef float SoilTemperatureMinimum[]
     cdef float SoilTemperatureRangeByLayers[]
+    cdef float SoilTemperatureMinimum[]
     cdef float SoilTemperatureMaximum[]
     cdef int i 
     cdef float _DepthBottom 
@@ -37,6 +37,6 @@ def model_rangeofsoiltemperaturesdaycent(float LayerThickness[],
             SoilTemperatureRangeByLayers[i]=SurfaceDiurnalRange * exp(-_DepthCenterLayer * pow(0.00005 / ThermalDiffusivity[i], 0.5))
             SoilTemperatureMaximum[i]=SoilTemperatureByLayers[i] + (SoilTemperatureRangeByLayers[i] / 2)
             SoilTemperatureMinimum[i]=SoilTemperatureByLayers[i] - (SoilTemperatureRangeByLayers[i] / 2)
-    return  SoilTemperatureMinimum, SoilTemperatureRangeByLayers, SoilTemperatureMaximum
+    return  SoilTemperatureRangeByLayers, SoilTemperatureMinimum, SoilTemperatureMaximum
 
 

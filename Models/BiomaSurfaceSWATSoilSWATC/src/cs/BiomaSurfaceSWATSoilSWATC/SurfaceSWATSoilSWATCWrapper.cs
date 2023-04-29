@@ -49,13 +49,13 @@ class SurfaceSWATSoilSWATCWrapper
         surfaceswatsoilswatcComponent.LagCoefficient = LagCoefficient;
     }
 
-    public void EstimateSurfaceSWATSoilSWATC(double AirTemperatureMinimum, double GlobalSolarRadiation, double WaterEquivalentOfSnowPack, double AirTemperatureMaximum, double Albedo, double AirTemperatureAnnualAverage)
+    public void EstimateSurfaceSWATSoilSWATC(double GlobalSolarRadiation, double AirTemperatureMaximum, double AirTemperatureMinimum, double Albedo, double WaterEquivalentOfSnowPack, double AirTemperatureAnnualAverage)
     {
-        a.AirTemperatureMinimum = AirTemperatureMinimum;
         a.GlobalSolarRadiation = GlobalSolarRadiation;
-        a.WaterEquivalentOfSnowPack = WaterEquivalentOfSnowPack;
         a.AirTemperatureMaximum = AirTemperatureMaximum;
+        a.AirTemperatureMinimum = AirTemperatureMinimum;
         a.Albedo = Albedo;
+        a.WaterEquivalentOfSnowPack = WaterEquivalentOfSnowPack;
         a.AirTemperatureAnnualAverage = AirTemperatureAnnualAverage;
         surfaceswatsoilswatcComponent.CalculateModel(s,s1, r, a, ex);
     }

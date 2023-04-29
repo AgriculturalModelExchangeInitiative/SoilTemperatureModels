@@ -1,12 +1,12 @@
 import numpy 
 from math import *
 def model_soiltemperatureswat(float SoilTemperatureByLayers[],
-                              float AirTemperatureAnnualAverage,
-                              float VolumetricWaterContent[],
-                              float BulkDensity[],
-                              float SoilProfileDepth,
-                              float LayerThickness[],
                               float LagCoefficient,
+                              float AirTemperatureAnnualAverage,
+                              float BulkDensity[],
+                              float LayerThickness[],
+                              float VolumetricWaterContent[],
+                              float SoilProfileDepth,
                               float SurfaceSoilTemperature):
     """
 

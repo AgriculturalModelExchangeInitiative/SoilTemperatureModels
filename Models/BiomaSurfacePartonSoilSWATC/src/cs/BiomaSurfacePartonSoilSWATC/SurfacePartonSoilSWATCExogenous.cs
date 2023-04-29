@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 public class SurfacePartonSoilSWATCExogenous 
 {
-    private double _GlobalSolarRadiation;
-    private double _AirTemperatureMinimum;
     private double _DayLength;
     private double _AirTemperatureMaximum;
+    private double _AirTemperatureMinimum;
+    private double _GlobalSolarRadiation;
     private double _AirTemperatureAnnualAverage;
     
         public SurfacePartonSoilSWATCExogenous() { }
@@ -17,23 +17,13 @@ public class SurfacePartonSoilSWATCExogenous
     if (copyAll)
     {
     
-    _GlobalSolarRadiation = toCopy._GlobalSolarRadiation;
-    _AirTemperatureMinimum = toCopy._AirTemperatureMinimum;
     _DayLength = toCopy._DayLength;
     _AirTemperatureMaximum = toCopy._AirTemperatureMaximum;
+    _AirTemperatureMinimum = toCopy._AirTemperatureMinimum;
+    _GlobalSolarRadiation = toCopy._GlobalSolarRadiation;
     _AirTemperatureAnnualAverage = toCopy._AirTemperatureAnnualAverage;
     }
     }
-    public double GlobalSolarRadiation
-        {
-            get { return this._GlobalSolarRadiation; }
-            set { this._GlobalSolarRadiation= value; } 
-        }
-    public double AirTemperatureMinimum
-        {
-            get { return this._AirTemperatureMinimum; }
-            set { this._AirTemperatureMinimum= value; } 
-        }
     public double DayLength
         {
             get { return this._DayLength; }
@@ -43,6 +33,16 @@ public class SurfacePartonSoilSWATCExogenous
         {
             get { return this._AirTemperatureMaximum; }
             set { this._AirTemperatureMaximum= value; } 
+        }
+    public double AirTemperatureMinimum
+        {
+            get { return this._AirTemperatureMinimum; }
+            set { this._AirTemperatureMinimum= value; } 
+        }
+    public double GlobalSolarRadiation
+        {
+            get { return this._GlobalSolarRadiation; }
+            set { this._GlobalSolarRadiation= value; } 
         }
     public double AirTemperatureAnnualAverage
         {

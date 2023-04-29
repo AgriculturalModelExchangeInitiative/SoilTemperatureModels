@@ -14,13 +14,13 @@ import org.jdom2.Element;
 
 public class SurfaceTemperatureParton extends FWSimComponent
 {
+    private FWSimVariable<Double> DayLength;
+    private FWSimVariable<Double> AirTemperatureMaximum;
+    private FWSimVariable<Double> AirTemperatureMinimum;
     private FWSimVariable<Double> AboveGroundBiomass;
     private FWSimVariable<Double> GlobalSolarRadiation;
-    private FWSimVariable<Double> AirTemperatureMinimum;
-    private FWSimVariable<Double> SurfaceTemperatureMaximum;
-    private FWSimVariable<Double> DayLength;
     private FWSimVariable<Double> SurfaceTemperatureMinimum;
-    private FWSimVariable<Double> AirTemperatureMaximum;
+    private FWSimVariable<Double> SurfaceTemperatureMaximum;
     private FWSimVariable<Double> SurfaceSoilTemperature;
 
     public SurfaceTemperatureParton(String aName, HashMap<String, FWSimVariable<?>> aFieldMap, HashMap<String, String> aInputMap, Element aSimComponentElement, FWSimVarMap aVarMap, int aOrderNumber)
@@ -35,13 +35,13 @@ public class SurfaceTemperatureParton extends FWSimComponent
     @Override
     public HashMap<String, FWSimVariable<?>> createVariables()
     {
+        addVariable(FWSimVariable.createSimVariable("DayLength", "Length of the day", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"h", 0, 24, 10, this));
+        addVariable(FWSimVariable.createSimVariable("AirTemperatureMaximum", "Maximum daily air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Â°C", -40, 60, 15, this));
+        addVariable(FWSimVariable.createSimVariable("AirTemperatureMinimum", "Minimum daily air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Â°C", -60, 50, 5, this));
         addVariable(FWSimVariable.createSimVariable("AboveGroundBiomass", "Above ground biomass", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"Kg ha-1", 0, 60, 3, this));
         addVariable(FWSimVariable.createSimVariable("GlobalSolarRadiation", "Daily global solar radiation", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Mj m-2 d-1", 0, 50, 15, this));
-        addVariable(FWSimVariable.createSimVariable("AirTemperatureMinimum", "Minimum daily air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Â°C", -60, 50, 5, this));
-        addVariable(FWSimVariable.createSimVariable("SurfaceTemperatureMaximum", "Maximum surface soil temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Â°C", -60, 60, 25, this));
-        addVariable(FWSimVariable.createSimVariable("DayLength", "Length of the day", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"h", 0, 24, 10, this));
-        addVariable(FWSimVariable.createSimVariable("SurfaceTemperatureMinimum", "Minimum surface soil temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Â°C", -60, 60, 10, this));
-        addVariable(FWSimVariable.createSimVariable("AirTemperatureMaximum", "Maximum daily air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Â°C", -40, 60, 15, this));
+        addVariable(FWSimVariable.createSimVariable("SurfaceTemperatureMinimum", "Minimum surface soil temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.out,"Â°C", -60, 60, null, this));
+        addVariable(FWSimVariable.createSimVariable("SurfaceTemperatureMaximum", "Maximum surface soil temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.out,"Â°C", -60, 60, null, this));
         addVariable(FWSimVariable.createSimVariable("SurfaceSoilTemperature", "Average surface soil temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"Â°C", -60, 60, null, this));
 
         return iFieldMap;
@@ -49,13 +49,13 @@ public class SurfaceTemperatureParton extends FWSimComponent
     @Override
     protected void process()
     {
+        Double t_DayLength = DayLength.getValue();
+        Double t_AirTemperatureMaximum = AirTemperatureMaximum.getValue();
+        Double t_AirTemperatureMinimum = AirTemperatureMinimum.getValue();
         Double t_AboveGroundBiomass = AboveGroundBiomass.getValue();
         Double t_GlobalSolarRadiation = GlobalSolarRadiation.getValue();
-        Double t_AirTemperatureMinimum = AirTemperatureMinimum.getValue();
-        Double t_SurfaceTemperatureMaximum = SurfaceTemperatureMaximum.getValue();
-        Double t_DayLength = DayLength.getValue();
-        Double t_SurfaceTemperatureMinimum = SurfaceTemperatureMinimum.getValue();
-        Double t_AirTemperatureMaximum = AirTemperatureMaximum.getValue();
+        Double t_SurfaceTemperatureMinimum;
+        Double t_SurfaceTemperatureMaximum;
         Double t_SurfaceSoilTemperature;
         Double _AGB;
         Double _AirTMax;
@@ -80,8 +80,8 @@ public class SurfaceTemperatureParton extends FWSimComponent
         {
             t_SurfaceSoilTemperature = t_DayLength / 24 * _AirTMax + ((1 - (t_DayLength / 24)) * _AirTmin);
         }
-        SurfaceTemperatureMaximum.setValue(t_SurfaceTemperatureMaximum, this);
         SurfaceTemperatureMinimum.setValue(t_SurfaceTemperatureMinimum, this);
+        SurfaceTemperatureMaximum.setValue(t_SurfaceTemperatureMaximum, this);
         SurfaceSoilTemperature.setValue(t_SurfaceSoilTemperature, this);
     }
 

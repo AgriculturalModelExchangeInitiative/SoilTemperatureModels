@@ -3,10 +3,10 @@ using System.Collections.Generic;
 public class SurfacePartonSoilSWATCState 
 {
     private double _AboveGroundBiomass;
-    private double[] _LayerThickness;
     private double[] _VolumetricWaterContent;
-    private double _SoilProfileDepth;
+    private double[] _LayerThickness;
     private double[] _BulkDensity;
+    private double _SoilProfileDepth;
     private double _SurfaceSoilTemperature;
     private double[] _SoilTemperatureByLayers;
     
@@ -19,19 +19,19 @@ public class SurfacePartonSoilSWATCState
     {
     
     _AboveGroundBiomass = toCopy._AboveGroundBiomass;
-    LayerThickness = new double[toCopy._LayerThickness.Length];
-            for (int i = 0; i < toCopy._LayerThickness.Length; i++)
-            { _LayerThickness[i] = toCopy._LayerThickness[i]; }
-    
     VolumetricWaterContent = new double[toCopy._VolumetricWaterContent.Length];
             for (int i = 0; i < toCopy._VolumetricWaterContent.Length; i++)
             { _VolumetricWaterContent[i] = toCopy._VolumetricWaterContent[i]; }
     
-    _SoilProfileDepth = toCopy._SoilProfileDepth;
+    LayerThickness = new double[toCopy._LayerThickness.Length];
+            for (int i = 0; i < toCopy._LayerThickness.Length; i++)
+            { _LayerThickness[i] = toCopy._LayerThickness[i]; }
+    
     BulkDensity = new double[toCopy._BulkDensity.Length];
             for (int i = 0; i < toCopy._BulkDensity.Length; i++)
             { _BulkDensity[i] = toCopy._BulkDensity[i]; }
     
+    _SoilProfileDepth = toCopy._SoilProfileDepth;
     _SurfaceSoilTemperature = toCopy._SurfaceSoilTemperature;
     SoilTemperatureByLayers = new double[toCopy._SoilTemperatureByLayers.Length];
             for (int i = 0; i < toCopy._SoilTemperatureByLayers.Length; i++)
@@ -44,25 +44,25 @@ public class SurfacePartonSoilSWATCState
             get { return this._AboveGroundBiomass; }
             set { this._AboveGroundBiomass= value; } 
         }
-    public double[] LayerThickness
-        {
-            get { return this._LayerThickness; }
-            set { this._LayerThickness= value; } 
-        }
     public double[] VolumetricWaterContent
         {
             get { return this._VolumetricWaterContent; }
             set { this._VolumetricWaterContent= value; } 
         }
-    public double SoilProfileDepth
+    public double[] LayerThickness
         {
-            get { return this._SoilProfileDepth; }
-            set { this._SoilProfileDepth= value; } 
+            get { return this._LayerThickness; }
+            set { this._LayerThickness= value; } 
         }
     public double[] BulkDensity
         {
             get { return this._BulkDensity; }
             set { this._BulkDensity= value; } 
+        }
+    public double SoilProfileDepth
+        {
+            get { return this._SoilProfileDepth; }
+            set { this._SoilProfileDepth= value; } 
         }
     public double SurfaceSoilTemperature
         {

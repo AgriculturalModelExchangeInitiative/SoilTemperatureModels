@@ -39,27 +39,27 @@ namespace SurfacePartonSoilSWATC.Strategies
             List<PropertyDescription> _inputs0_0 = new List<PropertyDescription>();
             PropertyDescription pd1 = new PropertyDescription();
             pd1.DomainClassType = typeof(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCState);
-            pd1.PropertyName = "LayerThickness";
-            pd1.PropertyType = (SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.LayerThickness).ValueType.TypeForCurrentValue;
-            pd1.PropertyVarInfo =(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.LayerThickness);
+            pd1.PropertyName = "VolumetricWaterContent";
+            pd1.PropertyType = (SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.VolumetricWaterContent).ValueType.TypeForCurrentValue;
+            pd1.PropertyVarInfo =(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.VolumetricWaterContent);
             _inputs0_0.Add(pd1);
             PropertyDescription pd2 = new PropertyDescription();
             pd2.DomainClassType = typeof(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCState);
-            pd2.PropertyName = "VolumetricWaterContent";
-            pd2.PropertyType = (SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.VolumetricWaterContent).ValueType.TypeForCurrentValue;
-            pd2.PropertyVarInfo =(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.VolumetricWaterContent);
+            pd2.PropertyName = "SurfaceSoilTemperature";
+            pd2.PropertyType = (SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SurfaceSoilTemperature).ValueType.TypeForCurrentValue;
+            pd2.PropertyVarInfo =(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SurfaceSoilTemperature);
             _inputs0_0.Add(pd2);
             PropertyDescription pd3 = new PropertyDescription();
             pd3.DomainClassType = typeof(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCState);
-            pd3.PropertyName = "SurfaceSoilTemperature";
-            pd3.PropertyType = (SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SurfaceSoilTemperature).ValueType.TypeForCurrentValue;
-            pd3.PropertyVarInfo =(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SurfaceSoilTemperature);
+            pd3.PropertyName = "LayerThickness";
+            pd3.PropertyType = (SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.LayerThickness).ValueType.TypeForCurrentValue;
+            pd3.PropertyVarInfo =(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.LayerThickness);
             _inputs0_0.Add(pd3);
             PropertyDescription pd4 = new PropertyDescription();
             pd4.DomainClassType = typeof(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCState);
-            pd4.PropertyName = "SoilProfileDepth";
-            pd4.PropertyType = (SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SoilProfileDepth).ValueType.TypeForCurrentValue;
-            pd4.PropertyVarInfo =(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SoilProfileDepth);
+            pd4.PropertyName = "SoilTemperatureByLayers";
+            pd4.PropertyType = (SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SoilTemperatureByLayers).ValueType.TypeForCurrentValue;
+            pd4.PropertyVarInfo =(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SoilTemperatureByLayers);
             _inputs0_0.Add(pd4);
             PropertyDescription pd5 = new PropertyDescription();
             pd5.DomainClassType = typeof(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCExogenous);
@@ -69,15 +69,15 @@ namespace SurfacePartonSoilSWATC.Strategies
             _inputs0_0.Add(pd5);
             PropertyDescription pd6 = new PropertyDescription();
             pd6.DomainClassType = typeof(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCState);
-            pd6.PropertyName = "SoilTemperatureByLayers";
-            pd6.PropertyType = (SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SoilTemperatureByLayers).ValueType.TypeForCurrentValue;
-            pd6.PropertyVarInfo =(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SoilTemperatureByLayers);
+            pd6.PropertyName = "BulkDensity";
+            pd6.PropertyType = (SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.BulkDensity).ValueType.TypeForCurrentValue;
+            pd6.PropertyVarInfo =(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.BulkDensity);
             _inputs0_0.Add(pd6);
             PropertyDescription pd7 = new PropertyDescription();
             pd7.DomainClassType = typeof(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCState);
-            pd7.PropertyName = "BulkDensity";
-            pd7.PropertyType = (SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.BulkDensity).ValueType.TypeForCurrentValue;
-            pd7.PropertyVarInfo =(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.BulkDensity);
+            pd7.PropertyName = "SoilProfileDepth";
+            pd7.PropertyType = (SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SoilProfileDepth).ValueType.TypeForCurrentValue;
+            pd7.PropertyVarInfo =(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SoilProfileDepth);
             _inputs0_0.Add(pd7);
             mo0_0.Inputs=_inputs0_0;
 
@@ -221,29 +221,29 @@ namespace SurfacePartonSoilSWATC.Strategies
             try
             {
                 //Set current values of the inputs to the static VarInfo representing the inputs properties of the domain classes
-                SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.LayerThickness.CurrentValue=s.LayerThickness;
                 SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.VolumetricWaterContent.CurrentValue=s.VolumetricWaterContent;
                 SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SurfaceSoilTemperature.CurrentValue=s.SurfaceSoilTemperature;
-                SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SoilProfileDepth.CurrentValue=s.SoilProfileDepth;
-                SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCExogenousVarInfo.AirTemperatureAnnualAverage.CurrentValue=ex.AirTemperatureAnnualAverage;
+                SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.LayerThickness.CurrentValue=s.LayerThickness;
                 SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SoilTemperatureByLayers.CurrentValue=s.SoilTemperatureByLayers;
+                SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCExogenousVarInfo.AirTemperatureAnnualAverage.CurrentValue=ex.AirTemperatureAnnualAverage;
                 SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.BulkDensity.CurrentValue=s.BulkDensity;
+                SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SoilProfileDepth.CurrentValue=s.SoilProfileDepth;
                 ConditionsCollection prc = new ConditionsCollection();
                 Preconditions pre = new Preconditions(); 
-                RangeBasedCondition r1 = new RangeBasedCondition(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.LayerThickness);
-                if(r1.ApplicableVarInfoValueTypes.Contains( SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.LayerThickness.ValueType)){prc.AddCondition(r1);}
-                RangeBasedCondition r2 = new RangeBasedCondition(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.VolumetricWaterContent);
-                if(r2.ApplicableVarInfoValueTypes.Contains( SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.VolumetricWaterContent.ValueType)){prc.AddCondition(r2);}
-                RangeBasedCondition r3 = new RangeBasedCondition(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SurfaceSoilTemperature);
-                if(r3.ApplicableVarInfoValueTypes.Contains( SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SurfaceSoilTemperature.ValueType)){prc.AddCondition(r3);}
-                RangeBasedCondition r4 = new RangeBasedCondition(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SoilProfileDepth);
-                if(r4.ApplicableVarInfoValueTypes.Contains( SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SoilProfileDepth.ValueType)){prc.AddCondition(r4);}
+                RangeBasedCondition r1 = new RangeBasedCondition(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.VolumetricWaterContent);
+                if(r1.ApplicableVarInfoValueTypes.Contains( SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.VolumetricWaterContent.ValueType)){prc.AddCondition(r1);}
+                RangeBasedCondition r2 = new RangeBasedCondition(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SurfaceSoilTemperature);
+                if(r2.ApplicableVarInfoValueTypes.Contains( SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SurfaceSoilTemperature.ValueType)){prc.AddCondition(r2);}
+                RangeBasedCondition r3 = new RangeBasedCondition(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.LayerThickness);
+                if(r3.ApplicableVarInfoValueTypes.Contains( SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.LayerThickness.ValueType)){prc.AddCondition(r3);}
+                RangeBasedCondition r4 = new RangeBasedCondition(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SoilTemperatureByLayers);
+                if(r4.ApplicableVarInfoValueTypes.Contains( SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SoilTemperatureByLayers.ValueType)){prc.AddCondition(r4);}
                 RangeBasedCondition r5 = new RangeBasedCondition(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCExogenousVarInfo.AirTemperatureAnnualAverage);
                 if(r5.ApplicableVarInfoValueTypes.Contains( SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCExogenousVarInfo.AirTemperatureAnnualAverage.ValueType)){prc.AddCondition(r5);}
-                RangeBasedCondition r6 = new RangeBasedCondition(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SoilTemperatureByLayers);
-                if(r6.ApplicableVarInfoValueTypes.Contains( SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SoilTemperatureByLayers.ValueType)){prc.AddCondition(r6);}
-                RangeBasedCondition r7 = new RangeBasedCondition(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.BulkDensity);
-                if(r7.ApplicableVarInfoValueTypes.Contains( SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.BulkDensity.ValueType)){prc.AddCondition(r7);}
+                RangeBasedCondition r6 = new RangeBasedCondition(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.BulkDensity);
+                if(r6.ApplicableVarInfoValueTypes.Contains( SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.BulkDensity.ValueType)){prc.AddCondition(r6);}
+                RangeBasedCondition r7 = new RangeBasedCondition(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SoilProfileDepth);
+                if(r7.ApplicableVarInfoValueTypes.Contains( SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SoilProfileDepth.ValueType)){prc.AddCondition(r7);}
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("LagCoefficient")));
                 string preConditionsResult = pre.VerifyPreconditions(prc, callID); if (!string.IsNullOrEmpty(preConditionsResult)) { pre.TestsOut(preConditionsResult, true, "PreConditions errors in strategy " + this.GetType().Name); } return preConditionsResult;
             }
@@ -269,13 +269,13 @@ namespace SurfacePartonSoilSWATC.Strategies
 
         private void CalculateModel(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCState s, SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCState s1, SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCRate r, SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCAuxiliary a, SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCExogenous ex)
         {
-            double[] LayerThickness = s.LayerThickness;
             double[] VolumetricWaterContent = s.VolumetricWaterContent;
             double SurfaceSoilTemperature = s.SurfaceSoilTemperature;
-            double SoilProfileDepth = s.SoilProfileDepth;
-            double AirTemperatureAnnualAverage = ex.AirTemperatureAnnualAverage;
+            double[] LayerThickness = s.LayerThickness;
             double[] SoilTemperatureByLayers = s.SoilTemperatureByLayers;
+            double AirTemperatureAnnualAverage = ex.AirTemperatureAnnualAverage;
             double[] BulkDensity = s.BulkDensity;
+            double SoilProfileDepth = s.SoilProfileDepth;
             int i;
             double _SoilProfileDepthmm;
             double _TotalWaterContentmm;

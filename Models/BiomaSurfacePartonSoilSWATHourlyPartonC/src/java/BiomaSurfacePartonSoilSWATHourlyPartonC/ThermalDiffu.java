@@ -18,16 +18,6 @@ public class ThermalDiffu
     //            * ExtendedDescription: Strategy for the calculation of thermal diffusitivity. Bristow, K.L., Thermal conductivity, in Methods of Soil Analysis. Part 4. Physical Methods, J.H. Dane and G.C. Topp, Editors. 2002, Soil Science Society of America Book Series #5: Madison, Wisconsin. p. 1209-1226. Diekkruger, B. (1996) SIMULAT - Ein Modellsystem zur Berechnung der Wasser- und Stoffdynamik landwirtschaftlich genutzter Standorte (SIMULAT - a model system for the calculation of water and matter dynamics on agricultural sites, in German). In: Wasser- und Stoffdynamik in AgrarÃ´kosystemen, Sonderf.
     //            * ShortDescription: None
         //- inputs:
-    //            * name: ThermalConductivity
-    //                          ** description : Thermal conductivity of soil layer
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 8
-    //                          ** min : 0.025
-    //                          ** default : 1
-    //                          ** unit : W m-1 K-1
     //            * name: ThermalDiffusivity
     //                          ** description : Thermal diffusivity of soil layer
     //                          ** inputtype : variable
@@ -38,6 +28,16 @@ public class ThermalDiffu
     //                          ** min : 0
     //                          ** default : 0.0025
     //                          ** unit : mm s-1
+    //            * name: ThermalConductivity
+    //                          ** description : Thermal conductivity of soil layer
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
+    //                          ** max : 8
+    //                          ** min : 0.025
+    //                          ** default : 1
+    //                          ** unit : W m-1 K-1
     //            * name: HeatCapacity
     //                          ** description : Volumetric specific heat of soil
     //                          ** inputtype : variable
@@ -57,8 +57,8 @@ public class ThermalDiffu
     //                          ** max : 1
     //                          ** min : 0
     //                          ** unit : mm s-1
-        Double [] ThermalConductivity = s.getThermalConductivity();
         Double [] ThermalDiffusivity = s.getThermalDiffusivity();
+        Double [] ThermalConductivity = s.getThermalConductivity();
         Double [] HeatCapacity = s.getHeatCapacity();
         Integer i;
         for (i=0 ; i!=ThermalDiffusivity.length ; i+=1)

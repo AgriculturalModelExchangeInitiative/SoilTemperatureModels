@@ -1,10 +1,10 @@
 library(gsubfn)
 
 model_rangeofsoiltemperaturesdaycent <- function (LayerThickness,
-         SoilTemperatureByLayers,
-         SurfaceTemperatureMaximum,
+         SurfaceTemperatureMinimum,
          ThermalDiffusivity,
-         SurfaceTemperatureMinimum){
+         SoilTemperatureByLayers,
+         SurfaceTemperatureMaximum){
     #'- Name: RangeOfSoilTemperaturesDAYCENT -Version: 001, -Time step: 1
     #'- Description:
     #'            * Title: RangeOfSoilTemperaturesDAYCENT model
@@ -24,6 +24,25 @@ model_rangeofsoiltemperaturesdaycent <- function (LayerThickness,
     #'                          ** min : 0.005
     #'                          ** default : 0.05
     #'                          ** unit : m
+    #'            * name: SurfaceTemperatureMinimum
+    #'                          ** description : Minimum surface soil temperature
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : auxiliary
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 60
+    #'                          ** min : -60
+    #'                          ** default : 10
+    #'                          ** unit : Â°C
+    #'            * name: ThermalDiffusivity
+    #'                          ** description : Thermal diffusivity of soil layer
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : state
+    #'                          ** datatype : DOUBLEARRAY
+    #'                          ** len : 
+    #'                          ** max : 1
+    #'                          ** min : 0
+    #'                          ** default : 0.0025
+    #'                          ** unit : mm s-1
     #'            * name: SoilTemperatureByLayers
     #'                          ** description : Soil temperature of each layer
     #'                          ** inputtype : variable
@@ -43,34 +62,7 @@ model_rangeofsoiltemperaturesdaycent <- function (LayerThickness,
     #'                          ** min : -60
     #'                          ** default : 25
     #'                          ** unit : Â°C
-    #'            * name: ThermalDiffusivity
-    #'                          ** description : Thermal diffusivity of soil layer
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : state
-    #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 
-    #'                          ** max : 1
-    #'                          ** min : 0
-    #'                          ** default : 0.0025
-    #'                          ** unit : mm s-1
-    #'            * name: SurfaceTemperatureMinimum
-    #'                          ** description : Minimum surface soil temperature
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : auxiliary
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 60
-    #'                          ** min : -60
-    #'                          ** default : 10
-    #'                          ** unit : Â°C
     #'- outputs:
-    #'            * name: SoilTemperatureMinimum
-    #'                          ** description : Minimum soil temperature by layers
-    #'                          ** datatype : DOUBLEARRAY
-    #'                          ** variablecategory : state
-    #'                          ** len : 
-    #'                          ** max : 60
-    #'                          ** min : -60
-    #'                          ** unit : Â°C
     #'            * name: SoilTemperatureRangeByLayers
     #'                          ** description : Soil temperature range by layers
     #'                          ** datatype : DOUBLEARRAY
@@ -78,6 +70,14 @@ model_rangeofsoiltemperaturesdaycent <- function (LayerThickness,
     #'                          ** len : 
     #'                          ** max : 50
     #'                          ** min : 0
+    #'                          ** unit : Â°C
+    #'            * name: SoilTemperatureMinimum
+    #'                          ** description : Minimum soil temperature by layers
+    #'                          ** datatype : DOUBLEARRAY
+    #'                          ** variablecategory : state
+    #'                          ** len : 
+    #'                          ** max : 60
+    #'                          ** min : -60
     #'                          ** unit : Â°C
     #'            * name: SoilTemperatureMaximum
     #'                          ** description : Maximum soil temperature by layers
@@ -87,8 +87,8 @@ model_rangeofsoiltemperaturesdaycent <- function (LayerThickness,
     #'                          ** max : 60
     #'                          ** min : -60
     #'                          ** unit : Â°C
-    SoilTemperatureMinimum<- vector()
     SoilTemperatureRangeByLayers<- vector()
+    SoilTemperatureMinimum<- vector()
     SoilTemperatureMaximum<- vector()
     _DepthBottom <- as.double(0)
     _DepthCenterLayer <- as.double(0)
@@ -110,5 +110,5 @@ model_rangeofsoiltemperaturesdaycent <- function (LayerThickness,
             SoilTemperatureMinimum[i+1] <- SoilTemperatureByLayers[i+1] - (SoilTemperatureRangeByLayers[i+1] / 2)
         }
     }
-    return (list ("SoilTemperatureMinimum" = SoilTemperatureMinimum,"SoilTemperatureRangeByLayers" = SoilTemperatureRangeByLayers,"SoilTemperatureMaximum" = SoilTemperatureMaximum))
+    return (list ("SoilTemperatureRangeByLayers" = SoilTemperatureRangeByLayers,"SoilTemperatureMinimum" = SoilTemperatureMinimum,"SoilTemperatureMaximum" = SoilTemperatureMaximum))
 }

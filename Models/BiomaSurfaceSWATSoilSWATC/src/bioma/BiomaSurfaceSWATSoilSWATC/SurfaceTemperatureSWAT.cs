@@ -26,45 +26,45 @@ namespace SurfaceSWATSoilSWATC.Strategies
             List<PropertyDescription> _inputs0_0 = new List<PropertyDescription>();
             PropertyDescription pd1 = new PropertyDescription();
             pd1.DomainClassType = typeof(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenous);
-            pd1.PropertyName = "AirTemperatureMinimum";
-            pd1.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureMinimum).ValueType.TypeForCurrentValue;
-            pd1.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureMinimum);
+            pd1.PropertyName = "GlobalSolarRadiation";
+            pd1.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.GlobalSolarRadiation).ValueType.TypeForCurrentValue;
+            pd1.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.GlobalSolarRadiation);
             _inputs0_0.Add(pd1);
             PropertyDescription pd2 = new PropertyDescription();
-            pd2.DomainClassType = typeof(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenous);
-            pd2.PropertyName = "GlobalSolarRadiation";
-            pd2.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.GlobalSolarRadiation).ValueType.TypeForCurrentValue;
-            pd2.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.GlobalSolarRadiation);
+            pd2.DomainClassType = typeof(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCState);
+            pd2.PropertyName = "SoilTemperatureByLayers";
+            pd2.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilTemperatureByLayers).ValueType.TypeForCurrentValue;
+            pd2.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilTemperatureByLayers);
             _inputs0_0.Add(pd2);
             PropertyDescription pd3 = new PropertyDescription();
-            pd3.DomainClassType = typeof(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCState);
-            pd3.PropertyName = "SoilTemperatureByLayers";
-            pd3.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilTemperatureByLayers).ValueType.TypeForCurrentValue;
-            pd3.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilTemperatureByLayers);
+            pd3.DomainClassType = typeof(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenous);
+            pd3.PropertyName = "AirTemperatureMaximum";
+            pd3.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureMaximum).ValueType.TypeForCurrentValue;
+            pd3.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureMaximum);
             _inputs0_0.Add(pd3);
             PropertyDescription pd4 = new PropertyDescription();
-            pd4.DomainClassType = typeof(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCState);
-            pd4.PropertyName = "AboveGroundBiomass";
-            pd4.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.AboveGroundBiomass).ValueType.TypeForCurrentValue;
-            pd4.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.AboveGroundBiomass);
+            pd4.DomainClassType = typeof(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenous);
+            pd4.PropertyName = "AirTemperatureMinimum";
+            pd4.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureMinimum).ValueType.TypeForCurrentValue;
+            pd4.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureMinimum);
             _inputs0_0.Add(pd4);
             PropertyDescription pd5 = new PropertyDescription();
             pd5.DomainClassType = typeof(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenous);
-            pd5.PropertyName = "WaterEquivalentOfSnowPack";
-            pd5.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.WaterEquivalentOfSnowPack).ValueType.TypeForCurrentValue;
-            pd5.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.WaterEquivalentOfSnowPack);
+            pd5.PropertyName = "Albedo";
+            pd5.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.Albedo).ValueType.TypeForCurrentValue;
+            pd5.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.Albedo);
             _inputs0_0.Add(pd5);
             PropertyDescription pd6 = new PropertyDescription();
-            pd6.DomainClassType = typeof(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenous);
-            pd6.PropertyName = "AirTemperatureMaximum";
-            pd6.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureMaximum).ValueType.TypeForCurrentValue;
-            pd6.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureMaximum);
+            pd6.DomainClassType = typeof(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCState);
+            pd6.PropertyName = "AboveGroundBiomass";
+            pd6.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.AboveGroundBiomass).ValueType.TypeForCurrentValue;
+            pd6.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.AboveGroundBiomass);
             _inputs0_0.Add(pd6);
             PropertyDescription pd7 = new PropertyDescription();
             pd7.DomainClassType = typeof(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenous);
-            pd7.PropertyName = "Albedo";
-            pd7.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.Albedo).ValueType.TypeForCurrentValue;
-            pd7.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.Albedo);
+            pd7.PropertyName = "WaterEquivalentOfSnowPack";
+            pd7.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.WaterEquivalentOfSnowPack).ValueType.TypeForCurrentValue;
+            pd7.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.WaterEquivalentOfSnowPack);
             _inputs0_0.Add(pd7);
             mo0_0.Inputs=_inputs0_0;
 
@@ -182,29 +182,29 @@ namespace SurfaceSWATSoilSWATC.Strategies
             try
             {
                 //Set current values of the inputs to the static VarInfo representing the inputs properties of the domain classes
-                SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureMinimum.CurrentValue=ex.AirTemperatureMinimum;
                 SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.GlobalSolarRadiation.CurrentValue=ex.GlobalSolarRadiation;
                 SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilTemperatureByLayers.CurrentValue=s.SoilTemperatureByLayers;
+                SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureMaximum.CurrentValue=ex.AirTemperatureMaximum;
+                SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureMinimum.CurrentValue=ex.AirTemperatureMinimum;
+                SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.Albedo.CurrentValue=ex.Albedo;
                 SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.AboveGroundBiomass.CurrentValue=s.AboveGroundBiomass;
                 SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.WaterEquivalentOfSnowPack.CurrentValue=ex.WaterEquivalentOfSnowPack;
-                SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureMaximum.CurrentValue=ex.AirTemperatureMaximum;
-                SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.Albedo.CurrentValue=ex.Albedo;
                 ConditionsCollection prc = new ConditionsCollection();
                 Preconditions pre = new Preconditions(); 
-                RangeBasedCondition r1 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureMinimum);
-                if(r1.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureMinimum.ValueType)){prc.AddCondition(r1);}
-                RangeBasedCondition r2 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.GlobalSolarRadiation);
-                if(r2.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.GlobalSolarRadiation.ValueType)){prc.AddCondition(r2);}
-                RangeBasedCondition r3 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilTemperatureByLayers);
-                if(r3.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilTemperatureByLayers.ValueType)){prc.AddCondition(r3);}
-                RangeBasedCondition r4 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.AboveGroundBiomass);
-                if(r4.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.AboveGroundBiomass.ValueType)){prc.AddCondition(r4);}
-                RangeBasedCondition r5 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.WaterEquivalentOfSnowPack);
-                if(r5.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.WaterEquivalentOfSnowPack.ValueType)){prc.AddCondition(r5);}
-                RangeBasedCondition r6 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureMaximum);
-                if(r6.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureMaximum.ValueType)){prc.AddCondition(r6);}
-                RangeBasedCondition r7 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.Albedo);
-                if(r7.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.Albedo.ValueType)){prc.AddCondition(r7);}
+                RangeBasedCondition r1 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.GlobalSolarRadiation);
+                if(r1.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.GlobalSolarRadiation.ValueType)){prc.AddCondition(r1);}
+                RangeBasedCondition r2 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilTemperatureByLayers);
+                if(r2.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilTemperatureByLayers.ValueType)){prc.AddCondition(r2);}
+                RangeBasedCondition r3 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureMaximum);
+                if(r3.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureMaximum.ValueType)){prc.AddCondition(r3);}
+                RangeBasedCondition r4 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureMinimum);
+                if(r4.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureMinimum.ValueType)){prc.AddCondition(r4);}
+                RangeBasedCondition r5 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.Albedo);
+                if(r5.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.Albedo.ValueType)){prc.AddCondition(r5);}
+                RangeBasedCondition r6 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.AboveGroundBiomass);
+                if(r6.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.AboveGroundBiomass.ValueType)){prc.AddCondition(r6);}
+                RangeBasedCondition r7 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.WaterEquivalentOfSnowPack);
+                if(r7.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.WaterEquivalentOfSnowPack.ValueType)){prc.AddCondition(r7);}
                 string preConditionsResult = pre.VerifyPreconditions(prc, callID); if (!string.IsNullOrEmpty(preConditionsResult)) { pre.TestsOut(preConditionsResult, true, "PreConditions errors in strategy " + this.GetType().Name); } return preConditionsResult;
             }
             catch (Exception exception)
@@ -229,13 +229,13 @@ namespace SurfaceSWATSoilSWATC.Strategies
 
         private void CalculateModel(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCState s, SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCState s1, SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCRate r, SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCAuxiliary a, SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenous ex)
         {
-            double AirTemperatureMinimum = ex.AirTemperatureMinimum;
             double GlobalSolarRadiation = ex.GlobalSolarRadiation;
             double[] SoilTemperatureByLayers = s.SoilTemperatureByLayers;
+            double AirTemperatureMaximum = ex.AirTemperatureMaximum;
+            double AirTemperatureMinimum = ex.AirTemperatureMinimum;
+            double Albedo = ex.Albedo;
             double AboveGroundBiomass = s.AboveGroundBiomass;
             double WaterEquivalentOfSnowPack = ex.WaterEquivalentOfSnowPack;
-            double AirTemperatureMaximum = ex.AirTemperatureMaximum;
-            double Albedo = ex.Albedo;
             double SurfaceSoilTemperature;
             double _Tavg;
             double _Hterm;

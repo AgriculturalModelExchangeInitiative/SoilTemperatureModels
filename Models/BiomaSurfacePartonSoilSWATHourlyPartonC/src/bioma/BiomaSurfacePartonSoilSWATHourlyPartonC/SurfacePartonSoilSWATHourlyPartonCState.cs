@@ -10,21 +10,21 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
     public class SurfacePartonSoilSWATHourlyPartonCState : ICloneable, IDomainClass
     {
         private double _AboveGroundBiomass;
-        private double _SoilProfileDepth;
-        private double[] _LayerThickness;
         private double[] _VolumetricWaterContent;
         private double[] _BulkDensity;
-        private double[] _Silt;
-        private double[] _OrganicMatter;
+        private double[] _LayerThickness;
+        private double _SoilProfileDepth;
         private double[] _Sand;
+        private double[] _OrganicMatter;
         private double[] _Clay;
+        private double[] _Silt;
         private double _SurfaceSoilTemperature;
         private double[] _SoilTemperatureByLayers;
         private double[] _HeatCapacity;
         private double[] _ThermalConductivity;
         private double[] _ThermalDiffusivity;
-        private double[] _SoilTemperatureMinimum;
         private double[] _SoilTemperatureRangeByLayers;
+        private double[] _SoilTemperatureMinimum;
         private double[] _SoilTemperatureMaximum;
         private double[] _SoilTemperatureByLayersHourly;
         private ParametersIO _parametersIO;
@@ -39,11 +39,6 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
             if (copyAll)
             {
                 _AboveGroundBiomass = toCopy._AboveGroundBiomass;
-                _SoilProfileDepth = toCopy._SoilProfileDepth;
-                LayerThickness = new double[toCopy._LayerThickness.Length];
-            for (int i = 0; i < toCopy._LayerThickness.Length; i++)
-            { _LayerThickness[i] = toCopy._LayerThickness[i]; }
-    
                 VolumetricWaterContent = new double[toCopy._VolumetricWaterContent.Length];
             for (int i = 0; i < toCopy._VolumetricWaterContent.Length; i++)
             { _VolumetricWaterContent[i] = toCopy._VolumetricWaterContent[i]; }
@@ -52,21 +47,26 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
             for (int i = 0; i < toCopy._BulkDensity.Length; i++)
             { _BulkDensity[i] = toCopy._BulkDensity[i]; }
     
-                Silt = new double[toCopy._Silt.Length];
-            for (int i = 0; i < toCopy._Silt.Length; i++)
-            { _Silt[i] = toCopy._Silt[i]; }
+                LayerThickness = new double[toCopy._LayerThickness.Length];
+            for (int i = 0; i < toCopy._LayerThickness.Length; i++)
+            { _LayerThickness[i] = toCopy._LayerThickness[i]; }
+    
+                _SoilProfileDepth = toCopy._SoilProfileDepth;
+                Sand = new double[toCopy._Sand.Length];
+            for (int i = 0; i < toCopy._Sand.Length; i++)
+            { _Sand[i] = toCopy._Sand[i]; }
     
                 OrganicMatter = new double[toCopy._OrganicMatter.Length];
             for (int i = 0; i < toCopy._OrganicMatter.Length; i++)
             { _OrganicMatter[i] = toCopy._OrganicMatter[i]; }
     
-                Sand = new double[toCopy._Sand.Length];
-            for (int i = 0; i < toCopy._Sand.Length; i++)
-            { _Sand[i] = toCopy._Sand[i]; }
-    
                 Clay = new double[toCopy._Clay.Length];
             for (int i = 0; i < toCopy._Clay.Length; i++)
             { _Clay[i] = toCopy._Clay[i]; }
+    
+                Silt = new double[toCopy._Silt.Length];
+            for (int i = 0; i < toCopy._Silt.Length; i++)
+            { _Silt[i] = toCopy._Silt[i]; }
     
                 _SurfaceSoilTemperature = toCopy._SurfaceSoilTemperature;
                 SoilTemperatureByLayers = new double[toCopy._SoilTemperatureByLayers.Length];
@@ -85,13 +85,13 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
             for (int i = 0; i < toCopy._ThermalDiffusivity.Length; i++)
             { _ThermalDiffusivity[i] = toCopy._ThermalDiffusivity[i]; }
     
-                SoilTemperatureMinimum = new double[toCopy._SoilTemperatureMinimum.Length];
-            for (int i = 0; i < toCopy._SoilTemperatureMinimum.Length; i++)
-            { _SoilTemperatureMinimum[i] = toCopy._SoilTemperatureMinimum[i]; }
-    
                 SoilTemperatureRangeByLayers = new double[toCopy._SoilTemperatureRangeByLayers.Length];
             for (int i = 0; i < toCopy._SoilTemperatureRangeByLayers.Length; i++)
             { _SoilTemperatureRangeByLayers[i] = toCopy._SoilTemperatureRangeByLayers[i]; }
+    
+                SoilTemperatureMinimum = new double[toCopy._SoilTemperatureMinimum.Length];
+            for (int i = 0; i < toCopy._SoilTemperatureMinimum.Length; i++)
+            { _SoilTemperatureMinimum[i] = toCopy._SoilTemperatureMinimum[i]; }
     
                 SoilTemperatureMaximum = new double[toCopy._SoilTemperatureMaximum.Length];
             for (int i = 0; i < toCopy._SoilTemperatureMaximum.Length; i++)
@@ -109,16 +109,6 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
             get { return this._AboveGroundBiomass; }
             set { this._AboveGroundBiomass= value; } 
         }
-        public double SoilProfileDepth
-        {
-            get { return this._SoilProfileDepth; }
-            set { this._SoilProfileDepth= value; } 
-        }
-        public double[] LayerThickness
-        {
-            get { return this._LayerThickness; }
-            set { this._LayerThickness= value; } 
-        }
         public double[] VolumetricWaterContent
         {
             get { return this._VolumetricWaterContent; }
@@ -129,25 +119,35 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
             get { return this._BulkDensity; }
             set { this._BulkDensity= value; } 
         }
-        public double[] Silt
+        public double[] LayerThickness
         {
-            get { return this._Silt; }
-            set { this._Silt= value; } 
+            get { return this._LayerThickness; }
+            set { this._LayerThickness= value; } 
         }
-        public double[] OrganicMatter
+        public double SoilProfileDepth
         {
-            get { return this._OrganicMatter; }
-            set { this._OrganicMatter= value; } 
+            get { return this._SoilProfileDepth; }
+            set { this._SoilProfileDepth= value; } 
         }
         public double[] Sand
         {
             get { return this._Sand; }
             set { this._Sand= value; } 
         }
+        public double[] OrganicMatter
+        {
+            get { return this._OrganicMatter; }
+            set { this._OrganicMatter= value; } 
+        }
         public double[] Clay
         {
             get { return this._Clay; }
             set { this._Clay= value; } 
+        }
+        public double[] Silt
+        {
+            get { return this._Silt; }
+            set { this._Silt= value; } 
         }
         public double SurfaceSoilTemperature
         {
@@ -174,15 +174,15 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
             get { return this._ThermalDiffusivity; }
             set { this._ThermalDiffusivity= value; } 
         }
-        public double[] SoilTemperatureMinimum
-        {
-            get { return this._SoilTemperatureMinimum; }
-            set { this._SoilTemperatureMinimum= value; } 
-        }
         public double[] SoilTemperatureRangeByLayers
         {
             get { return this._SoilTemperatureRangeByLayers; }
             set { this._SoilTemperatureRangeByLayers= value; } 
+        }
+        public double[] SoilTemperatureMinimum
+        {
+            get { return this._SoilTemperatureMinimum; }
+            set { this._SoilTemperatureMinimum= value; } 
         }
         public double[] SoilTemperatureMaximum
         {
@@ -213,21 +213,21 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
         public virtual Boolean ClearValues()
         {
              _AboveGroundBiomass = default(double);
-             _SoilProfileDepth = default(double);
-             _LayerThickness = new double[];
              _VolumetricWaterContent = new double[];
              _BulkDensity = new double[];
-             _Silt = new double[];
-             _OrganicMatter = new double[];
+             _LayerThickness = new double[];
+             _SoilProfileDepth = default(double);
              _Sand = new double[];
+             _OrganicMatter = new double[];
              _Clay = new double[];
+             _Silt = new double[];
              _SurfaceSoilTemperature = default(double);
              _SoilTemperatureByLayers = new double[];
              _HeatCapacity = new double[];
              _ThermalConductivity = new double[];
              _ThermalDiffusivity = new double[];
-             _SoilTemperatureMinimum = new double[];
              _SoilTemperatureRangeByLayers = new double[];
+             _SoilTemperatureMinimum = new double[];
              _SoilTemperatureMaximum = new double[];
              _SoilTemperatureByLayersHourly = new double[];
             return true;

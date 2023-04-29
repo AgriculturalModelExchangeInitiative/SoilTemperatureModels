@@ -32,6 +32,15 @@ public class SoilTemperatureSWAT
     //                          ** min : -60
     //                          ** default : 15
     //                          ** unit : Â°C
+    //            * name: LagCoefficient
+    //                          ** description : Lag coefficient that controls the influence of the previous day's temperature on the current day's temperature
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
+    //                          ** datatype : DOUBLE
+    //                          ** max : 1
+    //                          ** min : 0
+    //                          ** default : 0.8
+    //                          ** unit : dimensionless
     //            * name: AirTemperatureAnnualAverage
     //                          ** description : Annual average air temperature
     //                          ** inputtype : variable
@@ -41,16 +50,6 @@ public class SoilTemperatureSWAT
     //                          ** min : -40
     //                          ** default : 15
     //                          ** unit : Â°C
-    //            * name: VolumetricWaterContent
-    //                          ** description : Volumetric soil water content
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 0.8
-    //                          ** min : 0
-    //                          ** default : 0.25
-    //                          ** unit : m3 m-3
     //            * name: BulkDensity
     //                          ** description : Bulk density
     //                          ** inputtype : variable
@@ -61,15 +60,6 @@ public class SoilTemperatureSWAT
     //                          ** min : 0.9
     //                          ** default : 1.3
     //                          ** unit : t m-3
-    //            * name: SoilProfileDepth
-    //                          ** description : Soil profile depth
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 50
-    //                          ** min : 0
-    //                          ** default : 3
-    //                          ** unit : m
     //            * name: LayerThickness
     //                          ** description : Soil layer thickness
     //                          ** inputtype : variable
@@ -80,15 +70,25 @@ public class SoilTemperatureSWAT
     //                          ** min : 0.005
     //                          ** default : 0.05
     //                          ** unit : m
-    //            * name: LagCoefficient
-    //                          ** description : Lag coefficient that controls the influence of the previous day's temperature on the current day's temperature
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : DOUBLE
-    //                          ** max : 1
+    //            * name: VolumetricWaterContent
+    //                          ** description : Volumetric soil water content
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
+    //                          ** max : 0.8
     //                          ** min : 0
-    //                          ** default : 0.8
-    //                          ** unit : dimensionless
+    //                          ** default : 0.25
+    //                          ** unit : m3 m-3
+    //            * name: SoilProfileDepth
+    //                          ** description : Soil profile depth
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLE
+    //                          ** max : 50
+    //                          ** min : 0
+    //                          ** default : 3
+    //                          ** unit : m
     //            * name: SurfaceSoilTemperature
     //                          ** description : Average surface soil temperature
     //                          ** inputtype : variable
@@ -109,10 +109,10 @@ public class SoilTemperatureSWAT
     //                          ** unit : Â°C
         double[] SoilTemperatureByLayers = s.SoilTemperatureByLayers;
         double AirTemperatureAnnualAverage = ex.AirTemperatureAnnualAverage;
-        double[] VolumetricWaterContent = s.VolumetricWaterContent;
         double[] BulkDensity = s.BulkDensity;
-        double SoilProfileDepth = s.SoilProfileDepth;
         double[] LayerThickness = s.LayerThickness;
+        double[] VolumetricWaterContent = s.VolumetricWaterContent;
+        double SoilProfileDepth = s.SoilProfileDepth;
         double SurfaceSoilTemperature = s.SurfaceSoilTemperature;
         int i;
         double _SoilProfileDepthmm;

@@ -29,9 +29,9 @@ namespace Model.Model.SurfacePartonSoilSWATC
      
         public double[] SoilTemperatureByLayers{ get { return s.SoilTemperatureByLayers;}} 
      
-        public double SurfaceTemperatureMaximum{ get { return a.SurfaceTemperatureMaximum;}} 
-     
         public double SurfaceTemperatureMinimum{ get { return a.SurfaceTemperatureMinimum;}} 
+     
+        public double SurfaceTemperatureMaximum{ get { return a.SurfaceTemperatureMaximum;}} 
      
 
         public SurfacePartonSoilSWATCWrapper(Universe universe, SurfacePartonSoilSWATCWrapper toCopy, bool copyAll) : base(universe)
@@ -56,12 +56,12 @@ namespace Model.Model.SurfacePartonSoilSWATC
             surfacepartonsoilswatcComponent.LagCoefficient = LagCoefficient;
         }
 
-        public void EstimateSurfacePartonSoilSWATC(double GlobalSolarRadiation, double AirTemperatureMinimum, double DayLength, double AirTemperatureMaximum, double AirTemperatureAnnualAverage)
+        public void EstimateSurfacePartonSoilSWATC(double DayLength, double AirTemperatureMaximum, double AirTemperatureMinimum, double GlobalSolarRadiation, double AirTemperatureAnnualAverage)
         {
-            a.GlobalSolarRadiation = GlobalSolarRadiation;
-            a.AirTemperatureMinimum = AirTemperatureMinimum;
             a.DayLength = DayLength;
             a.AirTemperatureMaximum = AirTemperatureMaximum;
+            a.AirTemperatureMinimum = AirTemperatureMinimum;
+            a.GlobalSolarRadiation = GlobalSolarRadiation;
             a.AirTemperatureAnnualAverage = AirTemperatureAnnualAverage;
             surfacepartonsoilswatcComponent.CalculateModel(s,s1, r, a, ex);
         }

@@ -1,12 +1,10 @@
 import numpy 
 from math import *
-def model_surfacetemperatureparton(float DayLength,
+def model_surfacetemperatureparton(float GlobalSolarRadiation,
+                                   float DayLength,
+                                   float AboveGroundBiomass,
                                    float AirTemperatureMinimum,
-                                   float GlobalSolarRadiation,
-                                   float AirTemperatureMaximum,
-                                   float SurfaceTemperatureMaximum,
-                                   float SurfaceTemperatureMinimum,
-                                   float AboveGroundBiomass):
+                                   float AirTemperatureMaximum):
     """
 
     SurfaceTemperatureParton model
@@ -18,6 +16,8 @@ def model_surfacetemperatureparton(float DayLength,
 
     """
     cdef float SurfaceSoilTemperature
+    cdef float SurfaceTemperatureMinimum
+    cdef float SurfaceTemperatureMaximum
     cdef float _AGB 
     cdef float _AirTMax 
     cdef float _AirTmin 
@@ -35,6 +35,6 @@ def model_surfacetemperatureparton(float DayLength,
     SurfaceSoilTemperature=0.41 * SurfaceTemperatureMaximum + (0.59 * SurfaceTemperatureMinimum)
     if DayLength != float(0):
         SurfaceSoilTemperature=DayLength / 24 * _AirTMax + ((1 - (DayLength / 24)) * _AirTmin)
-    return  SurfaceSoilTemperature, SurfaceTemperatureMaximum, SurfaceTemperatureMinimum
+    return  SurfaceSoilTemperature, SurfaceTemperatureMinimum, SurfaceTemperatureMaximum
 
 

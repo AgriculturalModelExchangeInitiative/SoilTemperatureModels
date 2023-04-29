@@ -1,12 +1,12 @@
 library(gsubfn)
 
-model_surfacetemperatureswat <- function (AirTemperatureMinimum,
-         GlobalSolarRadiation,
+model_surfacetemperatureswat <- function (GlobalSolarRadiation,
          SoilTemperatureByLayers,
-         AboveGroundBiomass,
-         WaterEquivalentOfSnowPack,
          AirTemperatureMaximum,
-         Albedo){
+         AirTemperatureMinimum,
+         Albedo,
+         AboveGroundBiomass,
+         WaterEquivalentOfSnowPack){
     #'- Name: SurfaceTemperatureSWAT -Version: 001, -Time step: 1
     #'- Description:
     #'            * Title: SurfaceTemperatureSWAT model
@@ -16,15 +16,6 @@ model_surfacetemperatureswat <- function (AirTemperatureMinimum,
     #'            * ExtendedDescription: Strategy for the calculation of surface soil temperature with SWAT method. Reference: Neitsch,S.L., Arnold, J.G., Kiniry, J.R., Williams, J.R., King, K.W. Soil and Water Assessment Tool. Theoretical documentation. Version 2000. http://swatmodel.tamu.edu/media/1290/swat2000theory.pdf
     #'            * ShortDescription: None
     #'- inputs:
-    #'            * name: AirTemperatureMinimum
-    #'                          ** description : Minimum daily air temperature
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 50
-    #'                          ** min : -60
-    #'                          ** default : 5
-    #'                          ** unit : Â°C
     #'            * name: GlobalSolarRadiation
     #'                          ** description : Daily global solar radiation
     #'                          ** inputtype : variable
@@ -44,6 +35,33 @@ model_surfacetemperatureswat <- function (AirTemperatureMinimum,
     #'                          ** min : -60
     #'                          ** default : 15
     #'                          ** unit : Â°C
+    #'            * name: AirTemperatureMaximum
+    #'                          ** description : Maximum daily air temperature
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : exogenous
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 60
+    #'                          ** min : -40
+    #'                          ** default : 15
+    #'                          ** unit : Â°C
+    #'            * name: AirTemperatureMinimum
+    #'                          ** description : Minimum daily air temperature
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : exogenous
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 50
+    #'                          ** min : -60
+    #'                          ** default : 5
+    #'                          ** unit : Â°C
+    #'            * name: Albedo
+    #'                          ** description : Albedo of soil
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : exogenous
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 1
+    #'                          ** min : 0
+    #'                          ** default : 0.2
+    #'                          ** unit : unitless
     #'            * name: AboveGroundBiomass
     #'                          ** description : Above ground biomass
     #'                          ** inputtype : variable
@@ -62,24 +80,6 @@ model_surfacetemperatureswat <- function (AirTemperatureMinimum,
     #'                          ** min : 0
     #'                          ** default : 10
     #'                          ** unit : mm
-    #'            * name: AirTemperatureMaximum
-    #'                          ** description : Maximum daily air temperature
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 60
-    #'                          ** min : -40
-    #'                          ** default : 15
-    #'                          ** unit : Â°C
-    #'            * name: Albedo
-    #'                          ** description : Albedo of soil
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 1
-    #'                          ** min : 0
-    #'                          ** default : 0.2
-    #'                          ** unit : unitless
     #'- outputs:
     #'            * name: SurfaceSoilTemperature
     #'                          ** description : Average surface soil temperature

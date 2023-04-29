@@ -1,12 +1,12 @@
 import numpy 
 from math import *
-def model_volumetricheatcapacitykluitenberg(float Silt[],
-                                            float OrganicMatter[],
+def model_volumetricheatcapacitykluitenberg(float VolumetricWaterContent[],
                                             float Sand[],
-                                            float VolumetricWaterContent[],
                                             float BulkDensity[],
+                                            float OrganicMatter[],
+                                            float HeatCapacity[],
                                             float Clay[],
-                                            float HeatCapacity[]):
+                                            float Silt[]):
     """
 
     VolumetricHeatCapacityKluitenberg model

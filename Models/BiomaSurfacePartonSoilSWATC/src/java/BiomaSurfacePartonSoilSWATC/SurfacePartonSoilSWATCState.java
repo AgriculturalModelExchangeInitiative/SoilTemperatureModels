@@ -4,10 +4,10 @@ import java.time.LocalDateTime;
 public class SurfacePartonSoilSWATCState
 {
     private Double AboveGroundBiomass;
-    private Double [] LayerThickness;
     private Double [] VolumetricWaterContent;
-    private Double SoilProfileDepth;
+    private Double [] LayerThickness;
     private Double [] BulkDensity;
+    private Double SoilProfileDepth;
     private Double SurfaceSoilTemperature;
     private Double [] SoilTemperatureByLayers;
     
@@ -18,22 +18,22 @@ public class SurfacePartonSoilSWATCState
         if (copyAll)
         {
             this.AboveGroundBiomass = toCopy.getAboveGroundBiomass();
-            LayerThickness = new Double[toCopy.getLayerThickness().length];
-        for (int i = 0; i < toCopy.getLayerThickness().length; i++)
-        {
-            LayerThickness[i] = toCopy.getLayerThickness()[i];
-        }
             VolumetricWaterContent = new Double[toCopy.getVolumetricWaterContent().length];
         for (int i = 0; i < toCopy.getVolumetricWaterContent().length; i++)
         {
             VolumetricWaterContent[i] = toCopy.getVolumetricWaterContent()[i];
         }
-            this.SoilProfileDepth = toCopy.getSoilProfileDepth();
+            LayerThickness = new Double[toCopy.getLayerThickness().length];
+        for (int i = 0; i < toCopy.getLayerThickness().length; i++)
+        {
+            LayerThickness[i] = toCopy.getLayerThickness()[i];
+        }
             BulkDensity = new Double[toCopy.getBulkDensity().length];
         for (int i = 0; i < toCopy.getBulkDensity().length; i++)
         {
             BulkDensity[i] = toCopy.getBulkDensity()[i];
         }
+            this.SoilProfileDepth = toCopy.getSoilProfileDepth();
             this.SurfaceSoilTemperature = toCopy.getSurfaceSoilTemperature();
             SoilTemperatureByLayers = new Double[toCopy.getSoilTemperatureByLayers().length];
         for (int i = 0; i < toCopy.getSoilTemperatureByLayers().length; i++)
@@ -48,29 +48,29 @@ public class SurfacePartonSoilSWATCState
     public void setAboveGroundBiomass(Double _AboveGroundBiomass)
     { this.AboveGroundBiomass= _AboveGroundBiomass; } 
     
-    public Double [] getLayerThickness()
-    { return LayerThickness; }
-
-    public void setLayerThickness(Double [] _LayerThickness)
-    { this.LayerThickness= _LayerThickness; } 
-    
     public Double [] getVolumetricWaterContent()
     { return VolumetricWaterContent; }
 
     public void setVolumetricWaterContent(Double [] _VolumetricWaterContent)
     { this.VolumetricWaterContent= _VolumetricWaterContent; } 
     
-    public Double getSoilProfileDepth()
-    { return SoilProfileDepth; }
+    public Double [] getLayerThickness()
+    { return LayerThickness; }
 
-    public void setSoilProfileDepth(Double _SoilProfileDepth)
-    { this.SoilProfileDepth= _SoilProfileDepth; } 
+    public void setLayerThickness(Double [] _LayerThickness)
+    { this.LayerThickness= _LayerThickness; } 
     
     public Double [] getBulkDensity()
     { return BulkDensity; }
 
     public void setBulkDensity(Double [] _BulkDensity)
     { this.BulkDensity= _BulkDensity; } 
+    
+    public Double getSoilProfileDepth()
+    { return SoilProfileDepth; }
+
+    public void setSoilProfileDepth(Double _SoilProfileDepth)
+    { this.SoilProfileDepth= _SoilProfileDepth; } 
     
     public Double getSurfaceSoilTemperature()
     { return SurfaceSoilTemperature; }

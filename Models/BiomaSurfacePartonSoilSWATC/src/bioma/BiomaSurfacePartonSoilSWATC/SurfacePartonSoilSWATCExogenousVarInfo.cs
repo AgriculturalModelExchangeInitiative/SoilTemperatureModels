@@ -9,10 +9,10 @@ namespace SurfacePartonSoilSWATC.DomainClass
 {
     public class SurfacePartonSoilSWATCExogenousVarInfo : IVarInfoClass
     {
-        static VarInfo _GlobalSolarRadiation = new VarInfo();
-        static VarInfo _AirTemperatureMinimum = new VarInfo();
         static VarInfo _DayLength = new VarInfo();
         static VarInfo _AirTemperatureMaximum = new VarInfo();
+        static VarInfo _AirTemperatureMinimum = new VarInfo();
+        static VarInfo _GlobalSolarRadiation = new VarInfo();
         static VarInfo _AirTemperatureAnnualAverage = new VarInfo();
 
         static SurfacePartonSoilSWATCExogenousVarInfo()
@@ -35,16 +35,6 @@ namespace SurfacePartonSoilSWATC.DomainClass
             get { return "SurfacePartonSoilSWATCExogenous";}
         }
 
-        public static  VarInfo GlobalSolarRadiation
-        {
-            get { return _GlobalSolarRadiation;}
-        }
-
-        public static  VarInfo AirTemperatureMinimum
-        {
-            get { return _AirTemperatureMinimum;}
-        }
-
         public static  VarInfo DayLength
         {
             get { return _DayLength;}
@@ -55,6 +45,16 @@ namespace SurfacePartonSoilSWATC.DomainClass
             get { return _AirTemperatureMaximum;}
         }
 
+        public static  VarInfo AirTemperatureMinimum
+        {
+            get { return _AirTemperatureMinimum;}
+        }
+
+        public static  VarInfo GlobalSolarRadiation
+        {
+            get { return _GlobalSolarRadiation;}
+        }
+
         public static  VarInfo AirTemperatureAnnualAverage
         {
             get { return _AirTemperatureAnnualAverage;}
@@ -62,22 +62,6 @@ namespace SurfacePartonSoilSWATC.DomainClass
 
         static void DescribeVariables()
         {
-            _GlobalSolarRadiation.Name = "GlobalSolarRadiation";
-            _GlobalSolarRadiation.Description = "Daily global solar radiation";
-            _GlobalSolarRadiation.MaxValue = 50;
-            _GlobalSolarRadiation.MinValue = 0;
-            _GlobalSolarRadiation.DefaultValue = 15;
-            _GlobalSolarRadiation.Units = "Mj m-2 d-1";
-            _GlobalSolarRadiation.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
-
-            _AirTemperatureMinimum.Name = "AirTemperatureMinimum";
-            _AirTemperatureMinimum.Description = "Minimum daily air temperature";
-            _AirTemperatureMinimum.MaxValue = 50;
-            _AirTemperatureMinimum.MinValue = -60;
-            _AirTemperatureMinimum.DefaultValue = 5;
-            _AirTemperatureMinimum.Units = "Â°C";
-            _AirTemperatureMinimum.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
-
             _DayLength.Name = "DayLength";
             _DayLength.Description = "Length of the day";
             _DayLength.MaxValue = 24;
@@ -93,6 +77,22 @@ namespace SurfacePartonSoilSWATC.DomainClass
             _AirTemperatureMaximum.DefaultValue = 15;
             _AirTemperatureMaximum.Units = "Â°C";
             _AirTemperatureMaximum.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+
+            _AirTemperatureMinimum.Name = "AirTemperatureMinimum";
+            _AirTemperatureMinimum.Description = "Minimum daily air temperature";
+            _AirTemperatureMinimum.MaxValue = 50;
+            _AirTemperatureMinimum.MinValue = -60;
+            _AirTemperatureMinimum.DefaultValue = 5;
+            _AirTemperatureMinimum.Units = "Â°C";
+            _AirTemperatureMinimum.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+
+            _GlobalSolarRadiation.Name = "GlobalSolarRadiation";
+            _GlobalSolarRadiation.Description = "Daily global solar radiation";
+            _GlobalSolarRadiation.MaxValue = 50;
+            _GlobalSolarRadiation.MinValue = 0;
+            _GlobalSolarRadiation.DefaultValue = 15;
+            _GlobalSolarRadiation.Units = "Mj m-2 d-1";
+            _GlobalSolarRadiation.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _AirTemperatureAnnualAverage.Name = "AirTemperatureAnnualAverage";
             _AirTemperatureAnnualAverage.Description = "Annual average air temperature";

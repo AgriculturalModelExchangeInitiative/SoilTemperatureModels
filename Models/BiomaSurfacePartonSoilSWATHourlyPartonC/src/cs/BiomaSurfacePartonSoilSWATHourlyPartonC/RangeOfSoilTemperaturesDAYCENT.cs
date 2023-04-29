@@ -27,6 +27,25 @@ public class RangeOfSoilTemperaturesDAYCENT
     //                          ** min : 0.005
     //                          ** default : 0.05
     //                          ** unit : m
+    //            * name: SurfaceTemperatureMinimum
+    //                          ** description : Minimum surface soil temperature
+    //                          ** inputtype : variable
+    //                          ** variablecategory : auxiliary
+    //                          ** datatype : DOUBLE
+    //                          ** max : 60
+    //                          ** min : -60
+    //                          ** default : 10
+    //                          ** unit : Â°C
+    //            * name: ThermalDiffusivity
+    //                          ** description : Thermal diffusivity of soil layer
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
+    //                          ** max : 1
+    //                          ** min : 0
+    //                          ** default : 0.0025
+    //                          ** unit : mm s-1
     //            * name: SoilTemperatureByLayers
     //                          ** description : Soil temperature of each layer
     //                          ** inputtype : variable
@@ -46,34 +65,7 @@ public class RangeOfSoilTemperaturesDAYCENT
     //                          ** min : -60
     //                          ** default : 25
     //                          ** unit : Â°C
-    //            * name: ThermalDiffusivity
-    //                          ** description : Thermal diffusivity of soil layer
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 1
-    //                          ** min : 0
-    //                          ** default : 0.0025
-    //                          ** unit : mm s-1
-    //            * name: SurfaceTemperatureMinimum
-    //                          ** description : Minimum surface soil temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : auxiliary
-    //                          ** datatype : DOUBLE
-    //                          ** max : 60
-    //                          ** min : -60
-    //                          ** default : 10
-    //                          ** unit : Â°C
         //- outputs:
-    //            * name: SoilTemperatureMinimum
-    //                          ** description : Minimum soil temperature by layers
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** variablecategory : state
-    //                          ** len : 
-    //                          ** max : 60
-    //                          ** min : -60
-    //                          ** unit : Â°C
     //            * name: SoilTemperatureRangeByLayers
     //                          ** description : Soil temperature range by layers
     //                          ** datatype : DOUBLEARRAY
@@ -81,6 +73,14 @@ public class RangeOfSoilTemperaturesDAYCENT
     //                          ** len : 
     //                          ** max : 50
     //                          ** min : 0
+    //                          ** unit : Â°C
+    //            * name: SoilTemperatureMinimum
+    //                          ** description : Minimum soil temperature by layers
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** variablecategory : state
+    //                          ** len : 
+    //                          ** max : 60
+    //                          ** min : -60
     //                          ** unit : Â°C
     //            * name: SoilTemperatureMaximum
     //                          ** description : Maximum soil temperature by layers
@@ -91,12 +91,12 @@ public class RangeOfSoilTemperaturesDAYCENT
     //                          ** min : -60
     //                          ** unit : Â°C
         double[] LayerThickness = s.LayerThickness;
+        double SurfaceTemperatureMinimum = a.SurfaceTemperatureMinimum;
+        double[] ThermalDiffusivity = s.ThermalDiffusivity;
         double[] SoilTemperatureByLayers = s.SoilTemperatureByLayers;
         double SurfaceTemperatureMaximum = a.SurfaceTemperatureMaximum;
-        double[] ThermalDiffusivity = s.ThermalDiffusivity;
-        double SurfaceTemperatureMinimum = a.SurfaceTemperatureMinimum;
-        double[] SoilTemperatureMinimum ;
         double[] SoilTemperatureRangeByLayers ;
+        double[] SoilTemperatureMinimum ;
         double[] SoilTemperatureMaximum ;
         int i;
         double _DepthBottom;
@@ -123,8 +123,8 @@ public class RangeOfSoilTemperaturesDAYCENT
                 SoilTemperatureMinimum[i] = SoilTemperatureByLayers[i] - (SoilTemperatureRangeByLayers[i] / 2);
             }
         }
-        s.SoilTemperatureMinimum= SoilTemperatureMinimum;
         s.SoilTemperatureRangeByLayers= SoilTemperatureRangeByLayers;
+        s.SoilTemperatureMinimum= SoilTemperatureMinimum;
         s.SoilTemperatureMaximum= SoilTemperatureMaximum;
     }
 }

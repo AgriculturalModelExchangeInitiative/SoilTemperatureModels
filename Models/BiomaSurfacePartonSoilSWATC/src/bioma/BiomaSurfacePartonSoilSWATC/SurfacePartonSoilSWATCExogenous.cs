@@ -9,10 +9,10 @@ namespace SurfacePartonSoilSWATC.DomainClass
 {
     public class SurfacePartonSoilSWATCExogenous : ICloneable, IDomainClass
     {
-        private double _GlobalSolarRadiation;
-        private double _AirTemperatureMinimum;
         private double _DayLength;
         private double _AirTemperatureMaximum;
+        private double _AirTemperatureMinimum;
+        private double _GlobalSolarRadiation;
         private double _AirTemperatureAnnualAverage;
         private ParametersIO _parametersIO;
 
@@ -25,24 +25,14 @@ namespace SurfacePartonSoilSWATC.DomainClass
         {
             if (copyAll)
             {
-                _GlobalSolarRadiation = toCopy._GlobalSolarRadiation;
-                _AirTemperatureMinimum = toCopy._AirTemperatureMinimum;
                 _DayLength = toCopy._DayLength;
                 _AirTemperatureMaximum = toCopy._AirTemperatureMaximum;
+                _AirTemperatureMinimum = toCopy._AirTemperatureMinimum;
+                _GlobalSolarRadiation = toCopy._GlobalSolarRadiation;
                 _AirTemperatureAnnualAverage = toCopy._AirTemperatureAnnualAverage;
             }
         }
 
-        public double GlobalSolarRadiation
-        {
-            get { return this._GlobalSolarRadiation; }
-            set { this._GlobalSolarRadiation= value; } 
-        }
-        public double AirTemperatureMinimum
-        {
-            get { return this._AirTemperatureMinimum; }
-            set { this._AirTemperatureMinimum= value; } 
-        }
         public double DayLength
         {
             get { return this._DayLength; }
@@ -52,6 +42,16 @@ namespace SurfacePartonSoilSWATC.DomainClass
         {
             get { return this._AirTemperatureMaximum; }
             set { this._AirTemperatureMaximum= value; } 
+        }
+        public double AirTemperatureMinimum
+        {
+            get { return this._AirTemperatureMinimum; }
+            set { this._AirTemperatureMinimum= value; } 
+        }
+        public double GlobalSolarRadiation
+        {
+            get { return this._GlobalSolarRadiation; }
+            set { this._GlobalSolarRadiation= value; } 
         }
         public double AirTemperatureAnnualAverage
         {
@@ -76,10 +76,10 @@ namespace SurfacePartonSoilSWATC.DomainClass
 
         public virtual Boolean ClearValues()
         {
-             _GlobalSolarRadiation = default(double);
-             _AirTemperatureMinimum = default(double);
              _DayLength = default(double);
              _AirTemperatureMaximum = default(double);
+             _AirTemperatureMinimum = default(double);
+             _GlobalSolarRadiation = default(double);
              _AirTemperatureAnnualAverage = default(double);
             return true;
         }

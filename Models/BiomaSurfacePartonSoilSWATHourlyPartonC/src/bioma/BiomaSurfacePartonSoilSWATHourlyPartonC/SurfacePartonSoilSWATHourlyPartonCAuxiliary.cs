@@ -9,8 +9,8 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
 {
     public class SurfacePartonSoilSWATHourlyPartonCAuxiliary : ICloneable, IDomainClass
     {
-        private double _SurfaceTemperatureMaximum;
         private double _SurfaceTemperatureMinimum;
+        private double _SurfaceTemperatureMaximum;
         private ParametersIO _parametersIO;
 
         public SurfacePartonSoilSWATHourlyPartonCAuxiliary()
@@ -22,20 +22,20 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
         {
             if (copyAll)
             {
-                _SurfaceTemperatureMaximum = toCopy._SurfaceTemperatureMaximum;
                 _SurfaceTemperatureMinimum = toCopy._SurfaceTemperatureMinimum;
+                _SurfaceTemperatureMaximum = toCopy._SurfaceTemperatureMaximum;
             }
         }
 
-        public double SurfaceTemperatureMaximum
-        {
-            get { return this._SurfaceTemperatureMaximum; }
-            set { this._SurfaceTemperatureMaximum= value; } 
-        }
         public double SurfaceTemperatureMinimum
         {
             get { return this._SurfaceTemperatureMinimum; }
             set { this._SurfaceTemperatureMinimum= value; } 
+        }
+        public double SurfaceTemperatureMaximum
+        {
+            get { return this._SurfaceTemperatureMaximum; }
+            set { this._SurfaceTemperatureMaximum= value; } 
         }
 
         public string Description
@@ -55,8 +55,8 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
 
         public virtual Boolean ClearValues()
         {
-             _SurfaceTemperatureMaximum = default(double);
              _SurfaceTemperatureMinimum = default(double);
+             _SurfaceTemperatureMaximum = default(double);
             return true;
         }
 

@@ -1,11 +1,11 @@
 import numpy 
 from math import *
-def model_hourlysoiltemperaturespartonlogan(float SoilTemperatureMinimum[],
-                                            float DayLength,
-                                            float SoilTemperatureMaximum[],
+def model_hourlysoiltemperaturespartonlogan(float SoilTemperatureByLayersHourly[],
+                                            float HourOfSunrise,
                                             float HourOfSunset,
-                                            float SoilTemperatureByLayersHourly[],
-                                            float HourOfSunrise):
+                                            float DayLength,
+                                            float SoilTemperatureMinimum[],
+                                            float SoilTemperatureMaximum[]):
     """
 
     HourlySoilTemperaturesPartonLogan model

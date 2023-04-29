@@ -9,12 +9,12 @@ import numpy
 
 #%%CyML Model Begin%%
 def model_soiltemperatureswat(SoilTemperatureByLayers:'Array[float]',
-         AirTemperatureAnnualAverage:float,
-         VolumetricWaterContent:'Array[float]',
-         BulkDensity:'Array[float]',
-         SoilProfileDepth:float,
-         LayerThickness:'Array[float]',
          LagCoefficient:float,
+         AirTemperatureAnnualAverage:float,
+         BulkDensity:'Array[float]',
+         LayerThickness:'Array[float]',
+         VolumetricWaterContent:'Array[float]',
+         SoilProfileDepth:float,
          SurfaceSoilTemperature:float):
     """
      - Name: SoilTemperatureSWAT -Version: 001, -Time step: 1
@@ -36,6 +36,15 @@ def model_soiltemperatureswat(SoilTemperatureByLayers:'Array[float]',
                                ** min : -60
                                ** default : 15
                                ** unit : Â°C
+                 * name: LagCoefficient
+                               ** description : Lag coefficient that controls the influence of the previous day's temperature on the current day's temperature
+                               ** inputtype : parameter
+                               ** parametercategory : constant
+                               ** datatype : DOUBLE
+                               ** max : 1
+                               ** min : 0
+                               ** default : 0.8
+                               ** unit : dimensionless
                  * name: AirTemperatureAnnualAverage
                                ** description : Annual average air temperature
                                ** inputtype : variable
@@ -45,16 +54,6 @@ def model_soiltemperatureswat(SoilTemperatureByLayers:'Array[float]',
                                ** min : -40
                                ** default : 15
                                ** unit : Â°C
-                 * name: VolumetricWaterContent
-                               ** description : Volumetric soil water content
-                               ** inputtype : variable
-                               ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : 
-                               ** max : 0.8
-                               ** min : 0
-                               ** default : 0.25
-                               ** unit : m3 m-3
                  * name: BulkDensity
                                ** description : Bulk density
                                ** inputtype : variable
@@ -65,15 +64,6 @@ def model_soiltemperatureswat(SoilTemperatureByLayers:'Array[float]',
                                ** min : 0.9
                                ** default : 1.3
                                ** unit : t m-3
-                 * name: SoilProfileDepth
-                               ** description : Soil profile depth
-                               ** inputtype : variable
-                               ** variablecategory : state
-                               ** datatype : DOUBLE
-                               ** max : 50
-                               ** min : 0
-                               ** default : 3
-                               ** unit : m
                  * name: LayerThickness
                                ** description : Soil layer thickness
                                ** inputtype : variable
@@ -84,15 +74,25 @@ def model_soiltemperatureswat(SoilTemperatureByLayers:'Array[float]',
                                ** min : 0.005
                                ** default : 0.05
                                ** unit : m
-                 * name: LagCoefficient
-                               ** description : Lag coefficient that controls the influence of the previous day's temperature on the current day's temperature
-                               ** inputtype : parameter
-                               ** parametercategory : constant
-                               ** datatype : DOUBLE
-                               ** max : 1
+                 * name: VolumetricWaterContent
+                               ** description : Volumetric soil water content
+                               ** inputtype : variable
+                               ** variablecategory : state
+                               ** datatype : DOUBLEARRAY
+                               ** len : 
+                               ** max : 0.8
                                ** min : 0
-                               ** default : 0.8
-                               ** unit : dimensionless
+                               ** default : 0.25
+                               ** unit : m3 m-3
+                 * name: SoilProfileDepth
+                               ** description : Soil profile depth
+                               ** inputtype : variable
+                               ** variablecategory : state
+                               ** datatype : DOUBLE
+                               ** max : 50
+                               ** min : 0
+                               ** default : 3
+                               ** unit : m
                  * name: SurfaceSoilTemperature
                                ** description : Average surface soil temperature
                                ** inputtype : variable

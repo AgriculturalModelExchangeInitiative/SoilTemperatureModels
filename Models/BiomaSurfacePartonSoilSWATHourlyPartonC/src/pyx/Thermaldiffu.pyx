@@ -1,7 +1,7 @@
 import numpy 
 from math import *
-def model_thermaldiffu(float ThermalConductivity[],
-                       float ThermalDiffusivity[],
+def model_thermaldiffu(float ThermalDiffusivity[],
+                       float ThermalConductivity[],
                        float HeatCapacity[]):
     """
 

@@ -14,13 +14,13 @@ import org.jdom2.Element;
 
 public class VolumetricHeatCapacityKluitenberg extends FWSimComponent
 {
-    private FWSimVariable<Double[]> Silt;
-    private FWSimVariable<Double[]> OrganicMatter;
-    private FWSimVariable<Double[]> Sand;
     private FWSimVariable<Double[]> VolumetricWaterContent;
+    private FWSimVariable<Double[]> Sand;
     private FWSimVariable<Double[]> BulkDensity;
-    private FWSimVariable<Double[]> Clay;
+    private FWSimVariable<Double[]> OrganicMatter;
     private FWSimVariable<Double[]> HeatCapacity;
+    private FWSimVariable<Double[]> Clay;
+    private FWSimVariable<Double[]> Silt;
 
     public VolumetricHeatCapacityKluitenberg(String aName, HashMap<String, FWSimVariable<?>> aFieldMap, HashMap<String, String> aInputMap, Element aSimComponentElement, FWSimVarMap aVarMap, int aOrderNumber)
     {
@@ -34,26 +34,26 @@ public class VolumetricHeatCapacityKluitenberg extends FWSimComponent
     @Override
     public HashMap<String, FWSimVariable<?>> createVariables()
     {
-        addVariable(FWSimVariable.createSimVariable("Silt", "Silt content of soil layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"%", 0, 100, 20, this));
-        addVariable(FWSimVariable.createSimVariable("OrganicMatter", "Organic matter content of soil layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"%", 0, 20, 1.5, this));
-        addVariable(FWSimVariable.createSimVariable("Sand", "Sand content of soil layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"%", 0, 100, 30, this));
         addVariable(FWSimVariable.createSimVariable("VolumetricWaterContent", "Volumetric soil water content", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"m3 m-3", 0, 0.8, 0.25, this));
+        addVariable(FWSimVariable.createSimVariable("Sand", "Sand content of soil layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"%", 0, 100, 30, this));
         addVariable(FWSimVariable.createSimVariable("BulkDensity", "Bulk density", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"t m-3", 0.9, 1.8, 1.3, this));
-        addVariable(FWSimVariable.createSimVariable("Clay", "Clay content of soil layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"%", 0, 100, 0, this));
+        addVariable(FWSimVariable.createSimVariable("OrganicMatter", "Organic matter content of soil layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"%", 0, 20, 1.5, this));
         addVariable(FWSimVariable.createSimVariable("HeatCapacity", "Volumetric specific heat of soil", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"MJ m-3 Â°C-1", 0, 300, 20, this));
+        addVariable(FWSimVariable.createSimVariable("Clay", "Clay content of soil layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"%", 0, 100, 0, this));
+        addVariable(FWSimVariable.createSimVariable("Silt", "Silt content of soil layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"%", 0, 100, 20, this));
 
         return iFieldMap;
     }
     @Override
     protected void process()
     {
-        Double [] t_Silt = Silt.getValue();
-        Double [] t_OrganicMatter = OrganicMatter.getValue();
-        Double [] t_Sand = Sand.getValue();
         Double [] t_VolumetricWaterContent = VolumetricWaterContent.getValue();
+        Double [] t_Sand = Sand.getValue();
         Double [] t_BulkDensity = BulkDensity.getValue();
-        Double [] t_Clay = Clay.getValue();
+        Double [] t_OrganicMatter = OrganicMatter.getValue();
         Double [] t_HeatCapacity = HeatCapacity.getValue();
+        Double [] t_Clay = Clay.getValue();
+        Double [] t_Silt = Silt.getValue();
         Integer i;
         Double SandFraction;
         Double SiltFraction;

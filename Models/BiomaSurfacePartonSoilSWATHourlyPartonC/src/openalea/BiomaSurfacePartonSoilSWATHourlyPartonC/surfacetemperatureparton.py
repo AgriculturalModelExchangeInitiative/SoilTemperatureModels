@@ -8,13 +8,11 @@ from datetime import datetime
 import numpy
 
 #%%CyML Model Begin%%
-def model_surfacetemperatureparton(DayLength:float,
+def model_surfacetemperatureparton(GlobalSolarRadiation:float,
+         DayLength:float,
+         AboveGroundBiomass:float,
          AirTemperatureMinimum:float,
-         GlobalSolarRadiation:float,
-         AirTemperatureMaximum:float,
-         SurfaceTemperatureMaximum:float,
-         SurfaceTemperatureMinimum:float,
-         AboveGroundBiomass:float):
+         AirTemperatureMaximum:float):
     """
      - Name: SurfaceTemperatureParton -Version: 001, -Time step: 1
      - Description:
@@ -25,24 +23,6 @@ def model_surfacetemperatureparton(DayLength:float,
                  * ExtendedDescription: Strategy for the calculation of soil surface temperature with Parton's method. Reference: Parton, W. J. 1984. Predicting soil temperatures in a shortgrass steppe. Soil Science 138:93-101.
                  * ShortDescription: None
      - inputs:
-                 * name: DayLength
-                               ** description : Length of the day
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
-                               ** datatype : DOUBLE
-                               ** max : 24
-                               ** min : 0
-                               ** default : 10
-                               ** unit : h
-                 * name: AirTemperatureMinimum
-                               ** description : Minimum daily air temperature
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
-                               ** datatype : DOUBLE
-                               ** max : 50
-                               ** min : -60
-                               ** default : 5
-                               ** unit : Â°C
                  * name: GlobalSolarRadiation
                                ** description : Daily global solar radiation
                                ** inputtype : variable
@@ -52,33 +32,15 @@ def model_surfacetemperatureparton(DayLength:float,
                                ** min : 0
                                ** default : 15
                                ** unit : Mj m-2 d-1
-                 * name: AirTemperatureMaximum
-                               ** description : Maximum daily air temperature
+                 * name: DayLength
+                               ** description : Length of the day
                                ** inputtype : variable
                                ** variablecategory : exogenous
                                ** datatype : DOUBLE
-                               ** max : 60
-                               ** min : -40
-                               ** default : 15
-                               ** unit : Â°C
-                 * name: SurfaceTemperatureMaximum
-                               ** description : Maximum surface soil temperature
-                               ** inputtype : variable
-                               ** variablecategory : auxiliary
-                               ** datatype : DOUBLE
-                               ** max : 60
-                               ** min : -60
-                               ** default : 25
-                               ** unit : Â°C
-                 * name: SurfaceTemperatureMinimum
-                               ** description : Minimum surface soil temperature
-                               ** inputtype : variable
-                               ** variablecategory : auxiliary
-                               ** datatype : DOUBLE
-                               ** max : 60
-                               ** min : -60
+                               ** max : 24
+                               ** min : 0
                                ** default : 10
-                               ** unit : Â°C
+                               ** unit : h
                  * name: AboveGroundBiomass
                                ** description : Above ground biomass
                                ** inputtype : variable
@@ -88,18 +50,29 @@ def model_surfacetemperatureparton(DayLength:float,
                                ** min : 0
                                ** default : 3
                                ** unit : Kg ha-1
+                 * name: AirTemperatureMinimum
+                               ** description : Minimum daily air temperature
+                               ** inputtype : variable
+                               ** variablecategory : exogenous
+                               ** datatype : DOUBLE
+                               ** max : 50
+                               ** min : -60
+                               ** default : 5
+                               ** unit : Â°C
+                 * name: AirTemperatureMaximum
+                               ** description : Maximum daily air temperature
+                               ** inputtype : variable
+                               ** variablecategory : exogenous
+                               ** datatype : DOUBLE
+                               ** max : 60
+                               ** min : -40
+                               ** default : 15
+                               ** unit : Â°C
      - outputs:
                  * name: SurfaceSoilTemperature
                                ** description : Average surface soil temperature
                                ** datatype : DOUBLE
                                ** variablecategory : state
-                               ** max : 60
-                               ** min : -60
-                               ** unit : Â°C
-                 * name: SurfaceTemperatureMaximum
-                               ** description : Maximum surface soil temperature
-                               ** datatype : DOUBLE
-                               ** variablecategory : auxiliary
                                ** max : 60
                                ** min : -60
                                ** unit : Â°C
@@ -110,9 +83,18 @@ def model_surfacetemperatureparton(DayLength:float,
                                ** max : 60
                                ** min : -60
                                ** unit : Â°C
+                 * name: SurfaceTemperatureMaximum
+                               ** description : Maximum surface soil temperature
+                               ** datatype : DOUBLE
+                               ** variablecategory : auxiliary
+                               ** max : 60
+                               ** min : -60
+                               ** unit : Â°C
     """
 
     SurfaceSoilTemperature:float
+    SurfaceTemperatureMinimum:float
+    SurfaceTemperatureMaximum:float
     _AGB:float
     _AirTMax:float
     _AirTmin:float
@@ -130,5 +112,5 @@ def model_surfacetemperatureparton(DayLength:float,
     SurfaceSoilTemperature = 0.41 * SurfaceTemperatureMaximum + (0.59 * SurfaceTemperatureMinimum)
     if DayLength != float(0):
         SurfaceSoilTemperature = DayLength / 24 * _AirTMax + ((1 - (DayLength / 24)) * _AirTmin)
-    return (SurfaceSoilTemperature, SurfaceTemperatureMaximum, SurfaceTemperatureMinimum)
+    return (SurfaceSoilTemperature, SurfaceTemperatureMinimum, SurfaceTemperatureMaximum)
 #%%CyML Model End%%

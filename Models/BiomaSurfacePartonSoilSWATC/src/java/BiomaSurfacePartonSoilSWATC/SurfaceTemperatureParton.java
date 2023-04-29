@@ -18,6 +18,33 @@ public class SurfaceTemperatureParton
     //            * ExtendedDescription: Strategy for the calculation of soil surface temperature with Parton's method. Reference: Parton, W. J. 1984. Predicting soil temperatures in a shortgrass steppe. Soil Science 138:93-101.
     //            * ShortDescription: None
         //- inputs:
+    //            * name: DayLength
+    //                          ** description : Length of the day
+    //                          ** inputtype : variable
+    //                          ** variablecategory : exogenous
+    //                          ** datatype : DOUBLE
+    //                          ** max : 24
+    //                          ** min : 0
+    //                          ** default : 10
+    //                          ** unit : h
+    //            * name: AirTemperatureMaximum
+    //                          ** description : Maximum daily air temperature
+    //                          ** inputtype : variable
+    //                          ** variablecategory : exogenous
+    //                          ** datatype : DOUBLE
+    //                          ** max : 60
+    //                          ** min : -40
+    //                          ** default : 15
+    //                          ** unit : Â°C
+    //            * name: AirTemperatureMinimum
+    //                          ** description : Minimum daily air temperature
+    //                          ** inputtype : variable
+    //                          ** variablecategory : exogenous
+    //                          ** datatype : DOUBLE
+    //                          ** max : 50
+    //                          ** min : -60
+    //                          ** default : 5
+    //                          ** unit : Â°C
     //            * name: AboveGroundBiomass
     //                          ** description : Above ground biomass
     //                          ** inputtype : variable
@@ -36,52 +63,21 @@ public class SurfaceTemperatureParton
     //                          ** min : 0
     //                          ** default : 15
     //                          ** unit : Mj m-2 d-1
-    //            * name: AirTemperatureMinimum
-    //                          ** description : Minimum daily air temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
+        //- outputs:
+    //            * name: SurfaceTemperatureMinimum
+    //                          ** description : Minimum surface soil temperature
     //                          ** datatype : DOUBLE
-    //                          ** max : 50
+    //                          ** variablecategory : auxiliary
+    //                          ** max : 60
     //                          ** min : -60
-    //                          ** default : 5
     //                          ** unit : Â°C
     //            * name: SurfaceTemperatureMaximum
     //                          ** description : Maximum surface soil temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : auxiliary
     //                          ** datatype : DOUBLE
+    //                          ** variablecategory : auxiliary
     //                          ** max : 60
     //                          ** min : -60
-    //                          ** default : 25
     //                          ** unit : Â°C
-    //            * name: DayLength
-    //                          ** description : Length of the day
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLE
-    //                          ** max : 24
-    //                          ** min : 0
-    //                          ** default : 10
-    //                          ** unit : h
-    //            * name: SurfaceTemperatureMinimum
-    //                          ** description : Minimum surface soil temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : auxiliary
-    //                          ** datatype : DOUBLE
-    //                          ** max : 60
-    //                          ** min : -60
-    //                          ** default : 10
-    //                          ** unit : Â°C
-    //            * name: AirTemperatureMaximum
-    //                          ** description : Maximum daily air temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLE
-    //                          ** max : 60
-    //                          ** min : -40
-    //                          ** default : 15
-    //                          ** unit : Â°C
-        //- outputs:
     //            * name: SurfaceSoilTemperature
     //                          ** description : Average surface soil temperature
     //                          ** datatype : DOUBLE
@@ -89,27 +85,13 @@ public class SurfaceTemperatureParton
     //                          ** max : 60
     //                          ** min : -60
     //                          ** unit : Â°C
-    //            * name: SurfaceTemperatureMaximum
-    //                          ** description : Maximum surface soil temperature
-    //                          ** datatype : DOUBLE
-    //                          ** variablecategory : auxiliary
-    //                          ** max : 60
-    //                          ** min : -60
-    //                          ** unit : Â°C
-    //            * name: SurfaceTemperatureMinimum
-    //                          ** description : Minimum surface soil temperature
-    //                          ** datatype : DOUBLE
-    //                          ** variablecategory : auxiliary
-    //                          ** max : 60
-    //                          ** min : -60
-    //                          ** unit : Â°C
+        Double DayLength = ex.getDayLength();
+        Double AirTemperatureMaximum = ex.getAirTemperatureMaximum();
+        Double AirTemperatureMinimum = ex.getAirTemperatureMinimum();
         Double AboveGroundBiomass = s.getAboveGroundBiomass();
         Double GlobalSolarRadiation = ex.getGlobalSolarRadiation();
-        Double AirTemperatureMinimum = ex.getAirTemperatureMinimum();
-        Double SurfaceTemperatureMaximum = a.getSurfaceTemperatureMaximum();
-        Double DayLength = ex.getDayLength();
-        Double SurfaceTemperatureMinimum = a.getSurfaceTemperatureMinimum();
-        Double AirTemperatureMaximum = ex.getAirTemperatureMaximum();
+        Double SurfaceTemperatureMinimum;
+        Double SurfaceTemperatureMaximum;
         Double SurfaceSoilTemperature;
         Double _AGB;
         Double _AirTMax;
@@ -134,8 +116,8 @@ public class SurfaceTemperatureParton
         {
             SurfaceSoilTemperature = DayLength / 24 * _AirTMax + ((1 - (DayLength / 24)) * _AirTmin);
         }
-        a.setSurfaceTemperatureMaximum(SurfaceTemperatureMaximum);
         a.setSurfaceTemperatureMinimum(SurfaceTemperatureMinimum);
+        a.setSurfaceTemperatureMaximum(SurfaceTemperatureMaximum);
         s.setSurfaceSoilTemperature(SurfaceSoilTemperature);
     }
 }

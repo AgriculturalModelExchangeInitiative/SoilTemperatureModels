@@ -32,17 +32,17 @@ class SurfacePartonSoilSWATHourlyPartonCWrapper
      
     public double[] ThermalDiffusivity{ get { return s.ThermalDiffusivity;}} 
      
-    public double[] SoilTemperatureMinimum{ get { return s.SoilTemperatureMinimum;}} 
-     
     public double[] SoilTemperatureRangeByLayers{ get { return s.SoilTemperatureRangeByLayers;}} 
+     
+    public double[] SoilTemperatureMinimum{ get { return s.SoilTemperatureMinimum;}} 
      
     public double[] SoilTemperatureMaximum{ get { return s.SoilTemperatureMaximum;}} 
      
     public double[] SoilTemperatureByLayersHourly{ get { return s.SoilTemperatureByLayersHourly;}} 
      
-    public double SurfaceTemperatureMaximum{ get { return a.SurfaceTemperatureMaximum;}} 
-     
     public double SurfaceTemperatureMinimum{ get { return a.SurfaceTemperatureMinimum;}} 
+     
+    public double SurfaceTemperatureMaximum{ get { return a.SurfaceTemperatureMaximum;}} 
      
 
     public SurfacePartonSoilSWATHourlyPartonCWrapper(SurfacePartonSoilSWATHourlyPartonCWrapper toCopy, bool copyAll) : this()
@@ -67,15 +67,15 @@ class SurfacePartonSoilSWATHourlyPartonCWrapper
         surfacepartonsoilswathourlypartoncComponent.LagCoefficient = LagCoefficient;
     }
 
-    public void EstimateSurfacePartonSoilSWATHourlyPartonC(double DayLength, double AirTemperatureMinimum, double GlobalSolarRadiation, double AirTemperatureMaximum, double AirTemperatureAnnualAverage, double HourOfSunset, double HourOfSunrise)
+    public void EstimateSurfacePartonSoilSWATHourlyPartonC(double GlobalSolarRadiation, double DayLength, double AirTemperatureMinimum, double AirTemperatureMaximum, double AirTemperatureAnnualAverage, double HourOfSunrise, double HourOfSunset)
     {
+        a.GlobalSolarRadiation = GlobalSolarRadiation;
         a.DayLength = DayLength;
         a.AirTemperatureMinimum = AirTemperatureMinimum;
-        a.GlobalSolarRadiation = GlobalSolarRadiation;
         a.AirTemperatureMaximum = AirTemperatureMaximum;
         a.AirTemperatureAnnualAverage = AirTemperatureAnnualAverage;
-        a.HourOfSunset = HourOfSunset;
         a.HourOfSunrise = HourOfSunrise;
+        a.HourOfSunset = HourOfSunset;
         surfacepartonsoilswathourlypartoncComponent.CalculateModel(s,s1, r, a, ex);
     }
 

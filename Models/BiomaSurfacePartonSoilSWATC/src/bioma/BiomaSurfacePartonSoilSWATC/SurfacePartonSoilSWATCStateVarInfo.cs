@@ -10,10 +10,10 @@ namespace SurfacePartonSoilSWATC.DomainClass
     public class SurfacePartonSoilSWATCStateVarInfo : IVarInfoClass
     {
         static VarInfo _AboveGroundBiomass = new VarInfo();
-        static VarInfo _LayerThickness = new VarInfo();
         static VarInfo _VolumetricWaterContent = new VarInfo();
-        static VarInfo _SoilProfileDepth = new VarInfo();
+        static VarInfo _LayerThickness = new VarInfo();
         static VarInfo _BulkDensity = new VarInfo();
+        static VarInfo _SoilProfileDepth = new VarInfo();
         static VarInfo _SurfaceSoilTemperature = new VarInfo();
         static VarInfo _SoilTemperatureByLayers = new VarInfo();
 
@@ -42,24 +42,24 @@ namespace SurfacePartonSoilSWATC.DomainClass
             get { return _AboveGroundBiomass;}
         }
 
-        public static  VarInfo LayerThickness
-        {
-            get { return _LayerThickness;}
-        }
-
         public static  VarInfo VolumetricWaterContent
         {
             get { return _VolumetricWaterContent;}
         }
 
-        public static  VarInfo SoilProfileDepth
+        public static  VarInfo LayerThickness
         {
-            get { return _SoilProfileDepth;}
+            get { return _LayerThickness;}
         }
 
         public static  VarInfo BulkDensity
         {
             get { return _BulkDensity;}
+        }
+
+        public static  VarInfo SoilProfileDepth
+        {
+            get { return _SoilProfileDepth;}
         }
 
         public static  VarInfo SurfaceSoilTemperature
@@ -82,14 +82,6 @@ namespace SurfacePartonSoilSWATC.DomainClass
             _AboveGroundBiomass.Units = "Kg ha-1";
             _AboveGroundBiomass.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
-            _LayerThickness.Name = "LayerThickness";
-            _LayerThickness.Description = "Soil layer thickness";
-            _LayerThickness.MaxValue = -1D;
-            _LayerThickness.MinValue = -1D;
-            _LayerThickness.DefaultValue = -1D;
-            _LayerThickness.Units = "m";
-            _LayerThickness.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
-
             _VolumetricWaterContent.Name = "VolumetricWaterContent";
             _VolumetricWaterContent.Description = "Volumetric soil water content";
             _VolumetricWaterContent.MaxValue = -1D;
@@ -98,13 +90,13 @@ namespace SurfacePartonSoilSWATC.DomainClass
             _VolumetricWaterContent.Units = "m3 m-3";
             _VolumetricWaterContent.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
 
-            _SoilProfileDepth.Name = "SoilProfileDepth";
-            _SoilProfileDepth.Description = "Soil profile depth";
-            _SoilProfileDepth.MaxValue = 50;
-            _SoilProfileDepth.MinValue = 0;
-            _SoilProfileDepth.DefaultValue = 3;
-            _SoilProfileDepth.Units = "m";
-            _SoilProfileDepth.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+            _LayerThickness.Name = "LayerThickness";
+            _LayerThickness.Description = "Soil layer thickness";
+            _LayerThickness.MaxValue = -1D;
+            _LayerThickness.MinValue = -1D;
+            _LayerThickness.DefaultValue = -1D;
+            _LayerThickness.Units = "m";
+            _LayerThickness.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
 
             _BulkDensity.Name = "BulkDensity";
             _BulkDensity.Description = "Bulk density";
@@ -113,6 +105,14 @@ namespace SurfacePartonSoilSWATC.DomainClass
             _BulkDensity.DefaultValue = -1D;
             _BulkDensity.Units = "t m-3";
             _BulkDensity.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+
+            _SoilProfileDepth.Name = "SoilProfileDepth";
+            _SoilProfileDepth.Description = "Soil profile depth";
+            _SoilProfileDepth.MaxValue = 50;
+            _SoilProfileDepth.MinValue = 0;
+            _SoilProfileDepth.DefaultValue = 3;
+            _SoilProfileDepth.Units = "m";
+            _SoilProfileDepth.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _SurfaceSoilTemperature.Name = "SurfaceSoilTemperature";
             _SurfaceSoilTemperature.Description = "Average surface soil temperature";

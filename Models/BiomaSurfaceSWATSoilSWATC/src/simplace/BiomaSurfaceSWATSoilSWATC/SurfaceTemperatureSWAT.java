@@ -14,13 +14,13 @@ import org.jdom2.Element;
 
 public class SurfaceTemperatureSWAT extends FWSimComponent
 {
-    private FWSimVariable<Double> AirTemperatureMinimum;
     private FWSimVariable<Double> GlobalSolarRadiation;
     private FWSimVariable<Double[]> SoilTemperatureByLayers;
+    private FWSimVariable<Double> AirTemperatureMaximum;
+    private FWSimVariable<Double> AirTemperatureMinimum;
+    private FWSimVariable<Double> Albedo;
     private FWSimVariable<Double> AboveGroundBiomass;
     private FWSimVariable<Double> WaterEquivalentOfSnowPack;
-    private FWSimVariable<Double> AirTemperatureMaximum;
-    private FWSimVariable<Double> Albedo;
     private FWSimVariable<Double> SurfaceSoilTemperature;
 
     public SurfaceTemperatureSWAT(String aName, HashMap<String, FWSimVariable<?>> aFieldMap, HashMap<String, String> aInputMap, Element aSimComponentElement, FWSimVarMap aVarMap, int aOrderNumber)
@@ -35,13 +35,13 @@ public class SurfaceTemperatureSWAT extends FWSimComponent
     @Override
     public HashMap<String, FWSimVariable<?>> createVariables()
     {
-        addVariable(FWSimVariable.createSimVariable("AirTemperatureMinimum", "Minimum daily air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Â°C", -60, 50, 5, this));
         addVariable(FWSimVariable.createSimVariable("GlobalSolarRadiation", "Daily global solar radiation", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Mj m-2 d-1", 0, 50, 15, this));
         addVariable(FWSimVariable.createSimVariable("SoilTemperatureByLayers", "Soil temperature of each layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"Â°C", -60, 60, 15, this));
+        addVariable(FWSimVariable.createSimVariable("AirTemperatureMaximum", "Maximum daily air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Â°C", -40, 60, 15, this));
+        addVariable(FWSimVariable.createSimVariable("AirTemperatureMinimum", "Minimum daily air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Â°C", -60, 50, 5, this));
+        addVariable(FWSimVariable.createSimVariable("Albedo", "Albedo of soil", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"unitless", 0, 1, 0.2, this));
         addVariable(FWSimVariable.createSimVariable("AboveGroundBiomass", "Above ground biomass", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"Kg ha-1", 0, 60, 3, this));
         addVariable(FWSimVariable.createSimVariable("WaterEquivalentOfSnowPack", "Water equivalent of snow pack", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"mm", 0, 1000, 10, this));
-        addVariable(FWSimVariable.createSimVariable("AirTemperatureMaximum", "Maximum daily air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Â°C", -40, 60, 15, this));
-        addVariable(FWSimVariable.createSimVariable("Albedo", "Albedo of soil", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"unitless", 0, 1, 0.2, this));
         addVariable(FWSimVariable.createSimVariable("SurfaceSoilTemperature", "Average surface soil temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"Â°C", -60, 60, null, this));
 
         return iFieldMap;
@@ -49,13 +49,13 @@ public class SurfaceTemperatureSWAT extends FWSimComponent
     @Override
     protected void process()
     {
-        Double t_AirTemperatureMinimum = AirTemperatureMinimum.getValue();
         Double t_GlobalSolarRadiation = GlobalSolarRadiation.getValue();
         Double [] t_SoilTemperatureByLayers = SoilTemperatureByLayers.getValue();
+        Double t_AirTemperatureMaximum = AirTemperatureMaximum.getValue();
+        Double t_AirTemperatureMinimum = AirTemperatureMinimum.getValue();
+        Double t_Albedo = Albedo.getValue();
         Double t_AboveGroundBiomass = AboveGroundBiomass.getValue();
         Double t_WaterEquivalentOfSnowPack = WaterEquivalentOfSnowPack.getValue();
-        Double t_AirTemperatureMaximum = AirTemperatureMaximum.getValue();
-        Double t_Albedo = Albedo.getValue();
         Double t_SurfaceSoilTemperature;
         Double _Tavg;
         Double _Hterm;

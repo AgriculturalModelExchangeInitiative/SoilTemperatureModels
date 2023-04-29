@@ -17,36 +17,6 @@ public class VolumetricHeatCapacityKluitenberg
     //            * ExtendedDescription: Strategy for the calculation of soil thermal diffusivity. Reference: J.M.H.Hendrickx, H. Xie, B. Borchers, J.B.J. Harrison, 2008. Global Prediction of Thermal Soil Regimes. SPIE Proceedings Volume 6953 Detection and Sensing of Mines, Explosive Objects, and Obscured Targets XIII.
     //            * ShortDescription: None
         //- inputs:
-    //            * name: Silt
-    //                          ** description : Silt content of soil layer
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 100
-    //                          ** min : 0
-    //                          ** default : 20
-    //                          ** unit : %
-    //            * name: OrganicMatter
-    //                          ** description : Organic matter content of soil layer
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 20
-    //                          ** min : 0
-    //                          ** default : 1.5
-    //                          ** unit : %
-    //            * name: Sand
-    //                          ** description : Sand content of soil layer
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 100
-    //                          ** min : 0
-    //                          ** default : 30
-    //                          ** unit : %
     //            * name: VolumetricWaterContent
     //                          ** description : Volumetric soil water content
     //                          ** inputtype : variable
@@ -57,6 +27,16 @@ public class VolumetricHeatCapacityKluitenberg
     //                          ** min : 0
     //                          ** default : 0.25
     //                          ** unit : m3 m-3
+    //            * name: Sand
+    //                          ** description : Sand content of soil layer
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
+    //                          ** max : 100
+    //                          ** min : 0
+    //                          ** default : 30
+    //                          ** unit : %
     //            * name: BulkDensity
     //                          ** description : Bulk density
     //                          ** inputtype : variable
@@ -67,15 +47,15 @@ public class VolumetricHeatCapacityKluitenberg
     //                          ** min : 0.9
     //                          ** default : 1.3
     //                          ** unit : t m-3
-    //            * name: Clay
-    //                          ** description : Clay content of soil layer
+    //            * name: OrganicMatter
+    //                          ** description : Organic matter content of soil layer
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
-    //                          ** max : 100
+    //                          ** max : 20
     //                          ** min : 0
-    //                          ** default : 0
+    //                          ** default : 1.5
     //                          ** unit : %
     //            * name: HeatCapacity
     //                          ** description : Volumetric specific heat of soil
@@ -87,6 +67,26 @@ public class VolumetricHeatCapacityKluitenberg
     //                          ** min : 0
     //                          ** default : 20
     //                          ** unit : MJ m-3 Â°C-1
+    //            * name: Clay
+    //                          ** description : Clay content of soil layer
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
+    //                          ** max : 100
+    //                          ** min : 0
+    //                          ** default : 0
+    //                          ** unit : %
+    //            * name: Silt
+    //                          ** description : Silt content of soil layer
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
+    //                          ** max : 100
+    //                          ** min : 0
+    //                          ** default : 20
+    //                          ** unit : %
         //- outputs:
     //            * name: HeatCapacity
     //                          ** description : Volumetric specific heat of soil
@@ -96,13 +96,13 @@ public class VolumetricHeatCapacityKluitenberg
     //                          ** max : 300
     //                          ** min : 0
     //                          ** unit : MJ m-3 Â°C-1
-        double[] Silt = s.Silt;
-        double[] OrganicMatter = s.OrganicMatter;
-        double[] Sand = s.Sand;
         double[] VolumetricWaterContent = s.VolumetricWaterContent;
+        double[] Sand = s.Sand;
         double[] BulkDensity = s.BulkDensity;
-        double[] Clay = s.Clay;
+        double[] OrganicMatter = s.OrganicMatter;
         double[] HeatCapacity = s.HeatCapacity;
+        double[] Clay = s.Clay;
+        double[] Silt = s.Silt;
         int i;
         double SandFraction;
         double SiltFraction;

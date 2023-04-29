@@ -1,12 +1,12 @@
 import numpy 
 from math import *
-def model_surfacetemperatureswat(float AirTemperatureMinimum,
-                                 float GlobalSolarRadiation,
+def model_surfacetemperatureswat(float GlobalSolarRadiation,
                                  float SoilTemperatureByLayers[],
-                                 float AboveGroundBiomass,
-                                 float WaterEquivalentOfSnowPack,
                                  float AirTemperatureMaximum,
-                                 float Albedo):
+                                 float AirTemperatureMinimum,
+                                 float Albedo,
+                                 float AboveGroundBiomass,
+                                 float WaterEquivalentOfSnowPack):
     """
 
     SurfaceTemperatureSWAT model

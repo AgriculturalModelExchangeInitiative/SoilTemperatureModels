@@ -14,23 +14,23 @@ from BiomaSurfacePartonSoilSWATHourlyPartonC.rangeofsoiltemperaturesdaycent impo
 from BiomaSurfacePartonSoilSWATHourlyPartonC.hourlysoiltemperaturespartonlogan import model_hourlysoiltemperaturespartonlogan
 
 #%%CyML Model Begin%%
-def model_surfacepartonsoilswathourlypartonc(DayLength:float,
-         AirTemperatureMinimum:float,
-         GlobalSolarRadiation:float,
-         AirTemperatureMaximum:float,
+def model_surfacepartonsoilswathourlypartonc(GlobalSolarRadiation:float,
+         DayLength:float,
          AboveGroundBiomass:float,
-         SoilProfileDepth:float,
-         LayerThickness:'Array[float]',
-         LagCoefficient:float,
+         AirTemperatureMinimum:float,
+         AirTemperatureMaximum:float,
          VolumetricWaterContent:'Array[float]',
          BulkDensity:'Array[float]',
+         LayerThickness:'Array[float]',
+         LagCoefficient:float,
          AirTemperatureAnnualAverage:float,
-         Silt:'Array[float]',
-         OrganicMatter:'Array[float]',
+         SoilProfileDepth:float,
          Sand:'Array[float]',
+         OrganicMatter:'Array[float]',
          Clay:'Array[float]',
-         HourOfSunset:float,
-         HourOfSunrise:float):
+         Silt:'Array[float]',
+         HourOfSunrise:float,
+         HourOfSunset:float):
     """
      - Name: SurfacePartonSoilSWATHourlyPartonC -Version: 001, -Time step: 1
      - Description:
@@ -41,24 +41,6 @@ def model_surfacepartonsoilswathourlypartonc(DayLength:float,
                  * ExtendedDescription: Composite strategy for the calculation of surface temperature with Parton's method and soil temperature with SWAT method. See also references of the associated strategies.
                  * ShortDescription: None
      - inputs:
-                 * name: DayLength
-                               ** description : Length of the day
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
-                               ** datatype : DOUBLE
-                               ** max : 24
-                               ** min : 0
-                               ** default : 10
-                               ** unit : h
-                 * name: AirTemperatureMinimum
-                               ** description : Minimum daily air temperature
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
-                               ** datatype : DOUBLE
-                               ** max : 50
-                               ** min : -60
-                               ** default : 5
-                               ** unit : Â°C
                  * name: GlobalSolarRadiation
                                ** description : Daily global solar radiation
                                ** inputtype : variable
@@ -68,15 +50,15 @@ def model_surfacepartonsoilswathourlypartonc(DayLength:float,
                                ** min : 0
                                ** default : 15
                                ** unit : Mj m-2 d-1
-                 * name: AirTemperatureMaximum
-                               ** description : Maximum daily air temperature
+                 * name: DayLength
+                               ** description : Length of the day
                                ** inputtype : variable
                                ** variablecategory : exogenous
                                ** datatype : DOUBLE
-                               ** max : 60
-                               ** min : -40
-                               ** default : 15
-                               ** unit : Â°C
+                               ** max : 24
+                               ** min : 0
+                               ** default : 10
+                               ** unit : h
                  * name: AboveGroundBiomass
                                ** description : Above ground biomass
                                ** inputtype : variable
@@ -86,34 +68,24 @@ def model_surfacepartonsoilswathourlypartonc(DayLength:float,
                                ** min : 0
                                ** default : 3
                                ** unit : Kg ha-1
-                 * name: SoilProfileDepth
-                               ** description : Soil profile depth
+                 * name: AirTemperatureMinimum
+                               ** description : Minimum daily air temperature
                                ** inputtype : variable
-                               ** variablecategory : state
+                               ** variablecategory : exogenous
                                ** datatype : DOUBLE
                                ** max : 50
-                               ** min : 0
-                               ** default : 3
-                               ** unit : m
-                 * name: LayerThickness
-                               ** description : Soil layer thickness
+                               ** min : -60
+                               ** default : 5
+                               ** unit : Â°C
+                 * name: AirTemperatureMaximum
+                               ** description : Maximum daily air temperature
                                ** inputtype : variable
-                               ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : 
-                               ** max : 3
-                               ** min : 0.005
-                               ** default : 0.05
-                               ** unit : m
-                 * name: LagCoefficient
-                               ** description : Lag coefficient that controls the influence of the previous day's temperature on the current day's temperature
-                               ** inputtype : parameter
-                               ** parametercategory : constant
+                               ** variablecategory : exogenous
                                ** datatype : DOUBLE
-                               ** max : 1
-                               ** min : 0
-                               ** default : 0.8
-                               ** unit : dimensionless
+                               ** max : 60
+                               ** min : -40
+                               ** default : 15
+                               ** unit : Â°C
                  * name: VolumetricWaterContent
                                ** description : Volumetric soil water content
                                ** inputtype : variable
@@ -134,6 +106,25 @@ def model_surfacepartonsoilswathourlypartonc(DayLength:float,
                                ** min : 0.9
                                ** default : 1.3
                                ** unit : t m-3
+                 * name: LayerThickness
+                               ** description : Soil layer thickness
+                               ** inputtype : variable
+                               ** variablecategory : state
+                               ** datatype : DOUBLEARRAY
+                               ** len : 
+                               ** max : 3
+                               ** min : 0.005
+                               ** default : 0.05
+                               ** unit : m
+                 * name: LagCoefficient
+                               ** description : Lag coefficient that controls the influence of the previous day's temperature on the current day's temperature
+                               ** inputtype : parameter
+                               ** parametercategory : constant
+                               ** datatype : DOUBLE
+                               ** max : 1
+                               ** min : 0
+                               ** default : 0.8
+                               ** unit : dimensionless
                  * name: AirTemperatureAnnualAverage
                                ** description : Annual average air temperature
                                ** inputtype : variable
@@ -143,15 +134,24 @@ def model_surfacepartonsoilswathourlypartonc(DayLength:float,
                                ** min : -40
                                ** default : 15
                                ** unit : Â°C
-                 * name: Silt
-                               ** description : Silt content of soil layer
+                 * name: SoilProfileDepth
+                               ** description : Soil profile depth
+                               ** inputtype : variable
+                               ** variablecategory : state
+                               ** datatype : DOUBLE
+                               ** max : 50
+                               ** min : 0
+                               ** default : 3
+                               ** unit : m
+                 * name: Sand
+                               ** description : Sand content of soil layer
                                ** inputtype : variable
                                ** variablecategory : state
                                ** datatype : DOUBLEARRAY
                                ** len : 
                                ** max : 100
                                ** min : 0
-                               ** default : 20
+                               ** default : 30
                                ** unit : %
                  * name: OrganicMatter
                                ** description : Organic matter content of soil layer
@@ -163,16 +163,6 @@ def model_surfacepartonsoilswathourlypartonc(DayLength:float,
                                ** min : 0
                                ** default : 1.5
                                ** unit : %
-                 * name: Sand
-                               ** description : Sand content of soil layer
-                               ** inputtype : variable
-                               ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : 
-                               ** max : 100
-                               ** min : 0
-                               ** default : 30
-                               ** unit : %
                  * name: Clay
                                ** description : Clay content of soil layer
                                ** inputtype : variable
@@ -183,15 +173,16 @@ def model_surfacepartonsoilswathourlypartonc(DayLength:float,
                                ** min : 0
                                ** default : 0
                                ** unit : %
-                 * name: HourOfSunset
-                               ** description : Hour of sunset
+                 * name: Silt
+                               ** description : Silt content of soil layer
                                ** inputtype : variable
-                               ** variablecategory : exogenous
-                               ** datatype : DOUBLE
-                               ** max : 24
+                               ** variablecategory : state
+                               ** datatype : DOUBLEARRAY
+                               ** len : 
+                               ** max : 100
                                ** min : 0
-                               ** default : 17
-                               ** unit : h
+                               ** default : 20
+                               ** unit : %
                  * name: HourOfSunrise
                                ** description : Hour of sunrise
                                ** inputtype : variable
@@ -201,6 +192,15 @@ def model_surfacepartonsoilswathourlypartonc(DayLength:float,
                                ** min : 0
                                ** default : 6
                                ** unit : h
+                 * name: HourOfSunset
+                               ** description : Hour of sunset
+                               ** inputtype : variable
+                               ** variablecategory : exogenous
+                               ** datatype : DOUBLE
+                               ** max : 24
+                               ** min : 0
+                               ** default : 17
+                               ** unit : h
      - outputs:
                  * name: SurfaceSoilTemperature
                                ** description : Average surface soil temperature
@@ -209,15 +209,15 @@ def model_surfacepartonsoilswathourlypartonc(DayLength:float,
                                ** max : 60
                                ** min : -60
                                ** unit : Â°C
-                 * name: SurfaceTemperatureMaximum
-                               ** description : Maximum surface soil temperature
+                 * name: SurfaceTemperatureMinimum
+                               ** description : Minimum surface soil temperature
                                ** datatype : DOUBLE
                                ** variablecategory : auxiliary
                                ** max : 60
                                ** min : -60
                                ** unit : Â°C
-                 * name: SurfaceTemperatureMinimum
-                               ** description : Minimum surface soil temperature
+                 * name: SurfaceTemperatureMaximum
+                               ** description : Maximum surface soil temperature
                                ** datatype : DOUBLE
                                ** variablecategory : auxiliary
                                ** max : 60
@@ -255,14 +255,6 @@ def model_surfacepartonsoilswathourlypartonc(DayLength:float,
                                ** max : 1
                                ** min : 0
                                ** unit : mm s-1
-                 * name: SoilTemperatureMinimum
-                               ** description : Minimum soil temperature by layers
-                               ** datatype : DOUBLEARRAY
-                               ** variablecategory : state
-                               ** len : 
-                               ** max : 60
-                               ** min : -60
-                               ** unit : Â°C
                  * name: SoilTemperatureRangeByLayers
                                ** description : Soil temperature range by layers
                                ** datatype : DOUBLEARRAY
@@ -270,6 +262,14 @@ def model_surfacepartonsoilswathourlypartonc(DayLength:float,
                                ** len : 
                                ** max : 50
                                ** min : 0
+                               ** unit : Â°C
+                 * name: SoilTemperatureMinimum
+                               ** description : Minimum soil temperature by layers
+                               ** datatype : DOUBLEARRAY
+                               ** variablecategory : state
+                               ** len : 
+                               ** max : 60
+                               ** min : -60
                                ** unit : Â°C
                  * name: SoilTemperatureMaximum
                                ** description : Maximum soil temperature by layers
@@ -289,23 +289,23 @@ def model_surfacepartonsoilswathourlypartonc(DayLength:float,
                                ** unit : Â°C
     """
 
-    SurfaceTemperatureMaximum:float
-    SurfaceTemperatureMinimum:float
     SurfaceSoilTemperature:float
+    SurfaceTemperatureMinimum:float
+    SurfaceTemperatureMaximum:float
     SoilTemperatureByLayers:'array[float]'
     HeatCapacity:'array[float]'
     ThermalConductivity:'array[float]'
     ThermalDiffusivity:'array[float]'
-    SoilTemperatureMinimum:'array[float]'
     SoilTemperatureRangeByLayers:'array[float]'
+    SoilTemperatureMinimum:'array[float]'
     SoilTemperatureMaximum:'array[float]'
     SoilTemperatureByLayersHourly:'array[float]'
-    (SurfaceSoilTemperature, SurfaceTemperatureMaximum, SurfaceTemperatureMinimum) = model_surfacetemperatureparton(DayLength, AirTemperatureMinimum, GlobalSolarRadiation, AirTemperatureMaximum, SurfaceTemperatureMaximum, SurfaceTemperatureMinimum, AboveGroundBiomass)
-    HeatCapacity = model_volumetricheatcapacitykluitenberg(Silt, OrganicMatter, Sand, VolumetricWaterContent, BulkDensity, Clay, HeatCapacity)
+    (SurfaceSoilTemperature, SurfaceTemperatureMinimum, SurfaceTemperatureMaximum) = model_surfacetemperatureparton(GlobalSolarRadiation, DayLength, AboveGroundBiomass, AirTemperatureMinimum, AirTemperatureMaximum)
+    HeatCapacity = model_volumetricheatcapacitykluitenberg(VolumetricWaterContent, Sand, BulkDensity, OrganicMatter, HeatCapacity, Clay, Silt)
     ThermalConductivity = model_thermalconductivitysimulat(VolumetricWaterContent, BulkDensity, Clay)
-    SoilTemperatureByLayers = model_soiltemperatureswat(SoilProfileDepth, SurfaceSoilTemperature, LayerThickness, LagCoefficient, VolumetricWaterContent, SoilTemperatureByLayers, BulkDensity, AirTemperatureAnnualAverage)
-    ThermalDiffusivity = model_thermaldiffu(ThermalConductivity, ThermalDiffusivity, HeatCapacity)
-    (SoilTemperatureMinimum, SoilTemperatureRangeByLayers, SoilTemperatureMaximum) = model_rangeofsoiltemperaturesdaycent(LayerThickness, SoilTemperatureByLayers, SurfaceTemperatureMaximum, ThermalDiffusivity, SurfaceTemperatureMinimum)
-    SoilTemperatureByLayersHourly = model_hourlysoiltemperaturespartonlogan(SoilTemperatureMinimum, DayLength, SoilTemperatureMaximum, HourOfSunset, SoilTemperatureByLayersHourly, HourOfSunrise)
-    return (SurfaceSoilTemperature, SurfaceTemperatureMaximum, SurfaceTemperatureMinimum, SoilTemperatureByLayers, HeatCapacity, ThermalConductivity, ThermalDiffusivity, SoilTemperatureMinimum, SoilTemperatureRangeByLayers, SoilTemperatureMaximum, SoilTemperatureByLayersHourly)
+    SoilTemperatureByLayers = model_soiltemperatureswat(VolumetricWaterContent, SurfaceSoilTemperature, BulkDensity, LayerThickness, LagCoefficient, SoilTemperatureByLayers, AirTemperatureAnnualAverage, SoilProfileDepth)
+    ThermalDiffusivity = model_thermaldiffu(ThermalDiffusivity, ThermalConductivity, HeatCapacity)
+    (SoilTemperatureRangeByLayers, SoilTemperatureMinimum, SoilTemperatureMaximum) = model_rangeofsoiltemperaturesdaycent(LayerThickness, SurfaceTemperatureMinimum, ThermalDiffusivity, SoilTemperatureByLayers, SurfaceTemperatureMaximum)
+    SoilTemperatureByLayersHourly = model_hourlysoiltemperaturespartonlogan(SoilTemperatureByLayersHourly, HourOfSunrise, HourOfSunset, DayLength, SoilTemperatureMinimum, SoilTemperatureMaximum)
+    return (SurfaceSoilTemperature, SurfaceTemperatureMinimum, SurfaceTemperatureMaximum, SoilTemperatureByLayers, HeatCapacity, ThermalConductivity, ThermalDiffusivity, SoilTemperatureRangeByLayers, SoilTemperatureMinimum, SoilTemperatureMaximum, SoilTemperatureByLayersHourly)
 #%%CyML Model End%%

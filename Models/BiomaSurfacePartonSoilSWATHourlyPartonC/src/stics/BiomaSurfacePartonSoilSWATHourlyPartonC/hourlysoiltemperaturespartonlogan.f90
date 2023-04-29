@@ -2,20 +2,20 @@ MODULE Hourlysoiltemperaturespartonloganmod
     IMPLICIT NONE
 CONTAINS
 
-    SUBROUTINE model_hourlysoiltemperaturespartonlogan(SoilTemperatureMinimum, &
-        DayLength, &
-        SoilTemperatureMaximum, &
+    SUBROUTINE model_hourlysoiltemperaturespartonlogan(SoilTemperatureByLayersHourly, &
+        HourOfSunrise, &
         HourOfSunset, &
-        SoilTemperatureByLayersHourly, &
-        HourOfSunrise)
+        DayLength, &
+        SoilTemperatureMinimum, &
+        SoilTemperatureMaximum)
         IMPLICIT NONE
         INTEGER:: i_cyml_r
-        REAL , DIMENSION(: ), INTENT(IN) :: SoilTemperatureMinimum
-        REAL, INTENT(IN) :: DayLength
-        REAL , DIMENSION(: ), INTENT(IN) :: SoilTemperatureMaximum
-        REAL, INTENT(IN) :: HourOfSunset
         REAL , DIMENSION(: ), INTENT(INOUT) :: SoilTemperatureByLayersHourly
         REAL, INTENT(IN) :: HourOfSunrise
+        REAL, INTENT(IN) :: HourOfSunset
+        REAL, INTENT(IN) :: DayLength
+        REAL , DIMENSION(: ), INTENT(IN) :: SoilTemperatureMinimum
+        REAL , DIMENSION(: ), INTENT(IN) :: SoilTemperatureMaximum
         INTEGER:: h
         INTEGER:: i
         REAL:: TemperatureAtSunset
@@ -28,44 +28,6 @@ CONTAINS
     !            * ExtendedDescription: Strategy for the calculation of hourly soil temperature. Reference: Parton, W.J.  and  Logan, J.A.,  1981. A model for diurnal variation  in soil  and  air temperature. Agric. Meteorol., 23: 205-216.
     !            * ShortDescription: None
         !- inputs:
-    !            * name: SoilTemperatureMinimum
-    !                          ** description : Minimum soil temperature by layers
-    !                          ** inputtype : variable
-    !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : 
-    !                          ** max : 60
-    !                          ** min : -60
-    !                          ** default : 15
-    !                          ** unit : Â°C
-    !            * name: DayLength
-    !                          ** description : Length of the day
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
-    !                          ** datatype : DOUBLE
-    !                          ** max : 24
-    !                          ** min : 0
-    !                          ** default : 10
-    !                          ** unit : h
-    !            * name: SoilTemperatureMaximum
-    !                          ** description : Maximum soil temperature by layers
-    !                          ** inputtype : variable
-    !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : 
-    !                          ** max : 60
-    !                          ** min : -60
-    !                          ** default : 15
-    !                          ** unit : Â°C
-    !            * name: HourOfSunset
-    !                          ** description : Hour of sunset
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
-    !                          ** datatype : DOUBLE
-    !                          ** max : 24
-    !                          ** min : 0
-    !                          ** default : 17
-    !                          ** unit : h
     !            * name: SoilTemperatureByLayersHourly
     !                          ** description : Hourly soil temperature by layers
     !                          ** inputtype : variable
@@ -85,6 +47,44 @@ CONTAINS
     !                          ** min : 0
     !                          ** default : 6
     !                          ** unit : h
+    !            * name: HourOfSunset
+    !                          ** description : Hour of sunset
+    !                          ** inputtype : variable
+    !                          ** variablecategory : exogenous
+    !                          ** datatype : DOUBLE
+    !                          ** max : 24
+    !                          ** min : 0
+    !                          ** default : 17
+    !                          ** unit : h
+    !            * name: DayLength
+    !                          ** description : Length of the day
+    !                          ** inputtype : variable
+    !                          ** variablecategory : exogenous
+    !                          ** datatype : DOUBLE
+    !                          ** max : 24
+    !                          ** min : 0
+    !                          ** default : 10
+    !                          ** unit : h
+    !            * name: SoilTemperatureMinimum
+    !                          ** description : Minimum soil temperature by layers
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : DOUBLEARRAY
+    !                          ** len : 
+    !                          ** max : 60
+    !                          ** min : -60
+    !                          ** default : 15
+    !                          ** unit : Â°C
+    !            * name: SoilTemperatureMaximum
+    !                          ** description : Maximum soil temperature by layers
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : DOUBLEARRAY
+    !                          ** len : 
+    !                          ** max : 60
+    !                          ** min : -60
+    !                          ** default : 15
+    !                          ** unit : Â°C
         !- outputs:
     !            * name: SoilTemperatureByLayersHourly
     !                          ** description : Hourly soil temperature by layers

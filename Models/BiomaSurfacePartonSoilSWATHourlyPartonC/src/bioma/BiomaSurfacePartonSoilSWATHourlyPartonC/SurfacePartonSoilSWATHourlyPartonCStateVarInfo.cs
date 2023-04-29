@@ -10,21 +10,21 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
     public class SurfacePartonSoilSWATHourlyPartonCStateVarInfo : IVarInfoClass
     {
         static VarInfo _AboveGroundBiomass = new VarInfo();
-        static VarInfo _SoilProfileDepth = new VarInfo();
-        static VarInfo _LayerThickness = new VarInfo();
         static VarInfo _VolumetricWaterContent = new VarInfo();
         static VarInfo _BulkDensity = new VarInfo();
-        static VarInfo _Silt = new VarInfo();
-        static VarInfo _OrganicMatter = new VarInfo();
+        static VarInfo _LayerThickness = new VarInfo();
+        static VarInfo _SoilProfileDepth = new VarInfo();
         static VarInfo _Sand = new VarInfo();
+        static VarInfo _OrganicMatter = new VarInfo();
         static VarInfo _Clay = new VarInfo();
+        static VarInfo _Silt = new VarInfo();
         static VarInfo _SurfaceSoilTemperature = new VarInfo();
         static VarInfo _SoilTemperatureByLayers = new VarInfo();
         static VarInfo _HeatCapacity = new VarInfo();
         static VarInfo _ThermalConductivity = new VarInfo();
         static VarInfo _ThermalDiffusivity = new VarInfo();
-        static VarInfo _SoilTemperatureMinimum = new VarInfo();
         static VarInfo _SoilTemperatureRangeByLayers = new VarInfo();
+        static VarInfo _SoilTemperatureMinimum = new VarInfo();
         static VarInfo _SoilTemperatureMaximum = new VarInfo();
         static VarInfo _SoilTemperatureByLayersHourly = new VarInfo();
 
@@ -53,16 +53,6 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
             get { return _AboveGroundBiomass;}
         }
 
-        public static  VarInfo SoilProfileDepth
-        {
-            get { return _SoilProfileDepth;}
-        }
-
-        public static  VarInfo LayerThickness
-        {
-            get { return _LayerThickness;}
-        }
-
         public static  VarInfo VolumetricWaterContent
         {
             get { return _VolumetricWaterContent;}
@@ -73,14 +63,14 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
             get { return _BulkDensity;}
         }
 
-        public static  VarInfo Silt
+        public static  VarInfo LayerThickness
         {
-            get { return _Silt;}
+            get { return _LayerThickness;}
         }
 
-        public static  VarInfo OrganicMatter
+        public static  VarInfo SoilProfileDepth
         {
-            get { return _OrganicMatter;}
+            get { return _SoilProfileDepth;}
         }
 
         public static  VarInfo Sand
@@ -88,9 +78,19 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
             get { return _Sand;}
         }
 
+        public static  VarInfo OrganicMatter
+        {
+            get { return _OrganicMatter;}
+        }
+
         public static  VarInfo Clay
         {
             get { return _Clay;}
+        }
+
+        public static  VarInfo Silt
+        {
+            get { return _Silt;}
         }
 
         public static  VarInfo SurfaceSoilTemperature
@@ -118,14 +118,14 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
             get { return _ThermalDiffusivity;}
         }
 
-        public static  VarInfo SoilTemperatureMinimum
-        {
-            get { return _SoilTemperatureMinimum;}
-        }
-
         public static  VarInfo SoilTemperatureRangeByLayers
         {
             get { return _SoilTemperatureRangeByLayers;}
+        }
+
+        public static  VarInfo SoilTemperatureMinimum
+        {
+            get { return _SoilTemperatureMinimum;}
         }
 
         public static  VarInfo SoilTemperatureMaximum
@@ -148,22 +148,6 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
             _AboveGroundBiomass.Units = "Kg ha-1";
             _AboveGroundBiomass.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
-            _SoilProfileDepth.Name = "SoilProfileDepth";
-            _SoilProfileDepth.Description = "Soil profile depth";
-            _SoilProfileDepth.MaxValue = 50;
-            _SoilProfileDepth.MinValue = 0;
-            _SoilProfileDepth.DefaultValue = 3;
-            _SoilProfileDepth.Units = "m";
-            _SoilProfileDepth.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
-
-            _LayerThickness.Name = "LayerThickness";
-            _LayerThickness.Description = "Soil layer thickness";
-            _LayerThickness.MaxValue = -1D;
-            _LayerThickness.MinValue = -1D;
-            _LayerThickness.DefaultValue = -1D;
-            _LayerThickness.Units = "m";
-            _LayerThickness.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
-
             _VolumetricWaterContent.Name = "VolumetricWaterContent";
             _VolumetricWaterContent.Description = "Volumetric soil water content";
             _VolumetricWaterContent.MaxValue = -1D;
@@ -180,21 +164,21 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
             _BulkDensity.Units = "t m-3";
             _BulkDensity.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
 
-            _Silt.Name = "Silt";
-            _Silt.Description = "Silt content of soil layer";
-            _Silt.MaxValue = -1D;
-            _Silt.MinValue = -1D;
-            _Silt.DefaultValue = -1D;
-            _Silt.Units = "%";
-            _Silt.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+            _LayerThickness.Name = "LayerThickness";
+            _LayerThickness.Description = "Soil layer thickness";
+            _LayerThickness.MaxValue = -1D;
+            _LayerThickness.MinValue = -1D;
+            _LayerThickness.DefaultValue = -1D;
+            _LayerThickness.Units = "m";
+            _LayerThickness.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
 
-            _OrganicMatter.Name = "OrganicMatter";
-            _OrganicMatter.Description = "Organic matter content of soil layer";
-            _OrganicMatter.MaxValue = -1D;
-            _OrganicMatter.MinValue = -1D;
-            _OrganicMatter.DefaultValue = -1D;
-            _OrganicMatter.Units = "%";
-            _OrganicMatter.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+            _SoilProfileDepth.Name = "SoilProfileDepth";
+            _SoilProfileDepth.Description = "Soil profile depth";
+            _SoilProfileDepth.MaxValue = 50;
+            _SoilProfileDepth.MinValue = 0;
+            _SoilProfileDepth.DefaultValue = 3;
+            _SoilProfileDepth.Units = "m";
+            _SoilProfileDepth.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _Sand.Name = "Sand";
             _Sand.Description = "Sand content of soil layer";
@@ -204,6 +188,14 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
             _Sand.Units = "%";
             _Sand.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
 
+            _OrganicMatter.Name = "OrganicMatter";
+            _OrganicMatter.Description = "Organic matter content of soil layer";
+            _OrganicMatter.MaxValue = -1D;
+            _OrganicMatter.MinValue = -1D;
+            _OrganicMatter.DefaultValue = -1D;
+            _OrganicMatter.Units = "%";
+            _OrganicMatter.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+
             _Clay.Name = "Clay";
             _Clay.Description = "Clay content of soil layer";
             _Clay.MaxValue = -1D;
@@ -211,6 +203,14 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
             _Clay.DefaultValue = -1D;
             _Clay.Units = "%";
             _Clay.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+
+            _Silt.Name = "Silt";
+            _Silt.Description = "Silt content of soil layer";
+            _Silt.MaxValue = -1D;
+            _Silt.MinValue = -1D;
+            _Silt.DefaultValue = -1D;
+            _Silt.Units = "%";
+            _Silt.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
 
             _SurfaceSoilTemperature.Name = "SurfaceSoilTemperature";
             _SurfaceSoilTemperature.Description = "Average surface soil temperature";
@@ -252,14 +252,6 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
             _ThermalDiffusivity.Units = "mm s-1";
             _ThermalDiffusivity.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
 
-            _SoilTemperatureMinimum.Name = "SoilTemperatureMinimum";
-            _SoilTemperatureMinimum.Description = "Minimum soil temperature by layers";
-            _SoilTemperatureMinimum.MaxValue = -1D;
-            _SoilTemperatureMinimum.MinValue = -1D;
-            _SoilTemperatureMinimum.DefaultValue = -1D;
-            _SoilTemperatureMinimum.Units = "Â°C";
-            _SoilTemperatureMinimum.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
-
             _SoilTemperatureRangeByLayers.Name = "SoilTemperatureRangeByLayers";
             _SoilTemperatureRangeByLayers.Description = "Soil temperature range by layers";
             _SoilTemperatureRangeByLayers.MaxValue = -1D;
@@ -267,6 +259,14 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
             _SoilTemperatureRangeByLayers.DefaultValue = -1D;
             _SoilTemperatureRangeByLayers.Units = "Â°C";
             _SoilTemperatureRangeByLayers.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+
+            _SoilTemperatureMinimum.Name = "SoilTemperatureMinimum";
+            _SoilTemperatureMinimum.Description = "Minimum soil temperature by layers";
+            _SoilTemperatureMinimum.MaxValue = -1D;
+            _SoilTemperatureMinimum.MinValue = -1D;
+            _SoilTemperatureMinimum.DefaultValue = -1D;
+            _SoilTemperatureMinimum.Units = "Â°C";
+            _SoilTemperatureMinimum.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
 
             _SoilTemperatureMaximum.Name = "SoilTemperatureMaximum";
             _SoilTemperatureMaximum.Description = "Maximum soil temperature by layers";

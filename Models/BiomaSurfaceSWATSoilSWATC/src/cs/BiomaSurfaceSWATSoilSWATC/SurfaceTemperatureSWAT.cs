@@ -17,15 +17,6 @@ public class SurfaceTemperatureSWAT
     //            * ExtendedDescription: Strategy for the calculation of surface soil temperature with SWAT method. Reference: Neitsch,S.L., Arnold, J.G., Kiniry, J.R., Williams, J.R., King, K.W. Soil and Water Assessment Tool. Theoretical documentation. Version 2000. http://swatmodel.tamu.edu/media/1290/swat2000theory.pdf
     //            * ShortDescription: None
         //- inputs:
-    //            * name: AirTemperatureMinimum
-    //                          ** description : Minimum daily air temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLE
-    //                          ** max : 50
-    //                          ** min : -60
-    //                          ** default : 5
-    //                          ** unit : Â°C
     //            * name: GlobalSolarRadiation
     //                          ** description : Daily global solar radiation
     //                          ** inputtype : variable
@@ -45,6 +36,33 @@ public class SurfaceTemperatureSWAT
     //                          ** min : -60
     //                          ** default : 15
     //                          ** unit : Â°C
+    //            * name: AirTemperatureMaximum
+    //                          ** description : Maximum daily air temperature
+    //                          ** inputtype : variable
+    //                          ** variablecategory : exogenous
+    //                          ** datatype : DOUBLE
+    //                          ** max : 60
+    //                          ** min : -40
+    //                          ** default : 15
+    //                          ** unit : Â°C
+    //            * name: AirTemperatureMinimum
+    //                          ** description : Minimum daily air temperature
+    //                          ** inputtype : variable
+    //                          ** variablecategory : exogenous
+    //                          ** datatype : DOUBLE
+    //                          ** max : 50
+    //                          ** min : -60
+    //                          ** default : 5
+    //                          ** unit : Â°C
+    //            * name: Albedo
+    //                          ** description : Albedo of soil
+    //                          ** inputtype : variable
+    //                          ** variablecategory : exogenous
+    //                          ** datatype : DOUBLE
+    //                          ** max : 1
+    //                          ** min : 0
+    //                          ** default : 0.2
+    //                          ** unit : unitless
     //            * name: AboveGroundBiomass
     //                          ** description : Above ground biomass
     //                          ** inputtype : variable
@@ -63,24 +81,6 @@ public class SurfaceTemperatureSWAT
     //                          ** min : 0
     //                          ** default : 10
     //                          ** unit : mm
-    //            * name: AirTemperatureMaximum
-    //                          ** description : Maximum daily air temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLE
-    //                          ** max : 60
-    //                          ** min : -40
-    //                          ** default : 15
-    //                          ** unit : Â°C
-    //            * name: Albedo
-    //                          ** description : Albedo of soil
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLE
-    //                          ** max : 1
-    //                          ** min : 0
-    //                          ** default : 0.2
-    //                          ** unit : unitless
         //- outputs:
     //            * name: SurfaceSoilTemperature
     //                          ** description : Average surface soil temperature
@@ -89,13 +89,13 @@ public class SurfaceTemperatureSWAT
     //                          ** max : 60
     //                          ** min : -60
     //                          ** unit : Â°C
-        double AirTemperatureMinimum = ex.AirTemperatureMinimum;
         double GlobalSolarRadiation = ex.GlobalSolarRadiation;
         double[] SoilTemperatureByLayers = s.SoilTemperatureByLayers;
+        double AirTemperatureMaximum = ex.AirTemperatureMaximum;
+        double AirTemperatureMinimum = ex.AirTemperatureMinimum;
+        double Albedo = ex.Albedo;
         double AboveGroundBiomass = s.AboveGroundBiomass;
         double WaterEquivalentOfSnowPack = ex.WaterEquivalentOfSnowPack;
-        double AirTemperatureMaximum = ex.AirTemperatureMaximum;
-        double Albedo = ex.Albedo;
         double SurfaceSoilTemperature;
         double _Tavg;
         double _Hterm;
