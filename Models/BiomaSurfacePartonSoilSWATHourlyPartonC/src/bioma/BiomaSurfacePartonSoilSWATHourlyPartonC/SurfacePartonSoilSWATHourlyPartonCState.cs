@@ -213,23 +213,23 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
         public virtual Boolean ClearValues()
         {
              _AboveGroundBiomass = default(double);
-             _VolumetricWaterContent = new double[];
-             _BulkDensity = new double[];
-             _LayerThickness = new double[];
+             _VolumetricWaterContent = default(double[]);
+             _BulkDensity = default(double[]);
+             _LayerThickness = default(double[]);
              _SoilProfileDepth = default(double);
-             _Sand = new double[];
-             _OrganicMatter = new double[];
-             _Clay = new double[];
-             _Silt = new double[];
+             _Sand = default(double[]);
+             _OrganicMatter = default(double[]);
+             _Clay = default(double[]);
+             _Silt = default(double[]);
              _SurfaceSoilTemperature = default(double);
-             _SoilTemperatureByLayers = new double[];
-             _HeatCapacity = new double[];
-             _ThermalConductivity = new double[];
-             _ThermalDiffusivity = new double[];
-             _SoilTemperatureRangeByLayers = new double[];
-             _SoilTemperatureMinimum = new double[];
-             _SoilTemperatureMaximum = new double[];
-             _SoilTemperatureByLayersHourly = new double[];
+             _SoilTemperatureByLayers = default(double[]);
+             _HeatCapacity = default(double[]);
+             _ThermalConductivity = default(double[]);
+             _ThermalDiffusivity = default(double[]);
+             _SoilTemperatureRangeByLayers = default(double[]);
+             _SoilTemperatureMinimum = default(double[]);
+             _SoilTemperatureMaximum = default(double[]);
+             _SoilTemperatureByLayersHourly = default(double[]);
             return true;
         }
 

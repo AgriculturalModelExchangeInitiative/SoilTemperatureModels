@@ -27,13 +27,13 @@ public class SurfacePartonSoilSWATHourlyPartonCComponent
 
     public void  CalculateModel(SurfacePartonSoilSWATHourlyPartonCState s, SurfacePartonSoilSWATHourlyPartonCState s1, SurfacePartonSoilSWATHourlyPartonCRate r, SurfacePartonSoilSWATHourlyPartonCAuxiliary a, SurfacePartonSoilSWATHourlyPartonCExogenous ex)
     {
-        _surfacetemperatureparton.CalculateModel(s,s1, r, a, ex);
-        _volumetricheatcapacitykluitenberg.CalculateModel(s,s1, r, a, ex);
-        _thermalconductivitysimulat.CalculateModel(s,s1, r, a, ex);
-        _soiltemperatureswat.CalculateModel(s,s1, r, a, ex);
-        _thermaldiffu.CalculateModel(s,s1, r, a, ex);
-        _rangeofsoiltemperaturesdaycent.CalculateModel(s,s1, r, a, ex);
-        _hourlysoiltemperaturespartonlogan.CalculateModel(s,s1, r, a, ex);
+        _SurfaceTemperatureParton.CalculateModel(s,s1, r, a, ex);
+        _VolumetricHeatCapacityKluitenberg.CalculateModel(s,s1, r, a, ex);
+        _ThermalConductivitySIMULAT.CalculateModel(s,s1, r, a, ex);
+        _SoilTemperatureSWAT.CalculateModel(s,s1, r, a, ex);
+        _ThermalDiffu.CalculateModel(s,s1, r, a, ex);
+        _RangeOfSoilTemperaturesDAYCENT.CalculateModel(s,s1, r, a, ex);
+        _HourlySoilTemperaturesPartonLogan.CalculateModel(s,s1, r, a, ex);
     }
     
     public SurfacePartonSoilSWATHourlyPartonCComponent(SurfacePartonSoilSWATHourlyPartonCComponent toCopy): this() // copy constructor 

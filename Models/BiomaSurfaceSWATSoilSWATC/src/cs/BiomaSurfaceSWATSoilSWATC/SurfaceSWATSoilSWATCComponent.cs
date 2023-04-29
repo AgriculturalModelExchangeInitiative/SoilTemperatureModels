@@ -22,8 +22,8 @@ public class SurfaceSWATSoilSWATCComponent
 
     public void  CalculateModel(SurfaceSWATSoilSWATCState s, SurfaceSWATSoilSWATCState s1, SurfaceSWATSoilSWATCRate r, SurfaceSWATSoilSWATCAuxiliary a, SurfaceSWATSoilSWATCExogenous ex)
     {
-        _surfacetemperatureswat.CalculateModel(s,s1, r, a, ex);
-        _soiltemperatureswat.CalculateModel(s,s1, r, a, ex);
+        _SurfaceTemperatureSWAT.CalculateModel(s,s1, r, a, ex);
+        _SoilTemperatureSWAT.CalculateModel(s,s1, r, a, ex);
     }
     
     public SurfaceSWATSoilSWATCComponent(SurfaceSWATSoilSWATCComponent toCopy): this() // copy constructor 
