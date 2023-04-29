@@ -103,12 +103,12 @@ namespace SurfacePartonSoilSWATC.DomainClass
         public virtual Boolean ClearValues()
         {
              _AboveGroundBiomass = default(double);
-             _VolumetricWaterContent = new double[];
-             _LayerThickness = new double[];
-             _BulkDensity = new double[];
+             _VolumetricWaterContent = default(double[]);
+             _LayerThickness = default(double[]);
+             _BulkDensity = default(double[]);
              _SoilProfileDepth = default(double);
              _SurfaceSoilTemperature = default(double);
-             _SoilTemperatureByLayers = new double[];
+             _SoilTemperatureByLayers = default(double[]);
             return true;
         }
 
