@@ -438,7 +438,7 @@ C=======================================================================
 ! FOUND    Indicator that good data was read from file by subroutine FIND 
 !            (0 - End-of-file encountered, 1 - NAME was found) 
 ! FX        
-! HDAY      
+! HDAY     Haverst day (day) () state variable
 ! ICWD     Initial water table depth (cm)
 ! ISWITCH  Composite variable containing switches which control flow of (Y) constant parameter
 !            execution for model.  The structure of the variable 
@@ -477,10 +477,10 @@ C=======================================================================
 !            soil temperature. (degC) () exogenous variable
 ! TAVG     Average daily temperature (degC) () exogenous variable
 ! TBD      Sum of bulk density over soil profile () soil parameter
-! TDL      Total water content of soil at drained upper limit (cm) () soil parameter
+! TDL      Total water content of soil at drained upper limit (cm) () state variable
 ! TLL      Total soil water in the profile at the lower limit of 
 !            plant-extractable water (cm) () soil parameter
-! TMA(NL)   Array of previous 5 days of average soil temperatures (degC) () state variable
+! TMA(5)   Array of previous 5 days of average soil temperatures (degC) () state variable
 ! TMAX     Maximum daily temperature (degC) () exogenous variable 
 ! TSW      Total soil water in profile (cm)
 ! WC        

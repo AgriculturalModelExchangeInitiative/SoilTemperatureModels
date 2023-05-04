@@ -3,31 +3,34 @@
 <configuration class="net.simplace.sim.components.DSSAT_ST_standalone.STEMP_">
     <simgroup>
         <simcomponent id="STEMP" class="net.simplace.sim.components.DSSAT_ST_standalone.STEMP">
-            <input id="DSMID" source="STEMP_.DSMID"/>
-            <input id="TAVG" source="STEMP_.TAVG"/>
-            <input id="ST" source="STEMP_.ST"/>
-            <input id="TMAX" source="STEMP_.TMAX"/>
-            <input id="TAV" source="STEMP_.TAV"/>
-            <input id="DLAYR" source="STEMP_.DLAYR"/>
-            <input id="CUMDPT" source="STEMP_.CUMDPT"/>
-            <input id="SW" source="STEMP_.SW"/>
-            <input id="TAMP" source="STEMP_.TAMP"/>
-            <input id="NLAYR" source="STEMP_.NLAYR"/>
-            <input id="DOY" source="STEMP_.DOY"/>
-            <input id="LL" source="STEMP_.LL"/>
-            <input id="TMA" source="STEMP_.TMA"/>
-            <input id="ISWWAT" source="STEMP_.ISWWAT"/>
-            <input id="DUL" source="STEMP_.DUL"/>
-            <input id="BD" source="STEMP_.BD"/>
             <input id="SRFTEMP" source="STEMP_.SRFTEMP"/>
-            <input id="DS" source="STEMP_.DS"/>
-            <input id="NL" source="STEMP_.NL"/>
+            <input id="TAMP" source="STEMP_.TAMP"/>
             <input id="XLAT" source="STEMP_.XLAT"/>
-            <input id="SRAD" source="STEMP_.SRAD"/>
-            <input id="MSALB" source="STEMP_.MSALB"/>
+            <input id="HDAY" source="STEMP_.HDAY"/>
+            <input id="TMA" source="STEMP_.TMA"/>
+            <input id="CUMDPT" source="STEMP_.CUMDPT"/>
+            <input id="ISWWAT" source="STEMP_.ISWWAT"/>
+            <input id="NLAYR" source="STEMP_.NLAYR"/>
             <input id="ATOT" source="STEMP_.ATOT"/>
+            <input id="DUL" source="STEMP_.DUL"/>
+            <input id="TDL" source="STEMP_.TDL"/>
+            <input id="SRAD" source="STEMP_.SRAD"/>
+            <input id="DS" source="STEMP_.DS"/>
+            <input id="LL" source="STEMP_.LL"/>
+            <input id="TAV" source="STEMP_.TAV"/>
+            <input id="TMAX" source="STEMP_.TMAX"/>
+            <input id="TAVG" source="STEMP_.TAVG"/>
+            <input id="BD" source="STEMP_.BD"/>
+            <input id="DOY" source="STEMP_.DOY"/>
+            <input id="DSMID" source="STEMP_.DSMID"/>
+            <input id="MSALB" source="STEMP_.MSALB"/>
+            <input id="NL" source="STEMP_.NL"/>
+            <input id="DLAYR" source="STEMP_.DLAYR"/>
+            <input id="ST" source="STEMP_.ST"/>
+            <input id="SW" source="STEMP_.SW"/>
             <output id="CUMDPT" destination="STEMP_.CUMDPT"/>
             <output id="DSMID" destination="STEMP_.DSMID"/>
+            <output id="TDL" destination="STEMP_.TDL"/>
             <output id="TMA" destination="STEMP_.TMA"/>
             <output id="ATOT" destination="STEMP_.ATOT"/>
             <output id="SRFTEMP" destination="STEMP_.SRFTEMP"/>

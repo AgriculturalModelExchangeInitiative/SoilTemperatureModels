@@ -18,14 +18,16 @@ init_stemp <- function (NL,
          TAMP,
          DOY){
     DSMID <- vector(,NL)
-    TMA <- vector(,NL)
+    TMA <- vector(,5)
     ST <- vector(,NL)
     CUMDPT <- 0.0
     DSMID <-  rep(0.0,NL)
-    TMA <-  rep(0.0,NL)
+    TDL <- 0.0
+    TMA <-  rep(0.0,5)
     ATOT <- 0.0
     SRFTEMP <- 0.0
     ST <-  rep(0.0,NL)
+    HDAY <- 0.0
     DLI <- vector(,NL)
     DSI <- vector(,NL)
     SWI <- vector(,NL)
@@ -84,7 +86,7 @@ init_stemp <- function (NL,
     for( I in seq(1, 8 + 1-1, 1)){
         list[ATOT, TMA, SRFTEMP, ST] <- SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ATOT, TMA)
     }
-    return (list ("CUMDPT" = CUMDPT,"DSMID" = DSMID,"TMA" = TMA,"ATOT" = ATOT,"SRFTEMP" = SRFTEMP,"ST" = ST))
+    return (list ("CUMDPT" = CUMDPT,"DSMID" = DSMID,"TDL" = TDL,"TMA" = TMA,"ATOT" = ATOT,"SRFTEMP" = SRFTEMP,"ST" = ST,"HDAY" = HDAY))
 }
 
 model_stemp <- function (NL,
@@ -105,11 +107,13 @@ model_stemp <- function (NL,
          TAMP,
          CUMDPT,
          DSMID,
+         TDL,
          TMA,
          ATOT,
          SRFTEMP,
          ST,
-         DOY){
+         DOY,
+         HDAY){
     #'- Name: STEMP -Version:  1.0, -Time step:  1
     #'- Description:
     #'            * Title: Model of STEMP
@@ -288,12 +292,21 @@ model_stemp <- function (NL,
     #'                          ** min : 
     #'                          ** default : 
     #'                          ** unit : cm
+    #'            * name: TDL
+    #'                          ** description : Total water content of soil at drained upper limit
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : state
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 
+    #'                          ** min : 
+    #'                          ** default : 
+    #'                          ** unit : cm
     #'            * name: TMA
     #'                          ** description : Array of previous 5 days of average soil temperatures
     #'                          ** inputtype : variable
     #'                          ** variablecategory : state
     #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : NL
+    #'                          ** len : 5
     #'                          ** max : 
     #'                          ** min : 
     #'                          ** default : 
@@ -335,6 +348,15 @@ model_stemp <- function (NL,
     #'                          ** min : 
     #'                          ** default : 
     #'                          ** unit : d
+    #'            * name: HDAY
+    #'                          ** description : Haverst day
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : state
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 
+    #'                          ** min : 
+    #'                          ** default : 
+    #'                          ** unit : day
     #'- outputs:
     #'            * name: CUMDPT
     #'                          ** description : Cumulative depth of soil profile
@@ -351,11 +373,18 @@ model_stemp <- function (NL,
     #'                          ** max : 
     #'                          ** min : 
     #'                          ** unit : cm
+    #'            * name: TDL
+    #'                          ** description : Total water content of soil at drained upper limit
+    #'                          ** datatype : DOUBLE
+    #'                          ** variablecategory : state
+    #'                          ** max : 
+    #'                          ** min : 
+    #'                          ** unit : cm
     #'            * name: TMA
     #'                          ** description : Array of previous 5 days of average soil temperatures
     #'                          ** datatype : DOUBLEARRAY
     #'                          ** variablecategory : state
-    #'                          ** len : NL
+    #'                          ** len : 5
     #'                          ** max : 
     #'                          ** min : 
     #'                          ** unit : degC
@@ -384,7 +413,6 @@ model_stemp <- function (NL,
     TBD <- 0.0
     TLL <- 0.0
     TSW <- 0.0
-    TDL <- 0.0
     for( L in seq(1, NLAYR + 1-1, 1)){
         TBD <- TBD + (BD[(L - 1)+1] * DLAYR[(L - 1)+1])
         TDL <- TDL + (DUL[(L - 1)+1] * DLAYR[(L - 1)+1])
@@ -406,7 +434,7 @@ model_stemp <- function (NL,
         PESW <- max(0.0, TDL - TLL)
     }
     list[ATOT, TMA, SRFTEMP, ST] <- SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ATOT, TMA)
-    return (list ("CUMDPT" = CUMDPT,"DSMID" = DSMID,"TMA" = TMA,"ATOT" = ATOT,"SRFTEMP" = SRFTEMP,"ST" = ST))
+    return (list ("CUMDPT" = CUMDPT,"DSMID" = DSMID,"TDL" = TDL,"TMA" = TMA,"ATOT" = ATOT,"SRFTEMP" = SRFTEMP,"ST" = ST))
 }
 
 SOILT <- function (NL,

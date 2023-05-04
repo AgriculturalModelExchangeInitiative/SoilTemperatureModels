@@ -32,11 +32,13 @@ public class STEMP extends FWSimComponent
     private FWSimVariable<Double> TAMP;
     private FWSimVariable<Double> CUMDPT;
     private FWSimVariable<Double[]> DSMID;
+    private FWSimVariable<Double> TDL;
     private FWSimVariable<Double[]> TMA;
     private FWSimVariable<Double> ATOT;
     private FWSimVariable<Double> SRFTEMP;
     private FWSimVariable<Double[]> ST;
     private FWSimVariable<Integer> DOY;
+    private FWSimVariable<Double> HDAY;
 
     public STEMP(String aName, HashMap<String, FWSimVariable<?>> aFieldMap, HashMap<String, String> aInputMap, Element aSimComponentElement, FWSimVarMap aVarMap, int aOrderNumber)
     {
@@ -68,11 +70,13 @@ public class STEMP extends FWSimComponent
         addVariable(FWSimVariable.createSimVariable("TAMP", "Amplitude of temperature function used to calculate soil temperatures", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"degC", null, null, null, this));
         addVariable(FWSimVariable.createSimVariable("CUMDPT", "Cumulative depth of soil profile", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"mm", null, null, null, this));
         addVariable(FWSimVariable.createSimVariable("DSMID", "Depth to midpoint of soil layer L", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"cm", null, null, null, this));
+        addVariable(FWSimVariable.createSimVariable("TDL", "Total water content of soil at drained upper limit", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"cm", null, null, null, this));
         addVariable(FWSimVariable.createSimVariable("TMA", "Array of previous 5 days of average soil temperatures", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"degC", null, null, null, this));
         addVariable(FWSimVariable.createSimVariable("ATOT", "Sum of TMA array (last 5 days soil temperature)", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"degC", null, null, null, this));
         addVariable(FWSimVariable.createSimVariable("SRFTEMP", "Temperature of soil surface litter", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"degC", null, null, null, this));
         addVariable(FWSimVariable.createSimVariable("ST", "Soil temperature in soil layer L", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"degC", null, null, null, this));
         addVariable(FWSimVariable.createSimVariable("DOY", "Current day of simulation", DATA_TYPE.INT, CONTENT_TYPE.input,"d", null, null, null, this));
+        addVariable(FWSimVariable.createSimVariable("HDAY", "Haverst day", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"day", null, null, null, this));
 
         return iFieldMap;
     }
@@ -99,16 +103,20 @@ public class STEMP extends FWSimComponent
         Integer t_DOY = DOY.getValue();
         Double t_CUMDPT = CUMDPT.getDefault();
         Double [] t_DSMID = new Double[t_NL];
-        Double [] t_TMA = new Double[t_NL];
+        Double t_TDL = TDL.getDefault();
+        Double [] t_TMA = new Double[5];
         Double t_ATOT = ATOT.getDefault();
         Double t_SRFTEMP = SRFTEMP.getDefault();
         Double [] t_ST = new Double[t_NL];
+        Double t_HDAY = HDAY.getDefault();
         t_CUMDPT = 0.0d;
         Arrays.fill(t_DSMID, 0.0d);
+        t_TDL = 0.0d;
         Arrays.fill(t_TMA, 0.0d);
         t_ATOT = 0.0d;
         t_SRFTEMP = 0.0d;
         Arrays.fill(t_ST, 0.0d);
+        t_HDAY = 0.0d;
         Integer I;
         Integer L;
         Double ABD;
@@ -116,11 +124,9 @@ public class STEMP extends FWSimComponent
         Double B;
         Double DP;
         Double FX;
-        Double HDAY;
         Double PESW;
         Double TBD;
         Double WW;
-        Double TDL;
         Double TLL;
         Double TSW;
         Double[] DLI = new Double[t_NL];
@@ -130,16 +136,16 @@ public class STEMP extends FWSimComponent
         DSI = t_DS;
         if (t_XLAT < 0.0d)
         {
-            HDAY = 20.0d;
+            t_HDAY = 20.0d;
         }
         else
         {
-            HDAY = 200.0d;
+            t_HDAY = 200.0d;
         }
         TBD = 0.0d;
         TLL = 0.0d;
         TSW = 0.0d;
-        TDL = 0.0d;
+        t_TDL = 0.0d;
         t_CUMDPT = 0.0d;
         for (L=1 ; L!=t_NLAYR + 1 ; L+=1)
         {
@@ -156,7 +162,7 @@ public class STEMP extends FWSimComponent
             TBD = TBD + (t_BD[(L - 1)] * DLI[(L - 1)]);
             TLL = TLL + (t_LL[(L - 1)] * DLI[(L - 1)]);
             TSW = TSW + (SWI[(L - 1)] * DLI[(L - 1)]);
-            TDL = TDL + (t_DUL[(L - 1)] * DLI[(L - 1)]);
+            t_TDL = t_TDL + (t_DUL[(L - 1)] * DLI[(L - 1)]);
         }
         if (t_ISWWAT == "Y")
         {
@@ -164,7 +170,7 @@ public class STEMP extends FWSimComponent
         }
         else
         {
-            PESW = Math.max(0.0d, TDL - TLL);
+            PESW = Math.max(0.0d, t_TDL - TLL);
         }
         ABD = TBD / DSI[(t_NLAYR - 1)];
         FX = ABD / (ABD + (686.0d * Math.exp(-(5.63d * ABD))));
@@ -183,7 +189,7 @@ public class STEMP extends FWSimComponent
         }
         for (I=1 ; I!=8 + 1 ; I+=1)
         {
-            zz_SOILT = Calculate_SOILT(t_NL, ALBEDO, B, t_CUMDPT, t_DOY, DP, HDAY, t_NLAYR, PESW, t_SRAD, t_TAMP, t_TAV, t_TAVG, t_TMAX, WW, t_DSMID, t_ATOT, t_TMA);
+            zz_SOILT = Calculate_SOILT(t_NL, ALBEDO, B, t_CUMDPT, t_DOY, DP, t_HDAY, t_NLAYR, PESW, t_SRAD, t_TAMP, t_TAV, t_TAVG, t_TMAX, WW, t_DSMID, t_ATOT, t_TMA);
             t_ATOT = zz_SOILT.getATOT();
             t_TMA = zz_SOILT.getTMA();
             t_SRFTEMP = zz_SOILT.getSRFTEMP();
@@ -191,10 +197,12 @@ public class STEMP extends FWSimComponent
         }
         CUMDPT.setValue(t_CUMDPT, this);
         DSMID.setValue(t_DSMID, this);
+        TDL.setValue(t_TDL, this);
         TMA.setValue(t_TMA, this);
         ATOT.setValue(t_ATOT, this);
         SRFTEMP.setValue(t_SRFTEMP, this);
         ST.setValue(t_ST, this);
+        HDAY.setValue(t_HDAY, this);
     }
     @Override
     protected void process()
@@ -218,33 +226,31 @@ public class STEMP extends FWSimComponent
         Double t_TAMP = TAMP.getValue();
         Double t_CUMDPT = CUMDPT.getValue();
         Double [] t_DSMID = new Double[t_NL];
-        Double [] t_TMA = new Double[t_NL];
+        Double t_TDL = TDL.getValue();
+        Double [] t_TMA = new Double[5];
         Double t_ATOT = ATOT.getValue();
         Double t_SRFTEMP = SRFTEMP.getValue();
         Double [] t_ST = new Double[t_NL];
         Integer t_DOY = DOY.getValue();
-        Integer I;
+        Double t_HDAY = HDAY.getValue();
         Integer L;
         Double ABD;
         Double ALBEDO;
         Double B;
         Double DP;
         Double FX;
-        Double HDAY;
         Double PESW;
         Double TBD;
         Double WW;
-        Double TDL;
         Double TLL;
         Double TSW;
         TBD = 0.0d;
         TLL = 0.0d;
         TSW = 0.0d;
-        TDL = 0.0d;
         for (L=1 ; L!=t_NLAYR + 1 ; L+=1)
         {
             TBD = TBD + (t_BD[(L - 1)] * t_DLAYR[(L - 1)]);
-            TDL = TDL + (t_DUL[(L - 1)] * t_DLAYR[(L - 1)]);
+            t_TDL = t_TDL + (t_DUL[(L - 1)] * t_DLAYR[(L - 1)]);
             TLL = TLL + (t_LL[(L - 1)] * t_DLAYR[(L - 1)]);
             TSW = TSW + (t_SW[(L - 1)] * t_DLAYR[(L - 1)]);
         }
@@ -260,21 +266,22 @@ public class STEMP extends FWSimComponent
         }
         else
         {
-            PESW = Math.max(0.0d, TDL - TLL);
+            PESW = Math.max(0.0d, t_TDL - TLL);
         }
-        zz_SOILT = Calculate_SOILT(t_NL, ALBEDO, B, t_CUMDPT, t_DOY, DP, HDAY, t_NLAYR, PESW, t_SRAD, t_TAMP, t_TAV, t_TAVG, t_TMAX, WW, t_DSMID, t_ATOT, t_TMA);
+        zz_SOILT = Calculate_SOILT(t_NL, ALBEDO, B, t_CUMDPT, t_DOY, DP, t_HDAY, t_NLAYR, PESW, t_SRAD, t_TAMP, t_TAV, t_TAVG, t_TMAX, WW, t_DSMID, t_ATOT, t_TMA);
         t_ATOT = zz_SOILT.getATOT();
         t_TMA = zz_SOILT.getTMA();
         t_SRFTEMP = zz_SOILT.getSRFTEMP();
         t_ST = zz_SOILT.getST();
         CUMDPT.setValue(t_CUMDPT, this);
         DSMID.setValue(t_DSMID, this);
+        TDL.setValue(t_TDL, this);
         TMA.setValue(t_TMA, this);
         ATOT.setValue(t_ATOT, this);
         SRFTEMP.setValue(t_SRFTEMP, this);
         ST.setValue(t_ST, this);
     }
-    public SOILT Calculate_SOILT (Integer t_NL, Double ALBEDO, Double B, Double t_CUMDPT, Integer t_DOY, Double DP, Double HDAY, Integer t_NLAYR, Double PESW, Double t_SRAD, Double t_TAMP, Double t_TAV, Double t_TAVG, Double t_TMAX, Double WW, Double [] t_DSMID, Double t_ATOT, Double [] t_TMA)
+    public SOILT Calculate_SOILT (Integer t_NL, Double ALBEDO, Double B, Double t_CUMDPT, Integer t_DOY, Double DP, Double t_HDAY, Integer t_NLAYR, Double PESW, Double t_SRAD, Double t_TAMP, Double t_TAV, Double t_TAVG, Double t_TMAX, Double WW, Double [] t_DSMID, Double t_ATOT, Double [] t_TMA)
     {
         Integer K;
         Integer L;
@@ -287,7 +294,7 @@ public class STEMP extends FWSimComponent
         Double WC;
         Double ZD;
         Double[] ST = new Double[t_NL];
-        ALX = ((double)(t_DOY) - HDAY) * 0.0174d;
+        ALX = ((double)(t_DOY) - t_HDAY) * 0.0174d;
         t_ATOT = t_ATOT - t_TMA[5 - 1];
         for (K=5 ; K!=2 - 1 ; K+=-1)
         {

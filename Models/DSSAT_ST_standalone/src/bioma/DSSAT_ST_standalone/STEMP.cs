@@ -211,74 +211,92 @@ namespace STEMP_.Strategies
             _inputs0_0.Add(pd7);
             PropertyDescription pd8 = new PropertyDescription();
             pd8.DomainClassType = typeof(STEMP_.DomainClass.STEMP_State);
-            pd8.PropertyName = "TMA";
-            pd8.PropertyType = (STEMP_.DomainClass.STEMP_StateVarInfo.TMA).ValueType.TypeForCurrentValue;
-            pd8.PropertyVarInfo =(STEMP_.DomainClass.STEMP_StateVarInfo.TMA);
+            pd8.PropertyName = "TDL";
+            pd8.PropertyType = (STEMP_.DomainClass.STEMP_StateVarInfo.TDL).ValueType.TypeForCurrentValue;
+            pd8.PropertyVarInfo =(STEMP_.DomainClass.STEMP_StateVarInfo.TDL);
             _inputs0_0.Add(pd8);
             PropertyDescription pd9 = new PropertyDescription();
             pd9.DomainClassType = typeof(STEMP_.DomainClass.STEMP_State);
-            pd9.PropertyName = "ATOT";
-            pd9.PropertyType = (STEMP_.DomainClass.STEMP_StateVarInfo.ATOT).ValueType.TypeForCurrentValue;
-            pd9.PropertyVarInfo =(STEMP_.DomainClass.STEMP_StateVarInfo.ATOT);
+            pd9.PropertyName = "TMA";
+            pd9.PropertyType = (STEMP_.DomainClass.STEMP_StateVarInfo.TMA).ValueType.TypeForCurrentValue;
+            pd9.PropertyVarInfo =(STEMP_.DomainClass.STEMP_StateVarInfo.TMA);
             _inputs0_0.Add(pd9);
             PropertyDescription pd10 = new PropertyDescription();
             pd10.DomainClassType = typeof(STEMP_.DomainClass.STEMP_State);
-            pd10.PropertyName = "SRFTEMP";
-            pd10.PropertyType = (STEMP_.DomainClass.STEMP_StateVarInfo.SRFTEMP).ValueType.TypeForCurrentValue;
-            pd10.PropertyVarInfo =(STEMP_.DomainClass.STEMP_StateVarInfo.SRFTEMP);
+            pd10.PropertyName = "ATOT";
+            pd10.PropertyType = (STEMP_.DomainClass.STEMP_StateVarInfo.ATOT).ValueType.TypeForCurrentValue;
+            pd10.PropertyVarInfo =(STEMP_.DomainClass.STEMP_StateVarInfo.ATOT);
             _inputs0_0.Add(pd10);
             PropertyDescription pd11 = new PropertyDescription();
             pd11.DomainClassType = typeof(STEMP_.DomainClass.STEMP_State);
-            pd11.PropertyName = "ST";
-            pd11.PropertyType = (STEMP_.DomainClass.STEMP_StateVarInfo.ST).ValueType.TypeForCurrentValue;
-            pd11.PropertyVarInfo =(STEMP_.DomainClass.STEMP_StateVarInfo.ST);
+            pd11.PropertyName = "SRFTEMP";
+            pd11.PropertyType = (STEMP_.DomainClass.STEMP_StateVarInfo.SRFTEMP).ValueType.TypeForCurrentValue;
+            pd11.PropertyVarInfo =(STEMP_.DomainClass.STEMP_StateVarInfo.SRFTEMP);
             _inputs0_0.Add(pd11);
             PropertyDescription pd12 = new PropertyDescription();
-            pd12.DomainClassType = typeof(STEMP_.DomainClass.STEMP_Exogenous);
-            pd12.PropertyName = "DOY";
-            pd12.PropertyType = (STEMP_.DomainClass.STEMP_ExogenousVarInfo.DOY).ValueType.TypeForCurrentValue;
-            pd12.PropertyVarInfo =(STEMP_.DomainClass.STEMP_ExogenousVarInfo.DOY);
+            pd12.DomainClassType = typeof(STEMP_.DomainClass.STEMP_State);
+            pd12.PropertyName = "ST";
+            pd12.PropertyType = (STEMP_.DomainClass.STEMP_StateVarInfo.ST).ValueType.TypeForCurrentValue;
+            pd12.PropertyVarInfo =(STEMP_.DomainClass.STEMP_StateVarInfo.ST);
             _inputs0_0.Add(pd12);
+            PropertyDescription pd13 = new PropertyDescription();
+            pd13.DomainClassType = typeof(STEMP_.DomainClass.STEMP_Exogenous);
+            pd13.PropertyName = "DOY";
+            pd13.PropertyType = (STEMP_.DomainClass.STEMP_ExogenousVarInfo.DOY).ValueType.TypeForCurrentValue;
+            pd13.PropertyVarInfo =(STEMP_.DomainClass.STEMP_ExogenousVarInfo.DOY);
+            _inputs0_0.Add(pd13);
+            PropertyDescription pd14 = new PropertyDescription();
+            pd14.DomainClassType = typeof(STEMP_.DomainClass.STEMP_State);
+            pd14.PropertyName = "HDAY";
+            pd14.PropertyType = (STEMP_.DomainClass.STEMP_StateVarInfo.HDAY).ValueType.TypeForCurrentValue;
+            pd14.PropertyVarInfo =(STEMP_.DomainClass.STEMP_StateVarInfo.HDAY);
+            _inputs0_0.Add(pd14);
             mo0_0.Inputs=_inputs0_0;
 
             //Outputs
             List<PropertyDescription> _outputs0_0 = new List<PropertyDescription>();
-            PropertyDescription pd13 = new PropertyDescription();
-            pd13.DomainClassType = typeof(STEMP_.DomainClass.STEMP_State);
-            pd13.PropertyName = "CUMDPT";
-            pd13.PropertyType = (STEMP_.DomainClass.STEMP_StateVarInfo.CUMDPT).ValueType.TypeForCurrentValue;
-            pd13.PropertyVarInfo =(STEMP_.DomainClass.STEMP_StateVarInfo.CUMDPT);
-            _outputs0_0.Add(pd13);
-            mo0_0.Outputs=_outputs0_0;PropertyDescription pd14 = new PropertyDescription();
-            pd14.DomainClassType = typeof(STEMP_.DomainClass.STEMP_State);
-            pd14.PropertyName = "DSMID";
-            pd14.PropertyType = (STEMP_.DomainClass.STEMP_StateVarInfo.DSMID).ValueType.TypeForCurrentValue;
-            pd14.PropertyVarInfo =(STEMP_.DomainClass.STEMP_StateVarInfo.DSMID);
-            _outputs0_0.Add(pd14);
-            mo0_0.Outputs=_outputs0_0;PropertyDescription pd15 = new PropertyDescription();
+            PropertyDescription pd15 = new PropertyDescription();
             pd15.DomainClassType = typeof(STEMP_.DomainClass.STEMP_State);
-            pd15.PropertyName = "TMA";
-            pd15.PropertyType = (STEMP_.DomainClass.STEMP_StateVarInfo.TMA).ValueType.TypeForCurrentValue;
-            pd15.PropertyVarInfo =(STEMP_.DomainClass.STEMP_StateVarInfo.TMA);
+            pd15.PropertyName = "CUMDPT";
+            pd15.PropertyType = (STEMP_.DomainClass.STEMP_StateVarInfo.CUMDPT).ValueType.TypeForCurrentValue;
+            pd15.PropertyVarInfo =(STEMP_.DomainClass.STEMP_StateVarInfo.CUMDPT);
             _outputs0_0.Add(pd15);
             mo0_0.Outputs=_outputs0_0;PropertyDescription pd16 = new PropertyDescription();
             pd16.DomainClassType = typeof(STEMP_.DomainClass.STEMP_State);
-            pd16.PropertyName = "ATOT";
-            pd16.PropertyType = (STEMP_.DomainClass.STEMP_StateVarInfo.ATOT).ValueType.TypeForCurrentValue;
-            pd16.PropertyVarInfo =(STEMP_.DomainClass.STEMP_StateVarInfo.ATOT);
+            pd16.PropertyName = "DSMID";
+            pd16.PropertyType = (STEMP_.DomainClass.STEMP_StateVarInfo.DSMID).ValueType.TypeForCurrentValue;
+            pd16.PropertyVarInfo =(STEMP_.DomainClass.STEMP_StateVarInfo.DSMID);
             _outputs0_0.Add(pd16);
             mo0_0.Outputs=_outputs0_0;PropertyDescription pd17 = new PropertyDescription();
             pd17.DomainClassType = typeof(STEMP_.DomainClass.STEMP_State);
-            pd17.PropertyName = "SRFTEMP";
-            pd17.PropertyType = (STEMP_.DomainClass.STEMP_StateVarInfo.SRFTEMP).ValueType.TypeForCurrentValue;
-            pd17.PropertyVarInfo =(STEMP_.DomainClass.STEMP_StateVarInfo.SRFTEMP);
+            pd17.PropertyName = "TDL";
+            pd17.PropertyType = (STEMP_.DomainClass.STEMP_StateVarInfo.TDL).ValueType.TypeForCurrentValue;
+            pd17.PropertyVarInfo =(STEMP_.DomainClass.STEMP_StateVarInfo.TDL);
             _outputs0_0.Add(pd17);
             mo0_0.Outputs=_outputs0_0;PropertyDescription pd18 = new PropertyDescription();
             pd18.DomainClassType = typeof(STEMP_.DomainClass.STEMP_State);
-            pd18.PropertyName = "ST";
-            pd18.PropertyType = (STEMP_.DomainClass.STEMP_StateVarInfo.ST).ValueType.TypeForCurrentValue;
-            pd18.PropertyVarInfo =(STEMP_.DomainClass.STEMP_StateVarInfo.ST);
+            pd18.PropertyName = "TMA";
+            pd18.PropertyType = (STEMP_.DomainClass.STEMP_StateVarInfo.TMA).ValueType.TypeForCurrentValue;
+            pd18.PropertyVarInfo =(STEMP_.DomainClass.STEMP_StateVarInfo.TMA);
             _outputs0_0.Add(pd18);
+            mo0_0.Outputs=_outputs0_0;PropertyDescription pd19 = new PropertyDescription();
+            pd19.DomainClassType = typeof(STEMP_.DomainClass.STEMP_State);
+            pd19.PropertyName = "ATOT";
+            pd19.PropertyType = (STEMP_.DomainClass.STEMP_StateVarInfo.ATOT).ValueType.TypeForCurrentValue;
+            pd19.PropertyVarInfo =(STEMP_.DomainClass.STEMP_StateVarInfo.ATOT);
+            _outputs0_0.Add(pd19);
+            mo0_0.Outputs=_outputs0_0;PropertyDescription pd20 = new PropertyDescription();
+            pd20.DomainClassType = typeof(STEMP_.DomainClass.STEMP_State);
+            pd20.PropertyName = "SRFTEMP";
+            pd20.PropertyType = (STEMP_.DomainClass.STEMP_StateVarInfo.SRFTEMP).ValueType.TypeForCurrentValue;
+            pd20.PropertyVarInfo =(STEMP_.DomainClass.STEMP_StateVarInfo.SRFTEMP);
+            _outputs0_0.Add(pd20);
+            mo0_0.Outputs=_outputs0_0;PropertyDescription pd21 = new PropertyDescription();
+            pd21.DomainClassType = typeof(STEMP_.DomainClass.STEMP_State);
+            pd21.PropertyName = "ST";
+            pd21.PropertyType = (STEMP_.DomainClass.STEMP_StateVarInfo.ST).ValueType.TypeForCurrentValue;
+            pd21.PropertyVarInfo =(STEMP_.DomainClass.STEMP_StateVarInfo.ST);
+            _outputs0_0.Add(pd21);
             mo0_0.Outputs=_outputs0_0;
             //Associated strategies
             List<string> lAssStrat0_0 = new List<string>();
@@ -654,24 +672,27 @@ namespace STEMP_.Strategies
                 //Set current values of the outputs to the static VarInfo representing the output properties of the domain classes
                 STEMP_.DomainClass.STEMP_StateVarInfo.CUMDPT.CurrentValue=s.CUMDPT;
                 STEMP_.DomainClass.STEMP_StateVarInfo.DSMID.CurrentValue=s.DSMID;
+                STEMP_.DomainClass.STEMP_StateVarInfo.TDL.CurrentValue=s.TDL;
                 STEMP_.DomainClass.STEMP_StateVarInfo.TMA.CurrentValue=s.TMA;
                 STEMP_.DomainClass.STEMP_StateVarInfo.ATOT.CurrentValue=s.ATOT;
                 STEMP_.DomainClass.STEMP_StateVarInfo.SRFTEMP.CurrentValue=s.SRFTEMP;
                 STEMP_.DomainClass.STEMP_StateVarInfo.ST.CurrentValue=s.ST;
                 ConditionsCollection prc = new ConditionsCollection();
                 Preconditions pre = new Preconditions(); 
-                RangeBasedCondition r24 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.CUMDPT);
-                if(r24.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.CUMDPT.ValueType)){prc.AddCondition(r24);}
-                RangeBasedCondition r25 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.DSMID);
-                if(r25.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.DSMID.ValueType)){prc.AddCondition(r25);}
-                RangeBasedCondition r26 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.TMA);
-                if(r26.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.TMA.ValueType)){prc.AddCondition(r26);}
-                RangeBasedCondition r27 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.ATOT);
-                if(r27.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.ATOT.ValueType)){prc.AddCondition(r27);}
-                RangeBasedCondition r28 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.SRFTEMP);
-                if(r28.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.SRFTEMP.ValueType)){prc.AddCondition(r28);}
-                RangeBasedCondition r29 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.ST);
-                if(r29.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.ST.ValueType)){prc.AddCondition(r29);}
+                RangeBasedCondition r26 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.CUMDPT);
+                if(r26.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.CUMDPT.ValueType)){prc.AddCondition(r26);}
+                RangeBasedCondition r27 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.DSMID);
+                if(r27.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.DSMID.ValueType)){prc.AddCondition(r27);}
+                RangeBasedCondition r28 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.TDL);
+                if(r28.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.TDL.ValueType)){prc.AddCondition(r28);}
+                RangeBasedCondition r29 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.TMA);
+                if(r29.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.TMA.ValueType)){prc.AddCondition(r29);}
+                RangeBasedCondition r30 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.ATOT);
+                if(r30.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.ATOT.ValueType)){prc.AddCondition(r30);}
+                RangeBasedCondition r31 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.SRFTEMP);
+                if(r31.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.SRFTEMP.ValueType)){prc.AddCondition(r31);}
+                RangeBasedCondition r32 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.ST);
+                if(r32.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.ST.ValueType)){prc.AddCondition(r32);}
                 string postConditionsResult = pre.VerifyPostconditions(prc, callID); if (!string.IsNullOrEmpty(postConditionsResult)) { pre.TestsOut(postConditionsResult, true, "PostConditions errors in strategy " + this.GetType().Name); } return postConditionsResult;
             }
             catch (Exception exception)
@@ -693,11 +714,13 @@ namespace STEMP_.Strategies
                 STEMP_.DomainClass.STEMP_ExogenousVarInfo.TAMP.CurrentValue=ex.TAMP;
                 STEMP_.DomainClass.STEMP_StateVarInfo.CUMDPT.CurrentValue=s.CUMDPT;
                 STEMP_.DomainClass.STEMP_StateVarInfo.DSMID.CurrentValue=s.DSMID;
+                STEMP_.DomainClass.STEMP_StateVarInfo.TDL.CurrentValue=s.TDL;
                 STEMP_.DomainClass.STEMP_StateVarInfo.TMA.CurrentValue=s.TMA;
                 STEMP_.DomainClass.STEMP_StateVarInfo.ATOT.CurrentValue=s.ATOT;
                 STEMP_.DomainClass.STEMP_StateVarInfo.SRFTEMP.CurrentValue=s.SRFTEMP;
                 STEMP_.DomainClass.STEMP_StateVarInfo.ST.CurrentValue=s.ST;
                 STEMP_.DomainClass.STEMP_ExogenousVarInfo.DOY.CurrentValue=ex.DOY;
+                STEMP_.DomainClass.STEMP_StateVarInfo.HDAY.CurrentValue=s.HDAY;
                 ConditionsCollection prc = new ConditionsCollection();
                 Preconditions pre = new Preconditions(); 
                 RangeBasedCondition r1 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_ExogenousVarInfo.SRAD);
@@ -714,16 +737,20 @@ namespace STEMP_.Strategies
                 if(r6.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.CUMDPT.ValueType)){prc.AddCondition(r6);}
                 RangeBasedCondition r7 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.DSMID);
                 if(r7.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.DSMID.ValueType)){prc.AddCondition(r7);}
-                RangeBasedCondition r8 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.TMA);
-                if(r8.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.TMA.ValueType)){prc.AddCondition(r8);}
-                RangeBasedCondition r9 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.ATOT);
-                if(r9.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.ATOT.ValueType)){prc.AddCondition(r9);}
-                RangeBasedCondition r10 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.SRFTEMP);
-                if(r10.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.SRFTEMP.ValueType)){prc.AddCondition(r10);}
-                RangeBasedCondition r11 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.ST);
-                if(r11.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.ST.ValueType)){prc.AddCondition(r11);}
-                RangeBasedCondition r12 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_ExogenousVarInfo.DOY);
-                if(r12.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_ExogenousVarInfo.DOY.ValueType)){prc.AddCondition(r12);}
+                RangeBasedCondition r8 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.TDL);
+                if(r8.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.TDL.ValueType)){prc.AddCondition(r8);}
+                RangeBasedCondition r9 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.TMA);
+                if(r9.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.TMA.ValueType)){prc.AddCondition(r9);}
+                RangeBasedCondition r10 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.ATOT);
+                if(r10.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.ATOT.ValueType)){prc.AddCondition(r10);}
+                RangeBasedCondition r11 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.SRFTEMP);
+                if(r11.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.SRFTEMP.ValueType)){prc.AddCondition(r11);}
+                RangeBasedCondition r12 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.ST);
+                if(r12.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.ST.ValueType)){prc.AddCondition(r12);}
+                RangeBasedCondition r13 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_ExogenousVarInfo.DOY);
+                if(r13.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_ExogenousVarInfo.DOY.ValueType)){prc.AddCondition(r13);}
+                RangeBasedCondition r14 = new RangeBasedCondition(STEMP_.DomainClass.STEMP_StateVarInfo.HDAY);
+                if(r14.ApplicableVarInfoValueTypes.Contains( STEMP_.DomainClass.STEMP_StateVarInfo.HDAY.ValueType)){prc.AddCondition(r14);}
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("NL")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("ISWWAT")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("BD")));
@@ -767,16 +794,20 @@ namespace STEMP_.Strategies
             int DOY = ex.DOY;
             double CUMDPT;
             double[] DSMID =  new double [NL];
-            double[] TMA =  new double [NL];
+            double TDL;
+            double[] TMA =  new double [5];
             double ATOT;
             double SRFTEMP;
             double[] ST =  new double [NL];
+            double HDAY;
             CUMDPT = 0.00d;
             DSMID = new double[NL];
-            TMA = new double[NL];
+            TDL = 0.00d;
+            TMA = new double[5];
             ATOT = 0.00d;
             SRFTEMP = 0.00d;
             ST = new double[NL];
+            HDAY = 0.00d;
             int I;
             int L;
             double ABD;
@@ -784,11 +815,9 @@ namespace STEMP_.Strategies
             double B;
             double DP;
             double FX;
-            double HDAY;
             double PESW;
             double TBD;
             double WW;
-            double TDL;
             double TLL;
             double TSW;
             double[] DLI =  new double [NL];
@@ -855,10 +884,12 @@ namespace STEMP_.Strategies
             }
             s.CUMDPT= CUMDPT;
             s.DSMID= DSMID;
+            s.TDL= TDL;
             s.TMA= TMA;
             s.ATOT= ATOT;
             s.SRFTEMP= SRFTEMP;
             s.ST= ST;
+            s.HDAY= HDAY;
         }
 
         private void CalculateModel(STEMP_.DomainClass.STEMP_State s, STEMP_.DomainClass.STEMP_State s1, STEMP_.DomainClass.STEMP_Rate r, STEMP_.DomainClass.STEMP_Auxiliary a, STEMP_.DomainClass.STEMP_Exogenous ex)
@@ -870,29 +901,27 @@ namespace STEMP_.Strategies
             double TAMP = ex.TAMP;
             double CUMDPT = s.CUMDPT;
             double[] DSMID = s.DSMID;
+            double TDL = s.TDL;
             double[] TMA = s.TMA;
             double ATOT = s.ATOT;
             double SRFTEMP = s.SRFTEMP;
             double[] ST = s.ST;
             int DOY = ex.DOY;
-            int I;
+            double HDAY = s.HDAY;
             int L;
             double ABD;
             double ALBEDO;
             double B;
             double DP;
             double FX;
-            double HDAY;
             double PESW;
             double TBD;
             double WW;
-            double TDL;
             double TLL;
             double TSW;
             TBD = 0.00d;
             TLL = 0.00d;
             TSW = 0.00d;
-            TDL = 0.00d;
             for (L=1 ; L!=NLAYR + 1 ; L+=1)
             {
                 TBD = TBD + (BD[(L - 1)] * DLAYR[(L - 1)]);
@@ -917,6 +946,7 @@ namespace STEMP_.Strategies
             Tuple.Create(ATOT, TMA, SRFTEMP, ST) = SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ATOT, TMA);
             s.CUMDPT= CUMDPT;
             s.DSMID= DSMID;
+            s.TDL= TDL;
             s.TMA= TMA;
             s.ATOT= ATOT;
             s.SRFTEMP= SRFTEMP;

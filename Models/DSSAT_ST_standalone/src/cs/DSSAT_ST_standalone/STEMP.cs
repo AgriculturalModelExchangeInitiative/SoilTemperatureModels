@@ -13,16 +13,20 @@ public class STEMP
         int DOY;
         double CUMDPT;
         double[] DSMID =  new double [NL];
-        double[] TMA =  new double [NL];
+        double TDL;
+        double[] TMA =  new double [5];
         double ATOT;
         double SRFTEMP;
         double[] ST =  new double [NL];
+        double HDAY;
         CUMDPT = 0.00d;
         DSMID = new double[NL];
-        TMA = new double[NL];
+        TDL = 0.00d;
+        TMA = new double[5];
         ATOT = 0.00d;
         SRFTEMP = 0.00d;
         ST = new double[NL];
+        HDAY = 0.00d;
         int I;
         int L;
         double ABD;
@@ -30,11 +34,9 @@ public class STEMP
         double B;
         double DP;
         double FX;
-        double HDAY;
         double PESW;
         double TBD;
         double WW;
-        double TDL;
         double TLL;
         double TSW;
         double[] DLI =  new double [NL];
@@ -101,10 +103,12 @@ public class STEMP
         }
         s.CUMDPT= CUMDPT;
         s.DSMID= DSMID;
+        s.TDL= TDL;
         s.TMA= TMA;
         s.ATOT= ATOT;
         s.SRFTEMP= SRFTEMP;
         s.ST= ST;
+        s.HDAY= HDAY;
     }
     private int _NL;
     public int NL
@@ -354,12 +358,21 @@ public class STEMP
     //                          ** min : 
     //                          ** default : 
     //                          ** unit : cm
+    //            * name: TDL
+    //                          ** description : Total water content of soil at drained upper limit
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLE
+    //                          ** max : 
+    //                          ** min : 
+    //                          ** default : 
+    //                          ** unit : cm
     //            * name: TMA
     //                          ** description : Array of previous 5 days of average soil temperatures
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NL
+    //                          ** len : 5
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -401,6 +414,15 @@ public class STEMP
     //                          ** min : 
     //                          ** default : 
     //                          ** unit : d
+    //            * name: HDAY
+    //                          ** description : Haverst day
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLE
+    //                          ** max : 
+    //                          ** min : 
+    //                          ** default : 
+    //                          ** unit : day
         //- outputs:
     //            * name: CUMDPT
     //                          ** description : Cumulative depth of soil profile
@@ -417,11 +439,18 @@ public class STEMP
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : cm
+    //            * name: TDL
+    //                          ** description : Total water content of soil at drained upper limit
+    //                          ** datatype : DOUBLE
+    //                          ** variablecategory : state
+    //                          ** max : 
+    //                          ** min : 
+    //                          ** unit : cm
     //            * name: TMA
     //                          ** description : Array of previous 5 days of average soil temperatures
     //                          ** datatype : DOUBLEARRAY
     //                          ** variablecategory : state
-    //                          ** len : NL
+    //                          ** len : 5
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : degC
@@ -454,29 +483,27 @@ public class STEMP
         double TAMP = ex.TAMP;
         double CUMDPT = s.CUMDPT;
         double[] DSMID = s.DSMID;
+        double TDL = s.TDL;
         double[] TMA = s.TMA;
         double ATOT = s.ATOT;
         double SRFTEMP = s.SRFTEMP;
         double[] ST = s.ST;
         int DOY = ex.DOY;
-        int I;
+        double HDAY = s.HDAY;
         int L;
         double ABD;
         double ALBEDO;
         double B;
         double DP;
         double FX;
-        double HDAY;
         double PESW;
         double TBD;
         double WW;
-        double TDL;
         double TLL;
         double TSW;
         TBD = 0.00d;
         TLL = 0.00d;
         TSW = 0.00d;
-        TDL = 0.00d;
         for (L=1 ; L!=NLAYR + 1 ; L+=1)
         {
             TBD = TBD + (BD[(L - 1)] * DLAYR[(L - 1)]);
@@ -501,6 +528,7 @@ public class STEMP
         Tuple.Create(ATOT, TMA, SRFTEMP, ST) = SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ATOT, TMA);
         s.CUMDPT= CUMDPT;
         s.DSMID= DSMID;
+        s.TDL= TDL;
         s.TMA= TMA;
         s.ATOT= ATOT;
         s.SRFTEMP= SRFTEMP;

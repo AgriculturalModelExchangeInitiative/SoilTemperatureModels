@@ -22,10 +22,12 @@ CONTAINS
         DOY, &
         CUMDPT, &
         DSMID, &
+        TDL, &
         TMA, &
         ATOT, &
         SRFTEMP, &
-        ST)
+        ST, &
+        HDAY)
         IMPLICIT NONE
         INTEGER:: i_cyml_r
         INTEGER, INTENT(IN) :: NL
@@ -47,10 +49,12 @@ CONTAINS
         INTEGER, INTENT(IN) :: DOY
         REAL, INTENT(OUT) :: CUMDPT
         REAL , DIMENSION(NL ), INTENT(OUT) :: DSMID
-        REAL , DIMENSION(NL ), INTENT(OUT) :: TMA
+        REAL, INTENT(OUT) :: TDL
+        REAL , DIMENSION(5 ), INTENT(OUT) :: TMA
         REAL, INTENT(OUT) :: ATOT
         REAL, INTENT(OUT) :: SRFTEMP
         REAL , DIMENSION(NL ), INTENT(OUT) :: ST
+        REAL, INTENT(OUT) :: HDAY
         INTEGER:: I
         INTEGER:: L
         REAL:: ABD
@@ -58,11 +62,9 @@ CONTAINS
         REAL:: B
         REAL:: DP
         REAL:: FX
-        REAL:: HDAY
         REAL:: PESW
         REAL:: TBD
         REAL:: WW
-        REAL:: TDL
         REAL:: TLL
         REAL:: TSW
         REAL , DIMENSION(NL ):: DLI
@@ -70,10 +72,12 @@ CONTAINS
         REAL , DIMENSION(NL ):: SWI
         CUMDPT = 0.0
         DSMID = 0.0
+        TDL = 0.0
         TMA = 0.0
         ATOT = 0.0
         SRFTEMP = 0.0
         ST = 0.0
+        HDAY = 0.0
         SWI = SW
         DSI = DS
         IF(XLAT .LT. 0.0) THEN
@@ -141,11 +145,13 @@ CONTAINS
         TAMP, &
         CUMDPT, &
         DSMID, &
+        TDL, &
         TMA, &
         ATOT, &
         SRFTEMP, &
         ST, &
-        DOY)
+        DOY, &
+        HDAY)
         IMPLICIT NONE
         INTEGER:: i_cyml_r
         INTEGER, INTENT(IN) :: NL
@@ -166,23 +172,22 @@ CONTAINS
         REAL, INTENT(IN) :: TAMP
         REAL, INTENT(INOUT) :: CUMDPT
         REAL , DIMENSION(NL ), INTENT(INOUT) :: DSMID
-        REAL , DIMENSION(NL ), INTENT(INOUT) :: TMA
+        REAL, INTENT(INOUT) :: TDL
+        REAL , DIMENSION(5 ), INTENT(INOUT) :: TMA
         REAL, INTENT(INOUT) :: ATOT
         REAL, INTENT(INOUT) :: SRFTEMP
         REAL , DIMENSION(NL ), INTENT(INOUT) :: ST
         INTEGER, INTENT(IN) :: DOY
-        INTEGER:: I
+        REAL, INTENT(IN) :: HDAY
         INTEGER:: L
         REAL:: ABD
         REAL:: ALBEDO
         REAL:: B
         REAL:: DP
         REAL:: FX
-        REAL:: HDAY
         REAL:: PESW
         REAL:: TBD
         REAL:: WW
-        REAL:: TDL
         REAL:: TLL
         REAL:: TSW
         !- Name: STEMP -Version:  1.0, -Time step:  1
@@ -363,12 +368,21 @@ CONTAINS
     !                          ** min : 
     !                          ** default : 
     !                          ** unit : cm
+    !            * name: TDL
+    !                          ** description : Total water content of soil at drained upper limit
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : DOUBLE
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 
+    !                          ** unit : cm
     !            * name: TMA
     !                          ** description : Array of previous 5 days of average soil temperatures
     !                          ** inputtype : variable
     !                          ** variablecategory : state
     !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NL
+    !                          ** len : 5
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -410,6 +424,15 @@ CONTAINS
     !                          ** min : 
     !                          ** default : 
     !                          ** unit : d
+    !            * name: HDAY
+    !                          ** description : Haverst day
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : DOUBLE
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 
+    !                          ** unit : day
         !- outputs:
     !            * name: CUMDPT
     !                          ** description : Cumulative depth of soil profile
@@ -426,11 +449,18 @@ CONTAINS
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : cm
+    !            * name: TDL
+    !                          ** description : Total water content of soil at drained upper limit
+    !                          ** datatype : DOUBLE
+    !                          ** variablecategory : state
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** unit : cm
     !            * name: TMA
     !                          ** description : Array of previous 5 days of average soil temperatures
     !                          ** datatype : DOUBLEARRAY
     !                          ** variablecategory : state
-    !                          ** len : NL
+    !                          ** len : 5
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : degC
@@ -459,7 +489,6 @@ CONTAINS
         TBD = 0.0
         TLL = 0.0
         TSW = 0.0
-        TDL = 0.0
         DO L = 1 , NLAYR + 1-1, 1
             TBD = TBD + (BD((L - 1)+1) * DLAYR((L - 1)+1))
             TDL = TDL + (DUL((L - 1)+1) * DLAYR((L - 1)+1))

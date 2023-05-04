@@ -1,6 +1,6 @@
-cdef int I , L 
+cdef int L 
 cdef float ABD , ALBEDO , B 
-cdef float DP , FX , HDAY , PESW 
+cdef float DP , FX , PESW 
 cdef float TBD , WW 
 cdef float TLL , TSW 
 TBD=0.0

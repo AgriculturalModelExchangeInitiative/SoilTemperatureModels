@@ -9,12 +9,12 @@ namespace STEMP_.DomainClass
 {
     public class STEMP_Exogenous : ICloneable, IDomainClass
     {
-        private double _TAVG;
-        private double _TMAX;
-        private double _TAV;
         private double _TAMP;
-        private int _DOY;
         private double _SRAD;
+        private double _TAV;
+        private double _TMAX;
+        private double _TAVG;
+        private int _DOY;
         private ParametersIO _parametersIO;
 
         public STEMP_Exogenous()
@@ -26,44 +26,44 @@ namespace STEMP_.DomainClass
         {
             if (copyAll)
             {
-                _TAVG = toCopy._TAVG;
-                _TMAX = toCopy._TMAX;
-                _TAV = toCopy._TAV;
-                _TAMP = toCopy._TAMP;
-                _DOY = toCopy._DOY;
-                _SRAD = toCopy._SRAD;
+                TAMP = toCopy.TAMP;
+                SRAD = toCopy.SRAD;
+                TAV = toCopy.TAV;
+                TMAX = toCopy.TMAX;
+                TAVG = toCopy.TAVG;
+                DOY = toCopy.DOY;
             }
         }
 
-        public double TAVG
+        public double TAMP
         {
-            get { return this._TAVG; }
-            set { this._TAVG= value; } 
+            get { return this._TAMP; }
+            set { this._TAMP= value; } 
         }
-        public double TMAX
+        public double SRAD
         {
-            get { return this._TMAX; }
-            set { this._TMAX= value; } 
+            get { return this._SRAD; }
+            set { this._SRAD= value; } 
         }
         public double TAV
         {
             get { return this._TAV; }
             set { this._TAV= value; } 
         }
-        public double TAMP
+        public double TMAX
         {
-            get { return this._TAMP; }
-            set { this._TAMP= value; } 
+            get { return this._TMAX; }
+            set { this._TMAX= value; } 
+        }
+        public double TAVG
+        {
+            get { return this._TAVG; }
+            set { this._TAVG= value; } 
         }
         public int DOY
         {
             get { return this._DOY; }
             set { this._DOY= value; } 
-        }
-        public double SRAD
-        {
-            get { return this._SRAD; }
-            set { this._SRAD= value; } 
         }
 
         public string Description
@@ -83,12 +83,12 @@ namespace STEMP_.DomainClass
 
         public virtual Boolean ClearValues()
         {
-             _TAVG = default(double);
-             _TMAX = default(double);
-             _TAV = default(double);
              _TAMP = default(double);
-             _DOY = default(int);
              _SRAD = default(double);
+             _TAV = default(double);
+             _TMAX = default(double);
+             _TAVG = default(double);
+             _DOY = default(int);
             return true;
         }
 

@@ -16,23 +16,26 @@ def init_stemp(int NL,
                float XLAT,
                float TAV,
                float TAMP,
-               float TDL,
                int DOY):
     cdef float CUMDPT
     cdef float DSMID[NL]
-    cdef float TMA[NL]
+    cdef float TDL
+    cdef float TMA[5]
     cdef float ATOT
     cdef float SRFTEMP
     cdef float ST[NL]
+    cdef float HDAY
     CUMDPT = 0.0
     DSMID = array('f', [0.0]*NL)
-    TMA = array('f', [0.0]*NL)
+    TDL = 0.0
+    TMA = array('f', [0.0]*5)
     ATOT = 0.0
     SRFTEMP = 0.0
     ST = array('f', [0.0]*NL)
+    HDAY = 0.0
     cdef int I , L 
     cdef float ABD , ALBEDO , B 
-    cdef float DP , FX , HDAY , PESW 
+    cdef float DP , FX , PESW 
     cdef float TBD , WW 
     cdef float TLL , TSW 
     cdef float DLI[NL], DSI[NL], SWI[NL]
@@ -88,7 +91,7 @@ def init_stemp(int NL,
         ST[L - 1]=TAVG
     for I in range(1 , 8 + 1 , 1):
         (ATOT, TMA, SRFTEMP, ST)=SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ATOT, TMA)
-    return  CUMDPT, DSMID, TMA, ATOT, SRFTEMP, ST
+    return  CUMDPT, DSMID, TDL, TMA, ATOT, SRFTEMP, ST, HDAY
 def model_stemp(int NL,
                 str ISWWAT,
                 float BD[NL],
@@ -108,11 +111,12 @@ def model_stemp(int NL,
                 float CUMDPT,
                 float DSMID[NL],
                 float TDL,
-                float TMA[NL],
+                float TMA[5],
                 float ATOT,
                 float SRFTEMP,
                 float ST[NL],
-                int DOY):
+                int DOY,
+                float HDAY):
     """
 
     Model of STEMP
@@ -123,9 +127,9 @@ def model_stemp(int NL,
     ShortDescription: Determines soil temperature by layer
 
     """
-    cdef int I , L 
+    cdef int L 
     cdef float ABD , ALBEDO , B 
-    cdef float DP , FX , HDAY , PESW 
+    cdef float DP , FX , PESW 
     cdef float TBD , WW 
     cdef float TLL , TSW 
     TBD=0.0

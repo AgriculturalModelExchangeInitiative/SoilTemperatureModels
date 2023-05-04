@@ -27,16 +27,20 @@ def init_stemp(NL:int,
          DOY:int):
     CUMDPT:float
     DSMID:'array[float]' = array('f',[0.0]*NL)
-    TMA:'array[float]' = array('f',[0.0]*NL)
+    TDL:float
+    TMA:'array[float]' = array('f',[0.0]*5)
     ATOT:float
     SRFTEMP:float
     ST:'array[float]' = array('f',[0.0]*NL)
+    HDAY:float
     CUMDPT = 0.0
     DSMID = array('f', [0.0]*NL)
-    TMA = array('f', [0.0]*NL)
+    TDL = 0.0
+    TMA = array('f', [0.0]*5)
     ATOT = 0.0
     SRFTEMP = 0.0
     ST = array('f', [0.0]*NL)
+    HDAY = 0.0
     I:int
     L:int
     ABD:float
@@ -44,11 +48,9 @@ def init_stemp(NL:int,
     B:float
     DP:float
     FX:float
-    HDAY:float
     PESW:float
     TBD:float
     WW:float
-    TDL:float
     TLL:float
     TSW:float
     DLI:'array[float]' = array('f',[0.0]*NL)
@@ -93,7 +95,7 @@ def init_stemp(NL:int,
         ST[L - 1] = TAVG
     for I in range(1 , 8 + 1 , 1):
         (ATOT, TMA, SRFTEMP, ST) = SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ATOT, TMA)
-    return (CUMDPT, DSMID, TMA, ATOT, SRFTEMP, ST)
+    return (CUMDPT, DSMID, TDL, TMA, ATOT, SRFTEMP, ST, HDAY)
 #%%CyML Init End%%
 
 def model_stemp(NL:int,
@@ -114,29 +116,27 @@ def model_stemp(NL:int,
          TAMP:float,
          CUMDPT:float,
          DSMID:'Array[float]',
+         TDL:float,
          TMA:'Array[float]',
          ATOT:float,
          SRFTEMP:float,
          ST:'Array[float]',
-         DOY:int):
-    I:int
+         DOY:int,
+         HDAY:float):
     L:int
     ABD:float
     ALBEDO:float
     B:float
     DP:float
     FX:float
-    HDAY:float
     PESW:float
     TBD:float
     WW:float
-    TDL:float
     TLL:float
     TSW:float
     TBD = 0.0
     TLL = 0.0
     TSW = 0.0
-    TDL = 0.0
     for L in range(1 , NLAYR + 1 , 1):
         TBD = TBD + (BD[(L - 1)] * DLAYR[(L - 1)])
         TDL = TDL + (DUL[(L - 1)] * DLAYR[(L - 1)])
@@ -153,7 +153,7 @@ def model_stemp(NL:int,
     else:
         PESW = max(0.0, TDL - TLL)
     (ATOT, TMA, SRFTEMP, ST) = SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ATOT, TMA)
-    return (CUMDPT, DSMID, TMA, ATOT, SRFTEMP, ST)
+    return (CUMDPT, DSMID, TDL, TMA, ATOT, SRFTEMP, ST)
 
 def SOILT(NL:int,
          ALBEDO:float,

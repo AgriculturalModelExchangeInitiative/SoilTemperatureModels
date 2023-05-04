@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 public class STEMP_State 
 {
+    private double _SRFTEMP;
+    private double _HDAY;
+    private double[] _TMA = new double[5];
+    private double _CUMDPT;
+    private double _ATOT;
+    private double _TDL;
     private double[] _DSMID = new double[NL];
     private double[] _ST = new double[NL];
-    private double _CUMDPT;
-    private double[] _TMA = new double[NL];
-    private double _SRFTEMP;
-    private double _ATOT;
     
         public STEMP_State() { }
     
@@ -17,23 +19,55 @@ public class STEMP_State
     if (copyAll)
     {
     
+    SRFTEMP = toCopy.SRFTEMP;
+    HDAY = toCopy.HDAY;
+    TMA = new double[5];
+            for (int i = 0; i < 5; i++)
+            { TMA[i] = toCopy.TMA[i]; }
+    
+    CUMDPT = toCopy.CUMDPT;
+    ATOT = toCopy.ATOT;
+    TDL = toCopy.TDL;
     DSMID = new double[NL];
             for (int i = 0; i < NL; i++)
-            { _DSMID[i] = toCopy._DSMID[i]; }
+            { DSMID[i] = toCopy.DSMID[i]; }
     
     ST = new double[NL];
             for (int i = 0; i < NL; i++)
-            { _ST[i] = toCopy._ST[i]; }
+            { ST[i] = toCopy.ST[i]; }
     
-    _CUMDPT = toCopy._CUMDPT;
-    TMA = new double[NL];
-            for (int i = 0; i < NL; i++)
-            { _TMA[i] = toCopy._TMA[i]; }
-    
-    _SRFTEMP = toCopy._SRFTEMP;
-    _ATOT = toCopy._ATOT;
     }
     }
+    public double SRFTEMP
+        {
+            get { return this._SRFTEMP; }
+            set { this._SRFTEMP= value; } 
+        }
+    public double HDAY
+        {
+            get { return this._HDAY; }
+            set { this._HDAY= value; } 
+        }
+    public double[] TMA
+        {
+            get { return this._TMA; }
+            set { this._TMA= value; } 
+        }
+    public double CUMDPT
+        {
+            get { return this._CUMDPT; }
+            set { this._CUMDPT= value; } 
+        }
+    public double ATOT
+        {
+            get { return this._ATOT; }
+            set { this._ATOT= value; } 
+        }
+    public double TDL
+        {
+            get { return this._TDL; }
+            set { this._TDL= value; } 
+        }
     public double[] DSMID
         {
             get { return this._DSMID; }
@@ -43,25 +77,5 @@ public class STEMP_State
         {
             get { return this._ST; }
             set { this._ST= value; } 
-        }
-    public double CUMDPT
-        {
-            get { return this._CUMDPT; }
-            set { this._CUMDPT= value; } 
-        }
-    public double[] TMA
-        {
-            get { return this._TMA; }
-            set { this._TMA= value; } 
-        }
-    public double SRFTEMP
-        {
-            get { return this._SRFTEMP; }
-            set { this._SRFTEMP= value; } 
-        }
-    public double ATOT
-        {
-            get { return this._ATOT; }
-            set { this._ATOT= value; } 
         }
 }

@@ -8,29 +8,31 @@ from datetime import datetime
 from DSSAT_ST_standalone.stemp import model_stemp
 
 #%%CyML Model Begin%%
-def model_stemp_(DSMID:'Array[float]',
-         TAVG:float,
-         ST:'Array[float]',
-         TMAX:float,
-         TAV:float,
-         DLAYR:'Array[float]',
-         CUMDPT:float,
-         SW:'Array[float]',
+def model_stemp_(SRFTEMP:float,
          TAMP:float,
-         NLAYR:int,
-         DOY:int,
-         LL:'Array[float]',
-         TMA:'Array[float]',
-         ISWWAT:str,
-         DUL:'Array[float]',
-         BD:'Array[float]',
-         SRFTEMP:float,
-         DS:'Array[float]',
-         NL:int,
          XLAT:float,
+         HDAY:float,
+         TMA:'Array[float]',
+         CUMDPT:float,
+         ISWWAT:str,
+         NLAYR:int,
+         ATOT:float,
+         DUL:'Array[float]',
+         TDL:float,
          SRAD:float,
+         DS:'Array[float]',
+         LL:'Array[float]',
+         TAV:float,
+         TMAX:float,
+         TAVG:float,
+         BD:'Array[float]',
+         DOY:int,
+         DSMID:'Array[float]',
          MSALB:float,
-         ATOT:float):
+         NL:int,
+         DLAYR:'Array[float]',
+         ST:'Array[float]',
+         SW:'Array[float]'):
     """
      - Name: STEMP_ -Version:  1.0, -Time step:  1
      - Description:
@@ -41,158 +43,6 @@ def model_stemp_(DSMID:'Array[float]',
                  * ExtendedDescription: None
                  * ShortDescription: Determines soil temperature by layer
      - inputs:
-                 * name: DSMID
-                               ** description : Depth to midpoint of soil layer L
-                               ** inputtype : variable
-                               ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NL
-                               ** max : 
-                               ** min : 
-                               ** default : 
-                               ** unit : cm
-                 * name: TAVG
-                               ** description : Average daily temperature
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
-                               ** datatype : DOUBLE
-                               ** max : 
-                               ** min : 
-                               ** default : 
-                               ** unit : degC
-                 * name: ST
-                               ** description : Soil temperature in soil layer L
-                               ** inputtype : variable
-                               ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NL
-                               ** max : 
-                               ** min : 
-                               ** default : 
-                               ** unit : degC
-                 * name: TMAX
-                               ** description : Maximum daily temperature
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
-                               ** datatype : DOUBLE
-                               ** max : 
-                               ** min : 
-                               ** default : 
-                               ** unit : degC
-                 * name: TAV
-                               ** description : Average annual soil temperature, used with TAMP to calculate soil temperature.
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
-                               ** datatype : DOUBLE
-                               ** max : 
-                               ** min : 
-                               ** default : 
-                               ** unit : degC
-                 * name: DLAYR
-                               ** description : Thickness of soil layer L
-                               ** inputtype : parameter
-                               ** parametercategory : constant
-                               ** datatype : DOUBLEARRAY
-                               ** len : NL
-                               ** max : 
-                               ** min : 
-                               ** default : 
-                               ** unit : cm
-                 * name: CUMDPT
-                               ** description : Cumulative depth of soil profile
-                               ** inputtype : variable
-                               ** variablecategory : state
-                               ** datatype : DOUBLE
-                               ** max : 
-                               ** min : 
-                               ** default : 
-                               ** unit : mm
-                 * name: SW
-                               ** description : Volumetric soil water content in layer L
-                               ** inputtype : parameter
-                               ** parametercategory : soil
-                               ** datatype : DOUBLEARRAY
-                               ** len : NL
-                               ** max : 
-                               ** min : 
-                               ** default : 
-                               ** unit : cm3 [water] / cm3 [soil]
-                 * name: TAMP
-                               ** description : Amplitude of temperature function used to calculate soil temperatures
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
-                               ** datatype : DOUBLE
-                               ** max : 
-                               ** min : 
-                               ** default : 
-                               ** unit : degC
-                 * name: NLAYR
-                               ** description : Actual number of soil layers
-                               ** inputtype : parameter
-                               ** parametercategory : constant
-                               ** datatype : INT
-                               ** max : 
-                               ** min : 
-                               ** default : 
-                               ** unit : dimensionless
-                 * name: DOY
-                               ** description : Current day of simulation
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
-                               ** datatype : INT
-                               ** max : 
-                               ** min : 
-                               ** default : 
-                               ** unit : d
-                 * name: LL
-                               ** description : Volumetric soil water content in soil layer L at lower limit
-                               ** inputtype : parameter
-                               ** parametercategory : soil
-                               ** datatype : DOUBLEARRAY
-                               ** len : NL
-                               ** max : 
-                               ** min : 
-                               ** default : 
-                               ** unit : cm3 [water] / cm3 [soil]
-                 * name: TMA
-                               ** description : Array of previous 5 days of average soil temperatures
-                               ** inputtype : variable
-                               ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NL
-                               ** max : 
-                               ** min : 
-                               ** default : 
-                               ** unit : degC
-                 * name: ISWWAT
-                               ** description : Water simulation control switch
-                               ** inputtype : parameter
-                               ** parametercategory : constant
-                               ** datatype : STRING
-                               ** max : 
-                               ** min : 
-                               ** default : Y
-                               ** unit : dimensionless
-                 * name: DUL
-                               ** description : Volumetric soil water content at Drained Upper Limit in soil layer L
-                               ** inputtype : parameter
-                               ** parametercategory : soil
-                               ** datatype : DOUBLEARRAY
-                               ** len : NL
-                               ** max : 
-                               ** min : 
-                               ** default : 
-                               ** unit : cm3[water]/cm3[soil]
-                 * name: BD
-                               ** description : Bulk density, soil layer NL
-                               ** inputtype : parameter
-                               ** parametercategory : soil
-                               ** datatype : DOUBLEARRAY
-                               ** len : NL
-                               ** max : 
-                               ** min : 
-                               ** default : 
-                               ** unit : g [soil] / cm3 [soil]
                  * name: SRFTEMP
                                ** description : Temperature of soil surface litter
                                ** inputtype : variable
@@ -202,25 +52,15 @@ def model_stemp_(DSMID:'Array[float]',
                                ** min : 
                                ** default : 
                                ** unit : degC
-                 * name: DS
-                               ** description : Cumulative depth in soil layer L
-                               ** inputtype : parameter
-                               ** parametercategory : soil
-                               ** datatype : DOUBLEARRAY
-                               ** len : NL
+                 * name: TAMP
+                               ** description : Amplitude of temperature function used to calculate soil temperatures
+                               ** inputtype : variable
+                               ** variablecategory : exogenous
+                               ** datatype : DOUBLE
                                ** max : 
                                ** min : 
                                ** default : 
-                               ** unit : cm
-                 * name: NL
-                               ** description : Number of soil layers
-                               ** inputtype : parameter
-                               ** parametercategory : constant
-                               ** datatype : INT
-                               ** max : 
-                               ** min : 
-                               ** default : 
-                               ** unit : dimensionless
+                               ** unit : degC
                  * name: XLAT
                                ** description : Latitude
                                ** inputtype : parameter
@@ -230,20 +70,48 @@ def model_stemp_(DSMID:'Array[float]',
                                ** min : 
                                ** default : 
                                ** unit : degC
-                 * name: SRAD
-                               ** description : Solar radiation
+                 * name: HDAY
+                               ** description : Haverst day
                                ** inputtype : variable
-                               ** variablecategory : exogenous
+                               ** variablecategory : state
                                ** datatype : DOUBLE
                                ** max : 
                                ** min : 
                                ** default : 
-                               ** unit : MJ/m2-d
-                 * name: MSALB
-                               ** description : Soil albedo with mulch and soil water effects
+                               ** unit : day
+                 * name: TMA
+                               ** description : Array of previous 5 days of average soil temperatures
+                               ** inputtype : variable
+                               ** variablecategory : state
+                               ** datatype : DOUBLEARRAY
+                               ** len : 5
+                               ** max : 
+                               ** min : 
+                               ** default : 
+                               ** unit : degC
+                 * name: CUMDPT
+                               ** description : Cumulative depth of soil profile
+                               ** inputtype : variable
+                               ** variablecategory : state
+                               ** datatype : DOUBLE
+                               ** max : 
+                               ** min : 
+                               ** default : 
+                               ** unit : mm
+                 * name: ISWWAT
+                               ** description : Water simulation control switch
                                ** inputtype : parameter
                                ** parametercategory : constant
-                               ** datatype : DOUBLE
+                               ** datatype : STRING
+                               ** max : 
+                               ** min : 
+                               ** default : Y
+                               ** unit : dimensionless
+                 * name: NLAYR
+                               ** description : Actual number of soil layers
+                               ** inputtype : parameter
+                               ** parametercategory : constant
+                               ** datatype : INT
                                ** max : 
                                ** min : 
                                ** default : 
@@ -257,6 +125,158 @@ def model_stemp_(DSMID:'Array[float]',
                                ** min : 
                                ** default : 
                                ** unit : degC
+                 * name: DUL
+                               ** description : Volumetric soil water content at Drained Upper Limit in soil layer L
+                               ** inputtype : parameter
+                               ** parametercategory : soil
+                               ** datatype : DOUBLEARRAY
+                               ** len : NL
+                               ** max : 
+                               ** min : 
+                               ** default : 
+                               ** unit : cm3[water]/cm3[soil]
+                 * name: TDL
+                               ** description : Total water content of soil at drained upper limit
+                               ** inputtype : variable
+                               ** variablecategory : state
+                               ** datatype : DOUBLE
+                               ** max : 
+                               ** min : 
+                               ** default : 
+                               ** unit : cm
+                 * name: SRAD
+                               ** description : Solar radiation
+                               ** inputtype : variable
+                               ** variablecategory : exogenous
+                               ** datatype : DOUBLE
+                               ** max : 
+                               ** min : 
+                               ** default : 
+                               ** unit : MJ/m2-d
+                 * name: DS
+                               ** description : Cumulative depth in soil layer L
+                               ** inputtype : parameter
+                               ** parametercategory : soil
+                               ** datatype : DOUBLEARRAY
+                               ** len : NL
+                               ** max : 
+                               ** min : 
+                               ** default : 
+                               ** unit : cm
+                 * name: LL
+                               ** description : Volumetric soil water content in soil layer L at lower limit
+                               ** inputtype : parameter
+                               ** parametercategory : soil
+                               ** datatype : DOUBLEARRAY
+                               ** len : NL
+                               ** max : 
+                               ** min : 
+                               ** default : 
+                               ** unit : cm3 [water] / cm3 [soil]
+                 * name: TAV
+                               ** description : Average annual soil temperature, used with TAMP to calculate soil temperature.
+                               ** inputtype : variable
+                               ** variablecategory : exogenous
+                               ** datatype : DOUBLE
+                               ** max : 
+                               ** min : 
+                               ** default : 
+                               ** unit : degC
+                 * name: TMAX
+                               ** description : Maximum daily temperature
+                               ** inputtype : variable
+                               ** variablecategory : exogenous
+                               ** datatype : DOUBLE
+                               ** max : 
+                               ** min : 
+                               ** default : 
+                               ** unit : degC
+                 * name: TAVG
+                               ** description : Average daily temperature
+                               ** inputtype : variable
+                               ** variablecategory : exogenous
+                               ** datatype : DOUBLE
+                               ** max : 
+                               ** min : 
+                               ** default : 
+                               ** unit : degC
+                 * name: BD
+                               ** description : Bulk density, soil layer NL
+                               ** inputtype : parameter
+                               ** parametercategory : soil
+                               ** datatype : DOUBLEARRAY
+                               ** len : NL
+                               ** max : 
+                               ** min : 
+                               ** default : 
+                               ** unit : g [soil] / cm3 [soil]
+                 * name: DOY
+                               ** description : Current day of simulation
+                               ** inputtype : variable
+                               ** variablecategory : exogenous
+                               ** datatype : INT
+                               ** max : 
+                               ** min : 
+                               ** default : 
+                               ** unit : d
+                 * name: DSMID
+                               ** description : Depth to midpoint of soil layer L
+                               ** inputtype : variable
+                               ** variablecategory : state
+                               ** datatype : DOUBLEARRAY
+                               ** len : NL
+                               ** max : 
+                               ** min : 
+                               ** default : 
+                               ** unit : cm
+                 * name: MSALB
+                               ** description : Soil albedo with mulch and soil water effects
+                               ** inputtype : parameter
+                               ** parametercategory : constant
+                               ** datatype : DOUBLE
+                               ** max : 
+                               ** min : 
+                               ** default : 
+                               ** unit : dimensionless
+                 * name: NL
+                               ** description : Number of soil layers
+                               ** inputtype : parameter
+                               ** parametercategory : constant
+                               ** datatype : INT
+                               ** max : 
+                               ** min : 
+                               ** default : 
+                               ** unit : dimensionless
+                 * name: DLAYR
+                               ** description : Thickness of soil layer L
+                               ** inputtype : parameter
+                               ** parametercategory : constant
+                               ** datatype : DOUBLEARRAY
+                               ** len : NL
+                               ** max : 
+                               ** min : 
+                               ** default : 
+                               ** unit : cm
+                 * name: ST
+                               ** description : Soil temperature in soil layer L
+                               ** inputtype : variable
+                               ** variablecategory : state
+                               ** datatype : DOUBLEARRAY
+                               ** len : NL
+                               ** max : 
+                               ** min : 
+                               ** default : 
+                               ** unit : degC
+                 * name: SW
+                               ** description : Volumetric soil water content in layer L
+                               ** inputtype : parameter
+                               ** parametercategory : soil
+                               ** datatype : DOUBLEARRAY
+                               ** len : NL
+                               ** max : 
+                               ** min : 
+                               ** default : 
+                               ** unit : cm3 [water] / cm3 [soil]
      - outputs:
                  * name: CUMDPT
                                ** description : Cumulative depth of soil profile
@@ -273,11 +293,18 @@ def model_stemp_(DSMID:'Array[float]',
                                ** max : 
                                ** min : 
                                ** unit : cm
+                 * name: TDL
+                               ** description : Total water content of soil at drained upper limit
+                               ** datatype : DOUBLE
+                               ** variablecategory : state
+                               ** max : 
+                               ** min : 
+                               ** unit : cm
                  * name: TMA
                                ** description : Array of previous 5 days of average soil temperatures
                                ** datatype : DOUBLEARRAY
                                ** variablecategory : state
-                               ** len : NL
+                               ** len : 5
                                ** max : 
                                ** min : 
                                ** unit : degC
@@ -305,6 +332,6 @@ def model_stemp_(DSMID:'Array[float]',
                                ** unit : degC
     """
 
-    (CUMDPT, DSMID, TMA, ATOT, SRFTEMP, ST) = model_stemp(NL, ISWWAT, BD, DLAYR, DS, DUL, LL, NLAYR, MSALB, SRAD, SW, TAVG, TMAX, XLAT, TAV, TAMP, CUMDPT, DSMID, TMA, ATOT, SRFTEMP, ST, DOY)
-    return (CUMDPT, DSMID, TMA, ATOT, SRFTEMP, ST)
+    (CUMDPT, DSMID, TDL, TMA, ATOT, SRFTEMP, ST) = model_stemp(NL, ISWWAT, BD, DLAYR, DS, DUL, LL, NLAYR, MSALB, SRAD, SW, TAVG, TMAX, XLAT, TAV, TAMP, CUMDPT, DSMID, TDL, TMA, ATOT, SRFTEMP, ST, DOY, HDAY)
+    return (CUMDPT, DSMID, TDL, TMA, ATOT, SRFTEMP, ST)
 #%%CyML Model End%%

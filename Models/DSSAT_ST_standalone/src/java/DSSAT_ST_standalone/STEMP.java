@@ -16,16 +16,20 @@ public class STEMP
         Integer DOY = ex.getDOY();
         Double CUMDPT;
         Double[] DSMID =  new Double [NL];
-        Double[] TMA =  new Double [NL];
+        Double TDL;
+        Double[] TMA =  new Double [5];
         Double ATOT;
         Double SRFTEMP;
         Double[] ST =  new Double [NL];
+        Double HDAY;
         CUMDPT = 0.0d;
         Arrays.fill(DSMID, 0.0d);
+        TDL = 0.0d;
         Arrays.fill(TMA, 0.0d);
         ATOT = 0.0d;
         SRFTEMP = 0.0d;
         Arrays.fill(ST, 0.0d);
+        HDAY = 0.0d;
         Integer I;
         Integer L;
         Double ABD;
@@ -33,11 +37,9 @@ public class STEMP
         Double B;
         Double DP;
         Double FX;
-        Double HDAY;
         Double PESW;
         Double TBD;
         Double WW;
-        Double TDL;
         Double TLL;
         Double TSW;
         Double[] DLI =  new Double [NL];
@@ -108,10 +110,12 @@ public class STEMP
         }
         s.setCUMDPT(CUMDPT);
         s.setDSMID(DSMID);
+        s.setTDL(TDL);
         s.setTMA(TMA);
         s.setATOT(ATOT);
         s.setSRFTEMP(SRFTEMP);
         s.setST(ST);
+        s.setHDAY(HDAY);
     }
     private Integer NL;
     public Integer getNL()
@@ -371,12 +375,21 @@ public class STEMP
     //                          ** min : 
     //                          ** default : 
     //                          ** unit : cm
+    //            * name: TDL
+    //                          ** description : Total water content of soil at drained upper limit
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLE
+    //                          ** max : 
+    //                          ** min : 
+    //                          ** default : 
+    //                          ** unit : cm
     //            * name: TMA
     //                          ** description : Array of previous 5 days of average soil temperatures
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NL
+    //                          ** len : 5
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -418,6 +431,15 @@ public class STEMP
     //                          ** min : 
     //                          ** default : 
     //                          ** unit : d
+    //            * name: HDAY
+    //                          ** description : Haverst day
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLE
+    //                          ** max : 
+    //                          ** min : 
+    //                          ** default : 
+    //                          ** unit : day
         //- outputs:
     //            * name: CUMDPT
     //                          ** description : Cumulative depth of soil profile
@@ -434,11 +456,18 @@ public class STEMP
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : cm
+    //            * name: TDL
+    //                          ** description : Total water content of soil at drained upper limit
+    //                          ** datatype : DOUBLE
+    //                          ** variablecategory : state
+    //                          ** max : 
+    //                          ** min : 
+    //                          ** unit : cm
     //            * name: TMA
     //                          ** description : Array of previous 5 days of average soil temperatures
     //                          ** datatype : DOUBLEARRAY
     //                          ** variablecategory : state
-    //                          ** len : NL
+    //                          ** len : 5
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : degC
@@ -472,29 +501,27 @@ public class STEMP
         Double TAMP = ex.getTAMP();
         Double CUMDPT = s.getCUMDPT();
         Double [] DSMID = s.getDSMID();
+        Double TDL = s.getTDL();
         Double [] TMA = s.getTMA();
         Double ATOT = s.getATOT();
         Double SRFTEMP = s.getSRFTEMP();
         Double [] ST = s.getST();
         Integer DOY = ex.getDOY();
-        Integer I;
+        Double HDAY = s.getHDAY();
         Integer L;
         Double ABD;
         Double ALBEDO;
         Double B;
         Double DP;
         Double FX;
-        Double HDAY;
         Double PESW;
         Double TBD;
         Double WW;
-        Double TDL;
         Double TLL;
         Double TSW;
         TBD = 0.0d;
         TLL = 0.0d;
         TSW = 0.0d;
-        TDL = 0.0d;
         for (L=1 ; L!=NLAYR + 1 ; L+=1)
         {
             TBD = TBD + (BD[(L - 1)] * DLAYR[(L - 1)]);
@@ -523,6 +550,7 @@ public class STEMP
         ST = zz_SOILT.getST();
         s.setCUMDPT(CUMDPT);
         s.setDSMID(DSMID);
+        s.setTDL(TDL);
         s.setTMA(TMA);
         s.setATOT(ATOT);
         s.setSRFTEMP(SRFTEMP);
