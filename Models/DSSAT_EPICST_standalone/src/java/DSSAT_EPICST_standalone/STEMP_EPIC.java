@@ -20,6 +20,7 @@ public class STEMP_EPIC
         Double SNOW = ex.getSNOW();
         Double CUMDPT;
         Double[] DSMID =  new Double [NL];
+        Double TDL;
         Double[] TMA =  new Double [5];
         Integer NDays;
         Integer[] WetDay =  new Integer [30];
@@ -28,6 +29,7 @@ public class STEMP_EPIC
         Double[] ST =  new Double [NL];
         CUMDPT = 0.0d;
         Arrays.fill(DSMID, 0.0d);
+        TDL = 0.0d;
         Arrays.fill(TMA, 0.0d);
         NDays = 0;
         Arrays.fill(WetDay, 0);
@@ -43,7 +45,6 @@ public class STEMP_EPIC
         Double PESW;
         Double TBD;
         Double WW;
-        Double TDL;
         Double TLL;
         Double TSW;
         Double X2_AVG;
@@ -108,6 +109,7 @@ public class STEMP_EPIC
         }
         s.setCUMDPT(CUMDPT);
         s.setDSMID(DSMID);
+        s.setTDL(TDL);
         s.setTMA(TMA);
         s.setNDays(NDays);
         s.setWetDay(WetDay);
@@ -350,6 +352,15 @@ public class STEMP_EPIC
     //                          ** min : 
     //                          ** default : 
     //                          ** unit : cm
+    //            * name: TDL
+    //                          ** description : Total water content of soil at drained upper limit
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLE
+    //                          ** max : 
+    //                          ** min : 
+    //                          ** default : 
+    //                          ** unit : cm
     //            * name: TMA
     //                          ** description : Array of previous 5 days of average soil temperatures.
     //                          ** inputtype : variable
@@ -459,6 +470,13 @@ public class STEMP_EPIC
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : cm
+    //            * name: TDL
+    //                          ** description : Total water content of soil at drained upper limit
+    //                          ** datatype : DOUBLE
+    //                          ** variablecategory : state
+    //                          ** max : 
+    //                          ** min : 
+    //                          ** unit : cm
     //            * name: TMA
     //                          ** description : Array of previous 5 days of average soil temperatures.
     //                          ** datatype : DOUBLEARRAY
@@ -513,6 +531,7 @@ public class STEMP_EPIC
         Double TAV = ex.getTAV();
         Double CUMDPT = s.getCUMDPT();
         Double [] DSMID = s.getDSMID();
+        Double TDL = s.getTDL();
         Double [] TMA = s.getTMA();
         Integer NDays = s.getNDays();
         Integer [] WetDay = s.getWetDay();
@@ -533,7 +552,6 @@ public class STEMP_EPIC
         Double PESW;
         Double TBD;
         Double WW;
-        Double TDL;
         Double TLL;
         Double TSW;
         Double X2_AVG;
@@ -545,7 +563,6 @@ public class STEMP_EPIC
         TBD = 0.0d;
         TLL = 0.0d;
         TSW = 0.0d;
-        TDL = 0.0d;
         for (L=1 ; L!=NLAYR + 1 ; L+=1)
         {
             TBD = TBD + (BD[(L - 1)] * DLAYR[(L - 1)]);
@@ -599,6 +616,7 @@ public class STEMP_EPIC
         X2_PREV = zz_SOILT_EPIC.getX2_PREV();
         s.setCUMDPT(CUMDPT);
         s.setDSMID(DSMID);
+        s.setTDL(TDL);
         s.setTMA(TMA);
         s.setNDays(NDays);
         s.setWetDay(WetDay);

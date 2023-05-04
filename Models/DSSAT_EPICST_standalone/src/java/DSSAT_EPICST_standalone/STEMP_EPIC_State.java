@@ -3,13 +3,14 @@ import  java.util.*;
 import java.time.LocalDateTime;
 public class STEMP_EPIC_State
 {
-    private Double [] TMA;
-    private Double CUMDPT;
     private Double [] ST;
-    private Double [] DSMID;
+    private Double [] TMA;
     private Double SRFTEMP;
     private Integer NDays;
+    private Double [] DSMID;
+    private Double CUMDPT;
     private Double X2_PREV;
+    private Double TDL;
     private Integer [] WetDay;
     
     public STEMP_EPIC_State() { }
@@ -18,25 +19,26 @@ public class STEMP_EPIC_State
     {
         if (copyAll)
         {
-            TMA = new Double[5];
-        for (int i = 0; i < 5; i++)
-        {
-            TMA[i] = toCopy.getTMA()[i];
-        }
-            this.CUMDPT = toCopy.getCUMDPT();
             ST = new Double[toCopy.getST().length];
         for (int i = 0; i < toCopy.getST().length; i++)
         {
             ST[i] = toCopy.getST()[i];
         }
+            TMA = new Double[5];
+        for (int i = 0; i < 5; i++)
+        {
+            TMA[i] = toCopy.getTMA()[i];
+        }
+            this.SRFTEMP = toCopy.getSRFTEMP();
+            this.NDays = toCopy.getNDays();
             DSMID = new Double[toCopy.getDSMID().length];
         for (int i = 0; i < toCopy.getDSMID().length; i++)
         {
             DSMID[i] = toCopy.getDSMID()[i];
         }
-            this.SRFTEMP = toCopy.getSRFTEMP();
-            this.NDays = toCopy.getNDays();
+            this.CUMDPT = toCopy.getCUMDPT();
             this.X2_PREV = toCopy.getX2_PREV();
+            this.TDL = toCopy.getTDL();
             WetDay = new Integer[30];
         for (int i = 0; i < 30; i++)
         {
@@ -44,29 +46,17 @@ public class STEMP_EPIC_State
         }
         }
     }
-    public Double [] getTMA()
-    { return TMA; }
-
-    public void setTMA(Double [] _TMA)
-    { this.TMA= _TMA; } 
-    
-    public Double getCUMDPT()
-    { return CUMDPT; }
-
-    public void setCUMDPT(Double _CUMDPT)
-    { this.CUMDPT= _CUMDPT; } 
-    
     public Double [] getST()
     { return ST; }
 
     public void setST(Double [] _ST)
     { this.ST= _ST; } 
     
-    public Double [] getDSMID()
-    { return DSMID; }
+    public Double [] getTMA()
+    { return TMA; }
 
-    public void setDSMID(Double [] _DSMID)
-    { this.DSMID= _DSMID; } 
+    public void setTMA(Double [] _TMA)
+    { this.TMA= _TMA; } 
     
     public Double getSRFTEMP()
     { return SRFTEMP; }
@@ -80,11 +70,29 @@ public class STEMP_EPIC_State
     public void setNDays(Integer _NDays)
     { this.NDays= _NDays; } 
     
+    public Double [] getDSMID()
+    { return DSMID; }
+
+    public void setDSMID(Double [] _DSMID)
+    { this.DSMID= _DSMID; } 
+    
+    public Double getCUMDPT()
+    { return CUMDPT; }
+
+    public void setCUMDPT(Double _CUMDPT)
+    { this.CUMDPT= _CUMDPT; } 
+    
     public Double getX2_PREV()
     { return X2_PREV; }
 
     public void setX2_PREV(Double _X2_PREV)
     { this.X2_PREV= _X2_PREV; } 
+    
+    public Double getTDL()
+    { return TDL; }
+
+    public void setTDL(Double _TDL)
+    { this.TDL= _TDL; } 
     
     public Integer [] getWetDay()
     { return WetDay; }

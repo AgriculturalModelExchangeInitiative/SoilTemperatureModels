@@ -25,6 +25,7 @@ init_stemp_epic <- function (NL,
     ST <- vector(,NL)
     CUMDPT <- 0.0
     DSMID <-  rep(0.0,NL)
+    TDL <- 0.0
     TMA <-  rep(0.0,5)
     NDays <- 0
     WetDay <-  rep(0,30)
@@ -76,7 +77,7 @@ init_stemp_epic <- function (NL,
     for( I in seq(1, 8 + 1-1, 1)){
         list[TMA, SRFTEMP, ST, X2_AVG, X2_PREV] <- SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, 0, WFT, WW, X2_PREV)
     }
-    return (list ("CUMDPT" = CUMDPT,"DSMID" = DSMID,"TMA" = TMA,"NDays" = NDays,"WetDay" = WetDay,"X2_PREV" = X2_PREV,"SRFTEMP" = SRFTEMP,"ST" = ST))
+    return (list ("CUMDPT" = CUMDPT,"DSMID" = DSMID,"TDL" = TDL,"TMA" = TMA,"NDays" = NDays,"WetDay" = WetDay,"X2_PREV" = X2_PREV,"SRFTEMP" = SRFTEMP,"ST" = ST))
 }
 
 model_stemp_epic <- function (NL,
@@ -96,6 +97,7 @@ model_stemp_epic <- function (NL,
          TAV,
          CUMDPT,
          DSMID,
+         TDL,
          TMA,
          NDays,
          WetDay,
@@ -275,6 +277,15 @@ model_stemp_epic <- function (NL,
     #'                          ** min : 
     #'                          ** default : 
     #'                          ** unit : cm
+    #'            * name: TDL
+    #'                          ** description : Total water content of soil at drained upper limit
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : state
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 
+    #'                          ** min : 
+    #'                          ** default : 
+    #'                          ** unit : cm
     #'            * name: TMA
     #'                          ** description : Array of previous 5 days of average soil temperatures.
     #'                          ** inputtype : variable
@@ -384,6 +395,13 @@ model_stemp_epic <- function (NL,
     #'                          ** max : 
     #'                          ** min : 
     #'                          ** unit : cm
+    #'            * name: TDL
+    #'                          ** description : Total water content of soil at drained upper limit
+    #'                          ** datatype : DOUBLE
+    #'                          ** variablecategory : state
+    #'                          ** max : 
+    #'                          ** min : 
+    #'                          ** unit : cm
     #'            * name: TMA
     #'                          ** description : Array of previous 5 days of average soil temperatures.
     #'                          ** datatype : DOUBLEARRAY
@@ -432,7 +450,6 @@ model_stemp_epic <- function (NL,
     TBD <- 0.0
     TLL <- 0.0
     TSW <- 0.0
-    TDL <- 0.0
     for( L in seq(1, NLAYR + 1-1, 1)){
         TBD <- TBD + (BD[(L - 1)+1] * DLAYR[(L - 1)+1])
         TDL <- TDL + (DUL[(L - 1)+1] * DLAYR[(L - 1)+1])
@@ -477,7 +494,7 @@ model_stemp_epic <- function (NL,
     BCV2 <- SNOW / (SNOW + exp(2.303 - (0.2197 * SNOW)))
     BCV <- max(BCV1, BCV2)
     list[TMA, SRFTEMP, ST, X2_AVG, X2_PREV] <- SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, WetDay[NDays - 1+1], WFT, WW, X2_PREV)
-    return (list ("CUMDPT" = CUMDPT,"DSMID" = DSMID,"TMA" = TMA,"NDays" = NDays,"WetDay" = WetDay,"X2_PREV" = X2_PREV,"SRFTEMP" = SRFTEMP,"ST" = ST))
+    return (list ("CUMDPT" = CUMDPT,"DSMID" = DSMID,"TDL" = TDL,"TMA" = TMA,"NDays" = NDays,"WetDay" = WetDay,"X2_PREV" = X2_PREV,"SRFTEMP" = SRFTEMP,"ST" = ST))
 }
 
 SOILT_EPIC <- function (NL,

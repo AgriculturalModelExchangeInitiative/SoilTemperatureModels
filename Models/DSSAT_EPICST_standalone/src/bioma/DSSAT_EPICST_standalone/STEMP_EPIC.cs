@@ -191,116 +191,128 @@ namespace STEMP_EPIC_.Strategies
             _inputs0_0.Add(pd8);
             PropertyDescription pd9 = new PropertyDescription();
             pd9.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
-            pd9.PropertyName = "TMA";
-            pd9.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA).ValueType.TypeForCurrentValue;
-            pd9.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA);
+            pd9.PropertyName = "TDL";
+            pd9.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TDL).ValueType.TypeForCurrentValue;
+            pd9.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TDL);
             _inputs0_0.Add(pd9);
             PropertyDescription pd10 = new PropertyDescription();
             pd10.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
-            pd10.PropertyName = "NDays";
-            pd10.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays).ValueType.TypeForCurrentValue;
-            pd10.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays);
+            pd10.PropertyName = "TMA";
+            pd10.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA).ValueType.TypeForCurrentValue;
+            pd10.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA);
             _inputs0_0.Add(pd10);
             PropertyDescription pd11 = new PropertyDescription();
             pd11.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
-            pd11.PropertyName = "WetDay";
-            pd11.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay).ValueType.TypeForCurrentValue;
-            pd11.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay);
+            pd11.PropertyName = "NDays";
+            pd11.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays).ValueType.TypeForCurrentValue;
+            pd11.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays);
             _inputs0_0.Add(pd11);
             PropertyDescription pd12 = new PropertyDescription();
             pd12.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
-            pd12.PropertyName = "X2_PREV";
-            pd12.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV).ValueType.TypeForCurrentValue;
-            pd12.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV);
+            pd12.PropertyName = "WetDay";
+            pd12.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay).ValueType.TypeForCurrentValue;
+            pd12.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay);
             _inputs0_0.Add(pd12);
             PropertyDescription pd13 = new PropertyDescription();
             pd13.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
-            pd13.PropertyName = "SRFTEMP";
-            pd13.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP).ValueType.TypeForCurrentValue;
-            pd13.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP);
+            pd13.PropertyName = "X2_PREV";
+            pd13.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV).ValueType.TypeForCurrentValue;
+            pd13.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV);
             _inputs0_0.Add(pd13);
             PropertyDescription pd14 = new PropertyDescription();
             pd14.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
-            pd14.PropertyName = "ST";
-            pd14.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST).ValueType.TypeForCurrentValue;
-            pd14.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST);
+            pd14.PropertyName = "SRFTEMP";
+            pd14.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP).ValueType.TypeForCurrentValue;
+            pd14.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP);
             _inputs0_0.Add(pd14);
             PropertyDescription pd15 = new PropertyDescription();
-            pd15.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_Exogenous);
-            pd15.PropertyName = "DEPIR";
-            pd15.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.DEPIR).ValueType.TypeForCurrentValue;
-            pd15.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.DEPIR);
+            pd15.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
+            pd15.PropertyName = "ST";
+            pd15.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST).ValueType.TypeForCurrentValue;
+            pd15.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST);
             _inputs0_0.Add(pd15);
             PropertyDescription pd16 = new PropertyDescription();
             pd16.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_Exogenous);
-            pd16.PropertyName = "BIOMAS";
-            pd16.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.BIOMAS).ValueType.TypeForCurrentValue;
-            pd16.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.BIOMAS);
+            pd16.PropertyName = "DEPIR";
+            pd16.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.DEPIR).ValueType.TypeForCurrentValue;
+            pd16.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.DEPIR);
             _inputs0_0.Add(pd16);
             PropertyDescription pd17 = new PropertyDescription();
             pd17.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_Exogenous);
-            pd17.PropertyName = "MULCHMASS";
-            pd17.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.MULCHMASS).ValueType.TypeForCurrentValue;
-            pd17.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.MULCHMASS);
+            pd17.PropertyName = "BIOMAS";
+            pd17.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.BIOMAS).ValueType.TypeForCurrentValue;
+            pd17.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.BIOMAS);
             _inputs0_0.Add(pd17);
             PropertyDescription pd18 = new PropertyDescription();
             pd18.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_Exogenous);
-            pd18.PropertyName = "SNOW";
-            pd18.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.SNOW).ValueType.TypeForCurrentValue;
-            pd18.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.SNOW);
+            pd18.PropertyName = "MULCHMASS";
+            pd18.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.MULCHMASS).ValueType.TypeForCurrentValue;
+            pd18.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.MULCHMASS);
             _inputs0_0.Add(pd18);
+            PropertyDescription pd19 = new PropertyDescription();
+            pd19.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_Exogenous);
+            pd19.PropertyName = "SNOW";
+            pd19.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.SNOW).ValueType.TypeForCurrentValue;
+            pd19.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.SNOW);
+            _inputs0_0.Add(pd19);
             mo0_0.Inputs=_inputs0_0;
 
             //Outputs
             List<PropertyDescription> _outputs0_0 = new List<PropertyDescription>();
-            PropertyDescription pd19 = new PropertyDescription();
-            pd19.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
-            pd19.PropertyName = "CUMDPT";
-            pd19.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.CUMDPT).ValueType.TypeForCurrentValue;
-            pd19.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.CUMDPT);
-            _outputs0_0.Add(pd19);
-            mo0_0.Outputs=_outputs0_0;PropertyDescription pd20 = new PropertyDescription();
+            PropertyDescription pd20 = new PropertyDescription();
             pd20.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
-            pd20.PropertyName = "DSMID";
-            pd20.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.DSMID).ValueType.TypeForCurrentValue;
-            pd20.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.DSMID);
+            pd20.PropertyName = "CUMDPT";
+            pd20.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.CUMDPT).ValueType.TypeForCurrentValue;
+            pd20.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.CUMDPT);
             _outputs0_0.Add(pd20);
             mo0_0.Outputs=_outputs0_0;PropertyDescription pd21 = new PropertyDescription();
             pd21.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
-            pd21.PropertyName = "TMA";
-            pd21.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA).ValueType.TypeForCurrentValue;
-            pd21.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA);
+            pd21.PropertyName = "DSMID";
+            pd21.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.DSMID).ValueType.TypeForCurrentValue;
+            pd21.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.DSMID);
             _outputs0_0.Add(pd21);
             mo0_0.Outputs=_outputs0_0;PropertyDescription pd22 = new PropertyDescription();
             pd22.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
-            pd22.PropertyName = "NDays";
-            pd22.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays).ValueType.TypeForCurrentValue;
-            pd22.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays);
+            pd22.PropertyName = "TDL";
+            pd22.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TDL).ValueType.TypeForCurrentValue;
+            pd22.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TDL);
             _outputs0_0.Add(pd22);
             mo0_0.Outputs=_outputs0_0;PropertyDescription pd23 = new PropertyDescription();
             pd23.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
-            pd23.PropertyName = "WetDay";
-            pd23.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay).ValueType.TypeForCurrentValue;
-            pd23.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay);
+            pd23.PropertyName = "TMA";
+            pd23.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA).ValueType.TypeForCurrentValue;
+            pd23.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA);
             _outputs0_0.Add(pd23);
             mo0_0.Outputs=_outputs0_0;PropertyDescription pd24 = new PropertyDescription();
             pd24.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
-            pd24.PropertyName = "X2_PREV";
-            pd24.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV).ValueType.TypeForCurrentValue;
-            pd24.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV);
+            pd24.PropertyName = "NDays";
+            pd24.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays).ValueType.TypeForCurrentValue;
+            pd24.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays);
             _outputs0_0.Add(pd24);
             mo0_0.Outputs=_outputs0_0;PropertyDescription pd25 = new PropertyDescription();
             pd25.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
-            pd25.PropertyName = "SRFTEMP";
-            pd25.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP).ValueType.TypeForCurrentValue;
-            pd25.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP);
+            pd25.PropertyName = "WetDay";
+            pd25.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay).ValueType.TypeForCurrentValue;
+            pd25.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay);
             _outputs0_0.Add(pd25);
             mo0_0.Outputs=_outputs0_0;PropertyDescription pd26 = new PropertyDescription();
             pd26.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
-            pd26.PropertyName = "ST";
-            pd26.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST).ValueType.TypeForCurrentValue;
-            pd26.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST);
+            pd26.PropertyName = "X2_PREV";
+            pd26.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV).ValueType.TypeForCurrentValue;
+            pd26.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV);
             _outputs0_0.Add(pd26);
+            mo0_0.Outputs=_outputs0_0;PropertyDescription pd27 = new PropertyDescription();
+            pd27.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
+            pd27.PropertyName = "SRFTEMP";
+            pd27.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP).ValueType.TypeForCurrentValue;
+            pd27.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP);
+            _outputs0_0.Add(pd27);
+            mo0_0.Outputs=_outputs0_0;PropertyDescription pd28 = new PropertyDescription();
+            pd28.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
+            pd28.PropertyName = "ST";
+            pd28.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST).ValueType.TypeForCurrentValue;
+            pd28.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST);
+            _outputs0_0.Add(pd28);
             mo0_0.Outputs=_outputs0_0;
             //Associated strategies
             List<string> lAssStrat0_0 = new List<string>();
@@ -624,6 +636,7 @@ namespace STEMP_EPIC_.Strategies
                 //Set current values of the outputs to the static VarInfo representing the output properties of the domain classes
                 STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.CUMDPT.CurrentValue=s.CUMDPT;
                 STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.DSMID.CurrentValue=s.DSMID;
+                STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TDL.CurrentValue=s.TDL;
                 STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA.CurrentValue=s.TMA;
                 STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays.CurrentValue=s.NDays;
                 STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay.CurrentValue=s.WetDay;
@@ -632,22 +645,24 @@ namespace STEMP_EPIC_.Strategies
                 STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST.CurrentValue=s.ST;
                 ConditionsCollection prc = new ConditionsCollection();
                 Preconditions pre = new Preconditions(); 
-                RangeBasedCondition r28 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.CUMDPT);
-                if(r28.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.CUMDPT.ValueType)){prc.AddCondition(r28);}
-                RangeBasedCondition r29 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.DSMID);
-                if(r29.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.DSMID.ValueType)){prc.AddCondition(r29);}
-                RangeBasedCondition r30 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA);
-                if(r30.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA.ValueType)){prc.AddCondition(r30);}
-                RangeBasedCondition r31 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays);
-                if(r31.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays.ValueType)){prc.AddCondition(r31);}
-                RangeBasedCondition r32 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay);
-                if(r32.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay.ValueType)){prc.AddCondition(r32);}
-                RangeBasedCondition r33 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV);
-                if(r33.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV.ValueType)){prc.AddCondition(r33);}
-                RangeBasedCondition r34 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP);
-                if(r34.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP.ValueType)){prc.AddCondition(r34);}
-                RangeBasedCondition r35 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST);
-                if(r35.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST.ValueType)){prc.AddCondition(r35);}
+                RangeBasedCondition r29 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.CUMDPT);
+                if(r29.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.CUMDPT.ValueType)){prc.AddCondition(r29);}
+                RangeBasedCondition r30 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.DSMID);
+                if(r30.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.DSMID.ValueType)){prc.AddCondition(r30);}
+                RangeBasedCondition r31 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TDL);
+                if(r31.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TDL.ValueType)){prc.AddCondition(r31);}
+                RangeBasedCondition r32 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA);
+                if(r32.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA.ValueType)){prc.AddCondition(r32);}
+                RangeBasedCondition r33 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays);
+                if(r33.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays.ValueType)){prc.AddCondition(r33);}
+                RangeBasedCondition r34 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay);
+                if(r34.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay.ValueType)){prc.AddCondition(r34);}
+                RangeBasedCondition r35 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV);
+                if(r35.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV.ValueType)){prc.AddCondition(r35);}
+                RangeBasedCondition r36 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP);
+                if(r36.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP.ValueType)){prc.AddCondition(r36);}
+                RangeBasedCondition r37 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST);
+                if(r37.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST.ValueType)){prc.AddCondition(r37);}
                 string postConditionsResult = pre.VerifyPostconditions(prc, callID); if (!string.IsNullOrEmpty(postConditionsResult)) { pre.TestsOut(postConditionsResult, true, "PostConditions errors in strategy " + this.GetType().Name); } return postConditionsResult;
             }
             catch (Exception exception)
@@ -670,6 +685,7 @@ namespace STEMP_EPIC_.Strategies
                 STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAV.CurrentValue=ex.TAV;
                 STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.CUMDPT.CurrentValue=s.CUMDPT;
                 STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.DSMID.CurrentValue=s.DSMID;
+                STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TDL.CurrentValue=s.TDL;
                 STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA.CurrentValue=s.TMA;
                 STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays.CurrentValue=s.NDays;
                 STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay.CurrentValue=s.WetDay;
@@ -698,26 +714,28 @@ namespace STEMP_EPIC_.Strategies
                 if(r7.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.CUMDPT.ValueType)){prc.AddCondition(r7);}
                 RangeBasedCondition r8 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.DSMID);
                 if(r8.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.DSMID.ValueType)){prc.AddCondition(r8);}
-                RangeBasedCondition r9 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA);
-                if(r9.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA.ValueType)){prc.AddCondition(r9);}
-                RangeBasedCondition r10 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays);
-                if(r10.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays.ValueType)){prc.AddCondition(r10);}
-                RangeBasedCondition r11 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay);
-                if(r11.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay.ValueType)){prc.AddCondition(r11);}
-                RangeBasedCondition r12 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV);
-                if(r12.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV.ValueType)){prc.AddCondition(r12);}
-                RangeBasedCondition r13 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP);
-                if(r13.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP.ValueType)){prc.AddCondition(r13);}
-                RangeBasedCondition r14 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST);
-                if(r14.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST.ValueType)){prc.AddCondition(r14);}
-                RangeBasedCondition r15 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.DEPIR);
-                if(r15.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.DEPIR.ValueType)){prc.AddCondition(r15);}
-                RangeBasedCondition r16 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.BIOMAS);
-                if(r16.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.BIOMAS.ValueType)){prc.AddCondition(r16);}
-                RangeBasedCondition r17 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.MULCHMASS);
-                if(r17.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.MULCHMASS.ValueType)){prc.AddCondition(r17);}
-                RangeBasedCondition r18 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.SNOW);
-                if(r18.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.SNOW.ValueType)){prc.AddCondition(r18);}
+                RangeBasedCondition r9 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TDL);
+                if(r9.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TDL.ValueType)){prc.AddCondition(r9);}
+                RangeBasedCondition r10 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA);
+                if(r10.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA.ValueType)){prc.AddCondition(r10);}
+                RangeBasedCondition r11 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays);
+                if(r11.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays.ValueType)){prc.AddCondition(r11);}
+                RangeBasedCondition r12 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay);
+                if(r12.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay.ValueType)){prc.AddCondition(r12);}
+                RangeBasedCondition r13 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV);
+                if(r13.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV.ValueType)){prc.AddCondition(r13);}
+                RangeBasedCondition r14 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP);
+                if(r14.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP.ValueType)){prc.AddCondition(r14);}
+                RangeBasedCondition r15 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST);
+                if(r15.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST.ValueType)){prc.AddCondition(r15);}
+                RangeBasedCondition r16 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.DEPIR);
+                if(r16.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.DEPIR.ValueType)){prc.AddCondition(r16);}
+                RangeBasedCondition r17 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.BIOMAS);
+                if(r17.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.BIOMAS.ValueType)){prc.AddCondition(r17);}
+                RangeBasedCondition r18 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.MULCHMASS);
+                if(r18.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.MULCHMASS.ValueType)){prc.AddCondition(r18);}
+                RangeBasedCondition r19 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.SNOW);
+                if(r19.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.SNOW.ValueType)){prc.AddCondition(r19);}
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("NL")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("ISWWAT")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("BD")));
@@ -763,6 +781,7 @@ namespace STEMP_EPIC_.Strategies
             double SNOW = ex.SNOW;
             double CUMDPT;
             double[] DSMID =  new double [NL];
+            double TDL;
             double[] TMA =  new double [5];
             int NDays;
             int[] WetDay =  new int [30];
@@ -771,6 +790,7 @@ namespace STEMP_EPIC_.Strategies
             double[] ST =  new double [NL];
             CUMDPT = 0.00d;
             DSMID = new double[NL];
+            TDL = 0.00d;
             TMA = new double[5];
             NDays = 0;
             WetDay = new int[30];
@@ -786,7 +806,6 @@ namespace STEMP_EPIC_.Strategies
             double PESW;
             double TBD;
             double WW;
-            double TDL;
             double TLL;
             double TSW;
             double X2_AVG;
@@ -846,6 +865,7 @@ namespace STEMP_EPIC_.Strategies
             }
             s.CUMDPT= CUMDPT;
             s.DSMID= DSMID;
+            s.TDL= TDL;
             s.TMA= TMA;
             s.NDays= NDays;
             s.WetDay= WetDay;
@@ -864,6 +884,7 @@ namespace STEMP_EPIC_.Strategies
             double TAV = ex.TAV;
             double CUMDPT = s.CUMDPT;
             double[] DSMID = s.DSMID;
+            double TDL = s.TDL;
             double[] TMA = s.TMA;
             int NDays = s.NDays;
             int[] WetDay = s.WetDay;
@@ -884,7 +905,6 @@ namespace STEMP_EPIC_.Strategies
             double PESW;
             double TBD;
             double WW;
-            double TDL;
             double TLL;
             double TSW;
             double X2_AVG;
@@ -896,7 +916,6 @@ namespace STEMP_EPIC_.Strategies
             TBD = 0.00d;
             TLL = 0.00d;
             TSW = 0.00d;
-            TDL = 0.00d;
             for (L=1 ; L!=NLAYR + 1 ; L+=1)
             {
                 TBD = TBD + (BD[(L - 1)] * DLAYR[(L - 1)]);
@@ -945,6 +964,7 @@ namespace STEMP_EPIC_.Strategies
             Tuple.Create(TMA, SRFTEMP, ST, X2_AVG, X2_PREV) = SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, WetDay[NDays - 1], WFT, WW, X2_PREV);
             s.CUMDPT= CUMDPT;
             s.DSMID= DSMID;
+            s.TDL= TDL;
             s.TMA= TMA;
             s.NDays= NDays;
             s.WetDay= WetDay;

@@ -31,6 +31,7 @@ public class STEMP_EPIC extends FWSimComponent
     private FWSimVariable<Double> TAV;
     private FWSimVariable<Double> CUMDPT;
     private FWSimVariable<Double[]> DSMID;
+    private FWSimVariable<Double> TDL;
     private FWSimVariable<Double[]> TMA;
     private FWSimVariable<Integer> NDays;
     private FWSimVariable<Integer[]> WetDay;
@@ -71,6 +72,7 @@ public class STEMP_EPIC extends FWSimComponent
         addVariable(FWSimVariable.createSimVariable("TAV", "Average annual soil temperature, used with TAMP to calculate soil temperature.", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"degC", null, null, null, this));
         addVariable(FWSimVariable.createSimVariable("CUMDPT", "Cumulative depth of soil profile", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"mm", null, null, null, this));
         addVariable(FWSimVariable.createSimVariable("DSMID", "Depth to midpoint of soil layer NL", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"cm", null, null, null, this));
+        addVariable(FWSimVariable.createSimVariable("TDL", "Total water content of soil at drained upper limit", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"cm", null, null, null, this));
         addVariable(FWSimVariable.createSimVariable("TMA", "Array of previous 5 days of average soil temperatures.", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"degC", null, null, null, this));
         addVariable(FWSimVariable.createSimVariable("NDays", "Number of days ...", DATA_TYPE.INT, CONTENT_TYPE.state,"day", null, null, null, this));
         addVariable(FWSimVariable.createSimVariable("WetDay", "Wet Days", DATA_TYPE.INTARRAY, CONTENT_TYPE.state,"day", null, null, null, this));
@@ -109,6 +111,7 @@ public class STEMP_EPIC extends FWSimComponent
         Double t_SNOW = SNOW.getValue();
         Double t_CUMDPT = CUMDPT.getDefault();
         Double [] t_DSMID = new Double[t_NL];
+        Double t_TDL = TDL.getDefault();
         Double [] t_TMA = new Double[5];
         Integer t_NDays = NDays.getDefault();
         Integer [] t_WetDay = new Integer[30];
@@ -117,6 +120,7 @@ public class STEMP_EPIC extends FWSimComponent
         Double [] t_ST = new Double[t_NL];
         t_CUMDPT = 0.0d;
         Arrays.fill(t_DSMID, 0.0d);
+        t_TDL = 0.0d;
         Arrays.fill(t_TMA, 0.0d);
         t_NDays = 0;
         Arrays.fill(t_WetDay, 0);
@@ -132,7 +136,6 @@ public class STEMP_EPIC extends FWSimComponent
         Double PESW;
         Double TBD;
         Double WW;
-        Double TDL;
         Double TLL;
         Double TSW;
         Double X2_AVG;
@@ -146,7 +149,7 @@ public class STEMP_EPIC extends FWSimComponent
         TBD = 0.0d;
         TLL = 0.0d;
         TSW = 0.0d;
-        TDL = 0.0d;
+        t_TDL = 0.0d;
         t_CUMDPT = 0.0d;
         for (L=1 ; L!=t_NLAYR + 1 ; L+=1)
         {
@@ -155,7 +158,7 @@ public class STEMP_EPIC extends FWSimComponent
             TBD = TBD + (t_BD[(L - 1)] * t_DLAYR[(L - 1)]);
             TLL = TLL + (t_LL[(L - 1)] * t_DLAYR[(L - 1)]);
             TSW = TSW + (SWI[(L - 1)] * t_DLAYR[(L - 1)]);
-            TDL = TDL + (t_DUL[(L - 1)] * t_DLAYR[(L - 1)]);
+            t_TDL = t_TDL + (t_DUL[(L - 1)] * t_DLAYR[(L - 1)]);
         }
         if (t_ISWWAT == "Y")
         {
@@ -163,7 +166,7 @@ public class STEMP_EPIC extends FWSimComponent
         }
         else
         {
-            PESW = Math.max(0.0d, TDL - TLL);
+            PESW = Math.max(0.0d, t_TDL - TLL);
         }
         ABD = TBD / t_DS[(t_NLAYR - 1)];
         FX = ABD / (ABD + (686.0d * Math.exp(-(5.63d * ABD))));
@@ -197,6 +200,7 @@ public class STEMP_EPIC extends FWSimComponent
         }
         CUMDPT.setValue(t_CUMDPT, this);
         DSMID.setValue(t_DSMID, this);
+        TDL.setValue(t_TDL, this);
         TMA.setValue(t_TMA, this);
         NDays.setValue(t_NDays, this);
         WetDay.setValue(t_WetDay, this);
@@ -225,6 +229,7 @@ public class STEMP_EPIC extends FWSimComponent
         Double t_TAV = TAV.getValue();
         Double t_CUMDPT = CUMDPT.getValue();
         Double [] t_DSMID = new Double[t_NL];
+        Double t_TDL = TDL.getValue();
         Double [] t_TMA = new Double[5];
         Integer t_NDays = NDays.getValue();
         Integer [] t_WetDay = new Integer[30];
@@ -245,7 +250,6 @@ public class STEMP_EPIC extends FWSimComponent
         Double PESW;
         Double TBD;
         Double WW;
-        Double TDL;
         Double TLL;
         Double TSW;
         Double X2_AVG;
@@ -257,11 +261,10 @@ public class STEMP_EPIC extends FWSimComponent
         TBD = 0.0d;
         TLL = 0.0d;
         TSW = 0.0d;
-        TDL = 0.0d;
         for (L=1 ; L!=t_NLAYR + 1 ; L+=1)
         {
             TBD = TBD + (t_BD[(L - 1)] * t_DLAYR[(L - 1)]);
-            TDL = TDL + (t_DUL[(L - 1)] * t_DLAYR[(L - 1)]);
+            t_TDL = t_TDL + (t_DUL[(L - 1)] * t_DLAYR[(L - 1)]);
             TLL = TLL + (t_LL[(L - 1)] * t_DLAYR[(L - 1)]);
             TSW = TSW + (t_SW[(L - 1)] * t_DLAYR[(L - 1)]);
         }
@@ -276,7 +279,7 @@ public class STEMP_EPIC extends FWSimComponent
         }
         else
         {
-            PESW = Math.max(0.0d, TDL - TLL);
+            PESW = Math.max(0.0d, t_TDL - TLL);
         }
         if (t_NDays == 30)
         {
@@ -311,6 +314,7 @@ public class STEMP_EPIC extends FWSimComponent
         t_X2_PREV = zz_SOILT_EPIC.getX2_PREV();
         CUMDPT.setValue(t_CUMDPT, this);
         DSMID.setValue(t_DSMID, this);
+        TDL.setValue(t_TDL, this);
         TMA.setValue(t_TMA, this);
         NDays.setValue(t_NDays, this);
         WetDay.setValue(t_WetDay, this);

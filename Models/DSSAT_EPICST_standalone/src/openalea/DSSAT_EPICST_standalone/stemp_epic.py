@@ -29,6 +29,7 @@ def init_stemp_epic(NL:int,
          SNOW:float):
     CUMDPT:float
     DSMID:'array[float]' = array('f',[0.0]*NL)
+    TDL:float
     TMA:'array[float]' = array('f',[0.0]*5)
     NDays:int
     WetDay:'array[int]' = array('i',[0]*30)
@@ -37,6 +38,7 @@ def init_stemp_epic(NL:int,
     ST:'array[float]' = array('f',[0.0]*NL)
     CUMDPT = 0.0
     DSMID = array('f', [0.0]*NL)
+    TDL = 0.0
     TMA = array('f', [0.0]*5)
     NDays = 0
     WetDay = array('i', [0]*30)
@@ -52,7 +54,6 @@ def init_stemp_epic(NL:int,
     PESW:float
     TBD:float
     WW:float
-    TDL:float
     TLL:float
     TSW:float
     X2_AVG:float
@@ -98,7 +99,7 @@ def init_stemp_epic(NL:int,
     BCV = max(BCV1, BCV2)
     for I in range(1 , 8 + 1 , 1):
         (TMA, SRFTEMP, ST, X2_AVG, X2_PREV) = SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, 0, WFT, WW, X2_PREV)
-    return (CUMDPT, DSMID, TMA, NDays, WetDay, X2_PREV, SRFTEMP, ST)
+    return (CUMDPT, DSMID, TDL, TMA, NDays, WetDay, X2_PREV, SRFTEMP, ST)
 #%%CyML Init End%%
 
 def model_stemp_epic(NL:int,
@@ -118,6 +119,7 @@ def model_stemp_epic(NL:int,
          TAV:float,
          CUMDPT:float,
          DSMID:'Array[float]',
+         TDL:float,
          TMA:'Array[float]',
          NDays:int,
          WetDay:'Array[int]',
@@ -138,7 +140,6 @@ def model_stemp_epic(NL:int,
     PESW:float
     TBD:float
     WW:float
-    TDL:float
     TLL:float
     TSW:float
     X2_AVG:float
@@ -150,7 +151,6 @@ def model_stemp_epic(NL:int,
     TBD = 0.0
     TLL = 0.0
     TSW = 0.0
-    TDL = 0.0
     for L in range(1 , NLAYR + 1 , 1):
         TBD = TBD + (BD[(L - 1)] * DLAYR[(L - 1)])
         TDL = TDL + (DUL[(L - 1)] * DLAYR[(L - 1)])
@@ -181,7 +181,7 @@ def model_stemp_epic(NL:int,
     BCV2 = SNOW / (SNOW + exp(2.303 - (0.2197 * SNOW)))
     BCV = max(BCV1, BCV2)
     (TMA, SRFTEMP, ST, X2_AVG, X2_PREV) = SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, WetDay[NDays - 1], WFT, WW, X2_PREV)
-    return (CUMDPT, DSMID, TMA, NDays, WetDay, X2_PREV, SRFTEMP, ST)
+    return (CUMDPT, DSMID, TDL, TMA, NDays, WetDay, X2_PREV, SRFTEMP, ST)
 
 def SOILT_EPIC(NL:int,
          B:float,

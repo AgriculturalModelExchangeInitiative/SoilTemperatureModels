@@ -9,13 +9,14 @@ namespace STEMP_EPIC_.DomainClass
 {
     public class STEMP_EPIC_State : ICloneable, IDomainClass
     {
-        private double[] _TMA = new double[5];
-        private double _CUMDPT;
         private double[] _ST = new double[NL];
-        private double[] _DSMID = new double[NL];
+        private double[] _TMA = new double[5];
         private double _SRFTEMP;
         private int _NDays;
+        private double[] _DSMID = new double[NL];
+        private double _CUMDPT;
         private double _X2_PREV;
+        private double _TDL;
         private int[] _WetDay = new int[30];
         private ParametersIO _parametersIO;
 
@@ -28,48 +29,39 @@ namespace STEMP_EPIC_.DomainClass
         {
             if (copyAll)
             {
-                TMA = new double[5];
-            for (int i = 0; i < 5; i++)
-            { _TMA[i] = toCopy._TMA[i]; }
-    
-                _CUMDPT = toCopy._CUMDPT;
                 ST = new double[NL];
             for (int i = 0; i < NL; i++)
-            { _ST[i] = toCopy._ST[i]; }
+            { ST[i] = toCopy.ST[i]; }
     
+                TMA = new double[5];
+            for (int i = 0; i < 5; i++)
+            { TMA[i] = toCopy.TMA[i]; }
+    
+                SRFTEMP = toCopy.SRFTEMP;
+                NDays = toCopy.NDays;
                 DSMID = new double[NL];
             for (int i = 0; i < NL; i++)
-            { _DSMID[i] = toCopy._DSMID[i]; }
+            { DSMID[i] = toCopy.DSMID[i]; }
     
-                _SRFTEMP = toCopy._SRFTEMP;
-                _NDays = toCopy._NDays;
-                _X2_PREV = toCopy._X2_PREV;
+                CUMDPT = toCopy.CUMDPT;
+                X2_PREV = toCopy.X2_PREV;
+                TDL = toCopy.TDL;
                 WetDay = new int[30];
             for (int i = 0; i < 30; i++)
-            { _WetDay[i] = toCopy._WetDay[i]; }
+            { WetDay[i] = toCopy.WetDay[i]; }
     
             }
         }
 
-        public double[] TMA
-        {
-            get { return this._TMA; }
-            set { this._TMA= value; } 
-        }
-        public double CUMDPT
-        {
-            get { return this._CUMDPT; }
-            set { this._CUMDPT= value; } 
-        }
         public double[] ST
         {
             get { return this._ST; }
             set { this._ST= value; } 
         }
-        public double[] DSMID
+        public double[] TMA
         {
-            get { return this._DSMID; }
-            set { this._DSMID= value; } 
+            get { return this._TMA; }
+            set { this._TMA= value; } 
         }
         public double SRFTEMP
         {
@@ -81,10 +73,25 @@ namespace STEMP_EPIC_.DomainClass
             get { return this._NDays; }
             set { this._NDays= value; } 
         }
+        public double[] DSMID
+        {
+            get { return this._DSMID; }
+            set { this._DSMID= value; } 
+        }
+        public double CUMDPT
+        {
+            get { return this._CUMDPT; }
+            set { this._CUMDPT= value; } 
+        }
         public double X2_PREV
         {
             get { return this._X2_PREV; }
             set { this._X2_PREV= value; } 
+        }
+        public double TDL
+        {
+            get { return this._TDL; }
+            set { this._TDL= value; } 
         }
         public int[] WetDay
         {
@@ -109,13 +116,14 @@ namespace STEMP_EPIC_.DomainClass
 
         public virtual Boolean ClearValues()
         {
-             _TMA = new double[5];
-             _CUMDPT = default(double);
              _ST = new double[NL];
-             _DSMID = new double[NL];
+             _TMA = new double[5];
              _SRFTEMP = default(double);
              _NDays = default(int);
+             _DSMID = new double[NL];
+             _CUMDPT = default(double);
              _X2_PREV = default(double);
+             _TDL = default(double);
              _WetDay = new int[30];
             return true;
         }

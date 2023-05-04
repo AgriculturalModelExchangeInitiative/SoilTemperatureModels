@@ -9,15 +9,15 @@ namespace STEMP_EPIC_.DomainClass
 {
     public class STEMP_EPIC_ExogenousVarInfo : IVarInfoClass
     {
-        static VarInfo _SNOW = new VarInfo();
-        static VarInfo _TAMP = new VarInfo();
-        static VarInfo _DEPIR = new VarInfo();
-        static VarInfo _TMIN = new VarInfo();
-        static VarInfo _MULCHMASS = new VarInfo();
         static VarInfo _TAVG = new VarInfo();
         static VarInfo _TAV = new VarInfo();
         static VarInfo _TMAX = new VarInfo();
         static VarInfo _BIOMAS = new VarInfo();
+        static VarInfo _SNOW = new VarInfo();
+        static VarInfo _TMIN = new VarInfo();
+        static VarInfo _DEPIR = new VarInfo();
+        static VarInfo _TAMP = new VarInfo();
+        static VarInfo _MULCHMASS = new VarInfo();
         static VarInfo _RAIN = new VarInfo();
 
         static STEMP_EPIC_ExogenousVarInfo()
@@ -40,31 +40,6 @@ namespace STEMP_EPIC_.DomainClass
             get { return "STEMP_EPIC_Exogenous";}
         }
 
-        public static  VarInfo SNOW
-        {
-            get { return _SNOW;}
-        }
-
-        public static  VarInfo TAMP
-        {
-            get { return _TAMP;}
-        }
-
-        public static  VarInfo DEPIR
-        {
-            get { return _DEPIR;}
-        }
-
-        public static  VarInfo TMIN
-        {
-            get { return _TMIN;}
-        }
-
-        public static  VarInfo MULCHMASS
-        {
-            get { return _MULCHMASS;}
-        }
-
         public static  VarInfo TAVG
         {
             get { return _TAVG;}
@@ -85,6 +60,31 @@ namespace STEMP_EPIC_.DomainClass
             get { return _BIOMAS;}
         }
 
+        public static  VarInfo SNOW
+        {
+            get { return _SNOW;}
+        }
+
+        public static  VarInfo TMIN
+        {
+            get { return _TMIN;}
+        }
+
+        public static  VarInfo DEPIR
+        {
+            get { return _DEPIR;}
+        }
+
+        public static  VarInfo TAMP
+        {
+            get { return _TAMP;}
+        }
+
+        public static  VarInfo MULCHMASS
+        {
+            get { return _MULCHMASS;}
+        }
+
         public static  VarInfo RAIN
         {
             get { return _RAIN;}
@@ -92,46 +92,6 @@ namespace STEMP_EPIC_.DomainClass
 
         static void DescribeVariables()
         {
-            _SNOW.Name = "SNOW";
-            _SNOW.Description = "Snow cover";
-            _SNOW.MaxValue = -1D;
-            _SNOW.MinValue = -1D;
-            _SNOW.DefaultValue = -1D;
-            _SNOW.Units = "mm";
-            _SNOW.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
-
-            _TAMP.Name = "TAMP";
-            _TAMP.Description = "Annual amplitude of the average air temperature";
-            _TAMP.MaxValue = -1D;
-            _TAMP.MinValue = -1D;
-            _TAMP.DefaultValue = -1D;
-            _TAMP.Units = "degC";
-            _TAMP.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
-
-            _DEPIR.Name = "DEPIR";
-            _DEPIR.Description = "Depth of irrigation";
-            _DEPIR.MaxValue = -1D;
-            _DEPIR.MinValue = -1D;
-            _DEPIR.DefaultValue = -1D;
-            _DEPIR.Units = "mm";
-            _DEPIR.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
-
-            _TMIN.Name = "TMIN";
-            _TMIN.Description = "Minimum Temperature";
-            _TMIN.MaxValue = -1D;
-            _TMIN.MinValue = -1D;
-            _TMIN.DefaultValue = -1D;
-            _TMIN.Units = "degC";
-            _TMIN.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
-
-            _MULCHMASS.Name = "MULCHMASS";
-            _MULCHMASS.Description = "Mulch Mass";
-            _MULCHMASS.MaxValue = -1D;
-            _MULCHMASS.MinValue = -1D;
-            _MULCHMASS.DefaultValue = -1D;
-            _MULCHMASS.Units = "kg/ha";
-            _MULCHMASS.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
-
             _TAVG.Name = "TAVG";
             _TAVG.Description = "Average daily temperature";
             _TAVG.MaxValue = -1D;
@@ -163,6 +123,46 @@ namespace STEMP_EPIC_.DomainClass
             _BIOMAS.DefaultValue = -1D;
             _BIOMAS.Units = "kg/ha";
             _BIOMAS.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+
+            _SNOW.Name = "SNOW";
+            _SNOW.Description = "Snow cover";
+            _SNOW.MaxValue = -1D;
+            _SNOW.MinValue = -1D;
+            _SNOW.DefaultValue = -1D;
+            _SNOW.Units = "mm";
+            _SNOW.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+
+            _TMIN.Name = "TMIN";
+            _TMIN.Description = "Minimum Temperature";
+            _TMIN.MaxValue = -1D;
+            _TMIN.MinValue = -1D;
+            _TMIN.DefaultValue = -1D;
+            _TMIN.Units = "degC";
+            _TMIN.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+
+            _DEPIR.Name = "DEPIR";
+            _DEPIR.Description = "Depth of irrigation";
+            _DEPIR.MaxValue = -1D;
+            _DEPIR.MinValue = -1D;
+            _DEPIR.DefaultValue = -1D;
+            _DEPIR.Units = "mm";
+            _DEPIR.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+
+            _TAMP.Name = "TAMP";
+            _TAMP.Description = "Annual amplitude of the average air temperature";
+            _TAMP.MaxValue = -1D;
+            _TAMP.MinValue = -1D;
+            _TAMP.DefaultValue = -1D;
+            _TAMP.Units = "degC";
+            _TAMP.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+
+            _MULCHMASS.Name = "MULCHMASS";
+            _MULCHMASS.Description = "Mulch Mass";
+            _MULCHMASS.MaxValue = -1D;
+            _MULCHMASS.MinValue = -1D;
+            _MULCHMASS.DefaultValue = -1D;
+            _MULCHMASS.Units = "kg/ha";
+            _MULCHMASS.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _RAIN.Name = "RAIN";
             _RAIN.Description = "daily rainfall";

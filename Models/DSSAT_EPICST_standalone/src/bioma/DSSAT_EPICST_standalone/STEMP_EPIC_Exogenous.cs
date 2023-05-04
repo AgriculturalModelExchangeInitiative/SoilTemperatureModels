@@ -9,15 +9,15 @@ namespace STEMP_EPIC_.DomainClass
 {
     public class STEMP_EPIC_Exogenous : ICloneable, IDomainClass
     {
-        private double _SNOW;
-        private double _TAMP;
-        private double _DEPIR;
-        private double _TMIN;
-        private double _MULCHMASS;
         private double _TAVG;
         private double _TAV;
         private double _TMAX;
         private double _BIOMAS;
+        private double _SNOW;
+        private double _TMIN;
+        private double _DEPIR;
+        private double _TAMP;
+        private double _MULCHMASS;
         private double _RAIN;
         private ParametersIO _parametersIO;
 
@@ -30,44 +30,19 @@ namespace STEMP_EPIC_.DomainClass
         {
             if (copyAll)
             {
-                _SNOW = toCopy._SNOW;
-                _TAMP = toCopy._TAMP;
-                _DEPIR = toCopy._DEPIR;
-                _TMIN = toCopy._TMIN;
-                _MULCHMASS = toCopy._MULCHMASS;
-                _TAVG = toCopy._TAVG;
-                _TAV = toCopy._TAV;
-                _TMAX = toCopy._TMAX;
-                _BIOMAS = toCopy._BIOMAS;
-                _RAIN = toCopy._RAIN;
+                TAVG = toCopy.TAVG;
+                TAV = toCopy.TAV;
+                TMAX = toCopy.TMAX;
+                BIOMAS = toCopy.BIOMAS;
+                SNOW = toCopy.SNOW;
+                TMIN = toCopy.TMIN;
+                DEPIR = toCopy.DEPIR;
+                TAMP = toCopy.TAMP;
+                MULCHMASS = toCopy.MULCHMASS;
+                RAIN = toCopy.RAIN;
             }
         }
 
-        public double SNOW
-        {
-            get { return this._SNOW; }
-            set { this._SNOW= value; } 
-        }
-        public double TAMP
-        {
-            get { return this._TAMP; }
-            set { this._TAMP= value; } 
-        }
-        public double DEPIR
-        {
-            get { return this._DEPIR; }
-            set { this._DEPIR= value; } 
-        }
-        public double TMIN
-        {
-            get { return this._TMIN; }
-            set { this._TMIN= value; } 
-        }
-        public double MULCHMASS
-        {
-            get { return this._MULCHMASS; }
-            set { this._MULCHMASS= value; } 
-        }
         public double TAVG
         {
             get { return this._TAVG; }
@@ -87,6 +62,31 @@ namespace STEMP_EPIC_.DomainClass
         {
             get { return this._BIOMAS; }
             set { this._BIOMAS= value; } 
+        }
+        public double SNOW
+        {
+            get { return this._SNOW; }
+            set { this._SNOW= value; } 
+        }
+        public double TMIN
+        {
+            get { return this._TMIN; }
+            set { this._TMIN= value; } 
+        }
+        public double DEPIR
+        {
+            get { return this._DEPIR; }
+            set { this._DEPIR= value; } 
+        }
+        public double TAMP
+        {
+            get { return this._TAMP; }
+            set { this._TAMP= value; } 
+        }
+        public double MULCHMASS
+        {
+            get { return this._MULCHMASS; }
+            set { this._MULCHMASS= value; } 
         }
         public double RAIN
         {
@@ -111,15 +111,15 @@ namespace STEMP_EPIC_.DomainClass
 
         public virtual Boolean ClearValues()
         {
-             _SNOW = default(double);
-             _TAMP = default(double);
-             _DEPIR = default(double);
-             _TMIN = default(double);
-             _MULCHMASS = default(double);
              _TAVG = default(double);
              _TAV = default(double);
              _TMAX = default(double);
              _BIOMAS = default(double);
+             _SNOW = default(double);
+             _TMIN = default(double);
+             _DEPIR = default(double);
+             _TAMP = default(double);
+             _MULCHMASS = default(double);
              _RAIN = default(double);
             return true;
         }
