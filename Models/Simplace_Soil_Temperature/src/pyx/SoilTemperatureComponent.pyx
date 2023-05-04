@@ -21,6 +21,7 @@ def model_soiltemperature(float cCarbonContent,
       float SnowWaterContent,
       float SoilSurfaceTemperature,
       int AgeOfSnow,
+      float rSoilTempArrayRate[],
       float pSoilLayerDepth[]):
     cdef float iTempMax
     cdef float iTempMin
@@ -38,5 +39,5 @@ def model_soiltemperature(float cCarbonContent,
     cABD = cAverageBulkDensity 
     SnowWaterContent, SoilSurfaceTemperature, AgeOfSnow, SnowIsolationIndex = model_snowcovercalculator( cCarbonContent,iTempMax,iTempMin,iRadiation,iRAIN,iCropResidues,iPotentialSoilEvaporation,iLeafAreaIndex,iSoilTempArray,Albedo,SnowWaterContent,SoilSurfaceTemperature,AgeOfSnow)
     iSoilSurfaceTemperature = SoilSurfaceTemperature
-    SoilTempArray = model_stmpsimcalculator( cSoilLayerDepth,cFirstDayMeanTemp,cAVT,cABD,cDampingDepth,iSoilWaterContent,iSoilSurfaceTemperature,SoilTempArray,pSoilLayerDepth)
-    return SoilSurfaceTemperature, SnowIsolationIndex, SnowWaterContent, SoilTempArray, AgeOfSnow
+    SoilTempArray, rSoilTempArrayRate = model_stmpsimcalculator( cSoilLayerDepth,cFirstDayMeanTemp,cAVT,cABD,cDampingDepth,iSoilWaterContent,iSoilSurfaceTemperature,SoilTempArray,rSoilTempArrayRate,pSoilLayerDepth)
+    return SoilSurfaceTemperature, SnowIsolationIndex, SnowWaterContent, SoilTempArray, AgeOfSnow, rSoilTempArrayRate

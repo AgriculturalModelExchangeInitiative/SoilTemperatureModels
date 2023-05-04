@@ -3,6 +3,7 @@ cdef float additionalDepth
 cdef float firstAdditionalLayerHight 
 cdef int layers 
 cdef float tStmp[]
+cdef float tStmpRate[]
 cdef float tz[]
 cdef int i 
 cdef float depth 
@@ -11,6 +12,7 @@ additionalDepth=cDampingDepth - tProfileDepth
 firstAdditionalLayerHight=additionalDepth - float(floor(additionalDepth))
 layers=int(abs(float(ceil(additionalDepth)))) + len(cSoilLayerDepth)
 tStmp.allocate(layers)
+tStmpRate.allocate(layers)
 tz.allocate(layers)
 for i in range(0 , len(tStmp) , 1):
     if i < len(cSoilLayerDepth):
@@ -19,7 +21,9 @@ for i in range(0 , len(tStmp) , 1):
         #b'/first additional layer might be smaller than 1 m'
         depth=tProfileDepth + firstAdditionalLayerHight + i - len(cSoilLayerDepth)
     tz[i]=depth
+    tStmpRate[i]=0.0
     #b'/set linear aproximation to the soil temperature as initial value'
     tStmp[i]=(cFirstDayMeanTemp * (cDampingDepth - depth) + (cAVT * depth)) / cDampingDepth
+rSoilTempArrayRate=tStmpRate
 SoilTempArray=tStmp
 pSoilLayerDepth=tz

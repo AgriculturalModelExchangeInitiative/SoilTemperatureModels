@@ -117,7 +117,7 @@ namespace SoilTemperature.DomainClass
         static void DescribeVariables()
         {
             _iAirTemperatureMax.Name = "iAirTemperatureMax";
-            _iAirTemperatureMax.Description = "Daily maximum temperature";
+            _iAirTemperatureMax.Description = "Daily maximum air temperature";
             _iAirTemperatureMax.MaxValue = 50.0;
             _iAirTemperatureMax.MinValue = -40.0;
             _iAirTemperatureMax.DefaultValue = -1D;
@@ -125,7 +125,7 @@ namespace SoilTemperature.DomainClass
             _iAirTemperatureMax.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _iTempMax.Name = "iTempMax";
-            _iTempMax.Description = "Daily maximum temperature";
+            _iTempMax.Description = "Daily maximum air temperature";
             _iTempMax.MaxValue = 50.0;
             _iTempMax.MinValue = -40.0;
             _iTempMax.DefaultValue = -1D;
@@ -133,7 +133,7 @@ namespace SoilTemperature.DomainClass
             _iTempMax.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _iAirTemperatureMin.Name = "iAirTemperatureMin";
-            _iAirTemperatureMin.Description = "Daily minimum temperature";
+            _iAirTemperatureMin.Description = "Daily minimum air temperature";
             _iAirTemperatureMin.MaxValue = 50.0;
             _iAirTemperatureMin.MinValue = -40.0;
             _iAirTemperatureMin.DefaultValue = -1D;
@@ -141,7 +141,7 @@ namespace SoilTemperature.DomainClass
             _iAirTemperatureMin.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _iTempMin.Name = "iTempMin";
-            _iTempMin.Description = "Daily minimum temperature";
+            _iTempMin.Description = "Daily minimum air temperature";
             _iTempMin.MaxValue = 50.0;
             _iTempMin.MinValue = -40.0;
             _iTempMin.DefaultValue = -1D;
@@ -149,7 +149,7 @@ namespace SoilTemperature.DomainClass
             _iTempMin.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _iGlobalSolarRadiation.Name = "iGlobalSolarRadiation";
-            _iGlobalSolarRadiation.Description = "Solar radiation";
+            _iGlobalSolarRadiation.Description = "Global Solar radiation";
             _iGlobalSolarRadiation.MaxValue = 2000.0;
             _iGlobalSolarRadiation.MinValue = 0.0;
             _iGlobalSolarRadiation.DefaultValue = -1D;
@@ -157,7 +157,7 @@ namespace SoilTemperature.DomainClass
             _iGlobalSolarRadiation.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _iRadiation.Name = "iRadiation";
-            _iRadiation.Description = "Solar radiation";
+            _iRadiation.Description = "Global Solar radiation";
             _iRadiation.MaxValue = 2000.0;
             _iRadiation.MinValue = 0.0;
             _iRadiation.DefaultValue = -1D;
@@ -213,7 +213,7 @@ namespace SoilTemperature.DomainClass
             _iSoilTempArray.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
 
             _iSoilWaterContent.Name = "iSoilWaterContent";
-            _iSoilWaterContent.Description = "Content of water in Soil";
+            _iSoilWaterContent.Description = "Water content, sum of whole soil profile";
             _iSoilWaterContent.MaxValue = 20.0;
             _iSoilWaterContent.MinValue = 1.5;
             _iSoilWaterContent.DefaultValue = 5.0;

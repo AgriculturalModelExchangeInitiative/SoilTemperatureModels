@@ -13,6 +13,7 @@ namespace SoilTemperature.DomainClass
         static VarInfo _SnowWaterContent = new VarInfo();
         static VarInfo _SoilSurfaceTemperature = new VarInfo();
         static VarInfo _AgeOfSnow = new VarInfo();
+        static VarInfo _rSoilTempArrayRate = new VarInfo();
         static VarInfo _pSoilLayerDepth = new VarInfo();
         static VarInfo _SoilTempArray = new VarInfo();
 
@@ -54,6 +55,11 @@ namespace SoilTemperature.DomainClass
         public static  VarInfo AgeOfSnow
         {
             get { return _AgeOfSnow;}
+        }
+
+        public static  VarInfo rSoilTempArrayRate
+        {
+            get { return _rSoilTempArrayRate;}
         }
 
         public static  VarInfo pSoilLayerDepth
@@ -100,6 +106,14 @@ namespace SoilTemperature.DomainClass
             _AgeOfSnow.Units = "http://www.wurvoc.org/vocabularies/om-1.8/one";
             _AgeOfSnow.ValueType = VarInfoValueTypes.GetInstanceForName("Integer");
 
+            _rSoilTempArrayRate.Name = "rSoilTempArrayRate";
+            _rSoilTempArrayRate.Description = "Array of daily temperature change";
+            _rSoilTempArrayRate.MaxValue = -1D;
+            _rSoilTempArrayRate.MinValue = -1D;
+            _rSoilTempArrayRate.DefaultValue = -1D;
+            _rSoilTempArrayRate.Units = "http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day";
+            _rSoilTempArrayRate.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+
             _pSoilLayerDepth.Name = "pSoilLayerDepth";
             _pSoilLayerDepth.Description = "Depth of soil layer plus additional depth";
             _pSoilLayerDepth.MaxValue = -1D;
@@ -109,7 +123,7 @@ namespace SoilTemperature.DomainClass
             _pSoilLayerDepth.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
 
             _SoilTempArray.Name = "SoilTempArray";
-            _SoilTempArray.Description = "Array of temperature ";
+            _SoilTempArray.Description = "Array of soil temperatures in layers ";
             _SoilTempArray.MaxValue = -1D;
             _SoilTempArray.MinValue = -1D;
             _SoilTempArray.DefaultValue = -1D;

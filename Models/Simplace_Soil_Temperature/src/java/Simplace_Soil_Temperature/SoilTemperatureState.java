@@ -7,6 +7,7 @@ public class SoilTemperatureState
     private Double SnowWaterContent;
     private Double SoilSurfaceTemperature;
     private Integer AgeOfSnow;
+    private Double [] rSoilTempArrayRate;
     private Double [] pSoilLayerDepth;
     private Double [] SoilTempArray;
     
@@ -20,6 +21,11 @@ public class SoilTemperatureState
             this.SnowWaterContent = toCopy.getSnowWaterContent();
             this.SoilSurfaceTemperature = toCopy.getSoilSurfaceTemperature();
             this.AgeOfSnow = toCopy.getAgeOfSnow();
+            rSoilTempArrayRate = new Double[toCopy.getrSoilTempArrayRate().length];
+        for (int i = 0; i < toCopy.getrSoilTempArrayRate().length; i++)
+        {
+            rSoilTempArrayRate[i] = toCopy.getrSoilTempArrayRate()[i];
+        }
             pSoilLayerDepth = new Double[toCopy.getpSoilLayerDepth().length];
         for (int i = 0; i < toCopy.getpSoilLayerDepth().length; i++)
         {
@@ -55,6 +61,12 @@ public class SoilTemperatureState
 
     public void setAgeOfSnow(Integer _AgeOfSnow)
     { this.AgeOfSnow= _AgeOfSnow; } 
+    
+    public Double [] getrSoilTempArrayRate()
+    { return rSoilTempArrayRate; }
+
+    public void setrSoilTempArrayRate(Double [] _rSoilTempArrayRate)
+    { this.rSoilTempArrayRate= _rSoilTempArrayRate; } 
     
     public Double [] getpSoilLayerDepth()
     { return pSoilLayerDepth; }

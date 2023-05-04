@@ -28,6 +28,7 @@ def model_soiltemperature(cCarbonContent:float,
          SnowWaterContent:float,
          SoilSurfaceTemperature:float,
          AgeOfSnow:int,
+         rSoilTempArrayRate:'Array[float]',
          pSoilLayerDepth:'Array[float]'):
     """
      - Name: SoilTemperature -Version: 001, -Time step: 1
@@ -49,7 +50,7 @@ def model_soiltemperature(cCarbonContent:float,
                                ** default : 0.5
                                ** unit : http://www.wurvoc.org/vocabularies/om-1.8/percent
                  * name: iAirTemperatureMax
-                               ** description : Daily maximum temperature
+                               ** description : Daily maximum air temperature
                                ** inputtype : variable
                                ** variablecategory : exogenous
                                ** datatype : DOUBLE
@@ -58,7 +59,7 @@ def model_soiltemperature(cCarbonContent:float,
                                ** default : 
                                ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
                  * name: iAirTemperatureMin
-                               ** description : Daily minimum temperature
+                               ** description : Daily minimum air temperature
                                ** inputtype : variable
                                ** variablecategory : exogenous
                                ** datatype : DOUBLE
@@ -67,7 +68,7 @@ def model_soiltemperature(cCarbonContent:float,
                                ** default : 
                                ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
                  * name: iGlobalSolarRadiation
-                               ** description : Solar radiation
+                               ** description : Global Solar radiation
                                ** inputtype : variable
                                ** variablecategory : exogenous
                                ** datatype : DOUBLE
@@ -132,7 +133,7 @@ def model_soiltemperature(cCarbonContent:float,
                                ** default : 
                                ** unit : http://www.wurvoc.org/vocabularies/om-1.8/metre
                  * name: cFirstDayMeanTemp
-                               ** description : Mean temperature on first day
+                               ** description : Mean air temperature on first day
                                ** inputtype : parameter
                                ** parametercategory : constant
                                ** datatype : DOUBLE
@@ -141,7 +142,7 @@ def model_soiltemperature(cCarbonContent:float,
                                ** default : 
                                ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
                  * name: cAverageGroundTemperature
-                               ** description : Constant Temperature of deepest soil layer
+                               ** description : Constant Temperature of deepest soil layer - use long term mean air temperature
                                ** inputtype : parameter
                                ** parametercategory : constant
                                ** datatype : DOUBLE
@@ -168,7 +169,7 @@ def model_soiltemperature(cCarbonContent:float,
                                ** default : 6.0
                                ** unit : http://www.wurvoc.org/vocabularies/om-1.8/metre
                  * name: iSoilWaterContent
-                               ** description : Content of water in Soil
+                               ** description : Water content, sum of whole soil profile
                                ** inputtype : variable
                                ** variablecategory : exogenous
                                ** datatype : DOUBLE
@@ -212,6 +213,16 @@ def model_soiltemperature(cCarbonContent:float,
                                ** min : 0
                                ** default : 0
                                ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
+                 * name: rSoilTempArrayRate
+                               ** description : Array of daily temperature change
+                               ** inputtype : variable
+                               ** variablecategory : state
+                               ** datatype : DOUBLEARRAY
+                               ** len : 
+                               ** max : 40
+                               ** min : -20
+                               ** default : 
+                               ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
                  * name: pSoilLayerDepth
                                ** description : Depth of soil layer plus additional depth
                                ** inputtype : variable
@@ -245,7 +256,7 @@ def model_soiltemperature(cCarbonContent:float,
                                ** min : 0.0
                                ** unit : http://www.wurvoc.org/vocabularies/om-1.8/millimetre
                  * name: SoilTempArray
-                               ** description : Array of temperature 
+                               ** description : Array of soil temperatures in layers 
                                ** datatype : DOUBLEARRAY
                                ** variablecategory : state
                                ** len : 
@@ -259,6 +270,14 @@ def model_soiltemperature(cCarbonContent:float,
                                ** max : 
                                ** min : 0
                                ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
+                 * name: rSoilTempArrayRate
+                               ** description : Array of daily temperature change
+                               ** datatype : DOUBLEARRAY
+                               ** variablecategory : state
+                               ** len : 
+                               ** max : 40
+                               ** min : -20
+                               ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
     """
 
     iTempMax:float
@@ -277,6 +296,6 @@ def model_soiltemperature(cCarbonContent:float,
     cABD = cAverageBulkDensity
     (SnowWaterContent, SoilSurfaceTemperature, AgeOfSnow, SnowIsolationIndex) = model_snowcovercalculator(cCarbonContent, iTempMax, iTempMin, iRadiation, iRAIN, iCropResidues, iPotentialSoilEvaporation, iLeafAreaIndex, iSoilTempArray, Albedo, SnowWaterContent, SoilSurfaceTemperature, AgeOfSnow)
     iSoilSurfaceTemperature = SoilSurfaceTemperature
-    SoilTempArray = model_stmpsimcalculator(cSoilLayerDepth, cFirstDayMeanTemp, cAVT, cABD, cDampingDepth, iSoilWaterContent, iSoilSurfaceTemperature, SoilTempArray, pSoilLayerDepth)
-    return (SoilSurfaceTemperature, SnowIsolationIndex, SnowWaterContent, SoilTempArray, AgeOfSnow)
+    (SoilTempArray, rSoilTempArrayRate) = model_stmpsimcalculator(cSoilLayerDepth, cFirstDayMeanTemp, cAVT, cABD, cDampingDepth, iSoilWaterContent, iSoilSurfaceTemperature, SoilTempArray, rSoilTempArrayRate, pSoilLayerDepth)
+    return (SoilSurfaceTemperature, SnowIsolationIndex, SnowWaterContent, SoilTempArray, AgeOfSnow, rSoilTempArrayRate)
 #%%CyML Model End%%

@@ -354,7 +354,14 @@ namespace SoilTemperature.Strategies
             double SoilSurfaceTemperature = 0.0;
             int AgeOfSnow = 0;
             Albedo = 0.00d;
+            double TMEAN;
+            double TAMPL;
+            double DST;
             Albedo = 0.02260d * Math.Log(cCarbonContent, 10) + 0.15020d;
+            TMEAN = 0.50d * (iTempMax + iTempMin);
+            TAMPL = 0.50d * (iTempMax - iTempMin);
+            DST = TMEAN + (TAMPL * (iRadiation * (1 - Albedo) - 14) / 20);
+            SoilSurfaceTemperature = DST;
             s.Albedo= Albedo;
             s.SnowWaterContent= SnowWaterContent;
             s.SoilSurfaceTemperature= SoilSurfaceTemperature;

@@ -30,11 +30,18 @@ CONTAINS
         REAL, INTENT(OUT) :: SnowWaterContent
         REAL, INTENT(OUT) :: SoilSurfaceTemperature
         INTEGER, INTENT(OUT) :: AgeOfSnow
+        REAL:: TMEAN
+        REAL:: TAMPL
+        REAL:: DST
         SnowWaterContent = 0.0
         SoilSurfaceTemperature = 0.0
         AgeOfSnow = 0
         Albedo = 0.0
         Albedo = 0.0226 * LOG(cCarbonContent) / LOG(REAL(10)) + 0.1502
+        TMEAN = 0.5 * (iTempMax + iTempMin)
+        TAMPL = 0.5 * (iTempMax - iTempMin)
+        DST = TMEAN + (TAMPL * (iRadiation * (1 - Albedo) - 14) / 20)
+        SoilSurfaceTemperature = DST
     END SUBROUTINE init_snowcovercalculator
 
     SUBROUTINE model_snowcovercalculator(cCarbonContent, &
@@ -98,7 +105,7 @@ CONTAINS
     !                          ** default : 0.5
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/percent
     !            * name: iTempMax
-    !                          ** description : Daily maximum temperature
+    !                          ** description : Daily maximum air temperature
     !                          ** inputtype : variable
     !                          ** variablecategory : exogenous
     !                          ** datatype : DOUBLE
@@ -107,7 +114,7 @@ CONTAINS
     !                          ** default : 
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
     !            * name: iTempMin
-    !                          ** description : Daily minimum temperature
+    !                          ** description : Daily minimum air temperature
     !                          ** inputtype : variable
     !                          ** variablecategory : exogenous
     !                          ** datatype : DOUBLE
@@ -116,7 +123,7 @@ CONTAINS
     !                          ** default : 
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
     !            * name: iRadiation
-    !                          ** description : Solar radiation
+    !                          ** description : Global Solar radiation
     !                          ** inputtype : variable
     !                          ** variablecategory : exogenous
     !                          ** datatype : DOUBLE

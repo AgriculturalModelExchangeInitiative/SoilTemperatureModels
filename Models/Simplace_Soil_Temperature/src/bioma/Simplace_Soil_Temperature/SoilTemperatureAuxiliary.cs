@@ -21,7 +21,7 @@ namespace SoilTemperature.DomainClass
         {
             if (copyAll)
             {
-                _SnowIsolationIndex = toCopy._SnowIsolationIndex;
+                SnowIsolationIndex = toCopy.SnowIsolationIndex;
             }
         }
 

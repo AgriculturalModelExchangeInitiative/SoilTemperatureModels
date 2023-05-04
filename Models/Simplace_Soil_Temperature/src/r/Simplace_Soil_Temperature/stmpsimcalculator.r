@@ -8,16 +8,20 @@ init_stmpsimcalculator <- function (cSoilLayerDepth,
          iSoilWaterContent,
          iSoilSurfaceTemperature){
     SoilTempArray<- vector()
+    rSoilTempArrayRate<- vector()
     pSoilLayerDepth<- vector()
     SoilTempArray <- NULL
+    rSoilTempArrayRate <- NULL
     pSoilLayerDepth <- NULL
     tStmp<- vector()
+    tStmpRate<- vector()
     tz<- vector()
     tProfileDepth <- cSoilLayerDepth[length(cSoilLayerDepth) - 1+1]
     additionalDepth <- cDampingDepth - tProfileDepth
     firstAdditionalLayerHight <- additionalDepth - as.double(floor(additionalDepth))
     layers <- as.integer(abs(as.double(ceiling(additionalDepth)))) + length(cSoilLayerDepth)
     tStmp <- vector(, layers)
+    tStmpRate <- vector(, layers)
     tz <- vector(, layers)
     for( i in seq(0, length(tStmp)-1, 1)){
         if (i < length(cSoilLayerDepth))
@@ -29,11 +33,13 @@ init_stmpsimcalculator <- function (cSoilLayerDepth,
             depth <- tProfileDepth + firstAdditionalLayerHight + i - length(cSoilLayerDepth)
         }
         tz[i+1] <- depth
+        tStmpRate[i+1] <- 0.0
         tStmp[i+1] <- (cFirstDayMeanTemp * (cDampingDepth - depth) + (cAVT * depth)) / cDampingDepth
     }
+    rSoilTempArrayRate <- tStmpRate
     SoilTempArray <- tStmp
     pSoilLayerDepth <- tz
-    return (list ("SoilTempArray" = SoilTempArray,"pSoilLayerDepth" = pSoilLayerDepth))
+    return (list ("SoilTempArray" = SoilTempArray,"rSoilTempArrayRate" = rSoilTempArrayRate,"pSoilLayerDepth" = pSoilLayerDepth))
 }
 
 model_stmpsimcalculator <- function (cSoilLayerDepth,
@@ -44,6 +50,7 @@ model_stmpsimcalculator <- function (cSoilLayerDepth,
          iSoilWaterContent,
          iSoilSurfaceTemperature,
          SoilTempArray,
+         rSoilTempArrayRate,
          pSoilLayerDepth){
     #'- Name: STMPsimCalculator -Version: 001, -Time step: 1
     #'- Description:
@@ -65,7 +72,7 @@ model_stmpsimcalculator <- function (cSoilLayerDepth,
     #'                          ** default : 
     #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/metre
     #'            * name: cFirstDayMeanTemp
-    #'                          ** description : Mean temperature on first day
+    #'                          ** description : Mean air temperature on first day
     #'                          ** inputtype : parameter
     #'                          ** parametercategory : constant
     #'                          ** datatype : DOUBLE
@@ -74,7 +81,7 @@ model_stmpsimcalculator <- function (cSoilLayerDepth,
     #'                          ** default : 
     #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
     #'            * name: cAVT
-    #'                          ** description : Constant Temperature of deepest soil layer
+    #'                          ** description : Constant Temperature of deepest soil layer - use long term mean air temperature
     #'                          ** inputtype : parameter
     #'                          ** parametercategory : constant
     #'                          ** datatype : DOUBLE
@@ -101,7 +108,7 @@ model_stmpsimcalculator <- function (cSoilLayerDepth,
     #'                          ** default : 6.0
     #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/metre
     #'            * name: iSoilWaterContent
-    #'                          ** description : Content of water in Soil
+    #'                          ** description : Water content, sum of whole soil profile
     #'                          ** inputtype : variable
     #'                          ** variablecategory : exogenous
     #'                          ** datatype : DOUBLE
@@ -119,7 +126,7 @@ model_stmpsimcalculator <- function (cSoilLayerDepth,
     #'                          ** default : 
     #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
     #'            * name: SoilTempArray
-    #'                          ** description : Array of temperature 
+    #'                          ** description : Array of soil temperatures in layers 
     #'                          ** inputtype : variable
     #'                          ** variablecategory : state
     #'                          ** datatype : DOUBLEARRAY
@@ -128,6 +135,16 @@ model_stmpsimcalculator <- function (cSoilLayerDepth,
     #'                          ** min : -20
     #'                          ** default : 
     #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
+    #'            * name: rSoilTempArrayRate
+    #'                          ** description : Array of daily temperature change
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : state
+    #'                          ** datatype : DOUBLEARRAY
+    #'                          ** len : 
+    #'                          ** max : 40
+    #'                          ** min : -20
+    #'                          ** default : 
+    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
     #'            * name: pSoilLayerDepth
     #'                          ** description : Depth of soil layer plus additional depth
     #'                          ** inputtype : variable
@@ -140,13 +157,21 @@ model_stmpsimcalculator <- function (cSoilLayerDepth,
     #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/metre
     #'- outputs:
     #'            * name: SoilTempArray
-    #'                          ** description : Array of temperature 
+    #'                          ** description : Array of soil temperatures in layers 
     #'                          ** datatype : DOUBLEARRAY
     #'                          ** variablecategory : state
     #'                          ** len : 
     #'                          ** max : 40
     #'                          ** min : -20
     #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
+    #'            * name: rSoilTempArrayRate
+    #'                          ** description : Array of daily temperature change
+    #'                          ** datatype : DOUBLEARRAY
+    #'                          ** variablecategory : state
+    #'                          ** len : 
+    #'                          ** max : 40
+    #'                          ** min : -20
+    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
     XLAG <- .8
     XLG1 <- 1 - XLAG
     DP <- 1 + (2.5 * cABD / (cABD + exp(6.53 - (5.63 * cABD))))
@@ -156,8 +181,10 @@ model_stmpsimcalculator <- function (cSoilLayerDepth,
     for( i in seq(0, length(SoilTempArray)-1, 1)){
         ZD <- 0.5 * (Z1 + pSoilLayerDepth[i+1]) / DD
         RATE <- ZD / (ZD + exp(-.8669 - (2.0775 * ZD))) * (cAVT - iSoilSurfaceTemperature)
-        SoilTempArray[i+1] <- XLAG * SoilTempArray[i+1] + (XLG1 * (RATE + iSoilSurfaceTemperature))
+        RATE <- XLG1 * (RATE + iSoilSurfaceTemperature - SoilTempArray[i+1])
         Z1 <- pSoilLayerDepth[i+1]
+        rSoilTempArrayRate[i+1] <- RATE
+        SoilTempArray[i+1] <- SoilTempArray[i+1] + rSoilTempArrayRate[i+1]
     }
-    return (list('SoilTempArray' = SoilTempArray))
+    return (list ("SoilTempArray" = SoilTempArray,"rSoilTempArrayRate" = rSoilTempArrayRate))
 }

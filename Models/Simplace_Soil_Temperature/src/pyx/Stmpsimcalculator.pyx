@@ -8,14 +8,17 @@ def init_stmpsimcalculator(float cSoilLayerDepth[],
                            float iSoilWaterContent,
                            float iSoilSurfaceTemperature):
     cdef float SoilTempArray[]
+    cdef float rSoilTempArrayRate[]
     cdef float pSoilLayerDepth[]
     SoilTempArray = None
+    rSoilTempArrayRate = None
     pSoilLayerDepth = None
     cdef float tProfileDepth 
     cdef float additionalDepth 
     cdef float firstAdditionalLayerHight 
     cdef int layers 
     cdef float tStmp[]
+    cdef float tStmpRate[]
     cdef float tz[]
     cdef int i 
     cdef float depth 
@@ -24,6 +27,7 @@ def init_stmpsimcalculator(float cSoilLayerDepth[],
     firstAdditionalLayerHight=additionalDepth - float(floor(additionalDepth))
     layers=int(abs(float(ceil(additionalDepth)))) + len(cSoilLayerDepth)
     tStmp.allocate(layers)
+    tStmpRate.allocate(layers)
     tz.allocate(layers)
     for i in range(0 , len(tStmp) , 1):
         if i < len(cSoilLayerDepth):
@@ -32,11 +36,13 @@ def init_stmpsimcalculator(float cSoilLayerDepth[],
             #b'/first additional layer might be smaller than 1 m'
             depth=tProfileDepth + firstAdditionalLayerHight + i - len(cSoilLayerDepth)
         tz[i]=depth
+        tStmpRate[i]=0.0
         #b'/set linear aproximation to the soil temperature as initial value'
         tStmp[i]=(cFirstDayMeanTemp * (cDampingDepth - depth) + (cAVT * depth)) / cDampingDepth
+    rSoilTempArrayRate=tStmpRate
     SoilTempArray=tStmp
     pSoilLayerDepth=tz
-    return  SoilTempArray, pSoilLayerDepth
+    return  SoilTempArray, rSoilTempArrayRate, pSoilLayerDepth
 def model_stmpsimcalculator(float cSoilLayerDepth[],
                             float cFirstDayMeanTemp,
                             float cAVT,
@@ -45,6 +51,7 @@ def model_stmpsimcalculator(float cSoilLayerDepth[],
                             float iSoilWaterContent,
                             float iSoilSurfaceTemperature,
                             float SoilTempArray[],
+                            float rSoilTempArrayRate[],
                             float pSoilLayerDepth[]):
     """
 
@@ -67,7 +74,7 @@ def model_stmpsimcalculator(float cSoilLayerDepth[],
     cdef float RATE 
     #b"/XLAG = LAG = Coefficient for weighting yesterday's soil temperature"
     XLAG=.8
-    #b"/XLG1 = Inverse of coefficient for weighting yesterday's soil temperature"
+    #b"/XLG1 = Complement of coefficient for weighting yesterday's soil temperature"
     XLG1=1 - XLAG
     #b'/DP= Maximum damping depth (m)'
     DP=1 + (2.5 * cABD / (cABD + exp(6.53 - (5.63 * cABD))))
@@ -80,12 +87,14 @@ def model_stmpsimcalculator(float cSoilLayerDepth[],
     #b'/Z1=Depth of the bottom of the previous soil layer, initialized with 0 (m)'
     Z1=float(0)
     for i in range(0 , len(SoilTempArray) , 1):
-        ZD=0.5 * (Z1 + pSoilLayerDepth[i]) / DD
         #b'/Factor of the depth in soil: Middle of depth of layer divided by damping depth'
+        ZD=0.5 * (Z1 + pSoilLayerDepth[i]) / DD
         RATE=ZD / (ZD + exp(-.8669 - (2.0775 * ZD))) * (cAVT - iSoilSurfaceTemperature)
         #b'/RATE = Rate of change of STMP(ISL) (\xc3\x83\xe2\x80\x9a\xc3\x82\xc2\xb0C)'
-        SoilTempArray[i]=XLAG * SoilTempArray[i] + (XLG1 * (RATE + iSoilSurfaceTemperature))
+        RATE=XLG1 * (RATE + iSoilSurfaceTemperature - SoilTempArray[i])
         Z1=pSoilLayerDepth[i]
-    return  SoilTempArray
+        rSoilTempArrayRate[i]=RATE
+        SoilTempArray[i]=SoilTempArray[i] + rSoilTempArrayRate[i]
+    return  SoilTempArray, rSoilTempArrayRate
 
 

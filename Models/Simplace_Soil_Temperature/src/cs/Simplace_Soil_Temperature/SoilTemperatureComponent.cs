@@ -105,9 +105,9 @@ public class SoilTemperatureComponent
         ex.iSoilTempArray = s.SoilTempArray;
         cAVT = cAverageGroundTemperature;
         cABD = cAverageBulkDensity;
-        _snowcovercalculator.CalculateModel(s,s1, r, a, ex);
+        _SnowCoverCalculator.CalculateModel(s,s1, r, a, ex);
         ex.iSoilSurfaceTemperature = s.SoilSurfaceTemperature;
-        _stmpsimcalculator.CalculateModel(s,s1, r, a, ex);
+        _STMPsimCalculator.CalculateModel(s,s1, r, a, ex);
     }
     
     public SoilTemperatureComponent(SoilTemperatureComponent toCopy): this() // copy constructor 
@@ -116,7 +116,7 @@ public class SoilTemperatureComponent
         cCarbonContent = toCopy.cCarbonContent;
         
             for (int i = 0; i < 100; i++)
-            { _cSoilLayerDepth[i] = toCopy._cSoilLayerDepth[i]; }
+            { cSoilLayerDepth[i] = toCopy.cSoilLayerDepth[i]; }
     
         cFirstDayMeanTemp = toCopy.cFirstDayMeanTemp;
         cAverageGroundTemperature = toCopy.cAverageGroundTemperature;

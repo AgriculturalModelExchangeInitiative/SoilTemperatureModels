@@ -26,18 +26,21 @@
 
 package net.simplace.sim.components.soil.temperature;
 
-import static java.lang.StrictMath.*;
-
-import net.simplace.sim.model.FWSimComponent;
-import net.simplace.sim.model.FWSimComponent.TEST_STATE;
-import net.simplace.sim.util.FWSimVarMap;
-import net.simplace.sim.util.FWSimVariable;
-import net.simplace.sim.util.FWSimVariable.CONTENT_TYPE;
-import net.simplace.sim.util.FWSimVariable.DATA_TYPE;
+import static java.lang.StrictMath.exp;
+import static java.lang.StrictMath.log10;
+import static java.lang.StrictMath.max;
+import static java.lang.StrictMath.min;
+import static java.lang.StrictMath.sqrt;
 
 import java.util.HashMap;
 
 import org.jdom2.Element;
+
+import net.simplace.sim.model.FWSimComponent;
+import net.simplace.sim.util.FWSimVarMap;
+import net.simplace.sim.util.FWSimVariable;
+import net.simplace.sim.util.FWSimVariable.CONTENT_TYPE;
+import net.simplace.sim.util.FWSimVariable.DATA_TYPE;
 
 
 /**
@@ -201,11 +204,11 @@ public class SnowCoverCalculator extends FWSimComponent
 				DATA_TYPE.BOOLEAN, CONTENT_TYPE.input, "http://www.wurvoc.org/vocabularies/om-1.8/one", null, null, false, this));
 		//%%CyML Ignore End%%
 		
-		addVariable(FWSimVariable.createSimVariable("iTempMax", "Daily maximum temperature", DATA_TYPE.DOUBLE,
+		addVariable(FWSimVariable.createSimVariable("iTempMax", "Daily maximum air temperature", DATA_TYPE.DOUBLE,
 				CONTENT_TYPE.input, "http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius", -40d, 50d, null, this));
-		addVariable(FWSimVariable.createSimVariable("iTempMin", "Daily minimum temperature", DATA_TYPE.DOUBLE,
+		addVariable(FWSimVariable.createSimVariable("iTempMin", "Daily minimum air temperature", DATA_TYPE.DOUBLE,
 				CONTENT_TYPE.input, "http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius", -40d, 50d, null, this));
-		addVariable(FWSimVariable.createSimVariable("iRadiation", "Solar radiation", DATA_TYPE.DOUBLE,
+		addVariable(FWSimVariable.createSimVariable("iRadiation", "Global Solar radiation", DATA_TYPE.DOUBLE,
 				CONTENT_TYPE.input, "http://www.wurvoc.org/vocabularies/om-1.8/megajoule_per_square_metre", 0d, 2000d, null, this));
 		addVariable(FWSimVariable.createSimVariable("iRAIN", "Rain amount", DATA_TYPE.DOUBLE,
 				CONTENT_TYPE.input, "http://www.wurvoc.org/vocabularies/om-1.8/millimetre", 0d, 60d, null, this));
@@ -217,14 +220,17 @@ public class SnowCoverCalculator extends FWSimComponent
 				CONTENT_TYPE.input, "http://www.wurvoc.org/vocabularies/om-1.8/square_metre_per_square_metre", 0d, 10d, null, this));
 		addVariable(FWSimVariable.createSimVariable("iSoilTempArray", "Soil Temp array of last day", DATA_TYPE.DOUBLEARRAY,
 				CONTENT_TYPE.input, "http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius", -15d, 35d, null, this));
+
 		addVariable(FWSimVariable.createSimVariable("Albedo", "Albedo", DATA_TYPE.DOUBLE,
 				CONTENT_TYPE.privat, "http://www.wurvoc.org/vocabularies/om-1.8/one", 0d, 1d, null, this));
+
 		addVariable(FWSimVariable.createSimVariable("SnowWaterContent", "Snow water content", DATA_TYPE.DOUBLE,
 				CONTENT_TYPE.state, "http://www.wurvoc.org/vocabularies/om-1.8/millimetre", 0d, 1500d, 0d, this));
 		addVariable(FWSimVariable.createSimVariable("SoilSurfaceTemperature", "Soil surface temperature", DATA_TYPE.DOUBLE,
 				CONTENT_TYPE.state, "http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius", -40d, 70d, 0d, this));
 		addVariable(FWSimVariable.createSimVariable("AgeOfSnow", "Age of snow", DATA_TYPE.INT,
 				CONTENT_TYPE.state, "http://www.wurvoc.org/vocabularies/om-1.8/one", 0, null, 0, this));
+
 		addVariable(FWSimVariable.createSimVariable("SnowIsolationIndex", "Snow isolation index", DATA_TYPE.DOUBLE,
 				CONTENT_TYPE.out, "http://www.wurvoc.org/vocabularies/om-1.8/one", 0d, 1d, 0d, this));
 		return iFieldMap;
@@ -239,6 +245,10 @@ public class SnowCoverCalculator extends FWSimComponent
 	protected void init()
 	{
 		Albedo.setValue( 0.0226 * log10(cCarbonContent.getValue()) + 0.1502, this); //taken from experimental fit from Thomas Gaiser, 2000, n=35, R2=0.97
+		double TMEAN = 0.5 * (iTempMax.getValue() + iTempMin.getValue()); //TMEAN = Mean daily air temperature at 2 m (°C)
+		double TAMPL = 0.5 * (iTempMax.getValue() - iTempMin.getValue()); //TAMPL = Amplitude of daily air temperature at 2 m (°C)
+		double DST = TMEAN + TAMPL * (iRadiation.getValue() * (1 - Albedo.getValue()) - 14) / 20; //DST = Bare soil surface temperature (°C)
+		SoilSurfaceTemperature.setValue(DST, this);		
 	}
 
 
@@ -367,8 +377,6 @@ public class SnowCoverCalculator extends FWSimComponent
 		SnowIsolationIndex.setValue(tSnowIsolationIndex, this);
 		SoilSurfaceTemperature.setValue(tSoilSurfaceTemperature, this);
 		AgeOfSnow.setValue(tAgeOfSnow, this);
-
-
 	}
 
 	/**

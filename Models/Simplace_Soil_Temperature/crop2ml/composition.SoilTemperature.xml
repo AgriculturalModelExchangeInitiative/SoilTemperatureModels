@@ -31,10 +31,12 @@
             <InputLink target="SnowCoverCalculator.SnowWaterContent" source="SnowWaterContent"/>
             <InputLink target="SnowCoverCalculator.SoilSurfaceTemperature" source="SoilSurfaceTemperature"/>
             <InputLink target="SnowCoverCalculator.AgeOfSnow" source="AgeOfSnow"/>
+            <InputLink target="STMPsimCalculator.rSoilTempArrayRate" source="rSoilTempArrayRate"/>
             <InputLink target="STMPsimCalculator.pSoilLayerDepth" source="pSoilLayerDepth"/>
             <InternalLink target="STMPsimCalculator.iSoilSurfaceTemperature" source="SnowCoverCalculator.SoilSurfaceTemperature"/>
             <OutputLink target="SoilSurfaceTemperature" source="SnowCoverCalculator.SoilSurfaceTemperature"/>
             <OutputLink target="SnowIsolationIndex" source="SnowCoverCalculator.SnowIsolationIndex"/>
             <OutputLink target="SnowWaterContent" source="SnowCoverCalculator.SnowWaterContent"/>
             <OutputLink target="SoilTempArray" source="STMPsimCalculator.SoilTempArray"/>
-            <OutputLink target="AgeOfSnow" source="SnowCoverCalculator.AgeOfSnow"/></Links></Composition></ModelComposition>
+            <OutputLink target="AgeOfSnow" source="SnowCoverCalculator.AgeOfSnow"/>
+            <OutputLink target="rSoilTempArrayRate" source="STMPsimCalculator.rSoilTempArrayRate"/></Links></Composition></ModelComposition>

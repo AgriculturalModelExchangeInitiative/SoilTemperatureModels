@@ -27,6 +27,8 @@
             <input id="cABD" source="SoilTemperature.cAverageBulkDensity"/>
             <input id="cDampingDepth" source="SoilTemperature.cDampingDepth"/>
             <input id="iSoilWaterContent" source="SoilTemperature.iSoilWaterContent"/>
+            <input id="rSoilTempArrayRate" source="SoilTemperature.rSoilTempArrayRate"/>
             <input id="pSoilLayerDepth" source="SoilTemperature.pSoilLayerDepth"/>
             <input id="iSoilSurfaceTemperature" source="SnowCoverCalculator.SoilSurfaceTemperature"/>
-            <output id="SoilTempArray" destination="SoilTemperature.SoilTempArray"/></simcomponent></simgroup></configuration>
+            <output id="SoilTempArray" destination="SoilTemperature.SoilTempArray"/>
+            <output id="rSoilTempArrayRate" destination="SoilTemperature.rSoilTempArrayRate"/></simcomponent></simgroup></configuration>

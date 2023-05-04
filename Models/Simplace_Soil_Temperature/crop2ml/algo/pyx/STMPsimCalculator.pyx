@@ -9,7 +9,7 @@ cdef float ZD
 cdef float RATE 
 #b"/XLAG = LAG = Coefficient for weighting yesterday's soil temperature"
 XLAG=.8
-#b"/XLG1 = Inverse of coefficient for weighting yesterday's soil temperature"
+#b"/XLG1 = Complement of coefficient for weighting yesterday's soil temperature"
 XLG1=1 - XLAG
 #b'/DP= Maximum damping depth (m)'
 DP=1 + (2.5 * cABD / (cABD + exp(6.53 - (5.63 * cABD))))
@@ -22,9 +22,11 @@ DD=exp(log(0.5 / DP) * ((1 - WC) / (1 + WC)) * 2) * DP
 #b'/Z1=Depth of the bottom of the previous soil layer, initialized with 0 (m)'
 Z1=float(0)
 for i in range(0 , len(SoilTempArray) , 1):
-    ZD=0.5 * (Z1 + pSoilLayerDepth[i]) / DD
     #b'/Factor of the depth in soil: Middle of depth of layer divided by damping depth'
+    ZD=0.5 * (Z1 + pSoilLayerDepth[i]) / DD
     RATE=ZD / (ZD + exp(-.8669 - (2.0775 * ZD))) * (cAVT - iSoilSurfaceTemperature)
     #b'/RATE = Rate of change of STMP(ISL) (\xc3\x83\xe2\x80\x9a\xc3\x82\xc2\xb0C)'
-    SoilTempArray[i]=XLAG * SoilTempArray[i] + (XLG1 * (RATE + iSoilSurfaceTemperature))
+    RATE=XLG1 * (RATE + iSoilSurfaceTemperature - SoilTempArray[i])
     Z1=pSoilLayerDepth[i]
+    rSoilTempArrayRate[i]=RATE
+    SoilTempArray[i]=SoilTempArray[i] + rSoilTempArrayRate[i]

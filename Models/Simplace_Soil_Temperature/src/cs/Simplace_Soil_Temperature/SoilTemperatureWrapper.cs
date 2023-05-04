@@ -33,6 +33,8 @@ class SoilTemperatureWrapper
      
     public int AgeOfSnow{ get { return s.AgeOfSnow;}} 
      
+    public double[] rSoilTempArrayRate{ get { return s.rSoilTempArrayRate;}} 
+     
     public double[] SoilTempArray{ get { return s.SoilTempArray;}} 
      
     public double SnowIsolationIndex{ get { return a.SnowIsolationIndex;}} 

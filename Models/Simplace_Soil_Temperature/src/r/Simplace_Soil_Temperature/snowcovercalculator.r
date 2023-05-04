@@ -14,6 +14,10 @@ init_snowcovercalculator <- function (cCarbonContent,
     AgeOfSnow <- 0
     Albedo <- 0.0
     Albedo <- 0.0226 * log(cCarbonContent, 10) + 0.1502
+    TMEAN <- 0.5 * (iTempMax + iTempMin)
+    TAMPL <- 0.5 * (iTempMax - iTempMin)
+    DST <- TMEAN + (TAMPL * (iRadiation * (1 - Albedo) - 14) / 20)
+    SoilSurfaceTemperature <- DST
     return (list ("Albedo" = Albedo,"SnowWaterContent" = SnowWaterContent,"SoilSurfaceTemperature" = SoilSurfaceTemperature,"AgeOfSnow" = AgeOfSnow))
 }
 
@@ -49,7 +53,7 @@ model_snowcovercalculator <- function (cCarbonContent,
     #'                          ** default : 0.5
     #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/percent
     #'            * name: iTempMax
-    #'                          ** description : Daily maximum temperature
+    #'                          ** description : Daily maximum air temperature
     #'                          ** inputtype : variable
     #'                          ** variablecategory : exogenous
     #'                          ** datatype : DOUBLE
@@ -58,7 +62,7 @@ model_snowcovercalculator <- function (cCarbonContent,
     #'                          ** default : 
     #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
     #'            * name: iTempMin
-    #'                          ** description : Daily minimum temperature
+    #'                          ** description : Daily minimum air temperature
     #'                          ** inputtype : variable
     #'                          ** variablecategory : exogenous
     #'                          ** datatype : DOUBLE
@@ -67,7 +71,7 @@ model_snowcovercalculator <- function (cCarbonContent,
     #'                          ** default : 
     #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
     #'            * name: iRadiation
-    #'                          ** description : Solar radiation
+    #'                          ** description : Global Solar radiation
     #'                          ** inputtype : variable
     #'                          ** variablecategory : exogenous
     #'                          ** datatype : DOUBLE

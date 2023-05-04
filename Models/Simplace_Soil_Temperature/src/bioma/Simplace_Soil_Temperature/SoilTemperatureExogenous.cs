@@ -34,26 +34,26 @@ namespace SoilTemperature.DomainClass
         {
             if (copyAll)
             {
-                _iAirTemperatureMax = toCopy._iAirTemperatureMax;
-                _iTempMax = toCopy._iTempMax;
-                _iAirTemperatureMin = toCopy._iAirTemperatureMin;
-                _iTempMin = toCopy._iTempMin;
-                _iGlobalSolarRadiation = toCopy._iGlobalSolarRadiation;
-                _iRadiation = toCopy._iRadiation;
-                _iRAIN = toCopy._iRAIN;
-                _iCropResidues = toCopy._iCropResidues;
-                _iPotentialSoilEvaporation = toCopy._iPotentialSoilEvaporation;
-                _iLeafAreaIndex = toCopy._iLeafAreaIndex;
-                SoilTempArray = new double[toCopy._SoilTempArray.Length];
-            for (int i = 0; i < toCopy._SoilTempArray.Length; i++)
-            { _SoilTempArray[i] = toCopy._SoilTempArray[i]; }
+                iAirTemperatureMax = toCopy.iAirTemperatureMax;
+                iTempMax = toCopy.iTempMax;
+                iAirTemperatureMin = toCopy.iAirTemperatureMin;
+                iTempMin = toCopy.iTempMin;
+                iGlobalSolarRadiation = toCopy.iGlobalSolarRadiation;
+                iRadiation = toCopy.iRadiation;
+                iRAIN = toCopy.iRAIN;
+                iCropResidues = toCopy.iCropResidues;
+                iPotentialSoilEvaporation = toCopy.iPotentialSoilEvaporation;
+                iLeafAreaIndex = toCopy.iLeafAreaIndex;
+                SoilTempArray = new double[toCopy.SoilTempArray.Length];
+            for (int i = 0; i < toCopy.SoilTempArray.Length; i++)
+            { SoilTempArray[i] = toCopy.SoilTempArray[i]; }
     
-                iSoilTempArray = new double[toCopy._iSoilTempArray.Length];
-            for (int i = 0; i < toCopy._iSoilTempArray.Length; i++)
-            { _iSoilTempArray[i] = toCopy._iSoilTempArray[i]; }
+                iSoilTempArray = new double[toCopy.iSoilTempArray.Length];
+            for (int i = 0; i < toCopy.iSoilTempArray.Length; i++)
+            { iSoilTempArray[i] = toCopy.iSoilTempArray[i]; }
     
-                _iSoilWaterContent = toCopy._iSoilWaterContent;
-                _iSoilSurfaceTemperature = toCopy._iSoilSurfaceTemperature;
+                iSoilWaterContent = toCopy.iSoilWaterContent;
+                iSoilSurfaceTemperature = toCopy.iSoilSurfaceTemperature;
             }
         }
 
@@ -155,8 +155,8 @@ namespace SoilTemperature.DomainClass
              _iCropResidues = default(double);
              _iPotentialSoilEvaporation = default(double);
              _iLeafAreaIndex = default(double);
-             _SoilTempArray = new double[];
-             _iSoilTempArray = new double[];
+             _SoilTempArray = default(double[]);
+             _iSoilTempArray = default(double[]);
              _iSoilWaterContent = default(double);
              _iSoilSurfaceTemperature = default(double);
             return true;

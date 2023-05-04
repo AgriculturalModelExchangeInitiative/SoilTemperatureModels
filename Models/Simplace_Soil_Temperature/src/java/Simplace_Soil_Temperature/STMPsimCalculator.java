@@ -10,12 +10,14 @@ public class STMPsimCalculator
         Double iSoilWaterContent = ex.getiSoilWaterContent();
         Double iSoilSurfaceTemperature = ex.getiSoilSurfaceTemperature();
         Double[] SoilTempArray ;
+        Double[] rSoilTempArrayRate ;
         Double[] pSoilLayerDepth ;
         Double tProfileDepth;
         Double additionalDepth;
         Double firstAdditionalLayerHight;
         Integer layers;
         Double[] tStmp ;
+        Double[] tStmpRate ;
         Double[] tz ;
         Integer i;
         Double depth;
@@ -24,6 +26,7 @@ public class STMPsimCalculator
         firstAdditionalLayerHight = additionalDepth - (double)(Math.floor(additionalDepth));
         layers = (int)(Math.abs((double)((int) Math.ceil(additionalDepth)))) + cSoilLayerDepth.length;
         tStmp = new Double [layers];
+        tStmpRate = new Double [layers];
         tz = new Double [layers];
         for (i=0 ; i!=tStmp.length ; i+=1)
         {
@@ -36,11 +39,14 @@ public class STMPsimCalculator
                 depth = tProfileDepth + firstAdditionalLayerHight + i - cSoilLayerDepth.length;
             }
             tz[i] = depth;
+            tStmpRate[i] = 0.0d;
             tStmp[i] = (cFirstDayMeanTemp * (cDampingDepth - depth) + (cAVT * depth)) / cDampingDepth;
         }
+        rSoilTempArrayRate = tStmpRate;
         SoilTempArray = tStmp;
         pSoilLayerDepth = tz;
         s.setSoilTempArray(SoilTempArray);
+        s.setrSoilTempArrayRate(rSoilTempArrayRate);
         s.setpSoilLayerDepth(pSoilLayerDepth);
     }
     private Double [] cSoilLayerDepth;
@@ -101,7 +107,7 @@ public class STMPsimCalculator
     //                          ** default : 
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/metre
     //            * name: cFirstDayMeanTemp
-    //                          ** description : Mean temperature on first day
+    //                          ** description : Mean air temperature on first day
     //                          ** inputtype : parameter
     //                          ** parametercategory : constant
     //                          ** datatype : DOUBLE
@@ -110,7 +116,7 @@ public class STMPsimCalculator
     //                          ** default : 
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
     //            * name: cAVT
-    //                          ** description : Constant Temperature of deepest soil layer
+    //                          ** description : Constant Temperature of deepest soil layer - use long term mean air temperature
     //                          ** inputtype : parameter
     //                          ** parametercategory : constant
     //                          ** datatype : DOUBLE
@@ -137,7 +143,7 @@ public class STMPsimCalculator
     //                          ** default : 6.0
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/metre
     //            * name: iSoilWaterContent
-    //                          ** description : Content of water in Soil
+    //                          ** description : Water content, sum of whole soil profile
     //                          ** inputtype : variable
     //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLE
@@ -155,7 +161,7 @@ public class STMPsimCalculator
     //                          ** default : 
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
     //            * name: SoilTempArray
-    //                          ** description : Array of temperature 
+    //                          ** description : Array of soil temperatures in layers 
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
@@ -164,6 +170,16 @@ public class STMPsimCalculator
     //                          ** min : -20
     //                          ** default : 
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
+    //            * name: rSoilTempArrayRate
+    //                          ** description : Array of daily temperature change
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
+    //                          ** max : 40
+    //                          ** min : -20
+    //                          ** default : 
+    //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
     //            * name: pSoilLayerDepth
     //                          ** description : Depth of soil layer plus additional depth
     //                          ** inputtype : variable
@@ -176,16 +192,25 @@ public class STMPsimCalculator
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/metre
         //- outputs:
     //            * name: SoilTempArray
-    //                          ** description : Array of temperature 
+    //                          ** description : Array of soil temperatures in layers 
     //                          ** datatype : DOUBLEARRAY
     //                          ** variablecategory : state
     //                          ** len : 
     //                          ** max : 40
     //                          ** min : -20
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
+    //            * name: rSoilTempArrayRate
+    //                          ** description : Array of daily temperature change
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** variablecategory : state
+    //                          ** len : 
+    //                          ** max : 40
+    //                          ** min : -20
+    //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
         Double iSoilWaterContent = ex.getiSoilWaterContent();
         Double iSoilSurfaceTemperature = ex.getiSoilSurfaceTemperature();
         Double [] SoilTempArray = s.getSoilTempArray();
+        Double [] rSoilTempArrayRate = s.getrSoilTempArrayRate();
         Double [] pSoilLayerDepth = s.getpSoilLayerDepth();
         Double XLAG;
         Double XLG1;
@@ -206,9 +231,12 @@ public class STMPsimCalculator
         {
             ZD = 0.5d * (Z1 + pSoilLayerDepth[i]) / DD;
             RATE = ZD / (ZD + Math.exp(-.8669d - (2.0775d * ZD))) * (cAVT - iSoilSurfaceTemperature);
-            SoilTempArray[i] = XLAG * SoilTempArray[i] + (XLG1 * (RATE + iSoilSurfaceTemperature));
+            RATE = XLG1 * (RATE + iSoilSurfaceTemperature - SoilTempArray[i]);
             Z1 = pSoilLayerDepth[i];
+            rSoilTempArrayRate[i] = RATE;
+            SoilTempArray[i] = SoilTempArray[i] + rSoilTempArrayRate[i];
         }
         s.setSoilTempArray(SoilTempArray);
+        s.setrSoilTempArrayRate(rSoilTempArrayRate);
     }
 }

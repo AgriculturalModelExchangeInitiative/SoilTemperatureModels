@@ -5,6 +5,7 @@ from math import *
 from typing import *
 from datetime import datetime
 
+import numpy
 
 #%%CyML Init Begin%%
 def init_snowcovercalculator(cCarbonContent:float,
@@ -21,7 +22,14 @@ def init_snowcovercalculator(cCarbonContent:float,
     SoilSurfaceTemperature:float = 0.0
     AgeOfSnow:int = 0
     Albedo = 0.0
+    TMEAN:float
+    TAMPL:float
+    DST:float
     Albedo = 0.0226 * log(cCarbonContent, 10) + 0.1502
+    TMEAN = 0.5 * (iTempMax + iTempMin)
+    TAMPL = 0.5 * (iTempMax - iTempMin)
+    DST = TMEAN + (TAMPL * (iRadiation * (1 - Albedo) - 14) / 20)
+    SoilSurfaceTemperature = DST
     return (Albedo, SnowWaterContent, SoilSurfaceTemperature, AgeOfSnow)
 #%%CyML Init End%%
 

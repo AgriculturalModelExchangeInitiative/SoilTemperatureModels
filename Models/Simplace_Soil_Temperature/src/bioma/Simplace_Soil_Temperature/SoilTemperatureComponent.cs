@@ -118,42 +118,54 @@ namespace SoilTemperature.Strategies
             _inputs0_0.Add(pd13);
             PropertyDescription pd14 = new PropertyDescription();
             pd14.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureState);
-            pd14.PropertyName = "pSoilLayerDepth";
-            pd14.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.pSoilLayerDepth).ValueType.TypeForCurrentValue;
-            pd14.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.pSoilLayerDepth);
+            pd14.PropertyName = "rSoilTempArrayRate";
+            pd14.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.rSoilTempArrayRate).ValueType.TypeForCurrentValue;
+            pd14.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.rSoilTempArrayRate);
             _inputs0_0.Add(pd14);
-            mo0_0.Inputs=_inputs0_0;
-            List<PropertyDescription> _outputs0_0 = new List<PropertyDescription>();
             PropertyDescription pd15 = new PropertyDescription();
             pd15.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureState);
-            pd15.PropertyName = "SoilSurfaceTemperature";
-            pd15.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SoilSurfaceTemperature).ValueType.TypeForCurrentValue;
-            pd15.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SoilSurfaceTemperature);
-            _outputs0_0.Add(pd15);
+            pd15.PropertyName = "pSoilLayerDepth";
+            pd15.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.pSoilLayerDepth).ValueType.TypeForCurrentValue;
+            pd15.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.pSoilLayerDepth);
+            _inputs0_0.Add(pd15);
+            mo0_0.Inputs=_inputs0_0;
+            List<PropertyDescription> _outputs0_0 = new List<PropertyDescription>();
             PropertyDescription pd16 = new PropertyDescription();
-            pd16.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureAuxiliary);
-            pd16.PropertyName = "SnowIsolationIndex";
-            pd16.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureAuxiliaryVarInfo.SnowIsolationIndex).ValueType.TypeForCurrentValue;
-            pd16.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureAuxiliaryVarInfo.SnowIsolationIndex);
+            pd16.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureState);
+            pd16.PropertyName = "SoilSurfaceTemperature";
+            pd16.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SoilSurfaceTemperature).ValueType.TypeForCurrentValue;
+            pd16.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SoilSurfaceTemperature);
             _outputs0_0.Add(pd16);
             PropertyDescription pd17 = new PropertyDescription();
-            pd17.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureState);
-            pd17.PropertyName = "SnowWaterContent";
-            pd17.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SnowWaterContent).ValueType.TypeForCurrentValue;
-            pd17.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SnowWaterContent);
+            pd17.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureAuxiliary);
+            pd17.PropertyName = "SnowIsolationIndex";
+            pd17.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureAuxiliaryVarInfo.SnowIsolationIndex).ValueType.TypeForCurrentValue;
+            pd17.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureAuxiliaryVarInfo.SnowIsolationIndex);
             _outputs0_0.Add(pd17);
             PropertyDescription pd18 = new PropertyDescription();
             pd18.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureState);
-            pd18.PropertyName = "SoilTempArray";
-            pd18.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SoilTempArray).ValueType.TypeForCurrentValue;
-            pd18.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SoilTempArray);
+            pd18.PropertyName = "SnowWaterContent";
+            pd18.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SnowWaterContent).ValueType.TypeForCurrentValue;
+            pd18.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SnowWaterContent);
             _outputs0_0.Add(pd18);
             PropertyDescription pd19 = new PropertyDescription();
             pd19.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureState);
-            pd19.PropertyName = "AgeOfSnow";
-            pd19.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.AgeOfSnow).ValueType.TypeForCurrentValue;
-            pd19.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.AgeOfSnow);
+            pd19.PropertyName = "SoilTempArray";
+            pd19.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SoilTempArray).ValueType.TypeForCurrentValue;
+            pd19.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SoilTempArray);
             _outputs0_0.Add(pd19);
+            PropertyDescription pd20 = new PropertyDescription();
+            pd20.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureState);
+            pd20.PropertyName = "AgeOfSnow";
+            pd20.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.AgeOfSnow).ValueType.TypeForCurrentValue;
+            pd20.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.AgeOfSnow);
+            _outputs0_0.Add(pd20);
+            PropertyDescription pd21 = new PropertyDescription();
+            pd21.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureState);
+            pd21.PropertyName = "rSoilTempArrayRate";
+            pd21.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.rSoilTempArrayRate).ValueType.TypeForCurrentValue;
+            pd21.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.rSoilTempArrayRate);
+            _outputs0_0.Add(pd21);
             mo0_0.Outputs=_outputs0_0;
             List<string> lAssStrat0_0 = new List<string>();
             lAssStrat0_0.Add(typeof(SoilTemperature.Strategies.SnowCoverCalculator).FullName);
@@ -339,7 +351,7 @@ namespace SoilTemperature.Strategies
             cSoilLayerDepthVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
 
             cFirstDayMeanTempVarInfo.Name = "cFirstDayMeanTemp";
-            cFirstDayMeanTempVarInfo.Description = "Mean temperature on first day";
+            cFirstDayMeanTempVarInfo.Description = "Mean air temperature on first day";
             cFirstDayMeanTempVarInfo.MaxValue = 50.0;
             cFirstDayMeanTempVarInfo.MinValue = -40.0;
             cFirstDayMeanTempVarInfo.DefaultValue = -1D;
@@ -347,7 +359,7 @@ namespace SoilTemperature.Strategies
             cFirstDayMeanTempVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             cAverageGroundTemperatureVarInfo.Name = "cAverageGroundTemperature";
-            cAverageGroundTemperatureVarInfo.Description = "Constant Temperature of deepest soil layer";
+            cAverageGroundTemperatureVarInfo.Description = "Constant Temperature of deepest soil layer - use long term mean air temperature";
             cAverageGroundTemperatureVarInfo.MaxValue = 20.0;
             cAverageGroundTemperatureVarInfo.MinValue = -10.0;
             cAverageGroundTemperatureVarInfo.DefaultValue = -1D;
@@ -421,20 +433,23 @@ namespace SoilTemperature.Strategies
                 SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SnowWaterContent.CurrentValue=s.SnowWaterContent;
                 SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SoilTempArray.CurrentValue=s.SoilTempArray;
                 SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.AgeOfSnow.CurrentValue=s.AgeOfSnow;
+                SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.rSoilTempArrayRate.CurrentValue=s.rSoilTempArrayRate;
 
                 ConditionsCollection prc = new ConditionsCollection();
                 Preconditions pre = new Preconditions(); 
 
-                RangeBasedCondition r21 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SoilSurfaceTemperature);
-                if(r21.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SoilSurfaceTemperature.ValueType)){prc.AddCondition(r21);}
-                RangeBasedCondition r22 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureAuxiliaryVarInfo.SnowIsolationIndex);
-                if(r22.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureAuxiliaryVarInfo.SnowIsolationIndex.ValueType)){prc.AddCondition(r22);}
-                RangeBasedCondition r23 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SnowWaterContent);
-                if(r23.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SnowWaterContent.ValueType)){prc.AddCondition(r23);}
-                RangeBasedCondition r24 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SoilTempArray);
-                if(r24.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SoilTempArray.ValueType)){prc.AddCondition(r24);}
-                RangeBasedCondition r25 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.AgeOfSnow);
-                if(r25.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.AgeOfSnow.ValueType)){prc.AddCondition(r25);}
+                RangeBasedCondition r22 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SoilSurfaceTemperature);
+                if(r22.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SoilSurfaceTemperature.ValueType)){prc.AddCondition(r22);}
+                RangeBasedCondition r23 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureAuxiliaryVarInfo.SnowIsolationIndex);
+                if(r23.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureAuxiliaryVarInfo.SnowIsolationIndex.ValueType)){prc.AddCondition(r23);}
+                RangeBasedCondition r24 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SnowWaterContent);
+                if(r24.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SnowWaterContent.ValueType)){prc.AddCondition(r24);}
+                RangeBasedCondition r25 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SoilTempArray);
+                if(r25.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SoilTempArray.ValueType)){prc.AddCondition(r25);}
+                RangeBasedCondition r26 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.AgeOfSnow);
+                if(r26.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.AgeOfSnow.ValueType)){prc.AddCondition(r26);}
+                RangeBasedCondition r27 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.rSoilTempArrayRate);
+                if(r27.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.rSoilTempArrayRate.ValueType)){prc.AddCondition(r27);}
 
                 string ret = "";
                 ret += _SnowCoverCalculator.TestPostConditions(s, s1, r, a, ex, " strategy SoilTemperature.Strategies.SoilTemperature");
@@ -468,6 +483,7 @@ namespace SoilTemperature.Strategies
                 SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SnowWaterContent.CurrentValue=s.SnowWaterContent;
                 SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SoilSurfaceTemperature.CurrentValue=s.SoilSurfaceTemperature;
                 SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.AgeOfSnow.CurrentValue=s.AgeOfSnow;
+                SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.rSoilTempArrayRate.CurrentValue=s.rSoilTempArrayRate;
                 SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.pSoilLayerDepth.CurrentValue=s.pSoilLayerDepth;
                 ConditionsCollection prc = new ConditionsCollection();
                 Preconditions pre = new Preconditions(); 
@@ -497,8 +513,10 @@ namespace SoilTemperature.Strategies
                 if(r12.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SoilSurfaceTemperature.ValueType)){prc.AddCondition(r12);}
                 RangeBasedCondition r13 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.AgeOfSnow);
                 if(r13.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.AgeOfSnow.ValueType)){prc.AddCondition(r13);}
-                RangeBasedCondition r14 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.pSoilLayerDepth);
-                if(r14.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.pSoilLayerDepth.ValueType)){prc.AddCondition(r14);}
+                RangeBasedCondition r14 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.rSoilTempArrayRate);
+                if(r14.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.rSoilTempArrayRate.ValueType)){prc.AddCondition(r14);}
+                RangeBasedCondition r15 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.pSoilLayerDepth);
+                if(r15.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.pSoilLayerDepth.ValueType)){prc.AddCondition(r15);}
 
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("cCarbonContent")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("cSoilLayerDepth")));
@@ -560,7 +578,7 @@ namespace SoilTemperature.Strategies
                 cCarbonContent = toCopy.cCarbonContent;
                 
             for (int i = 0; i < toCopy._cSoilLayerDepth.Length; i++)
-            { _cSoilLayerDepth[i] = toCopy._cSoilLayerDepth[i]; }
+            { cSoilLayerDepth[i] = toCopy.cSoilLayerDepth[i]; }
     
                 cFirstDayMeanTemp = toCopy.cFirstDayMeanTemp;
                 cAverageGroundTemperature = toCopy.cAverageGroundTemperature;

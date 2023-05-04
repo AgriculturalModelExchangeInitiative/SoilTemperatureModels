@@ -23,6 +23,7 @@ CONTAINS
         SnowWaterContent, &
         SoilSurfaceTemperature, &
         AgeOfSnow, &
+        rSoilTempArrayRate, &
         pSoilLayerDepth, &
         SnowIsolationIndex)
         IMPLICIT NONE
@@ -46,6 +47,7 @@ CONTAINS
         REAL, INTENT(INOUT) :: SnowWaterContent
         REAL, INTENT(INOUT) :: SoilSurfaceTemperature
         INTEGER, INTENT(INOUT) :: AgeOfSnow
+        REAL , DIMENSION(: ), INTENT(INOUT) :: rSoilTempArrayRate
         REAL , DIMENSION(: ), INTENT(IN) :: pSoilLayerDepth
         REAL:: iTempMax
         REAL:: iTempMin
@@ -74,7 +76,7 @@ CONTAINS
     !                          ** default : 0.5
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/percent
     !            * name: iAirTemperatureMax
-    !                          ** description : Daily maximum temperature
+    !                          ** description : Daily maximum air temperature
     !                          ** inputtype : variable
     !                          ** variablecategory : exogenous
     !                          ** datatype : DOUBLE
@@ -83,7 +85,7 @@ CONTAINS
     !                          ** default : 
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
     !            * name: iAirTemperatureMin
-    !                          ** description : Daily minimum temperature
+    !                          ** description : Daily minimum air temperature
     !                          ** inputtype : variable
     !                          ** variablecategory : exogenous
     !                          ** datatype : DOUBLE
@@ -92,7 +94,7 @@ CONTAINS
     !                          ** default : 
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
     !            * name: iGlobalSolarRadiation
-    !                          ** description : Solar radiation
+    !                          ** description : Global Solar radiation
     !                          ** inputtype : variable
     !                          ** variablecategory : exogenous
     !                          ** datatype : DOUBLE
@@ -157,7 +159,7 @@ CONTAINS
     !                          ** default : 
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/metre
     !            * name: cFirstDayMeanTemp
-    !                          ** description : Mean temperature on first day
+    !                          ** description : Mean air temperature on first day
     !                          ** inputtype : parameter
     !                          ** parametercategory : constant
     !                          ** datatype : DOUBLE
@@ -166,7 +168,7 @@ CONTAINS
     !                          ** default : 
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
     !            * name: cAverageGroundTemperature
-    !                          ** description : Constant Temperature of deepest soil layer
+    !                          ** description : Constant Temperature of deepest soil layer - use long term mean air temperature
     !                          ** inputtype : parameter
     !                          ** parametercategory : constant
     !                          ** datatype : DOUBLE
@@ -193,7 +195,7 @@ CONTAINS
     !                          ** default : 6.0
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/metre
     !            * name: iSoilWaterContent
-    !                          ** description : Content of water in Soil
+    !                          ** description : Water content, sum of whole soil profile
     !                          ** inputtype : variable
     !                          ** variablecategory : exogenous
     !                          ** datatype : DOUBLE
@@ -237,6 +239,16 @@ CONTAINS
     !                          ** min : 0
     !                          ** default : 0
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
+    !            * name: rSoilTempArrayRate
+    !                          ** description : Array of daily temperature change
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : DOUBLEARRAY
+    !                          ** len : 
+    !                          ** max : 40
+    !                          ** min : -20
+    !                          ** default : 
+    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
     !            * name: pSoilLayerDepth
     !                          ** description : Depth of soil layer plus additional depth
     !                          ** inputtype : variable
@@ -270,7 +282,7 @@ CONTAINS
     !                          ** min : 0.0
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/millimetre
     !            * name: SoilTempArray
-    !                          ** description : Array of temperature 
+    !                          ** description : Array of soil temperatures in layers 
     !                          ** datatype : DOUBLEARRAY
     !                          ** variablecategory : state
     !                          ** len : 
@@ -284,6 +296,14 @@ CONTAINS
     !                          ** max : 
     !                          ** min : 0
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
+    !            * name: rSoilTempArrayRate
+    !                          ** description : Array of daily temperature change
+    !                          ** datatype : DOUBLEARRAY
+    !                          ** variablecategory : state
+    !                          ** len : 
+    !                          ** max : 40
+    !                          ** min : -20
+    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
         iTempMax = iAirTemperatureMax
         iTempMin = iAirTemperatureMin
         iRadiation = iGlobalSolarRadiation
@@ -297,7 +317,8 @@ CONTAINS
         iSoilSurfaceTemperature = SoilSurfaceTemperature
         call model_stmpsimcalculator(cSoilLayerDepth, cFirstDayMeanTemp,  &
                 cAVT, cABD, cDampingDepth, iSoilWaterContent,  &
-                iSoilSurfaceTemperature, SoilTempArray, pSoilLayerDepth)
+                iSoilSurfaceTemperature, SoilTempArray, rSoilTempArrayRate,  &
+                pSoilLayerDepth)
     END SUBROUTINE model_soiltemperature
 
 END MODULE

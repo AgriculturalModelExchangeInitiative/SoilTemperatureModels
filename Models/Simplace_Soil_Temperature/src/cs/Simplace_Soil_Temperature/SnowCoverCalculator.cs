@@ -18,7 +18,14 @@ public class SnowCoverCalculator
         double SoilSurfaceTemperature = 0.0;
         int AgeOfSnow = 0;
         Albedo = 0.00d;
+        double TMEAN;
+        double TAMPL;
+        double DST;
         Albedo = 0.02260d * Math.Log(cCarbonContent, 10) + 0.15020d;
+        TMEAN = 0.50d * (iTempMax + iTempMin);
+        TAMPL = 0.50d * (iTempMax - iTempMin);
+        DST = TMEAN + (TAMPL * (iRadiation * (1 - Albedo) - 14) / 20);
+        SoilSurfaceTemperature = DST;
         s.Albedo= Albedo;
         s.SnowWaterContent= SnowWaterContent;
         s.SoilSurfaceTemperature= SoilSurfaceTemperature;
@@ -53,7 +60,7 @@ public class SnowCoverCalculator
     //                          ** default : 0.5
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/percent
     //            * name: iTempMax
-    //                          ** description : Daily maximum temperature
+    //                          ** description : Daily maximum air temperature
     //                          ** inputtype : variable
     //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLE
@@ -62,7 +69,7 @@ public class SnowCoverCalculator
     //                          ** default : 
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
     //            * name: iTempMin
-    //                          ** description : Daily minimum temperature
+    //                          ** description : Daily minimum air temperature
     //                          ** inputtype : variable
     //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLE
@@ -71,7 +78,7 @@ public class SnowCoverCalculator
     //                          ** default : 
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
     //            * name: iRadiation
-    //                          ** description : Solar radiation
+    //                          ** description : Global Solar radiation
     //                          ** inputtype : variable
     //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLE

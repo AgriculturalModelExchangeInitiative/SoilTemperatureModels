@@ -11,9 +11,9 @@
         <ShortDescription></ShortDescription></Description>
     <Inputs>
         <Input name="cCarbonContent" description="Carbon content of upper soil layer" inputtype="parameter" parametercategory="constant" datatype="DOUBLE" max="20.0" min="0.0" default="0.5" unit="http://www.wurvoc.org/vocabularies/om-1.8/percent"/>
-        <Input name="iTempMax" description="Daily maximum temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="50.0" min="-40.0" default="" unit="http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius"/>
-        <Input name="iTempMin" description="Daily minimum temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="50.0" min="-40.0" default="" unit="http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius"/>
-        <Input name="iRadiation" description="Solar radiation" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="2000.0" min="0.0" default="" unit="http://www.wurvoc.org/vocabularies/om-1.8/megajoule_per_square_metre"/>
+        <Input name="iTempMax" description="Daily maximum air temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="50.0" min="-40.0" default="" unit="http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius"/>
+        <Input name="iTempMin" description="Daily minimum air temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="50.0" min="-40.0" default="" unit="http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius"/>
+        <Input name="iRadiation" description="Global Solar radiation" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="2000.0" min="0.0" default="" unit="http://www.wurvoc.org/vocabularies/om-1.8/megajoule_per_square_metre"/>
         <Input name="iRAIN" description="Rain amount" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="60.0" min="0.0" default="" unit="http://www.wurvoc.org/vocabularies/om-1.8/millimetre"/>
         <Input name="iCropResidues" description="Crop residues plus above ground biomass" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="20000.0" min="0.0" default="" unit="http://www.wurvoc.org/vocabularies/om-1.8/gram_per_square_metre"/>
         <Input name="iPotentialSoilEvaporation" description="Potenial Evaporation" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="12.0" min="0.0" default="" unit="http://www.wurvoc.org/vocabularies/om-1.8/millimetre"/>

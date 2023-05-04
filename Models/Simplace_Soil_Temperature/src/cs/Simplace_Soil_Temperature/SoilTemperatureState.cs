@@ -6,6 +6,7 @@ public class SoilTemperatureState
     private double _SnowWaterContent;
     private double _SoilSurfaceTemperature;
     private int _AgeOfSnow;
+    private double[] _rSoilTempArrayRate;
     private double[] _pSoilLayerDepth;
     private double[] _SoilTempArray;
     
@@ -17,17 +18,21 @@ public class SoilTemperatureState
     if (copyAll)
     {
     
-    _Albedo = toCopy._Albedo;
-    _SnowWaterContent = toCopy._SnowWaterContent;
-    _SoilSurfaceTemperature = toCopy._SoilSurfaceTemperature;
-    _AgeOfSnow = toCopy._AgeOfSnow;
-    pSoilLayerDepth = new double[toCopy._pSoilLayerDepth.Length];
-            for (int i = 0; i < toCopy._pSoilLayerDepth.Length; i++)
-            { _pSoilLayerDepth[i] = toCopy._pSoilLayerDepth[i]; }
+    Albedo = toCopy.Albedo;
+    SnowWaterContent = toCopy.SnowWaterContent;
+    SoilSurfaceTemperature = toCopy.SoilSurfaceTemperature;
+    AgeOfSnow = toCopy.AgeOfSnow;
+    rSoilTempArrayRate = new double[toCopy.rSoilTempArrayRate.Length];
+            for (int i = 0; i < toCopy.rSoilTempArrayRate.Length; i++)
+            { rSoilTempArrayRate[i] = toCopy.rSoilTempArrayRate[i]; }
     
-    SoilTempArray = new double[toCopy._SoilTempArray.Length];
-            for (int i = 0; i < toCopy._SoilTempArray.Length; i++)
-            { _SoilTempArray[i] = toCopy._SoilTempArray[i]; }
+    pSoilLayerDepth = new double[toCopy.pSoilLayerDepth.Length];
+            for (int i = 0; i < toCopy.pSoilLayerDepth.Length; i++)
+            { pSoilLayerDepth[i] = toCopy.pSoilLayerDepth[i]; }
+    
+    SoilTempArray = new double[toCopy.SoilTempArray.Length];
+            for (int i = 0; i < toCopy.SoilTempArray.Length; i++)
+            { SoilTempArray[i] = toCopy.SoilTempArray[i]; }
     
     }
     }
@@ -50,6 +55,11 @@ public class SoilTemperatureState
         {
             get { return this._AgeOfSnow; }
             set { this._AgeOfSnow= value; } 
+        }
+    public double[] rSoilTempArrayRate
+        {
+            get { return this._rSoilTempArrayRate; }
+            set { this._rSoilTempArrayRate= value; } 
         }
     public double[] pSoilLayerDepth
         {

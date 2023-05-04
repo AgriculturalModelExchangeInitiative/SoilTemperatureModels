@@ -13,7 +13,7 @@ public class SoilTemperatureAuxiliary
     if (copyAll)
     {
     
-    _SnowIsolationIndex = toCopy._SnowIsolationIndex;
+    SnowIsolationIndex = toCopy.SnowIsolationIndex;
     }
     }
     public double SnowIsolationIndex

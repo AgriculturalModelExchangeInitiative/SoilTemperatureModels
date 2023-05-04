@@ -42,9 +42,9 @@ public class SnowCoverCalculator extends FWSimComponent
     public HashMap<String, FWSimVariable<?>> createVariables()
     {
         addVariable(FWSimVariable.createSimVariable("cCarbonContent", "Carbon content of upper soil layer", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"http://www.wurvoc.org/vocabularies/om-1.8/percent", 0.0, 20.0, 0.5, this));
-        addVariable(FWSimVariable.createSimVariable("iTempMax", "Daily maximum temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius", -40.0, 50.0, null, this));
-        addVariable(FWSimVariable.createSimVariable("iTempMin", "Daily minimum temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius", -40.0, 50.0, null, this));
-        addVariable(FWSimVariable.createSimVariable("iRadiation", "Solar radiation", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"http://www.wurvoc.org/vocabularies/om-1.8/megajoule_per_square_metre", 0.0, 2000.0, null, this));
+        addVariable(FWSimVariable.createSimVariable("iTempMax", "Daily maximum air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius", -40.0, 50.0, null, this));
+        addVariable(FWSimVariable.createSimVariable("iTempMin", "Daily minimum air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius", -40.0, 50.0, null, this));
+        addVariable(FWSimVariable.createSimVariable("iRadiation", "Global Solar radiation", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"http://www.wurvoc.org/vocabularies/om-1.8/megajoule_per_square_metre", 0.0, 2000.0, null, this));
         addVariable(FWSimVariable.createSimVariable("iRAIN", "Rain amount", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"http://www.wurvoc.org/vocabularies/om-1.8/millimetre", 0.0, 60.0, null, this));
         addVariable(FWSimVariable.createSimVariable("iCropResidues", "Crop residues plus above ground biomass", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"http://www.wurvoc.org/vocabularies/om-1.8/gram_per_square_metre", 0.0, 20000.0, null, this));
         addVariable(FWSimVariable.createSimVariable("iPotentialSoilEvaporation", "Potenial Evaporation", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"http://www.wurvoc.org/vocabularies/om-1.8/millimetre", 0.0, 12.0, null, this));
@@ -75,7 +75,14 @@ public class SnowCoverCalculator extends FWSimComponent
         Double t_SoilSurfaceTemperature = SoilSurfaceTemperature.getDefault();
         Integer t_AgeOfSnow = AgeOfSnow.getDefault();
         t_Albedo = 0.0d;
+        Double TMEAN;
+        Double TAMPL;
+        Double DST;
         t_Albedo = 0.0226d * Math.log10(t_cCarbonContent) + 0.1502d;
+        TMEAN = 0.5d * (t_iTempMax + t_iTempMin);
+        TAMPL = 0.5d * (t_iTempMax - t_iTempMin);
+        DST = TMEAN + (TAMPL * (t_iRadiation * (1 - t_Albedo) - 14) / 20);
+        t_SoilSurfaceTemperature = DST;
         Albedo.setValue(t_Albedo, this);
         SnowWaterContent.setValue(t_SnowWaterContent, this);
         SoilSurfaceTemperature.setValue(t_SoilSurfaceTemperature, this);

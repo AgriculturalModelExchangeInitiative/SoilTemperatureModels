@@ -143,6 +143,7 @@ import org.jdom2.Element;
 public class STMPsimCalculator extends FWSimComponent
 {
 	private FWSimVariable<Double[]> SoilTempArray;
+	private FWSimVariable<Double[]> rSoilTempArrayRate;
 	private FWSimVariable<Double[]> cSoilLayerDepth;
 	private FWSimVariable<Double> cFirstDayMeanTemp;
 	private FWSimVariable<Double> cDampingDepth;
@@ -186,26 +187,28 @@ public class STMPsimCalculator extends FWSimComponent
 	{
 		addVariable(FWSimVariable.createSimVariable("cSoilLayerDepth", "Depth of soil layer", DATA_TYPE.DOUBLEARRAY,
 				CONTENT_TYPE.constant, "http://www.wurvoc.org/vocabularies/om-1.8/metre", 0.03, 20d, null, this));
-		addVariable(FWSimVariable.createSimVariable("cFirstDayMeanTemp", "Mean temperature on first day", DATA_TYPE.DOUBLE,
+		addVariable(FWSimVariable.createSimVariable("cFirstDayMeanTemp", "Mean air temperature on first day", DATA_TYPE.DOUBLE,
 				CONTENT_TYPE.constant, "http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius", -40d, 50d, null, this));
-		addVariable(FWSimVariable.createSimVariable("cAVT", "Constant Temperature of deepest soil layer", DATA_TYPE.DOUBLE,
+		addVariable(FWSimVariable.createSimVariable("cAVT", "Constant Temperature of deepest soil layer - use long term mean air temperature", DATA_TYPE.DOUBLE,
 				CONTENT_TYPE.constant, "http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius", -10d, 20d, null, this));
 		addVariable(FWSimVariable.createSimVariable("cABD", "Mean bulk density", DATA_TYPE.DOUBLE,
 				CONTENT_TYPE.constant, "http://www.wurvoc.org/vocabularies/om-1.8/tonne_per_cubic_metre", 1d, 4d, 2d, this));
 		addVariable(FWSimVariable.createSimVariable("cDampingDepth", "Initial value for damping depth of soil", DATA_TYPE.DOUBLE,
 				CONTENT_TYPE.constant, "http://www.wurvoc.org/vocabularies/om-1.8/metre", 1.5, 20d, 6d, this));
-		
 		//%%CyML Ignore Begin%%
 		addVariable(FWSimVariable.createSimVariable("iDoInitialize", "Switch to re-initialize the model with initial values.",
 				DATA_TYPE.BOOLEAN, CONTENT_TYPE.input, "http://www.wurvoc.org/vocabularies/om-1.8/one", null, null, false, this));
 		//%%CyML Ignore End%%
 		
-		addVariable(FWSimVariable.createSimVariable("iSoilWaterContent", "Content of water in Soil", DATA_TYPE.DOUBLE,
+		addVariable(FWSimVariable.createSimVariable("iSoilWaterContent", "Water content, sum of whole soil profile", DATA_TYPE.DOUBLE,
 				CONTENT_TYPE.input, "http://www.wurvoc.org/vocabularies/om-1.8/millimetre", 1.5, 20d, 5d, this));
 		addVariable(FWSimVariable.createSimVariable("iSoilSurfaceTemperature", "Temperature at soil surface", DATA_TYPE.DOUBLE,
 				CONTENT_TYPE.input, "http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius", 1.5, 20d, null, this));
-		addVariable(FWSimVariable.createSimVariable("SoilTempArray", "Array of temperature ", DATA_TYPE.DOUBLEARRAY,
+		addVariable(FWSimVariable.createSimVariable("SoilTempArray", "Array of soil temperatures in layers ", DATA_TYPE.DOUBLEARRAY,
 				CONTENT_TYPE.state, "http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius", -20, 40, null, this));
+
+		addVariable(FWSimVariable.createSimVariable("rSoilTempArrayRate", "Array of daily temperature change", DATA_TYPE.DOUBLEARRAY,
+				CONTENT_TYPE.rate, "http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day", -20, 40, null, this));
 
 		addVariable(FWSimVariable.createSimVariable("pSoilLayerDepth", "Depth of soil layer plus additional depth", DATA_TYPE.DOUBLEARRAY,
 				CONTENT_TYPE.privat, "http://www.wurvoc.org/vocabularies/om-1.8/metre", 0.03, 20d, null, this));
@@ -232,6 +235,7 @@ public class STMPsimCalculator extends FWSimComponent
 		Double firstAdditionalLayerHight = additionalDepth - floor(additionalDepth);
 		Integer layers = (int)(abs(ceil(additionalDepth)))+Z.length;
 		Double[] tStmp = new Double[layers];
+		Double[] tStmpRate = new Double[layers];
 		Double[] tz = new Double[layers];
 		for (int i = 0; i < tStmp.length; i++)
 		{
@@ -245,8 +249,10 @@ public class STMPsimCalculator extends FWSimComponent
 				depth = tProfileDepth + firstAdditionalLayerHight + i - Z.length;
 			}
 			tz[i] = depth;
+			tStmpRate[i] = 0.0;
 			tStmp[i] = (firstDayMeanTemp * (cDampingDepth.getValue() - depth) + cAVT.getValue() * depth) / cDampingDepth.getValue(); //set linear aproximation to the soil temperature as initial value
 		}
+		rSoilTempArrayRate.setValue(tStmpRate, this);
 		SoilTempArray.setValue( tStmp, this);
 		pSoilLayerDepth.setValue(tz, this);
 	}
@@ -277,14 +283,16 @@ public class STMPsimCalculator extends FWSimComponent
 	protected void process()
 	{
 		//%%CyML Ignore Begin%%
-		if(iDoInitialize.getValue()) 
-			reInitialize();
+		if(iDoInitialize.getValue())
+		{
+		    reInitialize();
+		}
 		//%%CyML Ignore End%%
 
 		Double[] tZp = pSoilLayerDepth.getValue();
 		Double[] tZc = cSoilLayerDepth.getValue();
 		double XLAG =.8; //XLAG = LAG = Coefficient for weighting yesterday's soil temperature
-		double XLG1 = 1 - XLAG; //XLG1 = Inverse of coefficient for weighting yesterday's soil temperature
+		double XLG1 = 1 - XLAG; //XLG1 = Complement of coefficient for weighting yesterday's soil temperature
 		double DP = (1 + 2.5*cABD.getValue()/(cABD.getValue() + exp(6.53-5.63*cABD.getValue()))); //DP= Maximum damping depth (m)
 		double WC = 0.001*iSoilWaterContent.getValue()/((.356 -.144*cABD.getValue())*tZc[tZc.length - 1]); //WC seems to be a water content related factor [cm3/g] to modify the damping depth ?
 		double DD = exp(log(0.5/DP)*((1 - WC)/(1 + WC))*2)*DP; //DD(t)= Damping depth (m), multiplied by 2 (20110628 TG) to increase damping depth
@@ -294,15 +302,13 @@ public class STMPsimCalculator extends FWSimComponent
 		double Z1 = 0; //Z1=Depth of the bottom of the previous soil layer, initialized with 0 (m)
 		for (int i = 0; i < SoilTempArray.getValue().length; i++)
 		{
-			double ZD = 0.5*(Z1 + tZp[i])/DD;
-				//Factor of the depth in soil: Middle of depth of layer divided by damping depth
+			double ZD = 0.5*(Z1 + tZp[i])/DD; //Factor of the depth in soil: Middle of depth of layer divided by damping depth
 			double RATE = ZD / (ZD + exp(-.8669 - 2.0775 * ZD)) * (cAVT.getValue() - iSoilSurfaceTemperature.getValue());
-				//RATE = Rate of change of STMP(ISL) (Â°C)
-			SoilTempArray.setArrayValue(i, XLAG * SoilTempArray.getValue()[i] + XLG1 * (RATE + iSoilSurfaceTemperature.getValue()), this);
+			RATE =   XLG1 * (RATE + iSoilSurfaceTemperature.getValue() - SoilTempArray.getValue()[i]);  //RATE = Rate of change of STMP(ISL) (Â°C)
 			Z1 = tZp[i];
+			rSoilTempArrayRate.setArrayValue(i, RATE, this);
+			SoilTempArray.setArrayValue(i, SoilTempArray.getValue()[i] + rSoilTempArrayRate.getValue()[i], this);
 		}
-
-
 	}
 
 
