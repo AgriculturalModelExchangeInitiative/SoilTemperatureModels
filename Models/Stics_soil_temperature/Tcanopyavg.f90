@@ -1,25 +1,25 @@
-MODULE temp_amp_mod
+MODULE canopy_temp_avg_mod
    IMPLICIT NONE
 CONTAINS
    !%%CyML Model Begin%%
-   SUBROUTINE model_temp_amp(min_temp, &
-                            max_temp, &
-                            temp_amp)
+   SUBROUTINE model_canopy_temp_avg(min_canopy_temp, &
+                            max_canopy_temp, &
+                            canopy_temp_avg)
       IMPLICIT NONE
 
-      REAL, INTENT(IN) :: min_temp
-      REAL, INTENT(IN) :: max_temp
-      REAL, INTENT(OUT) :: temp_amp
+      REAL, INTENT(IN) :: min_canopy_temp
+      REAL, INTENT(IN) :: max_canopy_temp
+      REAL, INTENT(OUT) :: canopy_temp_avg
 
-      !- Name: temp_amp -Version: 1.0, -Time step: 1
+      !- Name: canopy_temp_avg -Version: 1.0, -Time step: 1
       !- Description:
-      !            * Title: temp_amp model
+      !            * Title: canopy_temp_avg model
       !            * Author: STICS
       !            * Reference: doi:http://dx.doi.org/10.1016/j.agrformet.2014.05.002
       !            * Institution: INRAE
       !            * Abstract: Calculates temperature amplitude
       !- inputs:
-      !            * name: min_temp
+      !            * name: min_canopy_temp
       !                          ** description : current minimum temperature
       !                          ** inputtype : variable
       !                          ** variablecategory : exogenous
@@ -29,8 +29,7 @@ CONTAINS
       !                          ** max : 50.0
       !                          ** unit : degC
       !                          ** uri :
-      !                          ** len : 1
-      !            * name: max_temp
+      !            * name: max_canopy_temp
       !                          ** description : current maximum temperature
       !                          ** inputtype : variable
       !                          ** variablecategory : exogenous
@@ -40,9 +39,8 @@ CONTAINS
       !                          ** max : 50.0
       !                          ** unit : degC
       !                          ** uri :
-      !                          ** len : 1
       !- outputs:
-      !            * name: temp_amp
+      !            * name: canopy_temp_avg
       !                          ** description : current temperature amplitude
       !                          ** variablecategory : state
       !                          ** datatype : DOUBLE
@@ -50,11 +48,10 @@ CONTAINS
       !                          ** max : 100.0
       !                          ** unit : degC
       !                          ** uri :
-      !                          ** len : 1
       !%%CyML Compute Begin%%
-      temp_amp = max_temp - min_temp
+      canopy_temp_avg = (max_canopy_temp + min_canopy_temp) / 2
       !%%CyML Compute End%%
 
-   END SUBROUTINE model_temp_amp
+   END SUBROUTINE model_canopy_temp_avg
    !%%CyML Model End%%
-END MODULE temp_amp_mod
+END MODULE canopy_temp_avg_mod
