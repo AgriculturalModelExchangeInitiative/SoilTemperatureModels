@@ -7,6 +7,17 @@ public class STEMP_EPIC_Component
     //Declaration of the associated strategies
     STEMP_EPIC _STEMP_EPIC = new STEMP_EPIC();
 
+    public double[] BD
+    {
+        get
+        {
+             return _STEMP_EPIC.BD; 
+        }
+        set
+        {
+            _STEMP_EPIC.BD = value;
+        }
+    }
     public double[] DUL
     {
         get
@@ -16,28 +27,6 @@ public class STEMP_EPIC_Component
         set
         {
             _STEMP_EPIC.DUL = value;
-        }
-    }
-    public string ISWWAT
-    {
-        get
-        {
-             return _STEMP_EPIC.ISWWAT; 
-        }
-        set
-        {
-            _STEMP_EPIC.ISWWAT = value;
-        }
-    }
-    public double[] LL
-    {
-        get
-        {
-             return _STEMP_EPIC.LL; 
-        }
-        set
-        {
-            _STEMP_EPIC.LL = value;
         }
     }
     public double[] DS
@@ -51,6 +40,28 @@ public class STEMP_EPIC_Component
             _STEMP_EPIC.DS = value;
         }
     }
+    public double[] DLAYR
+    {
+        get
+        {
+             return _STEMP_EPIC.DLAYR; 
+        }
+        set
+        {
+            _STEMP_EPIC.DLAYR = value;
+        }
+    }
+    public double[] LL
+    {
+        get
+        {
+             return _STEMP_EPIC.LL; 
+        }
+        set
+        {
+            _STEMP_EPIC.LL = value;
+        }
+    }
     public double[] SW
     {
         get
@@ -60,17 +71,6 @@ public class STEMP_EPIC_Component
         set
         {
             _STEMP_EPIC.SW = value;
-        }
-    }
-    public double[] BD
-    {
-        get
-        {
-             return _STEMP_EPIC.BD; 
-        }
-        set
-        {
-            _STEMP_EPIC.BD = value;
         }
     }
     public int NLAYR
@@ -95,15 +95,15 @@ public class STEMP_EPIC_Component
             _STEMP_EPIC.NL = value;
         }
     }
-    public double[] DLAYR
+    public string ISWWAT
     {
         get
         {
-             return _STEMP_EPIC.DLAYR; 
+             return _STEMP_EPIC.ISWWAT; 
         }
         set
         {
-            _STEMP_EPIC.DLAYR = value;
+            _STEMP_EPIC.ISWWAT = value;
         }
     }
 
@@ -117,12 +117,11 @@ public class STEMP_EPIC_Component
 
         
             for (int i = 0; i < 100; i++)
-            { DUL[i] = toCopy.DUL[i]; }
+            { BD[i] = toCopy.BD[i]; }
     
-        ISWWAT = toCopy.ISWWAT;
         
             for (int i = 0; i < 100; i++)
-            { LL[i] = toCopy.LL[i]; }
+            { DUL[i] = toCopy.DUL[i]; }
     
         
             for (int i = 0; i < 100; i++)
@@ -130,17 +129,18 @@ public class STEMP_EPIC_Component
     
         
             for (int i = 0; i < 100; i++)
-            { SW[i] = toCopy.SW[i]; }
+            { DLAYR[i] = toCopy.DLAYR[i]; }
     
         
             for (int i = 0; i < 100; i++)
-            { BD[i] = toCopy.BD[i]; }
+            { LL[i] = toCopy.LL[i]; }
+    
+        
+            for (int i = 0; i < 100; i++)
+            { SW[i] = toCopy.SW[i]; }
     
         NLAYR = toCopy.NLAYR;
         NL = toCopy.NL;
-        
-            for (int i = 0; i < 100; i++)
-            { DLAYR[i] = toCopy.DLAYR[i]; }
-    
+        ISWWAT = toCopy.ISWWAT;
     }
 }

@@ -9,38 +9,38 @@ using namespace std;
 class STEMP_EPIC_Exogenous
 {
     private:
-        double TAVG ;
-        double TAV ;
-        double TMAX ;
-        double BIOMAS ;
-        double SNOW ;
-        double TMIN ;
+        double RAIN ;
         double DEPIR ;
+        double TMIN ;
+        double BIOMAS ;
         double TAMP ;
         double MULCHMASS ;
-        double RAIN ;
+        double TMAX ;
+        double TAV ;
+        double SNOW ;
+        double TAVG ;
     public:
         STEMP_EPIC_Exogenous();
-        double getTAVG();
-        void setTAVG(double _TAVG);
-        double getTAV();
-        void setTAV(double _TAV);
-        double getTMAX();
-        void setTMAX(double _TMAX);
-        double getBIOMAS();
-        void setBIOMAS(double _BIOMAS);
-        double getSNOW();
-        void setSNOW(double _SNOW);
-        double getTMIN();
-        void setTMIN(double _TMIN);
+        double getRAIN();
+        void setRAIN(double _RAIN);
         double getDEPIR();
         void setDEPIR(double _DEPIR);
+        double getTMIN();
+        void setTMIN(double _TMIN);
+        double getBIOMAS();
+        void setBIOMAS(double _BIOMAS);
         double getTAMP();
         void setTAMP(double _TAMP);
         double getMULCHMASS();
         void setMULCHMASS(double _MULCHMASS);
-        double getRAIN();
-        void setRAIN(double _RAIN);
+        double getTMAX();
+        void setTMAX(double _TMAX);
+        double getTAV();
+        void setTAV(double _TAV);
+        double getSNOW();
+        void setSNOW(double _SNOW);
+        double getTAVG();
+        void setTAVG(double _TAVG);
 
 };
 #endif

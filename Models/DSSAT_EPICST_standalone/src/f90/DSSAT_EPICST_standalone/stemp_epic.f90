@@ -128,7 +128,7 @@ CONTAINS
         BCV = MAX(BCV1, BCV2)
         DO I = 1 , 8 + 1-1, 1
             call SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV,  &
-                    TAVG, TMAX, TMIN, 0, WFT, WW, X2_PREV,TMA,SRFTEMP,ST,X2_AVG)
+                    TAVG, TMAX, TMIN, 0, WFT, WW, TMA, ST, X2_PREV,SRFTEMP,X2_AVG)
         END DO
     END SUBROUTINE init_stemp_epic
 
@@ -585,8 +585,8 @@ CONTAINS
         BCV2 = SNOW / (SNOW + EXP(2.303 - (0.2197 * SNOW)))
         BCV = MAX(BCV1, BCV2)
         call SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV,  &
-                TAVG, TMAX, TMIN, WetDay(NDays - 1+1), WFT, WW,  &
-                X2_PREV,TMA,SRFTEMP,ST,X2_AVG)
+                TAVG, TMAX, TMIN, WetDay(NDays - 1+1), WFT, WW, TMA, ST,  &
+                X2_PREV,SRFTEMP,X2_AVG)
     END SUBROUTINE model_stemp_epic
 
     SUBROUTINE SOILT_EPIC(NL, &
@@ -604,10 +604,10 @@ CONTAINS
         WetDay, &
         WFT, &
         WW, &
-        X2_PREV, &
         TMA, &
-        SRFTEMP, &
         ST, &
+        X2_PREV, &
+        SRFTEMP, &
         X2_AVG)
         IMPLICIT NONE
         INTEGER:: i_cyml_r
@@ -626,6 +626,8 @@ CONTAINS
         INTEGER, INTENT(IN) :: WetDay
         REAL, INTENT(IN) :: WFT
         REAL, INTENT(IN) :: WW
+        REAL , DIMENSION(5 ), INTENT(INOUT) :: TMA
+        REAL , DIMENSION(NL ), INTENT(INOUT) :: ST
         REAL, INTENT(INOUT) :: X2_PREV
         INTEGER:: K
         INTEGER:: L
@@ -634,8 +636,6 @@ CONTAINS
         REAL, INTENT(OUT) :: SRFTEMP
         REAL:: WC
         REAL:: ZD
-        REAL , DIMENSION(5 ), INTENT(OUT) :: TMA
-        REAL , DIMENSION(NL ), INTENT(OUT) :: ST
         REAL:: X1
         REAL:: X2
         REAL:: X3

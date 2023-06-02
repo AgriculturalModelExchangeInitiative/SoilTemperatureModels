@@ -14,16 +14,16 @@ using namespace std;
 
 void STEMP_EPIC::Init(STEMP_EPIC_State& s, STEMP_EPIC_State& s1, STEMP_EPIC_Rate& r, STEMP_EPIC_Auxiliary& a, STEMP_EPIC_Exogenous& ex)
 {
-    double TAMP;
-    double RAIN;
-    double TAVG;
-    double TMAX;
-    double TMIN;
-    double TAV;
-    double DEPIR;
-    double BIOMAS;
-    double MULCHMASS;
-    double SNOW;
+    double TAMP = ex.getTAMP();
+    double RAIN = ex.getRAIN();
+    double TAVG = ex.getTAVG();
+    double TMAX = ex.getTMAX();
+    double TMIN = ex.getTMIN();
+    double TAV = ex.getTAV();
+    double DEPIR = ex.getDEPIR();
+    double BIOMAS = ex.getBIOMAS();
+    double MULCHMASS = ex.getMULCHMASS();
+    double SNOW = ex.getSNOW();
     double CUMDPT;
     vector<double> DSMID(NL);
     double TDL;
@@ -34,14 +34,14 @@ void STEMP_EPIC::Init(STEMP_EPIC_State& s, STEMP_EPIC_State& s1, STEMP_EPIC_Rate
     double SRFTEMP;
     vector<double> ST(NL);
     CUMDPT = 0.0;
-    DSMID = new double[0.0];
+    fill(DSMID.begin(),DSMID.end(), 0.0);
     TDL = 0.0;
-    TMA = new double[0.0];
+    fill(TMA.begin(),TMA.end(), 0.0);
     NDays = 0;
-    WetDay = new int[0];
+    fill(WetDay.begin(),WetDay.end(), 0);
     X2_PREV = 0.0;
     SRFTEMP = 0.0;
-    ST = new double[0.0];
+    fill(ST.begin(),ST.end(), 0.0);
     int I;
     int L;
     double ABD;
@@ -98,7 +98,7 @@ void STEMP_EPIC::Init(STEMP_EPIC_State& s, STEMP_EPIC_State& s1, STEMP_EPIC_Rate
         ST[L - 1] = TAVG;
     }
     WFT = 0.1;
-    WetDay = new int[0];
+    fill(WetDay.begin(),WetDay.end(), 0);
     NDays = 0;
     CV = MULCHMASS / 1000.;
     BCV1 = CV / (CV + exp(5.3396 - (2.3951 * CV)));
@@ -106,7 +106,7 @@ void STEMP_EPIC::Init(STEMP_EPIC_State& s, STEMP_EPIC_State& s1, STEMP_EPIC_Rate
     BCV = max(BCV1, BCV2);
     for (I=1 ; I!=8 + 1 ; I+=1)
     {
-        make_tuple(TMA, SRFTEMP, ST, X2_AVG, X2_PREV) = SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, 0, WFT, WW, X2_PREV);
+        tie(TMA, SRFTEMP, ST, X2_AVG, X2_PREV) = SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, 0, WFT, WW, TMA, ST, X2_PREV);
     }
     s.setCUMDPT(CUMDPT);
     s.setDSMID(DSMID);
@@ -575,7 +575,7 @@ void STEMP_EPIC::Calculate_Model(STEMP_EPIC_State& s, STEMP_EPIC_State& s1, STEM
     BCV1 = CV / (CV + exp(5.3396 - (2.3951 * CV)));
     BCV2 = SNOW / (SNOW + exp(2.303 - (0.2197 * SNOW)));
     BCV = max(BCV1, BCV2);
-    make_tuple(TMA, SRFTEMP, ST, X2_AVG, X2_PREV) = SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, WetDay[NDays - 1], WFT, WW, X2_PREV);
+    tie(TMA, SRFTEMP, ST, X2_AVG, X2_PREV) = SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, WetDay[NDays - 1], WFT, WW, TMA, ST, X2_PREV);
     s.setCUMDPT(CUMDPT);
     s.setDSMID(DSMID);
     s.setTDL(TDL);
@@ -586,7 +586,7 @@ void STEMP_EPIC::Calculate_Model(STEMP_EPIC_State& s, STEMP_EPIC_State& s1, STEM
     s.setSRFTEMP(SRFTEMP);
     s.setST(ST);
 }
-tuple<vector<double> ,double,vector<double> ,double,double> STEMP_EPIC:: SOILT_EPIC(int NL, double B, double BCV, double CUMDPT, double DP, const vector<double> DSMID, int NLAYR, double PESW, double TAV, double TAVG, double TMAX, double TMIN, int WetDay, double WFT, double WW, double X2_PREV)
+tuple<vector<double> ,double,vector<double> ,double,double> STEMP_EPIC:: SOILT_EPIC(int NL, double B, double BCV, double CUMDPT, double DP, vector<double> DSMID, int NLAYR, double PESW, double TAV, double TAVG, double TMAX, double TMIN, int WetDay, double WFT, double WW, vector<double> TMA, vector<double> ST, double X2_PREV)
 {
     int K;
     int L;
@@ -595,8 +595,6 @@ tuple<vector<double> ,double,vector<double> ,double,double> STEMP_EPIC:: SOILT_E
     double SRFTEMP;
     double WC;
     double ZD;
-    vector<double> TMA(5);
-    vector<double> ST(NL);
     double X1;
     double X2;
     double X3;
