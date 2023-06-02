@@ -1,101 +1,88 @@
-import  java.io.*;
-import  java.util.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-public class STMPsimCalculator
+#ifndef _STMPSIMCALCULATOR_
+#define _USE_MATH_DEFINES
+#include <cmath>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <numeric>
+#include <algorithm>
+#include <array>
+#include <map>
+#include <tuple>
+#include "STMPsimCalculator.h"
+using namespace std;
+
+void STMPsimCalculator::Init(SoilTemperatureState& s, SoilTemperatureState& s1, SoilTemperatureRate& r, SoilTemperatureAuxiliary& a, SoilTemperatureExogenous& ex)
 {
-    public void Init(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a,  SoilTemperatureExogenous ex)
+    double iSoilWaterContent = ex.getiSoilWaterContent();
+    double iSoilSurfaceTemperature = ex.getiSoilSurfaceTemperature();
+    vector<double> SoilTempArray;
+    vector<double> rSoilTempArrayRate;
+    vector<double> pSoilLayerDepth;
+    double tProfileDepth;
+    double additionalDepth;
+    double firstAdditionalLayerHight;
+    int layers;
+    vector<double> tStmp;
+    vector<double> tStmpRate;
+    vector<double> tz;
+    int i;
+    double depth;
+    tProfileDepth = cSoilLayerDepth[cSoilLayerDepth.size() - 1];
+    additionalDepth = cDampingDepth - tProfileDepth;
+    firstAdditionalLayerHight = additionalDepth - float(floor(additionalDepth));
+    layers = int(abs(float((int) ceil(additionalDepth)))) + cSoilLayerDepth.size();
+    tStmp = vector<double> (layers);
+    ;
+    tStmpRate = vector<double> (layers);
+    ;
+    tz = vector<double> (layers);
+    ;
+    for (i=0 ; i!=tStmp.size() ; i+=1)
     {
-        Double iSoilWaterContent = ex.getiSoilWaterContent();
-        Double iSoilSurfaceTemperature = ex.getiSoilSurfaceTemperature();
-        Double[] SoilTempArray ;
-        Double[] rSoilTempArrayRate ;
-        Double[] pSoilLayerDepth ;
-        Double tProfileDepth;
-        Double additionalDepth;
-        Double firstAdditionalLayerHight;
-        Integer layers;
-        Double[] tStmp ;
-        Double[] tStmpRate ;
-        Double[] tz ;
-        Integer i;
-        Double depth;
-        tProfileDepth = cSoilLayerDepth[cSoilLayerDepth.length - 1];
-        additionalDepth = cDampingDepth - tProfileDepth;
-        firstAdditionalLayerHight = additionalDepth - (double)(Math.floor(additionalDepth));
-        layers = (int)(Math.abs((double)((int) Math.ceil(additionalDepth)))) + cSoilLayerDepth.length;
-        tStmp = new Double [layers];
-        tStmpRate = new Double [layers];
-        tz = new Double [layers];
-        for (i=0 ; i!=tStmp.length ; i+=1)
+        if (i < cSoilLayerDepth.size())
         {
-            if (i < cSoilLayerDepth.length)
-            {
-                depth = cSoilLayerDepth[i];
-            }
-            else
-            {
-                depth = tProfileDepth + firstAdditionalLayerHight + i - cSoilLayerDepth.length;
-            }
-            tz[i] = depth;
-            tStmpRate[i] = 0.0d;
-            tStmp[i] = (cFirstDayMeanTemp * (cDampingDepth - depth) + (cAVT * depth)) / cDampingDepth;
+            depth = cSoilLayerDepth[i];
         }
-        rSoilTempArrayRate = tStmpRate;
-        SoilTempArray = tStmp;
-        pSoilLayerDepth = tz;
-        s.setSoilTempArray(SoilTempArray);
-        s.setrSoilTempArrayRate(rSoilTempArrayRate);
-        s.setpSoilLayerDepth(pSoilLayerDepth);
+        else
+        {
+            depth = tProfileDepth + firstAdditionalLayerHight + i - cSoilLayerDepth.size();
+        }
+        tz[i] = depth;
+        tStmpRate[i] = 0.0;
+        tStmp[i] = (cFirstDayMeanTemp * (cDampingDepth - depth) + (cAVT * depth)) / cDampingDepth;
     }
-    private Double [] cSoilLayerDepth;
-    public Double [] getcSoilLayerDepth()
-    { return cSoilLayerDepth; }
-
-    public void setcSoilLayerDepth(Double [] _cSoilLayerDepth)
-    { this.cSoilLayerDepth= _cSoilLayerDepth; } 
-    
-    private Double cFirstDayMeanTemp;
-    public Double getcFirstDayMeanTemp()
-    { return cFirstDayMeanTemp; }
-
-    public void setcFirstDayMeanTemp(Double _cFirstDayMeanTemp)
-    { this.cFirstDayMeanTemp= _cFirstDayMeanTemp; } 
-    
-    private Double cAVT;
-    public Double getcAVT()
-    { return cAVT; }
-
-    public void setcAVT(Double _cAVT)
-    { this.cAVT= _cAVT; } 
-    
-    private Double cABD;
-    public Double getcABD()
-    { return cABD; }
-
-    public void setcABD(Double _cABD)
-    { this.cABD= _cABD; } 
-    
-    private Double cDampingDepth;
-    public Double getcDampingDepth()
-    { return cDampingDepth; }
-
-    public void setcDampingDepth(Double _cDampingDepth)
-    { this.cDampingDepth= _cDampingDepth; } 
-    
-    public STMPsimCalculator() { }
-    public void  Calculate_Model(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a,  SoilTemperatureExogenous ex)
-    {
-        //- Name: STMPsimCalculator -Version: 001, -Time step: 1
-        //- Description:
+    rSoilTempArrayRate = tStmpRate;
+    SoilTempArray = tStmp;
+    pSoilLayerDepth = tz;
+    s.setSoilTempArray(SoilTempArray);
+    s.setrSoilTempArrayRate(rSoilTempArrayRate);
+    s.setpSoilLayerDepth(pSoilLayerDepth);
+}
+STMPsimCalculator::STMPsimCalculator() { }
+vector<double> & STMPsimCalculator::getcSoilLayerDepth() {return this-> cSoilLayerDepth; }
+double STMPsimCalculator::getcFirstDayMeanTemp() {return this-> cFirstDayMeanTemp; }
+double STMPsimCalculator::getcAVT() {return this-> cAVT; }
+double STMPsimCalculator::getcABD() {return this-> cABD; }
+double STMPsimCalculator::getcDampingDepth() {return this-> cDampingDepth; }
+void STMPsimCalculator::setcSoilLayerDepth(vector<double> const & _cSoilLayerDepth){
+    this->cSoilLayerDepth = _cSoilLayerDepth;
+}
+void STMPsimCalculator::setcFirstDayMeanTemp(double _cFirstDayMeanTemp) { this->cFirstDayMeanTemp = _cFirstDayMeanTemp; }
+void STMPsimCalculator::setcAVT(double _cAVT) { this->cAVT = _cAVT; }
+void STMPsimCalculator::setcABD(double _cABD) { this->cABD = _cABD; }
+void STMPsimCalculator::setcDampingDepth(double _cDampingDepth) { this->cDampingDepth = _cDampingDepth; }
+void STMPsimCalculator::Calculate_Model(SoilTemperatureState& s, SoilTemperatureState& s1, SoilTemperatureRate& r, SoilTemperatureAuxiliary& a, SoilTemperatureExogenous& ex)
+{
+    //- Name: STMPsimCalculator -Version: 001, -Time step: 1
+    //- Description:
     //            * Title: STMPsimCalculator model
     //            * Authors: Gunther Krauss
     //            * Reference: ('http://www.simplace.net/doc/simplace_modules/',)
     //            * Institution: INRES Pflanzenbau, Uni Bonn
     //            * ExtendedDescription: as given in the documentation
     //            * ShortDescription: None
-        //- inputs:
+    //- inputs:
     //            * name: cSoilLayerDepth
     //                          ** description : Depth of soil layer
     //                          ** inputtype : parameter
@@ -190,7 +177,7 @@ public class STMPsimCalculator
     //                          ** min : 0.03
     //                          ** default : 
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/metre
-        //- outputs:
+    //- outputs:
     //            * name: SoilTempArray
     //                          ** description : Array of soil temperatures in layers 
     //                          ** datatype : DOUBLEARRAY
@@ -207,36 +194,36 @@ public class STMPsimCalculator
     //                          ** max : 40
     //                          ** min : -20
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
-        Double iSoilWaterContent = ex.getiSoilWaterContent();
-        Double iSoilSurfaceTemperature = ex.getiSoilSurfaceTemperature();
-        Double [] SoilTempArray = s.getSoilTempArray();
-        Double [] rSoilTempArrayRate = s.getrSoilTempArrayRate();
-        Double [] pSoilLayerDepth = s.getpSoilLayerDepth();
-        Double XLAG;
-        Double XLG1;
-        Double DP;
-        Double WC;
-        Double DD;
-        Double Z1;
-        Integer i;
-        Double ZD;
-        Double RATE;
-        XLAG = .8d;
-        XLG1 = 1 - XLAG;
-        DP = 1 + (2.5d * cABD / (cABD + Math.exp(6.53d - (5.63d * cABD))));
-        WC = 0.001d * iSoilWaterContent / ((.356d - (.144d * cABD)) * cSoilLayerDepth[(cSoilLayerDepth.length - 1)]);
-        DD = Math.exp(Math.log(0.5d / DP) * ((1 - WC) / (1 + WC)) * 2) * DP;
-        Z1 = (double)(0);
-        for (i=0 ; i!=SoilTempArray.length ; i+=1)
-        {
-            ZD = 0.5d * (Z1 + pSoilLayerDepth[i]) / DD;
-            RATE = ZD / (ZD + Math.exp(-.8669d - (2.0775d * ZD))) * (cAVT - iSoilSurfaceTemperature);
-            RATE = XLG1 * (RATE + iSoilSurfaceTemperature - SoilTempArray[i]);
-            Z1 = pSoilLayerDepth[i];
-            rSoilTempArrayRate[i] = RATE;
-            SoilTempArray[i] = SoilTempArray[i] + rSoilTempArrayRate[i];
-        }
-        s.setSoilTempArray(SoilTempArray);
-        s.setrSoilTempArrayRate(rSoilTempArrayRate);
+    double iSoilWaterContent = ex.getiSoilWaterContent();
+    double iSoilSurfaceTemperature = ex.getiSoilSurfaceTemperature();
+    vector<double>  SoilTempArray = s.getSoilTempArray();
+    vector<double>  rSoilTempArrayRate = s.getrSoilTempArrayRate();
+    vector<double>  pSoilLayerDepth = s.getpSoilLayerDepth();
+    double XLAG;
+    double XLG1;
+    double DP;
+    double WC;
+    double DD;
+    double Z1;
+    int i;
+    double ZD;
+    double RATE;
+    XLAG = .8;
+    XLG1 = 1 - XLAG;
+    DP = 1 + (2.5 * cABD / (cABD + exp(6.53 - (5.63 * cABD))));
+    WC = 0.001 * iSoilWaterContent / ((.356 - (.144 * cABD)) * cSoilLayerDepth[(cSoilLayerDepth.size() - 1)]);
+    DD = exp(log(0.5 / DP) * ((1 - WC) / (1 + WC)) * 2) * DP;
+    Z1 = float(0);
+    for (i=0 ; i!=SoilTempArray.size() ; i+=1)
+    {
+        ZD = 0.5 * (Z1 + pSoilLayerDepth[i]) / DD;
+        RATE = ZD / (ZD + exp(-.8669 - (2.0775 * ZD))) * (cAVT - iSoilSurfaceTemperature);
+        RATE = XLG1 * (RATE + iSoilSurfaceTemperature - SoilTempArray[i]);
+        Z1 = pSoilLayerDepth[i];
+        rSoilTempArrayRate[i] = RATE;
+        SoilTempArray[i] = SoilTempArray[i] + rSoilTempArrayRate[i];
     }
+    s.setSoilTempArray(SoilTempArray);
+    s.setrSoilTempArrayRate(rSoilTempArrayRate);
 }
+#endif

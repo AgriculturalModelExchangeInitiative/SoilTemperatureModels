@@ -1,57 +1,59 @@
-import  java.io.*;
-import  java.util.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-public class SnowCoverCalculator
-{
-    public void Init(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a,  SoilTemperatureExogenous ex)
-    {
-        Double iTempMax = ex.getiTempMax();
-        Double iTempMin = ex.getiTempMin();
-        Double iRadiation = ex.getiRadiation();
-        Double iRAIN = ex.getiRAIN();
-        Double iCropResidues = ex.getiCropResidues();
-        Double iPotentialSoilEvaporation = ex.getiPotentialSoilEvaporation();
-        Double iLeafAreaIndex = ex.getiLeafAreaIndex();
-        Double [] iSoilTempArray = ex.getiSoilTempArray();
-        Double Albedo;
-        Double SnowWaterContent = 0.0;
-        Double SoilSurfaceTemperature = 0.0;
-        Integer AgeOfSnow = 0;
-        Albedo = 0.0d;
-        Double TMEAN;
-        Double TAMPL;
-        Double DST;
-        Albedo = 0.0226d * Math.log10(cCarbonContent) + 0.1502d;
-        TMEAN = 0.5d * (iTempMax + iTempMin);
-        TAMPL = 0.5d * (iTempMax - iTempMin);
-        DST = TMEAN + (TAMPL * (iRadiation * (1 - Albedo) - 14) / 20);
-        SoilSurfaceTemperature = DST;
-        s.setAlbedo(Albedo);
-        s.setSnowWaterContent(SnowWaterContent);
-        s.setSoilSurfaceTemperature(SoilSurfaceTemperature);
-        s.setAgeOfSnow(AgeOfSnow);
-    }
-    private Double cCarbonContent;
-    public Double getcCarbonContent()
-    { return cCarbonContent; }
+#ifndef _SNOWCOVERCALCULATOR_
+#define _USE_MATH_DEFINES
+#include <cmath>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <numeric>
+#include <algorithm>
+#include <array>
+#include <map>
+#include <tuple>
+#include "SnowCoverCalculator.h"
+using namespace std;
 
-    public void setcCarbonContent(Double _cCarbonContent)
-    { this.cCarbonContent= _cCarbonContent; } 
-    
-    public SnowCoverCalculator() { }
-    public void  Calculate_Model(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a,  SoilTemperatureExogenous ex)
-    {
-        //- Name: SnowCoverCalculator -Version: 001, -Time step: 1
-        //- Description:
+void SnowCoverCalculator::Init(SoilTemperatureState& s, SoilTemperatureState& s1, SoilTemperatureRate& r, SoilTemperatureAuxiliary& a, SoilTemperatureExogenous& ex)
+{
+    double iTempMax = ex.getiTempMax();
+    double iTempMin = ex.getiTempMin();
+    double iRadiation = ex.getiRadiation();
+    double iRAIN = ex.getiRAIN();
+    double iCropResidues = ex.getiCropResidues();
+    double iPotentialSoilEvaporation = ex.getiPotentialSoilEvaporation();
+    double iLeafAreaIndex = ex.getiLeafAreaIndex();
+    vector<double>  iSoilTempArray = ex.getiSoilTempArray();
+    double Albedo;
+    double SnowWaterContent = 0.0;
+    double SoilSurfaceTemperature = 0.0;
+    int AgeOfSnow = 0;
+    Albedo = 0.0;
+    double TMEAN;
+    double TAMPL;
+    double DST;
+    Albedo = 0.0226 * log10(cCarbonContent) + 0.1502;
+    TMEAN = 0.5 * (iTempMax + iTempMin);
+    TAMPL = 0.5 * (iTempMax - iTempMin);
+    DST = TMEAN + (TAMPL * (iRadiation * (1 - Albedo) - 14) / 20);
+    SoilSurfaceTemperature = DST;
+    s.setAlbedo(Albedo);
+    s.setSnowWaterContent(SnowWaterContent);
+    s.setSoilSurfaceTemperature(SoilSurfaceTemperature);
+    s.setAgeOfSnow(AgeOfSnow);
+}
+SnowCoverCalculator::SnowCoverCalculator() { }
+double SnowCoverCalculator::getcCarbonContent() {return this-> cCarbonContent; }
+void SnowCoverCalculator::setcCarbonContent(double _cCarbonContent) { this->cCarbonContent = _cCarbonContent; }
+void SnowCoverCalculator::Calculate_Model(SoilTemperatureState& s, SoilTemperatureState& s1, SoilTemperatureRate& r, SoilTemperatureAuxiliary& a, SoilTemperatureExogenous& ex)
+{
+    //- Name: SnowCoverCalculator -Version: 001, -Time step: 1
+    //- Description:
     //            * Title: SnowCoverCalculator model
     //            * Authors: Gunther Krauss
     //            * Reference: ('http://www.simplace.net/doc/simplace_modules/',)
     //            * Institution: INRES Pflanzenbau, Uni Bonn
     //            * ExtendedDescription: as given in the documentation
     //            * ShortDescription: None
-        //- inputs:
+    //- inputs:
     //            * name: cCarbonContent
     //                          ** description : Carbon content of upper soil layer
     //                          ** inputtype : parameter
@@ -170,7 +172,7 @@ public class SnowCoverCalculator
     //                          ** min : 0
     //                          ** default : 0
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
-        //- outputs:
+    //- outputs:
     //            * name: SnowWaterContent
     //                          ** description : Snow water content
     //                          ** datatype : DOUBLE
@@ -199,101 +201,101 @@ public class SnowCoverCalculator
     //                          ** max : 1.0
     //                          ** min : 0.0
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
-        Double iTempMax = ex.getiTempMax();
-        Double iTempMin = ex.getiTempMin();
-        Double iRadiation = ex.getiRadiation();
-        Double iRAIN = ex.getiRAIN();
-        Double iCropResidues = ex.getiCropResidues();
-        Double iPotentialSoilEvaporation = ex.getiPotentialSoilEvaporation();
-        Double iLeafAreaIndex = ex.getiLeafAreaIndex();
-        Double [] iSoilTempArray = ex.getiSoilTempArray();
-        Double Albedo = s.getAlbedo();
-        Double SnowWaterContent = s.getSnowWaterContent();
-        Double SoilSurfaceTemperature = s.getSoilSurfaceTemperature();
-        Integer AgeOfSnow = s.getAgeOfSnow();
-        Double SnowIsolationIndex;
-        Double tiCropResidues;
-        Double tiSoilTempArray;
-        Double TMEAN;
-        Double TAMPL;
-        Double DST;
-        Double tSoilSurfaceTemperature;
-        Double tSnowIsolationIndex;
-        Double SNOWEVAPORATION;
-        Double SNOWMELT;
-        Double EAJ;
-        Double ageOfSnowFactor;
-        Double SNPKT;
-        tiCropResidues = iCropResidues * 10.0d;
-        tiSoilTempArray = iSoilTempArray[0];
-        TMEAN = 0.5d * (iTempMax + iTempMin);
-        TAMPL = 0.5d * (iTempMax - iTempMin);
-        DST = TMEAN + (TAMPL * (iRadiation * (1 - Albedo) - 14) / 20);
-        if (iRAIN > (double)(0) && (tiSoilTempArray < (double)(1) || (SnowWaterContent > (double)(3) || SoilSurfaceTemperature < (double)(0))))
-        {
-            SnowWaterContent = SnowWaterContent + iRAIN;
-        }
-        tSnowIsolationIndex = 1.0d;
-        if (tiCropResidues < (double)(10))
-        {
-            tSnowIsolationIndex = tiCropResidues / (tiCropResidues + Math.exp(5.34d - (2.4d * tiCropResidues)));
-        }
-        if (SnowWaterContent < 1E-10d)
-        {
-            tSnowIsolationIndex = tSnowIsolationIndex * 0.85d;
-            tSoilSurfaceTemperature = 0.5d * (DST + ((1 - tSnowIsolationIndex) * DST) + (tSnowIsolationIndex * tiSoilTempArray));
-        }
-        else
-        {
-            tSnowIsolationIndex = Math.max(SnowWaterContent / (SnowWaterContent + Math.exp(0.47d - (0.62d * SnowWaterContent))), tSnowIsolationIndex);
-            tSoilSurfaceTemperature = (1 - tSnowIsolationIndex) * DST + (tSnowIsolationIndex * tiSoilTempArray);
-        }
-        if (SnowWaterContent == (double)(0) && !(iRAIN > (double)(0) && tiSoilTempArray < (double)(1)))
-        {
-            SnowWaterContent = (double)(0);
-        }
-        else
-        {
-            EAJ = .5d;
-            if (SnowWaterContent < (double)(5))
-            {
-                EAJ = Math.exp(-Math.max((0.4d * iLeafAreaIndex), (0.1d * (tiCropResidues + 0.1d))));
-            }
-            SNOWEVAPORATION = iPotentialSoilEvaporation * EAJ;
-            ageOfSnowFactor = AgeOfSnow / (AgeOfSnow + Math.exp(5.34d - (2.395d * AgeOfSnow)));
-            SNPKT = .3333d * (2 * Math.min(tSoilSurfaceTemperature, tiSoilTempArray) + iTempMax);
-            if (TMEAN > (double)(0))
-            {
-                SNOWMELT = Math.max(0, Math.sqrt(iTempMax * iRadiation) * (1.52d + (.54d * ageOfSnowFactor * SNPKT)));
-            }
-            else
-            {
-                SNOWMELT = (double)(0);
-            }
-            if (SNOWMELT + SNOWEVAPORATION > SnowWaterContent)
-            {
-                SNOWMELT = SNOWMELT / (SNOWMELT + SNOWEVAPORATION) * SnowWaterContent;
-                SNOWEVAPORATION = SNOWEVAPORATION / (SNOWMELT + SNOWEVAPORATION) * SnowWaterContent;
-            }
-            SnowWaterContent = SnowWaterContent - (SNOWMELT + SNOWEVAPORATION);
-            if (SnowWaterContent < (double)(0))
-            {
-                SnowWaterContent = (double)(0);
-            }
-            if (SnowWaterContent < (double)(5))
-            {
-                AgeOfSnow = 0;
-            }
-            else
-            {
-                AgeOfSnow = AgeOfSnow + 1;
-            }
-        }
-        SnowIsolationIndex = tSnowIsolationIndex;
-        SoilSurfaceTemperature = tSoilSurfaceTemperature;
-        s.setSnowWaterContent(SnowWaterContent);
-        s.setSoilSurfaceTemperature(SoilSurfaceTemperature);
-        s.setAgeOfSnow(AgeOfSnow);
-        a.setSnowIsolationIndex(SnowIsolationIndex);
+    double iTempMax = ex.getiTempMax();
+    double iTempMin = ex.getiTempMin();
+    double iRadiation = ex.getiRadiation();
+    double iRAIN = ex.getiRAIN();
+    double iCropResidues = ex.getiCropResidues();
+    double iPotentialSoilEvaporation = ex.getiPotentialSoilEvaporation();
+    double iLeafAreaIndex = ex.getiLeafAreaIndex();
+    vector<double>  iSoilTempArray = ex.getiSoilTempArray();
+    double Albedo = s.getAlbedo();
+    double SnowWaterContent = s.getSnowWaterContent();
+    double SoilSurfaceTemperature = s.getSoilSurfaceTemperature();
+    int AgeOfSnow = s.getAgeOfSnow();
+    double SnowIsolationIndex;
+    double tiCropResidues;
+    double tiSoilTempArray;
+    double TMEAN;
+    double TAMPL;
+    double DST;
+    double tSoilSurfaceTemperature;
+    double tSnowIsolationIndex;
+    double SNOWEVAPORATION;
+    double SNOWMELT;
+    double EAJ;
+    double ageOfSnowFactor;
+    double SNPKT;
+    tiCropResidues = iCropResidues * 10.0;
+    tiSoilTempArray = iSoilTempArray[0];
+    TMEAN = 0.5 * (iTempMax + iTempMin);
+    TAMPL = 0.5 * (iTempMax - iTempMin);
+    DST = TMEAN + (TAMPL * (iRadiation * (1 - Albedo) - 14) / 20);
+    if (iRAIN > float(0) && (tiSoilTempArray < float(1) || (SnowWaterContent > float(3) || SoilSurfaceTemperature < float(0))))
+    {
+        SnowWaterContent = SnowWaterContent + iRAIN;
     }
+    tSnowIsolationIndex = 1.0;
+    if (tiCropResidues < float(10))
+    {
+        tSnowIsolationIndex = tiCropResidues / (tiCropResidues + exp(5.34 - (2.4 * tiCropResidues)));
+    }
+    if (SnowWaterContent < 1E-10)
+    {
+        tSnowIsolationIndex = tSnowIsolationIndex * 0.85;
+        tSoilSurfaceTemperature = 0.5 * (DST + ((1 - tSnowIsolationIndex) * DST) + (tSnowIsolationIndex * tiSoilTempArray));
+    }
+    else
+    {
+        tSnowIsolationIndex = max(SnowWaterContent / (SnowWaterContent + exp(0.47 - (0.62 * SnowWaterContent))), tSnowIsolationIndex);
+        tSoilSurfaceTemperature = (1 - tSnowIsolationIndex) * DST + (tSnowIsolationIndex * tiSoilTempArray);
+    }
+    if (SnowWaterContent == float(0) && !(iRAIN > float(0) && tiSoilTempArray < float(1)))
+    {
+        SnowWaterContent = float(0);
+    }
+    else
+    {
+        EAJ = .5;
+        if (SnowWaterContent < float(5))
+        {
+            EAJ = exp(-max((0.4 * iLeafAreaIndex), (0.1 * (tiCropResidues + 0.1))));
+        }
+        SNOWEVAPORATION = iPotentialSoilEvaporation * EAJ;
+        ageOfSnowFactor = AgeOfSnow / (AgeOfSnow + exp(5.34 - (2.395 * AgeOfSnow)));
+        SNPKT = .3333 * (2 * min(tSoilSurfaceTemperature, tiSoilTempArray) + iTempMax);
+        if (TMEAN > float(0))
+        {
+            SNOWMELT = max(double(0), sqrt(iTempMax * iRadiation) * (1.52 + (.54 * ageOfSnowFactor * SNPKT)));
+        }
+        else
+        {
+            SNOWMELT = float(0);
+        }
+        if (SNOWMELT + SNOWEVAPORATION > SnowWaterContent)
+        {
+            SNOWMELT = SNOWMELT / (SNOWMELT + SNOWEVAPORATION) * SnowWaterContent;
+            SNOWEVAPORATION = SNOWEVAPORATION / (SNOWMELT + SNOWEVAPORATION) * SnowWaterContent;
+        }
+        SnowWaterContent = SnowWaterContent - (SNOWMELT + SNOWEVAPORATION);
+        if (SnowWaterContent < float(0))
+        {
+            SnowWaterContent = float(0);
+        }
+        if (SnowWaterContent < float(5))
+        {
+            AgeOfSnow = 0;
+        }
+        else
+        {
+            AgeOfSnow = AgeOfSnow + 1;
+        }
+    }
+    SnowIsolationIndex = tSnowIsolationIndex;
+    SoilSurfaceTemperature = tSoilSurfaceTemperature;
+    s.setSnowWaterContent(SnowWaterContent);
+    s.setSoilSurfaceTemperature(SoilSurfaceTemperature);
+    s.setAgeOfSnow(AgeOfSnow);
+    a.setSnowIsolationIndex(SnowIsolationIndex);
 }
+#endif
