@@ -4,10 +4,9 @@ public class Soil_tempComponent
     public Soil_tempComponent() { }
 
     Temp_amp _Temp_amp = new Temp_amp();
-    Therm_amp _Therm_amp = new Therm_amp();
     Temp_profile _Temp_profile = new Temp_profile();
-    Canopy_temp_avg _Canopy_temp_avg = new Canopy_temp_avg();
     Layers_temp _Layers_temp = new Layers_temp();
+    Canopy_temp_avg _Canopy_temp_avg = new Canopy_temp_avg();
     Update _Update = new Update();
 
     public Integer [] getlayer_thick()
@@ -25,7 +24,6 @@ public class Soil_tempComponent
     public void  Calculate_Model(soil_tempState s, soil_tempState s1, soil_tempRate r, soil_tempAuxiliary a, soil_tempExogenous ex)
     {
         _Temp_amp.Calculate_Model(s, s1, r, a, ex);
-        _Therm_amp.Calculate_Model(s, s1, r, a, ex);
         _Canopy_temp_avg.Calculate_Model(s, s1, r, a, ex);
         _Temp_profile.Calculate_Model(s, s1, r, a, ex);
         _Layers_temp.Calculate_Model(s, s1, r, a, ex);

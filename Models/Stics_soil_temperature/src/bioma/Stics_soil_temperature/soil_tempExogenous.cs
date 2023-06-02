@@ -9,8 +9,8 @@ namespace soil_temp.DomainClass
 {
     public class soil_tempExogenous : ICloneable, IDomainClass
     {
-        private double _min_temp;
         private double _max_temp;
+        private double _min_temp;
         private double _min_air_temp;
         private double _min_canopy_temp;
         private double _max_canopy_temp;
@@ -26,8 +26,8 @@ namespace soil_temp.DomainClass
         {
             if (copyAll)
             {
-                min_temp = toCopy.min_temp;
                 max_temp = toCopy.max_temp;
+                min_temp = toCopy.min_temp;
                 min_air_temp = toCopy.min_air_temp;
                 min_canopy_temp = toCopy.min_canopy_temp;
                 max_canopy_temp = toCopy.max_canopy_temp;
@@ -35,15 +35,15 @@ namespace soil_temp.DomainClass
             }
         }
 
-        public double min_temp
-        {
-            get { return this._min_temp; }
-            set { this._min_temp= value; } 
-        }
         public double max_temp
         {
             get { return this._max_temp; }
             set { this._max_temp= value; } 
+        }
+        public double min_temp
+        {
+            get { return this._min_temp; }
+            set { this._min_temp= value; } 
         }
         public double min_air_temp
         {
@@ -83,8 +83,8 @@ namespace soil_temp.DomainClass
 
         public virtual Boolean ClearValues()
         {
-             _min_temp = default(double);
              _max_temp = default(double);
+             _min_temp = default(double);
              _min_air_temp = default(double);
              _min_canopy_temp = default(double);
              _max_canopy_temp = default(double);

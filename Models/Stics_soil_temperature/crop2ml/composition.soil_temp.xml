@@ -10,31 +10,26 @@
         <ShortDescription></ShortDescription></Description>
     <Composition>
         <Model name="temp_amp" id="Stics.soiltemperature.temp_amp" filename="unit.temp_amp.xml"/>
-        <Model name="therm_amp" id="Stics.soiltemperature.therm_amp" filename="unit.therm_amp.xml"/>
         <Model name="temp_profile" id="Stics.soiltemperature.temp_profile" filename="unit.temp_profile.xml"/>
-        <Model name="canopy_temp_avg" id="Stics.soiltemperature.canopy_temp_avg" filename="unit.canopy_temp_avg.xml"/>
         <Model name="layers_temp" id="Stics.soiltemperature.layers_temp" filename="unit.layers_temp.xml"/>
+        <Model name="canopy_temp_avg" id="Stics.soiltemperature.canopy_temp_avg" filename="unit.canopy_temp_avg.xml"/>
         <Model name="update" id="Stics.soiltemperature.update" filename="unit.update.xml"/>
         <Links>
-            <InputLink target="temp_amp.min_temp" source="min_temp"/>
             <InputLink target="temp_amp.max_temp" source="max_temp"/>
-            <InputLink target="therm_amp.temp_wave_freq" source="temp_wave_freq"/>
-            <InputLink target="therm_amp.therm_diff" source="therm_diff"/>
+            <InputLink target="temp_amp.min_temp" source="min_temp"/>
             <InputLink target="temp_profile.layer_thick" source="layer_thick"/>
             <InputLink target="temp_profile.min_air_temp" source="min_air_temp"/>
             <InputLink target="temp_profile.air_temp_day1" source="air_temp_day1"/>
+            <InputLink target="layers_temp.layer_thick" source="layer_thick"/>
             <InputLink target="canopy_temp_avg.min_canopy_temp" source="min_canopy_temp"/>
             <InputLink target="canopy_temp_avg.max_canopy_temp" source="max_canopy_temp"/>
-            <InputLink target="layers_temp.layer_thick" source="layer_thick"/>
             <InternalLink target="temp_profile.temp_amp" source="temp_amp.temp_amp"/>
-            <InternalLink target="temp_profile.therm_amp" source="therm_amp.therm_amp"/>
             <InternalLink target="layers_temp.temp_profile" source="temp_profile.temp_profile"/>
             <InternalLink target="update.temp_profile" source="temp_profile.temp_profile"/>
             <InternalLink target="update.canopy_temp_avg" source="canopy_temp_avg.canopy_temp_avg"/>
             <OutputLink target="temp_amp" source="temp_amp.temp_amp"/>
-            <OutputLink target="therm_amp" source="therm_amp.therm_amp"/>
             <OutputLink target="temp_profile" source="temp_profile.temp_profile"/>
-            <OutputLink target="canopy_temp_avg" source="canopy_temp_avg.canopy_temp_avg"/>
             <OutputLink target="layer_temp" source="layers_temp.layer_temp"/>
-            <OutputLink target="prev_temp_profile" source="update.prev_temp_profile"/>
-            <OutputLink target="prev_canopy_temp" source="update.prev_canopy_temp"/></Links></Composition></ModelComposition>
+            <OutputLink target="canopy_temp_avg" source="canopy_temp_avg.canopy_temp_avg"/>
+            <OutputLink target="prev_canopy_temp" source="update.prev_canopy_temp"/>
+            <OutputLink target="prev_temp_profile" source="update.prev_temp_profile"/></Links></Composition></ModelComposition>

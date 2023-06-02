@@ -4,7 +4,6 @@ MODULE Temp_profilemod
 CONTAINS
 
     SUBROUTINE init_temp_profile(temp_amp, &
-        therm_amp, &
         min_air_temp, &
         air_temp_day1, &
         layer_thick, &
@@ -13,7 +12,6 @@ CONTAINS
         IMPLICIT NONE
         INTEGER:: i_cyml_r
         REAL, INTENT(IN) :: temp_amp
-        REAL, INTENT(IN) :: therm_amp
         REAL, INTENT(IN) :: min_air_temp
         REAL, INTENT(IN) :: air_temp_day1
         INTEGER , DIMENSION(: ), INTENT(IN) :: layer_thick
@@ -28,7 +26,6 @@ CONTAINS
     END SUBROUTINE init_temp_profile
 
     SUBROUTINE model_temp_profile(temp_amp, &
-        therm_amp, &
         prev_temp_profile, &
         prev_canopy_temp, &
         min_air_temp, &
@@ -38,7 +35,6 @@ CONTAINS
         IMPLICIT NONE
         INTEGER:: i_cyml_r
         REAL, INTENT(IN) :: temp_amp
-        REAL, INTENT(IN) :: therm_amp
         REAL , DIMENSION(: ), INTENT(IN) :: prev_temp_profile
         REAL, INTENT(IN) :: prev_canopy_temp
         REAL, INTENT(IN) :: min_air_temp
@@ -48,6 +44,11 @@ CONTAINS
         INTEGER:: z
         INTEGER:: n
         REAL, ALLOCATABLE , DIMENSION(:):: vexp
+        REAL:: therm_diff
+        REAL:: temp_freq
+        REAL:: therm_amp
+        therm_diff = 5.37e-3
+        temp_freq = 7.272e-5
         !- Name: temp_profile -Version: 1.0, -Time step: 1
         !- Description:
     !            * Title: tempprofile model
@@ -66,15 +67,6 @@ CONTAINS
     !                          ** min : 0.0
     !                          ** default : 0.0
     !                          ** unit : degC
-    !            * name: therm_amp
-    !                          ** description : current thermal amplitude
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
-    !                          ** datatype : DOUBLE
-    !                          ** max : 
-    !                          ** min : 
-    !                          ** default : 
-    !                          ** unit : 
     !            * name: prev_temp_profile
     !                          ** description : previous soil temperature profile 
     !                          ** inputtype : variable
@@ -134,6 +126,7 @@ CONTAINS
         n = SIZE(prev_temp_profile)
         allocate(temp_profile(n))
         allocate(vexp(n))
+        therm_amp = SQRT(temp_freq / 2 / therm_diff)
         DO z = 1 , n + 1-1, 1
             vexp(z - 1+1) = EXP(-z * therm_amp)
         END DO

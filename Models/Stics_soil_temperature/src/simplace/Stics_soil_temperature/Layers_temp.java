@@ -62,7 +62,7 @@ public class Layers_temp extends FWSimComponent
         }
         for (z=1 ; z!=layers_nb + 1 ; z+=1)
         {
-            t_layer_temp[z - 1] = Arrays.stream(t_temp_profile[(up_depth.get(z - 1) + 1 - 1):(up_depth.get(z + 1 - 1) + 1)]).mapToDouble(Double::doubleValue).sum() / t_layer_thick[(z - 1)];
+            t_layer_temp[z - 1] = Arrays.stream(t_temp_profile[(up_depth.get(z - 1) + 1 - 1):up_depth.get((z + 1 - 1))]).mapToDouble(Double::doubleValue).sum() / t_layer_thick[(z - 1)];
         }
         layer_temp.setValue(t_layer_temp, this);
     }
@@ -92,7 +92,7 @@ public class Layers_temp extends FWSimComponent
         {
             if (t_layer_thick[z - 1] != 0)
             {
-                layer_depth.set(z - 1,Arrays.stream(t_layer_thick[1 - 1:z + 1]).mapToInt(Integer::intValue).sum());
+                layer_depth.set(z - 1,Arrays.stream(t_layer_thick[1 - 1:z]).mapToInt(Integer::intValue).sum());
             }
         }
         return layer_depth;

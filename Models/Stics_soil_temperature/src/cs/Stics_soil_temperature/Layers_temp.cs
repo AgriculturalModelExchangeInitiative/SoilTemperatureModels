@@ -71,7 +71,7 @@ public class layers_temp
         }
         for (z=1 ; z!=layers_nb + 1 ; z+=1)
         {
-            layer_temp[z - 1] = temp_profile.ToList().GetRange((up_depth[z - 1] + 1 - 1),(up_depth[z + 1 - 1] + 1)).Sum() / layer_thick[(z - 1)];
+            layer_temp[z - 1] = temp_profile.ToList().GetRange((up_depth[z - 1] + 1 - 1),up_depth[(z + 1 - 1)]).Sum() / layer_thick[(z - 1)];
         }
         s.layer_temp= layer_temp;
     }
@@ -101,7 +101,7 @@ public class layers_temp
         {
             if (layer_thick[z - 1] != 0)
             {
-                layer_depth[z - 1] = layer_thick.ToList().GetRange(1 - 1,z + 1).Sum();
+                layer_depth[z - 1] = layer_thick.ToList().GetRange(1 - 1,z).Sum();
             }
         }
         return layer_depth;

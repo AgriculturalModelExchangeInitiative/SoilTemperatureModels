@@ -25,13 +25,11 @@ class soil_tempWrapper
 
     public double temp_amp{ get { return s.temp_amp;}} 
      
-    public double therm_amp{ get { return s.therm_amp;}} 
-     
     public double[] temp_profile{ get { return s.temp_profile;}} 
      
-    public double canopy_temp_avg{ get { return s.canopy_temp_avg;}} 
-     
     public double[] layer_temp{ get { return s.layer_temp;}} 
+     
+    public double canopy_temp_avg{ get { return s.canopy_temp_avg;}} 
      
     public double[] prev_temp_profile{ get { return s.prev_temp_profile;}} 
      
@@ -61,12 +59,10 @@ class soil_tempWrapper
         soil_tempComponent.air_temp_day1 = air_temp_day1;
     }
 
-    public void Estimatesoil_temp(double temp_wave_freq, double therm_diff, double min_temp, double max_temp, double min_air_temp, double min_canopy_temp, double max_canopy_temp)
+    public void Estimatesoil_temp(double max_temp, double min_temp, double min_air_temp, double min_canopy_temp, double max_canopy_temp)
     {
-        a.temp_wave_freq = temp_wave_freq;
-        a.therm_diff = therm_diff;
-        a.min_temp = min_temp;
         a.max_temp = max_temp;
+        a.min_temp = min_temp;
         a.min_air_temp = min_air_temp;
         a.min_canopy_temp = min_canopy_temp;
         a.max_canopy_temp = max_canopy_temp;

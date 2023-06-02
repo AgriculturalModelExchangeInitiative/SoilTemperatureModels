@@ -9,8 +9,6 @@ namespace soil_temp.DomainClass
 {
     public class soil_tempAuxiliary : ICloneable, IDomainClass
     {
-        private double _temp_wave_freq;
-        private double _therm_diff;
         private ParametersIO _parametersIO;
 
         public soil_tempAuxiliary()
@@ -22,20 +20,7 @@ namespace soil_temp.DomainClass
         {
             if (copyAll)
             {
-                temp_wave_freq = toCopy.temp_wave_freq;
-                therm_diff = toCopy.therm_diff;
             }
-        }
-
-        public double temp_wave_freq
-        {
-            get { return this._temp_wave_freq; }
-            set { this._temp_wave_freq= value; } 
-        }
-        public double therm_diff
-        {
-            get { return this._therm_diff; }
-            set { this._therm_diff= value; } 
         }
 
         public string Description
@@ -55,8 +40,6 @@ namespace soil_temp.DomainClass
 
         public virtual Boolean ClearValues()
         {
-             _temp_wave_freq = default(double);
-             _therm_diff = default(double);
             return true;
         }
 

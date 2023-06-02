@@ -12,10 +12,13 @@ def model_update(float canopy_temp_avg,
     ShortDescription: None
 
     """
-    cdef float prev_temp_profile[1]
     cdef float prev_canopy_temp
+    cdef float prev_temp_profile[1]
+    cdef int n 
     prev_canopy_temp=canopy_temp_avg
-    prev_temp_profile=copy(temp_profile)
-    return  prev_temp_profile, prev_canopy_temp
+    n=len(temp_profile)
+    prev_temp_profile.allocate(n)
+    prev_temp_profile=temp_profile
+    return  prev_canopy_temp, prev_temp_profile
 
 

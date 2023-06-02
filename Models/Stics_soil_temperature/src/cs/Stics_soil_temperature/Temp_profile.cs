@@ -6,7 +6,6 @@ public class temp_profile
     public void Init(soil_tempState s, soil_tempState s1, soil_tempRate r, soil_tempAuxiliary a, soil_tempExogenous ex)
     {
         double temp_amp = ex.temp_amp;
-        double therm_amp = ex.therm_amp;
         double min_air_temp = ex.min_air_temp;
         double[] prev_temp_profile ;
         double prev_canopy_temp;
@@ -53,15 +52,6 @@ public class temp_profile
     //                          ** min : 0.0
     //                          ** default : 0.0
     //                          ** unit : degC
-    //            * name: therm_amp
-    //                          ** description : current thermal amplitude
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : 
     //            * name: prev_temp_profile
     //                          ** description : previous soil temperature profile 
     //                          ** inputtype : variable
@@ -119,7 +109,6 @@ public class temp_profile
     //                          ** min : -50.0
     //                          ** unit : degC
         double temp_amp = ex.temp_amp;
-        double therm_amp = ex.therm_amp;
         double[] prev_temp_profile = s.prev_temp_profile;
         double prev_canopy_temp = s.prev_canopy_temp;
         double min_air_temp = ex.min_air_temp;
@@ -127,9 +116,13 @@ public class temp_profile
         int z;
         int n;
         List<double> vexp = new List<double>();
+        double therm_diff = 5.37e-3;
+        double temp_freq = 7.272e-5;
+        double therm_amp;
         n = prev_temp_profile.Length;
         temp_profile = new double[ n];
         vexp = new List<double>(n);
+        therm_amp = Math.Sqrt(temp_freq / 2 / therm_diff);
         for (z=1 ; z!=n + 1 ; z+=1)
         {
             vexp[z - 1] = Math.Exp(-(z * therm_amp));

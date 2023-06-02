@@ -5,7 +5,6 @@ cdef intlist  layer_depth
 cdef int depth_value 
 layers_nb=get_layers_number(layer_thick)
 layer_temp.allocate(layers_nb)
-#layers_nb = size(layer_thick)
 #if (.NOT. ALLOCATED(layer_temp)) then
 up_depth.allocate(layers_nb + 1)
 #end if
@@ -17,11 +16,9 @@ layer_depth.allocate(layers_nb)
 up_depth=[0]*(layers_nb + 1)
 # Getting layers bottom depth
 layer_depth=layer_thickness2depth(layer_thick)
-#up_depth(2:(layers_nb + 1)) = int(layer_depth)
 for z in range(1 , layers_nb + 1 , 1):
-    #depth_value = int(layer_depth(z))
     depth_value=layer_depth[z - 1]
     up_depth[z + 1 - 1]=depth_value
 # Calculating layers mean temparature
 for z in range(1 , layers_nb + 1 , 1):
-    layer_temp[z - 1]=sum(temp_profile[(up_depth[z - 1] + 1 - 1):(up_depth[z + 1 - 1] + 1)]) / layer_thick[(z - 1)]
+    layer_temp[z - 1]=sum(temp_profile[(up_depth[z - 1] + 1 - 1):up_depth[(z + 1 - 1)]]) / layer_thick[(z - 1)]

@@ -19,13 +19,13 @@ public class Update
     //            * ShortDescription: None
         //- inputs:
     //            * name: canopy_temp_avg
-    //                          ** description : current temperature amplitude
+    //                          ** description : current canopy mean temperature
     //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLE
-    //                          ** max : 100.0
-    //                          ** min : 0.0
-    //                          ** default : 
+    //                          ** max : 50.0
+    //                          ** min : -50.0
+    //                          ** default : 0.0
     //                          ** unit : degC
     //            * name: temp_profile
     //                          ** description : current soil profile temperature 
@@ -38,6 +38,13 @@ public class Update
     //                          ** default : 
     //                          ** unit : degC
         //- outputs:
+    //            * name: prev_canopy_temp
+    //                          ** description : previous crop temperature
+    //                          ** datatype : DOUBLE
+    //                          ** variablecategory : exogenous
+    //                          ** max : 50.0
+    //                          ** min : 0.0
+    //                          ** unit : degC
     //            * name: prev_temp_profile
     //                          ** description : previous soil temperature profile 
     //                          ** datatype : DOUBLEARRAY
@@ -46,20 +53,16 @@ public class Update
     //                          ** max : 50.0
     //                          ** min : -50.0
     //                          ** unit : degC
-    //            * name: prev_canopy_temp
-    //                          ** description : previous crop temperature
-    //                          ** datatype : DOUBLE
-    //                          ** variablecategory : exogenous
-    //                          ** max : 50.0
-    //                          ** min : 0.0
-    //                          ** unit : degC
-        Double canopy_temp_avg = s.getcanopy_temp_avg();
+        Double canopy_temp_avg = ex.getcanopy_temp_avg();
         Double [] temp_profile = s.gettemp_profile();
-        Double[] prev_temp_profile =  new Double [1];
         Double prev_canopy_temp;
+        Double[] prev_temp_profile =  new Double [1];
+        Integer n;
         prev_canopy_temp = canopy_temp_avg;
-        prev_temp_profile = new ArrayList<>(temp_profile);
-        s.setprev_temp_profile(prev_temp_profile);
+        n = temp_profile.length;
+        prev_temp_profile = new Double [n];
+        prev_temp_profile = temp_profile;
         ex.setprev_canopy_temp(prev_canopy_temp);
+        s.setprev_temp_profile(prev_temp_profile);
     }
 }

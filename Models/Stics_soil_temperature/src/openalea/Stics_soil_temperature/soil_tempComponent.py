@@ -6,17 +6,14 @@ from typing import *
 from datetime import datetime
 
 from Stics_soil_temperature.temp_amp import model_temp_amp
-from Stics_soil_temperature.therm_amp import model_therm_amp
 from Stics_soil_temperature.temp_profile import model_temp_profile
-from Stics_soil_temperature.canopy_temp_avg import model_canopy_temp_avg
 from Stics_soil_temperature.layers_temp import model_layers_temp
+from Stics_soil_temperature.canopy_temp_avg import model_canopy_temp_avg
 from Stics_soil_temperature.update import model_update
 
 #%%CyML Model Begin%%
-def model_soil_temp(min_temp:float,
-         max_temp:float,
-         temp_wave_freq:float,
-         therm_diff:float,
+def model_soil_temp(max_temp:float,
+         min_temp:float,
          layer_thick:'Array[int]',
          min_air_temp:float,
          air_temp_day1:float,
@@ -32,15 +29,6 @@ def model_soil_temp(min_temp:float,
                  * ExtendedDescription: None
                  * ShortDescription: None
      - inputs:
-                 * name: min_temp
-                               ** description : current minimum temperature
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
-                               ** datatype : DOUBLE
-                               ** max : 50.0
-                               ** min : -50.0
-                               ** default : 0.0
-                               ** unit : degC
                  * name: max_temp
                                ** description : current maximum temperature
                                ** inputtype : variable
@@ -50,24 +38,15 @@ def model_soil_temp(min_temp:float,
                                ** min : -50.0
                                ** default : 0.0
                                ** unit : degC
-                 * name: temp_wave_freq
-                               ** description : angular frequency of the diurnal temperature sine wave
+                 * name: min_temp
+                               ** description : current minimum temperature
                                ** inputtype : variable
-                               ** variablecategory : auxiliary
+                               ** variablecategory : exogenous
                                ** datatype : DOUBLE
-                               ** max : 
-                               ** min : 0.0
-                               ** default : 7.272e-5
-                               ** unit : radians s-1
-                 * name: therm_diff
-                               ** description : soil thermal diffusivity
-                               ** inputtype : variable
-                               ** variablecategory : auxiliary
-                               ** datatype : DOUBLE
-                               ** max : 1.0e-1
-                               ** min : 0.0
-                               ** default : 5.37e-3
-                               ** unit : cm2 s-1
+                               ** max : 50.0
+                               ** min : -50.0
+                               ** default : 0.0
+                               ** unit : degC
                  * name: layer_thick
                                ** description : layers thickness
                                ** inputtype : parameter
@@ -122,15 +101,16 @@ def model_soil_temp(min_temp:float,
                                ** max : 100.0
                                ** min : 0.0
                                ** unit : degC
-                 * name: therm_amp
-                               ** description : thermal amplitude
-                               ** datatype : DOUBLE
-                               ** variablecategory : state
-                               ** max : 
-                               ** min : 
-                               ** unit : radians cm-2
                  * name: temp_profile
                                ** description : current soil profile temperature 
+                               ** datatype : DOUBLEARRAY
+                               ** variablecategory : state
+                               ** len : 
+                               ** max : 50.0
+                               ** min : -50.0
+                               ** unit : degC
+                 * name: layer_temp
+                               ** description : soil layers temperature
                                ** datatype : DOUBLEARRAY
                                ** variablecategory : state
                                ** len : 
@@ -144,13 +124,12 @@ def model_soil_temp(min_temp:float,
                                ** max : 100.0
                                ** min : 0.0
                                ** unit : degC
-                 * name: layer_temp
-                               ** description : soil layers temperature
-                               ** datatype : DOUBLEARRAY
-                               ** variablecategory : state
-                               ** len : 
+                 * name: prev_canopy_temp
+                               ** description : previous crop temperature
+                               ** datatype : DOUBLE
+                               ** variablecategory : exogenous
                                ** max : 50.0
-                               ** min : -50.0
+                               ** min : 0.0
                                ** unit : degC
                  * name: prev_temp_profile
                                ** description : previous soil temperature profile 
@@ -160,27 +139,18 @@ def model_soil_temp(min_temp:float,
                                ** max : 50.0
                                ** min : -50.0
                                ** unit : degC
-                 * name: prev_canopy_temp
-                               ** description : previous crop temperature
-                               ** datatype : DOUBLE
-                               ** variablecategory : exogenous
-                               ** max : 50.0
-                               ** min : 0.0
-                               ** unit : degC
     """
 
     temp_amp:float
-    therm_amp:float
     prev_temp_profile:'array[float]'
     prev_canopy_temp:float
     temp_profile:'array[float]'
-    canopy_temp_avg:float
     layer_temp:'array[float]'
+    canopy_temp_avg:float
     temp_amp = model_temp_amp(min_temp, max_temp)
-    therm_amp = model_therm_amp(therm_diff, temp_wave_freq)
     canopy_temp_avg = model_canopy_temp_avg(min_canopy_temp, max_canopy_temp)
-    temp_profile = model_temp_profile(temp_amp, therm_amp, prev_temp_profile, prev_canopy_temp, min_air_temp, air_temp_day1, layer_thick)
+    temp_profile = model_temp_profile(temp_amp, prev_temp_profile, prev_canopy_temp, min_air_temp, air_temp_day1, layer_thick)
     layer_temp = model_layers_temp(temp_profile, layer_thick)
-    (prev_temp_profile, prev_canopy_temp) = model_update(canopy_temp_avg, temp_profile)
-    return (temp_amp, therm_amp, temp_profile, canopy_temp_avg, layer_temp, prev_temp_profile, prev_canopy_temp)
+    (prev_canopy_temp, prev_temp_profile) = model_update(canopy_temp_avg, temp_profile)
+    return (temp_amp, temp_profile, layer_temp, canopy_temp_avg, prev_canopy_temp, prev_temp_profile)
 #%%CyML Model End%%

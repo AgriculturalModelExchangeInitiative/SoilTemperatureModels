@@ -54,7 +54,7 @@ model_layers_temp <- function (temp_profile,
         up_depth[z + 1 - 1+1] <- depth_value
     }
     for( z in seq(1, layers_nb + 1-1, 1)){
-        layer_temp[z - 1+1] <- sum(temp_profile[(up_depth[z - 1+1] + 1 - 1):(up_depth[z + 1 - 1+1] + 1)]) / layer_thick[(z - 1)+1]
+        layer_temp[z - 1+1] <- sum(temp_profile[(up_depth[z - 1+1] + 1 - 1):up_depth[(z + 1 - 1)+1]]) / layer_thick[(z - 1)+1]
     }
     return (list('layer_temp' = layer_temp))
 }
@@ -78,7 +78,7 @@ layer_thickness2depth <- function (layer_thick){
     for( z in seq(1, layers_nb + 1-1, 1)){
         if (layer_thick[z - 1+1] != 0)
         {
-            layer_depth[z - 1+1] <- sum(layer_thick[1 - 1:z + 1])
+            layer_depth[z - 1+1] <- sum(layer_thick[1 - 1:z])
         }
     }
     return( layer_depth)

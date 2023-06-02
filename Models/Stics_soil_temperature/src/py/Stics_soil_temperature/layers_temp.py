@@ -67,7 +67,7 @@ def model_layers_temp(temp_profile:'Array[float]',
         depth_value = layer_depth[z - 1]
         up_depth[z + 1 - 1] = depth_value
     for z in range(1 , layers_nb + 1 , 1):
-        layer_temp[z - 1] = sum(temp_profile[(up_depth[z - 1] + 1 - 1):(up_depth[z + 1 - 1] + 1)]) / layer_thick[(z - 1)]
+        layer_temp[z - 1] = sum(temp_profile[(up_depth[z - 1] + 1 - 1):up_depth[(z + 1 - 1)]]) / layer_thick[(z - 1)]
     return layer_temp
 #%%CyML Model End%%
 
@@ -89,5 +89,5 @@ def layer_thickness2depth(layer_thick:'Array[int]'):
     layer_depth = [0] * layers_nb
     for z in range(1 , layers_nb + 1 , 1):
         if layer_thick[z - 1] != 0:
-            layer_depth[z - 1] = sum(layer_thick[1 - 1:z + 1])
+            layer_depth[z - 1] = sum(layer_thick[1 - 1:z])
     return layer_depth

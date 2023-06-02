@@ -15,7 +15,6 @@ import org.jdom2.Element;
 public class Temp_profile extends FWSimComponent
 {
     private FWSimVariable<Double> temp_amp;
-    private FWSimVariable<Double> therm_amp;
     private FWSimVariable<Double[]> prev_temp_profile;
     private FWSimVariable<Double> prev_canopy_temp;
     private FWSimVariable<Double> min_air_temp;
@@ -36,7 +35,6 @@ public class Temp_profile extends FWSimComponent
     public HashMap<String, FWSimVariable<?>> createVariables()
     {
         addVariable(FWSimVariable.createSimVariable("temp_amp", "current temperature amplitude", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"degC", 0.0, 100.0, 0.0, this));
-        addVariable(FWSimVariable.createSimVariable("therm_amp", "current thermal amplitude", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"", null, null, null, this));
         addVariable(FWSimVariable.createSimVariable("prev_temp_profile", "previous soil temperature profile ", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"degC", -50.0, 50.0, null, this));
         addVariable(FWSimVariable.createSimVariable("prev_canopy_temp", "previous crop temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"degC", 0.0, 50.0, null, this));
         addVariable(FWSimVariable.createSimVariable("min_air_temp", "current minimum air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"degC", -50.0, 50.0, null, this));
@@ -50,7 +48,6 @@ public class Temp_profile extends FWSimComponent
     protected void init()
     {
         Double t_temp_amp = temp_amp.getValue();
-        Double t_therm_amp = therm_amp.getValue();
         Double t_min_air_temp = min_air_temp.getValue();
         Double t_air_temp_day1 = air_temp_day1.getValue();
         Integer [] t_layer_thick = layer_thick.getValue();
@@ -69,7 +66,6 @@ public class Temp_profile extends FWSimComponent
     protected void process()
     {
         Double t_temp_amp = temp_amp.getValue();
-        Double t_therm_amp = therm_amp.getValue();
         Double [] t_prev_temp_profile = prev_temp_profile.getValue();
         Double t_prev_canopy_temp = prev_canopy_temp.getValue();
         Double t_min_air_temp = min_air_temp.getValue();
@@ -79,12 +75,16 @@ public class Temp_profile extends FWSimComponent
         Integer z;
         Integer n;
         List<> Doublevexp = new ArrayList<>(Arrays.asList());
+        Double therm_diff = 5.37e-3d;
+        Double temp_freq = 7.272e-5d;
+        Double therm_amp;
         n = t_prev_temp_profile.length;
         t_temp_profile = new Double [n];
         vexp = new Double [n];
+        therm_amp = Math.sqrt(temp_freq / 2 / therm_diff);
         for (z=1 ; z!=n + 1 ; z+=1)
         {
-            vexp.set(z - 1,Math.exp(-(z * t_therm_amp)));
+            vexp.set(z - 1,Math.exp(-(z * therm_amp)));
         }
         for (z=1 ; z!=n + 1 ; z+=1)
         {

@@ -16,8 +16,8 @@ public class Update extends FWSimComponent
 {
     private FWSimVariable<Double> canopy_temp_avg;
     private FWSimVariable<Double[]> temp_profile;
-    private FWSimVariable<Double[]> prev_temp_profile;
     private FWSimVariable<Double> prev_canopy_temp;
+    private FWSimVariable<Double[]> prev_temp_profile;
 
     public Update(String aName, HashMap<String, FWSimVariable<?>> aFieldMap, HashMap<String, String> aInputMap, Element aSimComponentElement, FWSimVarMap aVarMap, int aOrderNumber)
     {
@@ -31,10 +31,10 @@ public class Update extends FWSimComponent
     @Override
     public HashMap<String, FWSimVariable<?>> createVariables()
     {
-        addVariable(FWSimVariable.createSimVariable("canopy_temp_avg", "current temperature amplitude", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"degC", 0.0, 100.0, null, this));
+        addVariable(FWSimVariable.createSimVariable("canopy_temp_avg", "current canopy mean temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"degC", -50.0, 50.0, 0.0, this));
         addVariable(FWSimVariable.createSimVariable("temp_profile", "current soil profile temperature ", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"degC", -50.0, 50.0, null, this));
-        addVariable(FWSimVariable.createSimVariable("prev_temp_profile", "previous soil temperature profile ", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"degC", -50.0, 50.0, null, this));
         addVariable(FWSimVariable.createSimVariable("prev_canopy_temp", "previous crop temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"degC", 0.0, 50.0, null, this));
+        addVariable(FWSimVariable.createSimVariable("prev_temp_profile", "previous soil temperature profile ", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"degC", -50.0, 50.0, null, this));
 
         return iFieldMap;
     }
@@ -43,12 +43,15 @@ public class Update extends FWSimComponent
     {
         Double t_canopy_temp_avg = canopy_temp_avg.getValue();
         Double [] t_temp_profile = temp_profile.getValue();
-        Double [] t_prev_temp_profile;
         Double t_prev_canopy_temp;
+        Double [] t_prev_temp_profile;
+        Integer n;
         t_prev_canopy_temp = t_canopy_temp_avg;
-        t_prev_temp_profile = new ArrayList<>(t_temp_profile);
-        prev_temp_profile.setValue(t_prev_temp_profile, this);
+        n = t_temp_profile.length;
+        t_prev_temp_profile = new Double [n];
+        t_prev_temp_profile = t_temp_profile;
         prev_canopy_temp.setValue(t_prev_canopy_temp, this);
+        prev_temp_profile.setValue(t_prev_temp_profile, this);
     }
 
     @Override

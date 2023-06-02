@@ -4,14 +4,15 @@ CONTAINS
 
     SUBROUTINE model_update(canopy_temp_avg, &
         temp_profile, &
-        prev_temp_profile, &
-        prev_canopy_temp)
+        prev_canopy_temp, &
+        prev_temp_profile)
         IMPLICIT NONE
         INTEGER:: i_cyml_r
         REAL, INTENT(IN) :: canopy_temp_avg
         REAL , DIMENSION(: ), INTENT(IN) :: temp_profile
-        REAL , DIMENSION(1 ), INTENT(OUT) :: prev_temp_profile
         REAL, INTENT(OUT) :: prev_canopy_temp
+        REAL , DIMENSION(1 ), INTENT(OUT) :: prev_temp_profile
+        INTEGER:: n
         !- Name: update -Version: 1.0, -Time step: 1
         !- Description:
     !            * Title: update soil temp model
@@ -22,13 +23,13 @@ CONTAINS
     !            * ShortDescription: None
         !- inputs:
     !            * name: canopy_temp_avg
-    !                          ** description : current temperature amplitude
+    !                          ** description : current canopy mean temperature
     !                          ** inputtype : variable
-    !                          ** variablecategory : state
+    !                          ** variablecategory : exogenous
     !                          ** datatype : DOUBLE
-    !                          ** max : 100.0
-    !                          ** min : 0.0
-    !                          ** default : 
+    !                          ** max : 50.0
+    !                          ** min : -50.0
+    !                          ** default : 0.0
     !                          ** unit : degC
     !            * name: temp_profile
     !                          ** description : current soil profile temperature 
@@ -41,6 +42,13 @@ CONTAINS
     !                          ** default : 
     !                          ** unit : degC
         !- outputs:
+    !            * name: prev_canopy_temp
+    !                          ** description : previous crop temperature
+    !                          ** datatype : DOUBLE
+    !                          ** variablecategory : exogenous
+    !                          ** max : 50.0
+    !                          ** min : 0.0
+    !                          ** unit : degC
     !            * name: prev_temp_profile
     !                          ** description : previous soil temperature profile 
     !                          ** datatype : DOUBLEARRAY
@@ -49,14 +57,9 @@ CONTAINS
     !                          ** max : 50.0
     !                          ** min : -50.0
     !                          ** unit : degC
-    !            * name: prev_canopy_temp
-    !                          ** description : previous crop temperature
-    !                          ** datatype : DOUBLE
-    !                          ** variablecategory : exogenous
-    !                          ** max : 50.0
-    !                          ** min : 0.0
-    !                          ** unit : degC
         prev_canopy_temp = canopy_temp_avg
+        n = SIZE(temp_profile)
+        allocate(prev_temp_profile(n))
         prev_temp_profile = temp_profile
     END SUBROUTINE model_update
 

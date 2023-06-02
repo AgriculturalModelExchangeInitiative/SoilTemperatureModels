@@ -75,7 +75,7 @@ public class Layers_temp
         }
         for (z=1 ; z!=layers_nb + 1 ; z+=1)
         {
-            layer_temp[z - 1] = Arrays.stream(temp_profile[(up_depth.get(z - 1) + 1 - 1):(up_depth.get(z + 1 - 1) + 1)]).mapToDouble(Double::doubleValue).sum() / layer_thick[(z - 1)];
+            layer_temp[z - 1] = Arrays.stream(temp_profile[(up_depth.get(z - 1) + 1 - 1):up_depth.get((z + 1 - 1))]).mapToDouble(Double::doubleValue).sum() / layer_thick[(z - 1)];
         }
         s.setlayer_temp(layer_temp);
     }
@@ -105,7 +105,7 @@ public class Layers_temp
         {
             if (layer_thick[z - 1] != 0)
             {
-                layer_depth.set(z - 1,Arrays.stream(layer_thick[1 - 1:z + 1]).mapToInt(Integer::intValue).sum());
+                layer_depth.set(z - 1,Arrays.stream(layer_thick[1 - 1:z]).mapToInt(Integer::intValue).sum());
             }
         }
         return layer_depth;

@@ -57,39 +57,33 @@ namespace soil_temp.Strategies
             pd1.PropertyVarInfo =(soil_temp.DomainClass.soil_tempExogenousVarInfo.temp_amp);
             _inputs0_0.Add(pd1);
             PropertyDescription pd2 = new PropertyDescription();
-            pd2.DomainClassType = typeof(soil_temp.DomainClass.soil_tempExogenous);
-            pd2.PropertyName = "therm_amp";
-            pd2.PropertyType = (soil_temp.DomainClass.soil_tempExogenousVarInfo.therm_amp).ValueType.TypeForCurrentValue;
-            pd2.PropertyVarInfo =(soil_temp.DomainClass.soil_tempExogenousVarInfo.therm_amp);
+            pd2.DomainClassType = typeof(soil_temp.DomainClass.soil_tempState);
+            pd2.PropertyName = "prev_temp_profile";
+            pd2.PropertyType = (soil_temp.DomainClass.soil_tempStateVarInfo.prev_temp_profile).ValueType.TypeForCurrentValue;
+            pd2.PropertyVarInfo =(soil_temp.DomainClass.soil_tempStateVarInfo.prev_temp_profile);
             _inputs0_0.Add(pd2);
             PropertyDescription pd3 = new PropertyDescription();
             pd3.DomainClassType = typeof(soil_temp.DomainClass.soil_tempState);
-            pd3.PropertyName = "prev_temp_profile";
-            pd3.PropertyType = (soil_temp.DomainClass.soil_tempStateVarInfo.prev_temp_profile).ValueType.TypeForCurrentValue;
-            pd3.PropertyVarInfo =(soil_temp.DomainClass.soil_tempStateVarInfo.prev_temp_profile);
+            pd3.PropertyName = "prev_canopy_temp";
+            pd3.PropertyType = (soil_temp.DomainClass.soil_tempStateVarInfo.prev_canopy_temp).ValueType.TypeForCurrentValue;
+            pd3.PropertyVarInfo =(soil_temp.DomainClass.soil_tempStateVarInfo.prev_canopy_temp);
             _inputs0_0.Add(pd3);
             PropertyDescription pd4 = new PropertyDescription();
-            pd4.DomainClassType = typeof(soil_temp.DomainClass.soil_tempState);
-            pd4.PropertyName = "prev_canopy_temp";
-            pd4.PropertyType = (soil_temp.DomainClass.soil_tempStateVarInfo.prev_canopy_temp).ValueType.TypeForCurrentValue;
-            pd4.PropertyVarInfo =(soil_temp.DomainClass.soil_tempStateVarInfo.prev_canopy_temp);
+            pd4.DomainClassType = typeof(soil_temp.DomainClass.soil_tempExogenous);
+            pd4.PropertyName = "min_air_temp";
+            pd4.PropertyType = (soil_temp.DomainClass.soil_tempExogenousVarInfo.min_air_temp).ValueType.TypeForCurrentValue;
+            pd4.PropertyVarInfo =(soil_temp.DomainClass.soil_tempExogenousVarInfo.min_air_temp);
             _inputs0_0.Add(pd4);
-            PropertyDescription pd5 = new PropertyDescription();
-            pd5.DomainClassType = typeof(soil_temp.DomainClass.soil_tempExogenous);
-            pd5.PropertyName = "min_air_temp";
-            pd5.PropertyType = (soil_temp.DomainClass.soil_tempExogenousVarInfo.min_air_temp).ValueType.TypeForCurrentValue;
-            pd5.PropertyVarInfo =(soil_temp.DomainClass.soil_tempExogenousVarInfo.min_air_temp);
-            _inputs0_0.Add(pd5);
             mo0_0.Inputs=_inputs0_0;
 
             //Outputs
             List<PropertyDescription> _outputs0_0 = new List<PropertyDescription>();
-            PropertyDescription pd6 = new PropertyDescription();
-            pd6.DomainClassType = typeof(soil_temp.DomainClass.soil_tempState);
-            pd6.PropertyName = "temp_profile";
-            pd6.PropertyType = (soil_temp.DomainClass.soil_tempStateVarInfo.temp_profile).ValueType.TypeForCurrentValue;
-            pd6.PropertyVarInfo =(soil_temp.DomainClass.soil_tempStateVarInfo.temp_profile);
-            _outputs0_0.Add(pd6);
+            PropertyDescription pd5 = new PropertyDescription();
+            pd5.DomainClassType = typeof(soil_temp.DomainClass.soil_tempState);
+            pd5.PropertyName = "temp_profile";
+            pd5.PropertyType = (soil_temp.DomainClass.soil_tempStateVarInfo.temp_profile).ValueType.TypeForCurrentValue;
+            pd5.PropertyVarInfo =(soil_temp.DomainClass.soil_tempStateVarInfo.temp_profile);
+            _outputs0_0.Add(pd5);
             mo0_0.Outputs=_outputs0_0;
             //Associated strategies
             List<string> lAssStrat0_0 = new List<string>();
@@ -232,8 +226,8 @@ namespace soil_temp.Strategies
                 soil_temp.DomainClass.soil_tempStateVarInfo.temp_profile.CurrentValue=s.temp_profile;
                 ConditionsCollection prc = new ConditionsCollection();
                 Preconditions pre = new Preconditions(); 
-                RangeBasedCondition r8 = new RangeBasedCondition(soil_temp.DomainClass.soil_tempStateVarInfo.temp_profile);
-                if(r8.ApplicableVarInfoValueTypes.Contains( soil_temp.DomainClass.soil_tempStateVarInfo.temp_profile.ValueType)){prc.AddCondition(r8);}
+                RangeBasedCondition r7 = new RangeBasedCondition(soil_temp.DomainClass.soil_tempStateVarInfo.temp_profile);
+                if(r7.ApplicableVarInfoValueTypes.Contains( soil_temp.DomainClass.soil_tempStateVarInfo.temp_profile.ValueType)){prc.AddCondition(r7);}
                 string postConditionsResult = pre.VerifyPostconditions(prc, callID); if (!string.IsNullOrEmpty(postConditionsResult)) { pre.TestsOut(postConditionsResult, true, "PostConditions errors in strategy " + this.GetType().Name); } return postConditionsResult;
             }
             catch (Exception exception)
@@ -249,7 +243,6 @@ namespace soil_temp.Strategies
             {
                 //Set current values of the inputs to the static VarInfo representing the inputs properties of the domain classes
                 soil_temp.DomainClass.soil_tempExogenousVarInfo.temp_amp.CurrentValue=ex.temp_amp;
-                soil_temp.DomainClass.soil_tempExogenousVarInfo.therm_amp.CurrentValue=ex.therm_amp;
                 soil_temp.DomainClass.soil_tempStateVarInfo.prev_temp_profile.CurrentValue=s.prev_temp_profile;
                 soil_temp.DomainClass.soil_tempStateVarInfo.prev_canopy_temp.CurrentValue=s.prev_canopy_temp;
                 soil_temp.DomainClass.soil_tempExogenousVarInfo.min_air_temp.CurrentValue=ex.min_air_temp;
@@ -257,14 +250,12 @@ namespace soil_temp.Strategies
                 Preconditions pre = new Preconditions(); 
                 RangeBasedCondition r1 = new RangeBasedCondition(soil_temp.DomainClass.soil_tempExogenousVarInfo.temp_amp);
                 if(r1.ApplicableVarInfoValueTypes.Contains( soil_temp.DomainClass.soil_tempExogenousVarInfo.temp_amp.ValueType)){prc.AddCondition(r1);}
-                RangeBasedCondition r2 = new RangeBasedCondition(soil_temp.DomainClass.soil_tempExogenousVarInfo.therm_amp);
-                if(r2.ApplicableVarInfoValueTypes.Contains( soil_temp.DomainClass.soil_tempExogenousVarInfo.therm_amp.ValueType)){prc.AddCondition(r2);}
-                RangeBasedCondition r3 = new RangeBasedCondition(soil_temp.DomainClass.soil_tempStateVarInfo.prev_temp_profile);
-                if(r3.ApplicableVarInfoValueTypes.Contains( soil_temp.DomainClass.soil_tempStateVarInfo.prev_temp_profile.ValueType)){prc.AddCondition(r3);}
-                RangeBasedCondition r4 = new RangeBasedCondition(soil_temp.DomainClass.soil_tempStateVarInfo.prev_canopy_temp);
-                if(r4.ApplicableVarInfoValueTypes.Contains( soil_temp.DomainClass.soil_tempStateVarInfo.prev_canopy_temp.ValueType)){prc.AddCondition(r4);}
-                RangeBasedCondition r5 = new RangeBasedCondition(soil_temp.DomainClass.soil_tempExogenousVarInfo.min_air_temp);
-                if(r5.ApplicableVarInfoValueTypes.Contains( soil_temp.DomainClass.soil_tempExogenousVarInfo.min_air_temp.ValueType)){prc.AddCondition(r5);}
+                RangeBasedCondition r2 = new RangeBasedCondition(soil_temp.DomainClass.soil_tempStateVarInfo.prev_temp_profile);
+                if(r2.ApplicableVarInfoValueTypes.Contains( soil_temp.DomainClass.soil_tempStateVarInfo.prev_temp_profile.ValueType)){prc.AddCondition(r2);}
+                RangeBasedCondition r3 = new RangeBasedCondition(soil_temp.DomainClass.soil_tempStateVarInfo.prev_canopy_temp);
+                if(r3.ApplicableVarInfoValueTypes.Contains( soil_temp.DomainClass.soil_tempStateVarInfo.prev_canopy_temp.ValueType)){prc.AddCondition(r3);}
+                RangeBasedCondition r4 = new RangeBasedCondition(soil_temp.DomainClass.soil_tempExogenousVarInfo.min_air_temp);
+                if(r4.ApplicableVarInfoValueTypes.Contains( soil_temp.DomainClass.soil_tempExogenousVarInfo.min_air_temp.ValueType)){prc.AddCondition(r4);}
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("air_temp_day1")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("layer_thick")));
                 string preConditionsResult = pre.VerifyPreconditions(prc, callID); if (!string.IsNullOrEmpty(preConditionsResult)) { pre.TestsOut(preConditionsResult, true, "PreConditions errors in strategy " + this.GetType().Name); } return preConditionsResult;
@@ -292,7 +283,6 @@ namespace soil_temp.Strategies
         public void Init(soil_temp.DomainClass.soil_tempState s, soil_temp.DomainClass.soil_tempState s1, soil_temp.DomainClass.soil_tempRate r, soil_temp.DomainClass.soil_tempAuxiliary a, soil_temp.DomainClass.soil_tempExogenous ex)
         {
             double temp_amp = ex.temp_amp;
-            double therm_amp = ex.therm_amp;
             double min_air_temp = ex.min_air_temp;
             double[] prev_temp_profile ;
             double prev_canopy_temp;
@@ -309,7 +299,6 @@ namespace soil_temp.Strategies
         private void CalculateModel(soil_temp.DomainClass.soil_tempState s, soil_temp.DomainClass.soil_tempState s1, soil_temp.DomainClass.soil_tempRate r, soil_temp.DomainClass.soil_tempAuxiliary a, soil_temp.DomainClass.soil_tempExogenous ex)
         {
             double temp_amp = ex.temp_amp;
-            double therm_amp = ex.therm_amp;
             double[] prev_temp_profile = s.prev_temp_profile;
             double prev_canopy_temp = s.prev_canopy_temp;
             double min_air_temp = ex.min_air_temp;
@@ -317,9 +306,13 @@ namespace soil_temp.Strategies
             int z;
             int n;
             List<double> vexp = new List<double>();
+            double therm_diff = 5.37e-3;
+            double temp_freq = 7.272e-5;
+            double therm_amp;
             n = prev_temp_profile.Length;
             temp_profile = new double[ n];
             vexp = new List<double>(n);
+            therm_amp = Math.Sqrt(temp_freq / 2 / therm_diff);
             for (z=1 ; z!=n + 1 ; z+=1)
             {
                 vexp[z - 1] = Math.Exp(-(z * therm_amp));

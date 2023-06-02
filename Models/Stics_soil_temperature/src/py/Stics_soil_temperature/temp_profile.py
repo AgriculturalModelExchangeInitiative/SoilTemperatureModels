@@ -9,7 +9,6 @@ import numpy
 
 #%%CyML Init Begin%%
 def init_temp_profile(temp_amp:float,
-         therm_amp:float,
          min_air_temp:float,
          air_temp_day1:float,
          layer_thick:'Array[int]'):
@@ -26,7 +25,6 @@ def init_temp_profile(temp_amp:float,
 #%%CyML Init End%%
 
 def model_temp_profile(temp_amp:float,
-         therm_amp:float,
          prev_temp_profile:'Array[float]',
          prev_canopy_temp:float,
          min_air_temp:float,
@@ -36,9 +34,13 @@ def model_temp_profile(temp_amp:float,
     z:int
     n:int
     vexp:List[float] = []
+    therm_diff:float = 5.37e-3
+    temp_freq:float = 7.272e-5
+    therm_amp:float
     n = len(prev_temp_profile)
     temp_profile = array("f", [0] * n)
     vexp = array("f", [0] * n)
+    therm_amp = sqrt(temp_freq / 2 / therm_diff)
     for z in range(1 , n + 1 , 1):
         vexp[z - 1] = exp(-(z * therm_amp))
     for z in range(1 , n + 1 , 1):

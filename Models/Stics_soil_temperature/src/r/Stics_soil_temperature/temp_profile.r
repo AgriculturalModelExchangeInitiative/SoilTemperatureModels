@@ -1,7 +1,6 @@
 library(gsubfn)
 
 init_temp_profile <- function (temp_amp,
-         therm_amp,
          min_air_temp,
          air_temp_day1,
          layer_thick){
@@ -16,7 +15,6 @@ init_temp_profile <- function (temp_amp,
 }
 
 model_temp_profile <- function (temp_amp,
-         therm_amp,
          prev_temp_profile,
          prev_canopy_temp,
          min_air_temp,
@@ -40,15 +38,6 @@ model_temp_profile <- function (temp_amp,
     #'                          ** min : 0.0
     #'                          ** default : 0.0
     #'                          ** unit : degC
-    #'            * name: therm_amp
-    #'                          ** description : current thermal amplitude
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 
-    #'                          ** min : 
-    #'                          ** default : 
-    #'                          ** unit : 
     #'            * name: prev_temp_profile
     #'                          ** description : previous soil temperature profile 
     #'                          ** inputtype : variable
@@ -107,9 +96,12 @@ model_temp_profile <- function (temp_amp,
     #'                          ** unit : degC
     temp_profile<- vector()
     vexp <- vector()
+    therm_diff <- 5.37e-3
+    temp_freq <- 7.272e-5
     n <- length(prev_temp_profile)
     temp_profile <- vector(, n)
     vexp <- vector(, n)
+    therm_amp <- sqrt(temp_freq / 2 / therm_diff)
     for( z in seq(1, n + 1-1, 1)){
         vexp[z - 1+1] <- exp(-(z * therm_amp))
     }

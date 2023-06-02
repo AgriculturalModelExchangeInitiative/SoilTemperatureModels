@@ -11,7 +11,6 @@
         <ShortDescription></ShortDescription></Description>
     <Inputs>
         <Input name="temp_amp" description="current temperature amplitude" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="100.0" min="0.0" default="0.0" unit="degC"/>
-        <Input name="therm_amp" description="current thermal amplitude" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit=""/>
         <Input name="prev_temp_profile" description="previous soil temperature profile " inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="" max="50.0" min="-50.0" default="" unit="degC"/>
         <Input name="prev_canopy_temp" description="previous crop temperature" inputtype="variable" variablecategory="state" datatype="DOUBLE" max="50.0" min="0.0" default="" unit="degC"/>
         <Input name="min_air_temp" description="current minimum air temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="50.0" min="-50.0" default="" unit="degC"/>

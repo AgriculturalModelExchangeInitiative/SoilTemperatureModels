@@ -66,7 +66,7 @@ CONTAINS
         END DO
         DO z = 1 , layers_nb + 1-1, 1
             layer_temp(z - 1+1) = sum(temp_profile((up_depth(z - 1+1) + 1 -  &
-                    1):(up_depth(z + 1 - 1+1) + 1))) / layer_thick((z - 1)+1)
+                    1):up_depth((z + 1 - 1)+1))) / layer_thick((z - 1)+1)
         END DO
     END SUBROUTINE model_layers_temp
 
@@ -96,7 +96,7 @@ CONTAINS
         layer_depth = 0
         DO z = 1 , layers_nb + 1-1, 1
             IF(layer_thick(z - 1+1) .NE. 0) THEN
-                layer_depth(z - 1+1) = sum(layer_thick(1 - 1:z + 1))
+                layer_depth(z - 1+1) = sum(layer_thick(1 - 1:z))
             END IF
         END DO
     END FUNCTION layer_thickness2depth

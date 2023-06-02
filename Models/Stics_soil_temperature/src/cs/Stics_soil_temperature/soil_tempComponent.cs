@@ -6,10 +6,9 @@ public class soil_tempComponent
 
     //Declaration of the associated strategies
     Temp_amp _Temp_amp = new Temp_amp();
-    Therm_amp _Therm_amp = new Therm_amp();
     Temp_profile _Temp_profile = new Temp_profile();
-    Canopy_temp_avg _Canopy_temp_avg = new Canopy_temp_avg();
     Layers_temp _Layers_temp = new Layers_temp();
+    Canopy_temp_avg _Canopy_temp_avg = new Canopy_temp_avg();
     Update _Update = new Update();
 
     public int[] layer_thick
@@ -39,7 +38,6 @@ public class soil_tempComponent
     public void  CalculateModel(soil_tempState s, soil_tempState s1, soil_tempRate r, soil_tempAuxiliary a, soil_tempExogenous ex)
     {
         _Temp_amp.CalculateModel(s,s1, r, a, ex);
-        _Therm_amp.CalculateModel(s,s1, r, a, ex);
         _Canopy_temp_avg.CalculateModel(s,s1, r, a, ex);
         _Temp_profile.CalculateModel(s,s1, r, a, ex);
         _Layers_temp.CalculateModel(s,s1, r, a, ex);

@@ -37,16 +37,6 @@ CONTAINS
       !                          ** max : 100.0
       !                          ** unit : degC
       !                          ** uri :
-      !            * name: therm_amp
-      !                          ** description : current thermal amplitude
-      !                          ** inputtype : variable
-      !                          ** variablecategory : exogenous
-      !                          ** datatype : DOUBLE
-      !                          ** default :
-      !                          ** min :
-      !                          ** max :
-      !                          ** unit :
-      !                          ** uri :
       !            * name: prev_temp_profile
       !                          ** description : previous soil temperature profile (for 1 cm layers)
       !                          ** inputtype : variable
@@ -78,6 +68,27 @@ CONTAINS
       !                          ** max : 50.0
       !                          ** unit : degC
       !                          ** uri :
+      !            * name: air_temp_day1
+      !                          ** description : Mean temperature on first day
+      !                          ** inputtype : parameter
+      !                          ** parametercategory : constant
+      !                          ** datatype : DOUBLE
+      !                          ** default : 0.0
+      !                          ** min : 0.0
+      !                          ** max : 100.0
+      !                          ** unit : degC
+      !                          ** uri :
+      !            * name: layer_thick
+      !                          ** description : layers thickness
+      !                          ** inputtype : parameter
+      !                          ** parametercategory : constant
+      !                          ** datatype : INTARRAY
+      !                          ** default :
+      !                          ** min :
+      !                          ** max :
+      !                          ** unit : cm
+      !                          ** uri :
+      !                          ** len : 
       !- outputs:
       !            * name: temp_profile
       !                          ** description : current soil profile temperature (for 1 cm layers)

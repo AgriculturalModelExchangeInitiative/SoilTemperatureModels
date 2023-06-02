@@ -21,13 +21,13 @@ def model_update(canopy_temp_avg:float,
                  * ShortDescription: None
      - inputs:
                  * name: canopy_temp_avg
-                               ** description : current temperature amplitude
+                               ** description : current canopy mean temperature
                                ** inputtype : variable
-                               ** variablecategory : state
+                               ** variablecategory : exogenous
                                ** datatype : DOUBLE
-                               ** max : 100.0
-                               ** min : 0.0
-                               ** default : 
+                               ** max : 50.0
+                               ** min : -50.0
+                               ** default : 0.0
                                ** unit : degC
                  * name: temp_profile
                                ** description : current soil profile temperature 
@@ -40,6 +40,13 @@ def model_update(canopy_temp_avg:float,
                                ** default : 
                                ** unit : degC
      - outputs:
+                 * name: prev_canopy_temp
+                               ** description : previous crop temperature
+                               ** datatype : DOUBLE
+                               ** variablecategory : exogenous
+                               ** max : 50.0
+                               ** min : 0.0
+                               ** unit : degC
                  * name: prev_temp_profile
                                ** description : previous soil temperature profile 
                                ** datatype : DOUBLEARRAY
@@ -48,18 +55,14 @@ def model_update(canopy_temp_avg:float,
                                ** max : 50.0
                                ** min : -50.0
                                ** unit : degC
-                 * name: prev_canopy_temp
-                               ** description : previous crop temperature
-                               ** datatype : DOUBLE
-                               ** variablecategory : exogenous
-                               ** max : 50.0
-                               ** min : 0.0
-                               ** unit : degC
     """
 
-    prev_temp_profile:'array[float]' = array('f',[0.0]*1)
     prev_canopy_temp:float
+    prev_temp_profile:'array[float]' = array('f',[0.0]*1)
+    n:int
     prev_canopy_temp = canopy_temp_avg
-    prev_temp_profile = copy(temp_profile)
-    return (prev_temp_profile, prev_canopy_temp)
+    n = len(temp_profile)
+    prev_temp_profile = array("f", [0] * n)
+    prev_temp_profile = temp_profile
+    return (prev_canopy_temp, prev_temp_profile)
 #%%CyML Model End%%

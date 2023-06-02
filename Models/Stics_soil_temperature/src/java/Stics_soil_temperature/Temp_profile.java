@@ -8,7 +8,6 @@ public class Temp_profile
     public void Init(soil_tempState s, soil_tempState s1, soil_tempRate r, soil_tempAuxiliary a,  soil_tempExogenous ex)
     {
         Double temp_amp = ex.gettemp_amp();
-        Double therm_amp = ex.gettherm_amp();
         Double min_air_temp = ex.getmin_air_temp();
         Double[] prev_temp_profile ;
         Double prev_canopy_temp;
@@ -56,15 +55,6 @@ public class Temp_profile
     //                          ** min : 0.0
     //                          ** default : 0.0
     //                          ** unit : degC
-    //            * name: therm_amp
-    //                          ** description : current thermal amplitude
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : 
     //            * name: prev_temp_profile
     //                          ** description : previous soil temperature profile 
     //                          ** inputtype : variable
@@ -122,7 +112,6 @@ public class Temp_profile
     //                          ** min : -50.0
     //                          ** unit : degC
         Double temp_amp = ex.gettemp_amp();
-        Double therm_amp = ex.gettherm_amp();
         Double [] prev_temp_profile = s.getprev_temp_profile();
         Double prev_canopy_temp = s.getprev_canopy_temp();
         Double min_air_temp = ex.getmin_air_temp();
@@ -130,9 +119,13 @@ public class Temp_profile
         Integer z;
         Integer n;
         List<Double> vexp = new ArrayList<>(Arrays.asList());
+        Double therm_diff = 5.37e-3;
+        Double temp_freq = 7.272e-5;
+        Double therm_amp;
         n = prev_temp_profile.length;
         temp_profile = new Double [n];
         vexp = new Double [n];
+        therm_amp = Math.sqrt(temp_freq / 2 / therm_diff);
         for (z=1 ; z!=n + 1 ; z+=1)
         {
             vexp.set(z - 1,Math.exp(-(z * therm_amp)));
