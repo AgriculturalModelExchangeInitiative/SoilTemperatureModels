@@ -5,8 +5,8 @@ public class STMPsimCalculator
 {
     public void Init(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a, SoilTemperatureExogenous ex)
     {
-        double iSoilWaterContent;
-        double iSoilSurfaceTemperature;
+        double iSoilWaterContent = ex.iSoilWaterContent;
+        double iSoilSurfaceTemperature = ex.iSoilSurfaceTemperature;
         double[] SoilTempArray ;
         double[] rSoilTempArrayRate ;
         double[] pSoilLayerDepth ;

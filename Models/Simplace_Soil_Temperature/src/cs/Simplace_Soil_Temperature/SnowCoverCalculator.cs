@@ -5,14 +5,14 @@ public class SnowCoverCalculator
 {
     public void Init(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a, SoilTemperatureExogenous ex)
     {
-        double iTempMax;
-        double iTempMin;
-        double iRadiation;
-        double iRAIN;
-        double iCropResidues;
-        double iPotentialSoilEvaporation;
-        double iLeafAreaIndex;
-        double[] iSoilTempArray;
+        double iTempMax = ex.iTempMax;
+        double iTempMin = ex.iTempMin;
+        double iRadiation = ex.iRadiation;
+        double iRAIN = ex.iRAIN;
+        double iCropResidues = ex.iCropResidues;
+        double iPotentialSoilEvaporation = ex.iPotentialSoilEvaporation;
+        double iLeafAreaIndex = ex.iLeafAreaIndex;
+        double[] iSoilTempArray = ex.iSoilTempArray;
         double Albedo;
         double SnowWaterContent = 0.0;
         double SoilSurfaceTemperature = 0.0;
