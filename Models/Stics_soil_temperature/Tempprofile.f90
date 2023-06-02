@@ -4,7 +4,6 @@ MODULE temp_profile_mod
 CONTAINS
    !%%CyML Model Begin%%
    SUBROUTINE model_temp_profile(temp_amp, &
-                               !therm_amp, &
                                prev_temp_profile, &
                                prev_canopy_temp, &
                                min_air_temp, &
@@ -13,7 +12,6 @@ CONTAINS
       IMPLICIT NONE
 
       REAL, INTENT(IN)  :: temp_amp
-      !REAL, INTENT(IN)  :: therm_amp
       REAL, INTENT(IN)  :: prev_temp_profile(:)
       REAL, INTENT(IN)  :: prev_canopy_temp
       REAL, INTENT(IN)  :: min_air_temp
@@ -36,16 +34,6 @@ CONTAINS
       !                          ** min : 0.0
       !                          ** max : 100.0
       !                          ** unit : degC
-      !                          ** uri :
-      !            * name: therm_amp
-      !                          ** description : current thermal amplitude
-      !                          ** inputtype : variable
-      !                          ** variablecategory : exogenous
-      !                          ** datatype : DOUBLE
-      !                          ** default :
-      !                          ** min :
-      !                          ** max :
-      !                          ** unit :
       !                          ** uri :
       !            * name: prev_temp_profile
       !                          ** description : previous soil temperature profile (for 1 cm layers)
