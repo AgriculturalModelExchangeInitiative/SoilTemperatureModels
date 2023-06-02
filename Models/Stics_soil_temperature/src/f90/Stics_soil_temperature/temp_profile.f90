@@ -3,21 +3,22 @@ MODULE Temp_profilemod
     IMPLICIT NONE
 CONTAINS
 
-    SUBROUTINE init_temp_profile(temp_amp, &
-        min_air_temp, &
+    SUBROUTINE init_temp_profile(min_air_temp, &
         air_temp_day1, &
         layer_thick, &
+        temp_amp, &
         prev_temp_profile, &
         prev_canopy_temp)
         IMPLICIT NONE
         INTEGER:: i_cyml_r
-        REAL, INTENT(IN) :: temp_amp
         REAL, INTENT(IN) :: min_air_temp
         REAL, INTENT(IN) :: air_temp_day1
         INTEGER , DIMENSION(: ), INTENT(IN) :: layer_thick
+        REAL, INTENT(OUT) :: temp_amp
         REAL , DIMENSION(: ), INTENT(OUT) :: prev_temp_profile
         REAL, INTENT(OUT) :: prev_canopy_temp
         INTEGER:: soil_depth
+        temp_amp = 0.0
         prev_canopy_temp = 0.0
         soil_depth = sum(layer_thick)
         allocate(prev_temp_profile(soil_depth))
@@ -61,7 +62,7 @@ CONTAINS
     !            * name: temp_amp
     !                          ** description : current temperature amplitude
     !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
+    !                          ** variablecategory : state
     !                          ** datatype : DOUBLE
     !                          ** max : 100.0
     !                          ** min : 0.0

@@ -1,5 +1,5 @@
 
-# This file has been generated at Fri Jun  2 19:14:25 2023
+# This file has been generated at Fri Jun  2 23:14:22 2023
 
 from openalea.core import *
 
@@ -17,7 +17,7 @@ __icon__ = ''
 __alias__ = ['soil_temp']
 
 
-__all__ = ['temp_amp_model_temp_amp', 'temp_profile_model_temp_profile', 'layers_temp_model_layers_temp', 'canopy_temp_avg_model_canopy_temp_avg', 'update_model_update', '_2649445153096']
+__all__ = ['temp_amp_model_temp_amp', 'temp_profile_model_temp_profile', 'layers_temp_model_layers_temp', 'canopy_temp_avg_model_canopy_temp_avg', 'update_model_update', '_2960988031048']
 
 
 
@@ -96,7 +96,7 @@ update_model_update = Factory(name='update',
 
 
 
-_2649445153096 = CompositeNodeFactory(name='soil_temp',
+_2960988031048 = CompositeNodeFactory(name='soil_temp',
                              description=('\n'
  '\n'
  '    soil temperature model\n'
@@ -108,13 +108,16 @@ _2649445153096 = CompositeNodeFactory(name='soil_temp',
  '    ShortDescription: None\n'),
                              category='',
                              doc='',
-                             inputs=[  {'interface': IFloat(min=-50, max=50, step=1.000000), 'name': 'max_temp'},
-   {'interface': IFloat(min=-50, max=50, step=1.000000), 'name': 'min_temp'},
-   {'interface': ISequence, 'name': 'layer_thick'},
+                             inputs=[  {'interface': IFloat(min=-50, max=50, step=1.000000), 'name': 'min_temp'},
+   {'interface': IFloat(min=-50, max=50, step=1.000000), 'name': 'max_temp'},
+   {'interface': ISequence, 'name': 'prev_temp_profile'},
+   {  'interface': IFloat(min=0, max=50, step=1.000000),
+      'name': 'prev_canopy_temp'},
    {  'interface': IFloat(min=-50, max=50, step=1.000000),
       'name': 'min_air_temp'},
    {  'interface': IFloat(min=0, max=100, step=1.000000),
       'name': 'air_temp_day1'},
+   {'interface': ISequence, 'name': 'layer_thick'},
    {  'interface': IFloat(min=-50, max=50, step=1.000000),
       'name': 'min_canopy_temp'},
    {  'interface': IFloat(min=-50, max=50, step=1.000000),
@@ -138,18 +141,20 @@ _2649445153096 = CompositeNodeFactory(name='soil_temp',
    140717222306256: (5, 0, '__out__', 3),
    140717222306288: (6, 0, '__out__', 4),
    140717222306320: (6, 1, '__out__', 5),
-   140717222306352: ('__in__', 0, 2, 1),
-   140717222306384: ('__in__', 1, 2, 0),
-   140717222306416: ('__in__', 2, 3, 5),
-   140717222306448: ('__in__', 3, 3, 3),
-   140717222306480: ('__in__', 4, 3, 4),
-   140717222306512: ('__in__', 2, 4, 1),
-   140717222306544: ('__in__', 5, 5, 0),
-   140717222306576: ('__in__', 6, 5, 1),
-   140717222306608: (2, 0, 3, 0),
-   140717222306640: (3, 0, 4, 0),
-   140717222306672: (3, 0, 6, 1),
-   140717222306704: (5, 0, 6, 0)},
+   140717222306352: ('__in__', 0, 2, 0),
+   140717222306384: ('__in__', 1, 2, 1),
+   140717222306416: ('__in__', 2, 3, 1),
+   140717222306448: ('__in__', 3, 3, 2),
+   140717222306480: ('__in__', 4, 3, 3),
+   140717222306512: ('__in__', 5, 3, 4),
+   140717222306544: ('__in__', 6, 3, 5),
+   140717222306576: ('__in__', 6, 4, 1),
+   140717222306608: ('__in__', 7, 5, 0),
+   140717222306640: ('__in__', 8, 5, 1),
+   140717222306672: (2, 0, 3, 0),
+   140717222306704: (3, 0, 4, 0),
+   140717222306736: (3, 0, 6, 1),
+   140717222306768: (5, 0, 6, 0)},
                              elt_data={  2: {  'block': False,
          'caption': 'temp_amp',
          'delay': 0,
@@ -241,13 +246,7 @@ _2649445153096 = CompositeNodeFactory(name='soil_temp',
                  'use_user_color': True,
                  'user_application': None,
                  'user_color': None}},
-                             elt_value={  2: [],
-   3: [(1, '0'), (2, '0')],
-   4: [],
-   5: [],
-   6: [],
-   '__in__': [],
-   '__out__': []},
+                             elt_value={2: [], 3: [], 4: [], 5: [], 6: [], '__in__': [], '__out__': []},
                              elt_ad_hoc={  2: {'position': [-83, 125.0], 'userColor': None, 'useUserColor': True},
    3: {'position': [-27.444444444444443, 125.0], 'userColor': None, 'useUserColor': True},
    4: {'position': [28.111111111111114, 125.0], 'userColor': None, 'useUserColor': True},

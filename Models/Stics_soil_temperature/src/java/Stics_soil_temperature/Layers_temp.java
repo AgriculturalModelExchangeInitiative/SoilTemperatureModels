@@ -79,20 +79,6 @@ public class Layers_temp
         }
         s.setlayer_temp(layer_temp);
     }
-    public static Integer get_layers_number(Integer [] layer_thick_or_depth)
-    {
-        Integer layers_number;
-        Integer z;
-        layers_number = 0;
-        for (z=1 ; z!=layer_thick_or_depth.length + 1 ; z+=1)
-        {
-            if (layer_thick_or_depth[z - 1] != 0)
-            {
-                layers_number = layers_number + 1;
-            }
-        }
-        return layers_number;
-    }
     public static List<Integer> layer_thickness2depth(Integer [] layer_thick)
     {
         List<Integer> layer_depth = new ArrayList<>(Arrays.asList());
@@ -109,5 +95,19 @@ public class Layers_temp
             }
         }
         return layer_depth;
+    }
+    public static Integer get_layers_number(Integer [] layer_thick_or_depth)
+    {
+        Integer layers_number;
+        Integer z;
+        layers_number = 0;
+        for (z=1 ; z!=layer_thick_or_depth.length + 1 ; z+=1)
+        {
+            if (layer_thick_or_depth[z - 1] != 0)
+            {
+                layers_number = layers_number + 1;
+            }
+        }
+        return layers_number;
     }
 }

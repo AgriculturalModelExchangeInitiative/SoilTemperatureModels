@@ -7,8 +7,8 @@ public class Temp_profile
 {
     public void Init(soil_tempState s, soil_tempState s1, soil_tempRate r, soil_tempAuxiliary a,  soil_tempExogenous ex)
     {
-        Double temp_amp = ex.gettemp_amp();
         Double min_air_temp = ex.getmin_air_temp();
+        Double temp_amp = 0.0;
         Double[] prev_temp_profile ;
         Double prev_canopy_temp;
         prev_canopy_temp = 0.0d;
@@ -17,6 +17,7 @@ public class Temp_profile
         prev_temp_profile = new Double [soil_depth];
         prev_temp_profile = new ArrayList<>(Arrays.asList(air_temp_day1)) * soil_depth;
         prev_canopy_temp = air_temp_day1;
+        s.settemp_amp(temp_amp);
         s.setprev_temp_profile(prev_temp_profile);
         s.setprev_canopy_temp(prev_canopy_temp);
     }
@@ -49,7 +50,7 @@ public class Temp_profile
     //            * name: temp_amp
     //                          ** description : current temperature amplitude
     //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
+    //                          ** variablecategory : state
     //                          ** datatype : DOUBLE
     //                          ** max : 100.0
     //                          ** min : 0.0
@@ -111,7 +112,7 @@ public class Temp_profile
     //                          ** max : 50.0
     //                          ** min : -50.0
     //                          ** unit : degC
-        Double temp_amp = ex.gettemp_amp();
+        Double temp_amp = s.gettemp_amp();
         Double [] prev_temp_profile = s.getprev_temp_profile();
         Double prev_canopy_temp = s.getprev_canopy_temp();
         Double min_air_temp = ex.getmin_air_temp();

@@ -70,20 +70,6 @@ CONTAINS
         END DO
     END SUBROUTINE model_layers_temp
 
-    FUNCTION get_layers_number(layer_thick_or_depth) RESULT(layers_number)
-        IMPLICIT NONE
-        INTEGER , DIMENSION(: ), INTENT(IN) :: layer_thick_or_depth
-        INTEGER:: layers_number
-        INTEGER:: i_cyml_r
-        INTEGER:: z
-        layers_number = 0
-        DO z = 1 , SIZE(layer_thick_or_depth) + 1-1, 1
-            IF(layer_thick_or_depth(z - 1+1) .NE. 0) THEN
-                layers_number = layers_number + 1
-            END IF
-        END DO
-    END FUNCTION get_layers_number
-
     FUNCTION layer_thickness2depth(layer_thick) RESULT(layer_depth)
         IMPLICIT NONE
         INTEGER , DIMENSION(: ), INTENT(IN) :: layer_thick
@@ -100,5 +86,19 @@ CONTAINS
             END IF
         END DO
     END FUNCTION layer_thickness2depth
+
+    FUNCTION get_layers_number(layer_thick_or_depth) RESULT(layers_number)
+        IMPLICIT NONE
+        INTEGER , DIMENSION(: ), INTENT(IN) :: layer_thick_or_depth
+        INTEGER:: layers_number
+        INTEGER:: i_cyml_r
+        INTEGER:: z
+        layers_number = 0
+        DO z = 1 , SIZE(layer_thick_or_depth) + 1-1, 1
+            IF(layer_thick_or_depth(z - 1+1) .NE. 0) THEN
+                layers_number = layers_number + 1
+            END IF
+        END DO
+    END FUNCTION get_layers_number
 
 END MODULE

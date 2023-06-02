@@ -40,17 +40,6 @@ def model_layers_temp(float temp_profile[],
     return  layer_temp
 
 
-def get_layers_number(int layer_thick_or_depth[]):
-    cdef int layers_number 
-    cdef int z 
-    layers_number=0
-    for z in range(1 , len(layer_thick_or_depth) + 1 , 1):
-        if layer_thick_or_depth[z - 1] != 0:
-            layers_number=layers_number + 1
-    return layers_number
-
-
-
 #%%CyML Model End%%
 
 def layer_thickness2depth(int layer_thick[]):
@@ -65,6 +54,17 @@ def layer_thickness2depth(int layer_thick[]):
         if layer_thick[z - 1] != 0:
             layer_depth[z - 1]=sum(layer_thick[1 - 1:z])
     return layer_depth
+
+
+
+def get_layers_number(int layer_thick_or_depth[]):
+    cdef int layers_number 
+    cdef int z 
+    layers_number=0
+    for z in range(1 , len(layer_thick_or_depth) + 1 , 1):
+        if layer_thick_or_depth[z - 1] != 0:
+            layers_number=layers_number + 1
+    return layers_number
 
 
 

@@ -7,31 +7,31 @@ MODULE Soil_tempmod
     IMPLICIT NONE
 CONTAINS
 
-    SUBROUTINE model_soil_temp(max_temp, &
-        min_temp, &
-        layer_thick, &
+    SUBROUTINE model_soil_temp(min_temp, &
+        max_temp, &
+        prev_temp_profile, &
+        prev_canopy_temp, &
         min_air_temp, &
         air_temp_day1, &
+        layer_thick, &
         min_canopy_temp, &
         max_canopy_temp, &
         temp_amp, &
         temp_profile, &
         layer_temp, &
-        canopy_temp_avg, &
-        prev_canopy_temp, &
-        prev_temp_profile)
+        canopy_temp_avg)
         IMPLICIT NONE
         INTEGER:: i_cyml_r
-        REAL, INTENT(IN) :: max_temp
         REAL, INTENT(IN) :: min_temp
-        INTEGER , DIMENSION(: ), INTENT(IN) :: layer_thick
+        REAL, INTENT(IN) :: max_temp
+        REAL , DIMENSION(: ), INTENT(INOUT) :: prev_temp_profile
+        REAL, INTENT(INOUT) :: prev_canopy_temp
         REAL, INTENT(IN) :: min_air_temp
         REAL, INTENT(IN) :: air_temp_day1
+        INTEGER , DIMENSION(: ), INTENT(IN) :: layer_thick
         REAL, INTENT(IN) :: min_canopy_temp
         REAL, INTENT(IN) :: max_canopy_temp
         REAL, INTENT(OUT) :: temp_amp
-        REAL , DIMENSION(: ), INTENT(OUT) :: prev_temp_profile
-        REAL, INTENT(OUT) :: prev_canopy_temp
         REAL , DIMENSION(: ), INTENT(OUT) :: temp_profile
         REAL , DIMENSION(: ), INTENT(OUT) :: layer_temp
         REAL, INTENT(OUT) :: canopy_temp_avg
@@ -44,15 +44,6 @@ CONTAINS
     !            * ExtendedDescription: None
     !            * ShortDescription: None
         !- inputs:
-    !            * name: max_temp
-    !                          ** description : current maximum temperature
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
-    !                          ** datatype : DOUBLE
-    !                          ** max : 50.0
-    !                          ** min : -50.0
-    !                          ** default : 0.0
-    !                          ** unit : degC
     !            * name: min_temp
     !                          ** description : current minimum temperature
     !                          ** inputtype : variable
@@ -62,16 +53,34 @@ CONTAINS
     !                          ** min : -50.0
     !                          ** default : 0.0
     !                          ** unit : degC
-    !            * name: layer_thick
-    !                          ** description : layers thickness
-    !                          ** inputtype : parameter
-    !                          ** parametercategory : constant
-    !                          ** datatype : INTARRAY
+    !            * name: max_temp
+    !                          ** description : current maximum temperature
+    !                          ** inputtype : variable
+    !                          ** variablecategory : exogenous
+    !                          ** datatype : DOUBLE
+    !                          ** max : 50.0
+    !                          ** min : -50.0
+    !                          ** default : 0.0
+    !                          ** unit : degC
+    !            * name: prev_temp_profile
+    !                          ** description : previous soil temperature profile 
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
-    !                          ** max : 
-    !                          ** min : 
+    !                          ** max : 50.0
+    !                          ** min : -50.0
     !                          ** default : 
-    !                          ** unit : cm
+    !                          ** unit : degC
+    !            * name: prev_canopy_temp
+    !                          ** description : previous crop temperature
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : DOUBLE
+    !                          ** max : 50.0
+    !                          ** min : 0.0
+    !                          ** default : 
+    !                          ** unit : degC
     !            * name: min_air_temp
     !                          ** description : current minimum air temperature
     !                          ** inputtype : variable
@@ -90,6 +99,16 @@ CONTAINS
     !                          ** min : 0.0
     !                          ** default : 0.0
     !                          ** unit : degC
+    !            * name: layer_thick
+    !                          ** description : layers thickness
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
+    !                          ** datatype : INTARRAY
+    !                          ** len : 
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 
+    !                          ** unit : cm
     !            * name: min_canopy_temp
     !                          ** description : current minimum temperature
     !                          ** inputtype : variable
@@ -142,7 +161,7 @@ CONTAINS
     !            * name: prev_canopy_temp
     !                          ** description : previous crop temperature
     !                          ** datatype : DOUBLE
-    !                          ** variablecategory : exogenous
+    !                          ** variablecategory : state
     !                          ** max : 50.0
     !                          ** min : 0.0
     !                          ** unit : degC

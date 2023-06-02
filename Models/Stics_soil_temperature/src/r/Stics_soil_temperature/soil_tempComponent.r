@@ -7,11 +7,13 @@ source('Layers_temp.r')
 source('Canopy_temp_avg.r')
 source('Update.r')
 
-model_soil_temp <- function (max_temp,
-         min_temp,
-         layer_thick,
+model_soil_temp <- function (min_temp,
+         max_temp,
+         prev_temp_profile,
+         prev_canopy_temp,
          min_air_temp,
          air_temp_day1,
+         layer_thick,
          min_canopy_temp,
          max_canopy_temp){
     #'- Name: soil_temp -Version: 1.0, -Time step: 1
@@ -23,15 +25,6 @@ model_soil_temp <- function (max_temp,
     #'            * ExtendedDescription: None
     #'            * ShortDescription: None
     #'- inputs:
-    #'            * name: max_temp
-    #'                          ** description : current maximum temperature
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 50.0
-    #'                          ** min : -50.0
-    #'                          ** default : 0.0
-    #'                          ** unit : degC
     #'            * name: min_temp
     #'                          ** description : current minimum temperature
     #'                          ** inputtype : variable
@@ -41,16 +34,34 @@ model_soil_temp <- function (max_temp,
     #'                          ** min : -50.0
     #'                          ** default : 0.0
     #'                          ** unit : degC
-    #'            * name: layer_thick
-    #'                          ** description : layers thickness
-    #'                          ** inputtype : parameter
-    #'                          ** parametercategory : constant
-    #'                          ** datatype : INTARRAY
+    #'            * name: max_temp
+    #'                          ** description : current maximum temperature
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : exogenous
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 50.0
+    #'                          ** min : -50.0
+    #'                          ** default : 0.0
+    #'                          ** unit : degC
+    #'            * name: prev_temp_profile
+    #'                          ** description : previous soil temperature profile 
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : state
+    #'                          ** datatype : DOUBLEARRAY
     #'                          ** len : 
-    #'                          ** max : 
-    #'                          ** min : 
+    #'                          ** max : 50.0
+    #'                          ** min : -50.0
     #'                          ** default : 
-    #'                          ** unit : cm
+    #'                          ** unit : degC
+    #'            * name: prev_canopy_temp
+    #'                          ** description : previous crop temperature
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : state
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 50.0
+    #'                          ** min : 0.0
+    #'                          ** default : 
+    #'                          ** unit : degC
     #'            * name: min_air_temp
     #'                          ** description : current minimum air temperature
     #'                          ** inputtype : variable
@@ -69,6 +80,16 @@ model_soil_temp <- function (max_temp,
     #'                          ** min : 0.0
     #'                          ** default : 0.0
     #'                          ** unit : degC
+    #'            * name: layer_thick
+    #'                          ** description : layers thickness
+    #'                          ** inputtype : parameter
+    #'                          ** parametercategory : constant
+    #'                          ** datatype : INTARRAY
+    #'                          ** len : 
+    #'                          ** max : 
+    #'                          ** min : 
+    #'                          ** default : 
+    #'                          ** unit : cm
     #'            * name: min_canopy_temp
     #'                          ** description : current minimum temperature
     #'                          ** inputtype : variable
@@ -121,7 +142,7 @@ model_soil_temp <- function (max_temp,
     #'            * name: prev_canopy_temp
     #'                          ** description : previous crop temperature
     #'                          ** datatype : DOUBLE
-    #'                          ** variablecategory : exogenous
+    #'                          ** variablecategory : state
     #'                          ** max : 50.0
     #'                          ** min : 0.0
     #'                          ** unit : degC
@@ -133,7 +154,6 @@ model_soil_temp <- function (max_temp,
     #'                          ** max : 50.0
     #'                          ** min : -50.0
     #'                          ** unit : degC
-    prev_temp_profile<- vector()
     temp_profile<- vector()
     layer_temp<- vector()
     temp_amp <- model_temp_amp(min_temp, max_temp)

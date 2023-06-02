@@ -240,21 +240,6 @@ namespace soil_temp.Strategies
             s.layer_temp= layer_temp;
         }
 
-        public static int get_layers_number(int[] layer_thick_or_depth)
-        {
-            int layers_number;
-            int z;
-            layers_number = 0;
-            for (z=1 ; z!=layer_thick_or_depth.Length + 1 ; z+=1)
-            {
-                if (layer_thick_or_depth[z - 1] != 0)
-                {
-                    layers_number = layers_number + 1;
-                }
-            }
-            return layers_number;
-        }
-
         public static List<int> layer_thickness2depth(int[] layer_thick)
         {
             List<int> layer_depth = new List<int>();
@@ -271,6 +256,21 @@ namespace soil_temp.Strategies
                 }
             }
             return layer_depth;
+        }
+
+        public static int get_layers_number(int[] layer_thick_or_depth)
+        {
+            int layers_number;
+            int z;
+            layers_number = 0;
+            for (z=1 ; z!=layer_thick_or_depth.Length + 1 ; z+=1)
+            {
+                if (layer_thick_or_depth[z - 1] != 0)
+                {
+                    layers_number = layers_number + 1;
+                }
+            }
+            return layers_number;
         }
 
     }

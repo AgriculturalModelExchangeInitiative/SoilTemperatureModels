@@ -3,11 +3,12 @@ import  java.util.*;
 import java.time.LocalDateTime;
 public class soil_tempState
 {
+    private Double [] prev_temp_profile;
+    private Double prev_canopy_temp;
     private Double temp_amp;
     private Double [] temp_profile;
     private Double [] layer_temp;
     private Double canopy_temp_avg;
-    private Double [] prev_temp_profile;
     
     public soil_tempState() { }
     
@@ -15,6 +16,12 @@ public class soil_tempState
     {
         if (copyAll)
         {
+            prev_temp_profile = new Double[toCopy.getprev_temp_profile().length];
+        for (int i = 0; i < toCopy.getprev_temp_profile().length; i++)
+        {
+            prev_temp_profile[i] = toCopy.getprev_temp_profile()[i];
+        }
+            this.prev_canopy_temp = toCopy.getprev_canopy_temp();
             this.temp_amp = toCopy.gettemp_amp();
             temp_profile = new Double[toCopy.gettemp_profile().length];
         for (int i = 0; i < toCopy.gettemp_profile().length; i++)
@@ -27,13 +34,20 @@ public class soil_tempState
             layer_temp[i] = toCopy.getlayer_temp()[i];
         }
             this.canopy_temp_avg = toCopy.getcanopy_temp_avg();
-            prev_temp_profile = new Double[1];
-        for (int i = 0; i < 1; i++)
-        {
-            prev_temp_profile[i] = toCopy.getprev_temp_profile()[i];
-        }
         }
     }
+    public Double [] getprev_temp_profile()
+    { return prev_temp_profile; }
+
+    public void setprev_temp_profile(Double [] _prev_temp_profile)
+    { this.prev_temp_profile= _prev_temp_profile; } 
+    
+    public Double getprev_canopy_temp()
+    { return prev_canopy_temp; }
+
+    public void setprev_canopy_temp(Double _prev_canopy_temp)
+    { this.prev_canopy_temp= _prev_canopy_temp; } 
+    
     public Double gettemp_amp()
     { return temp_amp; }
 
@@ -57,11 +71,5 @@ public class soil_tempState
 
     public void setcanopy_temp_avg(Double _canopy_temp_avg)
     { this.canopy_temp_avg= _canopy_temp_avg; } 
-    
-    public Double [] getprev_temp_profile()
-    { return prev_temp_profile; }
-
-    public void setprev_temp_profile(Double [] _prev_temp_profile)
-    { this.prev_temp_profile= _prev_temp_profile; } 
     
 }

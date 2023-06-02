@@ -21,7 +21,7 @@ public class Update
     //            * name: canopy_temp_avg
     //                          ** description : current canopy mean temperature
     //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
+    //                          ** variablecategory : state
     //                          ** datatype : DOUBLE
     //                          ** max : 50.0
     //                          ** min : -50.0
@@ -41,7 +41,7 @@ public class Update
     //            * name: prev_canopy_temp
     //                          ** description : previous crop temperature
     //                          ** datatype : DOUBLE
-    //                          ** variablecategory : exogenous
+    //                          ** variablecategory : state
     //                          ** max : 50.0
     //                          ** min : 0.0
     //                          ** unit : degC
@@ -53,7 +53,7 @@ public class Update
     //                          ** max : 50.0
     //                          ** min : -50.0
     //                          ** unit : degC
-        Double canopy_temp_avg = ex.getcanopy_temp_avg();
+        Double canopy_temp_avg = s.getcanopy_temp_avg();
         Double [] temp_profile = s.gettemp_profile();
         Double prev_canopy_temp;
         Double[] prev_temp_profile =  new Double [1];
@@ -62,7 +62,7 @@ public class Update
         n = temp_profile.length;
         prev_temp_profile = new Double [n];
         prev_temp_profile = temp_profile;
-        ex.setprev_canopy_temp(prev_canopy_temp);
+        s.setprev_canopy_temp(prev_canopy_temp);
         s.setprev_temp_profile(prev_temp_profile);
     }
 }

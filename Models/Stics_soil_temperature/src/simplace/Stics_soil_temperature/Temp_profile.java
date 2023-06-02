@@ -34,7 +34,7 @@ public class Temp_profile extends FWSimComponent
     @Override
     public HashMap<String, FWSimVariable<?>> createVariables()
     {
-        addVariable(FWSimVariable.createSimVariable("temp_amp", "current temperature amplitude", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"degC", 0.0, 100.0, 0.0, this));
+        addVariable(FWSimVariable.createSimVariable("temp_amp", "current temperature amplitude", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"degC", 0.0, 100.0, 0.0, this));
         addVariable(FWSimVariable.createSimVariable("prev_temp_profile", "previous soil temperature profile ", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"degC", -50.0, 50.0, null, this));
         addVariable(FWSimVariable.createSimVariable("prev_canopy_temp", "previous crop temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"degC", 0.0, 50.0, null, this));
         addVariable(FWSimVariable.createSimVariable("min_air_temp", "current minimum air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"degC", -50.0, 50.0, null, this));
@@ -47,10 +47,10 @@ public class Temp_profile extends FWSimComponent
     @Override
     protected void init()
     {
-        Double t_temp_amp = temp_amp.getValue();
         Double t_min_air_temp = min_air_temp.getValue();
         Double t_air_temp_day1 = air_temp_day1.getValue();
         Integer [] t_layer_thick = layer_thick.getValue();
+        Double t_temp_amp = temp_amp.getDefault();
         Double [] t_prev_temp_profile = prev_temp_profile.getValue();;
         Double t_prev_canopy_temp = prev_canopy_temp.getDefault();
         t_prev_canopy_temp = 0.0d;
@@ -59,6 +59,7 @@ public class Temp_profile extends FWSimComponent
         t_prev_temp_profile = new Double [soil_depth];
         t_prev_temp_profile = new ArrayList<>(Arrays.asList(t_air_temp_day1)) * soil_depth;
         t_prev_canopy_temp = t_air_temp_day1;
+        temp_amp.setValue(t_temp_amp, this);
         prev_temp_profile.setValue(t_prev_temp_profile, this);
         prev_canopy_temp.setValue(t_prev_canopy_temp, this);
     }

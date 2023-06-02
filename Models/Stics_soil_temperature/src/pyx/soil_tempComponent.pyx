@@ -5,16 +5,16 @@ from Stics_soil_temperature.temp_profile import model_temp_profile
 from Stics_soil_temperature.layers_temp import model_layers_temp
 from Stics_soil_temperature.canopy_temp_avg import model_canopy_temp_avg
 from Stics_soil_temperature.update import model_update
-def model_soil_temp(float max_temp,
-      float min_temp,
-      int layer_thick[],
+def model_soil_temp(float min_temp,
+      float max_temp,
+      float prev_temp_profile[],
+      float prev_canopy_temp,
       float min_air_temp,
       float air_temp_day1,
+      int layer_thick[],
       float min_canopy_temp,
       float max_canopy_temp):
     cdef float temp_amp
-    cdef float prev_temp_profile[]
-    cdef float prev_canopy_temp
     cdef float temp_profile[]
     cdef float layer_temp[]
     cdef float canopy_temp_avg

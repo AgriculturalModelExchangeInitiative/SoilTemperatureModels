@@ -1,9 +1,9 @@
 library(gsubfn)
 
-init_temp_profile <- function (temp_amp,
-         min_air_temp,
+init_temp_profile <- function (min_air_temp,
          air_temp_day1,
          layer_thick){
+    temp_amp <- 0.0
     prev_temp_profile<- vector()
     prev_temp_profile <- NULL
     prev_canopy_temp <- 0.0
@@ -11,7 +11,7 @@ init_temp_profile <- function (temp_amp,
     prev_temp_profile <- vector(, soil_depth)
     prev_temp_profile <- c(air_temp_day1) * soil_depth
     prev_canopy_temp <- air_temp_day1
-    return (list ("prev_temp_profile" = prev_temp_profile,"prev_canopy_temp" = prev_canopy_temp))
+    return (list ("temp_amp" = temp_amp,"prev_temp_profile" = prev_temp_profile,"prev_canopy_temp" = prev_canopy_temp))
 }
 
 model_temp_profile <- function (temp_amp,
@@ -32,7 +32,7 @@ model_temp_profile <- function (temp_amp,
     #'            * name: temp_amp
     #'                          ** description : current temperature amplitude
     #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
+    #'                          ** variablecategory : state
     #'                          ** datatype : DOUBLE
     #'                          ** max : 100.0
     #'                          ** min : 0.0

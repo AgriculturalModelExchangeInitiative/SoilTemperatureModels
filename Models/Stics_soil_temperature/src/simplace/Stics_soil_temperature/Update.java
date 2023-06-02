@@ -31,7 +31,7 @@ public class Update extends FWSimComponent
     @Override
     public HashMap<String, FWSimVariable<?>> createVariables()
     {
-        addVariable(FWSimVariable.createSimVariable("canopy_temp_avg", "current canopy mean temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"degC", -50.0, 50.0, 0.0, this));
+        addVariable(FWSimVariable.createSimVariable("canopy_temp_avg", "current canopy mean temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"degC", -50.0, 50.0, 0.0, this));
         addVariable(FWSimVariable.createSimVariable("temp_profile", "current soil profile temperature ", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"degC", -50.0, 50.0, null, this));
         addVariable(FWSimVariable.createSimVariable("prev_canopy_temp", "previous crop temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"degC", 0.0, 50.0, null, this));
         addVariable(FWSimVariable.createSimVariable("prev_temp_profile", "previous soil temperature profile ", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"degC", -50.0, 50.0, null, this));

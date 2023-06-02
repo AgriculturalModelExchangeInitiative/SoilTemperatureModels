@@ -25,10 +25,10 @@ namespace soil_temp.Strategies
             //Inputs
             List<PropertyDescription> _inputs0_0 = new List<PropertyDescription>();
             PropertyDescription pd1 = new PropertyDescription();
-            pd1.DomainClassType = typeof(soil_temp.DomainClass.soil_tempExogenous);
+            pd1.DomainClassType = typeof(soil_temp.DomainClass.soil_tempState);
             pd1.PropertyName = "canopy_temp_avg";
-            pd1.PropertyType = (soil_temp.DomainClass.soil_tempExogenousVarInfo.canopy_temp_avg).ValueType.TypeForCurrentValue;
-            pd1.PropertyVarInfo =(soil_temp.DomainClass.soil_tempExogenousVarInfo.canopy_temp_avg);
+            pd1.PropertyType = (soil_temp.DomainClass.soil_tempStateVarInfo.canopy_temp_avg).ValueType.TypeForCurrentValue;
+            pd1.PropertyVarInfo =(soil_temp.DomainClass.soil_tempStateVarInfo.canopy_temp_avg);
             _inputs0_0.Add(pd1);
             PropertyDescription pd2 = new PropertyDescription();
             pd2.DomainClassType = typeof(soil_temp.DomainClass.soil_tempState);
@@ -41,10 +41,10 @@ namespace soil_temp.Strategies
             //Outputs
             List<PropertyDescription> _outputs0_0 = new List<PropertyDescription>();
             PropertyDescription pd3 = new PropertyDescription();
-            pd3.DomainClassType = typeof(soil_temp.DomainClass.soil_tempExogenous);
+            pd3.DomainClassType = typeof(soil_temp.DomainClass.soil_tempState);
             pd3.PropertyName = "prev_canopy_temp";
-            pd3.PropertyType = (soil_temp.DomainClass.soil_tempExogenousVarInfo.prev_canopy_temp).ValueType.TypeForCurrentValue;
-            pd3.PropertyVarInfo =(soil_temp.DomainClass.soil_tempExogenousVarInfo.prev_canopy_temp);
+            pd3.PropertyType = (soil_temp.DomainClass.soil_tempStateVarInfo.prev_canopy_temp).ValueType.TypeForCurrentValue;
+            pd3.PropertyVarInfo =(soil_temp.DomainClass.soil_tempStateVarInfo.prev_canopy_temp);
             _outputs0_0.Add(pd3);
             mo0_0.Outputs=_outputs0_0;PropertyDescription pd4 = new PropertyDescription();
             pd4.DomainClassType = typeof(soil_temp.DomainClass.soil_tempState);
@@ -139,12 +139,12 @@ namespace soil_temp.Strategies
             try
             {
                 //Set current values of the outputs to the static VarInfo representing the output properties of the domain classes
-                soil_temp.DomainClass.soil_tempExogenousVarInfo.prev_canopy_temp.CurrentValue=ex.prev_canopy_temp;
+                soil_temp.DomainClass.soil_tempStateVarInfo.prev_canopy_temp.CurrentValue=s.prev_canopy_temp;
                 soil_temp.DomainClass.soil_tempStateVarInfo.prev_temp_profile.CurrentValue=s.prev_temp_profile;
                 ConditionsCollection prc = new ConditionsCollection();
                 Preconditions pre = new Preconditions(); 
-                RangeBasedCondition r3 = new RangeBasedCondition(soil_temp.DomainClass.soil_tempExogenousVarInfo.prev_canopy_temp);
-                if(r3.ApplicableVarInfoValueTypes.Contains( soil_temp.DomainClass.soil_tempExogenousVarInfo.prev_canopy_temp.ValueType)){prc.AddCondition(r3);}
+                RangeBasedCondition r3 = new RangeBasedCondition(soil_temp.DomainClass.soil_tempStateVarInfo.prev_canopy_temp);
+                if(r3.ApplicableVarInfoValueTypes.Contains( soil_temp.DomainClass.soil_tempStateVarInfo.prev_canopy_temp.ValueType)){prc.AddCondition(r3);}
                 RangeBasedCondition r4 = new RangeBasedCondition(soil_temp.DomainClass.soil_tempStateVarInfo.prev_temp_profile);
                 if(r4.ApplicableVarInfoValueTypes.Contains( soil_temp.DomainClass.soil_tempStateVarInfo.prev_temp_profile.ValueType)){prc.AddCondition(r4);}
                 string postConditionsResult = pre.VerifyPostconditions(prc, callID); if (!string.IsNullOrEmpty(postConditionsResult)) { pre.TestsOut(postConditionsResult, true, "PostConditions errors in strategy " + this.GetType().Name); } return postConditionsResult;
@@ -161,12 +161,12 @@ namespace soil_temp.Strategies
             try
             {
                 //Set current values of the inputs to the static VarInfo representing the inputs properties of the domain classes
-                soil_temp.DomainClass.soil_tempExogenousVarInfo.canopy_temp_avg.CurrentValue=ex.canopy_temp_avg;
+                soil_temp.DomainClass.soil_tempStateVarInfo.canopy_temp_avg.CurrentValue=s.canopy_temp_avg;
                 soil_temp.DomainClass.soil_tempStateVarInfo.temp_profile.CurrentValue=s.temp_profile;
                 ConditionsCollection prc = new ConditionsCollection();
                 Preconditions pre = new Preconditions(); 
-                RangeBasedCondition r1 = new RangeBasedCondition(soil_temp.DomainClass.soil_tempExogenousVarInfo.canopy_temp_avg);
-                if(r1.ApplicableVarInfoValueTypes.Contains( soil_temp.DomainClass.soil_tempExogenousVarInfo.canopy_temp_avg.ValueType)){prc.AddCondition(r1);}
+                RangeBasedCondition r1 = new RangeBasedCondition(soil_temp.DomainClass.soil_tempStateVarInfo.canopy_temp_avg);
+                if(r1.ApplicableVarInfoValueTypes.Contains( soil_temp.DomainClass.soil_tempStateVarInfo.canopy_temp_avg.ValueType)){prc.AddCondition(r1);}
                 RangeBasedCondition r2 = new RangeBasedCondition(soil_temp.DomainClass.soil_tempStateVarInfo.temp_profile);
                 if(r2.ApplicableVarInfoValueTypes.Contains( soil_temp.DomainClass.soil_tempStateVarInfo.temp_profile.ValueType)){prc.AddCondition(r2);}
                 string preConditionsResult = pre.VerifyPreconditions(prc, callID); if (!string.IsNullOrEmpty(preConditionsResult)) { pre.TestsOut(preConditionsResult, true, "PreConditions errors in strategy " + this.GetType().Name); } return preConditionsResult;
@@ -193,7 +193,7 @@ namespace soil_temp.Strategies
 
         private void CalculateModel(soil_temp.DomainClass.soil_tempState s, soil_temp.DomainClass.soil_tempState s1, soil_temp.DomainClass.soil_tempRate r, soil_temp.DomainClass.soil_tempAuxiliary a, soil_temp.DomainClass.soil_tempExogenous ex)
         {
-            double canopy_temp_avg = ex.canopy_temp_avg;
+            double canopy_temp_avg = s.canopy_temp_avg;
             double[] temp_profile = s.temp_profile;
             double prev_canopy_temp;
             double[] prev_temp_profile =  new double [1];
@@ -202,7 +202,7 @@ namespace soil_temp.Strategies
             n = temp_profile.Length;
             prev_temp_profile = new double[ n];
             prev_temp_profile = temp_profile;
-            ex.prev_canopy_temp= prev_canopy_temp;
+            s.prev_canopy_temp= prev_canopy_temp;
             s.prev_temp_profile= prev_temp_profile;
         }
 

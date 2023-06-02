@@ -14,7 +14,7 @@ model_update <- function (canopy_temp_avg,
     #'            * name: canopy_temp_avg
     #'                          ** description : current canopy mean temperature
     #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
+    #'                          ** variablecategory : state
     #'                          ** datatype : DOUBLE
     #'                          ** max : 50.0
     #'                          ** min : -50.0
@@ -34,7 +34,7 @@ model_update <- function (canopy_temp_avg,
     #'            * name: prev_canopy_temp
     #'                          ** description : previous crop temperature
     #'                          ** datatype : DOUBLE
-    #'                          ** variablecategory : exogenous
+    #'                          ** variablecategory : state
     #'                          ** max : 50.0
     #'                          ** min : 0.0
     #'                          ** unit : degC

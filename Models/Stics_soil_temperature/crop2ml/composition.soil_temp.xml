@@ -15,11 +15,13 @@
         <Model name="canopy_temp_avg" id="Stics.soiltemperature.canopy_temp_avg" filename="unit.canopy_temp_avg.xml"/>
         <Model name="update" id="Stics.soiltemperature.update" filename="unit.update.xml"/>
         <Links>
-            <InputLink target="temp_amp.max_temp" source="max_temp"/>
             <InputLink target="temp_amp.min_temp" source="min_temp"/>
-            <InputLink target="temp_profile.layer_thick" source="layer_thick"/>
+            <InputLink target="temp_amp.max_temp" source="max_temp"/>
+            <InputLink target="temp_profile.prev_temp_profile" source="prev_temp_profile"/>
+            <InputLink target="temp_profile.prev_canopy_temp" source="prev_canopy_temp"/>
             <InputLink target="temp_profile.min_air_temp" source="min_air_temp"/>
             <InputLink target="temp_profile.air_temp_day1" source="air_temp_day1"/>
+            <InputLink target="temp_profile.layer_thick" source="layer_thick"/>
             <InputLink target="layers_temp.layer_thick" source="layer_thick"/>
             <InputLink target="canopy_temp_avg.min_canopy_temp" source="min_canopy_temp"/>
             <InputLink target="canopy_temp_avg.max_canopy_temp" source="max_canopy_temp"/>

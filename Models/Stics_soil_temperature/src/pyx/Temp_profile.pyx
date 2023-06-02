@@ -1,9 +1,9 @@
 import numpy 
 from math import *
-def init_temp_profile(float temp_amp,
-                      float min_air_temp,
+def init_temp_profile(float min_air_temp,
                       float air_temp_day1,
                       int layer_thick[]):
+    cdef float temp_amp=0.0
     cdef float prev_temp_profile[]
     cdef float prev_canopy_temp
     prev_temp_profile = None
@@ -13,7 +13,7 @@ def init_temp_profile(float temp_amp,
     prev_temp_profile.allocate(soil_depth)
     prev_temp_profile=[air_temp_day1]*(soil_depth)
     prev_canopy_temp=air_temp_day1
-    return  prev_temp_profile, prev_canopy_temp
+    return  temp_amp, prev_temp_profile, prev_canopy_temp
 def model_temp_profile(float temp_amp,
                        float prev_temp_profile[],
                        float prev_canopy_temp,

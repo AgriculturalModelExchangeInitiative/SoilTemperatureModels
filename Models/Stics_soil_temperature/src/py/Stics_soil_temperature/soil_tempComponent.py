@@ -12,11 +12,13 @@ from Stics_soil_temperature.canopy_temp_avg import model_canopy_temp_avg
 from Stics_soil_temperature.update import model_update
 
 #%%CyML Model Begin%%
-def model_soil_temp(max_temp:float,
-         min_temp:float,
-         layer_thick:'Array[int]',
+def model_soil_temp(min_temp:float,
+         max_temp:float,
+         prev_temp_profile:'Array[float]',
+         prev_canopy_temp:float,
          min_air_temp:float,
          air_temp_day1:float,
+         layer_thick:'Array[int]',
          min_canopy_temp:float,
          max_canopy_temp:float):
     """
@@ -29,15 +31,6 @@ def model_soil_temp(max_temp:float,
                  * ExtendedDescription: None
                  * ShortDescription: None
      - inputs:
-                 * name: max_temp
-                               ** description : current maximum temperature
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
-                               ** datatype : DOUBLE
-                               ** max : 50.0
-                               ** min : -50.0
-                               ** default : 0.0
-                               ** unit : degC
                  * name: min_temp
                                ** description : current minimum temperature
                                ** inputtype : variable
@@ -47,16 +40,34 @@ def model_soil_temp(max_temp:float,
                                ** min : -50.0
                                ** default : 0.0
                                ** unit : degC
-                 * name: layer_thick
-                               ** description : layers thickness
-                               ** inputtype : parameter
-                               ** parametercategory : constant
-                               ** datatype : INTARRAY
+                 * name: max_temp
+                               ** description : current maximum temperature
+                               ** inputtype : variable
+                               ** variablecategory : exogenous
+                               ** datatype : DOUBLE
+                               ** max : 50.0
+                               ** min : -50.0
+                               ** default : 0.0
+                               ** unit : degC
+                 * name: prev_temp_profile
+                               ** description : previous soil temperature profile 
+                               ** inputtype : variable
+                               ** variablecategory : state
+                               ** datatype : DOUBLEARRAY
                                ** len : 
-                               ** max : 
-                               ** min : 
+                               ** max : 50.0
+                               ** min : -50.0
                                ** default : 
-                               ** unit : cm
+                               ** unit : degC
+                 * name: prev_canopy_temp
+                               ** description : previous crop temperature
+                               ** inputtype : variable
+                               ** variablecategory : state
+                               ** datatype : DOUBLE
+                               ** max : 50.0
+                               ** min : 0.0
+                               ** default : 
+                               ** unit : degC
                  * name: min_air_temp
                                ** description : current minimum air temperature
                                ** inputtype : variable
@@ -75,6 +86,16 @@ def model_soil_temp(max_temp:float,
                                ** min : 0.0
                                ** default : 0.0
                                ** unit : degC
+                 * name: layer_thick
+                               ** description : layers thickness
+                               ** inputtype : parameter
+                               ** parametercategory : constant
+                               ** datatype : INTARRAY
+                               ** len : 
+                               ** max : 
+                               ** min : 
+                               ** default : 
+                               ** unit : cm
                  * name: min_canopy_temp
                                ** description : current minimum temperature
                                ** inputtype : variable
@@ -127,7 +148,7 @@ def model_soil_temp(max_temp:float,
                  * name: prev_canopy_temp
                                ** description : previous crop temperature
                                ** datatype : DOUBLE
-                               ** variablecategory : exogenous
+                               ** variablecategory : state
                                ** max : 50.0
                                ** min : 0.0
                                ** unit : degC
@@ -142,8 +163,6 @@ def model_soil_temp(max_temp:float,
     """
 
     temp_amp:float
-    prev_temp_profile:'array[float]'
-    prev_canopy_temp:float
     temp_profile:'array[float]'
     layer_temp:'array[float]'
     canopy_temp_avg:float

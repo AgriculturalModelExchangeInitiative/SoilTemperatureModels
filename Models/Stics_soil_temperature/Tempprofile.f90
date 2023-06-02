@@ -28,7 +28,7 @@ CONTAINS
       !            * name: temp_amp
       !                          ** description : current temperature amplitude
       !                          ** inputtype : variable
-      !                          ** variablecategory : exogenous
+      !                          ** variablecategory : state
       !                          ** datatype : DOUBLE
       !                          ** default : 0.0
       !                          ** min : 0.0

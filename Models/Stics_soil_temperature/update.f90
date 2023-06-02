@@ -24,7 +24,7 @@ CONTAINS
        !            * name: canopy_temp_avg
       !                          ** description : current canopy mean temperature
       !                          ** inputtype : variable
-      !                          ** variablecategory : exogenous
+      !                          ** variablecategory : state
       !                          ** datatype : DOUBLE
       !                          ** default : 0.0
       !                          ** min :-50.0
@@ -45,7 +45,7 @@ CONTAINS
       !- outputs:
       !            * name: prev_canopy_temp
       !                          ** description : previous crop temperature
-      !                          ** variablecategory : exogenous
+      !                          ** variablecategory : state
       !                          ** datatype : DOUBLE
       !                          ** default :
       !                          ** min : 0.0

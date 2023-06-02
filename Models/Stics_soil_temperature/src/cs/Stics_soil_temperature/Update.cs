@@ -20,7 +20,7 @@ public class update
     //            * name: canopy_temp_avg
     //                          ** description : current canopy mean temperature
     //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
+    //                          ** variablecategory : state
     //                          ** datatype : DOUBLE
     //                          ** max : 50.0
     //                          ** min : -50.0
@@ -40,7 +40,7 @@ public class update
     //            * name: prev_canopy_temp
     //                          ** description : previous crop temperature
     //                          ** datatype : DOUBLE
-    //                          ** variablecategory : exogenous
+    //                          ** variablecategory : state
     //                          ** max : 50.0
     //                          ** min : 0.0
     //                          ** unit : degC
@@ -52,7 +52,7 @@ public class update
     //                          ** max : 50.0
     //                          ** min : -50.0
     //                          ** unit : degC
-        double canopy_temp_avg = ex.canopy_temp_avg;
+        double canopy_temp_avg = s.canopy_temp_avg;
         double[] temp_profile = s.temp_profile;
         double prev_canopy_temp;
         double[] prev_temp_profile =  new double [1];
@@ -61,7 +61,7 @@ public class update
         n = temp_profile.Length;
         prev_temp_profile = new double[ n];
         prev_temp_profile = temp_profile;
-        ex.prev_canopy_temp= prev_canopy_temp;
+        s.prev_canopy_temp= prev_canopy_temp;
         s.prev_temp_profile= prev_temp_profile;
     }
 }

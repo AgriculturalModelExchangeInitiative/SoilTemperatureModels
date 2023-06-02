@@ -51,10 +51,10 @@ namespace soil_temp.Strategies
             //Inputs
             List<PropertyDescription> _inputs0_0 = new List<PropertyDescription>();
             PropertyDescription pd1 = new PropertyDescription();
-            pd1.DomainClassType = typeof(soil_temp.DomainClass.soil_tempExogenous);
+            pd1.DomainClassType = typeof(soil_temp.DomainClass.soil_tempState);
             pd1.PropertyName = "temp_amp";
-            pd1.PropertyType = (soil_temp.DomainClass.soil_tempExogenousVarInfo.temp_amp).ValueType.TypeForCurrentValue;
-            pd1.PropertyVarInfo =(soil_temp.DomainClass.soil_tempExogenousVarInfo.temp_amp);
+            pd1.PropertyType = (soil_temp.DomainClass.soil_tempStateVarInfo.temp_amp).ValueType.TypeForCurrentValue;
+            pd1.PropertyVarInfo =(soil_temp.DomainClass.soil_tempStateVarInfo.temp_amp);
             _inputs0_0.Add(pd1);
             PropertyDescription pd2 = new PropertyDescription();
             pd2.DomainClassType = typeof(soil_temp.DomainClass.soil_tempState);
@@ -242,14 +242,14 @@ namespace soil_temp.Strategies
             try
             {
                 //Set current values of the inputs to the static VarInfo representing the inputs properties of the domain classes
-                soil_temp.DomainClass.soil_tempExogenousVarInfo.temp_amp.CurrentValue=ex.temp_amp;
+                soil_temp.DomainClass.soil_tempStateVarInfo.temp_amp.CurrentValue=s.temp_amp;
                 soil_temp.DomainClass.soil_tempStateVarInfo.prev_temp_profile.CurrentValue=s.prev_temp_profile;
                 soil_temp.DomainClass.soil_tempStateVarInfo.prev_canopy_temp.CurrentValue=s.prev_canopy_temp;
                 soil_temp.DomainClass.soil_tempExogenousVarInfo.min_air_temp.CurrentValue=ex.min_air_temp;
                 ConditionsCollection prc = new ConditionsCollection();
                 Preconditions pre = new Preconditions(); 
-                RangeBasedCondition r1 = new RangeBasedCondition(soil_temp.DomainClass.soil_tempExogenousVarInfo.temp_amp);
-                if(r1.ApplicableVarInfoValueTypes.Contains( soil_temp.DomainClass.soil_tempExogenousVarInfo.temp_amp.ValueType)){prc.AddCondition(r1);}
+                RangeBasedCondition r1 = new RangeBasedCondition(soil_temp.DomainClass.soil_tempStateVarInfo.temp_amp);
+                if(r1.ApplicableVarInfoValueTypes.Contains( soil_temp.DomainClass.soil_tempStateVarInfo.temp_amp.ValueType)){prc.AddCondition(r1);}
                 RangeBasedCondition r2 = new RangeBasedCondition(soil_temp.DomainClass.soil_tempStateVarInfo.prev_temp_profile);
                 if(r2.ApplicableVarInfoValueTypes.Contains( soil_temp.DomainClass.soil_tempStateVarInfo.prev_temp_profile.ValueType)){prc.AddCondition(r2);}
                 RangeBasedCondition r3 = new RangeBasedCondition(soil_temp.DomainClass.soil_tempStateVarInfo.prev_canopy_temp);
@@ -282,23 +282,24 @@ namespace soil_temp.Strategies
 
         public void Init(soil_temp.DomainClass.soil_tempState s, soil_temp.DomainClass.soil_tempState s1, soil_temp.DomainClass.soil_tempRate r, soil_temp.DomainClass.soil_tempAuxiliary a, soil_temp.DomainClass.soil_tempExogenous ex)
         {
-            double temp_amp = ex.temp_amp;
             double min_air_temp = ex.min_air_temp;
+            double temp_amp = 0.0;
             double[] prev_temp_profile ;
             double prev_canopy_temp;
             prev_canopy_temp = 0.00d;
             int soil_depth;
             soil_depth = layer_thick.Sum();
             prev_temp_profile = new double[ soil_depth];
-            for (var i = 0; i < soil_depth; i++){prev_temp_profile.Add(air_temp_day1);}
+            for (var i = 0; i < soil_depth; i++){prev_temp_profile[i] = air_temp_day1;}
             prev_canopy_temp = air_temp_day1;
+            s.temp_amp= temp_amp;
             s.prev_temp_profile= prev_temp_profile;
             s.prev_canopy_temp= prev_canopy_temp;
         }
 
         private void CalculateModel(soil_temp.DomainClass.soil_tempState s, soil_temp.DomainClass.soil_tempState s1, soil_temp.DomainClass.soil_tempRate r, soil_temp.DomainClass.soil_tempAuxiliary a, soil_temp.DomainClass.soil_tempExogenous ex)
         {
-            double temp_amp = ex.temp_amp;
+            double temp_amp = s.temp_amp;
             double[] prev_temp_profile = s.prev_temp_profile;
             double prev_canopy_temp = s.prev_canopy_temp;
             double min_air_temp = ex.min_air_temp;

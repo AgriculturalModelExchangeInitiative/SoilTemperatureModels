@@ -25,6 +25,10 @@ namespace Model.Model.soil_temp
             loadParameters();
         }
 
+        public double[] prev_temp_profile{ get { return s.prev_temp_profile;}} 
+     
+        public double prev_canopy_temp{ get { return s.prev_canopy_temp;}} 
+     
         public double temp_amp{ get { return s.temp_amp;}} 
      
         public double[] temp_profile{ get { return s.temp_profile;}} 
@@ -32,10 +36,6 @@ namespace Model.Model.soil_temp
         public double[] layer_temp{ get { return s.layer_temp;}} 
      
         public double canopy_temp_avg{ get { return s.canopy_temp_avg;}} 
-     
-        public double[] prev_temp_profile{ get { return s.prev_temp_profile;}} 
-     
-        public double prev_canopy_temp{ get { return ex.prev_canopy_temp;}} 
      
 
         public soil_tempWrapper(Universe universe, soil_tempWrapper toCopy, bool copyAll) : base(universe)
@@ -57,14 +57,14 @@ namespace Model.Model.soil_temp
 
         private void loadParameters()
         {
-            soil_tempComponent.layer_thick = layer_thick;
             soil_tempComponent.air_temp_day1 = air_temp_day1;
+            soil_tempComponent.layer_thick = layer_thick;
         }
 
-        public void Estimatesoil_temp(double max_temp, double min_temp, double min_air_temp, double min_canopy_temp, double max_canopy_temp)
+        public void Estimatesoil_temp(double min_temp, double max_temp, double min_air_temp, double min_canopy_temp, double max_canopy_temp)
         {
-            a.max_temp = max_temp;
             a.min_temp = min_temp;
+            a.max_temp = max_temp;
             a.min_air_temp = min_air_temp;
             a.min_canopy_temp = min_canopy_temp;
             a.max_canopy_temp = max_canopy_temp;

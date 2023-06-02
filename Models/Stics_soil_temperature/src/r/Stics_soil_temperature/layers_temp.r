@@ -59,17 +59,6 @@ model_layers_temp <- function (temp_profile,
     return (list('layer_temp' = layer_temp))
 }
 
-get_layers_number <- function (layer_thick_or_depth){
-    layers_number <- 0
-    for( z in seq(1, length(layer_thick_or_depth) + 1-1, 1)){
-        if (layer_thick_or_depth[z - 1+1] != 0)
-        {
-            layers_number <- layers_number + 1
-        }
-    }
-    return( layers_number)
-}
-
 layer_thickness2depth <- function (layer_thick){
     layer_depth <- vector()
     layers_nb <- length(layer_thick)
@@ -82,4 +71,15 @@ layer_thickness2depth <- function (layer_thick){
         }
     }
     return( layer_depth)
+}
+
+get_layers_number <- function (layer_thick_or_depth){
+    layers_number <- 0
+    for( z in seq(1, length(layer_thick_or_depth) + 1-1, 1)){
+        if (layer_thick_or_depth[z - 1+1] != 0)
+        {
+            layers_number <- layers_number + 1
+        }
+    }
+    return( layers_number)
 }

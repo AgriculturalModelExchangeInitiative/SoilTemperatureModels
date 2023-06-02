@@ -5,16 +5,17 @@ public class temp_profile
 {
     public void Init(soil_tempState s, soil_tempState s1, soil_tempRate r, soil_tempAuxiliary a, soil_tempExogenous ex)
     {
-        double temp_amp = ex.temp_amp;
         double min_air_temp = ex.min_air_temp;
+        double temp_amp = 0.0;
         double[] prev_temp_profile ;
         double prev_canopy_temp;
         prev_canopy_temp = 0.00d;
         int soil_depth;
         soil_depth = layer_thick.Sum();
         prev_temp_profile = new double[ soil_depth];
-        for (var i = 0; i < soil_depth; i++){prev_temp_profile.Add(air_temp_day1);}
+        for (var i = 0; i < soil_depth; i++){prev_temp_profile[i] = air_temp_day1;}
         prev_canopy_temp = air_temp_day1;
+        s.temp_amp= temp_amp;
         s.prev_temp_profile= prev_temp_profile;
         s.prev_canopy_temp= prev_canopy_temp;
     }
@@ -46,7 +47,7 @@ public class temp_profile
     //            * name: temp_amp
     //                          ** description : current temperature amplitude
     //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
+    //                          ** variablecategory : state
     //                          ** datatype : DOUBLE
     //                          ** max : 100.0
     //                          ** min : 0.0
@@ -108,7 +109,7 @@ public class temp_profile
     //                          ** max : 50.0
     //                          ** min : -50.0
     //                          ** unit : degC
-        double temp_amp = ex.temp_amp;
+        double temp_amp = s.temp_amp;
         double[] prev_temp_profile = s.prev_temp_profile;
         double prev_canopy_temp = s.prev_canopy_temp;
         double min_air_temp = ex.min_air_temp;

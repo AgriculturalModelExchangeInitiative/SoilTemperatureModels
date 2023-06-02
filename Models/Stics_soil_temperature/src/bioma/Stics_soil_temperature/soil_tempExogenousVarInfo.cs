@@ -9,12 +9,11 @@ namespace soil_temp.DomainClass
 {
     public class soil_tempExogenousVarInfo : IVarInfoClass
     {
-        static VarInfo _max_temp = new VarInfo();
         static VarInfo _min_temp = new VarInfo();
+        static VarInfo _max_temp = new VarInfo();
         static VarInfo _min_air_temp = new VarInfo();
         static VarInfo _min_canopy_temp = new VarInfo();
         static VarInfo _max_canopy_temp = new VarInfo();
-        static VarInfo _prev_canopy_temp = new VarInfo();
 
         static soil_tempExogenousVarInfo()
         {
@@ -36,14 +35,14 @@ namespace soil_temp.DomainClass
             get { return "soil_tempExogenous";}
         }
 
-        public static  VarInfo max_temp
-        {
-            get { return _max_temp;}
-        }
-
         public static  VarInfo min_temp
         {
             get { return _min_temp;}
+        }
+
+        public static  VarInfo max_temp
+        {
+            get { return _max_temp;}
         }
 
         public static  VarInfo min_air_temp
@@ -61,21 +60,8 @@ namespace soil_temp.DomainClass
             get { return _max_canopy_temp;}
         }
 
-        public static  VarInfo prev_canopy_temp
-        {
-            get { return _prev_canopy_temp;}
-        }
-
         static void DescribeVariables()
         {
-            _max_temp.Name = "max_temp";
-            _max_temp.Description = "current maximum temperature";
-            _max_temp.MaxValue = 50.0;
-            _max_temp.MinValue = -50.0;
-            _max_temp.DefaultValue = 0.0;
-            _max_temp.Units = "degC";
-            _max_temp.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
-
             _min_temp.Name = "min_temp";
             _min_temp.Description = "current minimum temperature";
             _min_temp.MaxValue = 50.0;
@@ -83,6 +69,14 @@ namespace soil_temp.DomainClass
             _min_temp.DefaultValue = 0.0;
             _min_temp.Units = "degC";
             _min_temp.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+
+            _max_temp.Name = "max_temp";
+            _max_temp.Description = "current maximum temperature";
+            _max_temp.MaxValue = 50.0;
+            _max_temp.MinValue = -50.0;
+            _max_temp.DefaultValue = 0.0;
+            _max_temp.Units = "degC";
+            _max_temp.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _min_air_temp.Name = "min_air_temp";
             _min_air_temp.Description = "current minimum air temperature";
@@ -107,14 +101,6 @@ namespace soil_temp.DomainClass
             _max_canopy_temp.DefaultValue = 0.0;
             _max_canopy_temp.Units = "degC";
             _max_canopy_temp.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
-
-            _prev_canopy_temp.Name = "prev_canopy_temp";
-            _prev_canopy_temp.Description = "previous crop temperature";
-            _prev_canopy_temp.MaxValue = 50.0;
-            _prev_canopy_temp.MinValue = 0.0;
-            _prev_canopy_temp.DefaultValue = -1D;
-            _prev_canopy_temp.Units = "degC";
-            _prev_canopy_temp.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
         }
 

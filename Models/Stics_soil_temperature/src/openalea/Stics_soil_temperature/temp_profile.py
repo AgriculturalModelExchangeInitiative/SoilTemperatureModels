@@ -8,10 +8,10 @@ from datetime import datetime
 import numpy
 
 #%%CyML Init Begin%%
-def init_temp_profile(temp_amp:float,
-         min_air_temp:float,
+def init_temp_profile(min_air_temp:float,
          air_temp_day1:float,
          layer_thick:'Array[int]'):
+    temp_amp:float = 0.0
     prev_temp_profile:'array[float]'
     prev_canopy_temp:float
     prev_temp_profile = None
@@ -21,7 +21,7 @@ def init_temp_profile(temp_amp:float,
     prev_temp_profile = array("f", [0] * soil_depth)
     prev_temp_profile = [air_temp_day1] * soil_depth
     prev_canopy_temp = air_temp_day1
-    return (prev_temp_profile, prev_canopy_temp)
+    return (temp_amp, prev_temp_profile, prev_canopy_temp)
 #%%CyML Init End%%
 
 def model_temp_profile(temp_amp:float,

@@ -9,11 +9,12 @@ namespace soil_temp.DomainClass
 {
     public class soil_tempStateVarInfo : IVarInfoClass
     {
+        static VarInfo _prev_temp_profile = new VarInfo();
+        static VarInfo _prev_canopy_temp = new VarInfo();
         static VarInfo _temp_amp = new VarInfo();
         static VarInfo _temp_profile = new VarInfo();
         static VarInfo _layer_temp = new VarInfo();
         static VarInfo _canopy_temp_avg = new VarInfo();
-        static VarInfo _prev_temp_profile = new VarInfo();
 
         static soil_tempStateVarInfo()
         {
@@ -33,6 +34,16 @@ namespace soil_temp.DomainClass
         public string DomainClassOfReference
         {
             get { return "soil_tempState";}
+        }
+
+        public static  VarInfo prev_temp_profile
+        {
+            get { return _prev_temp_profile;}
+        }
+
+        public static  VarInfo prev_canopy_temp
+        {
+            get { return _prev_canopy_temp;}
         }
 
         public static  VarInfo temp_amp
@@ -55,13 +66,24 @@ namespace soil_temp.DomainClass
             get { return _canopy_temp_avg;}
         }
 
-        public static  VarInfo prev_temp_profile
-        {
-            get { return _prev_temp_profile;}
-        }
-
         static void DescribeVariables()
         {
+            _prev_temp_profile.Name = "prev_temp_profile";
+            _prev_temp_profile.Description = "previous soil temperature profile ";
+            _prev_temp_profile.MaxValue = -1D;
+            _prev_temp_profile.MinValue = -1D;
+            _prev_temp_profile.DefaultValue = -1D;
+            _prev_temp_profile.Units = "degC";
+            _prev_temp_profile.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+
+            _prev_canopy_temp.Name = "prev_canopy_temp";
+            _prev_canopy_temp.Description = "previous crop temperature";
+            _prev_canopy_temp.MaxValue = 50.0;
+            _prev_canopy_temp.MinValue = 0.0;
+            _prev_canopy_temp.DefaultValue = -1D;
+            _prev_canopy_temp.Units = "degC";
+            _prev_canopy_temp.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+
             _temp_amp.Name = "temp_amp";
             _temp_amp.Description = "current temperature amplitude";
             _temp_amp.MaxValue = 100.0;
@@ -93,14 +115,6 @@ namespace soil_temp.DomainClass
             _canopy_temp_avg.DefaultValue = -1D;
             _canopy_temp_avg.Units = "degC";
             _canopy_temp_avg.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
-
-            _prev_temp_profile.Name = "prev_temp_profile";
-            _prev_temp_profile.Description = "previous soil temperature profile ";
-            _prev_temp_profile.MaxValue = -1D;
-            _prev_temp_profile.MinValue = -1D;
-            _prev_temp_profile.DefaultValue = -1D;
-            _prev_temp_profile.Units = "degC";
-            _prev_temp_profile.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
 
         }
 
