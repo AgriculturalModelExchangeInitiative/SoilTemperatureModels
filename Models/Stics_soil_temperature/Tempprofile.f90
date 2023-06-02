@@ -1,5 +1,6 @@
 MODULE temp_profile_mod
    IMPLICIT NONE
+
 CONTAINS
    !%%CyML Model Begin%%
    SUBROUTINE model_temp_profile(temp_amp, &
@@ -77,27 +78,6 @@ CONTAINS
       !                          ** max : 50.0
       !                          ** unit : degC
       !                          ** uri :
-      !            * name: air_temp_day1
-      !                          ** description : Mean temperature on first day
-      !                          ** inputtype : parameter
-      !                          ** parametercategory : constant
-      !                          ** datatype : DOUBLE
-      !                          ** default : 0.0
-      !                          ** min : 0.0
-      !                          ** max : 100.0
-      !                          ** unit : degC
-      !                          ** uri :
-      !            * name: layer_thick
-      !                          ** description : layers thickness
-      !                          ** inputtype : parameter
-      !                          ** parametercategory : constant
-      !                          ** datatype : INTARRAY
-      !                          ** default :
-      !                          ** min :
-      !                          ** max :
-      !                          ** unit : cm
-      !                          ** uri :
-      !                          ** len : 
       !- outputs:
       !            * name: temp_profile
       !                          ** description : current soil profile temperature (for 1 cm layers)
@@ -142,15 +122,17 @@ CONTAINS
 
 
    
-   SUBROUTINE init_temp_profile(air_temp_day1, layer_thick, prev_temp_profile, prev_canopy_temp)
+   SUBROUTINE init_temp_profile(air_temp_day1, layer_thick, &
+                                prev_temp_profile, prev_canopy_temp)
       
       real, intent(IN) :: air_temp_day1
       INTEGER, INTENT(IN) ::  layer_thick(:)
-      real, intent(OUT) :: canopy_temp_avg
+      real, intent(OUT) :: prev_canopy_temp
       real, allocatable, intent(OUT) :: prev_temp_profile(:)
+      
 
-      !%%CyML Init Begin%%         
-      integer :: soil_depth
+      !%%CyML Init Begin%%       
+      integer :: soil_depth  
       soil_depth = sum(layer_thick)
       allocate(prev_temp_profile(soil_depth))
       prev_temp_profile = air_temp_day1

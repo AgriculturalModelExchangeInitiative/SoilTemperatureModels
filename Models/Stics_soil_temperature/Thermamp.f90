@@ -2,13 +2,11 @@ MODULE therm_amp_mod
    IMPLICIT NONE
 CONTAINS
    !%%CyML Model Begin%%
-   SUBROUTINE model_therm_amp(therm_diff, &
-                             temp_wave_freq, &
-                             therm_amp)
+   SUBROUTINE model_therm_amp(therm_diff, temp_freq, therm_amp)
       IMPLICIT NONE
 
-      REAL, INTENT(IN) :: therm_diff
-      REAL, INTENT(IN), OPTIONAL :: temp_wave_freq
+      REAL, INTENT(IN)  :: therm_diff
+      REAL, INTENT(IN)  :: temp_freq
       REAL, INTENT(OUT) :: therm_amp
 
       !- Name: therm_amp -Version: 1.0, -Time step: 1
@@ -52,18 +50,26 @@ CONTAINS
       !                          ** uri :
       !                          ** len : 1
       ! 
+      !- outputs:
+      !            * name: therm_amp
+      !                          ** description : thermal amplitude
+      !                          ** variablecategory : state
+      !                          ** datatype : DOUBLE
+      !                          ** min : 
+      !                          ** max : 
+      !                          ** unit : radians cm-2
+      !                          ** uri :
+      !                          ** len : 1
+      ! 
 
-      REAL :: temp_freq
-
-      !if(.NOT. present(temp_wave_freq)) then 
-      !   temp_freq = 7.272e-5
-      !else
+     
+      
+      
       !%%CyML Compute Begin%%
-         temp_freq = temp_wave_freq
-      !end if
-
       therm_amp = sqrt(temp_freq/2/therm_diff)
       !%%CyML Compute End%%
+
    END SUBROUTINE model_therm_amp
    !%%CyML Model End%%
+   
 END MODULE therm_amp_mod

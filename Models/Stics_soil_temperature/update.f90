@@ -2,14 +2,16 @@ MODULE update_mod
    IMPLICIT NONE
 CONTAINS
    !%%CyML Model Begin%%
-   SUBROUTINE model_update(canopy_temp_avg,temp_profile,  &
-                            prev_canopy_temp,prev_temp_profile )
+   SUBROUTINE model_update(canopy_temp_avg, &
+                           temp_profile, prev_canopy_temp, &
+                           prev_temp_profile)
       IMPLICIT NONE
 
       REAL, INTENT(IN) :: canopy_temp_avg
-      REAL, INTENT(OUT)  :: prev_temp_profile(:)
+      REAL, INTENT(IN) :: temp_profile(:)
+      REAL, allocatable, INTENT(OUT)  :: prev_temp_profile(:)
       REAL, INTENT(OUT)  :: prev_canopy_temp
-      REAL, allocatable, INTENT(IN) :: temp_profile(:)
+
 
       !- Name: update -Version: 1.0, -Time step: 1
       !- Description:
@@ -19,14 +21,14 @@ CONTAINS
       !            * Institution: INRAE
       !            * Abstract: Update previous state
       !- inputs:
-      !            * name: canopy_temp_avg
-      !                          ** description : current temperature amplitude
-      !                          ** variablecategory : state
+       !            * name: canopy_temp_avg
+      !                          ** description : current canopy mean temperature
+      !                          ** inputtype : variable
+      !                          ** variablecategory : exogenous
       !                          ** datatype : DOUBLE
-      !                          ** inputtype: variable
-      !                          ** default :
-      !                          ** min : 0.0
-      !                          ** max : 100.0
+      !                          ** default : 0.0
+      !                          ** min :-50.0
+      !                          ** max : 50.0
       !                          ** unit : degC
       !                          ** uri :
       !            * name: temp_profile
@@ -41,16 +43,6 @@ CONTAINS
       !                          ** uri :
       !                          ** len :
       !- outputs:
-      !            * name: prev_temp_profile
-      !                          ** description : previous soil temperature profile (for 1 cm layers)
-      !                          ** variablecategory : state
-      !                          ** datatype : DOUBLEARRAY
-      !                          ** default : 
-      !                          ** min : -50.0
-      !                          ** max : 50.0
-      !                          ** unit : degC
-      !                          ** uri :
-      !                          ** len : 1
       !            * name: prev_canopy_temp
       !                          ** description : previous crop temperature
       !                          ** variablecategory : exogenous
@@ -61,14 +53,31 @@ CONTAINS
       !                          ** unit : degC
       !                          ** uri :
       !                          ** len : 1
+      !            * name: prev_temp_profile
+      !                          ** description : previous soil temperature profile (for 1 cm layers)
+      !                          ** variablecategory : state
+      !                          ** datatype : DOUBLEARRAY
+      !                          ** default : 
+      !                          ** min : -50.0
+      !                          ** max : 50.0
+      !                          ** unit : degC
+      !                          ** uri :
+      !                          ** len : 1
+      
 
+      INTEGER :: n
       
       !%%CyML Compute Begin%%
-      prev_canopy_temp = canopy_temp_avg 
+      prev_canopy_temp = canopy_temp_avg
+      
+      n = size(temp_profile)
+      allocate(prev_temp_profile(n))
       prev_temp_profile = temp_profile
 
       !%%CyML Compute End%%
 
-   END SUBROUTINE model_canopy_temp_avg
+   END SUBROUTINE model_update
    !%%CyML Model End%%
-END MODULE canopy_temp_avg_mod
+   
+
+END MODULE update_mod 

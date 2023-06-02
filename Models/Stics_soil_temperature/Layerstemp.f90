@@ -9,7 +9,7 @@ CONTAINS
       IMPLICIT NONE
 
       REAL, INTENT(IN)    ::  temp_profile(:)
-      INTEGER, allocatable, INTENT(IN) ::  layer_thick(:)
+      INTEGER, INTENT(IN) ::  layer_thick(:)
       REAL, allocatable, INTENT(OUT)   ::  layer_temp(:)
 
       !- Name: layers_temp -Version: 1.0, -Time step: 1
@@ -61,7 +61,6 @@ CONTAINS
 
       !%%CyML Compute Begin%%
       call get_layers_number(layer_thick, layers_nb)
-      !layers_nb = size(layer_thick)
 
       !if (.NOT. ALLOCATED(layer_temp)) then
         allocate(layer_temp(layers_nb))
@@ -80,9 +79,9 @@ CONTAINS
      ! Getting layers bottom depth
      CALL layer_thickness2depth(layer_thick, layer_depth)
 
-     !up_depth(2:(layers_nb + 1)) = int(layer_depth)
+    
      DO z = 1, layers_nb
-      !depth_value = int(layer_depth(z))
+      
       depth_value = layer_depth(z)
       up_depth(z+1) = depth_value
      END DO
@@ -96,138 +95,127 @@ CONTAINS
    END SUBROUTINE model_layers_temp
    !%%CyML Model End%%
 
+
    SUBROUTINE layer_thickness2depth(layer_thick, layer_depth)
-      IMPLICIT NONE
-  
-      INTEGER, intent(in)     :: layer_thick(:)
-      INTEGER, allocatable, intent(out) :: layer_depth(:)
 
-      INTEGER :: layers_nb, z
+    INTEGER, intent(in)     :: layer_thick(:)
+    INTEGER, allocatable, intent(out) :: layer_depth(:)
 
-      layers_nb = size(layer_thick) 
+    INTEGER :: layers_nb, z
 
-      !if (.NOT. ALLOCATED(layer_depth)) then
-      allocate(layer_depth(layers_nb))
-      !end if
-      layer_depth = 0
-  
-      DO z = 1, layers_nb
-         if (layer_thick(z) /= 0) layer_depth(z) = sum(layer_thick(1:z))
-      END DO
+    layers_nb = size(layer_thick) 
+
+    !if (.NOT. ALLOCATED(layer_depth)) then
+    allocate(layer_depth(layers_nb))
+    !end if
+    layer_depth = 0
+
+    DO z = 1, layers_nb
+       if (layer_thick(z) /= 0) layer_depth(z) = sum(layer_thick(1:z))
+    END DO
 
    END SUBROUTINE layer_thickness2depth
 
 
-   SUBROUTINE layer_thickness2topdepth(layer_thick, layer_topdepth)
-      IMPLICIT NONE
+ ! SUBROUTINE layer_thickness2topdepth(layer_thick, layer_topdepth)
+ !    IMPLICIT NONE
 
-      INTEGER, intent(in)     :: layer_thick(:)
-      INTEGER, allocatable, intent(out) :: layer_topdepth(:)
-      INTEGER, allocatable :: layer_depth(:)
+ !    INTEGER, intent(in)     :: layer_thick(:)
+ !    INTEGER, allocatable, intent(out) :: layer_topdepth(:)
     
-      INTEGER :: layers_nb, z
+ !    INTEGER, allocatable :: layer_depth(:)
+ !    INTEGER :: layers_nb, z
 
-      layers_nb = size(layer_thick)
+ !    layers_nb = size(layer_thick)
 
-      !if (.NOT. ALLOCATED(layer_thick)) then
-      allocate(layer_topdepth(layers_nb))
-      !end if
-      layer_topdepth = 0
+ !    !if (.NOT. ALLOCATED(layer_thick)) then
+ !    allocate(layer_topdepth(layers_nb))
+ !    !end if
+ !    layer_topdepth = 0
 
-      ! getting layer top depth from thickness
-      call layer_thickness2depth(layer_thick, layer_depth)
+ !    ! getting layer top depth from thickness
+ !    call layer_thickness2depth(layer_thick, layer_depth)
 
-      DO z = 1, layers_nb
-        if (layer_thick(z) /= 0) layer_topdepth(z) = layer_depth(z) - layer_thick(z)
-      END DO
+ !    DO z = 1, layers_nb
+ !      if (layer_thick(z) /= 0) layer_topdepth(z) = layer_depth(z) - layer_thick(z)
+ !    END DO
 
-   END SUBROUTINE layer_thickness2topdepth
+ ! END SUBROUTINE layer_thickness2topdepth
 
 
-   SUBROUTINE layer_depth2topdepth(layer_depth, layer_topdepth)
-      IMPLICIT NONE
+ ! SUBROUTINE layer_depth2topdepth(layer_depth, layer_topdepth)
+ !    IMPLICIT NONE
 
-      INTEGER, intent(in)     :: layer_depth(:)
-      INTEGER, allocatable, intent(out) :: layer_topdepth(:)
+ !    INTEGER, intent(in)     :: layer_depth(:)
+ !    INTEGER, allocatable, intent(out) :: layer_topdepth(:)
+  
+ !    INTEGER :: layers_nb, z
+
+
+ !    layers_nb = size(layer_depth)
+
+ !    !if (.NOT. ALLOCATED(layer_thick)) then
+ !    allocate(layer_topdepth(layers_nb))
+ !  !end if
+ !    layer_topdepth = 0
+
+ !    DO z = 1, layers_nb
+ !      if (layer_depth(z) /= 0) layer_topdepth(z) = layer_depth(z - 1)
+ !    END DO
+
+ ! END SUBROUTINE layer_depth2topdepth
+
+
+ ! SUBROUTINE layer_depth2thickness(layer_depth, layer_thick)
+ !    IMPLICIT NONE
+   
+ !    INTEGER, intent(in)     :: layer_depth(:)   
+ !    INTEGER, allocatable, intent(out) :: layer_thick(:)
+
+ !    INTEGER :: layers_nb, z
+
+
+ !    layers_nb = size(layer_depth)
+
+ !    !if (.NOT. ALLOCATED(layer_thick)) then
+ !    allocate(layer_thick(layers_nb))
+ !    !end if
+
+ !    layer_thick(1) = layer_depth(1)
+
+ !    DO z = 2, layers_nb
+ !      layer_thick(z) = layer_depth(z) - layer_depth(z-1)
     
-      INTEGER :: layers_nb, z
+ !      IF (layer_thick(z) < 0) layer_thick(z) = 0
+ !    END DO
+
+ ! END SUBROUTINE layer_depth2thickness
+
+ SUBROUTINE get_soil_depth(layer_thick, soil_depth)
+    IMPLICIT NONE
+
+    INTEGER, intent(in)     :: layer_thick(:)
+    INTEGER, intent(out)    :: soil_depth
+    
+    soil_depth = sum(layer_thick)
 
 
-      layers_nb = size(layer_depth)
-
-      !if (.NOT. ALLOCATED(layer_thick)) then
-      allocate(layer_topdepth(layers_nb))
-    !end if
-      layer_topdepth = 0
-
-      DO z = 1, layers_nb
-        if (layer_depth(z) /= 0) layer_topdepth(z) = layer_depth(z - 1)
-      END DO
-
-   END SUBROUTINE layer_depth2topdepth
+ END SUBROUTINE get_soil_depth
 
 
-   SUBROUTINE layer_depth2thickness(layer_depth, layer_thick)
-      IMPLICIT NONE
-  
-      !REAL, intent(in)     :: layer_depth(:)     
-      INTEGER, intent(in)     :: layer_depth(:)   
-      !REAL, intent(out) :: layer_thick(size(layer_depth))
-      !REAL, allocatable, intent(out) :: layer_thick(:)
-      INTEGER, allocatable, intent(out) :: layer_thick(:)
+ SUBROUTINE get_layers_number(layer_thick_or_depth, layers_number)
+    IMPLICIT NONE
 
-      INTEGER :: layers_nb, z
+    INTEGER, intent(in)     :: layer_thick_or_depth(:)
+    INTEGER, intent(out)    :: layers_number  
+    
+    integer :: z
 
-
-      layers_nb = size(layer_depth)
-
-      !if (.NOT. ALLOCATED(layer_thick)) then
-      allocate(layer_thick(layers_nb))
-      !end if
-
-      layer_thick(1) = layer_depth(1)
-
-      DO z = 2, layers_nb
-        layer_thick(z) = layer_depth(z) - layer_depth(z-1)
-        !IF (layer_thick(z) < 0) layer_thick(z) = 0.
-        IF (layer_thick(z) < 0) layer_thick(z) = 0
-      END DO
-
-      ! if a layer depth is 0
-      !WHERE (layer_thick < 0)
-      !   layer_thick = 0
-      !END WHERE
-      
-
-   END SUBROUTINE layer_depth2thickness
-
-   SUBROUTINE get_soil_depth(layer_thick, soil_depth)
-      IMPLICIT NONE
-  
-      !REAL, intent(in)     :: layer_thick(:)
-      INTEGER, intent(in)     :: layer_thick(:)
-      !REAL, intent(out)    :: soil_depth
-      INTEGER, intent(out)    :: soil_depth
-      soil_depth = sum(layer_thick)
-
-
-   END SUBROUTINE get_soil_depth
-
-
-   SUBROUTINE get_layers_number(layer_thick_or_depth, layers_number)
-      IMPLICIT NONE
-  
-      !REAL, intent(in)     :: layer_thick_or_depth(:)
-      INTEGER, intent(in)     :: layer_thick_or_depth(:)
-      INTEGER, intent(out)    :: layers_number  
-      
-      integer :: z
-
-      layers_number = 0
-      DO z = 1, size(layer_thick_or_depth)
-        !IF(layer_thick_or_depth(z) /= 0.) layers_number = layers_number + 1
-        IF(layer_thick_or_depth(z) /= 0) layers_number = layers_number + 1
-      END DO
-      
-    END SUBROUTINE get_layers_number
+    layers_number = 0
+    DO z = 1, size(layer_thick_or_depth)
+      IF(layer_thick_or_depth(z) /= 0) layers_number = layers_number + 1
+    END DO
+    
+  END SUBROUTINE get_layers_number
+   
 END MODULE layers_temp_mod
