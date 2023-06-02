@@ -30,8 +30,7 @@ CONTAINS
       REAL :: therm_amp
       REAL :: canopy_temp_avg
 
-      REAL :: therm_diff = 5.37e-3
-      REAL :: temp_freq = 7.272e-5
+      
 
 
       !- Name: soil_temp -Version: 1.0, -Time step: 1
@@ -148,9 +147,11 @@ CONTAINS
 
       call model_temp_amp(min_canopy_temp, max_canopy_temp, temp_amp)
 
-      call model_therm_amp(therm_diff, temp_freq, therm_amp)
+      !call model_therm_amp(therm_diff, temp_freq, therm_amp)
       
-      call model_temp_profile(temp_amp, therm_amp, prev_temp_profile, & 
+      !call model_temp_profile(temp_amp, therm_amp, prev_temp_profile, & 
+      !                        prev_canopy_temp, min_air_temp, temp_profile)
+      call model_temp_profile(temp_amp, prev_temp_profile, & 
                               prev_canopy_temp, min_air_temp, temp_profile)
 
       call model_layers_temp(temp_profile, &

@@ -4,7 +4,7 @@ MODULE temp_profile_mod
 CONTAINS
    !%%CyML Model Begin%%
    SUBROUTINE model_temp_profile(temp_amp, &
-                               therm_amp, &
+                               !therm_amp, &
                                prev_temp_profile, &
                                prev_canopy_temp, &
                                min_air_temp, &
@@ -13,7 +13,7 @@ CONTAINS
       IMPLICIT NONE
 
       REAL, INTENT(IN)  :: temp_amp
-      REAL, INTENT(IN)  :: therm_amp
+      !REAL, INTENT(IN)  :: therm_amp
       REAL, INTENT(IN)  :: prev_temp_profile(:)
       REAL, INTENT(IN)  :: prev_canopy_temp
       REAL, INTENT(IN)  :: min_air_temp
@@ -92,7 +92,9 @@ CONTAINS
 
       INTEGER :: z,n
       REAL, allocatable :: vexp(:)
-
+      REAL :: therm_diff = 5.37e-3
+      REAL :: temp_freq = 7.272e-5
+      REAL :: therm_amp
       
 
       !%%CyML Compute Begin%%
@@ -105,6 +107,8 @@ CONTAINS
       !if (.NOT. ALLOCATED(vexp)) then
          allocate(vexp(n))
       !end if
+
+      therm_amp = sqrt(temp_freq/2/therm_diff)
 
       DO z=1, n
          vexp(z) = exp(-z*therm_amp)
@@ -141,5 +145,19 @@ CONTAINS
    END SUBROUTINE
    
    !%%CyML Model End%%
+
+
+
+   ! SUBROUTINE model_therm_amp(therm_diff, temp_freq, therm_amp)
+   !    IMPLICIT NONE
+
+   !    REAL, INTENT(IN)  :: therm_diff
+   !    REAL, INTENT(IN)  :: temp_freq
+   !    REAL, INTENT(OUT) :: therm_amp
+     
+   !    therm_amp = sqrt(temp_freq/2/therm_diff)
+
+
+   ! END SUBROUTINE model_therm_amp
 END MODULE temp_profile_mod
 
