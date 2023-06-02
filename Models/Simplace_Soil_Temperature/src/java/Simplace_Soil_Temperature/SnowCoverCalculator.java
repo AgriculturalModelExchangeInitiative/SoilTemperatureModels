@@ -41,7 +41,7 @@ public class SnowCoverCalculator
     { this.cCarbonContent= _cCarbonContent; } 
     
     public SnowCoverCalculator() { }
-    public void  Calculate_snowcovercalculator(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a,  SoilTemperatureExogenous ex)
+    public void  Calculate_Model(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a,  SoilTemperatureExogenous ex)
     {
         //- Name: SnowCoverCalculator -Version: 001, -Time step: 1
         //- Description:

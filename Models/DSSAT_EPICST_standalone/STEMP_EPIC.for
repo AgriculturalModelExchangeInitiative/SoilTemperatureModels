@@ -204,7 +204,7 @@ C-----------------------------------------------------------------------
           TMA(I) = NINT(TAVG*10000.)/10000.   !chp
         END DO
         X2_AVG = TMA(1) * 5.0
-
+ 
         DO L = 1, NLAYR
           ST(L) = TAVG
         END DO
@@ -242,7 +242,7 @@ C-----------------------------------------------------------------------
       MSG(1) = "Running EPIC soil temperature routine."
       MSG(2) = "Start simulation at least 30 days early to initialize"
       MSG(3) = "  soil temperature parameters."
-      CALL WARNING(3,ERRKEY,MSG)
+      !CALL WARNING(3,ERRKEY,MSG)
 !%%CyML Ignore End%%
 !***********************************************************************
 !***********************************************************************
@@ -309,7 +309,7 @@ C-----------------------------------------------------------------------
       CALL SOILT_EPIC (
      &    B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV,    !Input
      &    TAVG, TMAX, TMIN, WetDay(NDays), WFT, WW,       !Input
-     &    TMA, SRFTEMP, ST, X2_AVG, X2_PREV)              !Output
+     &    TMA, SRFTEMP, ST, X2_AVG, X2_PREV)              !Output     
 !%%CyML Rate End%%
 !***********************************************************************
 !***********************************************************************
@@ -351,7 +351,10 @@ C=======================================================================
       SUBROUTINE SOILT_EPIC (
      &    B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV,    !Input
      &    TAVG, TMAX, TMIN, WetDay, WFT, WW,              !Input
-     &    TMA, SRFTEMP, ST, X2_AVG,                       !Output
+     &    TMA,                                            !Inout
+     &    SRFTEMP,                                        !Output
+     &    ST,                                             !InOut
+     &    X2_AVG,                                         !Output
      &    X2_PREV)                                        !InOut
 
       

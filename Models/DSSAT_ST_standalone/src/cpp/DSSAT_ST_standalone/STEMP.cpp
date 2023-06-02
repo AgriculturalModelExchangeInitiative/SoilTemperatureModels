@@ -14,12 +14,12 @@ using namespace std;
 
 void STEMP::Init(STEMP_State& s, STEMP_State& s1, STEMP_Rate& r, STEMP_Auxiliary& a, STEMP_Exogenous& ex)
 {
-    double SRAD;
-    double TAVG;
-    double TMAX;
-    double TAV;
-    double TAMP;
-    int DOY;
+    double SRAD = ex.getSRAD();
+    double TAVG = ex.getTAVG();
+    double TMAX = ex.getTMAX();
+    double TAV = ex.getTAV();
+    double TAMP = ex.getTAMP();
+    int DOY = ex.getDOY();
     double CUMDPT;
     vector<double> DSMID(NL);
     double TDL;
@@ -29,12 +29,12 @@ void STEMP::Init(STEMP_State& s, STEMP_State& s1, STEMP_Rate& r, STEMP_Auxiliary
     vector<double> ST(NL);
     double HDAY;
     CUMDPT = 0.0;
-    DSMID = new double[0.0];
+    fill(DSMID.begin(),DSMID.end(), 0.0);
     TDL = 0.0;
-    TMA = new double[0.0];
+    fill(TMA.begin(),TMA.end(), 0.0);
     ATOT = 0.0;
     SRFTEMP = 0.0;
-    ST = new double[0.0];
+    fill(ST.begin(),ST.end(), 0.0);
     HDAY = 0.0;
     int I;
     int L;
@@ -108,7 +108,7 @@ void STEMP::Init(STEMP_State& s, STEMP_State& s1, STEMP_Rate& r, STEMP_Auxiliary
     }
     for (I=1 ; I!=8 + 1 ; I+=1)
     {
-        make_tuple(ATOT, TMA, SRFTEMP, ST) = SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ATOT, TMA);
+        tie(ATOT, TMA, SRFTEMP, ST) = SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ATOT, TMA);
     }
     s.setCUMDPT(CUMDPT);
     s.setDSMID(DSMID);
@@ -501,7 +501,7 @@ void STEMP::Calculate_Model(STEMP_State& s, STEMP_State& s1, STEMP_Rate& r, STEM
     {
         PESW = max(0.0, TDL - TLL);
     }
-    make_tuple(ATOT, TMA, SRFTEMP, ST) = SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ATOT, TMA);
+    tie(ATOT, TMA, SRFTEMP, ST) = SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ATOT, TMA);
     s.setCUMDPT(CUMDPT);
     s.setDSMID(DSMID);
     s.setTDL(TDL);
@@ -510,7 +510,7 @@ void STEMP::Calculate_Model(STEMP_State& s, STEMP_State& s1, STEMP_Rate& r, STEM
     s.setSRFTEMP(SRFTEMP);
     s.setST(ST);
 }
-tuple<double,vector<double> ,double,vector<double> > STEMP:: SOILT(int NL, double ALBEDO, double B, double CUMDPT, int DOY, double DP, double HDAY, int NLAYR, double PESW, double SRAD, double TAMP, double TAV, double TAVG, double TMAX, double WW, const vector<double> DSMID, double ATOT, const vector<double> TMA)
+tuple<double,vector<double> ,double,vector<double> > STEMP:: SOILT(int NL, double ALBEDO, double B, double CUMDPT, int DOY, double DP, double HDAY, int NLAYR, double PESW, double SRAD, double TAMP, double TAV, double TAVG, double TMAX, double WW, vector<double> DSMID, double ATOT, vector<double> TMA)
 {
     int K;
     int L;

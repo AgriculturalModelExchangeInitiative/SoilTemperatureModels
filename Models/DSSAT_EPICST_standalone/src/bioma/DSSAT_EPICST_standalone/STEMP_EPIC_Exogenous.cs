@@ -9,16 +9,16 @@ namespace STEMP_EPIC_.DomainClass
 {
     public class STEMP_EPIC_Exogenous : ICloneable, IDomainClass
     {
-        private double _TAVG;
-        private double _TAV;
-        private double _TMAX;
-        private double _BIOMAS;
-        private double _SNOW;
-        private double _TMIN;
+        private double _RAIN;
         private double _DEPIR;
+        private double _TMIN;
+        private double _BIOMAS;
         private double _TAMP;
         private double _MULCHMASS;
-        private double _RAIN;
+        private double _TMAX;
+        private double _TAV;
+        private double _SNOW;
+        private double _TAVG;
         private ParametersIO _parametersIO;
 
         public STEMP_EPIC_Exogenous()
@@ -30,53 +30,38 @@ namespace STEMP_EPIC_.DomainClass
         {
             if (copyAll)
             {
-                TAVG = toCopy.TAVG;
-                TAV = toCopy.TAV;
-                TMAX = toCopy.TMAX;
-                BIOMAS = toCopy.BIOMAS;
-                SNOW = toCopy.SNOW;
-                TMIN = toCopy.TMIN;
+                RAIN = toCopy.RAIN;
                 DEPIR = toCopy.DEPIR;
+                TMIN = toCopy.TMIN;
+                BIOMAS = toCopy.BIOMAS;
                 TAMP = toCopy.TAMP;
                 MULCHMASS = toCopy.MULCHMASS;
-                RAIN = toCopy.RAIN;
+                TMAX = toCopy.TMAX;
+                TAV = toCopy.TAV;
+                SNOW = toCopy.SNOW;
+                TAVG = toCopy.TAVG;
             }
         }
 
-        public double TAVG
+        public double RAIN
         {
-            get { return this._TAVG; }
-            set { this._TAVG= value; } 
+            get { return this._RAIN; }
+            set { this._RAIN= value; } 
         }
-        public double TAV
+        public double DEPIR
         {
-            get { return this._TAV; }
-            set { this._TAV= value; } 
-        }
-        public double TMAX
-        {
-            get { return this._TMAX; }
-            set { this._TMAX= value; } 
-        }
-        public double BIOMAS
-        {
-            get { return this._BIOMAS; }
-            set { this._BIOMAS= value; } 
-        }
-        public double SNOW
-        {
-            get { return this._SNOW; }
-            set { this._SNOW= value; } 
+            get { return this._DEPIR; }
+            set { this._DEPIR= value; } 
         }
         public double TMIN
         {
             get { return this._TMIN; }
             set { this._TMIN= value; } 
         }
-        public double DEPIR
+        public double BIOMAS
         {
-            get { return this._DEPIR; }
-            set { this._DEPIR= value; } 
+            get { return this._BIOMAS; }
+            set { this._BIOMAS= value; } 
         }
         public double TAMP
         {
@@ -88,10 +73,25 @@ namespace STEMP_EPIC_.DomainClass
             get { return this._MULCHMASS; }
             set { this._MULCHMASS= value; } 
         }
-        public double RAIN
+        public double TMAX
         {
-            get { return this._RAIN; }
-            set { this._RAIN= value; } 
+            get { return this._TMAX; }
+            set { this._TMAX= value; } 
+        }
+        public double TAV
+        {
+            get { return this._TAV; }
+            set { this._TAV= value; } 
+        }
+        public double SNOW
+        {
+            get { return this._SNOW; }
+            set { this._SNOW= value; } 
+        }
+        public double TAVG
+        {
+            get { return this._TAVG; }
+            set { this._TAVG= value; } 
         }
 
         public string Description
@@ -111,16 +111,16 @@ namespace STEMP_EPIC_.DomainClass
 
         public virtual Boolean ClearValues()
         {
-             _TAVG = default(double);
-             _TAV = default(double);
-             _TMAX = default(double);
-             _BIOMAS = default(double);
-             _SNOW = default(double);
-             _TMIN = default(double);
+             _RAIN = default(double);
              _DEPIR = default(double);
+             _TMIN = default(double);
+             _BIOMAS = default(double);
              _TAMP = default(double);
              _MULCHMASS = default(double);
-             _RAIN = default(double);
+             _TMAX = default(double);
+             _TAV = default(double);
+             _SNOW = default(double);
+             _TAVG = default(double);
             return true;
         }
 

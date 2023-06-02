@@ -1,0 +1,2 @@
+prev_canopy_temp=canopy_temp_avg
+prev_temp_profile=copy(temp_profile)

@@ -9,35 +9,35 @@ using namespace std;
 class STEMP_EPIC_State
 {
     private:
-        vector<double> ST ;
+        int NDays ;
+        vector<int> WetDay ;
+        double TDL ;
+        double X2_PREV ;
+        vector<double> DSMID ;
         vector<double> TMA ;
         double SRFTEMP ;
-        int NDays ;
-        vector<double> DSMID ;
+        vector<double> ST ;
         double CUMDPT ;
-        double X2_PREV ;
-        double TDL ;
-        vector<int> WetDay ;
     public:
         STEMP_EPIC_State();
-        vector<double> & getST();
-        void setST(const vector<double> &  _ST);
+        int getNDays();
+        void setNDays(int _NDays);
+        vector<int> & getWetDay();
+        void setWetDay(const vector<int> &  _WetDay);
+        double getTDL();
+        void setTDL(double _TDL);
+        double getX2_PREV();
+        void setX2_PREV(double _X2_PREV);
+        vector<double> & getDSMID();
+        void setDSMID(const vector<double> &  _DSMID);
         vector<double> & getTMA();
         void setTMA(const vector<double> &  _TMA);
         double getSRFTEMP();
         void setSRFTEMP(double _SRFTEMP);
-        int getNDays();
-        void setNDays(int _NDays);
-        vector<double> & getDSMID();
-        void setDSMID(const vector<double> &  _DSMID);
+        vector<double> & getST();
+        void setST(const vector<double> &  _ST);
         double getCUMDPT();
         void setCUMDPT(double _CUMDPT);
-        double getX2_PREV();
-        void setX2_PREV(double _X2_PREV);
-        double getTDL();
-        void setTDL(double _TDL);
-        vector<int> & getWetDay();
-        void setWetDay(const vector<int> &  _WetDay);
 
 };
 #endif

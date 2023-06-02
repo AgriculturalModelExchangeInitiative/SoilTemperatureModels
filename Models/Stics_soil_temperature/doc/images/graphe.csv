@@ -1,0 +1,6 @@
+Source,Target,Weight
+temp_amp,temp_profile,1
+temp_profile,layers_temp,1
+temp_profile,update,1
+therm_amp,temp_profile,1
+canopy_temp_avg,update,1

@@ -21,138 +21,138 @@ namespace STEMP_EPIC_.Strategies
             ModellingOptions mo0_0 = new ModellingOptions();
             //Parameters
             List<VarInfo> _parameters0_0 = new List<VarInfo>();
-            VarInfo v1 = new CompositeStrategyVarInfo(_STEMP_EPIC, "DUL");
+            VarInfo v1 = new CompositeStrategyVarInfo(_STEMP_EPIC, "BD");
             _parameters0_0.Add(v1);
-            VarInfo v2 = new CompositeStrategyVarInfo(_STEMP_EPIC, "ISWWAT");
+            VarInfo v2 = new CompositeStrategyVarInfo(_STEMP_EPIC, "DUL");
             _parameters0_0.Add(v2);
-            VarInfo v3 = new CompositeStrategyVarInfo(_STEMP_EPIC, "LL");
+            VarInfo v3 = new CompositeStrategyVarInfo(_STEMP_EPIC, "DS");
             _parameters0_0.Add(v3);
-            VarInfo v4 = new CompositeStrategyVarInfo(_STEMP_EPIC, "DS");
+            VarInfo v4 = new CompositeStrategyVarInfo(_STEMP_EPIC, "DLAYR");
             _parameters0_0.Add(v4);
-            VarInfo v5 = new CompositeStrategyVarInfo(_STEMP_EPIC, "SW");
+            VarInfo v5 = new CompositeStrategyVarInfo(_STEMP_EPIC, "LL");
             _parameters0_0.Add(v5);
-            VarInfo v6 = new CompositeStrategyVarInfo(_STEMP_EPIC, "BD");
+            VarInfo v6 = new CompositeStrategyVarInfo(_STEMP_EPIC, "SW");
             _parameters0_0.Add(v6);
             VarInfo v7 = new CompositeStrategyVarInfo(_STEMP_EPIC, "NLAYR");
             _parameters0_0.Add(v7);
             VarInfo v8 = new CompositeStrategyVarInfo(_STEMP_EPIC, "NL");
             _parameters0_0.Add(v8);
-            VarInfo v9 = new CompositeStrategyVarInfo(_STEMP_EPIC, "DLAYR");
+            VarInfo v9 = new CompositeStrategyVarInfo(_STEMP_EPIC, "ISWWAT");
             _parameters0_0.Add(v9);
             List<PropertyDescription> _inputs0_0 = new List<PropertyDescription>();
             PropertyDescription pd1 = new PropertyDescription();
             pd1.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_Exogenous);
-            pd1.PropertyName = "TAVG";
-            pd1.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAVG).ValueType.TypeForCurrentValue;
-            pd1.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAVG);
+            pd1.PropertyName = "RAIN";
+            pd1.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.RAIN).ValueType.TypeForCurrentValue;
+            pd1.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.RAIN);
             _inputs0_0.Add(pd1);
             PropertyDescription pd2 = new PropertyDescription();
             pd2.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
-            pd2.PropertyName = "ST";
-            pd2.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST).ValueType.TypeForCurrentValue;
-            pd2.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST);
+            pd2.PropertyName = "NDays";
+            pd2.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays).ValueType.TypeForCurrentValue;
+            pd2.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays);
             _inputs0_0.Add(pd2);
             PropertyDescription pd3 = new PropertyDescription();
             pd3.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_Exogenous);
-            pd3.PropertyName = "TAV";
-            pd3.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAV).ValueType.TypeForCurrentValue;
-            pd3.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAV);
+            pd3.PropertyName = "DEPIR";
+            pd3.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.DEPIR).ValueType.TypeForCurrentValue;
+            pd3.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.DEPIR);
             _inputs0_0.Add(pd3);
             PropertyDescription pd4 = new PropertyDescription();
             pd4.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_Exogenous);
-            pd4.PropertyName = "TMAX";
-            pd4.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TMAX).ValueType.TypeForCurrentValue;
-            pd4.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TMAX);
+            pd4.PropertyName = "TMIN";
+            pd4.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TMIN).ValueType.TypeForCurrentValue;
+            pd4.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TMIN);
             _inputs0_0.Add(pd4);
             PropertyDescription pd5 = new PropertyDescription();
             pd5.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
-            pd5.PropertyName = "TMA";
-            pd5.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA).ValueType.TypeForCurrentValue;
-            pd5.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA);
+            pd5.PropertyName = "WetDay";
+            pd5.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay).ValueType.TypeForCurrentValue;
+            pd5.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay);
             _inputs0_0.Add(pd5);
             PropertyDescription pd6 = new PropertyDescription();
-            pd6.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
-            pd6.PropertyName = "SRFTEMP";
-            pd6.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP).ValueType.TypeForCurrentValue;
-            pd6.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP);
+            pd6.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_Exogenous);
+            pd6.PropertyName = "BIOMAS";
+            pd6.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.BIOMAS).ValueType.TypeForCurrentValue;
+            pd6.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.BIOMAS);
             _inputs0_0.Add(pd6);
             PropertyDescription pd7 = new PropertyDescription();
             pd7.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_Exogenous);
-            pd7.PropertyName = "BIOMAS";
-            pd7.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.BIOMAS).ValueType.TypeForCurrentValue;
-            pd7.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.BIOMAS);
+            pd7.PropertyName = "TAMP";
+            pd7.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAMP).ValueType.TypeForCurrentValue;
+            pd7.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAMP);
             _inputs0_0.Add(pd7);
             PropertyDescription pd8 = new PropertyDescription();
             pd8.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_Exogenous);
-            pd8.PropertyName = "SNOW";
-            pd8.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.SNOW).ValueType.TypeForCurrentValue;
-            pd8.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.SNOW);
+            pd8.PropertyName = "MULCHMASS";
+            pd8.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.MULCHMASS).ValueType.TypeForCurrentValue;
+            pd8.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.MULCHMASS);
             _inputs0_0.Add(pd8);
             PropertyDescription pd9 = new PropertyDescription();
-            pd9.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_Exogenous);
-            pd9.PropertyName = "TMIN";
-            pd9.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TMIN).ValueType.TypeForCurrentValue;
-            pd9.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TMIN);
+            pd9.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
+            pd9.PropertyName = "TDL";
+            pd9.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TDL).ValueType.TypeForCurrentValue;
+            pd9.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TDL);
             _inputs0_0.Add(pd9);
             PropertyDescription pd10 = new PropertyDescription();
             pd10.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
-            pd10.PropertyName = "NDays";
-            pd10.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays).ValueType.TypeForCurrentValue;
-            pd10.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays);
+            pd10.PropertyName = "X2_PREV";
+            pd10.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV).ValueType.TypeForCurrentValue;
+            pd10.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV);
             _inputs0_0.Add(pd10);
             PropertyDescription pd11 = new PropertyDescription();
-            pd11.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_Exogenous);
-            pd11.PropertyName = "DEPIR";
-            pd11.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.DEPIR).ValueType.TypeForCurrentValue;
-            pd11.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.DEPIR);
+            pd11.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
+            pd11.PropertyName = "DSMID";
+            pd11.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.DSMID).ValueType.TypeForCurrentValue;
+            pd11.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.DSMID);
             _inputs0_0.Add(pd11);
             PropertyDescription pd12 = new PropertyDescription();
-            pd12.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
-            pd12.PropertyName = "DSMID";
-            pd12.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.DSMID).ValueType.TypeForCurrentValue;
-            pd12.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.DSMID);
+            pd12.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_Exogenous);
+            pd12.PropertyName = "TMAX";
+            pd12.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TMAX).ValueType.TypeForCurrentValue;
+            pd12.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TMAX);
             _inputs0_0.Add(pd12);
             PropertyDescription pd13 = new PropertyDescription();
-            pd13.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
-            pd13.PropertyName = "CUMDPT";
-            pd13.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.CUMDPT).ValueType.TypeForCurrentValue;
-            pd13.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.CUMDPT);
+            pd13.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_Exogenous);
+            pd13.PropertyName = "TAV";
+            pd13.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAV).ValueType.TypeForCurrentValue;
+            pd13.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAV);
             _inputs0_0.Add(pd13);
             PropertyDescription pd14 = new PropertyDescription();
-            pd14.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
-            pd14.PropertyName = "X2_PREV";
-            pd14.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV).ValueType.TypeForCurrentValue;
-            pd14.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV);
+            pd14.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_Exogenous);
+            pd14.PropertyName = "SNOW";
+            pd14.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.SNOW).ValueType.TypeForCurrentValue;
+            pd14.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.SNOW);
             _inputs0_0.Add(pd14);
             PropertyDescription pd15 = new PropertyDescription();
-            pd15.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_Exogenous);
-            pd15.PropertyName = "TAMP";
-            pd15.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAMP).ValueType.TypeForCurrentValue;
-            pd15.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAMP);
+            pd15.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
+            pd15.PropertyName = "TMA";
+            pd15.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA).ValueType.TypeForCurrentValue;
+            pd15.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA);
             _inputs0_0.Add(pd15);
             PropertyDescription pd16 = new PropertyDescription();
             pd16.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_Exogenous);
-            pd16.PropertyName = "MULCHMASS";
-            pd16.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.MULCHMASS).ValueType.TypeForCurrentValue;
-            pd16.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.MULCHMASS);
+            pd16.PropertyName = "TAVG";
+            pd16.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAVG).ValueType.TypeForCurrentValue;
+            pd16.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAVG);
             _inputs0_0.Add(pd16);
             PropertyDescription pd17 = new PropertyDescription();
-            pd17.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_Exogenous);
-            pd17.PropertyName = "RAIN";
-            pd17.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.RAIN).ValueType.TypeForCurrentValue;
-            pd17.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.RAIN);
+            pd17.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
+            pd17.PropertyName = "SRFTEMP";
+            pd17.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP).ValueType.TypeForCurrentValue;
+            pd17.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP);
             _inputs0_0.Add(pd17);
             PropertyDescription pd18 = new PropertyDescription();
             pd18.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
-            pd18.PropertyName = "TDL";
-            pd18.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TDL).ValueType.TypeForCurrentValue;
-            pd18.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TDL);
+            pd18.PropertyName = "ST";
+            pd18.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST).ValueType.TypeForCurrentValue;
+            pd18.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST);
             _inputs0_0.Add(pd18);
             PropertyDescription pd19 = new PropertyDescription();
             pd19.DomainClassType = typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State);
-            pd19.PropertyName = "WetDay";
-            pd19.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay).ValueType.TypeForCurrentValue;
-            pd19.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay);
+            pd19.PropertyName = "CUMDPT";
+            pd19.PropertyType = (STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.CUMDPT).ValueType.TypeForCurrentValue;
+            pd19.PropertyVarInfo =(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.CUMDPT);
             _inputs0_0.Add(pd19);
             mo0_0.Inputs=_inputs0_0;
             List<PropertyDescription> _outputs0_0 = new List<PropertyDescription>();
@@ -278,6 +278,17 @@ namespace STEMP_EPIC_.Strategies
             return new List<Type>() {  typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State), typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_State), typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_Rate), typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_Auxiliary), typeof(STEMP_EPIC_.DomainClass.STEMP_EPIC_Exogenous)};
         }
 
+        public double[] BD
+        {
+            get
+            {
+                 return _STEMP_EPIC.BD; 
+            }
+            set
+            {
+                _STEMP_EPIC.BD = value;
+            }
+        }
         public double[] DUL
         {
             get
@@ -287,28 +298,6 @@ namespace STEMP_EPIC_.Strategies
             set
             {
                 _STEMP_EPIC.DUL = value;
-            }
-        }
-        public string ISWWAT
-        {
-            get
-            {
-                 return _STEMP_EPIC.ISWWAT; 
-            }
-            set
-            {
-                _STEMP_EPIC.ISWWAT = value;
-            }
-        }
-        public double[] LL
-        {
-            get
-            {
-                 return _STEMP_EPIC.LL; 
-            }
-            set
-            {
-                _STEMP_EPIC.LL = value;
             }
         }
         public double[] DS
@@ -322,6 +311,28 @@ namespace STEMP_EPIC_.Strategies
                 _STEMP_EPIC.DS = value;
             }
         }
+        public double[] DLAYR
+        {
+            get
+            {
+                 return _STEMP_EPIC.DLAYR; 
+            }
+            set
+            {
+                _STEMP_EPIC.DLAYR = value;
+            }
+        }
+        public double[] LL
+        {
+            get
+            {
+                 return _STEMP_EPIC.LL; 
+            }
+            set
+            {
+                _STEMP_EPIC.LL = value;
+            }
+        }
         public double[] SW
         {
             get
@@ -331,17 +342,6 @@ namespace STEMP_EPIC_.Strategies
             set
             {
                 _STEMP_EPIC.SW = value;
-            }
-        }
-        public double[] BD
-        {
-            get
-            {
-                 return _STEMP_EPIC.BD; 
-            }
-            set
-            {
-                _STEMP_EPIC.BD = value;
             }
         }
         public int NLAYR
@@ -366,15 +366,15 @@ namespace STEMP_EPIC_.Strategies
                 _STEMP_EPIC.NL = value;
             }
         }
-        public double[] DLAYR
+        public string ISWWAT
         {
             get
             {
-                 return _STEMP_EPIC.DLAYR; 
+                 return _STEMP_EPIC.ISWWAT; 
             }
             set
             {
-                _STEMP_EPIC.DLAYR = value;
+                _STEMP_EPIC.ISWWAT = value;
             }
         }
 
@@ -387,6 +387,14 @@ namespace STEMP_EPIC_.Strategies
         private static void SetStaticParametersVarInfoDefinitions()
         {
 
+            BDVarInfo.Name = "BD";
+            BDVarInfo.Description = "Bulk density, soil layer NL";
+            BDVarInfo.MaxValue = -1D;
+            BDVarInfo.MinValue = -1D;
+            BDVarInfo.DefaultValue = -1D;
+            BDVarInfo.Units = "g [soil] / cm3 [soil]";
+            BDVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+
             DULVarInfo.Name = "DUL";
             DULVarInfo.Description = "Volumetric soil water content at Drained Upper Limit in soil layer L";
             DULVarInfo.MaxValue = -1D;
@@ -394,22 +402,6 @@ namespace STEMP_EPIC_.Strategies
             DULVarInfo.DefaultValue = -1D;
             DULVarInfo.Units = "cm3[water]/cm3[soil]";
             DULVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
-
-            ISWWATVarInfo.Name = "ISWWAT";
-            ISWWATVarInfo.Description = "Water simulation control switch (Y or N)";
-            ISWWATVarInfo.MaxValue = -1D;
-            ISWWATVarInfo.MinValue = -1D;
-            ISWWATVarInfo.DefaultValue = -1D;
-            ISWWATVarInfo.Units = "dimensionless";
-            ISWWATVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("String");
-
-            LLVarInfo.Name = "LL";
-            LLVarInfo.Description = "Volumetric soil water content in soil layer NL at lower limit";
-            LLVarInfo.MaxValue = -1D;
-            LLVarInfo.MinValue = -1D;
-            LLVarInfo.DefaultValue = -1D;
-            LLVarInfo.Units = "cm3 [water] / cm3 [soil]";
-            LLVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
 
             DSVarInfo.Name = "DS";
             DSVarInfo.Description = "Cumulative depth in soil layer NL";
@@ -419,6 +411,22 @@ namespace STEMP_EPIC_.Strategies
             DSVarInfo.Units = "cm";
             DSVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
 
+            DLAYRVarInfo.Name = "DLAYR";
+            DLAYRVarInfo.Description = "Thickness of soil layer NL";
+            DLAYRVarInfo.MaxValue = -1D;
+            DLAYRVarInfo.MinValue = -1D;
+            DLAYRVarInfo.DefaultValue = -1D;
+            DLAYRVarInfo.Units = "cm";
+            DLAYRVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+
+            LLVarInfo.Name = "LL";
+            LLVarInfo.Description = "Volumetric soil water content in soil layer NL at lower limit";
+            LLVarInfo.MaxValue = -1D;
+            LLVarInfo.MinValue = -1D;
+            LLVarInfo.DefaultValue = -1D;
+            LLVarInfo.Units = "cm3 [water] / cm3 [soil]";
+            LLVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+
             SWVarInfo.Name = "SW";
             SWVarInfo.Description = "Volumetric soil water content in layer NL";
             SWVarInfo.MaxValue = -1D;
@@ -426,14 +434,6 @@ namespace STEMP_EPIC_.Strategies
             SWVarInfo.DefaultValue = -1D;
             SWVarInfo.Units = "cm3 [water] / cm3 [soil]";
             SWVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
-
-            BDVarInfo.Name = "BD";
-            BDVarInfo.Description = "Bulk density, soil layer NL";
-            BDVarInfo.MaxValue = -1D;
-            BDVarInfo.MinValue = -1D;
-            BDVarInfo.DefaultValue = -1D;
-            BDVarInfo.Units = "g [soil] / cm3 [soil]";
-            BDVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
 
             NLAYRVarInfo.Name = "NLAYR";
             NLAYRVarInfo.Description = "Actual number of soil layers";
@@ -451,13 +451,18 @@ namespace STEMP_EPIC_.Strategies
             NLVarInfo.Units = "dimensionless";
             NLVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Integer");
 
-            DLAYRVarInfo.Name = "DLAYR";
-            DLAYRVarInfo.Description = "Thickness of soil layer NL";
-            DLAYRVarInfo.MaxValue = -1D;
-            DLAYRVarInfo.MinValue = -1D;
-            DLAYRVarInfo.DefaultValue = -1D;
-            DLAYRVarInfo.Units = "cm";
-            DLAYRVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+            ISWWATVarInfo.Name = "ISWWAT";
+            ISWWATVarInfo.Description = "Water simulation control switch (Y or N)";
+            ISWWATVarInfo.MaxValue = -1D;
+            ISWWATVarInfo.MinValue = -1D;
+            ISWWATVarInfo.DefaultValue = -1D;
+            ISWWATVarInfo.Units = "dimensionless";
+            ISWWATVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("String");
+        }
+
+        public static VarInfo BDVarInfo
+        {
+            get { return STEMP_EPIC_.Strategies.STEMP_EPIC.BDVarInfo;} 
         }
 
         public static VarInfo DULVarInfo
@@ -465,9 +470,14 @@ namespace STEMP_EPIC_.Strategies
             get { return STEMP_EPIC_.Strategies.STEMP_EPIC.DULVarInfo;} 
         }
 
-        public static VarInfo ISWWATVarInfo
+        public static VarInfo DSVarInfo
         {
-            get { return STEMP_EPIC_.Strategies.STEMP_EPIC.ISWWATVarInfo;} 
+            get { return STEMP_EPIC_.Strategies.STEMP_EPIC.DSVarInfo;} 
+        }
+
+        public static VarInfo DLAYRVarInfo
+        {
+            get { return STEMP_EPIC_.Strategies.STEMP_EPIC.DLAYRVarInfo;} 
         }
 
         public static VarInfo LLVarInfo
@@ -475,19 +485,9 @@ namespace STEMP_EPIC_.Strategies
             get { return STEMP_EPIC_.Strategies.STEMP_EPIC.LLVarInfo;} 
         }
 
-        public static VarInfo DSVarInfo
-        {
-            get { return STEMP_EPIC_.Strategies.STEMP_EPIC.DSVarInfo;} 
-        }
-
         public static VarInfo SWVarInfo
         {
             get { return STEMP_EPIC_.Strategies.STEMP_EPIC.SWVarInfo;} 
-        }
-
-        public static VarInfo BDVarInfo
-        {
-            get { return STEMP_EPIC_.Strategies.STEMP_EPIC.BDVarInfo;} 
         }
 
         public static VarInfo NLAYRVarInfo
@@ -500,9 +500,9 @@ namespace STEMP_EPIC_.Strategies
             get { return STEMP_EPIC_.Strategies.STEMP_EPIC.NLVarInfo;} 
         }
 
-        public static VarInfo DLAYRVarInfo
+        public static VarInfo ISWWATVarInfo
         {
-            get { return STEMP_EPIC_.Strategies.STEMP_EPIC.DLAYRVarInfo;} 
+            get { return STEMP_EPIC_.Strategies.STEMP_EPIC.ISWWATVarInfo;} 
         }
 
         public string TestPostConditions(STEMP_EPIC_.DomainClass.STEMP_EPIC_State s,STEMP_EPIC_.DomainClass.STEMP_EPIC_State s1,STEMP_EPIC_.DomainClass.STEMP_EPIC_Rate r,STEMP_EPIC_.DomainClass.STEMP_EPIC_Auxiliary a,STEMP_EPIC_.DomainClass.STEMP_EPIC_Exogenous ex,string callID)
@@ -560,75 +560,75 @@ namespace STEMP_EPIC_.Strategies
             try
             {
                 //Set current values of the inputs to the static VarInfo representing the inputs properties of the domain classes
-                STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAVG.CurrentValue=ex.TAVG;
-                STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST.CurrentValue=s.ST;
-                STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAV.CurrentValue=ex.TAV;
-                STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TMAX.CurrentValue=ex.TMAX;
-                STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA.CurrentValue=s.TMA;
-                STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP.CurrentValue=s.SRFTEMP;
-                STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.BIOMAS.CurrentValue=ex.BIOMAS;
-                STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.SNOW.CurrentValue=ex.SNOW;
-                STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TMIN.CurrentValue=ex.TMIN;
+                STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.RAIN.CurrentValue=ex.RAIN;
                 STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays.CurrentValue=s.NDays;
                 STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.DEPIR.CurrentValue=ex.DEPIR;
-                STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.DSMID.CurrentValue=s.DSMID;
-                STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.CUMDPT.CurrentValue=s.CUMDPT;
-                STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV.CurrentValue=s.X2_PREV;
+                STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TMIN.CurrentValue=ex.TMIN;
+                STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay.CurrentValue=s.WetDay;
+                STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.BIOMAS.CurrentValue=ex.BIOMAS;
                 STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAMP.CurrentValue=ex.TAMP;
                 STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.MULCHMASS.CurrentValue=ex.MULCHMASS;
-                STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.RAIN.CurrentValue=ex.RAIN;
                 STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TDL.CurrentValue=s.TDL;
-                STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay.CurrentValue=s.WetDay;
+                STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV.CurrentValue=s.X2_PREV;
+                STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.DSMID.CurrentValue=s.DSMID;
+                STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TMAX.CurrentValue=ex.TMAX;
+                STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAV.CurrentValue=ex.TAV;
+                STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.SNOW.CurrentValue=ex.SNOW;
+                STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA.CurrentValue=s.TMA;
+                STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAVG.CurrentValue=ex.TAVG;
+                STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP.CurrentValue=s.SRFTEMP;
+                STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST.CurrentValue=s.ST;
+                STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.CUMDPT.CurrentValue=s.CUMDPT;
                 ConditionsCollection prc = new ConditionsCollection();
                 Preconditions pre = new Preconditions(); 
-                RangeBasedCondition r1 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAVG);
-                if(r1.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAVG.ValueType)){prc.AddCondition(r1);}
-                RangeBasedCondition r2 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST);
-                if(r2.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST.ValueType)){prc.AddCondition(r2);}
-                RangeBasedCondition r3 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAV);
-                if(r3.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAV.ValueType)){prc.AddCondition(r3);}
-                RangeBasedCondition r4 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TMAX);
-                if(r4.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TMAX.ValueType)){prc.AddCondition(r4);}
-                RangeBasedCondition r5 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA);
-                if(r5.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA.ValueType)){prc.AddCondition(r5);}
-                RangeBasedCondition r6 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP);
-                if(r6.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP.ValueType)){prc.AddCondition(r6);}
-                RangeBasedCondition r7 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.BIOMAS);
-                if(r7.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.BIOMAS.ValueType)){prc.AddCondition(r7);}
-                RangeBasedCondition r8 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.SNOW);
-                if(r8.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.SNOW.ValueType)){prc.AddCondition(r8);}
-                RangeBasedCondition r9 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TMIN);
-                if(r9.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TMIN.ValueType)){prc.AddCondition(r9);}
-                RangeBasedCondition r10 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays);
-                if(r10.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays.ValueType)){prc.AddCondition(r10);}
-                RangeBasedCondition r11 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.DEPIR);
-                if(r11.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.DEPIR.ValueType)){prc.AddCondition(r11);}
-                RangeBasedCondition r12 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.DSMID);
-                if(r12.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.DSMID.ValueType)){prc.AddCondition(r12);}
-                RangeBasedCondition r13 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.CUMDPT);
-                if(r13.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.CUMDPT.ValueType)){prc.AddCondition(r13);}
-                RangeBasedCondition r14 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV);
-                if(r14.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV.ValueType)){prc.AddCondition(r14);}
-                RangeBasedCondition r15 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAMP);
-                if(r15.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAMP.ValueType)){prc.AddCondition(r15);}
-                RangeBasedCondition r16 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.MULCHMASS);
-                if(r16.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.MULCHMASS.ValueType)){prc.AddCondition(r16);}
-                RangeBasedCondition r17 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.RAIN);
-                if(r17.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.RAIN.ValueType)){prc.AddCondition(r17);}
-                RangeBasedCondition r18 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TDL);
-                if(r18.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TDL.ValueType)){prc.AddCondition(r18);}
-                RangeBasedCondition r19 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay);
-                if(r19.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay.ValueType)){prc.AddCondition(r19);}
+                RangeBasedCondition r1 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.RAIN);
+                if(r1.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.RAIN.ValueType)){prc.AddCondition(r1);}
+                RangeBasedCondition r2 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays);
+                if(r2.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.NDays.ValueType)){prc.AddCondition(r2);}
+                RangeBasedCondition r3 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.DEPIR);
+                if(r3.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.DEPIR.ValueType)){prc.AddCondition(r3);}
+                RangeBasedCondition r4 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TMIN);
+                if(r4.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TMIN.ValueType)){prc.AddCondition(r4);}
+                RangeBasedCondition r5 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay);
+                if(r5.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.WetDay.ValueType)){prc.AddCondition(r5);}
+                RangeBasedCondition r6 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.BIOMAS);
+                if(r6.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.BIOMAS.ValueType)){prc.AddCondition(r6);}
+                RangeBasedCondition r7 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAMP);
+                if(r7.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAMP.ValueType)){prc.AddCondition(r7);}
+                RangeBasedCondition r8 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.MULCHMASS);
+                if(r8.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.MULCHMASS.ValueType)){prc.AddCondition(r8);}
+                RangeBasedCondition r9 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TDL);
+                if(r9.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TDL.ValueType)){prc.AddCondition(r9);}
+                RangeBasedCondition r10 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV);
+                if(r10.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.X2_PREV.ValueType)){prc.AddCondition(r10);}
+                RangeBasedCondition r11 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.DSMID);
+                if(r11.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.DSMID.ValueType)){prc.AddCondition(r11);}
+                RangeBasedCondition r12 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TMAX);
+                if(r12.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TMAX.ValueType)){prc.AddCondition(r12);}
+                RangeBasedCondition r13 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAV);
+                if(r13.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAV.ValueType)){prc.AddCondition(r13);}
+                RangeBasedCondition r14 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.SNOW);
+                if(r14.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.SNOW.ValueType)){prc.AddCondition(r14);}
+                RangeBasedCondition r15 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA);
+                if(r15.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.TMA.ValueType)){prc.AddCondition(r15);}
+                RangeBasedCondition r16 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAVG);
+                if(r16.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_ExogenousVarInfo.TAVG.ValueType)){prc.AddCondition(r16);}
+                RangeBasedCondition r17 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP);
+                if(r17.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.SRFTEMP.ValueType)){prc.AddCondition(r17);}
+                RangeBasedCondition r18 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST);
+                if(r18.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.ST.ValueType)){prc.AddCondition(r18);}
+                RangeBasedCondition r19 = new RangeBasedCondition(STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.CUMDPT);
+                if(r19.ApplicableVarInfoValueTypes.Contains( STEMP_EPIC_.DomainClass.STEMP_EPIC_StateVarInfo.CUMDPT.ValueType)){prc.AddCondition(r19);}
 
-                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("DUL")));
-                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("ISWWAT")));
-                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("LL")));
-                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("DS")));
-                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("SW")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("BD")));
+                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("DUL")));
+                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("DS")));
+                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("DLAYR")));
+                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("LL")));
+                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("SW")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("NLAYR")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("NL")));
-                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("DLAYR")));
+                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("ISWWAT")));
                 string ret = "";
                 ret += _STEMP_EPIC.TestPreConditions(s, s1, r, a, ex, " strategy STEMP_EPIC_.Strategies.STEMP_EPIC_");
                 if (ret != "") { pre.TestsOut(ret, true, "   preconditions tests of associated classes"); }
@@ -672,12 +672,11 @@ namespace STEMP_EPIC_.Strategies
         {
                 
             for (int i = 0; i < NL; i++)
-            { DUL[i] = toCopy.DUL[i]; }
+            { BD[i] = toCopy.BD[i]; }
     
-                ISWWAT = toCopy.ISWWAT;
                 
             for (int i = 0; i < NL; i++)
-            { LL[i] = toCopy.LL[i]; }
+            { DUL[i] = toCopy.DUL[i]; }
     
                 
             for (int i = 0; i < NL; i++)
@@ -685,18 +684,19 @@ namespace STEMP_EPIC_.Strategies
     
                 
             for (int i = 0; i < NL; i++)
-            { SW[i] = toCopy.SW[i]; }
+            { DLAYR[i] = toCopy.DLAYR[i]; }
     
                 
             for (int i = 0; i < NL; i++)
-            { BD[i] = toCopy.BD[i]; }
+            { LL[i] = toCopy.LL[i]; }
+    
+                
+            for (int i = 0; i < NL; i++)
+            { SW[i] = toCopy.SW[i]; }
     
                 NLAYR = toCopy.NLAYR;
                 NL = toCopy.NL;
-                
-            for (int i = 0; i < NL; i++)
-            { DLAYR[i] = toCopy.DLAYR[i]; }
-    
+                ISWWAT = toCopy.ISWWAT;
         }
     }
 }

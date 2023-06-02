@@ -32,13 +32,13 @@ def SOILT_EPIC(int NL,
          int WetDay,
          float WFT,
          float WW,
+         float TMA[5],
+         float ST[NL],
          float X2_PREV):
     cdef int K , L 
     cdef float DD , FX 
     cdef float SRFTEMP 
     cdef float WC , ZD 
-    cdef float TMA[5]
-    cdef float ST[NL]
     cdef float X1 , X2 , X3 , F , X2_AVG 
     cdef float LAG 
     LAG=0.5

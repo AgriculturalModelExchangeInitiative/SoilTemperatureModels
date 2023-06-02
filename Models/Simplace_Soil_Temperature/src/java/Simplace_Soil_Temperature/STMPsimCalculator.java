@@ -85,7 +85,7 @@ public class STMPsimCalculator
     { this.cDampingDepth= _cDampingDepth; } 
     
     public STMPsimCalculator() { }
-    public void  Calculate_stmpsimcalculator(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a,  SoilTemperatureExogenous ex)
+    public void  Calculate_Model(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a,  SoilTemperatureExogenous ex)
     {
         //- Name: STMPsimCalculator -Version: 001, -Time step: 1
         //- Description:
