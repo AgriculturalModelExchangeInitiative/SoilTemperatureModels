@@ -50,7 +50,7 @@ def model_soil_temp(min_temp:float,
                                ** default : 0.0
                                ** unit : degC
                  * name: prev_temp_profile
-                               ** description : previous soil temperature profile 
+                               ** description : previous soil temperature profile (for 1 cm layers)
                                ** inputtype : variable
                                ** variablecategory : state
                                ** datatype : DOUBLEARRAY
@@ -123,7 +123,7 @@ def model_soil_temp(min_temp:float,
                                ** min : 0.0
                                ** unit : degC
                  * name: temp_profile
-                               ** description : current soil profile temperature 
+                               ** description : current soil profile temperature (for 1 cm layers)
                                ** datatype : DOUBLEARRAY
                                ** variablecategory : state
                                ** len : 
@@ -153,7 +153,7 @@ def model_soil_temp(min_temp:float,
                                ** min : 0.0
                                ** unit : degC
                  * name: prev_temp_profile
-                               ** description : previous soil temperature profile 
+                               ** description : previous soil temperature profile (for 1 cm layers)
                                ** datatype : DOUBLEARRAY
                                ** variablecategory : state
                                ** len : 1

@@ -11,6 +11,7 @@ CONTAINS
       REAL, INTENT(IN) :: max_temp
       REAL, INTENT(OUT) :: temp_amp
 
+      !%%CyML Description Begin%%
       !- Name: temp_amp -Version: 1.0, -Time step: 1
       !- Description:
       !            * Title: temp_amp model
@@ -48,6 +49,8 @@ CONTAINS
       !                          ** max : 100.0
       !                          ** unit : degC
       !                          ** uri :
+      !%%CyML Description End%%
+
       !%%CyML Compute Begin%%
       temp_amp = max_temp - min_temp
       !%%CyML Compute End%%

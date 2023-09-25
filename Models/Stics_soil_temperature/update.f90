@@ -12,7 +12,7 @@ CONTAINS
       REAL, allocatable, INTENT(OUT)  :: prev_temp_profile(:)
       REAL, INTENT(OUT)  :: prev_canopy_temp
 
-
+      !%%CyML Description Begin%%
       !- Name: update -Version: 1.0, -Time step: 1
       !- Description:
       !            * Title: update soil temp model
@@ -63,6 +63,7 @@ CONTAINS
       !                          ** unit : degC
       !                          ** uri :
       !                          ** len : 1
+      !%%CyML Description End%%
       
 
       INTEGER :: n

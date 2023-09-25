@@ -17,6 +17,7 @@ CONTAINS
       REAL, INTENT(IN)  :: min_air_temp
       REAL, allocatable, INTENT(OUT) :: temp_profile(:)
 
+      !%%CyML Description Begin%%
       !- Name: temp_profile -Version: 1.0, -Time step: 1
       !- Description:
       !            * Title: tempprofile model
@@ -97,6 +98,7 @@ CONTAINS
       !                          ** unit : degC
       !                          ** uri :
       !                          ** len :
+      !%%CyML Description End%%
 
 
       INTEGER :: z,n

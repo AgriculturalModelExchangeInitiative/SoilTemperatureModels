@@ -12,6 +12,7 @@ CONTAINS
       INTEGER, INTENT(IN) ::  layer_thick(:)
       REAL, allocatable, INTENT(OUT)   ::  layer_temp(:)
 
+      !%%CyML Description Begin%%
       !- Name: layers_temp -Version: 1.0, -Time step: 1
       !- Description:
       !            * Title: layers mean temperature model
@@ -52,6 +53,7 @@ CONTAINS
       !                          ** unit : degC
       !                          ** uri :
       !                          ** len : 
+      !%%CyML Description End%%
 
       INTEGER :: z
       INTEGER :: layers_nb

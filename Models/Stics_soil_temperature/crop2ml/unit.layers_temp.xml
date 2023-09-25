@@ -14,8 +14,8 @@
         <Input name="layer_thick" description="layers thickness" inputtype="parameter" parametercategory="constant" datatype="INTARRAY" len="" max="" min="" default="" unit="cm"/></Inputs>
     <Outputs>
         <Output name="layer_temp" description="soil layers temperature" datatype="DOUBLEARRAY" variablecategory="state" len="" max="50.0" min="-50.0" unit="degC"/></Outputs>
-    <Function name="layer_thickness2depth" description="" language="cyml" type="external" filename="algo/pyx/layer_thickness2depth.pyx"/>
     <Function name="get_layers_number" description="" language="cyml" type="external" filename="algo/pyx/get_layers_number.pyx"/>
+    <Function name="layer_thickness2depth" description="" language="cyml" type="external" filename="algo/pyx/layer_thickness2depth.pyx"/>
     <Algorithm language="cyml" platform="" filename="algo/pyx/layers_temp.pyx"/>
     <Parametersets/>
     <Testsets/></ModelUnit>

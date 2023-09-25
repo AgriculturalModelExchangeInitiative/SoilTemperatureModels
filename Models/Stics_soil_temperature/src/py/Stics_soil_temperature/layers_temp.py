@@ -71,6 +71,15 @@ def model_layers_temp(temp_profile:'Array[float]',
     return layer_temp
 #%%CyML Model End%%
 
+def get_layers_number(layer_thick_or_depth:'Array[int]'):
+    layers_number:int
+    z:int
+    layers_number = 0
+    for z in range(1 , len(layer_thick_or_depth) + 1 , 1):
+        if layer_thick_or_depth[z - 1] != 0:
+            layers_number = layers_number + 1
+    return layers_number
+
 def layer_thickness2depth(layer_thick:'Array[int]'):
     layer_depth:List[int] = []
     layers_nb:int
@@ -82,12 +91,3 @@ def layer_thickness2depth(layer_thick:'Array[int]'):
         if layer_thick[z - 1] != 0:
             layer_depth[z - 1] = sum(layer_thick[1 - 1:z])
     return layer_depth
-
-def get_layers_number(layer_thick_or_depth:'Array[int]'):
-    layers_number:int
-    z:int
-    layers_number = 0
-    for z in range(1 , len(layer_thick_or_depth) + 1 , 1):
-        if layer_thick_or_depth[z - 1] != 0:
-            layers_number = layers_number + 1
-    return layers_number

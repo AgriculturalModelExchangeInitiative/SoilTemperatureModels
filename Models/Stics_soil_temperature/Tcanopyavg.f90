@@ -10,7 +10,7 @@ CONTAINS
       REAL, INTENT(IN) :: min_canopy_temp
       REAL, INTENT(IN) :: max_canopy_temp
       REAL, INTENT(OUT) :: canopy_temp_avg
-
+      !%%CyML Description Begin%%
       !- Name: canopy_temp_avg -Version: 1.0, -Time step: 1
       !- Description:
       !            * Title: canopy_temp_avg model
@@ -48,6 +48,8 @@ CONTAINS
       !                          ** max : 100.0
       !                          ** unit : degC
       !                          ** uri :
+      !%%CyML Description End%%
+
       !%%CyML Compute Begin%%
       canopy_temp_avg = (max_canopy_temp + min_canopy_temp) / 2
       !%%CyML Compute End%%

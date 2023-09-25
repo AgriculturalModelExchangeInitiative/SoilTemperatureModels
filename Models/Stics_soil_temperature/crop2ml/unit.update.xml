@@ -11,10 +11,10 @@
         <ShortDescription></ShortDescription></Description>
     <Inputs>
         <Input name="canopy_temp_avg" description="current canopy mean temperature" inputtype="variable" variablecategory="state" datatype="DOUBLE" max="50.0" min="-50.0" default="0.0" unit="degC"/>
-        <Input name="temp_profile" description="current soil profile temperature " inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="" max="50.0" min="-50.0" default="" unit="degC"/></Inputs>
+        <Input name="temp_profile" description="current soil profile temperature (for 1 cm layers)" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="" max="50.0" min="-50.0" default="" unit="degC"/></Inputs>
     <Outputs>
         <Output name="prev_canopy_temp" description="previous crop temperature" datatype="DOUBLE" variablecategory="state" max="50.0" min="0.0" unit="degC"/>
-        <Output name="prev_temp_profile" description="previous soil temperature profile " datatype="DOUBLEARRAY" variablecategory="state" len="1" max="50.0" min="-50.0" unit="degC"/></Outputs>
+        <Output name="prev_temp_profile" description="previous soil temperature profile (for 1 cm layers)" datatype="DOUBLEARRAY" variablecategory="state" len="1" max="50.0" min="-50.0" unit="degC"/></Outputs>
     <Algorithm language="cyml" platform="" filename="algo/pyx/update.pyx"/>
     <Parametersets/>
     <Testsets/></ModelUnit>
