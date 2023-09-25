@@ -82,7 +82,7 @@ def init_stemp_epic(int NL,
     #       Save 30 day memory of:
     #       WFT = fraction of wet days (rainfall + irrigation)
     WFT=0.1
-    WetDay=array('i', [0]*30)
+    WetDay=[0]*(30)
     NDays=0
     #       Soil cover function
     #t/ha

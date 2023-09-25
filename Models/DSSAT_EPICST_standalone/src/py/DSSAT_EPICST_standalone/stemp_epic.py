@@ -91,7 +91,7 @@ def init_stemp_epic(NL:int,
     for L in range(1 , NLAYR + 1 , 1):
         ST[L - 1] = TAVG
     WFT = 0.1
-    WetDay = array('i', [0]*30)
+    WetDay = [0] * 30
     NDays = 0
     CV = MULCHMASS / 1000.
     BCV1 = CV / (CV + exp(5.3396 - (2.3951 * CV)))
