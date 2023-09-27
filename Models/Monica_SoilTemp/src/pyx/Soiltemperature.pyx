@@ -1,5 +1,6 @@
-import numpy 
+import numpy
 from math import *
+
 def init_soiltemperature(float timeStep,
                          float soilMoistureConst,
                          float baseTemp,
@@ -13,42 +14,41 @@ def init_soiltemperature(float timeStep,
                          float quartzRawDensity,
                          float specificHeatCapacityQuartz,
                          float nTau,
-                         float soilAlbedo,
                          int noOfTempLayers,
                          int noOfSoilLayers,
-                         floatlist layerThickness,
-                         floatlist soilBulkDensity,
-                         floatlist saturation,
-                         floatlist soilOrganicMatter):
-    cdef float soilSurfaceTemperature=0.0
-    cdef floatlist soilTemperature
-    cdef floatlist V
-    cdef floatlist B
-    cdef floatlist volumeMatrix
-    cdef floatlist volumeMatrixOld
-    cdef floatlist matrixPrimaryDiagonal
-    cdef floatlist matrixSecondaryDiagonal
-    cdef floatlist heatConductivity
-    cdef floatlist heatConductivityMean
-    cdef floatlist heatCapacity
-    cdef floatlist solution
-    cdef floatlist matrixDiagonal
-    cdef floatlist matrixLowerTriangle
-    cdef floatlist heatFlow
-    soilTemperature = []
-    V = []
-    B = []
-    volumeMatrix = []
-    volumeMatrixOld = []
-    matrixPrimaryDiagonal = []
-    matrixSecondaryDiagonal = []
-    heatConductivity = []
-    heatConductivityMean = []
-    heatCapacity = []
-    solution = []
-    matrixDiagonal = []
-    matrixLowerTriangle = []
-    heatFlow = []
+                         float layerThickness[22],
+                         float soilBulkDensity[20],
+                         float saturation[20],
+                         float soilOrganicMatter[20]):
+    cdef float soilSurfaceTemperature = 0.0
+    cdef float soilTemperature[22]
+    cdef float V[22]
+    cdef float B[22]
+    cdef float volumeMatrix[22]
+    cdef float volumeMatrixOld[22]
+    cdef float matrixPrimaryDiagonal[22]
+    cdef float matrixSecondaryDiagonal[23]
+    cdef float heatConductivity[22]
+    cdef float heatConductivityMean[22]
+    cdef float heatCapacity[22]
+    cdef float solution[22]
+    cdef float matrixDiagonal[22]
+    cdef float matrixLowerTriangle[22]
+    cdef float heatFlow[22]
+    soilTemperature = array('f', [0.0]*22)
+    V = array('f', [0.0]*22)
+    B = array('f', [0.0]*22)
+    volumeMatrix = array('f', [0.0]*22)
+    volumeMatrixOld = array('f', [0.0]*22)
+    matrixPrimaryDiagonal = array('f', [0.0]*22)
+    matrixSecondaryDiagonal = array('f', [0.0]*23)
+    heatConductivity = array('f', [0.0]*22)
+    heatConductivityMean = array('f', [0.0]*22)
+    heatCapacity = array('f', [0.0]*22)
+    solution = array('f', [0.0]*22)
+    matrixDiagonal = array('f', [0.0]*22)
+    matrixLowerTriangle = array('f', [0.0]*22)
+    heatFlow = array('f', [0.0]*22)
     # initialize the two additional layers to the same values 
     # as the bottom most standard soil layer
     # even though this hadn't been done before it was ok, 
@@ -63,14 +63,26 @@ def init_soiltemperature(float timeStep,
     #cdef double soilMoistureConst = _params.pt_SoilMoisture;
     #double baseTemp = _params.pt_BaseTemperature;  // temperature for lowest layer (avg yearly air temp)
     #double initialSurfaceTemp = _params.pt_InitialSurfaceTemperature; // Replace by Mean air temperature
-    cdef int soilNols 
-    soilNols = noOfSoilLayers
+    soilTemperature.allocate(noOfTempLayers)
+    V.allocate(noOfTempLayers)
+    volumeMatrix.allocate(noOfTempLayers)
+    volumeMatrixOld.allocate(noOfTempLayers)
+    B.allocate(noOfTempLayers)
+    matrixPrimaryDiagonal.allocate(noOfTempLayers)
+    matrixSecondaryDiagonal.allocate(noOfTempLayers + 1)
+    heatConductivity.allocate(noOfTempLayers)
+    heatConductivityMean.allocate(noOfTempLayers)
+    heatCapacity.allocate(noOfTempLayers)
+    solution.allocate(noOfTempLayers)
+    matrixDiagonal.allocate(noOfTempLayers)
+    matrixLowerTriangle.allocate(noOfTempLayers)
+    heatFlow.allocate(noOfTempLayers)
     # Initialising the soil properties
-    cdef int i 
-    for i in range(soilNols):
+    cdef int i
+    for i in range(noOfSoilLayers):
         # Initialising the soil temperature
-        soilTemperature[i] = ((1.0 - (float(i) / soilNols)) * initialSurfaceTemp) \
-            + ((float(i) / soilNols) * baseTemp)
+        soilTemperature[i] = ((1.0 - (float(i) / noOfSoilLayers)) * initialSurfaceTemp) \
+            + ((float(i) / noOfSoilLayers) * baseTemp)
         # Initialising the soil moisture content
         # Soil moisture content is held constant for numeric stability.
         # If dynamic soil moisture should be used, the energy balance
@@ -102,7 +114,7 @@ def init_soiltemperature(float timeStep,
     cdef float cw
     cw = specificHeatCapacityWater # [J kg-1 K-1]
     cdef float dq
-    dq = quartzRawDensity; 
+    dq = quartzRawDensity
     cdef float cq
     cq = specificHeatCapacityQuartz # [J kg-1 K-1]
     cdef float da
@@ -180,6 +192,7 @@ def init_soiltemperature(float timeStep,
         matrixPrimaryDiagonal[i] = volumeMatrix[i] \
             - matrixSecondaryDiagonal[i] - matrixSecondaryDiagonal[i + 1] # [J K-1]
     return  soilSurfaceTemperature, soilTemperature, V, B, volumeMatrix, volumeMatrixOld, matrixPrimaryDiagonal, matrixSecondaryDiagonal, heatConductivity, heatConductivityMean, heatCapacity, solution, matrixDiagonal, matrixLowerTriangle, heatFlow
+
 def model_soiltemperature(float soilSurfaceTemperature,
                           float timeStep,
                           float soilMoistureConst,
@@ -194,38 +207,35 @@ def model_soiltemperature(float soilSurfaceTemperature,
                           float quartzRawDensity,
                           float specificHeatCapacityQuartz,
                           float nTau,
-                          float soilAlbedo,
                           int noOfTempLayers,
                           int noOfSoilLayers,
-                          floatlist layerThickness,
-                          floatlist soilBulkDensity,
-                          floatlist saturation,
-                          floatlist soilOrganicMatter,
-                          floatlist soilTemperature,
-                          floatlist V,
-                          floatlist B,
-                          floatlist volumeMatrix,
-                          floatlist volumeMatrixOld,
-                          floatlist matrixPrimaryDiagonal,
-                          floatlist matrixSecondaryDiagonal,
-                          floatlist heatConductivity,
-                          floatlist heatConductivityMean,
-                          floatlist heatCapacity,
-                          floatlist solution,
-                          floatlist matrixDiagonal,
-                          floatlist matrixLowerTriangle,
-                          floatlist heatFlow):
+                          float layerThickness[22],
+                          float soilBulkDensity[20],
+                          float saturation[20],
+                          float soilOrganicMatter[20],
+                          float soilTemperature[22],
+                          float V[22],
+                          float B[22],
+                          float volumeMatrix[22],
+                          float volumeMatrixOld[22],
+                          float matrixPrimaryDiagonal[22],
+                          float matrixSecondaryDiagonal[23],
+                          float heatConductivity[22],
+                          float heatConductivityMean[22],
+                          float heatCapacity[22],
+                          float solution[22],
+                          float matrixDiagonal[22],
+                          float matrixLowerTriangle[22],
+                          float heatFlow[22]):
     """
-
     Model of soil temperature
     Author: Michael Berg-Mohnicke
     Reference: None
     Institution: ZALF e.V.
     ExtendedDescription: None
     ShortDescription: Calculates the soil temperature at all soil layers
-
     """
-    cdef floatlist newSoilTemperature
+
     cdef int groundLayer
     cdef int bottomLayer
     groundLayer = noOfTempLayers - 2
@@ -268,9 +278,10 @@ def model_soiltemperature(float soilSurfaceTemperature,
         soilTemperature[i] = solution[i]
     for i in range(noOfSoilLayers):
         volumeMatrixOld[i] = volumeMatrix[i]
-        newSoilTemperature[i] = soilTemperature[i]
+        #newSoilTemperature[i] = soilTemperature[i]
     volumeMatrixOld[groundLayer] = volumeMatrix[groundLayer]
     volumeMatrixOld[bottomLayer] = volumeMatrix[bottomLayer]
-    return  newSoilTemperature
+    return  soilTemperature
+
 
 

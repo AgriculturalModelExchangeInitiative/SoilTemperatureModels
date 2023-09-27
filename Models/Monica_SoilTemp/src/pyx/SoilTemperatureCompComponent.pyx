@@ -1,8 +1,8 @@
 from datetime import datetime
 from math import *
-from .soiltemperature import model_soiltemperature
-from .nosnowsoilsurfacetemperature import model_nosnowsoilsurfacetemperature
-from .withsnowsoilsurfacetemperature import model_withsnowsoilsurfacetemperature
+from Monica_SoilTemp.soiltemperature import model_soiltemperature
+from Monica_SoilTemp.nosnowsoilsurfacetemperature import model_nosnowsoilsurfacetemperature
+from Monica_SoilTemp.withsnowsoilsurfacetemperature import model_withsnowsoilsurfacetemperature
 def model_soiltemperaturecomp(float tmin,
       float tmax,
       float globrad,
@@ -24,36 +24,33 @@ def model_soiltemperaturecomp(float tmin,
       float quartzRawDensity,
       float specificHeatCapacityQuartz,
       float nTau,
-      float soilAlbedo,
       int noOfTempLayers,
       int noOfSoilLayers,
-      floatlist layerThickness,
-      floatlist soilBulkDensity,
-      floatlist saturation,
-      floatlist soilOrganicMatter,
-      floatlist prevDaySoilTemperature,
-      floatlist V,
-      floatlist B,
-      floatlist volumeMatrix,
-      floatlist volumeMatrixOld,
-      floatlist matrixPrimaryDiagonal,
-      floatlist matrixSecondaryDiagonal,
-      floatlist heatConductivity,
-      floatlist heatConductivityMean,
-      floatlist heatCapacity,
-      floatlist solution,
-      floatlist matrixDiagonal,
-      floatlist matrixLowerTriangle,
-      floatlist heatFlow):
+      float layerThickness[22],
+      float soilBulkDensity[20],
+      float saturation[20],
+      float soilOrganicMatter[20],
+      float prevDaySoilTemperature[22],
+      float V[22],
+      float B[22],
+      float volumeMatrix[22],
+      float volumeMatrixOld[22],
+      float matrixPrimaryDiagonal[22],
+      float matrixSecondaryDiagonal[23],
+      float heatConductivity[22],
+      float heatConductivityMean[22],
+      float heatCapacity[22],
+      float solution[22],
+      float matrixDiagonal[22],
+      float matrixLowerTriangle[22],
+      float heatFlow[22]):
     cdef float soilSurfaceTemperature
-    cdef floatlist soilTemperature
-    cdef floatlist newSoilTemperature
+    cdef float soilTemperature[22]
     cdef float noSnowSoilSurfaceTemperature
     soilTemperature = prevDaySoilTemperature 
-    soilSurfaceTemperature = model_nosnowsoilsurfacetemperature( tmin,tmax,globrad,soilCoverage,dampingFactor,prevDaySoilSurfaceTemperature)
+    soilSurfaceTemperature = model_nosnowsoilsurfacetemperature(tmin,tmax,globrad,soilCoverage,dampingFactor,prevDaySoilSurfaceTemperature)
     noSnowSoilSurfaceTemperature = soilSurfaceTemperature
-    soilSurfaceTemperature = model_withsnowsoilsurfacetemperature( noSnowSoilSurfaceTemperature,soilSurfaceTemperatureBelowSnow,hasSnowCover)
-    newSoilTemperature = model_soiltemperature( soilSurfaceTemperature,timeStep,soilMoistureConst,baseTemp,initialSurfaceTemp,densityAir,specificHeatCapacityAir,densityHumus,specificHeatCapacityHumus,densityWater,specificHeatCapacityWater,quartzRawDensity,specificHeatCapacityQuartz,nTau,soilAlbedo,noOfTempLayers,noOfSoilLayers,layerThickness,soilBulkDensity,saturation,soilOrganicMatter,soilTemperature,V,B,volumeMatrix,volumeMatrixOld,matrixPrimaryDiagonal,matrixSecondaryDiagonal,heatConductivity,heatConductivityMean,heatCapacity,solution,matrixDiagonal,matrixLowerTriangle,heatFlow)
-    soilTemperature = newSoilTemperature
+    soilSurfaceTemperature = model_withsnowsoilsurfacetemperature(noSnowSoilSurfaceTemperature,soilSurfaceTemperatureBelowSnow,hasSnowCover)
+    soilTemperature = model_soiltemperature(soilSurfaceTemperature,timeStep,soilMoistureConst,baseTemp,initialSurfaceTemp,densityAir,specificHeatCapacityAir,densityHumus,specificHeatCapacityHumus,densityWater,specificHeatCapacityWater,quartzRawDensity,specificHeatCapacityQuartz,nTau,noOfTempLayers,noOfSoilLayers,layerThickness,soilBulkDensity,saturation,soilOrganicMatter,soilTemperature,V,B,volumeMatrix,volumeMatrixOld,matrixPrimaryDiagonal,matrixSecondaryDiagonal,heatConductivity,heatConductivityMean,heatCapacity,solution,matrixDiagonal,matrixLowerTriangle,heatFlow)
 
     return soilSurfaceTemperature, soilTemperature

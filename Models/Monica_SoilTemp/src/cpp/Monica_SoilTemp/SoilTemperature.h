@@ -1,3 +1,5 @@
+
+#pragma once
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
@@ -7,7 +9,7 @@
 #include "SoilTemperatureCompRate.h"
 #include "SoilTemperatureCompAuxiliary.h"
 #include "SoilTemperatureCompExogenous.h"
-using namespace std;
+namespace Monica_SoilTemp {
 class SoilTemperature
 {
     private:
@@ -24,17 +26,16 @@ class SoilTemperature
         double quartzRawDensity ;
         double specificHeatCapacityQuartz ;
         double nTau ;
-        double soilAlbedo ;
         int noOfTempLayers ;
         int noOfSoilLayers ;
-        vector<double> layerThickness ;
-        vector<double> soilBulkDensity ;
-        vector<double> saturation ;
-        vector<double> soilOrganicMatter ;
+        std::vector<double> layerThickness ;
+        std::vector<double> soilBulkDensity ;
+        std::vector<double> saturation ;
+        std::vector<double> soilOrganicMatter ;
     public:
         SoilTemperature();
-        void  Calculate_Model(SoilTemperatureCompState& s, SoilTemperatureCompState& s1, SoilTemperatureCompRate& r, SoilTemperatureCompAuxiliary& a, SoilTemperatureCompExogenous& ex);
-        void  Init(SoilTemperatureCompState& s,SoilTemperatureCompState& s1, SoilTemperatureCompRate& r, SoilTemperatureCompAuxiliary& a, SoilTemperatureCompExogenous& ex);
+        void Calculate_Model(SoilTemperatureCompState &s, SoilTemperatureCompState &s1, SoilTemperatureCompRate &r, SoilTemperatureCompAuxiliary &a, SoilTemperatureCompExogenous &ex);
+        void Init(SoilTemperatureCompState &s, SoilTemperatureCompState &s1, SoilTemperatureCompRate &r, SoilTemperatureCompAuxiliary &a, SoilTemperatureCompExogenous &ex);
         double gettimeStep();
         void settimeStep(double _timeStep);
         double getsoilMoistureConst();
@@ -61,19 +62,18 @@ class SoilTemperature
         void setspecificHeatCapacityQuartz(double _specificHeatCapacityQuartz);
         double getnTau();
         void setnTau(double _nTau);
-        double getsoilAlbedo();
-        void setsoilAlbedo(double _soilAlbedo);
         int getnoOfTempLayers();
         void setnoOfTempLayers(int _noOfTempLayers);
         int getnoOfSoilLayers();
         void setnoOfSoilLayers(int _noOfSoilLayers);
-        vector<double>& getlayerThickness();
-        void setlayerThickness(const vector<double>&  _layerThickness);
-        vector<double>& getsoilBulkDensity();
-        void setsoilBulkDensity(const vector<double>&  _soilBulkDensity);
-        vector<double>& getsaturation();
-        void setsaturation(const vector<double>&  _saturation);
-        vector<double>& getsoilOrganicMatter();
-        void setsoilOrganicMatter(const vector<double>&  _soilOrganicMatter);
+        std::vector<double> & getlayerThickness();
+        void setlayerThickness(const std::vector<double> &  _layerThickness);
+        std::vector<double> & getsoilBulkDensity();
+        void setsoilBulkDensity(const std::vector<double> &  _soilBulkDensity);
+        std::vector<double> & getsaturation();
+        void setsaturation(const std::vector<double> &  _saturation);
+        std::vector<double> & getsoilOrganicMatter();
+        void setsoilOrganicMatter(const std::vector<double> &  _soilOrganicMatter);
 
 };
+}

@@ -1,11 +1,10 @@
-#ifndef _SoilTemperatureCompAuxiliary_
-#define _SoilTemperatureCompAuxiliary_
+#pragma once
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
-# include<vector>
-# include<string>
-using namespace std;
+#include <vector>
+#include <string>
+namespace Monica_SoilTemp {
 class SoilTemperatureCompAuxiliary
 {
     private:
@@ -13,4 +12,4 @@ class SoilTemperatureCompAuxiliary
         SoilTemperatureCompAuxiliary();
 
 };
-#endif
+}

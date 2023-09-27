@@ -1,5 +1,6 @@
-import numpy 
+import numpy
 from math import *
+
 def model_nosnowsoilsurfacetemperature(float tmin,
                                        float tmax,
                                        float globrad,
@@ -7,15 +8,14 @@ def model_nosnowsoilsurfacetemperature(float tmin,
                                        float dampingFactor,
                                        float prevDaySoilSurfaceTemperature):
     """
-
     Soil surface temperature
     Author: Michael Berg-Mohnicke
     Reference: None
     Institution: ZALF e.V.
     ExtendedDescription: None
     ShortDescription: It calculates the soil surface temperature without snow cover
-
     """
+
     cdef float soilSurfaceTemperature
     # corrected for very low radiation in winter
     globrad = max(8.33, globrad)
@@ -31,5 +31,6 @@ def model_nosnowsoilsurfacetemperature(float tmin,
     if soilSurfaceTemperature < 0.0:
         soilSurfaceTemperature = soilSurfaceTemperature * 0.5
     return  soilSurfaceTemperature
+
 
 

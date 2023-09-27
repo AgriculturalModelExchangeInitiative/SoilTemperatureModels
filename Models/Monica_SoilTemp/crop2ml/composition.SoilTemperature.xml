@@ -42,7 +42,7 @@
             <InputLink source="quartzRawDensity" target="SoilTemperature.quartzRawDensity"/>
             <InputLink source="specificHeatCapacityQuartz" target="SoilTemperature.specificHeatCapacityQuartz"/>
             <InputLink source="nTau" target="SoilTemperature.nTau"/>
-            <InputLink source="soilAlbedo" target="SoilTemperature.soilAlbedo"/>
+            <!--<InputLink source="soilAlbedo" target="SoilTemperature.soilAlbedo"/>-->
             <InputLink source="noOfTempLayers" target="SoilTemperature.noOfTempLayers"/>
             <InputLink source="noOfSoilLayers" target="SoilTemperature.noOfSoilLayers"/>
 
@@ -72,7 +72,7 @@
                           target="SoilTemperature.soilSurfaceTemperature"/>
 
             <OutputLink source="WithSnowSoilSurfaceTemperature.soilSurfaceTemperature" target="soilSurfaceTemperature"/>
-            <OutputLink source="SoilTemperature.newSoilTemperature" target="soilTemperature"/>
+            <OutputLink source="SoilTemperature.soilTemperature" target="soilTemperature"/>
         </Links>
     </Composition>
 </ModelComposition>

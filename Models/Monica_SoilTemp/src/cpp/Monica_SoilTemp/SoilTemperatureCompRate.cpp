@@ -1,2 +1,4 @@
 #include "SoilTemperatureCompRate.h"
-SoilTemperatureCompRate::SoilTemperatureCompRate() { }
+using namespace Monica_SoilTemp;
+
+SoilTemperatureCompRate::SoilTemperatureCompRate() {}

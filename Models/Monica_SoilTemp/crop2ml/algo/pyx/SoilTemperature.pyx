@@ -48,7 +48,7 @@ for i in range(noOfTempLayers):
 
 for i in range(noOfSoilLayers):
     volumeMatrixOld[i] = volumeMatrix[i]
-    newSoilTemperature[i] = soilTemperature[i]
+    #newSoilTemperature[i] = soilTemperature[i]
 
 volumeMatrixOld[groundLayer] = volumeMatrix[groundLayer]
 volumeMatrixOld[bottomLayer] = volumeMatrix[bottomLayer]

@@ -1,11 +1,10 @@
-#ifndef _SoilTemperatureCompExogenous_
-#define _SoilTemperatureCompExogenous_
+#pragma once
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
-# include<vector>
-# include<string>
-using namespace std;
+#include <vector>
+#include <string>
+namespace Monica_SoilTemp {
 class SoilTemperatureCompExogenous
 {
     private:
@@ -22,4 +21,4 @@ class SoilTemperatureCompExogenous
         void setglobrad(double _globrad);
 
 };
-#endif
+}

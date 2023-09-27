@@ -15,15 +15,27 @@
 #double baseTemp = _params.pt_BaseTemperature;  // temperature for lowest layer (avg yearly air temp)
 #double initialSurfaceTemp = _params.pt_InitialSurfaceTemperature; // Replace by Mean air temperature
 
-cdef int soilNols 
-soilNols = noOfSoilLayers
+soilTemperature.allocate(noOfTempLayers)
+V.allocate(noOfTempLayers)
+volumeMatrix.allocate(noOfTempLayers)
+volumeMatrixOld.allocate(noOfTempLayers)
+B.allocate(noOfTempLayers)
+matrixPrimaryDiagonal.allocate(noOfTempLayers)
+matrixSecondaryDiagonal.allocate(noOfTempLayers + 1)
+heatConductivity.allocate(noOfTempLayers)
+heatConductivityMean.allocate(noOfTempLayers)
+heatCapacity.allocate(noOfTempLayers)
+solution.allocate(noOfTempLayers)
+matrixDiagonal.allocate(noOfTempLayers)
+matrixLowerTriangle.allocate(noOfTempLayers)
+heatFlow.allocate(noOfTempLayers)
 
 # Initialising the soil properties
-cdef int i 
-for i in range(soilNols):
+cdef int i
+for i in range(noOfSoilLayers):
     # Initialising the soil temperature
-    soilTemperature[i] = ((1.0 - (float(i) / soilNols)) * initialSurfaceTemp) \
-        + ((float(i) / soilNols) * baseTemp)
+    soilTemperature[i] = ((1.0 - (float(i) / noOfSoilLayers)) * initialSurfaceTemp) \
+        + ((float(i) / noOfSoilLayers) * baseTemp)
 
     # Initialising the soil moisture content
     # Soil moisture content is held constant for numeric stability.
@@ -59,7 +71,7 @@ dw = densityWater # [kg m-3]
 cdef float cw
 cw = specificHeatCapacityWater # [J kg-1 K-1]
 cdef float dq
-dq = quartzRawDensity; 
+dq = quartzRawDensity
 cdef float cq
 cq = specificHeatCapacityQuartz # [J kg-1 K-1]
 cdef float da

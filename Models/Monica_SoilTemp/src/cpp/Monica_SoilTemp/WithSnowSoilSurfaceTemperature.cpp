@@ -1,4 +1,3 @@
-#ifndef _WITHSNOWSOILSURFACETEMPERATURE_
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
@@ -9,11 +8,10 @@
 #include <array>
 #include <map>
 #include <tuple>
-#include "Withsnowsoilsurfacetemperature.h"
-using namespace std;
-
-Withsnowsoilsurfacetemperature::Withsnowsoilsurfacetemperature() { }
-void Withsnowsoilsurfacetemperature::Calculate_Model(SoiltemperatureState& s, SoiltemperatureState& s1, SoiltemperatureRate& r, SoiltemperatureAuxiliary& a, SoiltemperatureExogenous& ex)
+#include "WithSnowSoilSurfaceTemperature.h"
+using namespace Monica_SoilTemp;
+WithSnowSoilSurfaceTemperature::WithSnowSoilSurfaceTemperature() {}
+void WithSnowSoilSurfaceTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatureCompState &s1, SoilTemperatureCompRate &r, SoilTemperatureCompAuxiliary &a, SoilTemperatureCompExogenous &ex)
 {
     //- Name: WithSnowSoilSurfaceTemperature -Version: 1, -Time step: 1
     //- Description:
@@ -23,6 +21,7 @@ void Withsnowsoilsurfacetemperature::Calculate_Model(SoiltemperatureState& s, So
     //            * Institution: ZALF e.V.
     //            * ExtendedDescription: None
     //            * ShortDescription: It calculates the soil surface temperature taking a potential snow cover into account
+    //        
     //- inputs:
     //            * name: noSnowSoilSurfaceTemperature
     //                          ** description : soilSurfaceTemperature without snow
@@ -73,4 +72,3 @@ void Withsnowsoilsurfacetemperature::Calculate_Model(SoiltemperatureState& s, So
     }
     s.setsoilSurfaceTemperature(soilSurfaceTemperature);
 }
-#endif

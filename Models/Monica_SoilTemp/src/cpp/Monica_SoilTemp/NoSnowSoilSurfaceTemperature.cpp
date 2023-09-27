@@ -1,4 +1,3 @@
-#ifndef _NOSNOWSOILSURFACETEMPERATURE_
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
@@ -9,13 +8,12 @@
 #include <array>
 #include <map>
 #include <tuple>
-#include "Nosnowsoilsurfacetemperature.h"
-using namespace std;
-
-Nosnowsoilsurfacetemperature::Nosnowsoilsurfacetemperature() { }
-double Nosnowsoilsurfacetemperature::getdampingFactor() {return this-> dampingFactor; }
-void Nosnowsoilsurfacetemperature::setdampingFactor(double _dampingFactor) { this->dampingFactor = _dampingFactor; }
-void Nosnowsoilsurfacetemperature::Calculate_Model(SoiltemperatureState& s, SoiltemperatureState& s1, SoiltemperatureRate& r, SoiltemperatureAuxiliary& a, SoiltemperatureExogenous& ex)
+#include "NoSnowSoilSurfaceTemperature.h"
+using namespace Monica_SoilTemp;
+NoSnowSoilSurfaceTemperature::NoSnowSoilSurfaceTemperature() {}
+double NoSnowSoilSurfaceTemperature::getdampingFactor() { return this->dampingFactor; }
+void NoSnowSoilSurfaceTemperature::setdampingFactor(double _dampingFactor) { this->dampingFactor = _dampingFactor; }
+void NoSnowSoilSurfaceTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatureCompState &s1, SoilTemperatureCompRate &r, SoilTemperatureCompAuxiliary &a, SoilTemperatureCompExogenous &ex)
 {
     //- Name: NoSnowSoilSurfaceTemperature -Version: 1, -Time step: 1
     //- Description:
@@ -94,14 +92,13 @@ void Nosnowsoilsurfacetemperature::Calculate_Model(SoiltemperatureState& s, Soil
     double soilCoverage = s.getsoilCoverage();
     double prevDaySoilSurfaceTemperature = s.getprevDaySoilSurfaceTemperature();
     double soilSurfaceTemperature;
-    globrad = max(8.33, globrad);
+    globrad = std::max(8.33, globrad);
     double shadingCoefficient;
     shadingCoefficient = 0.1 + (soilCoverage * dampingFactor + ((1 - soilCoverage) * (1 - dampingFactor)));
-    soilSurfaceTemperature = (1.0 - shadingCoefficient) * (tmin + ((tmax - tmin) * pow(0.03 * globrad, 0.5))) + (shadingCoefficient * prevDaySoilSurfaceTemperature);
+    soilSurfaceTemperature = (1.0 - shadingCoefficient) * (tmin + ((tmax - tmin) * std::pow(0.03 * globrad, 0.5))) + (shadingCoefficient * prevDaySoilSurfaceTemperature);
     if (soilSurfaceTemperature < 0.0)
     {
         soilSurfaceTemperature = soilSurfaceTemperature * 0.5;
     }
     s.setsoilSurfaceTemperature(soilSurfaceTemperature);
 }
-#endif

@@ -46,55 +46,55 @@
 
         <Input name="nTau" description="NTau" inputtype="parameter" parametercategory="constant" datatype="DOUBLE"
                max="" min="" default="0.65" unit="?"/>
-        <Input name="soilAlbedo" description="SoilAlbedo" inputtype="parameter" parametercategory="constant"
-               datatype="DOUBLE" max="" min="" default="0.7" unit="?"/>
+        <!--<Input name="soilAlbedo" description="SoilAlbedo" inputtype="parameter" parametercategory="constant"
+               datatype="DOUBLE" max="" min="" default="0.7" unit="?"/>-->
 
         <Input name="noOfTempLayers" description="noOfTempLayers=noOfSoilLayers+2" inputtype="parameter"
                parametercategory="constant" datatype="INT" max="" min="" default="22" unit="dimensionless"/>
         <Input name="noOfSoilLayers" description="noOfSoilLayers" inputtype="parameter" parametercategory="constant"
                datatype="INT" max="" min="" default="20" unit="dimensionless"/>
         <Input name="layerThickness" description="layerThickness" inputtype="parameter" parametercategory="constant"
-               datatype="DOUBLELIST" len="22" max="" min="" default="" unit="m"/>
+               datatype="DOUBLEARRAY" len="22" max="" min="" default="" unit="m"/>
         <Input name="soilBulkDensity" description="bulkDensity" inputtype="parameter" parametercategory="constant"
-               datatype="DOUBLELIST" len="20" max="" min="" default="" unit="kg/m**3"/>
+               datatype="DOUBLEARRAY" len="20" max="" min="" default="" unit="kg/m**3"/>
         <Input name="saturation" description="saturation" inputtype="parameter" parametercategory="constant"
-               datatype="DOUBLELIST" len="20" max="" min="" default="" unit="m**3/m**3"/>
+               datatype="DOUBLEARRAY" len="20" max="" min="" default="" unit="m**3/m**3"/>
         <Input name="soilOrganicMatter" description="soilOrganicMatter" inputtype="parameter"
-               parametercategory="constant" datatype="DOUBLELIST" len="20" max="" min="" default="" unit="m**3/m**3"/>
+               parametercategory="constant" datatype="DOUBLEARRAY" len="20" max="" min="" default="" unit="m**3/m**3"/>
 
         <Input name="soilTemperature" description="soilTemperature" inputtype="variable" variablecategory="state"
-               datatype="DOUBLELIST" len="20" max="" min="" default="" unit="°C"/>
-        <Input name="V" description="V" inputtype="variable" variablecategory="state" datatype="DOUBLELIST" len="20"
+               datatype="DOUBLEARRAY" len="22" max="" min="" default="" unit="°C"/>
+        <Input name="V" description="V" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="22"
                max="" min="" default="" unit="°C"/>
-        <Input name="B" description="B" inputtype="variable" variablecategory="state" datatype="DOUBLELIST" len="20"
+        <Input name="B" description="B" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="22"
                max="" min="" default="" unit="°C"/>
         <Input name="volumeMatrix" description="volumeMatrix" inputtype="variable" variablecategory="state"
-               datatype="DOUBLELIST" len="20" max="" min="" default="" unit="°C"/>
+               datatype="DOUBLEARRAY" len="22" max="" min="" default="" unit="°C"/>
         <Input name="volumeMatrixOld" description="volumeMatrixOld" inputtype="variable" variablecategory="state"
-               datatype="DOUBLELIST" len="20" max="" min="" default="" unit="°C"/>
+               datatype="DOUBLEARRAY" len="22" max="" min="" default="" unit="°C"/>
         <Input name="matrixPrimaryDiagonal" description="matrixPrimaryDiagonal" inputtype="variable"
-               variablecategory="state" datatype="DOUBLELIST" len="20" max="" min="" default="" unit="°C"/>
+               variablecategory="state" datatype="DOUBLEARRAY" len="22" max="" min="" default="" unit="°C"/>
         <Input name="matrixSecondaryDiagonal" description="matrixSecondaryDiagonal" inputtype="variable"
-               variablecategory="state" datatype="DOUBLELIST" len="20" max="" min="" default="" unit="°C"/>
+               variablecategory="state" datatype="DOUBLEARRAY" len="23" max="" min="" default="" unit="°C"/>
         <Input name="heatConductivity" description="heatConductivity" inputtype="variable" variablecategory="state"
-               datatype="DOUBLELIST" len="20" max="" min="" default="" unit="°C"/>
+               datatype="DOUBLEARRAY" len="22" max="" min="" default="" unit="°C"/>
         <Input name="heatConductivityMean" description="heatConductivityMean" inputtype="variable"
-               variablecategory="state" datatype="DOUBLELIST" len="20" max="" min="" default="" unit="°C"/>
+               variablecategory="state" datatype="DOUBLEARRAY" len="22" max="" min="" default="" unit="°C"/>
         <Input name="heatCapacity" description="heatCapacity" inputtype="variable" variablecategory="state"
-               datatype="DOUBLELIST" len="20" max="" min="" default="" unit="°C"/>
+               datatype="DOUBLEARRAY" len="22" max="" min="" default="" unit="°C"/>
 
         <Input name="solution" description="solution" inputtype="variable" variablecategory="state"
-               datatype="DOUBLELIST" len="20" max="" min="" default="" unit="°C"/>
+               datatype="DOUBLEARRAY" len="22" max="" min="" default="" unit="°C"/>
         <Input name="matrixDiagonal" description="matrixDiagonal" inputtype="variable" variablecategory="state"
-               datatype="DOUBLELIST" len="20" max="" min="" default="" unit="°C"/>
+               datatype="DOUBLEARRAY" len="22" max="" min="" default="" unit="°C"/>
         <Input name="matrixLowerTriangle" description="matrixLowerTriangle" inputtype="variable"
-               variablecategory="state" datatype="DOUBLELIST" len="20" max="" min="" default="" unit="°C"/>
+               variablecategory="state" datatype="DOUBLEARRAY" len="22" max="" min="" default="" unit="°C"/>
         <Input name="heatFlow" description="heatFlow" inputtype="variable" variablecategory="state"
-               datatype="DOUBLELIST" len="20" max="" min="" default="" unit="°C"/>
+               datatype="DOUBLEARRAY" len="22" max="" min="" default="" unit="°C"/>
     </Inputs>
     <Outputs>
-        <Output name="newSoilTemperature" description="soilTemperature next day" variablecategory="state"
-                datatype="DOUBLELIST" len="20" max="" min="" unit="°C"/>
+        <Output name="soilTemperature" description="soilTemperature next day" variablecategory="state"
+                datatype="DOUBLEARRAY" len="22" max="" min="" unit="°C"/>
     </Outputs>
     <Initialization name="init.SoilTemperature" language="cyml" filename="algo/pyx/init.SoilTemperature.pyx"/>
     <Algorithm language="cyml" platform="" filename="algo/pyx/SoilTemperature.pyx"/>
