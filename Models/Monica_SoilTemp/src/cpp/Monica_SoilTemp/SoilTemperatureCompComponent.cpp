@@ -109,7 +109,6 @@ void SoilTemperatureCompComponent::setsoilOrganicMatter(const std::vector<double
 }
 void SoilTemperatureCompComponent::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatureCompState &s1, SoilTemperatureCompRate &r, SoilTemperatureCompAuxiliary &a, SoilTemperatureCompExogenous &ex)
 {
-    s.setsoilTemperature(s.getprevDaySoilTemperature());
     _NoSnowSoilSurfaceTemperature.Calculate_Model(s, s1, r, a, ex);
     s.setnoSnowSoilSurfaceTemperature(s.getsoilSurfaceTemperature());
     _WithSnowSoilSurfaceTemperature.Calculate_Model(s, s1, r, a, ex);

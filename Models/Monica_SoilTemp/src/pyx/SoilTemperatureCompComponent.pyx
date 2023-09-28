@@ -8,7 +8,6 @@ def model_soiltemperaturecomp(float tmin,
       float globrad,
       float dampingFactor,
       float soilCoverage,
-      float prevDaySoilSurfaceTemperature,
       float soilSurfaceTemperatureBelowSnow,
       bool hasSnowCover,
       float timeStep,
@@ -30,7 +29,6 @@ def model_soiltemperaturecomp(float tmin,
       float soilBulkDensity[20],
       float saturation[20],
       float soilOrganicMatter[20],
-      float prevDaySoilTemperature[22],
       float V[22],
       float B[22],
       float volumeMatrix[22],
@@ -47,8 +45,7 @@ def model_soiltemperaturecomp(float tmin,
     cdef float soilSurfaceTemperature
     cdef float soilTemperature[22]
     cdef float noSnowSoilSurfaceTemperature
-    soilTemperature = prevDaySoilTemperature 
-    soilSurfaceTemperature = model_nosnowsoilsurfacetemperature(tmin,tmax,globrad,soilCoverage,dampingFactor,prevDaySoilSurfaceTemperature)
+    soilSurfaceTemperature = model_nosnowsoilsurfacetemperature(tmin,tmax,globrad,soilCoverage,dampingFactor,soilSurfaceTemperature)
     noSnowSoilSurfaceTemperature = soilSurfaceTemperature
     soilSurfaceTemperature = model_withsnowsoilsurfacetemperature(noSnowSoilSurfaceTemperature,soilSurfaceTemperatureBelowSnow,hasSnowCover)
     soilTemperature = model_soiltemperature(soilSurfaceTemperature,timeStep,soilMoistureConst,baseTemp,initialSurfaceTemp,densityAir,specificHeatCapacityAir,densityHumus,specificHeatCapacityHumus,densityWater,specificHeatCapacityWater,quartzRawDensity,specificHeatCapacityQuartz,nTau,noOfTempLayers,noOfSoilLayers,layerThickness,soilBulkDensity,saturation,soilOrganicMatter,soilTemperature,V,B,volumeMatrix,volumeMatrixOld,matrixPrimaryDiagonal,matrixSecondaryDiagonal,heatConductivity,heatConductivityMean,heatCapacity,solution,matrixDiagonal,matrixLowerTriangle,heatFlow)

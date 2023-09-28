@@ -35,7 +35,7 @@ void WithSnowSoilSurfaceTemperature::Calculate_Model(SoilTemperatureCompState &s
     //            * name: soilSurfaceTemperatureBelowSnow
     //                          ** description : soilSurfaceTemperature below snow cover
     //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLE
     //                          ** max : 
     //                          ** min : 
@@ -44,7 +44,7 @@ void WithSnowSoilSurfaceTemperature::Calculate_Model(SoilTemperatureCompState &s
     //            * name: hasSnowCover
     //                          ** description : is soil covered by snow
     //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** variablecategory : exogenous
     //                          ** datatype : BOOLEAN
     //                          ** max : 
     //                          ** min : 
@@ -59,8 +59,8 @@ void WithSnowSoilSurfaceTemperature::Calculate_Model(SoilTemperatureCompState &s
     //                          ** min : 
     //                          ** unit : °C
     double noSnowSoilSurfaceTemperature = s.getnoSnowSoilSurfaceTemperature();
-    double soilSurfaceTemperatureBelowSnow = s.getsoilSurfaceTemperatureBelowSnow();
-    bool hasSnowCover = s.gethasSnowCover();
+    double soilSurfaceTemperatureBelowSnow = ex.getsoilSurfaceTemperatureBelowSnow();
+    bool hasSnowCover = ex.gethasSnowCover();
     double soilSurfaceTemperature;
     if (hasSnowCover)
     {

@@ -248,7 +248,8 @@ def model_soiltemperature(float soilSurfaceTemperature,
     #assert _heatFlow[i>0] == 0.0;
     cdef int i
     for i in range(noOfTempLayers):
-        solution[i] = (volumeMatrixOld[i] + (volumeMatrix[i] - volumeMatrixOld[i]) / layerThickness[i]) * soilTemperature[i] + heatFlow[i]
+        solution[i] = (volumeMatrixOld[i] + (volumeMatrix[i] - volumeMatrixOld[i]) / layerThickness[i]) \
+                      * soilTemperature[i] + heatFlow[i]
     # end subroutine NumericalSolution
     ########################################################
     # Internal Subroutine Cholesky Solution Method
@@ -258,11 +259,11 @@ def model_soiltemperature(float soilSurfaceTemperature,
     ########################################################
     # Determination of the lower matrix triangle L and the diagonal matrix D
     matrixDiagonal[0] = matrixPrimaryDiagonal[0]
-    for i in range(noOfTempLayers): 
+    for i in range(1, noOfTempLayers):
         matrixLowerTriangle[i] = matrixSecondaryDiagonal[i] / matrixDiagonal[i - 1]
         matrixDiagonal[i] = matrixPrimaryDiagonal[i] - (matrixLowerTriangle[i] * matrixSecondaryDiagonal[i])
     # Solution of LY=Z
-    for i in range(noOfTempLayers):	
+    for i in range(1, noOfTempLayers):
         solution[i] = solution[i] - (matrixLowerTriangle[i] * solution[i - 1])
     # Solution of L'X=D(-1)Y
     solution[bottomLayer] = solution[bottomLayer] / matrixDiagonal[bottomLayer]
@@ -270,8 +271,7 @@ def model_soiltemperature(float soilSurfaceTemperature,
     for i in range(bottomLayer):
         j = (bottomLayer - 1) - i
         j_1 = j + 1
-        solution[j] = (solution[j] / matrixDiagonal[j]) \
-            - (matrixLowerTriangle[j_1] * solution[j_1])
+        solution[j] = (solution[j] / matrixDiagonal[j]) - (matrixLowerTriangle[j_1] * solution[j_1])
     # end subroutine CholeskyMethod
     # Internal Subroutine Rearrangement
     for i in range(noOfTempLayers):

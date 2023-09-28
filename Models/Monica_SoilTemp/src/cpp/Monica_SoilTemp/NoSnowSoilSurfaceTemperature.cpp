@@ -54,7 +54,7 @@ void NoSnowSoilSurfaceTemperature::Calculate_Model(SoilTemperatureCompState &s, 
     //            * name: soilCoverage
     //                          ** description : soilCoverage
     //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLE
     //                          ** max : 
     //                          ** min : 0.0
@@ -69,7 +69,7 @@ void NoSnowSoilSurfaceTemperature::Calculate_Model(SoilTemperatureCompState &s, 
     //                          ** min : 
     //                          ** default : 0.8
     //                          ** unit : dimensionless
-    //            * name: prevDaySoilSurfaceTemperature
+    //            * name: soilSurfaceTemperature
     //                          ** description : soilSurfaceTemperature of previous day
     //                          ** inputtype : variable
     //                          ** variablecategory : state
@@ -89,13 +89,12 @@ void NoSnowSoilSurfaceTemperature::Calculate_Model(SoilTemperatureCompState &s, 
     double tmin = ex.gettmin();
     double tmax = ex.gettmax();
     double globrad = ex.getglobrad();
-    double soilCoverage = s.getsoilCoverage();
-    double prevDaySoilSurfaceTemperature = s.getprevDaySoilSurfaceTemperature();
-    double soilSurfaceTemperature;
+    double soilCoverage = ex.getsoilCoverage();
+    double soilSurfaceTemperature = s.getsoilSurfaceTemperature();
     globrad = std::max(8.33, globrad);
     double shadingCoefficient;
     shadingCoefficient = 0.1 + (soilCoverage * dampingFactor + ((1 - soilCoverage) * (1 - dampingFactor)));
-    soilSurfaceTemperature = (1.0 - shadingCoefficient) * (tmin + ((tmax - tmin) * std::pow(0.03 * globrad, 0.5))) + (shadingCoefficient * prevDaySoilSurfaceTemperature);
+    soilSurfaceTemperature = (1.0 - shadingCoefficient) * (tmin + ((tmax - tmin) * std::pow(0.03 * globrad, 0.5))) + (shadingCoefficient * soilSurfaceTemperature);
     if (soilSurfaceTemperature < 0.0)
     {
         soilSurfaceTemperature = soilSurfaceTemperature * 0.5;

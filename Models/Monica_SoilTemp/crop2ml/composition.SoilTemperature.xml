@@ -22,8 +22,8 @@
             <InputLink source="globrad" target="NoSnowSoilSurfaceTemperature.globrad"/>
             <InputLink source="dampingFactor" target="NoSnowSoilSurfaceTemperature.dampingFactor"/>
             <InputLink source="soilCoverage" target="NoSnowSoilSurfaceTemperature.soilCoverage"/>
-            <InputLink source="prevDaySoilSurfaceTemperature"
-                       target="NoSnowSoilSurfaceTemperature.prevDaySoilSurfaceTemperature"/>
+            <!--<InputLink source="soilSurfaceTemperature"
+                       target="NoSnowSoilSurfaceTemperature.soilSurfaceTemperature"/>-->
 
             <InputLink source="soilSurfaceTemperatureBelowSnow"
                        target="WithSnowSoilSurfaceTemperature.soilSurfaceTemperatureBelowSnow"/>
@@ -50,7 +50,7 @@
             <InputLink source="soilBulkDensity" target="SoilTemperature.soilBulkDensity"/>
             <InputLink source="saturation" target="SoilTemperature.saturation"/>
             <InputLink source="soilOrganicMatter" target="SoilTemperature.soilOrganicMatter"/>
-            <InputLink source="prevDaySoilTemperature" target="SoilTemperature.soilTemperature"/>
+            <!--<InputLink source="prevDaySoilTemperature" target="SoilTemperature.soilTemperature"/>-->
             <InputLink source="V" target="SoilTemperature.V"/>
             <InputLink source="B" target="SoilTemperature.B"/>
             <InputLink source="volumeMatrix" target="SoilTemperature.volumeMatrix"/>

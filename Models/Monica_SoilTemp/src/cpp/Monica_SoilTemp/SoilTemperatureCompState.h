@@ -8,12 +8,6 @@ namespace Monica_SoilTemp {
 class SoilTemperatureCompState
 {
     private:
-        double soilCoverage ;
-        double prevDaySoilSurfaceTemperature ;
-        double soilSurfaceTemperatureBelowSnow ;
-        bool hasSnowCover ;
-        std::vector<double> prevDaySoilTemperature ;
-        std::vector<double> soilTemperature ;
         std::vector<double> V ;
         std::vector<double> B ;
         std::vector<double> volumeMatrix ;
@@ -28,21 +22,10 @@ class SoilTemperatureCompState
         std::vector<double> matrixLowerTriangle ;
         std::vector<double> heatFlow ;
         double soilSurfaceTemperature ;
+        std::vector<double> soilTemperature ;
         double noSnowSoilSurfaceTemperature ;
     public:
         SoilTemperatureCompState();
-        double getsoilCoverage();
-        void setsoilCoverage(double _soilCoverage);
-        double getprevDaySoilSurfaceTemperature();
-        void setprevDaySoilSurfaceTemperature(double _prevDaySoilSurfaceTemperature);
-        double getsoilSurfaceTemperatureBelowSnow();
-        void setsoilSurfaceTemperatureBelowSnow(double _soilSurfaceTemperatureBelowSnow);
-        bool gethasSnowCover();
-        void sethasSnowCover(bool _hasSnowCover);
-        std::vector<double> & getprevDaySoilTemperature();
-        void setprevDaySoilTemperature(const std::vector<double> &  _prevDaySoilTemperature);
-        std::vector<double> & getsoilTemperature();
-        void setsoilTemperature(const std::vector<double> &  _soilTemperature);
         std::vector<double> & getV();
         void setV(const std::vector<double> &  _V);
         std::vector<double> & getB();
@@ -71,6 +54,8 @@ class SoilTemperatureCompState
         void setheatFlow(const std::vector<double> &  _heatFlow);
         double getsoilSurfaceTemperature();
         void setsoilSurfaceTemperature(double _soilSurfaceTemperature);
+        std::vector<double> & getsoilTemperature();
+        void setsoilTemperature(const std::vector<double> &  _soilTemperature);
         double getnoSnowSoilSurfaceTemperature();
         void setnoSnowSoilSurfaceTemperature(double _noSnowSoilSurfaceTemperature);
 

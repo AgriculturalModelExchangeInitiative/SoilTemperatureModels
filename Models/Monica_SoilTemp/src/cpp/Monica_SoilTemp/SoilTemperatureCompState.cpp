@@ -3,12 +3,6 @@ using namespace Monica_SoilTemp;
 
 SoilTemperatureCompState::SoilTemperatureCompState() {}
 
-double SoilTemperatureCompState::getsoilCoverage() { return this->soilCoverage; }
-double SoilTemperatureCompState::getprevDaySoilSurfaceTemperature() { return this->prevDaySoilSurfaceTemperature; }
-double SoilTemperatureCompState::getsoilSurfaceTemperatureBelowSnow() { return this->soilSurfaceTemperatureBelowSnow; }
-bool SoilTemperatureCompState::gethasSnowCover() { return this->hasSnowCover; }
-std::vector<double> & SoilTemperatureCompState::getprevDaySoilTemperature() { return this->prevDaySoilTemperature; }
-std::vector<double> & SoilTemperatureCompState::getsoilTemperature() { return this->soilTemperature; }
 std::vector<double> & SoilTemperatureCompState::getV() { return this->V; }
 std::vector<double> & SoilTemperatureCompState::getB() { return this->B; }
 std::vector<double> & SoilTemperatureCompState::getvolumeMatrix() { return this->volumeMatrix; }
@@ -23,18 +17,9 @@ std::vector<double> & SoilTemperatureCompState::getmatrixDiagonal() { return thi
 std::vector<double> & SoilTemperatureCompState::getmatrixLowerTriangle() { return this->matrixLowerTriangle; }
 std::vector<double> & SoilTemperatureCompState::getheatFlow() { return this->heatFlow; }
 double SoilTemperatureCompState::getsoilSurfaceTemperature() { return this->soilSurfaceTemperature; }
+std::vector<double> & SoilTemperatureCompState::getsoilTemperature() { return this->soilTemperature; }
 double SoilTemperatureCompState::getnoSnowSoilSurfaceTemperature() { return this->noSnowSoilSurfaceTemperature; }
 
-void SoilTemperatureCompState::setsoilCoverage(double _soilCoverage) { this->soilCoverage = _soilCoverage; }
-void SoilTemperatureCompState::setprevDaySoilSurfaceTemperature(double _prevDaySoilSurfaceTemperature) { this->prevDaySoilSurfaceTemperature = _prevDaySoilSurfaceTemperature; }
-void SoilTemperatureCompState::setsoilSurfaceTemperatureBelowSnow(double _soilSurfaceTemperatureBelowSnow) { this->soilSurfaceTemperatureBelowSnow = _soilSurfaceTemperatureBelowSnow; }
-void SoilTemperatureCompState::sethasSnowCover(bool _hasSnowCover) { this->hasSnowCover = _hasSnowCover; }
-void SoilTemperatureCompState::setprevDaySoilTemperature(std::vector<double> const &_prevDaySoilTemperature){
-    this->prevDaySoilTemperature = _prevDaySoilTemperature;
-}
-void SoilTemperatureCompState::setsoilTemperature(std::vector<double> const &_soilTemperature){
-    this->soilTemperature = _soilTemperature;
-}
 void SoilTemperatureCompState::setV(std::vector<double> const &_V){
     this->V = _V;
 }
@@ -75,4 +60,7 @@ void SoilTemperatureCompState::setheatFlow(std::vector<double> const &_heatFlow)
     this->heatFlow = _heatFlow;
 }
 void SoilTemperatureCompState::setsoilSurfaceTemperature(double _soilSurfaceTemperature) { this->soilSurfaceTemperature = _soilSurfaceTemperature; }
+void SoilTemperatureCompState::setsoilTemperature(std::vector<double> const &_soilTemperature){
+    this->soilTemperature = _soilTemperature;
+}
 void SoilTemperatureCompState::setnoSnowSoilSurfaceTemperature(double _noSnowSoilSurfaceTemperature) { this->noSnowSoilSurfaceTemperature = _noSnowSoilSurfaceTemperature; }

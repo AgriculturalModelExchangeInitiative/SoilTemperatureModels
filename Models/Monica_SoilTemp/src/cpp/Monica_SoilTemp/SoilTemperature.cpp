@@ -559,20 +559,20 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** min : 
     //                          ** unit : °C
     double soilSurfaceTemperature = s.getsoilSurfaceTemperature();
-    std::vector<double>  soilTemperature = s.getsoilTemperature();
-    std::vector<double>  V = s.getV();
-    std::vector<double>  B = s.getB();
-    std::vector<double>  volumeMatrix = s.getvolumeMatrix();
-    std::vector<double>  volumeMatrixOld = s.getvolumeMatrixOld();
-    std::vector<double>  matrixPrimaryDiagonal = s.getmatrixPrimaryDiagonal();
-    std::vector<double>  matrixSecondaryDiagonal = s.getmatrixSecondaryDiagonal();
-    std::vector<double>  heatConductivity = s.getheatConductivity();
-    std::vector<double>  heatConductivityMean = s.getheatConductivityMean();
-    std::vector<double>  heatCapacity = s.getheatCapacity();
-    std::vector<double>  solution = s.getsolution();
-    std::vector<double>  matrixDiagonal = s.getmatrixDiagonal();
-    std::vector<double>  matrixLowerTriangle = s.getmatrixLowerTriangle();
-    std::vector<double>  heatFlow = s.getheatFlow();
+    std::vector<double> & soilTemperature = s.getsoilTemperature();
+    std::vector<double> & V = s.getV();
+    std::vector<double> & B = s.getB();
+    std::vector<double> & volumeMatrix = s.getvolumeMatrix();
+    std::vector<double> & volumeMatrixOld = s.getvolumeMatrixOld();
+    std::vector<double> & matrixPrimaryDiagonal = s.getmatrixPrimaryDiagonal();
+    std::vector<double> & matrixSecondaryDiagonal = s.getmatrixSecondaryDiagonal();
+    std::vector<double> & heatConductivity = s.getheatConductivity();
+    std::vector<double> & heatConductivityMean = s.getheatConductivityMean();
+    std::vector<double> & heatCapacity = s.getheatCapacity();
+    std::vector<double> & solution = s.getsolution();
+    std::vector<double> & matrixDiagonal = s.getmatrixDiagonal();
+    std::vector<double> & matrixLowerTriangle = s.getmatrixLowerTriangle();
+    std::vector<double> & heatFlow = s.getheatFlow();
     int groundLayer;
     int bottomLayer;
     groundLayer = noOfTempLayers - 2;
@@ -584,12 +584,12 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
         solution[i] = (volumeMatrixOld[i] + ((volumeMatrix[i] - volumeMatrixOld[i]) / layerThickness[i])) * soilTemperature[i] + heatFlow[i];
     }
     matrixDiagonal[0] = matrixPrimaryDiagonal[0];
-    for (i=0 ; i!=noOfTempLayers ; i+=1)
+    for (i=1 ; i!=noOfTempLayers ; i+=1)
     {
         matrixLowerTriangle[i] = matrixSecondaryDiagonal[i] / matrixDiagonal[(i - 1)];
         matrixDiagonal[i] = matrixPrimaryDiagonal[i] - (matrixLowerTriangle[i] * matrixSecondaryDiagonal[i]);
     }
-    for (i=0 ; i!=noOfTempLayers ; i+=1)
+    for (i=1 ; i!=noOfTempLayers ; i+=1)
     {
         solution[i] = solution[i] - (matrixLowerTriangle[i] * solution[(i - 1)]);
     }

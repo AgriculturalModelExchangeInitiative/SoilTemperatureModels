@@ -17,8 +17,8 @@
         <Input name="noSnowSoilSurfaceTemperature" description="soilSurfaceTemperature without snow"
                inputtype="variable" variablecategory="state" datatype="DOUBLE" max="" min="" default="0.0" unit="°C"/>
         <Input name="soilSurfaceTemperatureBelowSnow" description="soilSurfaceTemperature below snow cover"
-               inputtype="variable" variablecategory="state" datatype="DOUBLE" max="" min="" default="0.0" unit="°C"/>
-        <Input name="hasSnowCover" description="is soil covered by snow" inputtype="variable" variablecategory="state"
+               inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="0.0" unit="°C"/>
+        <Input name="hasSnowCover" description="is soil covered by snow" inputtype="variable" variablecategory="exogenous"
                datatype="BOOLEAN" max="" min="" default="false" unit="dimensionless"/>
     </Inputs>
     <Outputs>
