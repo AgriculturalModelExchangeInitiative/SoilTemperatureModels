@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ModelUnit PUBLIC " "
+        "https://raw.githubusercontent.com/AgriculturalModelExchangeInitiative/crop2ml/master/ModelUnit.dtd">
+<ModelUnit modelid="Monica_SoilTemp.frost_calc_thaw_depth" name="frost_calc_thaw_depth" timestep="1" version="1">
+    <Description>
+        <Title>Calculate frost thaw depth</Title>
+        <Authors>Michael Berg-Mohnicke</Authors>
+        <Institution>ZALF e.V.</Institution>
+        <URI></URI>
+        <Reference></Reference>
+        <ExtendedDescription></ExtendedDescription>
+        <ShortDescription>Calculate frost thaw depth</ShortDescription>
+    </Description>
+    <Inputs>
+        <Input name="temperature_under_snow" description="current temperature_under_snow" inputtype="variable"
+               variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit="°C"/>
+        <Input name="heat_conductivity_unfrozen" description="heat_conductivity_unfrozen" inputtype="parameter"
+               parametercategory="constant" datatype="DOUBLE" max="" min="" default="" unit=""/>
+        <Input name="mean_field_capacity" description="mean_field_capacity" inputtype="variable"
+               variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit="fraction"/>
+        <Input name="frost_depth" description="frost_depth" inputtype="variable"
+               variablecategory="state" datatype="DOUBLE" max="" min="" default="" unit="m"/>
+        <Input name="thaw_depth" description="thaw_depth" inputtype="variable"
+               variablecategory="state" datatype="DOUBLE" max="" min="" default="" unit="m"/>
+    </Inputs>
+    <Outputs>
+        <Output name="thaw_depth" description="new thaw_depth" variablecategory="state"
+                datatype="DOUBLE" max="" min="" unit="m"/>
+    </Outputs>
+    <!--<Initialization name="init.SoilTemperature" language="cyml" filename="algo/pyx/init.SoilTemperature.pyx"/>-->
+    <Algorithm language="cyml" platform="" filename="algo/pyx/frost_calc_thaw_depth.pyx"/>
+    <Parametersets/>
+    <Testsets/>
+</ModelUnit>

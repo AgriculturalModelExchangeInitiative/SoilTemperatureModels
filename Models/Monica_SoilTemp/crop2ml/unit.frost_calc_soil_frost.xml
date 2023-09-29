@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ModelUnit PUBLIC " "
+        "https://raw.githubusercontent.com/AgriculturalModelExchangeInitiative/crop2ml/master/ModelUnit.dtd">
+<ModelUnit modelid="Monica_SoilTemp.frost_calc_soil_frost" name="frost_calc_soil_frost" timestep="1" version="1">
+    <Description>
+        <Title>Calculate soil frost</Title>
+        <Authors>Michael Berg-Mohnicke</Authors>
+        <Institution>ZALF e.V.</Institution>
+        <URI></URI>
+        <Reference></Reference>
+        <ExtendedDescription></ExtendedDescription>
+        <ShortDescription>Calculate soil frost</ShortDescription>
+    </Description>
+    <Inputs>
+        <Input name="number_of_soil_layers" description="number of soil layers" inputtype="parameter"
+               parametercategory="constant" datatype="DOUBLE" max="" min="" default="20" unit=""/>
+         <Input name="time_step" description="time step" inputtype="parameter" parametercategory="constant"
+               datatype="DOUBLE" max="" min="" default="1.0" unit="dimensionless"/>
+        <Input name="soil_bulk_density" description="soil bulk density" inputtype="parameter" parametercategory="constant"
+               datatype="DOUBLEARRAY" len="20" max="" min="" default="" unit="kg/m**3"/>
+        <Input name="field_capacity" description="soil field capacity" inputtype="parameter" parametercategory="constant"
+               datatype="DOUBLEARRAY" len="20" max="" min="" default="" unit="m**3/m**3"/>
+
+        <Input name="temperature_under_snow" description="current temperature_under_snow" inputtype="variable"
+               variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit="°C"/>
+        <Input name="heat_conductivity_unfrozen" description="heat_conductivity_unfrozen" inputtype="parameter"
+               parametercategory="constant" datatype="DOUBLE" max="" min="" default="" unit=""/>
+        <Input name="mean_field_capacity" description="mean_field_capacity" inputtype="variable"
+               variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit="fraction"/>
+        <Input name="frost_depth" description="frost_depth" inputtype="variable"
+               variablecategory="state" datatype="DOUBLE" max="" min="" default="" unit="m"/>
+        <Input name="thaw_depth" description="thaw_depth" inputtype="variable"
+               variablecategory="state" datatype="DOUBLE" max="" min="" default="" unit="m"/>
+    </Inputs>
+    <Outputs>
+        <Output name="thaw_depth" description="new thaw_depth" variablecategory="state"
+                datatype="DOUBLE" max="" min="" unit="m"/>
+    </Outputs>
+    <!--<Initialization name="init.SoilTemperature" language="cyml" filename="algo/pyx/init.SoilTemperature.pyx"/>-->
+    <Algorithm language="cyml" platform="" filename="algo/pyx/frost_calc_soil_frost.pyx"/>
+    <Parametersets/>
+    <Testsets/>
+</ModelUnit>
