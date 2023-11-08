@@ -167,7 +167,7 @@ def init_soiltemperature(float timeStep,
     ##################################################################
     # Initialising Numerical Solution
     # Suckow,F. (1985): A model serving the calculation of soil
-    # temperatures. Zeitschrift fÃ¼r Meteorologie 35 (1), 66 -70.
+    # temperatures. Zeitschrift für Meteorologie 35 (1), 66 -70.
     ##################################################################
     # Calculation of the mean heat conductivity per layer
     heatConductivityMean[0] = heatConductivity[0]
