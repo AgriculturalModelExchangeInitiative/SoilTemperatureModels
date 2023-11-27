@@ -28,8 +28,8 @@ LATITUDE = 30
 DOY = 50 # day of year
 YEAR = 2015 #year
 AMP = 12 #year
-BD = np.ones(5) * 1.5
-THICKNESS = np.ones(5) * 100
+BD = np.ones(NZ) * 1.5
+THICKNESS = np.ones(NZ) * 100
 
 
 def DampingDepth():
