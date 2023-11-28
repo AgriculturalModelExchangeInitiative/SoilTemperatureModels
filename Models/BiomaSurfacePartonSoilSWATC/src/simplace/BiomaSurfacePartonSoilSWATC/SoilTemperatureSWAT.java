@@ -47,6 +47,23 @@ public class SoilTemperatureSWAT extends FWSimComponent
         return iFieldMap;
     }
     @Override
+    protected void init()
+    {
+        Double [] t_LayerThickness = LayerThickness.getValue();
+        Double t_LagCoefficient = LagCoefficient.getValue();
+        Double t_AirTemperatureAnnualAverage = AirTemperatureAnnualAverage.getValue();
+        Double [] t_BulkDensity = BulkDensity.getValue();
+        Double t_SoilProfileDepth = SoilProfileDepth.getValue();
+        Double [] t_SoilTemperatureByLayers = SoilTemperatureByLayers.getDefault();
+        Integer i;
+        Arrays.fill(t_SoilTemperatureByLayers, 0.0d);
+        for (i=0 ; i!=t_LayerThickness.length ; i+=1)
+        {
+            t_SoilTemperatureByLayers[i] = (double)(15);
+        }
+        SoilTemperatureByLayers.setValue(t_SoilTemperatureByLayers, this);
+    }
+    @Override
     protected void process()
     {
         Double [] t_VolumetricWaterContent = VolumetricWaterContent.getValue();
@@ -101,10 +118,6 @@ public class SoilTemperatureSWAT extends FWSimComponent
         SoilTemperatureByLayers.setValue(t_SoilTemperatureByLayers, this);
     }
 
-    @Override
-    protected void init()
-    {
-    }
     public HashMap<String, FWSimVariable<?>> fillTestVariables(int aParamIndex, TEST_STATE aDefineOrCheck)
     {
         return iFieldMap;

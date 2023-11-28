@@ -1,52 +1,59 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+import  java.io.*;
+import  java.util.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 public class SoilTemperatureSWAT
 {
-    public void Init(SurfacePartonSoilSWATCState s, SurfacePartonSoilSWATCState s1, SurfacePartonSoilSWATCRate r, SurfacePartonSoilSWATCAuxiliary a, SurfacePartonSoilSWATCExogenous ex)
+    public void Init(SurfacePartonSoilSWATCState s, SurfacePartonSoilSWATCState s1, SurfacePartonSoilSWATCRate r, SurfacePartonSoilSWATCAuxiliary a,  SurfacePartonSoilSWATCExogenous ex)
     {
-        double[] SoilTemperatureByLayers ;
-        int i;
-        SoilTemperatureByLayers = new double[LayerThickness.Length];
-        for (i=0 ; i!=LayerThickness.Length ; i+=1)
+        Double[] SoilTemperatureByLayers ;
+        Integer i;
+        SoilTemperatureByLayers= new Double[LayerThickness.length]
+        Arrays.fill(SoilTemperatureByLayers, 0.0d);
+        for (i=0 ; i!=LayerThickness.length ; i+=1)
         {
             SoilTemperatureByLayers[i] = (double)(15);
         }
-        s.SoilTemperatureByLayers= SoilTemperatureByLayers;
+        s.setSoilTemperatureByLayers(SoilTemperatureByLayers);
     }
-    private double[] _LayerThickness;
-    public double[] LayerThickness
-        {
-            get { return this._LayerThickness; }
-            set { this._LayerThickness= value; } 
-        }
-    private double _LagCoefficient;
-    public double LagCoefficient
-        {
-            get { return this._LagCoefficient; }
-            set { this._LagCoefficient= value; } 
-        }
-    private double _AirTemperatureAnnualAverage;
-    public double AirTemperatureAnnualAverage
-        {
-            get { return this._AirTemperatureAnnualAverage; }
-            set { this._AirTemperatureAnnualAverage= value; } 
-        }
-    private double[] _BulkDensity;
-    public double[] BulkDensity
-        {
-            get { return this._BulkDensity; }
-            set { this._BulkDensity= value; } 
-        }
-    private double _SoilProfileDepth;
-    public double SoilProfileDepth
-        {
-            get { return this._SoilProfileDepth; }
-            set { this._SoilProfileDepth= value; } 
-        }
-        public SoilTemperatureSWAT() { }
+    private Double [] LayerThickness;
+    public Double [] getLayerThickness()
+    { return LayerThickness; }
+
+    public void setLayerThickness(Double [] _LayerThickness)
+    { this.LayerThickness= _LayerThickness; } 
     
-    public void  CalculateModel(SurfacePartonSoilSWATCState s, SurfacePartonSoilSWATCState s1, SurfacePartonSoilSWATCRate r, SurfacePartonSoilSWATCAuxiliary a, SurfacePartonSoilSWATCExogenous ex)
+    private Double LagCoefficient;
+    public Double getLagCoefficient()
+    { return LagCoefficient; }
+
+    public void setLagCoefficient(Double _LagCoefficient)
+    { this.LagCoefficient= _LagCoefficient; } 
+    
+    private Double AirTemperatureAnnualAverage;
+    public Double getAirTemperatureAnnualAverage()
+    { return AirTemperatureAnnualAverage; }
+
+    public void setAirTemperatureAnnualAverage(Double _AirTemperatureAnnualAverage)
+    { this.AirTemperatureAnnualAverage= _AirTemperatureAnnualAverage; } 
+    
+    private Double [] BulkDensity;
+    public Double [] getBulkDensity()
+    { return BulkDensity; }
+
+    public void setBulkDensity(Double [] _BulkDensity)
+    { this.BulkDensity= _BulkDensity; } 
+    
+    private Double SoilProfileDepth;
+    public Double getSoilProfileDepth()
+    { return SoilProfileDepth; }
+
+    public void setSoilProfileDepth(Double _SoilProfileDepth)
+    { this.SoilProfileDepth= _SoilProfileDepth; } 
+    
+    public SoilTemperatureSWAT() { }
+    public void  Calculate_Model(SurfacePartonSoilSWATCState s, SurfacePartonSoilSWATCState s1, SurfacePartonSoilSWATCRate r, SurfacePartonSoilSWATCAuxiliary a,  SurfacePartonSoilSWATCExogenous ex)
     {
         //- Name: SoilTemperatureSWAT -Version: 001, -Time step: 1
         //- Description:
@@ -142,22 +149,22 @@ public class SoilTemperatureSWAT
     //                          ** max : 60
     //                          ** min : -60
     //                          ** unit : degC
-        double[] VolumetricWaterContent = a.VolumetricWaterContent;
-        double SurfaceSoilTemperature = a.SurfaceSoilTemperature;
-        double[] SoilTemperatureByLayers = s.SoilTemperatureByLayers;
-        int i;
-        double _SoilProfileDepthmm;
-        double _TotalWaterContentmm;
-        double _MaximumDumpingDepth;
-        double _DumpingDepth;
-        double _ScalingFactor;
-        double _DepthBottom;
-        double _RatioCenter;
-        double _DepthFactor;
-        double _DepthCenterLayer;
+        Double [] VolumetricWaterContent = a.getVolumetricWaterContent();
+        Double SurfaceSoilTemperature = a.getSurfaceSoilTemperature();
+        Double [] SoilTemperatureByLayers = s.getSoilTemperatureByLayers();
+        Integer i;
+        Double _SoilProfileDepthmm;
+        Double _TotalWaterContentmm;
+        Double _MaximumDumpingDepth;
+        Double _DumpingDepth;
+        Double _ScalingFactor;
+        Double _DepthBottom;
+        Double _RatioCenter;
+        Double _DepthFactor;
+        Double _DepthCenterLayer;
         _SoilProfileDepthmm = SoilProfileDepth * 1000;
         _TotalWaterContentmm = (double)(0);
-        for (i=0 ; i!=LayerThickness.Length ; i+=1)
+        for (i=0 ; i!=LayerThickness.length ; i+=1)
         {
             _TotalWaterContentmm = _TotalWaterContentmm + (VolumetricWaterContent[i] * LayerThickness[i]);
         }
@@ -169,23 +176,23 @@ public class SoilTemperatureSWAT
         _RatioCenter = (double)(0);
         _DepthFactor = (double)(0);
         _DepthCenterLayer = LayerThickness[0] * 1000 / 2;
-        _MaximumDumpingDepth = 1000 + (2500 * BulkDensity[0] / (BulkDensity[0] + (686 * Math.Exp(-5.630d * BulkDensity[0]))));
-        _ScalingFactor = _TotalWaterContentmm / ((0.3560d - (0.1440d * BulkDensity[0])) * _SoilProfileDepthmm);
-        _DumpingDepth = _MaximumDumpingDepth * Math.Exp(Math.Log(500 / _MaximumDumpingDepth) * Math.Pow((1 - _ScalingFactor) / (1 + _ScalingFactor), 2));
+        _MaximumDumpingDepth = 1000 + (2500 * BulkDensity[0] / (BulkDensity[0] + (686 * Math.exp(-5.63d * BulkDensity[0]))));
+        _ScalingFactor = _TotalWaterContentmm / ((0.356d - (0.144d * BulkDensity[0])) * _SoilProfileDepthmm);
+        _DumpingDepth = _MaximumDumpingDepth * Math.exp(Math.log(500 / _MaximumDumpingDepth) * Math.pow((1 - _ScalingFactor) / (1 + _ScalingFactor), 2));
         _RatioCenter = _DepthCenterLayer / _DumpingDepth;
-        _DepthFactor = _RatioCenter / (_RatioCenter + Math.Exp(-0.8670d - (2.0780d * _RatioCenter)));
+        _DepthFactor = _RatioCenter / (_RatioCenter + Math.exp(-0.867d - (2.078d * _RatioCenter)));
         SoilTemperatureByLayers[0] = LagCoefficient * SoilTemperatureByLayers[0] + ((1 - LagCoefficient) * (_DepthFactor * (AirTemperatureAnnualAverage - SurfaceSoilTemperature) + SurfaceSoilTemperature));
-        for (i=1 ; i!=LayerThickness.Length ; i+=1)
+        for (i=1 ; i!=LayerThickness.length ; i+=1)
         {
             _DepthBottom = _DepthBottom + (LayerThickness[(i - 1)] * 1000);
             _DepthCenterLayer = _DepthBottom + (LayerThickness[i] * 1000 / 2);
-            _MaximumDumpingDepth = 1000 + (2500 * BulkDensity[i] / (BulkDensity[i] + (686 * Math.Exp(-5.630d * BulkDensity[i]))));
-            _ScalingFactor = _TotalWaterContentmm / ((0.3560d - (0.1440d * BulkDensity[i])) * _SoilProfileDepthmm);
-            _DumpingDepth = _MaximumDumpingDepth * Math.Exp(Math.Log(500 / _MaximumDumpingDepth) * Math.Pow((1 - _ScalingFactor) / (1 + _ScalingFactor), 2));
+            _MaximumDumpingDepth = 1000 + (2500 * BulkDensity[i] / (BulkDensity[i] + (686 * Math.exp(-5.63d * BulkDensity[i]))));
+            _ScalingFactor = _TotalWaterContentmm / ((0.356d - (0.144d * BulkDensity[i])) * _SoilProfileDepthmm);
+            _DumpingDepth = _MaximumDumpingDepth * Math.exp(Math.log(500 / _MaximumDumpingDepth) * Math.pow((1 - _ScalingFactor) / (1 + _ScalingFactor), 2));
             _RatioCenter = _DepthCenterLayer / _DumpingDepth;
-            _DepthFactor = _RatioCenter / (_RatioCenter + Math.Exp(-0.8670d - (2.0780d * _RatioCenter)));
+            _DepthFactor = _RatioCenter / (_RatioCenter + Math.exp(-0.867d - (2.078d * _RatioCenter)));
             SoilTemperatureByLayers[i] = LagCoefficient * SoilTemperatureByLayers[i] + ((1 - LagCoefficient) * (_DepthFactor * (AirTemperatureAnnualAverage - SurfaceSoilTemperature) + SurfaceSoilTemperature));
         }
-        s.SoilTemperatureByLayers= SoilTemperatureByLayers;
+        s.setSoilTemperatureByLayers(SoilTemperatureByLayers);
     }
 }

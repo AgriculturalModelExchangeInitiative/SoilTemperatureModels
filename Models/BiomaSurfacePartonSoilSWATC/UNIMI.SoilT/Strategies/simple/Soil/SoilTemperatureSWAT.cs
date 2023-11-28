@@ -509,8 +509,21 @@ namespace UNIMI.SoilT.Strategies.Soil
 
 
 
+
 			//End of custom code. Do not place your custom code below. It will be overwritten by a future code generation.
 			//PLACE YOUR CUSTOM CODE ABOVE - GENERATED CODE START - Section1 
+		}
+
+		public void Init(UNIMI.SoilT.Interfaces.Rates rates,UNIMI.SoilT.Interfaces.States states,UNIMI.SoilT.Interfaces.Auxiliary auxiliary,UNIMI.SoilT.Interfaces.States states1,UNIMI.SoilT.Interfaces.Exogenous exogenous,UNIMI.SoilT.Interfaces.StatesExternal statesexternal,CRA.AgroManagement.ActEvents actevents)
+		{
+
+			states.SoilTemperatureByLayers = new double[states.LayerThickness.Length];
+
+			for (int i = 0; i < states.LayerThickness.Length; i++)
+			{
+				states.SoilTemperatureByLayers[i] = 15;
+			}
+
 		}
 
 

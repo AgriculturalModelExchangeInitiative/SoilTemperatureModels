@@ -1,5 +1,18 @@
 library(gsubfn)
 
+init_soiltemperatureswat <- function (LayerThickness,
+         LagCoefficient,
+         AirTemperatureAnnualAverage,
+         BulkDensity,
+         SoilProfileDepth){
+    SoilTemperatureByLayers<- vector()
+    SoilTemperatureByLayers <-  rep(0.0,length(LayerThickness))
+    for( i in seq(0, length(LayerThickness)-1, 1)){
+        SoilTemperatureByLayers[i+1] <- as.double(15)
+    }
+    return( SoilTemperatureByLayers)
+}
+
 model_soiltemperatureswat <- function (VolumetricWaterContent,
          SurfaceSoilTemperature,
          LayerThickness,

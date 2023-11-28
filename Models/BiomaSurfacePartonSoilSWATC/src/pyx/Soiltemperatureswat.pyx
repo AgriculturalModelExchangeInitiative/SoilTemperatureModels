@@ -1,5 +1,16 @@
 import numpy 
 from math import *
+def init_soiltemperatureswat(float LayerThickness[],
+                             float LagCoefficient,
+                             float AirTemperatureAnnualAverage,
+                             float BulkDensity[],
+                             float SoilProfileDepth):
+    cdef floatarray SoilTemperatureByLayers
+    cdef int i 
+    SoilTemperatureByLayers=array('f', [0.0]*len(LayerThickness))
+    for i in range(0 , len(LayerThickness) , 1):
+        SoilTemperatureByLayers[i]=float(15)
+    return  SoilTemperatureByLayers
 def model_soiltemperatureswat(float VolumetricWaterContent[],
                               float SurfaceSoilTemperature,
                               float LayerThickness[],

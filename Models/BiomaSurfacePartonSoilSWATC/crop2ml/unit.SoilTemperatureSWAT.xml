@@ -20,6 +20,7 @@
         <Input name="SoilProfileDepth" description="Soil profile depth" inputtype="parameter" parametercategory="constant" datatype="DOUBLE" max="50" min="0" default="3" unit="m"/></Inputs>
     <Outputs>
         <Output name="SoilTemperatureByLayers" description="Soil temperature of each layer" datatype="DOUBLEARRAY" variablecategory="state" len="" max="60" min="-60" unit="degC"/></Outputs>
+    <Initialization name="init" language="cyml" filename="algo/pyx/init.SoilTemperatureSWAT.pyx"/>
     <Algorithm language="cyml" platform="" filename="algo/pyx/SoilTemperatureSWAT.pyx"/>
     <Parametersets/>
     <Testsets/></ModelUnit>

@@ -1,6 +1,28 @@
 MODULE Soiltemperatureswatmod
+    USE list_sub
     IMPLICIT NONE
 CONTAINS
+
+    SUBROUTINE init_soiltemperatureswat(LayerThickness, &
+        LagCoefficient, &
+        AirTemperatureAnnualAverage, &
+        BulkDensity, &
+        SoilProfileDepth, &
+        SoilTemperatureByLayers)
+        IMPLICIT NONE
+        INTEGER:: i_cyml_r
+        REAL , DIMENSION(: ), INTENT(IN) :: LayerThickness
+        REAL, INTENT(IN) :: LagCoefficient
+        REAL, INTENT(IN) :: AirTemperatureAnnualAverage
+        REAL , DIMENSION(: ), INTENT(IN) :: BulkDensity
+        REAL, INTENT(IN) :: SoilProfileDepth
+        REAL , DIMENSION(: ), INTENT(OUT) :: SoilTemperatureByLayers
+        INTEGER:: i
+        SoilTemperatureByLayers = 0.0
+        DO i = 0 , SIZE(LayerThickness)-1, 1
+            SoilTemperatureByLayers(i+1) = REAL(15)
+        END DO
+    END SUBROUTINE init_soiltemperatureswat
 
     SUBROUTINE model_soiltemperatureswat(VolumetricWaterContent, &
         SurfaceSoilTemperature, &

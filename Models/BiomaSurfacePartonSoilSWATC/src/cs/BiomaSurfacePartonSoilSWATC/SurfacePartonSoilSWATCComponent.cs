@@ -8,17 +8,6 @@ public class SurfacePartonSoilSWATCComponent
     SurfaceTemperatureParton _SurfaceTemperatureParton = new SurfaceTemperatureParton();
     SoilTemperatureSWAT _SoilTemperatureSWAT = new SoilTemperatureSWAT();
 
-    public double AirTemperatureAnnualAverage
-    {
-        get
-        {
-             return _SoilTemperatureSWAT.AirTemperatureAnnualAverage; 
-        }
-        set
-        {
-            _SoilTemperatureSWAT.AirTemperatureAnnualAverage = value;
-        }
-    }
     public double[] BulkDensity
     {
         get
@@ -30,15 +19,15 @@ public class SurfacePartonSoilSWATCComponent
             _SoilTemperatureSWAT.BulkDensity = value;
         }
     }
-    public double[] LayerThickness
+    public double AirTemperatureAnnualAverage
     {
         get
         {
-             return _SoilTemperatureSWAT.LayerThickness; 
+             return _SoilTemperatureSWAT.AirTemperatureAnnualAverage; 
         }
         set
         {
-            _SoilTemperatureSWAT.LayerThickness = value;
+            _SoilTemperatureSWAT.AirTemperatureAnnualAverage = value;
         }
     }
     public double LagCoefficient
@@ -50,6 +39,17 @@ public class SurfacePartonSoilSWATCComponent
         set
         {
             _SoilTemperatureSWAT.LagCoefficient = value;
+        }
+    }
+    public double[] LayerThickness
+    {
+        get
+        {
+             return _SoilTemperatureSWAT.LayerThickness; 
+        }
+        set
+        {
+            _SoilTemperatureSWAT.LayerThickness = value;
         }
     }
     public double SoilProfileDepth
@@ -73,16 +73,16 @@ public class SurfacePartonSoilSWATCComponent
     public SurfacePartonSoilSWATCComponent(SurfacePartonSoilSWATCComponent toCopy): this() // copy constructor 
     {
 
-        AirTemperatureAnnualAverage = toCopy.AirTemperatureAnnualAverage;
         
             for (int i = 0; i < 100; i++)
             { BulkDensity[i] = toCopy.BulkDensity[i]; }
     
+        AirTemperatureAnnualAverage = toCopy.AirTemperatureAnnualAverage;
+        LagCoefficient = toCopy.LagCoefficient;
         
             for (int i = 0; i < 100; i++)
             { LayerThickness[i] = toCopy.LayerThickness[i]; }
     
-        LagCoefficient = toCopy.LagCoefficient;
         SoilProfileDepth = toCopy.SoilProfileDepth;
     }
 }

@@ -20,10 +20,10 @@ class SurfacePartonSoilSWATCWrapper
         loadParameters();
     }
 
-        double AirTemperatureAnnualAverage;
-    double[] BulkDensity =  new double [100];
-    double[] LayerThickness =  new double [100];
+        double[] BulkDensity =  new double [100];
+    double AirTemperatureAnnualAverage;
     double LagCoefficient;
+    double[] LayerThickness =  new double [100];
     double SoilProfileDepth;
 
     public double[] SoilTemperatureByLayers{ get { return s.SoilTemperatureByLayers;}} 
@@ -54,21 +54,21 @@ class SurfacePartonSoilSWATCWrapper
 
     private void loadParameters()
     {
-        surfacepartonsoilswatcComponent.AirTemperatureAnnualAverage = AirTemperatureAnnualAverage;
         surfacepartonsoilswatcComponent.BulkDensity = BulkDensity;
-        surfacepartonsoilswatcComponent.LayerThickness = LayerThickness;
+        surfacepartonsoilswatcComponent.AirTemperatureAnnualAverage = AirTemperatureAnnualAverage;
         surfacepartonsoilswatcComponent.LagCoefficient = LagCoefficient;
+        surfacepartonsoilswatcComponent.LayerThickness = LayerThickness;
         surfacepartonsoilswatcComponent.SoilProfileDepth = SoilProfileDepth;
     }
 
-    public void EstimateSurfacePartonSoilSWATC(double[] VolumetricWaterContent, double DayLength, double AboveGroundBiomass, double AirTemperatureMaximum, double GlobalSolarRadiation, double AirTemperatureMinimum)
+    public void EstimateSurfacePartonSoilSWATC(double[] VolumetricWaterContent, double AboveGroundBiomass, double DayLength, double AirTemperatureMinimum, double GlobalSolarRadiation, double AirTemperatureMaximum)
     {
         a.VolumetricWaterContent = VolumetricWaterContent;
-        a.DayLength = DayLength;
         a.AboveGroundBiomass = AboveGroundBiomass;
-        a.AirTemperatureMaximum = AirTemperatureMaximum;
-        a.GlobalSolarRadiation = GlobalSolarRadiation;
+        a.DayLength = DayLength;
         a.AirTemperatureMinimum = AirTemperatureMinimum;
+        a.GlobalSolarRadiation = GlobalSolarRadiation;
+        a.AirTemperatureMaximum = AirTemperatureMaximum;
         surfacepartonsoilswatcComponent.CalculateModel(s,s1, r, a, ex);
     }
 
