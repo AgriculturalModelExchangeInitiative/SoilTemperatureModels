@@ -1,4 +1,5 @@
-import math import pi as PI
+import math
+from math import pi as PI
 import numpy as np
 from datetime import date, timedelta
 
@@ -99,39 +100,75 @@ volSpecHeatClay:float = 2.39e6;  # [Joules*m-3*K-1]
 volSpecHeatOM:float = 5e6;       # [Joules*m-3*K-1]
 volSpecHeatWater:float = 4.18e6; # [Joules*m-3*K-1]
 
-maxTempTime= maxTTimeDefault:float = 14. # Time of maximum temperature in hours
-boundarLayerConductanceSource:str = "calc";
-boundaryLayerConductance: float = 20.;
-BoundaryLayerConductanceIterations : int = 1;    # maximum number of iterations to calculate atmosphere boundary layer conductance
+maxTempTime= maxTTimeDefault = 14. # Time of maximum temperature in hours
+boundarLayerConductanceSource:str = "calc"
+boundaryLayerConductance: float = 20.
+BoundaryLayerConductanceIterations : int = 1   # maximum number of iterations to calculate atmosphere boundary layer conductance
 
-# TODO remove
-netRadiationSource: str = "calc"; # TODO : remove it
 
 # Meteo
-windSpeed = defaultWindSpeed: float = 3.;      # default wind speed (m/s)
-altitude = defaultAltitude: float = 18;    # (m) altitude at site
-instrumentHeight = defaultInstrumentHeight: float = 1.2;  # (m) height of instruments above ground
+windSpeed = defaultWindSpeed = 3.;      # default wind speed (m/s)
+altitude = defaultAltitude = 18;    # (m) altitude at site
+instrumentHeight = defaultInstrumentHeight = 1.2;  # (m) height of instruments above ground
 bareSoilHeight: float = 57;        # roughness element height of bare soil (mm)
 
 
-# Internal arrays
-soilTemp = [20.]*(NZ+1)
+# Internal arrays / outputs
+soilTemp = [20.]*(NZ+1) # T
+thermCondPar1 = [0.]*(NZ+1)       # A in equation 5; soil solids thermal conductivity parameter
+thermCondPar2 = [0.]*(NZ+1)       # B in equation 5; soil solids thermal conductivity parameter
+thermCondPar3 = [0.]*(NZ+1)       # C in equation 5; soil solids thermal conductivity parameter
+thermCondPar4 = [0.]*(NZ+1)       # D in equation 5; soil solids thermal conductivity parameter
+volSpecHeatSoil = [0.]*(NZ+1)     # C in Joules/m^3/K
+soilTemp = [17.]*(NZ+1)           # T soil temperature
+morningSoilTemp = [20.]*(NZ+1)    # soil temperature
+heatStorage  = [0.]*(NZ+1)        # Named S in the equations CP; heat storage between nodes - index is same as upper node (J/s/K or W/K)
+thermalConductance = [0.]*(NZ+1)  # K; conductance of element between nodes - index is same as upper node
+thermalConductivity = [0.]*(NZ+1) # lambda; thermal conductivity (W/m^2/K)
 
+#tempNew= [20]*(NZ+1);             # soil temperature at the end of this iteration (oC)
+depth = [0., 0.] +[i for i in range(NZ)] # node depths - get from water module, metres
+soilWater = [15]*(NZ+1) # volumetric water content (cc water / cc soil)
+minSoilTemp = [10.]*(NZ+1) # min soil temperature (oC)
+maxSoilTemp = [10.]*(NZ+1) # maximum soil temperature (oC)
+
+bulkDensity = BD # bd (soil bulk density) is name of the APSIM var for bulk density so set bulkDensity = bd later (g/cc)
+
+thickness = THICKNESS # APSIM soil layer depths as thickness of layers (mm)
+
+airTemp = 16.0;         # Air temperature (oC)
+maxAirTemp = 18.0;      # Max daily Air temperature (oC)
+minAirTemp = 12.0;      # Min daily Air temperature (oC)
+maxTempYesterday = 20.0;
+minTempYesterday = 10.0;
+
+potSoilEvap = 3.0;     # (mm) pot sevap after modification for green cover residue wt
+potEvapotrans = 5.0;   # (mm) pot evapotranspitation
+actualSoilEvap = 1.0;  # actual soil evaporation (mm)
+
+netRadiation = RADN    # Net radiation per internal timestep (MJ)
+canopyHeight :float = 5.0;    # (m) height of canopy above ground
+soilRoughnessHeight : float = bareSoilHeight    # (mm) height of soil roughness
+
+clay = [0.25] *(NZ+1)          # Proportion of clay in each layer of profile (0-1)
+LL15 = [9] *(NZ+1)
 # TODO
 # LL15 : Lower limit 15 bar (mm/mm)
+#ll15 = np.zeros(NZ)
 
-ll15 = np.zeros(NZ)
-
-def DampingDepth():
-    """ TODO : need to review later on this function.
-    physical and waterBalance modeule to remove
+def DampingDepth(bulkDensity=bulkDensity, 
+                 thickness=thickness,
+                 NZ=NZ, 
+                 LL15=LL15,
+                 soilWater=soilWater):
+    """ 
     """
     # Constants
-    SW_AVAIL_TOT_MIN = 0.01
+    SW_AVAIL_TOT_MIN = 0.01 #minimum available sw (mm water)
 
     # Get average bulk density
-    bd_tot = sum(BD[i] * THICKNESS[i] for i in range(len(BD)))
-    cum_depth = sum(THICKNESS[1:NZ+1])
+    bd_tot = sum(bulkDensity[i] * thickness[i] for i in range(len(bulkDensity)))
+    cum_depth = sum(thickness[1:NZ])
     ave_bd = bd_tot / cum_depth
 
     # Calculate favbd
@@ -139,15 +176,15 @@ def DampingDepth():
     damp_depth_max = 1000.0 + 2500.0 * favbd
     damp_depth_max = max(damp_depth_max, 0.0)
 
-    # Potential sw above lower limit
+    # Potential sw above lower limit  - mm water/mm soil depth
     ww = 0.356 - 0.144 * ave_bd
     ww = max(ww, 0.0)
 
     # Calculate amount of soil water
     # TODO : define LL15 and Thickness
-    ll15mm = [physical.LL15[i] * physical.Thickness[i] for i in range(numLayers - 1)]
+    ll15mm = [LL15[i] * thickness[i] for i in range(2, NZ+1)]
     ll_tot = sum(ll15mm)
-    sw_dep_tot = sum(waterBalance.SWmm[:numLayers - 1])
+    sw_dep_tot = sum([soilWater[i] * thickness[i] for i in range(2, NZ+1)])
     sw_avail_tot = sw_dep_tot - ll_tot
     sw_avail_tot = max(sw_avail_tot, SW_AVAIL_TOT_MIN)
 
@@ -161,12 +198,20 @@ def DampingDepth():
     f = math.exp(b * wcf**2)
 
     # Get the temperature damping depth
-    soiln2_SoilTemp_DampDepth = f * damp_depth_max
+    T_DampDepth = f * damp_depth_max
 
-    return soiln2_SoilTemp_DampDepth
+    return T_DampDepth
 
 
-def CalcSoilTemp(soilTempIO):
+def CalcSoilTemp(soilTempIO, NZ=NZ,
+                 LATITUDE=LATITUDE,
+                 TAV=TAV, AMP=AMP, 
+                 YEAR=YEAR, DOY=DOY, 
+                 RADN=RADN,
+                 bulkDensity=bulkDensity, 
+                 thickness=thickness,
+                 LL15=LL15,
+                 soilWater=soilWater):
     """ Calculate Soil Temperature based on EPIC model"""
     
     SUMMER_SOLSTICE_NTH = 173.0
@@ -177,7 +222,7 @@ def CalcSoilTemp(soilTempIO):
     ANG = math.radians(1.0)  # Length of one day in radians (assuming 1 radian = 1 day)
 
     # Initialize soilTemp array
-    soilTemp = [0.0] * (NZ + 1 + 1)
+    soilTemp = [0.0] * (NZ + 1)
 
     # Copy values from soilTempIO to soilTemp
     #Array.ConstrainedCopy(soilTempIO, SURFACEnode, soilTemp, 0, numNodes);
@@ -196,25 +241,31 @@ def CalcSoilTemp(soilTempIO):
     # LayerTemp(0.0, alx, 0.0)
 
     temp_a = TAV + (AMP / 2.0 * math.cos(alx - 0) + 0) * math.exp(0)
+    
     surface_init = (1.0 - SALB) * (TAV + (MAXT - TAV) * math.sqrt(max(RADN, 0.1) * 23.8846 / 800.0)) + SALB * TAV
     dlt_temp = surface_init - temp_a
 
     # Get temperature damping depth in mm per radian of a year
-    damp = DampingDepth()
+    damp = DampingDepth(bulkDensity, 
+                 thickness,
+                 NZ, 
+                 LL15,
+                 soilWater)
 
     cum_depth = 0.0  # Cumulative depth in the profile
     depth_lag = 0.0  # Temperature lag factor in radians for depth
 
     # Calculate average soil temperature for each layer
-    soil_temp = [0.0] * (num_nodes + 1)
-    for layer in range(1, num_layers + 1):
+    #soil_temp = [0.0] * (NZ + 1)
+    for layer in range(2, NZ+1):
         cum_depth += thickness[layer]
         depth_lag = cum_depth / damp
-        soil_temp[layer] = layer_temp(depth_lag, alx, dlt_temp)
+        _layer_temp = TAV + (AMP / 2. * math.cos(alx - depth_lag) + dlt_temp)* math.exp(-depth_lag)
+        soilTemp[layer] = _layer_temp
         # bound_check(soil_temp[layer], -20.0, 80.0, "soil_temp")
 
     # Copy values from soilTemp to soilTempIO
-    soil_temp_io[SURFACEnode:num_nodes] = soil_temp[0:num_nodes]
+    return soilTemp
 
 
 
@@ -223,7 +274,9 @@ def doProcess():
 
 
 
-def Init(soilTemp):
+def Init(soilTemp=soilTemp, 
+         MAXT=MAXT, MINT=MINT, 
+         SALB=SALB, RADN=RADN, TAV=TAV):
 
     #Function read somewhere else
     # TODO?
@@ -238,11 +291,11 @@ def Init(soilTemp):
 
     soilTemp[AIRnode] = (MAXT + MINT) * 0.5
     soilTemp[SURFACEnode] = surfaceT
-    soilTemp[NZ + 1] = TAV
+    soilTemp[NZ] = TAV
 
-    #tempNew = soilTemp.copy()
-    #maxTempYesterday = MAXT
-    #minTempYesterday = MINT
+    tempNew = soilTemp.copy()
+    maxTempYesterday = MAXT
+    minTempYesterday = MINT
 
     print(ave_temp)
     print(surfaceT)
@@ -250,8 +303,9 @@ def Init(soilTemp):
     # CPL : In ApSim they have a OnProcess function that initialise if needed then call doProcess
     #doProcess()
 
+    return (tempNew, minTempYesterday, maxTempYesterday)
 
 if __name__ == "__main__":
     print("Hello World")
-    Init(soilTemp)
+    Init(soilTemp, )
     doProcess()
