@@ -13,15 +13,15 @@
         <Model name="SoilTemperatureSWAT" id="Crop2ML.BiomaSurfacePartonSoilSWATC.SoilTemperatureSWAT" filename="unit.SoilTemperatureSWAT.xml"/>
         <Links>
             <InputLink target="SurfaceTemperatureParton.DayLength" source="DayLength"/>
-            <InputLink target="SurfaceTemperatureParton.AirTemperatureMaximum" source="AirTemperatureMaximum"/>
-            <InputLink target="SurfaceTemperatureParton.AirTemperatureMinimum" source="AirTemperatureMinimum"/>
             <InputLink target="SurfaceTemperatureParton.AboveGroundBiomass" source="AboveGroundBiomass"/>
+            <InputLink target="SurfaceTemperatureParton.AirTemperatureMaximum" source="AirTemperatureMaximum"/>
             <InputLink target="SurfaceTemperatureParton.GlobalSolarRadiation" source="GlobalSolarRadiation"/>
+            <InputLink target="SurfaceTemperatureParton.AirTemperatureMinimum" source="AirTemperatureMinimum"/>
+            <InputLink target="SoilTemperatureSWAT.AirTemperatureAnnualAverage" source="AirTemperatureAnnualAverage"/>
             <InputLink target="SoilTemperatureSWAT.VolumetricWaterContent" source="VolumetricWaterContent"/>
+            <InputLink target="SoilTemperatureSWAT.BulkDensity" source="BulkDensity"/>
             <InputLink target="SoilTemperatureSWAT.LayerThickness" source="LayerThickness"/>
             <InputLink target="SoilTemperatureSWAT.LagCoefficient" source="LagCoefficient"/>
-            <InputLink target="SoilTemperatureSWAT.AirTemperatureAnnualAverage" source="AirTemperatureAnnualAverage"/>
-            <InputLink target="SoilTemperatureSWAT.BulkDensity" source="BulkDensity"/>
             <InputLink target="SoilTemperatureSWAT.SoilProfileDepth" source="SoilProfileDepth"/>
             <InternalLink target="SoilTemperatureSWAT.SurfaceSoilTemperature" source="SurfaceTemperatureParton.SurfaceSoilTemperature"/>
             <OutputLink target="SurfaceTemperatureMinimum" source="SurfaceTemperatureParton.SurfaceTemperatureMinimum"/>

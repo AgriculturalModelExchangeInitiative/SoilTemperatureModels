@@ -9,18 +9,18 @@ def simulation(datafile, vardata, params, init):
 
     # inputs values
     t_DayLength = df[vardata.loc[vardata["Variables"]=="DayLength","Data columns"].iloc[0]].to_list()
-    t_AirTemperatureMaximum = df[vardata.loc[vardata["Variables"]=="AirTemperatureMaximum","Data columns"].iloc[0]].to_list()
-    t_AirTemperatureMinimum = df[vardata.loc[vardata["Variables"]=="AirTemperatureMinimum","Data columns"].iloc[0]].to_list()
     t_AboveGroundBiomass = df[vardata.loc[vardata["Variables"]=="AboveGroundBiomass","Data columns"].iloc[0]].to_list()
+    t_AirTemperatureMaximum = df[vardata.loc[vardata["Variables"]=="AirTemperatureMaximum","Data columns"].iloc[0]].to_list()
     t_GlobalSolarRadiation = df[vardata.loc[vardata["Variables"]=="GlobalSolarRadiation","Data columns"].iloc[0]].to_list()
+    t_AirTemperatureMinimum = df[vardata.loc[vardata["Variables"]=="AirTemperatureMinimum","Data columns"].iloc[0]].to_list()
     t_VolumetricWaterContent = df[vardata.loc[vardata["Variables"]=="VolumetricWaterContent","Data columns"].iloc[0]].to_list()
-    t_LayerThickness = df[vardata.loc[vardata["Variables"]=="LayerThickness","Data columns"].iloc[0]].to_list()
-    t_AirTemperatureAnnualAverage = df[vardata.loc[vardata["Variables"]=="AirTemperatureAnnualAverage","Data columns"].iloc[0]].to_list()
-    t_BulkDensity = df[vardata.loc[vardata["Variables"]=="BulkDensity","Data columns"].iloc[0]].to_list()
-    t_SoilProfileDepth = df[vardata.loc[vardata["Variables"]=="SoilProfileDepth","Data columns"].iloc[0]].to_list()
 
     #parameters
+    AirTemperatureAnnualAverage = params.loc[params["name"]=="AirTemperatureAnnualAverage", "value"].iloc[0]
+    BulkDensity = params.loc[params["name"]=="BulkDensity", "value"].iloc[0]
+    LayerThickness = params.loc[params["name"]=="LayerThickness", "value"].iloc[0]
     LagCoefficient = params.loc[params["name"]=="LagCoefficient", "value"].iloc[0]
+    SoilProfileDepth = params.loc[params["name"]=="SoilProfileDepth", "value"].iloc[0]
 
     #initialization
 
@@ -30,16 +30,12 @@ def simulation(datafile, vardata, params, init):
     df_out = pd.DataFrame(columns = output_names)
     for i in range(0,len(df.index)-1):
         DayLength = t_DayLength[i]
-        AirTemperatureMaximum = t_AirTemperatureMaximum[i]
-        AirTemperatureMinimum = t_AirTemperatureMinimum[i]
         AboveGroundBiomass = t_AboveGroundBiomass[i]
+        AirTemperatureMaximum = t_AirTemperatureMaximum[i]
         GlobalSolarRadiation = t_GlobalSolarRadiation[i]
+        AirTemperatureMinimum = t_AirTemperatureMinimum[i]
         VolumetricWaterContent = t_VolumetricWaterContent[i]
-        LayerThickness = t_LayerThickness[i]
-        AirTemperatureAnnualAverage = t_AirTemperatureAnnualAverage[i]
-        BulkDensity = t_BulkDensity[i]
-        SoilProfileDepth = t_SoilProfileDepth[i]
-        SurfaceTemperatureMinimum,SurfaceTemperatureMaximum,SurfaceSoilTemperature,SoilTemperatureByLayers= SurfacePartonSoilSWATCComponent.model_surfacepartonsoilswatc(DayLength,AirTemperatureMaximum,AirTemperatureMinimum,AboveGroundBiomass,GlobalSolarRadiation,VolumetricWaterContent,LayerThickness,LagCoefficient,AirTemperatureAnnualAverage,BulkDensity,SoilProfileDepth)
+        SurfaceTemperatureMinimum,SurfaceTemperatureMaximum,SurfaceSoilTemperature,SoilTemperatureByLayers= SurfacePartonSoilSWATCComponent.model_surfacepartonsoilswatc(DayLength,AboveGroundBiomass,AirTemperatureMaximum,GlobalSolarRadiation,AirTemperatureMinimum,AirTemperatureAnnualAverage,VolumetricWaterContent,BulkDensity,LayerThickness,LagCoefficient,SoilProfileDepth)
 
         df_out.loc[i] = [SurfaceTemperatureMinimum,SurfaceTemperatureMaximum,SurfaceSoilTemperature,SoilTemperatureByLayers]
     df_out.insert(0, 'date', pd.to_datetime(df.year*10000 + df.month*100 + df.day, format='%Y%m%d'), True)

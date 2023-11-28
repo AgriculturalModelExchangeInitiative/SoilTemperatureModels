@@ -1,9 +1,9 @@
 using System;
 using CRA.AgroManagement;
 using CRA.ModelLayer.Strategy;
-namespace SurfacePartonSoilSWATC.DomainClass
+namespace SiriusQualitySurfacePartonSoilSWATC.DomainClass
 {
-    public interface IStrategySurfacePartonSoilSWATC : IStrategy
+    public interface IStrategySiriusQualitySurfacePartonSoilSWATC : IStrategy
     {
         void Estimate( SurfacePartonSoilSWATCState s, SurfacePartonSoilSWATCState s1, SurfacePartonSoilSWATCRate r, SurfacePartonSoilSWATCAuxiliary a, SurfacePartonSoilSWATCExogenous ex);
 

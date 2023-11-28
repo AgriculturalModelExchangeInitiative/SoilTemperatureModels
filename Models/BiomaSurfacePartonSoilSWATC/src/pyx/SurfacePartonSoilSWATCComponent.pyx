@@ -3,15 +3,15 @@ from math import *
 from BiomaSurfacePartonSoilSWATC.surfacetemperatureparton import model_surfacetemperatureparton
 from BiomaSurfacePartonSoilSWATC.soiltemperatureswat import model_soiltemperatureswat
 def model_surfacepartonsoilswatc(float DayLength,
-      float AirTemperatureMaximum,
-      float AirTemperatureMinimum,
       float AboveGroundBiomass,
+      float AirTemperatureMaximum,
       float GlobalSolarRadiation,
+      float AirTemperatureMinimum,
+      float AirTemperatureAnnualAverage,
       float VolumetricWaterContent[],
+      float BulkDensity[],
       float LayerThickness[],
       float LagCoefficient,
-      float AirTemperatureAnnualAverage,
-      float BulkDensity[],
       float SoilProfileDepth):
     cdef float SurfaceTemperatureMinimum
     cdef float SurfaceTemperatureMaximum

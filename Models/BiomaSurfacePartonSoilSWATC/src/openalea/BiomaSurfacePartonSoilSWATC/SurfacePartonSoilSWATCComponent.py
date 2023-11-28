@@ -10,15 +10,15 @@ from BiomaSurfacePartonSoilSWATC.soiltemperatureswat import model_soiltemperatur
 
 #%%CyML Model Begin%%
 def model_surfacepartonsoilswatc(DayLength:float,
-         AirTemperatureMaximum:float,
-         AirTemperatureMinimum:float,
          AboveGroundBiomass:float,
+         AirTemperatureMaximum:float,
          GlobalSolarRadiation:float,
+         AirTemperatureMinimum:float,
+         AirTemperatureAnnualAverage:float,
          VolumetricWaterContent:'Array[float]',
+         BulkDensity:'Array[float]',
          LayerThickness:'Array[float]',
          LagCoefficient:float,
-         AirTemperatureAnnualAverage:float,
-         BulkDensity:'Array[float]',
          SoilProfileDepth:float):
     """
      - Name: SurfacePartonSoilSWATC -Version: 001, -Time step: 1
@@ -39,6 +39,15 @@ def model_surfacepartonsoilswatc(DayLength:float,
                                ** min : 0
                                ** default : 10
                                ** unit : h
+                 * name: AboveGroundBiomass
+                               ** description : Above ground biomass
+                               ** inputtype : variable
+                               ** variablecategory : exogenous
+                               ** datatype : DOUBLE
+                               ** max : 60
+                               ** min : 0
+                               ** default : 3
+                               ** unit : Kg ha-1
                  * name: AirTemperatureMaximum
                                ** description : Maximum daily air temperature
                                ** inputtype : variable
@@ -47,25 +56,7 @@ def model_surfacepartonsoilswatc(DayLength:float,
                                ** max : 60
                                ** min : -40
                                ** default : 15
-                               ** unit : Â°C
-                 * name: AirTemperatureMinimum
-                               ** description : Minimum daily air temperature
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
-                               ** datatype : DOUBLE
-                               ** max : 50
-                               ** min : -60
-                               ** default : 5
-                               ** unit : Â°C
-                 * name: AboveGroundBiomass
-                               ** description : Above ground biomass
-                               ** inputtype : variable
-                               ** variablecategory : state
-                               ** datatype : DOUBLE
-                               ** max : 60
-                               ** min : 0
-                               ** default : 3
-                               ** unit : Kg ha-1
+                               ** unit : 
                  * name: GlobalSolarRadiation
                                ** description : Daily global solar radiation
                                ** inputtype : variable
@@ -75,20 +66,48 @@ def model_surfacepartonsoilswatc(DayLength:float,
                                ** min : 0
                                ** default : 15
                                ** unit : Mj m-2 d-1
+                 * name: AirTemperatureMinimum
+                               ** description : Minimum daily air temperature
+                               ** inputtype : variable
+                               ** variablecategory : exogenous
+                               ** datatype : DOUBLE
+                               ** max : 50
+                               ** min : -60
+                               ** default : 5
+                               ** unit : 
+                 * name: AirTemperatureAnnualAverage
+                               ** description : Annual average air temperature
+                               ** inputtype : parameter
+                               ** parametercategory : constant
+                               ** datatype : DOUBLE
+                               ** max : 50
+                               ** min : -40
+                               ** default : 15
+                               ** unit : degC
                  * name: VolumetricWaterContent
                                ** description : Volumetric soil water content
                                ** inputtype : variable
-                               ** variablecategory : state
+                               ** variablecategory : auxiliary
                                ** datatype : DOUBLEARRAY
                                ** len : 
                                ** max : 0.8
                                ** min : 0
                                ** default : 0.25
                                ** unit : m3 m-3
+                 * name: BulkDensity
+                               ** description : Bulk density
+                               ** inputtype : parameter
+                               ** parametercategory : constant
+                               ** datatype : DOUBLEARRAY
+                               ** len : 
+                               ** max : 1.8
+                               ** min : 0.9
+                               ** default : 1.3
+                               ** unit : t m-3
                  * name: LayerThickness
                                ** description : Soil layer thickness
-                               ** inputtype : variable
-                               ** variablecategory : state
+                               ** inputtype : parameter
+                               ** parametercategory : constant
                                ** datatype : DOUBLEARRAY
                                ** len : 
                                ** max : 3
@@ -104,29 +123,10 @@ def model_surfacepartonsoilswatc(DayLength:float,
                                ** min : 0
                                ** default : 0.8
                                ** unit : dimensionless
-                 * name: AirTemperatureAnnualAverage
-                               ** description : Annual average air temperature
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
-                               ** datatype : DOUBLE
-                               ** max : 50
-                               ** min : -40
-                               ** default : 15
-                               ** unit : Â°C
-                 * name: BulkDensity
-                               ** description : Bulk density
-                               ** inputtype : variable
-                               ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : 
-                               ** max : 1.8
-                               ** min : 0.9
-                               ** default : 1.3
-                               ** unit : t m-3
                  * name: SoilProfileDepth
                                ** description : Soil profile depth
-                               ** inputtype : variable
-                               ** variablecategory : state
+                               ** inputtype : parameter
+                               ** parametercategory : constant
                                ** datatype : DOUBLE
                                ** max : 50
                                ** min : 0
@@ -139,21 +139,21 @@ def model_surfacepartonsoilswatc(DayLength:float,
                                ** variablecategory : auxiliary
                                ** max : 60
                                ** min : -60
-                               ** unit : Â°C
+                               ** unit : degC
                  * name: SurfaceTemperatureMaximum
                                ** description : Maximum surface soil temperature
                                ** datatype : DOUBLE
                                ** variablecategory : auxiliary
                                ** max : 60
                                ** min : -60
-                               ** unit : Â°C
+                               ** unit : degC
                  * name: SurfaceSoilTemperature
                                ** description : Average surface soil temperature
                                ** datatype : DOUBLE
-                               ** variablecategory : state
+                               ** variablecategory : auxiliary
                                ** max : 60
                                ** min : -60
-                               ** unit : Â°C
+                               ** unit : degC
                  * name: SoilTemperatureByLayers
                                ** description : Soil temperature of each layer
                                ** datatype : DOUBLEARRAY
@@ -161,7 +161,7 @@ def model_surfacepartonsoilswatc(DayLength:float,
                                ** len : 
                                ** max : 60
                                ** min : -60
-                               ** unit : Â°C
+                               ** unit : degC
     """
 
     SurfaceTemperatureMinimum:float

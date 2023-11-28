@@ -10,22 +10,22 @@ class SurfacePartonSoilSWATCExogenous
 {
     private:
         double DayLength ;
+        double AboveGroundBiomass ;
         double AirTemperatureMaximum ;
-        double AirTemperatureMinimum ;
         double GlobalSolarRadiation ;
-        double AirTemperatureAnnualAverage ;
+        double AirTemperatureMinimum ;
     public:
         SurfacePartonSoilSWATCExogenous();
         double getDayLength();
         void setDayLength(double _DayLength);
+        double getAboveGroundBiomass();
+        void setAboveGroundBiomass(double _AboveGroundBiomass);
         double getAirTemperatureMaximum();
         void setAirTemperatureMaximum(double _AirTemperatureMaximum);
-        double getAirTemperatureMinimum();
-        void setAirTemperatureMinimum(double _AirTemperatureMinimum);
         double getGlobalSolarRadiation();
         void setGlobalSolarRadiation(double _GlobalSolarRadiation);
-        double getAirTemperatureAnnualAverage();
-        void setAirTemperatureAnnualAverage(double _AirTemperatureAnnualAverage);
+        double getAirTemperatureMinimum();
+        void setAirTemperatureMinimum(double _AirTemperatureMinimum);
 
 };
 #endif

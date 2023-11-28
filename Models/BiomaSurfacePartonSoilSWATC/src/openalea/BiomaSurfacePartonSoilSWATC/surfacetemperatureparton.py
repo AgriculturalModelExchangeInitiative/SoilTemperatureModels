@@ -17,7 +17,7 @@ def model_surfacetemperatureparton(DayLength:float,
      - Name: SurfaceTemperatureParton -Version: 001, -Time step: 1
      - Description:
                  * Title: SurfaceTemperatureParton model
-                 * Authors: simone.bregaglio@unimi.it
+                 * Authors: simone.bregaglio
                  * Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
                  * Institution: University Of Milan
                  * ExtendedDescription: Strategy for the calculation of soil surface temperature with Parton's method. Reference: Parton, W. J. 1984. Predicting soil temperatures in a shortgrass steppe. Soil Science 138:93-101.
@@ -40,7 +40,7 @@ def model_surfacetemperatureparton(DayLength:float,
                                ** max : 60
                                ** min : -40
                                ** default : 15
-                               ** unit : Â°C
+                               ** unit : 
                  * name: AirTemperatureMinimum
                                ** description : Minimum daily air temperature
                                ** inputtype : variable
@@ -49,11 +49,11 @@ def model_surfacetemperatureparton(DayLength:float,
                                ** max : 50
                                ** min : -60
                                ** default : 5
-                               ** unit : Â°C
+                               ** unit : 
                  * name: AboveGroundBiomass
                                ** description : Above ground biomass
                                ** inputtype : variable
-                               ** variablecategory : state
+                               ** variablecategory : exogenous
                                ** datatype : DOUBLE
                                ** max : 60
                                ** min : 0
@@ -75,21 +75,21 @@ def model_surfacetemperatureparton(DayLength:float,
                                ** variablecategory : auxiliary
                                ** max : 60
                                ** min : -60
-                               ** unit : Â°C
+                               ** unit : degC
                  * name: SurfaceTemperatureMaximum
                                ** description : Maximum surface soil temperature
                                ** datatype : DOUBLE
                                ** variablecategory : auxiliary
                                ** max : 60
                                ** min : -60
-                               ** unit : Â°C
+                               ** unit : degC
                  * name: SurfaceSoilTemperature
                                ** description : Average surface soil temperature
                                ** datatype : DOUBLE
-                               ** variablecategory : state
+                               ** variablecategory : auxiliary
                                ** max : 60
                                ** min : -60
-                               ** unit : Â°C
+                               ** unit : degC
     """
 
     SurfaceTemperatureMinimum:float

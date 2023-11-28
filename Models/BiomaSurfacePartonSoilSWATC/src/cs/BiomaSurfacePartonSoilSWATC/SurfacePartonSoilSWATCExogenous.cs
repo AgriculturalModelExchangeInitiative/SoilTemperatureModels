@@ -4,10 +4,10 @@ using System.Collections.Generic;
 public class SurfacePartonSoilSWATCExogenous 
 {
     private double _DayLength;
+    private double _AboveGroundBiomass;
     private double _AirTemperatureMaximum;
-    private double _AirTemperatureMinimum;
     private double _GlobalSolarRadiation;
-    private double _AirTemperatureAnnualAverage;
+    private double _AirTemperatureMinimum;
     
         public SurfacePartonSoilSWATCExogenous() { }
     
@@ -17,11 +17,11 @@ public class SurfacePartonSoilSWATCExogenous
     if (copyAll)
     {
     
-    _DayLength = toCopy._DayLength;
-    _AirTemperatureMaximum = toCopy._AirTemperatureMaximum;
-    _AirTemperatureMinimum = toCopy._AirTemperatureMinimum;
-    _GlobalSolarRadiation = toCopy._GlobalSolarRadiation;
-    _AirTemperatureAnnualAverage = toCopy._AirTemperatureAnnualAverage;
+    DayLength = toCopy.DayLength;
+    AboveGroundBiomass = toCopy.AboveGroundBiomass;
+    AirTemperatureMaximum = toCopy.AirTemperatureMaximum;
+    GlobalSolarRadiation = toCopy.GlobalSolarRadiation;
+    AirTemperatureMinimum = toCopy.AirTemperatureMinimum;
     }
     }
     public double DayLength
@@ -29,24 +29,24 @@ public class SurfacePartonSoilSWATCExogenous
             get { return this._DayLength; }
             set { this._DayLength= value; } 
         }
+    public double AboveGroundBiomass
+        {
+            get { return this._AboveGroundBiomass; }
+            set { this._AboveGroundBiomass= value; } 
+        }
     public double AirTemperatureMaximum
         {
             get { return this._AirTemperatureMaximum; }
             set { this._AirTemperatureMaximum= value; } 
-        }
-    public double AirTemperatureMinimum
-        {
-            get { return this._AirTemperatureMinimum; }
-            set { this._AirTemperatureMinimum= value; } 
         }
     public double GlobalSolarRadiation
         {
             get { return this._GlobalSolarRadiation; }
             set { this._GlobalSolarRadiation= value; } 
         }
-    public double AirTemperatureAnnualAverage
+    public double AirTemperatureMinimum
         {
-            get { return this._AirTemperatureAnnualAverage; }
-            set { this._AirTemperatureAnnualAverage= value; } 
+            get { return this._AirTemperatureMinimum; }
+            set { this._AirTemperatureMinimum= value; } 
         }
 }

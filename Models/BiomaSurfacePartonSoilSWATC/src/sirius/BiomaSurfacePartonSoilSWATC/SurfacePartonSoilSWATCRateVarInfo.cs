@@ -5,7 +5,7 @@ using CRA.ModelLayer.Core;
 using System.Reflection;
 using CRA.ModelLayer.ParametersManagement;   
 
-namespace SurfacePartonSoilSWATC.DomainClass
+namespace SiriusQualitySurfacePartonSoilSWATC.DomainClass
 {
     public class SurfacePartonSoilSWATCRateVarInfo : IVarInfoClass
     {

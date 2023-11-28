@@ -11,7 +11,7 @@ def model_soiltemperatureswat(float VolumetricWaterContent[],
     """
 
     SoilTemperatureSWAT model
-    Author: simone.bregaglio@unimi.it
+    Author: simone.bregaglio
     Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
     Institution: University Of Milan
     ExtendedDescription: Strategy for the calculation of soil temperature with SWAT method. Reference: Neitsch,S.L., Arnold, J.G., Kiniry, J.R., Williams, J.R., King, K.W. Soil and Water Assessment Tool. Theoretical documentation. Version 2000. http://swatmodel.tamu.edu/media/1290/swat2000theory.pdf

@@ -13,14 +13,26 @@
 using namespace std;
 
 SoilTemperatureSWAT::SoilTemperatureSWAT() { }
+vector<double> & SoilTemperatureSWAT::getLayerThickness() {return this-> LayerThickness; }
 double SoilTemperatureSWAT::getLagCoefficient() {return this-> LagCoefficient; }
+double SoilTemperatureSWAT::getAirTemperatureAnnualAverage() {return this-> AirTemperatureAnnualAverage; }
+vector<double> & SoilTemperatureSWAT::getBulkDensity() {return this-> BulkDensity; }
+double SoilTemperatureSWAT::getSoilProfileDepth() {return this-> SoilProfileDepth; }
+void SoilTemperatureSWAT::setLayerThickness(vector<double> const & _LayerThickness){
+    this->LayerThickness = _LayerThickness;
+}
 void SoilTemperatureSWAT::setLagCoefficient(double _LagCoefficient) { this->LagCoefficient = _LagCoefficient; }
+void SoilTemperatureSWAT::setAirTemperatureAnnualAverage(double _AirTemperatureAnnualAverage) { this->AirTemperatureAnnualAverage = _AirTemperatureAnnualAverage; }
+void SoilTemperatureSWAT::setBulkDensity(vector<double> const & _BulkDensity){
+    this->BulkDensity = _BulkDensity;
+}
+void SoilTemperatureSWAT::setSoilProfileDepth(double _SoilProfileDepth) { this->SoilProfileDepth = _SoilProfileDepth; }
 void SoilTemperatureSWAT::Calculate_Model(SurfacePartonSoilSWATCState& s, SurfacePartonSoilSWATCState& s1, SurfacePartonSoilSWATCRate& r, SurfacePartonSoilSWATCAuxiliary& a, SurfacePartonSoilSWATCExogenous& ex)
 {
     //- Name: SoilTemperatureSWAT -Version: 001, -Time step: 1
     //- Description:
     //            * Title: SoilTemperatureSWAT model
-    //            * Authors: simone.bregaglio@unimi.it
+    //            * Authors: simone.bregaglio
     //            * Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
     //            * Institution: University Of Milan
     //            * ExtendedDescription: Strategy for the calculation of soil temperature with SWAT method. Reference: Neitsch,S.L., Arnold, J.G., Kiniry, J.R., Williams, J.R., King, K.W. Soil and Water Assessment Tool. Theoretical documentation. Version 2000. http://swatmodel.tamu.edu/media/1290/swat2000theory.pdf
@@ -29,7 +41,7 @@ void SoilTemperatureSWAT::Calculate_Model(SurfacePartonSoilSWATCState& s, Surfac
     //            * name: VolumetricWaterContent
     //                          ** description : Volumetric soil water content
     //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 0.8
@@ -39,16 +51,16 @@ void SoilTemperatureSWAT::Calculate_Model(SurfacePartonSoilSWATCState& s, Surfac
     //            * name: SurfaceSoilTemperature
     //                          ** description : Average surface soil temperature
     //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** datatype : DOUBLE
     //                          ** max : 60
     //                          ** min : -60
     //                          ** default : 25
-    //                          ** unit : Â°C
+    //                          ** unit : degC
     //            * name: LayerThickness
     //                          ** description : Soil layer thickness
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 3
@@ -73,20 +85,20 @@ void SoilTemperatureSWAT::Calculate_Model(SurfacePartonSoilSWATCState& s, Surfac
     //                          ** max : 60
     //                          ** min : -60
     //                          ** default : 15
-    //                          ** unit : Â°C
+    //                          ** unit : degC
     //            * name: AirTemperatureAnnualAverage
     //                          ** description : Annual average air temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
     //                          ** datatype : DOUBLE
     //                          ** max : 50
     //                          ** min : -40
     //                          ** default : 15
-    //                          ** unit : Â°C
+    //                          ** unit : degC
     //            * name: BulkDensity
     //                          ** description : Bulk density
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 1.8
@@ -95,8 +107,8 @@ void SoilTemperatureSWAT::Calculate_Model(SurfacePartonSoilSWATCState& s, Surfac
     //                          ** unit : t m-3
     //            * name: SoilProfileDepth
     //                          ** description : Soil profile depth
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
     //                          ** datatype : DOUBLE
     //                          ** max : 50
     //                          ** min : 0
@@ -110,14 +122,10 @@ void SoilTemperatureSWAT::Calculate_Model(SurfacePartonSoilSWATCState& s, Surfac
     //                          ** len : 
     //                          ** max : 60
     //                          ** min : -60
-    //                          ** unit : Â°C
-    vector<double>  VolumetricWaterContent = s.getVolumetricWaterContent();
-    double SurfaceSoilTemperature = s.getSurfaceSoilTemperature();
-    vector<double>  LayerThickness = s.getLayerThickness();
+    //                          ** unit : degC
+    vector<double>  VolumetricWaterContent = a.getVolumetricWaterContent();
+    double SurfaceSoilTemperature = a.getSurfaceSoilTemperature();
     vector<double>  SoilTemperatureByLayers = s.getSoilTemperatureByLayers();
-    double AirTemperatureAnnualAverage = ex.getAirTemperatureAnnualAverage();
-    vector<double>  BulkDensity = s.getBulkDensity();
-    double SoilProfileDepth = s.getSoilProfileDepth();
     int i;
     double _SoilProfileDepthmm;
     double _TotalWaterContentmm;
