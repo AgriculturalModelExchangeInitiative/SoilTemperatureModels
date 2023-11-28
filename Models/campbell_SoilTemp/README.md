@@ -13,3 +13,16 @@ ApSIM Soil Temperature implements a modified version of Campbell without matrice
 * Translate the CS code into Python/Notebook
 * Test it on simple input
 * Translate it into Crop2ML
+
+
+## Tricks for the conversion
+
+
+Array.ConstrainedCopy(soilTempIO, SURFACEnode, soilTemp, 0, numNodes);
+->
+soilTemp[0:numNodes] = soilTempIO[SURFACEnode:SURFACEnode+numNodes]
+
+offsetDayOfYear : use datetime (date - timedelta).(day of the year)
+
+# TODO 
+- dampingDepth

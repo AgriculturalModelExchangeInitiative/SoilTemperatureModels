@@ -1,7 +1,8 @@
 import math
 import numpy as np
-from datetime import datetime, timedelta
+from datetime import date, timedelta
 
+# TODO : what is the size of the array? NZ, NZ+1 or NZ+2
 
 #final_soil_temp_surface	°C	Soil surface temperature at the end of the final internal Soiltemp timestep.
 #final_soil_temp[nz]	°C	Soil temperature at the end of the final internal Soiltemp timestep.
@@ -31,14 +32,21 @@ AMP = 12 #year
 BD = np.ones(NZ) * 1.5
 THICKNESS = np.ones(NZ) * 100
 
+# TODO
+# LL15 : Lower limit 15 bar (mm/mm)
+
+ll15 = np.zeros(NZ)
 
 def DampingDepth():
+    """ TODO : need to review later on this function.
+    physical and waterBalance modeule to remove
+    """
     # Constants
     SW_AVAIL_TOT_MIN = 0.01
 
     # Get average bulk density
-    bd_tot = sum(BD[i] * THICKNESS[i] for i in range(NZ))
-    cum_depth = sum(THICKNESS[:NZ])
+    bd_tot = sum(BD[i] * THICKNESS[i] for i in range(len(BD)))
+    cum_depth = sum(THICKNESS[1:NZ+1])
     ave_bd = bd_tot / cum_depth
 
     # Calculate favbd
@@ -46,32 +54,35 @@ def DampingDepth():
     damp_depth_max = 1000.0 + 2500.0 * favbd
     damp_depth_max = max(damp_depth_max, 0.0)
 
-# Potential sw above lower limit
-ww = 0.356 - 0.144 * ave_bd
-ww = max(ww, 0.0)
+    # Potential sw above lower limit
+    ww = 0.356 - 0.144 * ave_bd
+    ww = max(ww, 0.0)
 
-# Calculate amount of soil water
-ll15mm = [physical.LL15[i] * physical.Thickness[i] for i in range(numLayers - 1)]
-ll_tot = sum(ll15mm)
-sw_dep_tot = sum(waterBalance.SWmm[:numLayers - 1])
-sw_avail_tot = sw_dep_tot - ll_tot
-sw_avail_tot = max(sw_avail_tot, SW_AVAIL_TOT_MIN)
+    # Calculate amount of soil water
+    # TODO : define LL15 and Thickness
+    ll15mm = [physical.LL15[i] * physical.Thickness[i] for i in range(numLayers - 1)]
+    ll_tot = sum(ll15mm)
+    sw_dep_tot = sum(waterBalance.SWmm[:numLayers - 1])
+    sw_avail_tot = sw_dep_tot - ll_tot
+    sw_avail_tot = max(sw_avail_tot, SW_AVAIL_TOT_MIN)
 
-# Calculate fractional water content
-wc = sw_avail_tot / (ww * cum_depth)
-wc = max(0.0, min(wc, 1.0))
-wcf = (1.0 - wc) / (1.0 + wc)
+    # Calculate fractional water content
+    wc = sw_avail_tot / (ww * cum_depth)
+    wc = max(0.0, min(wc, 1.0))
+    wcf = (1.0 - wc) / (1.0 + wc)
 
-# Calculate b and f
-b = math.log(500.0 / damp_depth_max) if damp_depth_max != 0 else -math.inf
-f = math.exp(b * wcf**2)
+    # Calculate b and f
+    b = math.log(500.0 / damp_depth_max) if damp_depth_max != 0 else -math.inf
+    f = math.exp(b * wcf**2)
 
-# Get the temperature damping depth
-soiln2_SoilTemp_DampDepth = f * damp_depth_max
+    # Get the temperature damping depth
+    soiln2_SoilTemp_DampDepth = f * damp_depth_max
+
+    return soiln2_SoilTemp_DampDepth
 
 
-
-def CalcSoilTemp(soilTemp):
+def CalcSoilTemp(soilTempIO):
+    """ Calculate Soil Temperature based on EPIC model"""
     
     SUMMER_SOLSTICE_NTH = 173.0
     TEMPERATURE_DELAY = 27.0
@@ -81,23 +92,26 @@ def CalcSoilTemp(soilTemp):
     ANG = math.radians(1.0)  # Length of one day in radians (assuming 1 radian = 1 day)
 
     # Initialize soilTemp array
-    soil_temp = [0.0] * (NZ + 1 + 1)
+    soilTemp = [0.0] * (NZ + 1 + 1)
 
     # Copy values from soilTempIO to soilTemp
-    soil_temp[SURFACEnode:NZ] = soilTemp[0:NZ]
+    #Array.ConstrainedCopy(soilTempIO, SURFACEnode, soilTemp, 0, numNodes);
+    soilTemp[0:NZ] = soilTempIO[SURFACEnode:SURFACEnode+NZ]
 
     # Get a factor to calculate "normal" soil temperature
     alx = 0.0
 
     # Check for northern or southern hemisphere
     if LATITUDE > 0.0:
-        alx = ANG * (datetime(YEAR, 1, 1) + timedelta(DOY - 1 + -HOTTEST_DAY_NTH)).timetuple().tm_yday
+        alx = ANG * (date(YEAR, 1, 1) + timedelta(DOY - 1 - HOTTEST_DAY_NTH).timetuple().tm_yday)
     else:
-        alx = ANG * (datetime(YEAR, 1, 1) + timedelta(DOY - 1 + -HOTTEST_DAY_STH)).timetuple().tm_yday
+        alx = ANG * (date(YEAR, 1, 1) + timedelta(DOY - 1 - HOTTEST_DAY_STH).timetuple().tm_yday)
 
     # Get change in soil temperature since the hottest day in degrees Celsius
+    # LayerTemp(0.0, alx, 0.0)
+
     temp_a = TAV + (AMP / 2.0 * math.cos(alx - 0) + 0) * math.exp(0)
-    surface_init = (1.0 - SALB) * (ave_temp + (MAXT - ave_temp) * math.sqrt(max(RADN, 0.1) * 23.8846 / 800.0)) + SALB * ave_temp
+    surface_init = (1.0 - SALB) * (TAV + (MAXT - TAV) * math.sqrt(max(RADN, 0.1) * 23.8846 / 800.0)) + SALB * TAV
     dlt_temp = surface_init - temp_a
 
     # Get temperature damping depth in mm per radian of a year
@@ -112,7 +126,7 @@ def CalcSoilTemp(soilTemp):
         cum_depth += thickness[layer]
         depth_lag = cum_depth / damp
         soil_temp[layer] = layer_temp(depth_lag, alx, dlt_temp)
-        bound_check(soil_temp[layer], -20.0, 80.0, "soil_temp")
+        # bound_check(soil_temp[layer], -20.0, 80.0, "soil_temp")
 
     # Copy values from soilTemp to soilTempIO
     soil_temp_io[SURFACEnode:num_nodes] = soil_temp[0:num_nodes]
@@ -127,10 +141,14 @@ def doProcess():
 def Init():
 
     #Function read somewhere else
-    #GetOtherVariables()
-    CalcSoilTemp(soilTemp)
+    # TODO?
+    # GetOtherVariables()
+
+    soilTemp = CalcSoilTemp()
     
     ave_temp = (MAXT + MINT) * 0.5
+    
+    # SurfaceTemperatureInit()
     surfaceT = (1.0 - SALB) * (ave_temp + (MAXT - ave_temp) * math.sqrt(max(RADN, 0.1) * 23.8846 / 800.0)) + SALB * ave_temp
 
     soilTemp[AIRnode] = (MAXT + MINT) * 0.5
@@ -143,9 +161,12 @@ def Init():
 
     print(ave_temp)
     print(surfaceT)
-    doProcess()
+    # CPL : I comment this line because it is done outside init
+    # CPL : In ApSim they have a OnProcess function that initialise if needed then call doProcess
+    #doProcess()
 
 
 if __name__ == "__main__":
     print("Hello World")
     Init()
+    doProcess()
