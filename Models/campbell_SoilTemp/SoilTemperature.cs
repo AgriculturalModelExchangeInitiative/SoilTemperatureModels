@@ -1431,7 +1431,7 @@ namespace Models.Soils.SoilTemp
         ///       significance - it is merely a reference point, just as 0.0 could
         ///       have been used.  jngh
         /// </remarks>
-        private double DampingDepth()
+        private double returDampingDepth()
         {
             const double SW_AVAIL_TOT_MIN = 0.01;   // minimum available sw (mm water)
 
