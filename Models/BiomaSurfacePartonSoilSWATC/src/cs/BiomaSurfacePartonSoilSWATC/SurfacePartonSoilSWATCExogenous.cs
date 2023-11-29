@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 public class SurfacePartonSoilSWATCExogenous 
 {
+    private double _AboveGroundBiomass;
     private double _DayLength;
-    private double _AirTemperatureMaximum;
     private double _AirTemperatureMinimum;
     private double _GlobalSolarRadiation;
-    private double _AirTemperatureAnnualAverage;
+    private double _AirTemperatureMaximum;
     
         public SurfacePartonSoilSWATCExogenous() { }
     
@@ -17,22 +17,22 @@ public class SurfacePartonSoilSWATCExogenous
     if (copyAll)
     {
     
-    _DayLength = toCopy._DayLength;
-    _AirTemperatureMaximum = toCopy._AirTemperatureMaximum;
-    _AirTemperatureMinimum = toCopy._AirTemperatureMinimum;
-    _GlobalSolarRadiation = toCopy._GlobalSolarRadiation;
-    _AirTemperatureAnnualAverage = toCopy._AirTemperatureAnnualAverage;
+    AboveGroundBiomass = toCopy.AboveGroundBiomass;
+    DayLength = toCopy.DayLength;
+    AirTemperatureMinimum = toCopy.AirTemperatureMinimum;
+    GlobalSolarRadiation = toCopy.GlobalSolarRadiation;
+    AirTemperatureMaximum = toCopy.AirTemperatureMaximum;
     }
     }
+    public double AboveGroundBiomass
+        {
+            get { return this._AboveGroundBiomass; }
+            set { this._AboveGroundBiomass= value; } 
+        }
     public double DayLength
         {
             get { return this._DayLength; }
             set { this._DayLength= value; } 
-        }
-    public double AirTemperatureMaximum
-        {
-            get { return this._AirTemperatureMaximum; }
-            set { this._AirTemperatureMaximum= value; } 
         }
     public double AirTemperatureMinimum
         {
@@ -44,9 +44,9 @@ public class SurfacePartonSoilSWATCExogenous
             get { return this._GlobalSolarRadiation; }
             set { this._GlobalSolarRadiation= value; } 
         }
-    public double AirTemperatureAnnualAverage
+    public double AirTemperatureMaximum
         {
-            get { return this._AirTemperatureAnnualAverage; }
-            set { this._AirTemperatureAnnualAverage= value; } 
+            get { return this._AirTemperatureMaximum; }
+            set { this._AirTemperatureMaximum= value; } 
         }
 }

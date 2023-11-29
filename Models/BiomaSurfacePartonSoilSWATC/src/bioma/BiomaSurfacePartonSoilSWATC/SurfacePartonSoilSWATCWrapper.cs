@@ -25,13 +25,13 @@ namespace Model.Model.SurfacePartonSoilSWATC
             loadParameters();
         }
 
-        public double SurfaceSoilTemperature{ get { return s.SurfaceSoilTemperature;}} 
-     
         public double[] SoilTemperatureByLayers{ get { return s.SoilTemperatureByLayers;}} 
      
         public double SurfaceTemperatureMinimum{ get { return a.SurfaceTemperatureMinimum;}} 
      
         public double SurfaceTemperatureMaximum{ get { return a.SurfaceTemperatureMaximum;}} 
+     
+        public double SurfaceSoilTemperature{ get { return a.SurfaceSoilTemperature;}} 
      
 
         public SurfacePartonSoilSWATCWrapper(Universe universe, SurfacePartonSoilSWATCWrapper toCopy, bool copyAll) : base(universe)
@@ -53,16 +53,21 @@ namespace Model.Model.SurfacePartonSoilSWATC
 
         private void loadParameters()
         {
+            surfacepartonsoilswatcComponent.BulkDensity = BulkDensity;
+            surfacepartonsoilswatcComponent.AirTemperatureAnnualAverage = AirTemperatureAnnualAverage;
             surfacepartonsoilswatcComponent.LagCoefficient = LagCoefficient;
+            surfacepartonsoilswatcComponent.LayerThickness = LayerThickness;
+            surfacepartonsoilswatcComponent.SoilProfileDepth = SoilProfileDepth;
         }
 
-        public void EstimateSurfacePartonSoilSWATC(double DayLength, double AirTemperatureMaximum, double AirTemperatureMinimum, double GlobalSolarRadiation, double AirTemperatureAnnualAverage)
+        public void EstimateSurfacePartonSoilSWATC(double[] VolumetricWaterContent, double AboveGroundBiomass, double DayLength, double AirTemperatureMinimum, double GlobalSolarRadiation, double AirTemperatureMaximum)
         {
+            a.VolumetricWaterContent = VolumetricWaterContent;
+            a.AboveGroundBiomass = AboveGroundBiomass;
             a.DayLength = DayLength;
-            a.AirTemperatureMaximum = AirTemperatureMaximum;
             a.AirTemperatureMinimum = AirTemperatureMinimum;
             a.GlobalSolarRadiation = GlobalSolarRadiation;
-            a.AirTemperatureAnnualAverage = AirTemperatureAnnualAverage;
+            a.AirTemperatureMaximum = AirTemperatureMaximum;
             surfacepartonsoilswatcComponent.CalculateModel(s,s1, r, a, ex);
         }
 

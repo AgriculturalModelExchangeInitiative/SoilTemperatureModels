@@ -8,7 +8,7 @@ def model_surfacetemperatureparton(float DayLength,
     """
 
     SurfaceTemperatureParton model
-    Author: simone.bregaglio@unimi.it
+    Author: simone.bregaglio
     Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
     Institution: University Of Milan
     ExtendedDescription: Strategy for the calculation of soil surface temperature with Parton's method. Reference: Parton, W. J. 1984. Predicting soil temperatures in a shortgrass steppe. Soil Science 138:93-101.

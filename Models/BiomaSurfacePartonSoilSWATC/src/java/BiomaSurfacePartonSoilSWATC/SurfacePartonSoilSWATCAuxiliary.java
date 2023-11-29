@@ -4,8 +4,10 @@ import java.time.LocalDateTime;
 
 public class SurfacePartonSoilSWATCAuxiliary
 {
+    private Double [] VolumetricWaterContent;
     private Double SurfaceTemperatureMinimum;
     private Double SurfaceTemperatureMaximum;
+    private Double SurfaceSoilTemperature;
     
     public SurfacePartonSoilSWATCAuxiliary() { }
     
@@ -13,10 +15,23 @@ public class SurfacePartonSoilSWATCAuxiliary
     {
         if (copyAll)
         {
+            VolumetricWaterContent = new Double[toCopy.getVolumetricWaterContent().length];
+        for (int i = 0; i < toCopy.getVolumetricWaterContent().length; i++)
+        {
+            VolumetricWaterContent[i] = toCopy.getVolumetricWaterContent()[i];
+        }
             this.SurfaceTemperatureMinimum = toCopy.getSurfaceTemperatureMinimum();
             this.SurfaceTemperatureMaximum = toCopy.getSurfaceTemperatureMaximum();
+            this.SurfaceSoilTemperature = toCopy.getSurfaceSoilTemperature();
+            this.SurfaceSoilTemperature = toCopy.getSurfaceSoilTemperature();
         }
     }
+    public Double [] getVolumetricWaterContent()
+    { return VolumetricWaterContent; }
+
+    public void setVolumetricWaterContent(Double [] _VolumetricWaterContent)
+    { this.VolumetricWaterContent= _VolumetricWaterContent; } 
+    
     public Double getSurfaceTemperatureMinimum()
     { return SurfaceTemperatureMinimum; }
 
@@ -28,5 +43,11 @@ public class SurfacePartonSoilSWATCAuxiliary
 
     public void setSurfaceTemperatureMaximum(Double _SurfaceTemperatureMaximum)
     { this.SurfaceTemperatureMaximum= _SurfaceTemperatureMaximum; } 
+    
+    public Double getSurfaceSoilTemperature()
+    { return SurfaceSoilTemperature; }
+
+    public void setSurfaceSoilTemperature(Double _SurfaceSoilTemperature)
+    { this.SurfaceSoilTemperature= _SurfaceSoilTemperature; } 
     
 }

@@ -9,11 +9,11 @@ namespace SurfacePartonSoilSWATC.DomainClass
 {
     public class SurfacePartonSoilSWATCExogenous : ICloneable, IDomainClass
     {
+        private double _AboveGroundBiomass;
         private double _DayLength;
-        private double _AirTemperatureMaximum;
         private double _AirTemperatureMinimum;
         private double _GlobalSolarRadiation;
-        private double _AirTemperatureAnnualAverage;
+        private double _AirTemperatureMaximum;
         private ParametersIO _parametersIO;
 
         public SurfacePartonSoilSWATCExogenous()
@@ -25,23 +25,23 @@ namespace SurfacePartonSoilSWATC.DomainClass
         {
             if (copyAll)
             {
-                _DayLength = toCopy._DayLength;
-                _AirTemperatureMaximum = toCopy._AirTemperatureMaximum;
-                _AirTemperatureMinimum = toCopy._AirTemperatureMinimum;
-                _GlobalSolarRadiation = toCopy._GlobalSolarRadiation;
-                _AirTemperatureAnnualAverage = toCopy._AirTemperatureAnnualAverage;
+                AboveGroundBiomass = toCopy.AboveGroundBiomass;
+                DayLength = toCopy.DayLength;
+                AirTemperatureMinimum = toCopy.AirTemperatureMinimum;
+                GlobalSolarRadiation = toCopy.GlobalSolarRadiation;
+                AirTemperatureMaximum = toCopy.AirTemperatureMaximum;
             }
         }
 
+        public double AboveGroundBiomass
+        {
+            get { return this._AboveGroundBiomass; }
+            set { this._AboveGroundBiomass= value; } 
+        }
         public double DayLength
         {
             get { return this._DayLength; }
             set { this._DayLength= value; } 
-        }
-        public double AirTemperatureMaximum
-        {
-            get { return this._AirTemperatureMaximum; }
-            set { this._AirTemperatureMaximum= value; } 
         }
         public double AirTemperatureMinimum
         {
@@ -53,10 +53,10 @@ namespace SurfacePartonSoilSWATC.DomainClass
             get { return this._GlobalSolarRadiation; }
             set { this._GlobalSolarRadiation= value; } 
         }
-        public double AirTemperatureAnnualAverage
+        public double AirTemperatureMaximum
         {
-            get { return this._AirTemperatureAnnualAverage; }
-            set { this._AirTemperatureAnnualAverage= value; } 
+            get { return this._AirTemperatureMaximum; }
+            set { this._AirTemperatureMaximum= value; } 
         }
 
         public string Description
@@ -76,11 +76,11 @@ namespace SurfacePartonSoilSWATC.DomainClass
 
         public virtual Boolean ClearValues()
         {
+             _AboveGroundBiomass = default(double);
              _DayLength = default(double);
-             _AirTemperatureMaximum = default(double);
              _AirTemperatureMinimum = default(double);
              _GlobalSolarRadiation = default(double);
-             _AirTemperatureAnnualAverage = default(double);
+             _AirTemperatureMaximum = default(double);
             return true;
         }
 

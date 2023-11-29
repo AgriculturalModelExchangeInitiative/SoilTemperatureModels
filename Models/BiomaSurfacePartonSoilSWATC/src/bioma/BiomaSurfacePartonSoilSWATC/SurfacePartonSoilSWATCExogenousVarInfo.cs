@@ -9,11 +9,11 @@ namespace SurfacePartonSoilSWATC.DomainClass
 {
     public class SurfacePartonSoilSWATCExogenousVarInfo : IVarInfoClass
     {
+        static VarInfo _AboveGroundBiomass = new VarInfo();
         static VarInfo _DayLength = new VarInfo();
-        static VarInfo _AirTemperatureMaximum = new VarInfo();
         static VarInfo _AirTemperatureMinimum = new VarInfo();
         static VarInfo _GlobalSolarRadiation = new VarInfo();
-        static VarInfo _AirTemperatureAnnualAverage = new VarInfo();
+        static VarInfo _AirTemperatureMaximum = new VarInfo();
 
         static SurfacePartonSoilSWATCExogenousVarInfo()
         {
@@ -35,14 +35,14 @@ namespace SurfacePartonSoilSWATC.DomainClass
             get { return "SurfacePartonSoilSWATCExogenous";}
         }
 
+        public static  VarInfo AboveGroundBiomass
+        {
+            get { return _AboveGroundBiomass;}
+        }
+
         public static  VarInfo DayLength
         {
             get { return _DayLength;}
-        }
-
-        public static  VarInfo AirTemperatureMaximum
-        {
-            get { return _AirTemperatureMaximum;}
         }
 
         public static  VarInfo AirTemperatureMinimum
@@ -55,13 +55,21 @@ namespace SurfacePartonSoilSWATC.DomainClass
             get { return _GlobalSolarRadiation;}
         }
 
-        public static  VarInfo AirTemperatureAnnualAverage
+        public static  VarInfo AirTemperatureMaximum
         {
-            get { return _AirTemperatureAnnualAverage;}
+            get { return _AirTemperatureMaximum;}
         }
 
         static void DescribeVariables()
         {
+            _AboveGroundBiomass.Name = "AboveGroundBiomass";
+            _AboveGroundBiomass.Description = "Above ground biomass";
+            _AboveGroundBiomass.MaxValue = 60;
+            _AboveGroundBiomass.MinValue = 0;
+            _AboveGroundBiomass.DefaultValue = 3;
+            _AboveGroundBiomass.Units = "Kg ha-1";
+            _AboveGroundBiomass.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+
             _DayLength.Name = "DayLength";
             _DayLength.Description = "Length of the day";
             _DayLength.MaxValue = 24;
@@ -70,20 +78,12 @@ namespace SurfacePartonSoilSWATC.DomainClass
             _DayLength.Units = "h";
             _DayLength.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
-            _AirTemperatureMaximum.Name = "AirTemperatureMaximum";
-            _AirTemperatureMaximum.Description = "Maximum daily air temperature";
-            _AirTemperatureMaximum.MaxValue = 60;
-            _AirTemperatureMaximum.MinValue = -40;
-            _AirTemperatureMaximum.DefaultValue = 15;
-            _AirTemperatureMaximum.Units = "Â°C";
-            _AirTemperatureMaximum.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
-
             _AirTemperatureMinimum.Name = "AirTemperatureMinimum";
             _AirTemperatureMinimum.Description = "Minimum daily air temperature";
             _AirTemperatureMinimum.MaxValue = 50;
             _AirTemperatureMinimum.MinValue = -60;
             _AirTemperatureMinimum.DefaultValue = 5;
-            _AirTemperatureMinimum.Units = "Â°C";
+            _AirTemperatureMinimum.Units = "";
             _AirTemperatureMinimum.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _GlobalSolarRadiation.Name = "GlobalSolarRadiation";
@@ -94,13 +94,13 @@ namespace SurfacePartonSoilSWATC.DomainClass
             _GlobalSolarRadiation.Units = "Mj m-2 d-1";
             _GlobalSolarRadiation.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
-            _AirTemperatureAnnualAverage.Name = "AirTemperatureAnnualAverage";
-            _AirTemperatureAnnualAverage.Description = "Annual average air temperature";
-            _AirTemperatureAnnualAverage.MaxValue = 50;
-            _AirTemperatureAnnualAverage.MinValue = -40;
-            _AirTemperatureAnnualAverage.DefaultValue = 15;
-            _AirTemperatureAnnualAverage.Units = "Â°C";
-            _AirTemperatureAnnualAverage.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+            _AirTemperatureMaximum.Name = "AirTemperatureMaximum";
+            _AirTemperatureMaximum.Description = "Maximum daily air temperature";
+            _AirTemperatureMaximum.MaxValue = 60;
+            _AirTemperatureMaximum.MinValue = -40;
+            _AirTemperatureMaximum.DefaultValue = 15;
+            _AirTemperatureMaximum.Units = "";
+            _AirTemperatureMaximum.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
         }
 
