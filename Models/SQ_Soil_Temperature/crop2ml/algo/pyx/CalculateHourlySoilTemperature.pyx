@@ -7,4 +7,4 @@ if maxTSoil == float(-999) and minTSoil == float(999):
 else:
     for i in range(0 , 24 , 1):
         hourlySoilT[i]=0.0
-    hourlySoilT=getHourlySoilSurfaceTemperature(maxTSoil, minTSoil, dayLength, b, c, a)
+    hourlySoilT=getHourlySoilSurfaceTemperature(maxTSoil, minTSoil, dayLength, b, a, c)

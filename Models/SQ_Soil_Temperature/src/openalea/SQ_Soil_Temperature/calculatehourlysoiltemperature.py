@@ -8,12 +8,12 @@ from datetime import datetime
 import numpy
 
 #%%CyML Model Begin%%
-def model_calculatehourlysoiltemperature(c:float,
+def model_calculatehourlysoiltemperature(minTSoil:float,
          dayLength:float,
-         maxTSoil:float,
          b:float,
          a:float,
-         minTSoil:float):
+         maxTSoil:float,
+         c:float):
     """
      - Name: CalculateHourlySoilTemperature -Version: 001, -Time step: 1
      - Description:
@@ -24,15 +24,15 @@ def model_calculatehourlysoiltemperature(c:float,
                  * ExtendedDescription: Calculate Soil temperature on a hourly basis.Parton, W.J. and Logan, J.A., 1981. A model for diurnal variation in soil and air temperature. Agric. Meteorol., 23: 205-216
                  * ShortDescription: None
      - inputs:
-                 * name: c
-                               ** description : Nighttime temperature coefficient
-                               ** inputtype : parameter
-                               ** parametercategory : constant
+                 * name: minTSoil
+                               ** description : Minimum Soil Temperature
+                               ** inputtype : variable
+                               ** variablecategory : state
                                ** datatype : DOUBLE
-                               ** max : 10
-                               ** min : 0
-                               ** default : 0.49
-                               ** unit : Dpmensionless
+                               ** max : 80
+                               ** min : -30
+                               ** default : 20
+                               ** unit : Â°C
                  * name: dayLength
                                ** description : Length of the day
                                ** inputtype : variable
@@ -42,15 +42,6 @@ def model_calculatehourlysoiltemperature(c:float,
                                ** min : 0
                                ** default : 12
                                ** unit : hour
-                 * name: maxTSoil
-                               ** description : Maximum Soil Temperature
-                               ** inputtype : variable
-                               ** variablecategory : state
-                               ** datatype : DOUBLE
-                               ** max : 80
-                               ** min : -30
-                               ** default : 20
-                               ** unit : °C
                  * name: b
                                ** description : Delay between sunrise and time when minimum temperature is reached
                                ** inputtype : parameter
@@ -69,15 +60,24 @@ def model_calculatehourlysoiltemperature(c:float,
                                ** min : 0
                                ** default : 0.5
                                ** unit : Hour
-                 * name: minTSoil
-                               ** description : Minimum Soil Temperature
+                 * name: maxTSoil
+                               ** description : Maximum Soil Temperature
                                ** inputtype : variable
                                ** variablecategory : state
                                ** datatype : DOUBLE
                                ** max : 80
                                ** min : -30
                                ** default : 20
-                               ** unit : °C
+                               ** unit : Â°C
+                 * name: c
+                               ** description : Nighttime temperature coefficient
+                               ** inputtype : parameter
+                               ** parametercategory : constant
+                               ** datatype : DOUBLE
+                               ** max : 10
+                               ** min : 0
+                               ** default : 0.49
+                               ** unit : Dpmensionless
      - outputs:
                  * name: hourlySoilT
                                ** description : Hourly Soil Temperature
@@ -86,7 +86,7 @@ def model_calculatehourlysoiltemperature(c:float,
                                ** len : 24
                                ** max : 80
                                ** min : -30
-                               ** unit : °C
+                               ** unit : Â°C
     """
 
     hourlySoilT:'array[float]' = array('f',[0.0]*24)
@@ -99,7 +99,7 @@ def model_calculatehourlysoiltemperature(c:float,
     else:
         for i in range(0 , 24 , 1):
             hourlySoilT[i] = 0.0
-        hourlySoilT = getHourlySoilSurfaceTemperature(maxTSoil, minTSoil, dayLength, b, c, a)
+        hourlySoilT = getHourlySoilSurfaceTemperature(maxTSoil, minTSoil, dayLength, b, a, c)
     return hourlySoilT
 #%%CyML Model End%%
 
@@ -107,8 +107,8 @@ def getHourlySoilSurfaceTemperature(TMax:float,
          TMin:float,
          ady:float,
          b:float,
-         c:float,
-         a:float):
+         a:float,
+         c:float):
     i:int
     result:'array[float]' = array('f',[0.0]*24)
     ahou:float

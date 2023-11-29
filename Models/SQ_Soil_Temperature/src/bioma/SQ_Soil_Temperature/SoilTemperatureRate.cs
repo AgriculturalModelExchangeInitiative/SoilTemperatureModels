@@ -21,7 +21,7 @@ namespace SoilTemperature.DomainClass
         {
             if (copyAll)
             {
-                _heatFlux = toCopy._heatFlux;
+                heatFlux = toCopy.heatFlux;
             }
         }
 

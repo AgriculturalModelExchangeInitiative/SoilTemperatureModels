@@ -90,27 +90,33 @@ namespace SiriusQualitySoilTemperature.Strategies
 				pd5.PropertyType = (( INRA.SiriusQualitySoilT.Interfaces.RatesExternalVarInfo.heatFlux)).ValueType.TypeForCurrentValue;
 				pd5.PropertyVarInfo =( INRA.SiriusQualitySoilT.Interfaces.RatesExternalVarInfo.heatFlux);
 				_inputs0_0.Add(pd5);
-				mo0_0.Inputs=_inputs0_0;
-				//Outputs
-				List<PropertyDescription> _outputs0_0 = new List<PropertyDescription>();
 				PropertyDescription pd6 = new PropertyDescription();
-				pd6.DomainClassType = typeof(INRA.SiriusQualitySoilT.Interfaces.DeepLayerStates);
-				pd6.PropertyName = "deepLayerT";
-				pd6.PropertyType =  (( INRA.SiriusQualitySoilT.Interfaces.DeepLayerStatesVarInfo.deepLayerT)).ValueType.TypeForCurrentValue;
-				pd6.PropertyVarInfo =(  INRA.SiriusQualitySoilT.Interfaces.DeepLayerStatesVarInfo.deepLayerT);
-				_outputs0_0.Add(pd6);
+				pd6.DomainClassType = typeof(INRA.SiriusQualitySoilT.Interfaces.Exogenous);
+				pd6.PropertyName = "meanAnnualAirTemp";
+				pd6.PropertyType = ((INRA.SiriusQualitySoilT.Interfaces.ExogenousVarInfo.meanAnnualAirTemp)).ValueType.TypeForCurrentValue;
+				pd6.PropertyVarInfo = (INRA.SiriusQualitySoilT.Interfaces.ExogenousVarInfo.meanAnnualAirTemp);
+				_inputs0_0.Add(pd6);
+				mo0_0.Inputs=_inputs0_0;
+            //Outputs
+            List<PropertyDescription> _outputs0_0 = new List<PropertyDescription>();
 				PropertyDescription pd7 = new PropertyDescription();
-				pd7.DomainClassType = typeof(INRA.SiriusQualitySoilT.Interfaces.States);
-				pd7.PropertyName = "maxTSoil";
-				pd7.PropertyType =  (( INRA.SiriusQualitySoilT.Interfaces.StatesVarInfo.maxTSoil)).ValueType.TypeForCurrentValue;
-				pd7.PropertyVarInfo =(  INRA.SiriusQualitySoilT.Interfaces.StatesVarInfo.maxTSoil);
+				pd7.DomainClassType = typeof(INRA.SiriusQualitySoilT.Interfaces.DeepLayerStates);
+				pd7.PropertyName = "deepLayerT";
+				pd7.PropertyType =  (( INRA.SiriusQualitySoilT.Interfaces.DeepLayerStatesVarInfo.deepLayerT)).ValueType.TypeForCurrentValue;
+				pd7.PropertyVarInfo =(  INRA.SiriusQualitySoilT.Interfaces.DeepLayerStatesVarInfo.deepLayerT);
 				_outputs0_0.Add(pd7);
 				PropertyDescription pd8 = new PropertyDescription();
 				pd8.DomainClassType = typeof(INRA.SiriusQualitySoilT.Interfaces.States);
-				pd8.PropertyName = "minTSoil";
-				pd8.PropertyType =  (( INRA.SiriusQualitySoilT.Interfaces.StatesVarInfo.minTSoil)).ValueType.TypeForCurrentValue;
-				pd8.PropertyVarInfo =(  INRA.SiriusQualitySoilT.Interfaces.StatesVarInfo.minTSoil);
+				pd8.PropertyName = "maxTSoil";
+				pd8.PropertyType =  (( INRA.SiriusQualitySoilT.Interfaces.StatesVarInfo.maxTSoil)).ValueType.TypeForCurrentValue;
+				pd8.PropertyVarInfo =(  INRA.SiriusQualitySoilT.Interfaces.StatesVarInfo.maxTSoil);
 				_outputs0_0.Add(pd8);
+				PropertyDescription pd9 = new PropertyDescription();
+				pd9.DomainClassType = typeof(INRA.SiriusQualitySoilT.Interfaces.States);
+				pd9.PropertyName = "minTSoil";
+				pd9.PropertyType =  (( INRA.SiriusQualitySoilT.Interfaces.StatesVarInfo.minTSoil)).ValueType.TypeForCurrentValue;
+				pd9.PropertyVarInfo =(  INRA.SiriusQualitySoilT.Interfaces.StatesVarInfo.minTSoil);
+				_outputs0_0.Add(pd9);
 				mo0_0.Outputs=_outputs0_0;
 				//Associated strategies
 				List<string> lAssStrat0_0 = new List<string>();
@@ -372,10 +378,11 @@ namespace SiriusQualitySoilTemperature.Strategies
 					INRA.SiriusQualitySoilT.Interfaces.ExogenousVarInfo.maxTAir.CurrentValue=exogenous.maxTAir;
 					INRA.SiriusQualitySoilT.Interfaces.ExogenousVarInfo.meanTAir.CurrentValue=exogenous.meanTAir;
 					INRA.SiriusQualitySoilT.Interfaces.ExogenousVarInfo.minTAir.CurrentValue=exogenous.minTAir;
-					INRA.SiriusQualitySoilT.Interfaces.RatesExternalVarInfo.heatFlux.CurrentValue=ratesexternal.heatFlux;
+					INRA.SiriusQualitySoilT.Interfaces.RatesExternalVarInfo.heatFlux.CurrentValue=ratesexternal.heatFlux; 
+					INRA.SiriusQualitySoilT.Interfaces.ExogenousVarInfo.meanAnnualAirTemp.CurrentValue = exogenous.meanAnnualAirTemp;
 
-					//Create the collection of the conditions to test
-					ConditionsCollection prc = new ConditionsCollection();
+                //Create the collection of the conditions to test
+                ConditionsCollection prc = new ConditionsCollection();
 					Preconditions pre = new Preconditions();
 
                     //CRA.ModelLayer.Core.AtLeastOneDifferentFromZeroCondition
@@ -389,20 +396,22 @@ namespace SiriusQualitySoilTemperature.Strategies
 					if(r4.ApplicableVarInfoValueTypes.Contains( INRA.SiriusQualitySoilT.Interfaces.ExogenousVarInfo.minTAir.ValueType)){prc.AddCondition(r4);}
 					RangeBasedCondition r5 = new RangeBasedCondition(INRA.SiriusQualitySoilT.Interfaces.RatesExternalVarInfo.heatFlux);
 					if(r5.ApplicableVarInfoValueTypes.Contains( INRA.SiriusQualitySoilT.Interfaces.RatesExternalVarInfo.heatFlux.ValueType)){prc.AddCondition(r5);}
-					prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("lambda_")));
+					prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("lambda_"))); 
+				RangeBasedCondition r6 = new RangeBasedCondition(INRA.SiriusQualitySoilT.Interfaces.ExogenousVarInfo.meanAnnualAirTemp);
+                if (r6.ApplicableVarInfoValueTypes.Contains(INRA.SiriusQualitySoilT.Interfaces.ExogenousVarInfo.meanAnnualAirTemp.ValueType)) { prc.AddCondition(r6); }
 
-					
 
-					//GENERATED CODE END - PLACE YOUR CUSTOM CODE BELOW - Section3
-					//Code written below will not be overwritten by a future code generation
 
-        
+                //GENERATED CODE END - PLACE YOUR CUSTOM CODE BELOW - Section3
+                //Code written below will not be overwritten by a future code generation
 
-					//End of custom code. Do not place your custom code below. It will be overwritten by a future code generation.
-					//PLACE YOUR CUSTOM CODE ABOVE - GENERATED CODE START - Section3 
-								
-					//Get the evaluation of preconditions;					
-					string preConditionsResult =pre.VerifyPreconditions(prc, callID);
+
+
+                //End of custom code. Do not place your custom code below. It will be overwritten by a future code generation.
+                //PLACE YOUR CUSTOM CODE ABOVE - GENERATED CODE START - Section3 
+
+                //Get the evaluation of preconditions;					
+                string preConditionsResult =pre.VerifyPreconditions(prc, callID);
 					//if we have errors, send it to the configured output 
 					if(!string.IsNullOrEmpty(preConditionsResult)) { pre.TestsOut(preConditionsResult, true, "PreConditions errors in component SiriusQualitySoilTemperature.Strategies, strategy " + this.GetType().Name ); }
 					return preConditionsResult;
@@ -455,19 +464,20 @@ namespace SiriusQualitySoilTemperature.Strategies
 				//GENERATED CODE END - PLACE YOUR CUSTOM CODE BELOW - Section1
 				//Code written below will not be overwritten by a future code generation
 
+			double tmp = exogenous.meanAnnualAirTemp;
 			if(exogenous.maxTAir==-999 && exogenous.minTAir == 999)
             {
 				states.minTSoil = 999;
 				states.maxTSoil = -999;
-				deeplayerstates1.deepLayerT = 0.0;
+				deeplayerstates.deepLayerT = 0.0;
 
 
 			}
             else
             {
 				states.minTSoil = SoilMinimumTemperature(exogenous.maxTAir, exogenous.meanTAir, exogenous.minTAir, ratesexternal.heatFlux, lambda_, deeplayerstates.deepLayerT);
-				states.maxTSoil = SoilMaximumTemperature(exogenous.maxTAir, exogenous.meanTAir, exogenous.minTAir, ratesexternal.heatFlux, lambda_, deeplayerstates1.deepLayerT);
-				deeplayerstates1.deepLayerT = UpdateTemperature(states.minTSoil, states.maxTSoil, deeplayerstates.deepLayerT);
+				states.maxTSoil = SoilMaximumTemperature(exogenous.maxTAir, exogenous.meanTAir, exogenous.minTAir, ratesexternal.heatFlux, lambda_, deeplayerstates.deepLayerT);
+				deeplayerstates.deepLayerT = UpdateTemperature(states.minTSoil, states.maxTSoil, deeplayerstates.deepLayerT);
 			}
 
 
@@ -475,7 +485,10 @@ namespace SiriusQualitySoilTemperature.Strategies
 				//End of custom code. Do not place your custom code below. It will be overwritten by a future code generation.
 				//PLACE YOUR CUSTOM CODE ABOVE - GENERATED CODE START - Section1 
 			}
-
+			public void Init(INRA.SiriusQualitySoilT.Interfaces.DeepLayerStates deeplayerstates, INRA.SiriusQualitySoilT.Interfaces.DeepLayerStates deeplayerstates1, INRA.SiriusQualitySoilT.Interfaces.Exogenous exogenous, INRA.SiriusQualitySoilT.Interfaces.RatesExternal ratesexternal, INRA.SiriusQualitySoilT.Interfaces.States states)
+				{
+					deeplayerstates.deepLayerT = exogenous.meanAnnualAirTemp;
+			}
 				
 
 	#endregion

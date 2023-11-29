@@ -21,25 +21,25 @@ namespace SoilTemperature.Strategies
             //Parameters
             List<VarInfo> _parameters0_0 = new List<VarInfo>();
             VarInfo v1 = new VarInfo();
-            v1.DefaultValue = 0.49;
-            v1.Description = "Nighttime temperature coefficient";
+            v1.DefaultValue = 1.81;
+            v1.Description = "Delay between sunrise and time when minimum temperature is reached";
             v1.Id = 0;
             v1.MaxValue = 10;
             v1.MinValue = 0;
-            v1.Name = "c";
+            v1.Name = "b";
             v1.Size = 1;
-            v1.Units = "Dpmensionless";
+            v1.Units = "Hour";
             v1.URL = "";
             v1.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
             v1.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
             _parameters0_0.Add(v1);
             VarInfo v2 = new VarInfo();
-            v2.DefaultValue = 1.81;
-            v2.Description = "Delay between sunrise and time when minimum temperature is reached";
+            v2.DefaultValue = 0.5;
+            v2.Description = "Delay between sunset and time when maximum temperature is reached";
             v2.Id = 0;
             v2.MaxValue = 10;
             v2.MinValue = 0;
-            v2.Name = "b";
+            v2.Name = "a";
             v2.Size = 1;
             v2.Units = "Hour";
             v2.URL = "";
@@ -47,14 +47,14 @@ namespace SoilTemperature.Strategies
             v2.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
             _parameters0_0.Add(v2);
             VarInfo v3 = new VarInfo();
-            v3.DefaultValue = 0.5;
-            v3.Description = "Delay between sunset and time when maximum temperature is reached";
+            v3.DefaultValue = 0.49;
+            v3.Description = "Nighttime temperature coefficient";
             v3.Id = 0;
             v3.MaxValue = 10;
             v3.MinValue = 0;
-            v3.Name = "a";
+            v3.Name = "c";
             v3.Size = 1;
-            v3.Units = "Hour";
+            v3.Units = "Dpmensionless";
             v3.URL = "";
             v3.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
             v3.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
@@ -64,22 +64,22 @@ namespace SoilTemperature.Strategies
             //Inputs
             List<PropertyDescription> _inputs0_0 = new List<PropertyDescription>();
             PropertyDescription pd1 = new PropertyDescription();
-            pd1.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureExogenous);
-            pd1.PropertyName = "dayLength";
-            pd1.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.dayLength).ValueType.TypeForCurrentValue;
-            pd1.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.dayLength);
+            pd1.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureState);
+            pd1.PropertyName = "minTSoil";
+            pd1.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.minTSoil).ValueType.TypeForCurrentValue;
+            pd1.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.minTSoil);
             _inputs0_0.Add(pd1);
             PropertyDescription pd2 = new PropertyDescription();
-            pd2.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureState);
-            pd2.PropertyName = "maxTSoil";
-            pd2.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.maxTSoil).ValueType.TypeForCurrentValue;
-            pd2.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.maxTSoil);
+            pd2.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureExogenous);
+            pd2.PropertyName = "dayLength";
+            pd2.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.dayLength).ValueType.TypeForCurrentValue;
+            pd2.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.dayLength);
             _inputs0_0.Add(pd2);
             PropertyDescription pd3 = new PropertyDescription();
             pd3.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureState);
-            pd3.PropertyName = "minTSoil";
-            pd3.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.minTSoil).ValueType.TypeForCurrentValue;
-            pd3.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.minTSoil);
+            pd3.PropertyName = "maxTSoil";
+            pd3.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.maxTSoil).ValueType.TypeForCurrentValue;
+            pd3.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.maxTSoil);
             _inputs0_0.Add(pd3);
             mo0_0.Inputs=_inputs0_0;
 
@@ -163,18 +163,6 @@ namespace SoilTemperature.Strategies
 
         // Getter and setters for the value of the parameters of the strategy. The actual parameters are stored into the ModelingOptionsManager of the strategy.
 
-        public double c
-        {
-            get { 
-                VarInfo vi= _modellingOptionsManager.GetParameterByName("c");
-                if (vi != null && vi.CurrentValue!=null) return (double)vi.CurrentValue ;
-                else throw new Exception("Parameter 'c' not found (or found null) in strategy 'CalculateHourlySoilTemperature'");
-            } set {
-                VarInfo vi = _modellingOptionsManager.GetParameterByName("c");
-                if (vi != null)  vi.CurrentValue=value;
-                else throw new Exception("Parameter 'c' not found in strategy 'CalculateHourlySoilTemperature'");
-            }
-        }
         public double b
         {
             get { 
@@ -199,6 +187,18 @@ namespace SoilTemperature.Strategies
                 else throw new Exception("Parameter 'a' not found in strategy 'CalculateHourlySoilTemperature'");
             }
         }
+        public double c
+        {
+            get { 
+                VarInfo vi= _modellingOptionsManager.GetParameterByName("c");
+                if (vi != null && vi.CurrentValue!=null) return (double)vi.CurrentValue ;
+                else throw new Exception("Parameter 'c' not found (or found null) in strategy 'CalculateHourlySoilTemperature'");
+            } set {
+                VarInfo vi = _modellingOptionsManager.GetParameterByName("c");
+                if (vi != null)  vi.CurrentValue=value;
+                else throw new Exception("Parameter 'c' not found in strategy 'CalculateHourlySoilTemperature'");
+            }
+        }
 
         public void SetParametersDefaultValue()
         {
@@ -207,14 +207,6 @@ namespace SoilTemperature.Strategies
 
         private static void SetStaticParametersVarInfoDefinitions()
         {
-
-            cVarInfo.Name = "c";
-            cVarInfo.Description = "Nighttime temperature coefficient";
-            cVarInfo.MaxValue = 10;
-            cVarInfo.MinValue = 0;
-            cVarInfo.DefaultValue = 0.49;
-            cVarInfo.Units = "Dpmensionless";
-            cVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             bVarInfo.Name = "b";
             bVarInfo.Description = "Delay between sunrise and time when minimum temperature is reached";
@@ -231,12 +223,14 @@ namespace SoilTemperature.Strategies
             aVarInfo.DefaultValue = 0.5;
             aVarInfo.Units = "Hour";
             aVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
-        }
 
-        private static VarInfo _cVarInfo = new VarInfo();
-        public static VarInfo cVarInfo
-        {
-            get { return _cVarInfo;} 
+            cVarInfo.Name = "c";
+            cVarInfo.Description = "Nighttime temperature coefficient";
+            cVarInfo.MaxValue = 10;
+            cVarInfo.MinValue = 0;
+            cVarInfo.DefaultValue = 0.49;
+            cVarInfo.Units = "Dpmensionless";
+            cVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
         }
 
         private static VarInfo _bVarInfo = new VarInfo();
@@ -249,6 +243,12 @@ namespace SoilTemperature.Strategies
         public static VarInfo aVarInfo
         {
             get { return _aVarInfo;} 
+        }
+
+        private static VarInfo _cVarInfo = new VarInfo();
+        public static VarInfo cVarInfo
+        {
+            get { return _cVarInfo;} 
         }
 
         public string TestPostConditions(SoilTemperature.DomainClass.SoilTemperatureState s,SoilTemperature.DomainClass.SoilTemperatureState s1,SoilTemperature.DomainClass.SoilTemperatureRate r,SoilTemperature.DomainClass.SoilTemperatureAuxiliary a,SoilTemperature.DomainClass.SoilTemperatureExogenous ex,string callID)
@@ -275,20 +275,20 @@ namespace SoilTemperature.Strategies
             try
             {
                 //Set current values of the inputs to the static VarInfo representing the inputs properties of the domain classes
+                SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.minTSoil.CurrentValue=s.minTSoil;
                 SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.dayLength.CurrentValue=ex.dayLength;
                 SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.maxTSoil.CurrentValue=s.maxTSoil;
-                SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.minTSoil.CurrentValue=s.minTSoil;
                 ConditionsCollection prc = new ConditionsCollection();
                 Preconditions pre = new Preconditions(); 
-                RangeBasedCondition r1 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.dayLength);
-                if(r1.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.dayLength.ValueType)){prc.AddCondition(r1);}
-                RangeBasedCondition r2 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.maxTSoil);
-                if(r2.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.maxTSoil.ValueType)){prc.AddCondition(r2);}
-                RangeBasedCondition r3 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.minTSoil);
-                if(r3.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.minTSoil.ValueType)){prc.AddCondition(r3);}
-                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("c")));
+                RangeBasedCondition r1 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.minTSoil);
+                if(r1.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.minTSoil.ValueType)){prc.AddCondition(r1);}
+                RangeBasedCondition r2 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.dayLength);
+                if(r2.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.dayLength.ValueType)){prc.AddCondition(r2);}
+                RangeBasedCondition r3 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.maxTSoil);
+                if(r3.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.maxTSoil.ValueType)){prc.AddCondition(r3);}
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("b")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("a")));
+                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("c")));
                 string preConditionsResult = pre.VerifyPreconditions(prc, callID); if (!string.IsNullOrEmpty(preConditionsResult)) { pre.TestsOut(preConditionsResult, true, "PreConditions errors in strategy " + this.GetType().Name); } return preConditionsResult;
             }
             catch (Exception exception)
@@ -313,9 +313,9 @@ namespace SoilTemperature.Strategies
 
         private void CalculateModel(SoilTemperature.DomainClass.SoilTemperatureState s, SoilTemperature.DomainClass.SoilTemperatureState s1, SoilTemperature.DomainClass.SoilTemperatureRate r, SoilTemperature.DomainClass.SoilTemperatureAuxiliary a, SoilTemperature.DomainClass.SoilTemperatureExogenous ex)
         {
+            double minTSoil = s.minTSoil;
             double dayLength = ex.dayLength;
             double maxTSoil = s.maxTSoil;
-            double minTSoil = s.minTSoil;
             double[] hourlySoilT =  new double [24];
             int i;
             if (maxTSoil == (double)(-999) && minTSoil == (double)(999))
@@ -335,12 +335,12 @@ namespace SoilTemperature.Strategies
                 {
                     hourlySoilT[i] = 0.00d;
                 }
-                hourlySoilT = getHourlySoilSurfaceTemperature(maxTSoil, minTSoil, dayLength, b, c, a);
+                hourlySoilT = getHourlySoilSurfaceTemperature(maxTSoil, minTSoil, dayLength, b, a, c);
             }
             s.hourlySoilT= hourlySoilT;
         }
 
-        public static double[] getHourlySoilSurfaceTemperature(double TMax, double TMin, double ady, double b, double c, double a)
+        public static double[] getHourlySoilSurfaceTemperature(double TMax, double TMin, double ady, double b, double a, double c)
         {
             int i;
             double[] result =  new double [24];

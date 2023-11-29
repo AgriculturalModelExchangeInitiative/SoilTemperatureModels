@@ -5,13 +5,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 public class CalculateHourlySoilTemperature
 {
-    private Double c;
-    public Double getc()
-    { return c; }
-
-    public void setc(Double _c)
-    { this.c= _c; } 
-    
     private Double b;
     public Double getb()
     { return b; }
@@ -26,8 +19,15 @@ public class CalculateHourlySoilTemperature
     public void seta(Double _a)
     { this.a= _a; } 
     
+    private Double c;
+    public Double getc()
+    { return c; }
+
+    public void setc(Double _c)
+    { this.c= _c; } 
+    
     public CalculateHourlySoilTemperature() { }
-    public void  Calculate_calculatehourlysoiltemperature(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a,  SoilTemperatureExogenous ex)
+    public void  Calculate_Model(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a,  SoilTemperatureExogenous ex)
     {
         //- Name: CalculateHourlySoilTemperature -Version: 001, -Time step: 1
         //- Description:
@@ -38,15 +38,15 @@ public class CalculateHourlySoilTemperature
     //            * ExtendedDescription: Calculate Soil temperature on a hourly basis.Parton, W.J. and Logan, J.A., 1981. A model for diurnal variation in soil and air temperature. Agric. Meteorol., 23: 205-216
     //            * ShortDescription: None
         //- inputs:
-    //            * name: c
-    //                          ** description : Nighttime temperature coefficient
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
+    //            * name: minTSoil
+    //                          ** description : Minimum Soil Temperature
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
     //                          ** datatype : DOUBLE
-    //                          ** max : 10
-    //                          ** min : 0
-    //                          ** default : 0.49
-    //                          ** unit : Dpmensionless
+    //                          ** max : 80
+    //                          ** min : -30
+    //                          ** default : 20
+    //                          ** unit : Â°C
     //            * name: dayLength
     //                          ** description : Length of the day
     //                          ** inputtype : variable
@@ -56,15 +56,6 @@ public class CalculateHourlySoilTemperature
     //                          ** min : 0
     //                          ** default : 12
     //                          ** unit : hour
-    //            * name: maxTSoil
-    //                          ** description : Maximum Soil Temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 80
-    //                          ** min : -30
-    //                          ** default : 20
-    //                          ** unit : °C
     //            * name: b
     //                          ** description : Delay between sunrise and time when minimum temperature is reached
     //                          ** inputtype : parameter
@@ -83,15 +74,24 @@ public class CalculateHourlySoilTemperature
     //                          ** min : 0
     //                          ** default : 0.5
     //                          ** unit : Hour
-    //            * name: minTSoil
-    //                          ** description : Minimum Soil Temperature
+    //            * name: maxTSoil
+    //                          ** description : Maximum Soil Temperature
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLE
     //                          ** max : 80
     //                          ** min : -30
     //                          ** default : 20
-    //                          ** unit : °C
+    //                          ** unit : Â°C
+    //            * name: c
+    //                          ** description : Nighttime temperature coefficient
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
+    //                          ** datatype : DOUBLE
+    //                          ** max : 10
+    //                          ** min : 0
+    //                          ** default : 0.49
+    //                          ** unit : Dpmensionless
         //- outputs:
     //            * name: hourlySoilT
     //                          ** description : Hourly Soil Temperature
@@ -100,11 +100,11 @@ public class CalculateHourlySoilTemperature
     //                          ** len : 24
     //                          ** max : 80
     //                          ** min : -30
-    //                          ** unit : °C
+    //                          ** unit : Â°C
         getHourlySoilSurfaceTemperature zz_getHourlySoilSurfaceTemperature;
+        Double minTSoil = s.getminTSoil();
         Double dayLength = ex.getdayLength();
         Double maxTSoil = s.getmaxTSoil();
-        Double minTSoil = s.getminTSoil();
         Double[] hourlySoilT =  new Double [24];
         Integer i;
         if (maxTSoil == (double)(-999) && minTSoil == (double)(999))
@@ -124,11 +124,11 @@ public class CalculateHourlySoilTemperature
             {
                 hourlySoilT[i] = 0.0d;
             }
-            hourlySoilT = getHourlySoilSurfaceTemperature(maxTSoil, minTSoil, dayLength, b, c, a);
+            hourlySoilT = getHourlySoilSurfaceTemperature(maxTSoil, minTSoil, dayLength, b, a, c);
         }
         s.sethourlySoilT(hourlySoilT);
     }
-    public static Double [] getHourlySoilSurfaceTemperature(Double TMax, Double TMin, Double ady, Double b, Double c, Double a)
+    public static Double [] getHourlySoilSurfaceTemperature(Double TMax, Double TMin, Double ady, Double b, Double a, Double c)
     {
         Integer i;
         Double[] result =  new Double [24];

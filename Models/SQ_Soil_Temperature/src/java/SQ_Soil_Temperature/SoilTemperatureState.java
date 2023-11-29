@@ -3,9 +3,9 @@ import  java.util.*;
 import java.time.LocalDateTime;
 public class SoilTemperatureState
 {
+    private Double minTSoil;
     private Double deepLayerT;
     private Double maxTSoil;
-    private Double minTSoil;
     private Double [] hourlySoilT;
     
     public SoilTemperatureState() { }
@@ -14,9 +14,9 @@ public class SoilTemperatureState
     {
         if (copyAll)
         {
+            this.minTSoil = toCopy.getminTSoil();
             this.deepLayerT = toCopy.getdeepLayerT();
             this.maxTSoil = toCopy.getmaxTSoil();
-            this.minTSoil = toCopy.getminTSoil();
             hourlySoilT = new Double[24];
         for (int i = 0; i < 24; i++)
         {
@@ -24,6 +24,12 @@ public class SoilTemperatureState
         }
         }
     }
+    public Double getminTSoil()
+    { return minTSoil; }
+
+    public void setminTSoil(Double _minTSoil)
+    { this.minTSoil= _minTSoil; } 
+    
     public Double getdeepLayerT()
     { return deepLayerT; }
 
@@ -35,12 +41,6 @@ public class SoilTemperatureState
 
     public void setmaxTSoil(Double _maxTSoil)
     { this.maxTSoil= _maxTSoil; } 
-    
-    public Double getminTSoil()
-    { return minTSoil; }
-
-    public void setminTSoil(Double _minTSoil)
-    { this.minTSoil= _minTSoil; } 
     
     public Double [] gethourlySoilT()
     { return hourlySoilT; }

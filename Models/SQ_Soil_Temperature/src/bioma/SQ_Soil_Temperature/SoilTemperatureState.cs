@@ -9,9 +9,9 @@ namespace SoilTemperature.DomainClass
 {
     public class SoilTemperatureState : ICloneable, IDomainClass
     {
+        private double _minTSoil;
         private double _deepLayerT;
         private double _maxTSoil;
-        private double _minTSoil;
         private double[] _hourlySoilT = new double[24];
         private ParametersIO _parametersIO;
 
@@ -24,16 +24,21 @@ namespace SoilTemperature.DomainClass
         {
             if (copyAll)
             {
-                _deepLayerT = toCopy._deepLayerT;
-                _maxTSoil = toCopy._maxTSoil;
-                _minTSoil = toCopy._minTSoil;
+                minTSoil = toCopy.minTSoil;
+                deepLayerT = toCopy.deepLayerT;
+                maxTSoil = toCopy.maxTSoil;
                 hourlySoilT = new double[24];
             for (int i = 0; i < 24; i++)
-            { _hourlySoilT[i] = toCopy._hourlySoilT[i]; }
+            { hourlySoilT[i] = toCopy.hourlySoilT[i]; }
     
             }
         }
 
+        public double minTSoil
+        {
+            get { return this._minTSoil; }
+            set { this._minTSoil= value; } 
+        }
         public double deepLayerT
         {
             get { return this._deepLayerT; }
@@ -43,11 +48,6 @@ namespace SoilTemperature.DomainClass
         {
             get { return this._maxTSoil; }
             set { this._maxTSoil= value; } 
-        }
-        public double minTSoil
-        {
-            get { return this._minTSoil; }
-            set { this._minTSoil= value; } 
         }
         public double[] hourlySoilT
         {
@@ -72,9 +72,9 @@ namespace SoilTemperature.DomainClass
 
         public virtual Boolean ClearValues()
         {
+             _minTSoil = default(double);
              _deepLayerT = default(double);
              _maxTSoil = default(double);
-             _minTSoil = default(double);
              _hourlySoilT = new double[24];
             return true;
         }

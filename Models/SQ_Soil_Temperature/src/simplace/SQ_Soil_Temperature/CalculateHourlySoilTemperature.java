@@ -14,12 +14,12 @@ import org.jdom2.Element;
 
 public class CalculateHourlySoilTemperature extends FWSimComponent
 {
-    private FWSimVariable<Double> c;
+    private FWSimVariable<Double> minTSoil;
     private FWSimVariable<Double> dayLength;
-    private FWSimVariable<Double> maxTSoil;
     private FWSimVariable<Double> b;
     private FWSimVariable<Double> a;
-    private FWSimVariable<Double> minTSoil;
+    private FWSimVariable<Double> maxTSoil;
+    private FWSimVariable<Double> c;
     private FWSimVariable<Double[]> hourlySoilT;
 
     public CalculateHourlySoilTemperature(String aName, HashMap<String, FWSimVariable<?>> aFieldMap, HashMap<String, String> aInputMap, Element aSimComponentElement, FWSimVarMap aVarMap, int aOrderNumber)
@@ -34,13 +34,13 @@ public class CalculateHourlySoilTemperature extends FWSimComponent
     @Override
     public HashMap<String, FWSimVariable<?>> createVariables()
     {
-        addVariable(FWSimVariable.createSimVariable("c", "Nighttime temperature coefficient", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"Dpmensionless", 0, 10, 0.49, this));
+        addVariable(FWSimVariable.createSimVariable("minTSoil", "Minimum Soil Temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"Â°C", -30, 80, 20, this));
         addVariable(FWSimVariable.createSimVariable("dayLength", "Length of the day", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"hour", 0, 24, 12, this));
-        addVariable(FWSimVariable.createSimVariable("maxTSoil", "Maximum Soil Temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"°C", -30, 80, 20, this));
         addVariable(FWSimVariable.createSimVariable("b", "Delay between sunrise and time when minimum temperature is reached", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"Hour", 0, 10, 1.81, this));
         addVariable(FWSimVariable.createSimVariable("a", "Delay between sunset and time when maximum temperature is reached", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"Hour", 0, 10, 0.5, this));
-        addVariable(FWSimVariable.createSimVariable("minTSoil", "Minimum Soil Temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"°C", -30, 80, 20, this));
-        addVariable(FWSimVariable.createSimVariable("hourlySoilT", "Hourly Soil Temperature", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"°C", -30, 80, null, this));
+        addVariable(FWSimVariable.createSimVariable("maxTSoil", "Maximum Soil Temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"Â°C", -30, 80, 20, this));
+        addVariable(FWSimVariable.createSimVariable("c", "Nighttime temperature coefficient", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"Dpmensionless", 0, 10, 0.49, this));
+        addVariable(FWSimVariable.createSimVariable("hourlySoilT", "Hourly Soil Temperature", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"Â°C", -30, 80, null, this));
 
         return iFieldMap;
     }
@@ -48,12 +48,12 @@ public class CalculateHourlySoilTemperature extends FWSimComponent
     protected void process()
     {
         getHourlySoilSurfaceTemperature zz_getHourlySoilSurfaceTemperature;
-        Double t_c = c.getValue();
+        Double t_minTSoil = minTSoil.getValue();
         Double t_dayLength = dayLength.getValue();
-        Double t_maxTSoil = maxTSoil.getValue();
         Double t_b = b.getValue();
         Double t_a = a.getValue();
-        Double t_minTSoil = minTSoil.getValue();
+        Double t_maxTSoil = maxTSoil.getValue();
+        Double t_c = c.getValue();
         Double [] t_hourlySoilT;
         Integer i;
         if (t_maxTSoil == (double)(-999) && t_minTSoil == (double)(999))
@@ -73,11 +73,11 @@ public class CalculateHourlySoilTemperature extends FWSimComponent
             {
                 t_hourlySoilT[i] = 0.0d;
             }
-            t_hourlySoilT = getHourlySoilSurfaceTemperature(t_maxTSoil, t_minTSoil, t_dayLength, t_b, t_c, t_a);
+            t_hourlySoilT = getHourlySoilSurfaceTemperature(t_maxTSoil, t_minTSoil, t_dayLength, t_b, t_a, t_c);
         }
         hourlySoilT.setValue(t_hourlySoilT, this);
     }
-    public static Double [] getHourlySoilSurfaceTemperature(Double TMax, Double TMin, Double ady, Double t_b, Double t_c, Double t_a)
+    public static Double [] getHourlySoilSurfaceTemperature(Double TMax, Double TMin, Double ady, Double t_b, Double t_a, Double t_c)
     {
         Integer i;
         Double[] result = new Double[24];

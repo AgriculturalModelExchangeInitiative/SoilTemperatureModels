@@ -19,17 +19,6 @@ public class SoilTemperatureComponent
             _CalculateSoilTemperature.lambda_ = value;
         }
     }
-    public double a
-    {
-        get
-        {
-             return _CalculateHourlySoilTemperature.a; 
-        }
-        set
-        {
-            _CalculateHourlySoilTemperature.a = value;
-        }
-    }
     public double b
     {
         get
@@ -52,19 +41,30 @@ public class SoilTemperatureComponent
             _CalculateHourlySoilTemperature.c = value;
         }
     }
+    public double a
+    {
+        get
+        {
+             return _CalculateHourlySoilTemperature.a; 
+        }
+        set
+        {
+            _CalculateHourlySoilTemperature.a = value;
+        }
+    }
 
     public void  CalculateModel(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a, SoilTemperatureExogenous ex)
     {
-        _calculatesoiltemperature.CalculateModel(s,s1, r, a, ex);
-        _calculatehourlysoiltemperature.CalculateModel(s,s1, r, a, ex);
+        _CalculateSoilTemperature.CalculateModel(s,s1, r, a, ex);
+        _CalculateHourlySoilTemperature.CalculateModel(s,s1, r, a, ex);
     }
     
     public SoilTemperatureComponent(SoilTemperatureComponent toCopy): this() // copy constructor 
     {
 
         lambda_ = toCopy.lambda_;
-        a = toCopy.a;
         b = toCopy.b;
         c = toCopy.c;
+        a = toCopy.a;
     }
 }
