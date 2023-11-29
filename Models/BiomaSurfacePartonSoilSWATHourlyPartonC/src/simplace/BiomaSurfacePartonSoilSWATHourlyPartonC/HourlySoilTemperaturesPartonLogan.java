@@ -33,12 +33,12 @@ public class HourlySoilTemperaturesPartonLogan extends FWSimComponent
     @Override
     public HashMap<String, FWSimVariable<?>> createVariables()
     {
-        addVariable(FWSimVariable.createSimVariable("SoilTemperatureByLayersHourly", "Hourly soil temperature by layers", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"Â°C", -50, 50, 15, this));
+        addVariable(FWSimVariable.createSimVariable("SoilTemperatureByLayersHourly", "Hourly soil temperature by layers", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"degC", -50, 50, 15, this));
         addVariable(FWSimVariable.createSimVariable("HourOfSunrise", "Hour of sunrise", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"h", 0, 24, 6, this));
         addVariable(FWSimVariable.createSimVariable("HourOfSunset", "Hour of sunset", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"h", 0, 24, 17, this));
         addVariable(FWSimVariable.createSimVariable("DayLength", "Length of the day", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"h", 0, 24, 10, this));
-        addVariable(FWSimVariable.createSimVariable("SoilTemperatureMinimum", "Minimum soil temperature by layers", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"Â°C", -60, 60, 15, this));
-        addVariable(FWSimVariable.createSimVariable("SoilTemperatureMaximum", "Maximum soil temperature by layers", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"Â°C", -60, 60, 15, this));
+        addVariable(FWSimVariable.createSimVariable("SoilTemperatureMinimum", "Minimum soil temperature by layers", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.input,"degC", -60, 60, 15, this));
+        addVariable(FWSimVariable.createSimVariable("SoilTemperatureMaximum", "Maximum soil temperature by layers", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.input,"degC", -60, 60, 15, this));
 
         return iFieldMap;
     }

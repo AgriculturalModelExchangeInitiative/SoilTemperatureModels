@@ -50,7 +50,21 @@ namespace UNIMI.SoilT.Strategies.Soil
 				ModellingOptions mo0_0 = new ModellingOptions();
 				//Parameters
 				List<VarInfo> _parameters0_0 = new List<VarInfo>();
+				VarInfo v1 = new VarInfo();
+				 v1.DefaultValue = 10;
+				 v1.Description = "Number of layers";
+				 v1.Id = 0;
+				 v1.MaxValue = 20;
+				 v1.MinValue = 0;
+				 v1.Name = "layersNumber";
+				 v1.Size = 1;
+				 v1.Units = "dimensionless";
+				 v1.URL = "";
+				 v1.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
+				 v1.ValueType = VarInfoValueTypes.GetInstanceForName("Integer");
+				 _parameters0_0.Add(v1);
 				mo0_0.Parameters=_parameters0_0;
+
 				//Inputs
 				List<PropertyDescription> _inputs0_0 = new List<PropertyDescription>();
 				PropertyDescription pd1 = new PropertyDescription();
@@ -365,7 +379,7 @@ namespace UNIMI.SoilT.Strategies.Soil
 				//GENERATED CODE END - PLACE YOUR CUSTOM CODE BELOW - Section1
 				//Code written below will not be overwritten by a future code generation
                 
-                for (int i = 0; i < states.ThermalDiffusivity.Length; i++)
+                for (int i = 0; i < layersNumber; i++)
                 {
                     states.ThermalDiffusivity[i] = (states.ThermalConductivity[i] / states.HeatCapacity[i]) / 100;
                 }  
@@ -373,7 +387,6 @@ namespace UNIMI.SoilT.Strategies.Soil
 				//End of custom code. Do not place your custom code below. It will be overwritten by a future code generation.
 				//PLACE YOUR CUSTOM CODE ABOVE - GENERATED CODE START - Section1 
 			}
-
 				
 
 	#endregion
@@ -386,3 +399,68 @@ namespace UNIMI.SoilT.Strategies.Soil
 				//PLACE YOUR CUSTOM CODE ABOVE - GENERATED CODE START - Section2 
 	}
 }
+
+
+//%%CyML Description Begin%%
+/*
+
+     - Name: ThermalDiffu -Version: 001, -Time step: 1
+     - Description:
+                 * Title: ThermalDiffu model
+                 * Authors: simone.bregaglio@unimi.it
+                 * Reference: http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl
+                 * Institution: University Of Milan
+                 * ExtendedDescription: Strategy for the calculation of thermal diffusitivity. Bristow, K.L., Thermal conductivity, in Methods of Soil Analysis. Part 4. Physical Methods, J.H. Dane and G.C. Topp, Editors. 2002, Soil Science Society of America Book Series #5: Madison, Wisconsin. p. 1209-1226. Diekkruger, B. (1996) SIMULAT - Ein Modellsystem zur Berechnung der Wasser- und Stoffdynamik landwirtschaftlich genutzter Standorte (SIMULAT - a model system for the calculation of water and matter dynamics on agricultural sites, in German). In: Wasser- und Stoffdynamik in AgrarÃ´kosystemen, Sonderf.
+                 * ShortDescription: Strategy for the calculation of thermal diffusitivity
+     - inputs:
+                 * name: ThermalDiffusivity
+                               ** description : Thermal diffusivity of soil layer
+                               ** inputtype : variable
+                               ** variablecategory : state
+                               ** datatype : DOUBLEARRAY
+                               ** len : 
+                               ** max : 1
+                               ** min : 0
+                               ** default : 0.0025
+                               ** unit : mm s-1
+                 * name: ThermalConductivity
+                               ** description : Thermal conductivity of soil layer
+                               ** inputtype : variable
+                               ** variablecategory : auxiliary
+                               ** datatype : DOUBLEARRAY
+                               ** len : 
+                               ** max : 8
+                               ** min : 0.025
+                               ** default : 1
+                               ** unit : W m-1 K-1
+                 * name: HeatCapacity
+                               ** description : Volumetric specific heat of soil
+                               ** inputtype : variable
+                               ** variablecategory : auxiliary
+                               ** datatype : DOUBLEARRAY
+                               ** len : 
+                               ** max : 300
+                               ** min : 0
+                               ** default : 20
+                               ** unit : MJ m-3 Â°C-1
+                 * name: layersNumber
+                               ** description : Number of layersl
+                               ** inputtype : parameter
+                               ** parametercategory : constant
+                               ** datatype : INT
+                               ** max : 300
+                               ** min : 0
+                               ** default : 10
+                               ** unit : dimensionless
+     - outputs:
+                 * name: ThermalDiffusivity
+                               ** description : Thermal diffusivity of soil layer
+                               ** datatype : DOUBLEARRAY
+                               ** variablecategory : state
+                               ** len : 
+                               ** max : 1
+                               ** min : 0
+                               ** unit : mm s-1
+
+*/
+//%%CyML Description End%%

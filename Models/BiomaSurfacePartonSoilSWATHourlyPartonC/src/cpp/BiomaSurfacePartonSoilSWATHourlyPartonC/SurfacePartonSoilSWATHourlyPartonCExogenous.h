@@ -1,37 +1,33 @@
-#ifndef _SurfacePartonSoilSWATHourlyPartonCExogenous_
-#define _SurfacePartonSoilSWATHourlyPartonCExogenous_
+#pragma once
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
-# include<vector>
-# include<string>
-using namespace std;
+#include <vector>
+#include <string>
+namespace BiomaSurfacePartonSoilSWATHourlyPartonC {
 class SurfacePartonSoilSWATHourlyPartonCExogenous
 {
     private:
-        double GlobalSolarRadiation ;
-        double DayLength ;
-        double AirTemperatureMinimum ;
         double AirTemperatureMaximum ;
-        double AirTemperatureAnnualAverage ;
+        double GlobalSolarRadiation ;
+        double AirTemperatureMinimum ;
+        double DayLength ;
         double HourOfSunrise ;
         double HourOfSunset ;
     public:
         SurfacePartonSoilSWATHourlyPartonCExogenous();
-        double getGlobalSolarRadiation();
-        void setGlobalSolarRadiation(double _GlobalSolarRadiation);
-        double getDayLength();
-        void setDayLength(double _DayLength);
-        double getAirTemperatureMinimum();
-        void setAirTemperatureMinimum(double _AirTemperatureMinimum);
         double getAirTemperatureMaximum();
         void setAirTemperatureMaximum(double _AirTemperatureMaximum);
-        double getAirTemperatureAnnualAverage();
-        void setAirTemperatureAnnualAverage(double _AirTemperatureAnnualAverage);
+        double getGlobalSolarRadiation();
+        void setGlobalSolarRadiation(double _GlobalSolarRadiation);
+        double getAirTemperatureMinimum();
+        void setAirTemperatureMinimum(double _AirTemperatureMinimum);
+        double getDayLength();
+        void setDayLength(double _DayLength);
         double getHourOfSunrise();
         void setHourOfSunrise(double _HourOfSunrise);
         double getHourOfSunset();
         void setHourOfSunset(double _HourOfSunset);
 
 };
-#endif
+}

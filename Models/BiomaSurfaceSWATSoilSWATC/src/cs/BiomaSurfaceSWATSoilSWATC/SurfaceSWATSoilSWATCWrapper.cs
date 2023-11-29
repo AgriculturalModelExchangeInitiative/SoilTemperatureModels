@@ -20,11 +20,15 @@ class SurfaceSWATSoilSWATCWrapper
         loadParameters();
     }
 
-        double LagCoefficient;
+        double AirTemperatureAnnualAverage;
+    double SoilProfileDepth;
+    double[] BulkDensity =  new double [100];
+    double[] LayerThickness =  new double [100];
+    double LagCoefficient;
 
-    public double SurfaceSoilTemperature{ get { return s.SurfaceSoilTemperature;}} 
-     
     public double[] SoilTemperatureByLayers{ get { return s.SoilTemperatureByLayers;}} 
+     
+    public double SurfaceSoilTemperature{ get { return a.SurfaceSoilTemperature;}} 
      
 
     public SurfaceSWATSoilSWATCWrapper(SurfaceSWATSoilSWATCWrapper toCopy, bool copyAll) : this()
@@ -46,17 +50,22 @@ class SurfaceSWATSoilSWATCWrapper
 
     private void loadParameters()
     {
+        surfaceswatsoilswatcComponent.AirTemperatureAnnualAverage = AirTemperatureAnnualAverage;
+        surfaceswatsoilswatcComponent.SoilProfileDepth = SoilProfileDepth;
+        surfaceswatsoilswatcComponent.BulkDensity = BulkDensity;
+        surfaceswatsoilswatcComponent.LayerThickness = LayerThickness;
         surfaceswatsoilswatcComponent.LagCoefficient = LagCoefficient;
     }
 
-    public void EstimateSurfaceSWATSoilSWATC(double GlobalSolarRadiation, double AirTemperatureMaximum, double AirTemperatureMinimum, double Albedo, double WaterEquivalentOfSnowPack, double AirTemperatureAnnualAverage)
+    public void EstimateSurfaceSWATSoilSWATC(double AboveGroundBiomass, double[] VolumetricWaterContent, double Albedo, double AirTemperatureMinimum, double WaterEquivalentOfSnowPack, double GlobalSolarRadiation, double AirTemperatureMaximum)
     {
+        a.AboveGroundBiomass = AboveGroundBiomass;
+        a.VolumetricWaterContent = VolumetricWaterContent;
+        a.Albedo = Albedo;
+        a.AirTemperatureMinimum = AirTemperatureMinimum;
+        a.WaterEquivalentOfSnowPack = WaterEquivalentOfSnowPack;
         a.GlobalSolarRadiation = GlobalSolarRadiation;
         a.AirTemperatureMaximum = AirTemperatureMaximum;
-        a.AirTemperatureMinimum = AirTemperatureMinimum;
-        a.Albedo = Albedo;
-        a.WaterEquivalentOfSnowPack = WaterEquivalentOfSnowPack;
-        a.AirTemperatureAnnualAverage = AirTemperatureAnnualAverage;
         surfaceswatsoilswatcComponent.CalculateModel(s,s1, r, a, ex);
     }
 

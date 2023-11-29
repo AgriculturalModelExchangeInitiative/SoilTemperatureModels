@@ -4,12 +4,11 @@ import java.time.LocalDateTime;
 
 public class SurfaceSWATSoilSWATCExogenous
 {
+    private Double Albedo;
+    private Double AirTemperatureMinimum;
+    private Double WaterEquivalentOfSnowPack;
     private Double GlobalSolarRadiation;
     private Double AirTemperatureMaximum;
-    private Double AirTemperatureMinimum;
-    private Double Albedo;
-    private Double WaterEquivalentOfSnowPack;
-    private Double AirTemperatureAnnualAverage;
     
     public SurfaceSWATSoilSWATCExogenous() { }
     
@@ -17,14 +16,31 @@ public class SurfaceSWATSoilSWATCExogenous
     {
         if (copyAll)
         {
+            this.Albedo = toCopy.getAlbedo();
+            this.AirTemperatureMinimum = toCopy.getAirTemperatureMinimum();
+            this.WaterEquivalentOfSnowPack = toCopy.getWaterEquivalentOfSnowPack();
             this.GlobalSolarRadiation = toCopy.getGlobalSolarRadiation();
             this.AirTemperatureMaximum = toCopy.getAirTemperatureMaximum();
-            this.AirTemperatureMinimum = toCopy.getAirTemperatureMinimum();
-            this.Albedo = toCopy.getAlbedo();
-            this.WaterEquivalentOfSnowPack = toCopy.getWaterEquivalentOfSnowPack();
-            this.AirTemperatureAnnualAverage = toCopy.getAirTemperatureAnnualAverage();
         }
     }
+    public Double getAlbedo()
+    { return Albedo; }
+
+    public void setAlbedo(Double _Albedo)
+    { this.Albedo= _Albedo; } 
+    
+    public Double getAirTemperatureMinimum()
+    { return AirTemperatureMinimum; }
+
+    public void setAirTemperatureMinimum(Double _AirTemperatureMinimum)
+    { this.AirTemperatureMinimum= _AirTemperatureMinimum; } 
+    
+    public Double getWaterEquivalentOfSnowPack()
+    { return WaterEquivalentOfSnowPack; }
+
+    public void setWaterEquivalentOfSnowPack(Double _WaterEquivalentOfSnowPack)
+    { this.WaterEquivalentOfSnowPack= _WaterEquivalentOfSnowPack; } 
+    
     public Double getGlobalSolarRadiation()
     { return GlobalSolarRadiation; }
 
@@ -36,29 +52,5 @@ public class SurfaceSWATSoilSWATCExogenous
 
     public void setAirTemperatureMaximum(Double _AirTemperatureMaximum)
     { this.AirTemperatureMaximum= _AirTemperatureMaximum; } 
-    
-    public Double getAirTemperatureMinimum()
-    { return AirTemperatureMinimum; }
-
-    public void setAirTemperatureMinimum(Double _AirTemperatureMinimum)
-    { this.AirTemperatureMinimum= _AirTemperatureMinimum; } 
-    
-    public Double getAlbedo()
-    { return Albedo; }
-
-    public void setAlbedo(Double _Albedo)
-    { this.Albedo= _Albedo; } 
-    
-    public Double getWaterEquivalentOfSnowPack()
-    { return WaterEquivalentOfSnowPack; }
-
-    public void setWaterEquivalentOfSnowPack(Double _WaterEquivalentOfSnowPack)
-    { this.WaterEquivalentOfSnowPack= _WaterEquivalentOfSnowPack; } 
-    
-    public Double getAirTemperatureAnnualAverage()
-    { return AirTemperatureAnnualAverage; }
-
-    public void setAirTemperatureAnnualAverage(Double _AirTemperatureAnnualAverage)
-    { this.AirTemperatureAnnualAverage= _AirTemperatureAnnualAverage; } 
     
 }

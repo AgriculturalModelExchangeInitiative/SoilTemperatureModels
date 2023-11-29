@@ -4,18 +4,18 @@ setwd('D:/Docs/AMEI_Workshop/AMEI_10_14_2022/Models/BiomaSurfaceSWATSoilSWATC/sr
 source('Surfacetemperatureswat.r')
 source('Soiltemperatureswat.r')
 
-model_surfaceswatsoilswatc <- function (GlobalSolarRadiation,
-         AirTemperatureMaximum,
-         AirTemperatureMinimum,
+model_surfaceswatsoilswatc <- function (AboveGroundBiomass,
          Albedo,
-         AboveGroundBiomass,
+         AirTemperatureMinimum,
          WaterEquivalentOfSnowPack,
-         LagCoefficient,
+         GlobalSolarRadiation,
+         AirTemperatureMaximum,
          AirTemperatureAnnualAverage,
+         SoilProfileDepth,
          BulkDensity,
-         LayerThickness,
          VolumetricWaterContent,
-         SoilProfileDepth){
+         LayerThickness,
+         LagCoefficient){
     #'- Name: SurfaceSWATSoilSWATC -Version: 001, -Time step: 1
     #'- Description:
     #'            * Title: SurfaceSWATSoilSWATC model
@@ -25,6 +25,42 @@ model_surfaceswatsoilswatc <- function (GlobalSolarRadiation,
     #'            * ExtendedDescription: Composite strategy for the calculation of surface and soil temperature with SWAT method. Neitsch,S.L., Arnold, J.G., Kiniry, J.R., Williams, J.R., King, K.W. Soil and Water Assessment Tool. Theoretical documentation. Version 2000. http://swatmodel.tamu.edu/media/1290/swat2000theory.pdf.  Composite strategy. See also references of the associated strategies.
     #'            * ShortDescription: None
     #'- inputs:
+    #'            * name: AboveGroundBiomass
+    #'                          ** description : Above ground biomass
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : auxiliary
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 60
+    #'                          ** min : 0
+    #'                          ** default : 3
+    #'                          ** unit : Kg ha-1
+    #'            * name: Albedo
+    #'                          ** description : Albedo of soil
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : exogenous
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 1
+    #'                          ** min : 0
+    #'                          ** default : 0.2
+    #'                          ** unit : unitless
+    #'            * name: AirTemperatureMinimum
+    #'                          ** description : Minimum daily air temperature
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : exogenous
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 50
+    #'                          ** min : -60
+    #'                          ** default : 5
+    #'                          ** unit : 
+    #'            * name: WaterEquivalentOfSnowPack
+    #'                          ** description : Water equivalent of snow pack
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : exogenous
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 1000
+    #'                          ** min : 0
+    #'                          ** default : 10
+    #'                          ** unit : mm
     #'            * name: GlobalSolarRadiation
     #'                          ** description : Daily global solar radiation
     #'                          ** inputtype : variable
@@ -42,43 +78,55 @@ model_surfaceswatsoilswatc <- function (GlobalSolarRadiation,
     #'                          ** max : 60
     #'                          ** min : -40
     #'                          ** default : 15
-    #'                          ** unit : Â°C
-    #'            * name: AirTemperatureMinimum
-    #'                          ** description : Minimum daily air temperature
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
+    #'                          ** unit : 
+    #'            * name: AirTemperatureAnnualAverage
+    #'                          ** description : Annual average air temperature
+    #'                          ** inputtype : parameter
+    #'                          ** parametercategory : constant
     #'                          ** datatype : DOUBLE
     #'                          ** max : 50
-    #'                          ** min : -60
-    #'                          ** default : 5
-    #'                          ** unit : Â°C
-    #'            * name: Albedo
-    #'                          ** description : Albedo of soil
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
+    #'                          ** min : -40
+    #'                          ** default : 15
+    #'                          ** unit : degC
+    #'            * name: SoilProfileDepth
+    #'                          ** description : Soil profile depth
+    #'                          ** inputtype : parameter
+    #'                          ** parametercategory : constant
     #'                          ** datatype : DOUBLE
-    #'                          ** max : 1
-    #'                          ** min : 0
-    #'                          ** default : 0.2
-    #'                          ** unit : unitless
-    #'            * name: AboveGroundBiomass
-    #'                          ** description : Above ground biomass
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : state
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 60
+    #'                          ** max : 50
     #'                          ** min : 0
     #'                          ** default : 3
-    #'                          ** unit : Kg ha-1
-    #'            * name: WaterEquivalentOfSnowPack
-    #'                          ** description : Water equivalent of snow pack
+    #'                          ** unit : m
+    #'            * name: BulkDensity
+    #'                          ** description : Bulk density
+    #'                          ** inputtype : parameter
+    #'                          ** parametercategory : constant
+    #'                          ** datatype : DOUBLEARRAY
+    #'                          ** len : 
+    #'                          ** max : 1.8
+    #'                          ** min : 0.9
+    #'                          ** default : 1.3
+    #'                          ** unit : t m-3
+    #'            * name: VolumetricWaterContent
+    #'                          ** description : Volumetric soil water content
     #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 1000
+    #'                          ** variablecategory : auxiliary
+    #'                          ** datatype : DOUBLEARRAY
+    #'                          ** len : 
+    #'                          ** max : 0.8
     #'                          ** min : 0
-    #'                          ** default : 10
-    #'                          ** unit : mm
+    #'                          ** default : 0.25
+    #'                          ** unit : m3 m-3
+    #'            * name: LayerThickness
+    #'                          ** description : Soil layer thickness
+    #'                          ** inputtype : parameter
+    #'                          ** parametercategory : constant
+    #'                          ** datatype : DOUBLEARRAY
+    #'                          ** len : 
+    #'                          ** max : 3
+    #'                          ** min : 0.005
+    #'                          ** default : 0.05
+    #'                          ** unit : m
     #'            * name: LagCoefficient
     #'                          ** description : Lag coefficient that controls the influence of the previous day's temperature on the current day's temperature
     #'                          ** inputtype : parameter
@@ -88,62 +136,14 @@ model_surfaceswatsoilswatc <- function (GlobalSolarRadiation,
     #'                          ** min : 0
     #'                          ** default : 0.8
     #'                          ** unit : dimensionless
-    #'            * name: AirTemperatureAnnualAverage
-    #'                          ** description : Annual average air temperature
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 50
-    #'                          ** min : -40
-    #'                          ** default : 15
-    #'                          ** unit : Â°C
-    #'            * name: BulkDensity
-    #'                          ** description : Bulk density
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : state
-    #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 
-    #'                          ** max : 1.8
-    #'                          ** min : 0.9
-    #'                          ** default : 1.3
-    #'                          ** unit : t m-3
-    #'            * name: LayerThickness
-    #'                          ** description : Soil layer thickness
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : state
-    #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 
-    #'                          ** max : 3
-    #'                          ** min : 0.005
-    #'                          ** default : 0.05
-    #'                          ** unit : m
-    #'            * name: VolumetricWaterContent
-    #'                          ** description : Volumetric soil water content
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : state
-    #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 
-    #'                          ** max : 0.8
-    #'                          ** min : 0
-    #'                          ** default : 0.25
-    #'                          ** unit : m3 m-3
-    #'            * name: SoilProfileDepth
-    #'                          ** description : Soil profile depth
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : state
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 50
-    #'                          ** min : 0
-    #'                          ** default : 3
-    #'                          ** unit : m
     #'- outputs:
     #'            * name: SurfaceSoilTemperature
     #'                          ** description : Average surface soil temperature
     #'                          ** datatype : DOUBLE
-    #'                          ** variablecategory : state
+    #'                          ** variablecategory : auxiliary
     #'                          ** max : 60
     #'                          ** min : -60
-    #'                          ** unit : Â°C
+    #'                          ** unit : degC
     #'            * name: SoilTemperatureByLayers
     #'                          ** description : Soil temperature of each layer
     #'                          ** datatype : DOUBLEARRAY
@@ -151,9 +151,9 @@ model_surfaceswatsoilswatc <- function (GlobalSolarRadiation,
     #'                          ** len : 
     #'                          ** max : 60
     #'                          ** min : -60
-    #'                          ** unit : Â°C
+    #'                          ** unit : degC
     SoilTemperatureByLayers<- vector()
     SurfaceSoilTemperature <- model_surfacetemperatureswat(GlobalSolarRadiation, SoilTemperatureByLayers, AirTemperatureMaximum, AirTemperatureMinimum, Albedo, AboveGroundBiomass, WaterEquivalentOfSnowPack)
-    SoilTemperatureByLayers <- model_soiltemperatureswat(SoilTemperatureByLayers, LagCoefficient, AirTemperatureAnnualAverage, BulkDensity, LayerThickness, VolumetricWaterContent, SoilProfileDepth, SurfaceSoilTemperature)
+    SoilTemperatureByLayers <- model_soiltemperatureswat(VolumetricWaterContent, SurfaceSoilTemperature, LayerThickness, LagCoefficient, SoilTemperatureByLayers, AirTemperatureAnnualAverage, BulkDensity, SoilProfileDepth)
     return (list ("SurfaceSoilTemperature" = SurfaceSoilTemperature,"SoilTemperatureByLayers" = SoilTemperatureByLayers))
 }

@@ -3,16 +3,17 @@
 <ModelUnit modelid="Crop2ML.BiomaSurfacePartonSoilSWATHourlyPartonC.ThermalDiffu" name="ThermalDiffu" timestep="1" version="001">
     <Description>
         <Title>ThermalDiffu model</Title>
-        <Authors>simone.bregaglio@unimi.it</Authors>
+        <Authors>simone.bregaglio</Authors>
         <Institution>University Of Milan</Institution>
-        <URI>http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl</URI>
-        <Reference>(&apos;http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl&apos;,)</Reference>
-        <ExtendedDescription>Strategy for the calculation of thermal diffusitivity. Bristow, K.L., Thermal conductivity, in Methods of Soil Analysis. Part 4. Physical Methods, J.H. Dane and G.C. Topp, Editors. 2002, Soil Science Society of America Book Series #5: Madison, Wisconsin. p. 1209-1226. Diekkruger, B. (1996) SIMULAT - Ein Modellsystem zur Berechnung der Wasser- und Stoffdynamik landwirtschaftlich genutzter Standorte (SIMULAT - a model system for the calculation of water and matter dynamics on agricultural sites, in German). In: Wasser- und Stoffdynamik in AgrarÃ´kosystemen, Sonderf.</ExtendedDescription>
-        <ShortDescription></ShortDescription></Description>
+        <URI></URI>
+        <Reference>http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl</Reference>
+        <ExtendedDescription>Strategy for the calculation of thermal diffusitivity. Bristow, K.L., Thermal conductivity, in Methods of Soil Analysis. Part 4. Physical Methods, J.H. Dane and G.C. Topp, Editors. 2002, Soil Science Society of America Book Series</ExtendedDescription>
+        <ShortDescription>Strategy for the calculation of thermal diffusitivity</ShortDescription></Description>
     <Inputs>
         <Input name="ThermalDiffusivity" description="Thermal diffusivity of soil layer" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="" max="1" min="0" default="0.0025" unit="mm s-1"/>
-        <Input name="ThermalConductivity" description="Thermal conductivity of soil layer" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="" max="8" min="0.025" default="1" unit="W m-1 K-1"/>
-        <Input name="HeatCapacity" description="Volumetric specific heat of soil" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="" max="300" min="0" default="20" unit="MJ m-3 Â°C-1"/></Inputs>
+        <Input name="ThermalConductivity" description="Thermal conductivity of soil layer" inputtype="variable" variablecategory="auxiliary" datatype="DOUBLEARRAY" len="" max="8" min="0.025" default="1" unit="W m-1 K-1"/>
+        <Input name="HeatCapacity" description="Volumetric specific heat of soil" inputtype="variable" variablecategory="auxiliary" datatype="DOUBLEARRAY" len="" max="300" min="0" default="20" unit="MJ m-3"/>
+        <Input name="layersNumber" description="Number of layersl" inputtype="parameter" parametercategory="constant" datatype="INT" max="300" min="0" default="10" unit="dimensionless"/></Inputs>
     <Outputs>
         <Output name="ThermalDiffusivity" description="Thermal diffusivity of soil layer" datatype="DOUBLEARRAY" variablecategory="state" len="" max="1" min="0" unit="mm s-1"/></Outputs>
     <Algorithm language="cyml" platform="" filename="algo/pyx/ThermalDiffu.pyx"/>

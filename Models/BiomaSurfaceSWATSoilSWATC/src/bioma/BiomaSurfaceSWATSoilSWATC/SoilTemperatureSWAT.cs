@@ -21,74 +21,102 @@ namespace SurfaceSWATSoilSWATC.Strategies
             //Parameters
             List<VarInfo> _parameters0_0 = new List<VarInfo>();
             VarInfo v1 = new VarInfo();
-            v1.DefaultValue = 0.8;
-            v1.Description = "Lag coefficient that controls the influence of the previous day's temperature on the current day's temperature";
+            v1.DefaultValue = -1D;
+            v1.Description = "Soil layer thickness";
             v1.Id = 0;
-            v1.MaxValue = 1;
-            v1.MinValue = 0;
-            v1.Name = "LagCoefficient";
+            v1.MaxValue = -1D;
+            v1.MinValue = -1D;
+            v1.Name = "LayerThickness";
             v1.Size = 1;
-            v1.Units = "dimensionless";
+            v1.Units = "m";
             v1.URL = "";
             v1.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
-            v1.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+            v1.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
             _parameters0_0.Add(v1);
+            VarInfo v2 = new VarInfo();
+            v2.DefaultValue = 0.8;
+            v2.Description = "Lag coefficient that controls the influence of the previous day's temperature on the current day's temperature";
+            v2.Id = 0;
+            v2.MaxValue = 1;
+            v2.MinValue = 0;
+            v2.Name = "LagCoefficient";
+            v2.Size = 1;
+            v2.Units = "dimensionless";
+            v2.URL = "";
+            v2.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
+            v2.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+            _parameters0_0.Add(v2);
+            VarInfo v3 = new VarInfo();
+            v3.DefaultValue = 15;
+            v3.Description = "Annual average air temperature";
+            v3.Id = 0;
+            v3.MaxValue = 50;
+            v3.MinValue = -40;
+            v3.Name = "AirTemperatureAnnualAverage";
+            v3.Size = 1;
+            v3.Units = "degC";
+            v3.URL = "";
+            v3.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
+            v3.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+            _parameters0_0.Add(v3);
+            VarInfo v4 = new VarInfo();
+            v4.DefaultValue = -1D;
+            v4.Description = "Bulk density";
+            v4.Id = 0;
+            v4.MaxValue = -1D;
+            v4.MinValue = -1D;
+            v4.Name = "BulkDensity";
+            v4.Size = 1;
+            v4.Units = "t m-3";
+            v4.URL = "";
+            v4.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
+            v4.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+            _parameters0_0.Add(v4);
+            VarInfo v5 = new VarInfo();
+            v5.DefaultValue = 3;
+            v5.Description = "Soil profile depth";
+            v5.Id = 0;
+            v5.MaxValue = 50;
+            v5.MinValue = 0;
+            v5.Name = "SoilProfileDepth";
+            v5.Size = 1;
+            v5.Units = "m";
+            v5.URL = "";
+            v5.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
+            v5.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+            _parameters0_0.Add(v5);
             mo0_0.Parameters=_parameters0_0;
 
             //Inputs
             List<PropertyDescription> _inputs0_0 = new List<PropertyDescription>();
             PropertyDescription pd1 = new PropertyDescription();
-            pd1.DomainClassType = typeof(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCState);
-            pd1.PropertyName = "SoilTemperatureByLayers";
-            pd1.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilTemperatureByLayers).ValueType.TypeForCurrentValue;
-            pd1.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilTemperatureByLayers);
+            pd1.DomainClassType = typeof(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCAuxiliary);
+            pd1.PropertyName = "VolumetricWaterContent";
+            pd1.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCAuxiliaryVarInfo.VolumetricWaterContent).ValueType.TypeForCurrentValue;
+            pd1.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCAuxiliaryVarInfo.VolumetricWaterContent);
             _inputs0_0.Add(pd1);
             PropertyDescription pd2 = new PropertyDescription();
-            pd2.DomainClassType = typeof(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenous);
-            pd2.PropertyName = "AirTemperatureAnnualAverage";
-            pd2.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureAnnualAverage).ValueType.TypeForCurrentValue;
-            pd2.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureAnnualAverage);
+            pd2.DomainClassType = typeof(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCAuxiliary);
+            pd2.PropertyName = "SurfaceSoilTemperature";
+            pd2.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCAuxiliaryVarInfo.SurfaceSoilTemperature).ValueType.TypeForCurrentValue;
+            pd2.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCAuxiliaryVarInfo.SurfaceSoilTemperature);
             _inputs0_0.Add(pd2);
             PropertyDescription pd3 = new PropertyDescription();
             pd3.DomainClassType = typeof(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCState);
-            pd3.PropertyName = "BulkDensity";
-            pd3.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.BulkDensity).ValueType.TypeForCurrentValue;
-            pd3.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.BulkDensity);
+            pd3.PropertyName = "SoilTemperatureByLayers";
+            pd3.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilTemperatureByLayers).ValueType.TypeForCurrentValue;
+            pd3.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilTemperatureByLayers);
             _inputs0_0.Add(pd3);
-            PropertyDescription pd4 = new PropertyDescription();
-            pd4.DomainClassType = typeof(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCState);
-            pd4.PropertyName = "LayerThickness";
-            pd4.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.LayerThickness).ValueType.TypeForCurrentValue;
-            pd4.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.LayerThickness);
-            _inputs0_0.Add(pd4);
-            PropertyDescription pd5 = new PropertyDescription();
-            pd5.DomainClassType = typeof(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCState);
-            pd5.PropertyName = "VolumetricWaterContent";
-            pd5.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.VolumetricWaterContent).ValueType.TypeForCurrentValue;
-            pd5.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.VolumetricWaterContent);
-            _inputs0_0.Add(pd5);
-            PropertyDescription pd6 = new PropertyDescription();
-            pd6.DomainClassType = typeof(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCState);
-            pd6.PropertyName = "SoilProfileDepth";
-            pd6.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilProfileDepth).ValueType.TypeForCurrentValue;
-            pd6.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilProfileDepth);
-            _inputs0_0.Add(pd6);
-            PropertyDescription pd7 = new PropertyDescription();
-            pd7.DomainClassType = typeof(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCState);
-            pd7.PropertyName = "SurfaceSoilTemperature";
-            pd7.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SurfaceSoilTemperature).ValueType.TypeForCurrentValue;
-            pd7.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SurfaceSoilTemperature);
-            _inputs0_0.Add(pd7);
             mo0_0.Inputs=_inputs0_0;
 
             //Outputs
             List<PropertyDescription> _outputs0_0 = new List<PropertyDescription>();
-            PropertyDescription pd8 = new PropertyDescription();
-            pd8.DomainClassType = typeof(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCState);
-            pd8.PropertyName = "SoilTemperatureByLayers";
-            pd8.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilTemperatureByLayers).ValueType.TypeForCurrentValue;
-            pd8.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilTemperatureByLayers);
-            _outputs0_0.Add(pd8);
+            PropertyDescription pd4 = new PropertyDescription();
+            pd4.DomainClassType = typeof(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCState);
+            pd4.PropertyName = "SoilTemperatureByLayers";
+            pd4.PropertyType = (SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilTemperatureByLayers).ValueType.TypeForCurrentValue;
+            pd4.PropertyVarInfo =(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilTemperatureByLayers);
+            _outputs0_0.Add(pd4);
             mo0_0.Outputs=_outputs0_0;
             //Associated strategies
             List<string> lAssStrat0_0 = new List<string>();
@@ -143,7 +171,7 @@ namespace SurfaceSWATSoilSWATC.Strategies
         private  void SetPublisherData()
         {
             _pd = new CRA.ModelLayer.MetadataTypes.PublisherData();
-            _pd.Add("Creator", "simone.bregaglio@unimi.it");
+            _pd.Add("Creator", "simone.bregaglio");
             _pd.Add("Date", "");
             _pd.Add("Publisher", "University Of Milan "); 
         }
@@ -161,6 +189,18 @@ namespace SurfaceSWATSoilSWATC.Strategies
 
         // Getter and setters for the value of the parameters of the strategy. The actual parameters are stored into the ModelingOptionsManager of the strategy.
 
+        public double[] LayerThickness
+        {
+            get { 
+                VarInfo vi= _modellingOptionsManager.GetParameterByName("LayerThickness");
+                if (vi != null && vi.CurrentValue!=null) return (double[])vi.CurrentValue ;
+                else throw new Exception("Parameter 'LayerThickness' not found (or found null) in strategy 'SoilTemperatureSWAT'");
+            } set {
+                VarInfo vi = _modellingOptionsManager.GetParameterByName("LayerThickness");
+                if (vi != null)  vi.CurrentValue=value;
+                else throw new Exception("Parameter 'LayerThickness' not found in strategy 'SoilTemperatureSWAT'");
+            }
+        }
         public double LagCoefficient
         {
             get { 
@@ -173,6 +213,42 @@ namespace SurfaceSWATSoilSWATC.Strategies
                 else throw new Exception("Parameter 'LagCoefficient' not found in strategy 'SoilTemperatureSWAT'");
             }
         }
+        public double AirTemperatureAnnualAverage
+        {
+            get { 
+                VarInfo vi= _modellingOptionsManager.GetParameterByName("AirTemperatureAnnualAverage");
+                if (vi != null && vi.CurrentValue!=null) return (double)vi.CurrentValue ;
+                else throw new Exception("Parameter 'AirTemperatureAnnualAverage' not found (or found null) in strategy 'SoilTemperatureSWAT'");
+            } set {
+                VarInfo vi = _modellingOptionsManager.GetParameterByName("AirTemperatureAnnualAverage");
+                if (vi != null)  vi.CurrentValue=value;
+                else throw new Exception("Parameter 'AirTemperatureAnnualAverage' not found in strategy 'SoilTemperatureSWAT'");
+            }
+        }
+        public double[] BulkDensity
+        {
+            get { 
+                VarInfo vi= _modellingOptionsManager.GetParameterByName("BulkDensity");
+                if (vi != null && vi.CurrentValue!=null) return (double[])vi.CurrentValue ;
+                else throw new Exception("Parameter 'BulkDensity' not found (or found null) in strategy 'SoilTemperatureSWAT'");
+            } set {
+                VarInfo vi = _modellingOptionsManager.GetParameterByName("BulkDensity");
+                if (vi != null)  vi.CurrentValue=value;
+                else throw new Exception("Parameter 'BulkDensity' not found in strategy 'SoilTemperatureSWAT'");
+            }
+        }
+        public double SoilProfileDepth
+        {
+            get { 
+                VarInfo vi= _modellingOptionsManager.GetParameterByName("SoilProfileDepth");
+                if (vi != null && vi.CurrentValue!=null) return (double)vi.CurrentValue ;
+                else throw new Exception("Parameter 'SoilProfileDepth' not found (or found null) in strategy 'SoilTemperatureSWAT'");
+            } set {
+                VarInfo vi = _modellingOptionsManager.GetParameterByName("SoilProfileDepth");
+                if (vi != null)  vi.CurrentValue=value;
+                else throw new Exception("Parameter 'SoilProfileDepth' not found in strategy 'SoilTemperatureSWAT'");
+            }
+        }
 
         public void SetParametersDefaultValue()
         {
@@ -182,6 +258,14 @@ namespace SurfaceSWATSoilSWATC.Strategies
         private static void SetStaticParametersVarInfoDefinitions()
         {
 
+            LayerThicknessVarInfo.Name = "LayerThickness";
+            LayerThicknessVarInfo.Description = "Soil layer thickness";
+            LayerThicknessVarInfo.MaxValue = -1D;
+            LayerThicknessVarInfo.MinValue = -1D;
+            LayerThicknessVarInfo.DefaultValue = -1D;
+            LayerThicknessVarInfo.Units = "m";
+            LayerThicknessVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+
             LagCoefficientVarInfo.Name = "LagCoefficient";
             LagCoefficientVarInfo.Description = "Lag coefficient that controls the influence of the previous day's temperature on the current day's temperature";
             LagCoefficientVarInfo.MaxValue = 1;
@@ -189,12 +273,60 @@ namespace SurfaceSWATSoilSWATC.Strategies
             LagCoefficientVarInfo.DefaultValue = 0.8;
             LagCoefficientVarInfo.Units = "dimensionless";
             LagCoefficientVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+
+            AirTemperatureAnnualAverageVarInfo.Name = "AirTemperatureAnnualAverage";
+            AirTemperatureAnnualAverageVarInfo.Description = "Annual average air temperature";
+            AirTemperatureAnnualAverageVarInfo.MaxValue = 50;
+            AirTemperatureAnnualAverageVarInfo.MinValue = -40;
+            AirTemperatureAnnualAverageVarInfo.DefaultValue = 15;
+            AirTemperatureAnnualAverageVarInfo.Units = "degC";
+            AirTemperatureAnnualAverageVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+
+            BulkDensityVarInfo.Name = "BulkDensity";
+            BulkDensityVarInfo.Description = "Bulk density";
+            BulkDensityVarInfo.MaxValue = -1D;
+            BulkDensityVarInfo.MinValue = -1D;
+            BulkDensityVarInfo.DefaultValue = -1D;
+            BulkDensityVarInfo.Units = "t m-3";
+            BulkDensityVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+
+            SoilProfileDepthVarInfo.Name = "SoilProfileDepth";
+            SoilProfileDepthVarInfo.Description = "Soil profile depth";
+            SoilProfileDepthVarInfo.MaxValue = 50;
+            SoilProfileDepthVarInfo.MinValue = 0;
+            SoilProfileDepthVarInfo.DefaultValue = 3;
+            SoilProfileDepthVarInfo.Units = "m";
+            SoilProfileDepthVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+        }
+
+        private static VarInfo _LayerThicknessVarInfo = new VarInfo();
+        public static VarInfo LayerThicknessVarInfo
+        {
+            get { return _LayerThicknessVarInfo;} 
         }
 
         private static VarInfo _LagCoefficientVarInfo = new VarInfo();
         public static VarInfo LagCoefficientVarInfo
         {
             get { return _LagCoefficientVarInfo;} 
+        }
+
+        private static VarInfo _AirTemperatureAnnualAverageVarInfo = new VarInfo();
+        public static VarInfo AirTemperatureAnnualAverageVarInfo
+        {
+            get { return _AirTemperatureAnnualAverageVarInfo;} 
+        }
+
+        private static VarInfo _BulkDensityVarInfo = new VarInfo();
+        public static VarInfo BulkDensityVarInfo
+        {
+            get { return _BulkDensityVarInfo;} 
+        }
+
+        private static VarInfo _SoilProfileDepthVarInfo = new VarInfo();
+        public static VarInfo SoilProfileDepthVarInfo
+        {
+            get { return _SoilProfileDepthVarInfo;} 
         }
 
         public string TestPostConditions(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCState s,SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCState s1,SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCRate r,SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCAuxiliary a,SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenous ex,string callID)
@@ -221,30 +353,22 @@ namespace SurfaceSWATSoilSWATC.Strategies
             try
             {
                 //Set current values of the inputs to the static VarInfo representing the inputs properties of the domain classes
+                SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCAuxiliaryVarInfo.VolumetricWaterContent.CurrentValue=a.VolumetricWaterContent;
+                SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCAuxiliaryVarInfo.SurfaceSoilTemperature.CurrentValue=a.SurfaceSoilTemperature;
                 SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilTemperatureByLayers.CurrentValue=s.SoilTemperatureByLayers;
-                SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureAnnualAverage.CurrentValue=ex.AirTemperatureAnnualAverage;
-                SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.BulkDensity.CurrentValue=s.BulkDensity;
-                SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.LayerThickness.CurrentValue=s.LayerThickness;
-                SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.VolumetricWaterContent.CurrentValue=s.VolumetricWaterContent;
-                SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilProfileDepth.CurrentValue=s.SoilProfileDepth;
-                SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SurfaceSoilTemperature.CurrentValue=s.SurfaceSoilTemperature;
                 ConditionsCollection prc = new ConditionsCollection();
                 Preconditions pre = new Preconditions(); 
-                RangeBasedCondition r1 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilTemperatureByLayers);
-                if(r1.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilTemperatureByLayers.ValueType)){prc.AddCondition(r1);}
-                RangeBasedCondition r2 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureAnnualAverage);
-                if(r2.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenousVarInfo.AirTemperatureAnnualAverage.ValueType)){prc.AddCondition(r2);}
-                RangeBasedCondition r3 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.BulkDensity);
-                if(r3.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.BulkDensity.ValueType)){prc.AddCondition(r3);}
-                RangeBasedCondition r4 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.LayerThickness);
-                if(r4.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.LayerThickness.ValueType)){prc.AddCondition(r4);}
-                RangeBasedCondition r5 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.VolumetricWaterContent);
-                if(r5.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.VolumetricWaterContent.ValueType)){prc.AddCondition(r5);}
-                RangeBasedCondition r6 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilProfileDepth);
-                if(r6.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilProfileDepth.ValueType)){prc.AddCondition(r6);}
-                RangeBasedCondition r7 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SurfaceSoilTemperature);
-                if(r7.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SurfaceSoilTemperature.ValueType)){prc.AddCondition(r7);}
+                RangeBasedCondition r1 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCAuxiliaryVarInfo.VolumetricWaterContent);
+                if(r1.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCAuxiliaryVarInfo.VolumetricWaterContent.ValueType)){prc.AddCondition(r1);}
+                RangeBasedCondition r2 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCAuxiliaryVarInfo.SurfaceSoilTemperature);
+                if(r2.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCAuxiliaryVarInfo.SurfaceSoilTemperature.ValueType)){prc.AddCondition(r2);}
+                RangeBasedCondition r3 = new RangeBasedCondition(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilTemperatureByLayers);
+                if(r3.ApplicableVarInfoValueTypes.Contains( SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCStateVarInfo.SoilTemperatureByLayers.ValueType)){prc.AddCondition(r3);}
+                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("LayerThickness")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("LagCoefficient")));
+                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("AirTemperatureAnnualAverage")));
+                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("BulkDensity")));
+                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("SoilProfileDepth")));
                 string preConditionsResult = pre.VerifyPreconditions(prc, callID); if (!string.IsNullOrEmpty(preConditionsResult)) { pre.TestsOut(preConditionsResult, true, "PreConditions errors in strategy " + this.GetType().Name); } return preConditionsResult;
             }
             catch (Exception exception)
@@ -269,13 +393,9 @@ namespace SurfaceSWATSoilSWATC.Strategies
 
         private void CalculateModel(SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCState s, SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCState s1, SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCRate r, SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCAuxiliary a, SurfaceSWATSoilSWATC.DomainClass.SurfaceSWATSoilSWATCExogenous ex)
         {
+            double[] VolumetricWaterContent = a.VolumetricWaterContent;
+            double SurfaceSoilTemperature = a.SurfaceSoilTemperature;
             double[] SoilTemperatureByLayers = s.SoilTemperatureByLayers;
-            double AirTemperatureAnnualAverage = ex.AirTemperatureAnnualAverage;
-            double[] BulkDensity = s.BulkDensity;
-            double[] LayerThickness = s.LayerThickness;
-            double[] VolumetricWaterContent = s.VolumetricWaterContent;
-            double SoilProfileDepth = s.SoilProfileDepth;
-            double SurfaceSoilTemperature = s.SurfaceSoilTemperature;
             int i;
             double _SoilProfileDepthmm;
             double _TotalWaterContentmm;

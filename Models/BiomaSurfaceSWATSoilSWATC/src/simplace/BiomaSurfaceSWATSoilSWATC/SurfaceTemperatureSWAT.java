@@ -36,13 +36,13 @@ public class SurfaceTemperatureSWAT extends FWSimComponent
     public HashMap<String, FWSimVariable<?>> createVariables()
     {
         addVariable(FWSimVariable.createSimVariable("GlobalSolarRadiation", "Daily global solar radiation", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Mj m-2 d-1", 0, 50, 15, this));
-        addVariable(FWSimVariable.createSimVariable("SoilTemperatureByLayers", "Soil temperature of each layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"Â°C", -60, 60, 15, this));
-        addVariable(FWSimVariable.createSimVariable("AirTemperatureMaximum", "Maximum daily air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Â°C", -40, 60, 15, this));
-        addVariable(FWSimVariable.createSimVariable("AirTemperatureMinimum", "Minimum daily air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Â°C", -60, 50, 5, this));
+        addVariable(FWSimVariable.createSimVariable("SoilTemperatureByLayers", "Soil temperature of each layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.input,"", -60, 60, 15, this));
+        addVariable(FWSimVariable.createSimVariable("AirTemperatureMaximum", "Maximum daily air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"", -40, 60, 15, this));
+        addVariable(FWSimVariable.createSimVariable("AirTemperatureMinimum", "Minimum daily air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"", -60, 50, 5, this));
         addVariable(FWSimVariable.createSimVariable("Albedo", "Albedo of soil", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"unitless", 0, 1, 0.2, this));
-        addVariable(FWSimVariable.createSimVariable("AboveGroundBiomass", "Above ground biomass", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"Kg ha-1", 0, 60, 3, this));
+        addVariable(FWSimVariable.createSimVariable("AboveGroundBiomass", "Above ground biomass", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Kg ha-1", 0, 60, 3, this));
         addVariable(FWSimVariable.createSimVariable("WaterEquivalentOfSnowPack", "Water equivalent of snow pack", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"mm", 0, 1000, 10, this));
-        addVariable(FWSimVariable.createSimVariable("SurfaceSoilTemperature", "Average surface soil temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"Â°C", -60, 60, null, this));
+        addVariable(FWSimVariable.createSimVariable("SurfaceSoilTemperature", "Average surface soil temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.out,"degC", -60, 60, null, this));
 
         return iFieldMap;
     }

@@ -31,10 +31,10 @@ public class ThermalConductivitySIMULAT extends FWSimComponent
     @Override
     public HashMap<String, FWSimVariable<?>> createVariables()
     {
-        addVariable(FWSimVariable.createSimVariable("VolumetricWaterContent", "Volumetric soil water content", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"m3 m-3", 0, 0.8, 0.25, this));
-        addVariable(FWSimVariable.createSimVariable("BulkDensity", "Bulk density", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"t m-3", 0.9, 1.8, 1.3, this));
-        addVariable(FWSimVariable.createSimVariable("Clay", "Clay content of soil layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"%", 0, 100, 0, this));
-        addVariable(FWSimVariable.createSimVariable("ThermalConductivity", "Thermal conductivity of soil layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"W m-1 K-1", 0.025, 8, null, this));
+        addVariable(FWSimVariable.createSimVariable("VolumetricWaterContent", "Volumetric soil water content", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.input,"m3 m-3", 0, 0.8, 0.25, this));
+        addVariable(FWSimVariable.createSimVariable("BulkDensity", "Bulk density", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.constant,"t m-3", 0.9, 1.8, 1.3, this));
+        addVariable(FWSimVariable.createSimVariable("Clay", "Clay content of soil layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.constant,"", 0, 100, 0, this));
+        addVariable(FWSimVariable.createSimVariable("ThermalConductivity", "Thermal conductivity of soil layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.out,"W m-1 K-1", 0.025, 8, null, this));
 
         return iFieldMap;
     }

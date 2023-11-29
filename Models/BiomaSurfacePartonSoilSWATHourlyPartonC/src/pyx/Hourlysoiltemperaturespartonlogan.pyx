@@ -1,5 +1,6 @@
-import numpy 
+import numpy
 from math import *
+
 def model_hourlysoiltemperaturespartonlogan(float SoilTemperatureByLayersHourly[],
                                             float HourOfSunrise,
                                             float HourOfSunset,
@@ -7,15 +8,14 @@ def model_hourlysoiltemperaturespartonlogan(float SoilTemperatureByLayersHourly[
                                             float SoilTemperatureMinimum[],
                                             float SoilTemperatureMaximum[]):
     """
-
     HourlySoilTemperaturesPartonLogan model
-    Author: simone.bregaglio@unimi.it
-    Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
+    Author: simone.bregaglio
+    Reference: http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl
     Institution: University Of Milan
     ExtendedDescription: Strategy for the calculation of hourly soil temperature. Reference: Parton, W.J.  and  Logan, J.A.,  1981. A model for diurnal variation  in soil  and  air temperature. Agric. Meteorol., 23: 205-216.
-    ShortDescription: None
-
+    ShortDescription: Strategy for the calculation of hourly soil temperature
     """
+
     cdef int h 
     cdef int i 
     cdef float TemperatureAtSunset 
@@ -30,5 +30,6 @@ def model_hourlysoiltemperaturespartonlogan(float SoilTemperatureByLayersHourly[
             elif h <= int(HourOfSunrise):
                 SoilTemperatureByLayersHourly[i + h]=(SoilTemperatureMinimum[i] - (TemperatureAtSunset * exp(-(24 - DayLength) / 2.2)) + ((TemperatureAtSunset - SoilTemperatureMinimum[i]) * exp(-(h + 24 - HourOfSunset) / 2.2))) / (1 - exp(-(24 - DayLength) / 2.2))
     return  SoilTemperatureByLayersHourly
+
 
 

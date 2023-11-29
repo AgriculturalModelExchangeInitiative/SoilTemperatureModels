@@ -1,18 +1,18 @@
-import numpy 
+import numpy
 from math import *
+
 def model_thermalconductivitysimulat(float VolumetricWaterContent[],
                                      float BulkDensity[],
                                      float Clay[]):
     """
-
     ThermalConductivitySIMULAT model
-    Author: simone.bregaglio@unimi.it
-    Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
+    Author: simone.bregaglio
+    Reference: http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl
     Institution: University Of Milan
-    ExtendedDescription: Strategy for the calculation of thermal conductivity. Bristow, K.L., Thermal conductivity, in Methods of Soil Analysis. Part 4. Physical Methods, J.H. Dane and G.C. Topp, Editors. 2002, Soil Science Society of America Book Series #5: Madison, Wisconsin. p. 1209-1226. Diekkruger, B. (1996) SIMULAT - Ein Modellsystem zur Berechnung der Wasser- und Stoffdynamik landwirtschaftlich genutzter Standorte (SIMULAT - a model system for the calculation of water and matter dynamics on agricultural sites, in German). In: Wasser- und Stoffdynamik in AgrarÃ´kosystemen, Sonderf.
-    ShortDescription: None
-
+    ExtendedDescription: Strategy for the calculation of thermal conductivity. Bristow, K.L., Thermal conductivity, in Methods of Soil Analysis. Part 4. Physical Methods, J.H. Dane and G.C. Topp, Editors. 2002, Soil Science Society of America Book Series
+    ShortDescription: Strategy for the calculation of thermal conductivity
     """
+
     cdef float ThermalConductivity[]
     cdef int i 
     cdef float Aterm 
@@ -32,5 +32,6 @@ def model_thermalconductivitysimulat(float VolumetricWaterContent[],
         Dterm=0.03 + (0.1 * pow(BulkDensity[i], 2))
         ThermalConductivity[i]=Aterm + (Bterm * VolumetricWaterContent[i]) - ((Aterm - Dterm) * pow(exp(-(Cterm * VolumetricWaterContent[i])), Eterm))
     return  ThermalConductivity
+
 
 

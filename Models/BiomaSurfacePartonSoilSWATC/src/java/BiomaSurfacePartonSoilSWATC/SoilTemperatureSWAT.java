@@ -9,7 +9,7 @@ public class SoilTemperatureSWAT
     {
         Double[] SoilTemperatureByLayers ;
         Integer i;
-        SoilTemperatureByLayers= new Double[LayerThickness.length]
+        SoilTemperatureByLayers= new Double[LayerThickness.length];
         Arrays.fill(SoilTemperatureByLayers, 0.0d);
         for (i=0 ; i!=LayerThickness.length ; i+=1)
         {

@@ -4,11 +4,10 @@ import java.time.LocalDateTime;
 
 public class SurfacePartonSoilSWATHourlyPartonCExogenous
 {
-    private Double GlobalSolarRadiation;
-    private Double DayLength;
-    private Double AirTemperatureMinimum;
     private Double AirTemperatureMaximum;
-    private Double AirTemperatureAnnualAverage;
+    private Double GlobalSolarRadiation;
+    private Double AirTemperatureMinimum;
+    private Double DayLength;
     private Double HourOfSunrise;
     private Double HourOfSunset;
     
@@ -18,26 +17,25 @@ public class SurfacePartonSoilSWATHourlyPartonCExogenous
     {
         if (copyAll)
         {
-            this.GlobalSolarRadiation = toCopy.getGlobalSolarRadiation();
-            this.DayLength = toCopy.getDayLength();
-            this.AirTemperatureMinimum = toCopy.getAirTemperatureMinimum();
             this.AirTemperatureMaximum = toCopy.getAirTemperatureMaximum();
-            this.AirTemperatureAnnualAverage = toCopy.getAirTemperatureAnnualAverage();
+            this.GlobalSolarRadiation = toCopy.getGlobalSolarRadiation();
+            this.AirTemperatureMinimum = toCopy.getAirTemperatureMinimum();
+            this.DayLength = toCopy.getDayLength();
             this.HourOfSunrise = toCopy.getHourOfSunrise();
             this.HourOfSunset = toCopy.getHourOfSunset();
         }
     }
+    public Double getAirTemperatureMaximum()
+    { return AirTemperatureMaximum; }
+
+    public void setAirTemperatureMaximum(Double _AirTemperatureMaximum)
+    { this.AirTemperatureMaximum= _AirTemperatureMaximum; } 
+    
     public Double getGlobalSolarRadiation()
     { return GlobalSolarRadiation; }
 
     public void setGlobalSolarRadiation(Double _GlobalSolarRadiation)
     { this.GlobalSolarRadiation= _GlobalSolarRadiation; } 
-    
-    public Double getDayLength()
-    { return DayLength; }
-
-    public void setDayLength(Double _DayLength)
-    { this.DayLength= _DayLength; } 
     
     public Double getAirTemperatureMinimum()
     { return AirTemperatureMinimum; }
@@ -45,17 +43,11 @@ public class SurfacePartonSoilSWATHourlyPartonCExogenous
     public void setAirTemperatureMinimum(Double _AirTemperatureMinimum)
     { this.AirTemperatureMinimum= _AirTemperatureMinimum; } 
     
-    public Double getAirTemperatureMaximum()
-    { return AirTemperatureMaximum; }
+    public Double getDayLength()
+    { return DayLength; }
 
-    public void setAirTemperatureMaximum(Double _AirTemperatureMaximum)
-    { this.AirTemperatureMaximum= _AirTemperatureMaximum; } 
-    
-    public Double getAirTemperatureAnnualAverage()
-    { return AirTemperatureAnnualAverage; }
-
-    public void setAirTemperatureAnnualAverage(Double _AirTemperatureAnnualAverage)
-    { this.AirTemperatureAnnualAverage= _AirTemperatureAnnualAverage; } 
+    public void setDayLength(Double _DayLength)
+    { this.DayLength= _DayLength; } 
     
     public Double getHourOfSunrise()
     { return HourOfSunrise; }

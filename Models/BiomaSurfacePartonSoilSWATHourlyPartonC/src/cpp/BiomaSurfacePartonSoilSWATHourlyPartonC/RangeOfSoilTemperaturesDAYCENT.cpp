@@ -1,4 +1,3 @@
-#ifndef _RANGEOFSOILTEMPERATURESDAYCENT_
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
@@ -10,24 +9,27 @@
 #include <map>
 #include <tuple>
 #include "RangeOfSoilTemperaturesDAYCENT.h"
-using namespace std;
-
-RangeOfSoilTemperaturesDAYCENT::RangeOfSoilTemperaturesDAYCENT() { }
-void RangeOfSoilTemperaturesDAYCENT::Calculate_Model(SurfacePartonSoilSWATHourlyPartonCState& s, SurfacePartonSoilSWATHourlyPartonCState& s1, SurfacePartonSoilSWATHourlyPartonCRate& r, SurfacePartonSoilSWATHourlyPartonCAuxiliary& a, SurfacePartonSoilSWATHourlyPartonCExogenous& ex)
+using namespace BiomaSurfacePartonSoilSWATHourlyPartonC;
+RangeOfSoilTemperaturesDAYCENT::RangeOfSoilTemperaturesDAYCENT() {}
+std::vector<double> & RangeOfSoilTemperaturesDAYCENT::getLayerThickness() { return this->LayerThickness; }
+void RangeOfSoilTemperaturesDAYCENT::setLayerThickness(std::vector<double> const &_LayerThickness){
+    this->LayerThickness = _LayerThickness;
+}
+void RangeOfSoilTemperaturesDAYCENT::Calculate_Model(SurfacePartonSoilSWATHourlyPartonCState &s, SurfacePartonSoilSWATHourlyPartonCState &s1, SurfacePartonSoilSWATHourlyPartonCRate &r, SurfacePartonSoilSWATHourlyPartonCAuxiliary &a, SurfacePartonSoilSWATHourlyPartonCExogenous &ex)
 {
     //- Name: RangeOfSoilTemperaturesDAYCENT -Version: 001, -Time step: 1
     //- Description:
     //            * Title: RangeOfSoilTemperaturesDAYCENT model
-    //            * Authors: simone.bregaglio@unimi.it
-    //            * Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
+    //            * Authors: simone.bregaglio
+    //            * Reference: http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl
     //            * Institution: University Of Milan
-    //            * ExtendedDescription: Strategy for the calculation of soil thermal conductivity.Reference: DAYCENT model written in C code 
-    //            * ShortDescription: None
+    //            * ExtendedDescription: Strategy for the calculation of soil thermal conductivity.Reference: DAYCENT model written in C code
+    //            * ShortDescription: Strategy for the calculation of soil thermal conductivity
     //- inputs:
     //            * name: LayerThickness
     //                          ** description : Soil layer thickness
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 3
@@ -42,11 +44,11 @@ void RangeOfSoilTemperaturesDAYCENT::Calculate_Model(SurfacePartonSoilSWATHourly
     //                          ** max : 60
     //                          ** min : -60
     //                          ** default : 10
-    //                          ** unit : Â°C
+    //                          ** unit : degC
     //            * name: ThermalDiffusivity
     //                          ** description : Thermal diffusivity of soil layer
     //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 1
@@ -56,13 +58,13 @@ void RangeOfSoilTemperaturesDAYCENT::Calculate_Model(SurfacePartonSoilSWATHourly
     //            * name: SoilTemperatureByLayers
     //                          ** description : Soil temperature of each layer
     //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 60
     //                          ** min : -60
     //                          ** default : 15
-    //                          ** unit : Â°C
+    //                          ** unit : degC
     //            * name: SurfaceTemperatureMaximum
     //                          ** description : Maximum surface soil temperature
     //                          ** inputtype : variable
@@ -71,40 +73,39 @@ void RangeOfSoilTemperaturesDAYCENT::Calculate_Model(SurfacePartonSoilSWATHourly
     //                          ** max : 60
     //                          ** min : -60
     //                          ** default : 25
-    //                          ** unit : Â°C
+    //                          ** unit : degC
     //- outputs:
     //            * name: SoilTemperatureRangeByLayers
     //                          ** description : Soil temperature range by layers
     //                          ** datatype : DOUBLEARRAY
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** len : 
     //                          ** max : 50
     //                          ** min : 0
-    //                          ** unit : Â°C
+    //                          ** unit : degC
     //            * name: SoilTemperatureMinimum
     //                          ** description : Minimum soil temperature by layers
     //                          ** datatype : DOUBLEARRAY
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** len : 
     //                          ** max : 60
     //                          ** min : -60
-    //                          ** unit : Â°C
+    //                          ** unit : 
     //            * name: SoilTemperatureMaximum
     //                          ** description : Maximum soil temperature by layers
     //                          ** datatype : DOUBLEARRAY
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** len : 
     //                          ** max : 60
     //                          ** min : -60
-    //                          ** unit : Â°C
-    vector<double>  LayerThickness = s.getLayerThickness();
+    //                          ** unit : degC
     double SurfaceTemperatureMinimum = a.getSurfaceTemperatureMinimum();
-    vector<double>  ThermalDiffusivity = s.getThermalDiffusivity();
-    vector<double>  SoilTemperatureByLayers = s.getSoilTemperatureByLayers();
+    std::vector<double> & ThermalDiffusivity = a.getThermalDiffusivity();
+    std::vector<double> & SoilTemperatureByLayers = a.getSoilTemperatureByLayers();
     double SurfaceTemperatureMaximum = a.getSurfaceTemperatureMaximum();
-    vector<double> SoilTemperatureRangeByLayers;
-    vector<double> SoilTemperatureMinimum;
-    vector<double> SoilTemperatureMaximum;
+    std::vector<double> SoilTemperatureRangeByLayers;
+    std::vector<double> SoilTemperatureMinimum;
+    std::vector<double> SoilTemperatureMaximum;
     int i;
     double _DepthBottom;
     double _DepthCenterLayer;
@@ -117,7 +118,7 @@ void RangeOfSoilTemperaturesDAYCENT::Calculate_Model(SurfacePartonSoilSWATHourly
         if (i == 0)
         {
             _DepthCenterLayer = LayerThickness[0] * 100 / 2;
-            SoilTemperatureRangeByLayers[0] = SurfaceDiurnalRange * exp(-_DepthCenterLayer * pow(0.00005 / ThermalDiffusivity[0], 0.5));
+            SoilTemperatureRangeByLayers[0] = SurfaceDiurnalRange * std::exp(-_DepthCenterLayer * std::pow(0.00005 / ThermalDiffusivity[0], 0.5));
             SoilTemperatureMaximum[0] = SoilTemperatureByLayers[0] + (SoilTemperatureRangeByLayers[0] / 2);
             SoilTemperatureMinimum[0] = SoilTemperatureByLayers[0] - (SoilTemperatureRangeByLayers[0] / 2);
         }
@@ -125,13 +126,12 @@ void RangeOfSoilTemperaturesDAYCENT::Calculate_Model(SurfacePartonSoilSWATHourly
         {
             _DepthBottom = _DepthBottom + (LayerThickness[(i - 1)] * 100);
             _DepthCenterLayer = _DepthBottom + (LayerThickness[i] * 100 / 2);
-            SoilTemperatureRangeByLayers[i] = SurfaceDiurnalRange * exp(-_DepthCenterLayer * pow(0.00005 / ThermalDiffusivity[i], 0.5));
+            SoilTemperatureRangeByLayers[i] = SurfaceDiurnalRange * std::exp(-_DepthCenterLayer * std::pow(0.00005 / ThermalDiffusivity[i], 0.5));
             SoilTemperatureMaximum[i] = SoilTemperatureByLayers[i] + (SoilTemperatureRangeByLayers[i] / 2);
             SoilTemperatureMinimum[i] = SoilTemperatureByLayers[i] - (SoilTemperatureRangeByLayers[i] / 2);
         }
     }
-    s.setSoilTemperatureRangeByLayers(SoilTemperatureRangeByLayers);
-    s.setSoilTemperatureMinimum(SoilTemperatureMinimum);
-    s.setSoilTemperatureMaximum(SoilTemperatureMaximum);
+    a.setSoilTemperatureRangeByLayers(SoilTemperatureRangeByLayers);
+    a.setSoilTemperatureMinimum(SoilTemperatureMinimum);
+    a.setSoilTemperatureMaximum(SoilTemperatureMaximum);
 }
-#endif

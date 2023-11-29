@@ -1,4 +1,3 @@
-#ifndef _HOURLYSOILTEMPERATURESPARTONLOGAN_
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
@@ -10,19 +9,18 @@
 #include <map>
 #include <tuple>
 #include "HourlySoilTemperaturesPartonLogan.h"
-using namespace std;
-
-HourlySoilTemperaturesPartonLogan::HourlySoilTemperaturesPartonLogan() { }
-void HourlySoilTemperaturesPartonLogan::Calculate_Model(SurfacePartonSoilSWATHourlyPartonCState& s, SurfacePartonSoilSWATHourlyPartonCState& s1, SurfacePartonSoilSWATHourlyPartonCRate& r, SurfacePartonSoilSWATHourlyPartonCAuxiliary& a, SurfacePartonSoilSWATHourlyPartonCExogenous& ex)
+using namespace BiomaSurfacePartonSoilSWATHourlyPartonC;
+HourlySoilTemperaturesPartonLogan::HourlySoilTemperaturesPartonLogan() {}
+void HourlySoilTemperaturesPartonLogan::Calculate_Model(SurfacePartonSoilSWATHourlyPartonCState &s, SurfacePartonSoilSWATHourlyPartonCState &s1, SurfacePartonSoilSWATHourlyPartonCRate &r, SurfacePartonSoilSWATHourlyPartonCAuxiliary &a, SurfacePartonSoilSWATHourlyPartonCExogenous &ex)
 {
     //- Name: HourlySoilTemperaturesPartonLogan -Version: 001, -Time step: 1
     //- Description:
     //            * Title: HourlySoilTemperaturesPartonLogan model
-    //            * Authors: simone.bregaglio@unimi.it
-    //            * Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
+    //            * Authors: simone.bregaglio
+    //            * Reference: http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl
     //            * Institution: University Of Milan
     //            * ExtendedDescription: Strategy for the calculation of hourly soil temperature. Reference: Parton, W.J.  and  Logan, J.A.,  1981. A model for diurnal variation  in soil  and  air temperature. Agric. Meteorol., 23: 205-216.
-    //            * ShortDescription: None
+    //            * ShortDescription: Strategy for the calculation of hourly soil temperature
     //- inputs:
     //            * name: SoilTemperatureByLayersHourly
     //                          ** description : Hourly soil temperature by layers
@@ -33,7 +31,7 @@ void HourlySoilTemperaturesPartonLogan::Calculate_Model(SurfacePartonSoilSWATHou
     //                          ** max : 50
     //                          ** min : -50
     //                          ** default : 15
-    //                          ** unit : Â°C
+    //                          ** unit : degC
     //            * name: HourOfSunrise
     //                          ** description : Hour of sunrise
     //                          ** inputtype : variable
@@ -64,23 +62,23 @@ void HourlySoilTemperaturesPartonLogan::Calculate_Model(SurfacePartonSoilSWATHou
     //            * name: SoilTemperatureMinimum
     //                          ** description : Minimum soil temperature by layers
     //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 60
     //                          ** min : -60
     //                          ** default : 15
-    //                          ** unit : Â°C
+    //                          ** unit : degC
     //            * name: SoilTemperatureMaximum
     //                          ** description : Maximum soil temperature by layers
     //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 60
     //                          ** min : -60
     //                          ** default : 15
-    //                          ** unit : Â°C
+    //                          ** unit : degC
     //- outputs:
     //            * name: SoilTemperatureByLayersHourly
     //                          ** description : Hourly soil temperature by layers
@@ -89,13 +87,13 @@ void HourlySoilTemperaturesPartonLogan::Calculate_Model(SurfacePartonSoilSWATHou
     //                          ** len : 
     //                          ** max : 50
     //                          ** min : -50
-    //                          ** unit : Â°C
-    vector<double>  SoilTemperatureByLayersHourly = s.getSoilTemperatureByLayersHourly();
+    //                          ** unit : degC
+    std::vector<double> & SoilTemperatureByLayersHourly = s.getSoilTemperatureByLayersHourly();
     double HourOfSunrise = ex.getHourOfSunrise();
     double HourOfSunset = ex.getHourOfSunset();
     double DayLength = ex.getDayLength();
-    vector<double>  SoilTemperatureMinimum = s.getSoilTemperatureMinimum();
-    vector<double>  SoilTemperatureMaximum = s.getSoilTemperatureMaximum();
+    std::vector<double> & SoilTemperatureMinimum = a.getSoilTemperatureMinimum();
+    std::vector<double> & SoilTemperatureMaximum = a.getSoilTemperatureMaximum();
     int h;
     int i;
     double TemperatureAtSunset;
@@ -105,7 +103,7 @@ void HourlySoilTemperaturesPartonLogan::Calculate_Model(SurfacePartonSoilSWATHou
         {
             if (h >= int(HourOfSunrise) && h <= int(HourOfSunset))
             {
-                SoilTemperatureByLayersHourly[i * 24 + h] = SoilTemperatureMinimum[i] + ((SoilTemperatureMaximum[i] - SoilTemperatureMinimum[i]) * sin(M_PI * (h - 12 + (DayLength / 2)) / (DayLength + (2 * 1.8))));
+                SoilTemperatureByLayersHourly[i * 24 + h] = SoilTemperatureMinimum[i] + ((SoilTemperatureMaximum[i] - SoilTemperatureMinimum[i]) * std::sin(M_PI * (h - 12 + (DayLength / 2)) / (DayLength + (2 * 1.8))));
             }
         }
         TemperatureAtSunset = SoilTemperatureByLayersHourly[i + int(HourOfSunset)];
@@ -113,14 +111,13 @@ void HourlySoilTemperaturesPartonLogan::Calculate_Model(SurfacePartonSoilSWATHou
         {
             if (h > int(HourOfSunset))
             {
-                SoilTemperatureByLayersHourly[i + h] = (SoilTemperatureMinimum[i] - (TemperatureAtSunset * exp(-(24 - DayLength) / 2.2)) + ((TemperatureAtSunset - SoilTemperatureMinimum[i]) * exp(-(h - HourOfSunset) / 2.2))) / (1 - exp(-(24 - DayLength) / 2.2));
+                SoilTemperatureByLayersHourly[i + h] = (SoilTemperatureMinimum[i] - (TemperatureAtSunset * std::exp(-(24 - DayLength) / 2.2)) + ((TemperatureAtSunset - SoilTemperatureMinimum[i]) * std::exp(-(h - HourOfSunset) / 2.2))) / (1 - std::exp(-(24 - DayLength) / 2.2));
             }
             else if ( h <= int(HourOfSunrise))
             {
-                SoilTemperatureByLayersHourly[i + h] = (SoilTemperatureMinimum[i] - (TemperatureAtSunset * exp(-(24 - DayLength) / 2.2)) + ((TemperatureAtSunset - SoilTemperatureMinimum[i]) * exp(-(h + 24 - HourOfSunset) / 2.2))) / (1 - exp(-(24 - DayLength) / 2.2));
+                SoilTemperatureByLayersHourly[i + h] = (SoilTemperatureMinimum[i] - (TemperatureAtSunset * std::exp(-(24 - DayLength) / 2.2)) + ((TemperatureAtSunset - SoilTemperatureMinimum[i]) * std::exp(-(h + 24 - HourOfSunset) / 2.2))) / (1 - std::exp(-(24 - DayLength) / 2.2));
             }
         }
     }
     s.setSoilTemperatureByLayersHourly(SoilTemperatureByLayersHourly);
 }
-#endif

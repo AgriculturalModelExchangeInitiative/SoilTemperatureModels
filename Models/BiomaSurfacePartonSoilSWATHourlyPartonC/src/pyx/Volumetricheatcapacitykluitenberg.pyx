@@ -1,5 +1,6 @@
-import numpy 
+import numpy
 from math import *
+
 def model_volumetricheatcapacitykluitenberg(float VolumetricWaterContent[],
                                             float Sand[],
                                             float BulkDensity[],
@@ -8,15 +9,14 @@ def model_volumetricheatcapacitykluitenberg(float VolumetricWaterContent[],
                                             float Clay[],
                                             float Silt[]):
     """
-
     VolumetricHeatCapacityKluitenberg model
-    Author: simone.bregaglio@unimi.it
-    Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
+    Author: simone.bregaglio
+    Reference: http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl
     Institution: University Of Milan
     ExtendedDescription: Strategy for the calculation of soil thermal diffusivity. Reference: J.M.H.Hendrickx, H. Xie, B. Borchers, J.B.J. Harrison, 2008. Global Prediction of Thermal Soil Regimes. SPIE Proceedings Volume 6953 Detection and Sensing of Mines, Explosive Objects, and Obscured Targets XIII.
-    ShortDescription: None
-
+    ShortDescription: Strategy for the calculation of volumetric heat capacity. Kluitenberg, G.J., Heat capacity and specific heat, in Methods of Soil Analysis. Part 4. Physical Methods, J.H. Dane and G.C. Topp, Editors. 2002, Soil Science Society of America Book Series
     """
+
     cdef int i 
     cdef float SandFraction 
     cdef float SiltFraction 
@@ -36,5 +36,6 @@ def model_volumetricheatcapacitykluitenberg(float VolumetricWaterContent[],
         OrganicMatterFraction=OrganicMatter[i] / (Sand[i] + Silt[i] + Clay[i] + OrganicMatter[i])
         HeatCapacity[i]=BulkDensity[i] * 0.73 * FractionMinerals + (BulkDensity[i] * 1.9 * OrganicMatterFraction) + (4.18 * VolumetricWaterContent[i])
     return  HeatCapacity
+
 
 

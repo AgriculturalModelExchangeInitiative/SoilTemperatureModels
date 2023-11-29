@@ -9,21 +9,22 @@ MODULE Surfacepartonsoilswathourlypartoncmod
     IMPLICIT NONE
 CONTAINS
 
-    SUBROUTINE model_surfacepartonsoilswathourlypartonc(GlobalSolarRadiation, &
-        DayLength, &
-        AboveGroundBiomass, &
+    SUBROUTINE model_surfacepartonsoilswathourlypartonc(AirTemperatureMaximum, &
+        GlobalSolarRadiation, &
         AirTemperatureMinimum, &
-        AirTemperatureMaximum, &
-        VolumetricWaterContent, &
+        AboveGroundBiomass, &
+        DayLength, &
         BulkDensity, &
-        LayerThickness, &
-        LagCoefficient, &
-        AirTemperatureAnnualAverage, &
         SoilProfileDepth, &
-        Sand, &
+        AirTemperatureAnnualAverage, &
+        LagCoefficient, &
+        VolumetricWaterContent, &
+        LayerThickness, &
         OrganicMatter, &
         Clay, &
+        Sand, &
         Silt, &
+        layersNumber, &
         HourOfSunrise, &
         HourOfSunset, &
         SurfaceSoilTemperature, &
@@ -39,21 +40,22 @@ CONTAINS
         SoilTemperatureByLayersHourly)
         IMPLICIT NONE
         INTEGER:: i_cyml_r
-        REAL, INTENT(IN) :: GlobalSolarRadiation
-        REAL, INTENT(IN) :: DayLength
-        REAL, INTENT(IN) :: AboveGroundBiomass
-        REAL, INTENT(IN) :: AirTemperatureMinimum
         REAL, INTENT(IN) :: AirTemperatureMaximum
-        REAL , DIMENSION(: ), INTENT(IN) :: VolumetricWaterContent
+        REAL, INTENT(IN) :: GlobalSolarRadiation
+        REAL, INTENT(IN) :: AirTemperatureMinimum
+        REAL, INTENT(IN) :: AboveGroundBiomass
+        REAL, INTENT(IN) :: DayLength
         REAL , DIMENSION(: ), INTENT(IN) :: BulkDensity
-        REAL , DIMENSION(: ), INTENT(IN) :: LayerThickness
-        REAL, INTENT(IN) :: LagCoefficient
-        REAL, INTENT(IN) :: AirTemperatureAnnualAverage
         REAL, INTENT(IN) :: SoilProfileDepth
-        REAL , DIMENSION(: ), INTENT(IN) :: Sand
+        REAL, INTENT(IN) :: AirTemperatureAnnualAverage
+        REAL, INTENT(IN) :: LagCoefficient
+        REAL , DIMENSION(: ), INTENT(IN) :: VolumetricWaterContent
+        REAL , DIMENSION(: ), INTENT(IN) :: LayerThickness
         REAL , DIMENSION(: ), INTENT(IN) :: OrganicMatter
         REAL , DIMENSION(: ), INTENT(IN) :: Clay
+        REAL , DIMENSION(: ), INTENT(IN) :: Sand
         REAL , DIMENSION(: ), INTENT(IN) :: Silt
+        INTEGER, INTENT(IN) :: layersNumber
         REAL, INTENT(IN) :: HourOfSunrise
         REAL, INTENT(IN) :: HourOfSunset
         REAL, INTENT(OUT) :: SurfaceSoilTemperature
@@ -76,6 +78,15 @@ CONTAINS
     !            * ExtendedDescription: Composite strategy for the calculation of surface temperature with Parton's method and soil temperature with SWAT method. See also references of the associated strategies.
     !            * ShortDescription: None
         !- inputs:
+    !            * name: AirTemperatureMaximum
+    !                          ** description : Maximum daily air temperature
+    !                          ** inputtype : variable
+    !                          ** variablecategory : exogenous
+    !                          ** datatype : DOUBLE
+    !                          ** max : 60
+    !                          ** min : -40
+    !                          ** default : 15
+    !                          ** unit : degC
     !            * name: GlobalSolarRadiation
     !                          ** description : Daily global solar radiation
     !                          ** inputtype : variable
@@ -85,6 +96,24 @@ CONTAINS
     !                          ** min : 0
     !                          ** default : 15
     !                          ** unit : Mj m-2 d-1
+    !            * name: AirTemperatureMinimum
+    !                          ** description : Minimum daily air temperature
+    !                          ** inputtype : variable
+    !                          ** variablecategory : exogenous
+    !                          ** datatype : DOUBLE
+    !                          ** max : 50
+    !                          ** min : -60
+    !                          ** default : 5
+    !                          ** unit : degC
+    !            * name: AboveGroundBiomass
+    !                          ** description : Above ground biomass
+    !                          ** inputtype : variable
+    !                          ** variablecategory : auxiliary
+    !                          ** datatype : DOUBLE
+    !                          ** max : 60
+    !                          ** min : 0
+    !                          ** default : 3
+    !                          ** unit : Kg ha-1
     !            * name: DayLength
     !                          ** description : Length of the day
     !                          ** inputtype : variable
@@ -94,63 +123,34 @@ CONTAINS
     !                          ** min : 0
     !                          ** default : 10
     !                          ** unit : h
-    !            * name: AboveGroundBiomass
-    !                          ** description : Above ground biomass
-    !                          ** inputtype : variable
-    !                          ** variablecategory : state
-    !                          ** datatype : DOUBLE
-    !                          ** max : 60
-    !                          ** min : 0
-    !                          ** default : 3
-    !                          ** unit : Kg ha-1
-    !            * name: AirTemperatureMinimum
-    !                          ** description : Minimum daily air temperature
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
-    !                          ** datatype : DOUBLE
-    !                          ** max : 50
-    !                          ** min : -60
-    !                          ** default : 5
-    !                          ** unit : Â°C
-    !            * name: AirTemperatureMaximum
-    !                          ** description : Maximum daily air temperature
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
-    !                          ** datatype : DOUBLE
-    !                          ** max : 60
-    !                          ** min : -40
-    !                          ** default : 15
-    !                          ** unit : Â°C
-    !            * name: VolumetricWaterContent
-    !                          ** description : Volumetric soil water content
-    !                          ** inputtype : variable
-    !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : 
-    !                          ** max : 0.8
-    !                          ** min : 0
-    !                          ** default : 0.25
-    !                          ** unit : m3 m-3
     !            * name: BulkDensity
     !                          ** description : Bulk density
-    !                          ** inputtype : variable
-    !                          ** variablecategory : state
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
     !                          ** max : 1.8
     !                          ** min : 0.9
     !                          ** default : 1.3
     !                          ** unit : t m-3
-    !            * name: LayerThickness
-    !                          ** description : Soil layer thickness
-    !                          ** inputtype : variable
-    !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : 
-    !                          ** max : 3
-    !                          ** min : 0.005
-    !                          ** default : 0.05
+    !            * name: SoilProfileDepth
+    !                          ** description : Soil profile depth
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
+    !                          ** datatype : DOUBLE
+    !                          ** max : 50
+    !                          ** min : 0
+    !                          ** default : 3
     !                          ** unit : m
+    !            * name: AirTemperatureAnnualAverage
+    !                          ** description : Annual average air temperature
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
+    !                          ** datatype : DOUBLE
+    !                          ** max : 50
+    !                          ** min : -40
+    !                          ** default : 15
+    !                          ** unit : degC
     !            * name: LagCoefficient
     !                          ** description : Lag coefficient that controls the influence of the previous day's temperature on the current day's temperature
     !                          ** inputtype : parameter
@@ -160,64 +160,75 @@ CONTAINS
     !                          ** min : 0
     !                          ** default : 0.8
     !                          ** unit : dimensionless
-    !            * name: AirTemperatureAnnualAverage
-    !                          ** description : Annual average air temperature
+    !            * name: VolumetricWaterContent
+    !                          ** description : Volumetric soil water content
     !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
-    !                          ** datatype : DOUBLE
-    !                          ** max : 50
-    !                          ** min : -40
-    !                          ** default : 15
-    !                          ** unit : Â°C
-    !            * name: SoilProfileDepth
-    !                          ** description : Soil profile depth
-    !                          ** inputtype : variable
-    !                          ** variablecategory : state
-    !                          ** datatype : DOUBLE
-    !                          ** max : 50
-    !                          ** min : 0
-    !                          ** default : 3
-    !                          ** unit : m
-    !            * name: Sand
-    !                          ** description : Sand content of soil layer
-    !                          ** inputtype : variable
-    !                          ** variablecategory : state
+    !                          ** variablecategory : auxiliary
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
-    !                          ** max : 100
+    !                          ** max : 0.8
     !                          ** min : 0
-    !                          ** default : 30
-    !                          ** unit : %
+    !                          ** default : 0.25
+    !                          ** unit : m3 m-3
+    !            * name: LayerThickness
+    !                          ** description : Soil layer thickness
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
+    !                          ** datatype : DOUBLEARRAY
+    !                          ** len : 
+    !                          ** max : 3
+    !                          ** min : 0.005
+    !                          ** default : 0.05
+    !                          ** unit : m
     !            * name: OrganicMatter
     !                          ** description : Organic matter content of soil layer
     !                          ** inputtype : variable
-    !                          ** variablecategory : state
+    !                          ** variablecategory : auxiliary
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
     !                          ** max : 20
     !                          ** min : 0
     !                          ** default : 1.5
-    !                          ** unit : %
+    !                          ** unit : 
     !            * name: Clay
     !                          ** description : Clay content of soil layer
-    !                          ** inputtype : variable
-    !                          ** variablecategory : state
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
     !                          ** max : 100
     !                          ** min : 0
     !                          ** default : 0
-    !                          ** unit : %
+    !                          ** unit : 
+    !            * name: Sand
+    !                          ** description : Sand content of soil layer
+    !                          ** inputtype : variable
+    !                          ** variablecategory : auxiliary
+    !                          ** datatype : DOUBLEARRAY
+    !                          ** len : 
+    !                          ** max : 100
+    !                          ** min : 0
+    !                          ** default : 30
+    !                          ** unit : 
     !            * name: Silt
     !                          ** description : Silt content of soil layer
-    !                          ** inputtype : variable
-    !                          ** variablecategory : state
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
     !                          ** max : 100
     !                          ** min : 0
     !                          ** default : 20
-    !                          ** unit : %
+    !                          ** unit : 
+    !            * name: layersNumber
+    !                          ** description : Number of layersl
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
+    !                          ** datatype : INT
+    !                          ** max : 300
+    !                          ** min : 0
+    !                          ** default : 10
+    !                          ** unit : dimensionless
     !            * name: HourOfSunrise
     !                          ** description : Hour of sunrise
     !                          ** inputtype : variable
@@ -240,24 +251,24 @@ CONTAINS
     !            * name: SurfaceSoilTemperature
     !                          ** description : Average surface soil temperature
     !                          ** datatype : DOUBLE
-    !                          ** variablecategory : state
+    !                          ** variablecategory : auxiliary
     !                          ** max : 60
     !                          ** min : -60
-    !                          ** unit : Â°C
+    !                          ** unit : degC
     !            * name: SurfaceTemperatureMinimum
     !                          ** description : Minimum surface soil temperature
     !                          ** datatype : DOUBLE
     !                          ** variablecategory : auxiliary
     !                          ** max : 60
     !                          ** min : -60
-    !                          ** unit : Â°C
+    !                          ** unit : 
     !            * name: SurfaceTemperatureMaximum
     !                          ** description : Maximum surface soil temperature
     !                          ** datatype : DOUBLE
     !                          ** variablecategory : auxiliary
     !                          ** max : 60
     !                          ** min : -60
-    !                          ** unit : Â°C
+    !                          ** unit : degC             */
     !            * name: SoilTemperatureByLayers
     !                          ** description : Soil temperature of each layer
     !                          ** datatype : DOUBLEARRAY
@@ -265,7 +276,7 @@ CONTAINS
     !                          ** len : 
     !                          ** max : 60
     !                          ** min : -60
-    !                          ** unit : Â°C
+    !                          ** unit : degC
     !            * name: HeatCapacity
     !                          ** description : Volumetric specific heat of soil
     !                          ** datatype : DOUBLEARRAY
@@ -273,11 +284,11 @@ CONTAINS
     !                          ** len : 
     !                          ** max : 300
     !                          ** min : 0
-    !                          ** unit : MJ m-3 Â°C-1
+    !                          ** unit : MJ m-3
     !            * name: ThermalConductivity
     !                          ** description : Thermal conductivity of soil layer
     !                          ** datatype : DOUBLEARRAY
-    !                          ** variablecategory : state
+    !                          ** variablecategory : auxiliary
     !                          ** len : 
     !                          ** max : 8
     !                          ** min : 0.025
@@ -293,27 +304,27 @@ CONTAINS
     !            * name: SoilTemperatureRangeByLayers
     !                          ** description : Soil temperature range by layers
     !                          ** datatype : DOUBLEARRAY
-    !                          ** variablecategory : state
+    !                          ** variablecategory : auxiliary
     !                          ** len : 
     !                          ** max : 50
     !                          ** min : 0
-    !                          ** unit : Â°C
+    !                          ** unit : degC
     !            * name: SoilTemperatureMinimum
     !                          ** description : Minimum soil temperature by layers
     !                          ** datatype : DOUBLEARRAY
-    !                          ** variablecategory : state
+    !                          ** variablecategory : auxiliary
     !                          ** len : 
     !                          ** max : 60
     !                          ** min : -60
-    !                          ** unit : Â°C
+    !                          ** unit : 
     !            * name: SoilTemperatureMaximum
     !                          ** description : Maximum soil temperature by layers
     !                          ** datatype : DOUBLEARRAY
-    !                          ** variablecategory : state
+    !                          ** variablecategory : auxiliary
     !                          ** len : 
     !                          ** max : 60
     !                          ** min : -60
-    !                          ** unit : Â°C
+    !                          ** unit : degC
     !            * name: SoilTemperatureByLayersHourly
     !                          ** description : Hourly soil temperature by layers
     !                          ** datatype : DOUBLEARRAY
@@ -321,7 +332,7 @@ CONTAINS
     !                          ** len : 
     !                          ** max : 50
     !                          ** min : -50
-    !                          ** unit : Â°C
+    !                          ** unit : degC
         call model_surfacetemperatureparton(GlobalSolarRadiation, DayLength,  &
                 AboveGroundBiomass, AirTemperatureMinimum,  &
                 AirTemperatureMaximum,SurfaceSoilTemperature,SurfaceTemperatureMinimum,SurfaceTemperatureMaximum)
@@ -330,11 +341,11 @@ CONTAINS
         call model_thermalconductivitysimulat(VolumetricWaterContent,  &
                 BulkDensity, Clay,ThermalConductivity)
         call model_soiltemperatureswat(VolumetricWaterContent,  &
-                SurfaceSoilTemperature, BulkDensity, LayerThickness, LagCoefficient,  &
-                SoilTemperatureByLayers, AirTemperatureAnnualAverage,  &
+                SurfaceSoilTemperature, LayerThickness, LagCoefficient,  &
+                SoilTemperatureByLayers, AirTemperatureAnnualAverage, BulkDensity,  &
                 SoilProfileDepth)
         call model_thermaldiffu(ThermalDiffusivity, ThermalConductivity,  &
-                HeatCapacity)
+                HeatCapacity, layersNumber)
         call model_rangeofsoiltemperaturesdaycent(LayerThickness,  &
                 SurfaceTemperatureMinimum, ThermalDiffusivity,  &
                 SoilTemperatureByLayers,  &

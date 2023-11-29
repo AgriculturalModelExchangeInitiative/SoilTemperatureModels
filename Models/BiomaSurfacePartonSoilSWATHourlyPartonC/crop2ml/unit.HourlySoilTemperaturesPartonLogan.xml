@@ -3,21 +3,21 @@
 <ModelUnit modelid="Crop2ML.BiomaSurfacePartonSoilSWATHourlyPartonC.HourlySoilTemperaturesPartonLogan" name="HourlySoilTemperaturesPartonLogan" timestep="1" version="001">
     <Description>
         <Title>HourlySoilTemperaturesPartonLogan model</Title>
-        <Authors>simone.bregaglio@unimi.it</Authors>
+        <Authors>simone.bregaglio</Authors>
         <Institution>University Of Milan</Institution>
-        <URI>http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl</URI>
-        <Reference>(&apos;http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl&apos;,)</Reference>
+        <URI></URI>
+        <Reference>http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl</Reference>
         <ExtendedDescription>Strategy for the calculation of hourly soil temperature. Reference: Parton, W.J.  and  Logan, J.A.,  1981. A model for diurnal variation  in soil  and  air temperature. Agric. Meteorol., 23: 205-216.</ExtendedDescription>
-        <ShortDescription></ShortDescription></Description>
+        <ShortDescription>Strategy for the calculation of hourly soil temperature</ShortDescription></Description>
     <Inputs>
-        <Input name="SoilTemperatureByLayersHourly" description="Hourly soil temperature by layers" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="" max="50" min="-50" default="15" unit="Â°C"/>
+        <Input name="SoilTemperatureByLayersHourly" description="Hourly soil temperature by layers" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="" max="50" min="-50" default="15" unit="degC"/>
         <Input name="HourOfSunrise" description="Hour of sunrise" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="24" min="0" default="6" unit="h"/>
         <Input name="HourOfSunset" description="Hour of sunset" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="24" min="0" default="17" unit="h"/>
         <Input name="DayLength" description="Length of the day" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="24" min="0" default="10" unit="h"/>
-        <Input name="SoilTemperatureMinimum" description="Minimum soil temperature by layers" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="" max="60" min="-60" default="15" unit="Â°C"/>
-        <Input name="SoilTemperatureMaximum" description="Maximum soil temperature by layers" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="" max="60" min="-60" default="15" unit="Â°C"/></Inputs>
+        <Input name="SoilTemperatureMinimum" description="Minimum soil temperature by layers" inputtype="variable" variablecategory="auxiliary" datatype="DOUBLEARRAY" len="" max="60" min="-60" default="15" unit="degC"/>
+        <Input name="SoilTemperatureMaximum" description="Maximum soil temperature by layers" inputtype="variable" variablecategory="auxiliary" datatype="DOUBLEARRAY" len="" max="60" min="-60" default="15" unit="degC"/></Inputs>
     <Outputs>
-        <Output name="SoilTemperatureByLayersHourly" description="Hourly soil temperature by layers" datatype="DOUBLEARRAY" variablecategory="state" len="" max="50" min="-50" unit="Â°C"/></Outputs>
+        <Output name="SoilTemperatureByLayersHourly" description="Hourly soil temperature by layers" datatype="DOUBLEARRAY" variablecategory="state" len="" max="50" min="-50" unit="degC"/></Outputs>
     <Algorithm language="cyml" platform="" filename="algo/pyx/HourlySoilTemperaturesPartonLogan.pyx"/>
     <Parametersets/>
     <Testsets/></ModelUnit>

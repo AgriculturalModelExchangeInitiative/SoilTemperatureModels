@@ -9,12 +9,11 @@ namespace SurfaceSWATSoilSWATC.DomainClass
 {
     public class SurfaceSWATSoilSWATCExogenous : ICloneable, IDomainClass
     {
+        private double _Albedo;
+        private double _AirTemperatureMinimum;
+        private double _WaterEquivalentOfSnowPack;
         private double _GlobalSolarRadiation;
         private double _AirTemperatureMaximum;
-        private double _AirTemperatureMinimum;
-        private double _Albedo;
-        private double _WaterEquivalentOfSnowPack;
-        private double _AirTemperatureAnnualAverage;
         private ParametersIO _parametersIO;
 
         public SurfaceSWATSoilSWATCExogenous()
@@ -26,15 +25,29 @@ namespace SurfaceSWATSoilSWATC.DomainClass
         {
             if (copyAll)
             {
-                _GlobalSolarRadiation = toCopy._GlobalSolarRadiation;
-                _AirTemperatureMaximum = toCopy._AirTemperatureMaximum;
-                _AirTemperatureMinimum = toCopy._AirTemperatureMinimum;
-                _Albedo = toCopy._Albedo;
-                _WaterEquivalentOfSnowPack = toCopy._WaterEquivalentOfSnowPack;
-                _AirTemperatureAnnualAverage = toCopy._AirTemperatureAnnualAverage;
+                Albedo = toCopy.Albedo;
+                AirTemperatureMinimum = toCopy.AirTemperatureMinimum;
+                WaterEquivalentOfSnowPack = toCopy.WaterEquivalentOfSnowPack;
+                GlobalSolarRadiation = toCopy.GlobalSolarRadiation;
+                AirTemperatureMaximum = toCopy.AirTemperatureMaximum;
             }
         }
 
+        public double Albedo
+        {
+            get { return this._Albedo; }
+            set { this._Albedo= value; } 
+        }
+        public double AirTemperatureMinimum
+        {
+            get { return this._AirTemperatureMinimum; }
+            set { this._AirTemperatureMinimum= value; } 
+        }
+        public double WaterEquivalentOfSnowPack
+        {
+            get { return this._WaterEquivalentOfSnowPack; }
+            set { this._WaterEquivalentOfSnowPack= value; } 
+        }
         public double GlobalSolarRadiation
         {
             get { return this._GlobalSolarRadiation; }
@@ -44,26 +57,6 @@ namespace SurfaceSWATSoilSWATC.DomainClass
         {
             get { return this._AirTemperatureMaximum; }
             set { this._AirTemperatureMaximum= value; } 
-        }
-        public double AirTemperatureMinimum
-        {
-            get { return this._AirTemperatureMinimum; }
-            set { this._AirTemperatureMinimum= value; } 
-        }
-        public double Albedo
-        {
-            get { return this._Albedo; }
-            set { this._Albedo= value; } 
-        }
-        public double WaterEquivalentOfSnowPack
-        {
-            get { return this._WaterEquivalentOfSnowPack; }
-            set { this._WaterEquivalentOfSnowPack= value; } 
-        }
-        public double AirTemperatureAnnualAverage
-        {
-            get { return this._AirTemperatureAnnualAverage; }
-            set { this._AirTemperatureAnnualAverage= value; } 
         }
 
         public string Description
@@ -83,12 +76,11 @@ namespace SurfaceSWATSoilSWATC.DomainClass
 
         public virtual Boolean ClearValues()
         {
+             _Albedo = default(double);
+             _AirTemperatureMinimum = default(double);
+             _WaterEquivalentOfSnowPack = default(double);
              _GlobalSolarRadiation = default(double);
              _AirTemperatureMaximum = default(double);
-             _AirTemperatureMinimum = default(double);
-             _Albedo = default(double);
-             _WaterEquivalentOfSnowPack = default(double);
-             _AirTemperatureAnnualAverage = default(double);
             return true;
         }
 

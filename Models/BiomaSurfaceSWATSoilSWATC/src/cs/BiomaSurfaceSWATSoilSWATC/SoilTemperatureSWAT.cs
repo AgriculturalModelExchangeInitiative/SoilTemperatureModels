@@ -3,11 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 public class SoilTemperatureSWAT
 {
+    private double[] _LayerThickness;
+    public double[] LayerThickness
+        {
+            get { return this._LayerThickness; }
+            set { this._LayerThickness= value; } 
+        }
     private double _LagCoefficient;
     public double LagCoefficient
         {
             get { return this._LagCoefficient; }
             set { this._LagCoefficient= value; } 
+        }
+    private double _AirTemperatureAnnualAverage;
+    public double AirTemperatureAnnualAverage
+        {
+            get { return this._AirTemperatureAnnualAverage; }
+            set { this._AirTemperatureAnnualAverage= value; } 
+        }
+    private double[] _BulkDensity;
+    public double[] BulkDensity
+        {
+            get { return this._BulkDensity; }
+            set { this._BulkDensity= value; } 
+        }
+    private double _SoilProfileDepth;
+    public double SoilProfileDepth
+        {
+            get { return this._SoilProfileDepth; }
+            set { this._SoilProfileDepth= value; } 
         }
         public SoilTemperatureSWAT() { }
     
@@ -16,22 +40,41 @@ public class SoilTemperatureSWAT
         //- Name: SoilTemperatureSWAT -Version: 001, -Time step: 1
         //- Description:
     //            * Title: SoilTemperatureSWAT model
-    //            * Authors: simone.bregaglio@unimi.it
-    //            * Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
+    //            * Authors: simone.bregaglio
+    //            * Reference: http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl
     //            * Institution: University Of Milan
     //            * ExtendedDescription: Strategy for the calculation of soil temperature with SWAT method. Reference: Neitsch,S.L., Arnold, J.G., Kiniry, J.R., Williams, J.R., King, K.W. Soil and Water Assessment Tool. Theoretical documentation. Version 2000. http://swatmodel.tamu.edu/media/1290/swat2000theory.pdf
-    //            * ShortDescription: None
+    //            * ShortDescription: Strategy for the calculation of soil temperature with SWAT method
         //- inputs:
-    //            * name: SoilTemperatureByLayers
-    //                          ** description : Soil temperature of each layer
+    //            * name: VolumetricWaterContent
+    //                          ** description : Volumetric soil water content
     //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
+    //                          ** max : 0.8
+    //                          ** min : 0
+    //                          ** default : 0.25
+    //                          ** unit : m3 m-3
+    //            * name: SurfaceSoilTemperature
+    //                          ** description : Average surface soil temperature
+    //                          ** inputtype : variable
+    //                          ** variablecategory : auxiliary
+    //                          ** datatype : DOUBLE
     //                          ** max : 60
     //                          ** min : -60
-    //                          ** default : 15
-    //                          ** unit : Â°C
+    //                          ** default : 25
+    //                          ** unit : degC
+    //            * name: LayerThickness
+    //                          ** description : Soil layer thickness
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
+    //                          ** max : 3
+    //                          ** min : 0.005
+    //                          ** default : 0.05
+    //                          ** unit : m
     //            * name: LagCoefficient
     //                          ** description : Lag coefficient that controls the influence of the previous day's temperature on the current day's temperature
     //                          ** inputtype : parameter
@@ -41,63 +84,44 @@ public class SoilTemperatureSWAT
     //                          ** min : 0
     //                          ** default : 0.8
     //                          ** unit : dimensionless
+    //            * name: SoilTemperatureByLayers
+    //                          ** description : Soil temperature of each layer
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
+    //                          ** max : 60
+    //                          ** min : -60
+    //                          ** default : 15
+    //                          ** unit : degC
     //            * name: AirTemperatureAnnualAverage
     //                          ** description : Annual average air temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
     //                          ** datatype : DOUBLE
     //                          ** max : 50
     //                          ** min : -40
     //                          ** default : 15
-    //                          ** unit : Â°C
+    //                          ** unit : degC
     //            * name: BulkDensity
     //                          ** description : Bulk density
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 1.8
     //                          ** min : 0.9
     //                          ** default : 1.3
     //                          ** unit : t m-3
-    //            * name: LayerThickness
-    //                          ** description : Soil layer thickness
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 3
-    //                          ** min : 0.005
-    //                          ** default : 0.05
-    //                          ** unit : m
-    //            * name: VolumetricWaterContent
-    //                          ** description : Volumetric soil water content
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 0.8
-    //                          ** min : 0
-    //                          ** default : 0.25
-    //                          ** unit : m3 m-3
     //            * name: SoilProfileDepth
     //                          ** description : Soil profile depth
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
     //                          ** datatype : DOUBLE
     //                          ** max : 50
     //                          ** min : 0
     //                          ** default : 3
     //                          ** unit : m
-    //            * name: SurfaceSoilTemperature
-    //                          ** description : Average surface soil temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 60
-    //                          ** min : -60
-    //                          ** default : 25
-    //                          ** unit : Â°C
         //- outputs:
     //            * name: SoilTemperatureByLayers
     //                          ** description : Soil temperature of each layer
@@ -106,14 +130,10 @@ public class SoilTemperatureSWAT
     //                          ** len : 
     //                          ** max : 60
     //                          ** min : -60
-    //                          ** unit : Â°C
+    //                          ** unit : degC
+        double[] VolumetricWaterContent = a.VolumetricWaterContent;
+        double SurfaceSoilTemperature = a.SurfaceSoilTemperature;
         double[] SoilTemperatureByLayers = s.SoilTemperatureByLayers;
-        double AirTemperatureAnnualAverage = ex.AirTemperatureAnnualAverage;
-        double[] BulkDensity = s.BulkDensity;
-        double[] LayerThickness = s.LayerThickness;
-        double[] VolumetricWaterContent = s.VolumetricWaterContent;
-        double SoilProfileDepth = s.SoilProfileDepth;
-        double SurfaceSoilTemperature = s.SurfaceSoilTemperature;
         int i;
         double _SoilProfileDepthmm;
         double _TotalWaterContentmm;

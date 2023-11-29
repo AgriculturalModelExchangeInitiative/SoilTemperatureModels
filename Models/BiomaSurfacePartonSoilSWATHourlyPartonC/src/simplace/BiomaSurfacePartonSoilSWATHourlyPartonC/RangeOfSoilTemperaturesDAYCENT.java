@@ -35,14 +35,14 @@ public class RangeOfSoilTemperaturesDAYCENT extends FWSimComponent
     @Override
     public HashMap<String, FWSimVariable<?>> createVariables()
     {
-        addVariable(FWSimVariable.createSimVariable("LayerThickness", "Soil layer thickness", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"m", 0.005, 3, 0.05, this));
-        addVariable(FWSimVariable.createSimVariable("SurfaceTemperatureMinimum", "Minimum surface soil temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Â°C", -60, 60, 10, this));
-        addVariable(FWSimVariable.createSimVariable("ThermalDiffusivity", "Thermal diffusivity of soil layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"mm s-1", 0, 1, 0.0025, this));
-        addVariable(FWSimVariable.createSimVariable("SoilTemperatureByLayers", "Soil temperature of each layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"Â°C", -60, 60, 15, this));
-        addVariable(FWSimVariable.createSimVariable("SurfaceTemperatureMaximum", "Maximum surface soil temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Â°C", -60, 60, 25, this));
-        addVariable(FWSimVariable.createSimVariable("SoilTemperatureRangeByLayers", "Soil temperature range by layers", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"Â°C", 0, 50, null, this));
-        addVariable(FWSimVariable.createSimVariable("SoilTemperatureMinimum", "Minimum soil temperature by layers", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"Â°C", -60, 60, null, this));
-        addVariable(FWSimVariable.createSimVariable("SoilTemperatureMaximum", "Maximum soil temperature by layers", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"Â°C", -60, 60, null, this));
+        addVariable(FWSimVariable.createSimVariable("LayerThickness", "Soil layer thickness", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.constant,"m", 0.005, 3, 0.05, this));
+        addVariable(FWSimVariable.createSimVariable("SurfaceTemperatureMinimum", "Minimum surface soil temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"degC", -60, 60, 10, this));
+        addVariable(FWSimVariable.createSimVariable("ThermalDiffusivity", "Thermal diffusivity of soil layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.input,"mm s-1", 0, 1, 0.0025, this));
+        addVariable(FWSimVariable.createSimVariable("SoilTemperatureByLayers", "Soil temperature of each layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.input,"degC", -60, 60, 15, this));
+        addVariable(FWSimVariable.createSimVariable("SurfaceTemperatureMaximum", "Maximum surface soil temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"degC", -60, 60, 25, this));
+        addVariable(FWSimVariable.createSimVariable("SoilTemperatureRangeByLayers", "Soil temperature range by layers", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.out,"degC", 0, 50, null, this));
+        addVariable(FWSimVariable.createSimVariable("SoilTemperatureMinimum", "Minimum soil temperature by layers", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.out,"", -60, 60, null, this));
+        addVariable(FWSimVariable.createSimVariable("SoilTemperatureMaximum", "Maximum soil temperature by layers", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.out,"degC", -60, 60, null, this));
 
         return iFieldMap;
     }

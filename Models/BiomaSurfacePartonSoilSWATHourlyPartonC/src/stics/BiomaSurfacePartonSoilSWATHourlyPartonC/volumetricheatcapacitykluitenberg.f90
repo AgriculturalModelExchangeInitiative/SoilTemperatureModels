@@ -27,16 +27,16 @@ CONTAINS
         !- Name: VolumetricHeatCapacityKluitenberg -Version: 001, -Time step: 1
         !- Description:
     !            * Title: VolumetricHeatCapacityKluitenberg model
-    !            * Authors: simone.bregaglio@unimi.it
-    !            * Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
+    !            * Authors: simone.bregaglio
+    !            * Reference: http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl
     !            * Institution: University Of Milan
     !            * ExtendedDescription: Strategy for the calculation of soil thermal diffusivity. Reference: J.M.H.Hendrickx, H. Xie, B. Borchers, J.B.J. Harrison, 2008. Global Prediction of Thermal Soil Regimes. SPIE Proceedings Volume 6953 Detection and Sensing of Mines, Explosive Objects, and Obscured Targets XIII.
-    !            * ShortDescription: None
+    !            * ShortDescription: Strategy for the calculation of volumetric heat capacity. Kluitenberg, G.J., Heat capacity and specific heat, in Methods of Soil Analysis. Part 4. Physical Methods, J.H. Dane and G.C. Topp, Editors. 2002, Soil Science Society of America Book Series
         !- inputs:
     !            * name: VolumetricWaterContent
     !                          ** description : Volumetric soil water content
     !                          ** inputtype : variable
-    !                          ** variablecategory : state
+    !                          ** variablecategory : auxiliary
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
     !                          ** max : 0.8
@@ -46,17 +46,17 @@ CONTAINS
     !            * name: Sand
     !                          ** description : Sand content of soil layer
     !                          ** inputtype : variable
-    !                          ** variablecategory : state
+    !                          ** variablecategory : auxiliary
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
     !                          ** max : 100
     !                          ** min : 0
     !                          ** default : 30
-    !                          ** unit : %
+    !                          ** unit : 
     !            * name: BulkDensity
     !                          ** description : Bulk density
     !                          ** inputtype : variable
-    !                          ** variablecategory : state
+    !                          ** variablecategory : auxiliary
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
     !                          ** max : 1.8
@@ -66,13 +66,13 @@ CONTAINS
     !            * name: OrganicMatter
     !                          ** description : Organic matter content of soil layer
     !                          ** inputtype : variable
-    !                          ** variablecategory : state
+    !                          ** variablecategory : auxiliary
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
     !                          ** max : 20
     !                          ** min : 0
     !                          ** default : 1.5
-    !                          ** unit : %
+    !                          ** unit : 
     !            * name: HeatCapacity
     !                          ** description : Volumetric specific heat of soil
     !                          ** inputtype : variable
@@ -82,27 +82,27 @@ CONTAINS
     !                          ** max : 300
     !                          ** min : 0
     !                          ** default : 20
-    !                          ** unit : MJ m-3 Â°C-1
+    !                          ** unit : MJ m-3
     !            * name: Clay
     !                          ** description : Clay content of soil layer
-    !                          ** inputtype : variable
-    !                          ** variablecategory : state
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
     !                          ** max : 100
     !                          ** min : 0
     !                          ** default : 0
-    !                          ** unit : %
+    !                          ** unit : 
     !            * name: Silt
     !                          ** description : Silt content of soil layer
-    !                          ** inputtype : variable
-    !                          ** variablecategory : state
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
     !                          ** max : 100
     !                          ** min : 0
     !                          ** default : 20
-    !                          ** unit : %
+    !                          ** unit : 
         !- outputs:
     !            * name: HeatCapacity
     !                          ** description : Volumetric specific heat of soil
@@ -111,7 +111,7 @@ CONTAINS
     !                          ** len : 
     !                          ** max : 300
     !                          ** min : 0
-    !                          ** unit : MJ m-3 Â°C-1
+    !                          ** unit : MJ m-3
         SandFraction = REAL(0)
         SiltFraction = REAL(0)
         ClayFraction = REAL(0)

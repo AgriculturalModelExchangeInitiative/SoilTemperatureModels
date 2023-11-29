@@ -5,23 +5,29 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 public class RangeOfSoilTemperaturesDAYCENT
 {
+    private Double [] LayerThickness;
+    public Double [] getLayerThickness()
+    { return LayerThickness; }
+
+    public void setLayerThickness(Double [] _LayerThickness)
+    { this.LayerThickness= _LayerThickness; } 
     
     public RangeOfSoilTemperaturesDAYCENT() { }
-    public void  Calculate_rangeofsoiltemperaturesdaycent(SurfacePartonSoilSWATHourlyPartonCState s, SurfacePartonSoilSWATHourlyPartonCState s1, SurfacePartonSoilSWATHourlyPartonCRate r, SurfacePartonSoilSWATHourlyPartonCAuxiliary a,  SurfacePartonSoilSWATHourlyPartonCExogenous ex)
+    public void  Calculate_Model(SurfacePartonSoilSWATHourlyPartonCState s, SurfacePartonSoilSWATHourlyPartonCState s1, SurfacePartonSoilSWATHourlyPartonCRate r, SurfacePartonSoilSWATHourlyPartonCAuxiliary a,  SurfacePartonSoilSWATHourlyPartonCExogenous ex)
     {
         //- Name: RangeOfSoilTemperaturesDAYCENT -Version: 001, -Time step: 1
         //- Description:
     //            * Title: RangeOfSoilTemperaturesDAYCENT model
-    //            * Authors: simone.bregaglio@unimi.it
-    //            * Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
+    //            * Authors: simone.bregaglio
+    //            * Reference: http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl
     //            * Institution: University Of Milan
-    //            * ExtendedDescription: Strategy for the calculation of soil thermal conductivity.Reference: DAYCENT model written in C code 
-    //            * ShortDescription: None
+    //            * ExtendedDescription: Strategy for the calculation of soil thermal conductivity.Reference: DAYCENT model written in C code
+    //            * ShortDescription: Strategy for the calculation of soil thermal conductivity
         //- inputs:
     //            * name: LayerThickness
     //                          ** description : Soil layer thickness
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 3
@@ -36,11 +42,11 @@ public class RangeOfSoilTemperaturesDAYCENT
     //                          ** max : 60
     //                          ** min : -60
     //                          ** default : 10
-    //                          ** unit : Â°C
+    //                          ** unit : degC
     //            * name: ThermalDiffusivity
     //                          ** description : Thermal diffusivity of soil layer
     //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 1
@@ -50,13 +56,13 @@ public class RangeOfSoilTemperaturesDAYCENT
     //            * name: SoilTemperatureByLayers
     //                          ** description : Soil temperature of each layer
     //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 60
     //                          ** min : -60
     //                          ** default : 15
-    //                          ** unit : Â°C
+    //                          ** unit : degC
     //            * name: SurfaceTemperatureMaximum
     //                          ** description : Maximum surface soil temperature
     //                          ** inputtype : variable
@@ -65,36 +71,35 @@ public class RangeOfSoilTemperaturesDAYCENT
     //                          ** max : 60
     //                          ** min : -60
     //                          ** default : 25
-    //                          ** unit : Â°C
+    //                          ** unit : degC
         //- outputs:
     //            * name: SoilTemperatureRangeByLayers
     //                          ** description : Soil temperature range by layers
     //                          ** datatype : DOUBLEARRAY
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** len : 
     //                          ** max : 50
     //                          ** min : 0
-    //                          ** unit : Â°C
+    //                          ** unit : degC
     //            * name: SoilTemperatureMinimum
     //                          ** description : Minimum soil temperature by layers
     //                          ** datatype : DOUBLEARRAY
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** len : 
     //                          ** max : 60
     //                          ** min : -60
-    //                          ** unit : Â°C
+    //                          ** unit : 
     //            * name: SoilTemperatureMaximum
     //                          ** description : Maximum soil temperature by layers
     //                          ** datatype : DOUBLEARRAY
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** len : 
     //                          ** max : 60
     //                          ** min : -60
-    //                          ** unit : Â°C
-        Double [] LayerThickness = s.getLayerThickness();
+    //                          ** unit : degC
         Double SurfaceTemperatureMinimum = a.getSurfaceTemperatureMinimum();
-        Double [] ThermalDiffusivity = s.getThermalDiffusivity();
-        Double [] SoilTemperatureByLayers = s.getSoilTemperatureByLayers();
+        Double [] ThermalDiffusivity = a.getThermalDiffusivity();
+        Double [] SoilTemperatureByLayers = a.getSoilTemperatureByLayers();
         Double SurfaceTemperatureMaximum = a.getSurfaceTemperatureMaximum();
         Double[] SoilTemperatureRangeByLayers ;
         Double[] SoilTemperatureMinimum ;
@@ -124,8 +129,8 @@ public class RangeOfSoilTemperaturesDAYCENT
                 SoilTemperatureMinimum[i] = SoilTemperatureByLayers[i] - (SoilTemperatureRangeByLayers[i] / 2);
             }
         }
-        s.setSoilTemperatureRangeByLayers(SoilTemperatureRangeByLayers);
-        s.setSoilTemperatureMinimum(SoilTemperatureMinimum);
-        s.setSoilTemperatureMaximum(SoilTemperatureMaximum);
+        a.setSoilTemperatureRangeByLayers(SoilTemperatureRangeByLayers);
+        a.setSoilTemperatureMinimum(SoilTemperatureMinimum);
+        a.setSoilTemperatureMaximum(SoilTemperatureMaximum);
     }
 }

@@ -2,20 +2,21 @@ from datetime import datetime
 from math import *
 from BiomaSurfaceSWATSoilSWATC.surfacetemperatureswat import model_surfacetemperatureswat
 from BiomaSurfaceSWATSoilSWATC.soiltemperatureswat import model_soiltemperatureswat
-def model_surfaceswatsoilswatc(float GlobalSolarRadiation,
-      float AirTemperatureMaximum,
-      float AirTemperatureMinimum,
+def model_surfaceswatsoilswatc(float AboveGroundBiomass,
       float Albedo,
-      float AboveGroundBiomass,
+      float AirTemperatureMinimum,
       float WaterEquivalentOfSnowPack,
-      float LagCoefficient,
+      float GlobalSolarRadiation,
+      float AirTemperatureMaximum,
       float AirTemperatureAnnualAverage,
+      float SoilProfileDepth,
       float BulkDensity[],
-      float LayerThickness[],
       float VolumetricWaterContent[],
-      float SoilProfileDepth):
+      float LayerThickness[],
+      float LagCoefficient):
     cdef float SoilTemperatureByLayers[]
     cdef float SurfaceSoilTemperature
-    SurfaceSoilTemperature = model_surfacetemperatureswat( GlobalSolarRadiation,SoilTemperatureByLayers,AirTemperatureMaximum,AirTemperatureMinimum,Albedo,AboveGroundBiomass,WaterEquivalentOfSnowPack)
-    SoilTemperatureByLayers = model_soiltemperatureswat( SoilTemperatureByLayers,LagCoefficient,AirTemperatureAnnualAverage,BulkDensity,LayerThickness,VolumetricWaterContent,SoilProfileDepth,SurfaceSoilTemperature)
+    SurfaceSoilTemperature = model_surfacetemperatureswat(GlobalSolarRadiation,SoilTemperatureByLayers,AirTemperatureMaximum,AirTemperatureMinimum,Albedo,AboveGroundBiomass,WaterEquivalentOfSnowPack)
+    SoilTemperatureByLayers = model_soiltemperatureswat(VolumetricWaterContent,SurfaceSoilTemperature,LayerThickness,LagCoefficient,SoilTemperatureByLayers,AirTemperatureAnnualAverage,BulkDensity,SoilProfileDepth)
+
     return SurfaceSoilTemperature, SoilTemperatureByLayers

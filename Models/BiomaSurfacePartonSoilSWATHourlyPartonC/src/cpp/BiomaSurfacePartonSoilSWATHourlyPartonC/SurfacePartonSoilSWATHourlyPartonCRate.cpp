@@ -1,2 +1,4 @@
 #include "SurfacePartonSoilSWATHourlyPartonCRate.h"
-SurfacePartonSoilSWATHourlyPartonCRate::SurfacePartonSoilSWATHourlyPartonCRate() { }
+using namespace BiomaSurfacePartonSoilSWATHourlyPartonC;
+
+SurfacePartonSoilSWATHourlyPartonCRate::SurfacePartonSoilSWATHourlyPartonCRate() {}
