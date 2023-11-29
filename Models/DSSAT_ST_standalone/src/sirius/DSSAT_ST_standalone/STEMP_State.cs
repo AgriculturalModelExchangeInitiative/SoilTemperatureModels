@@ -5,7 +5,7 @@ using CRA.ModelLayer.Core;
 using System.Reflection;
 using CRA.ModelLayer.ParametersManagement;   
 
-namespace STEMP_.DomainClass
+namespace SiriusQualitySTEMP_.DomainClass
 {
     public class STEMP_State : ICloneable, IDomainClass
     {

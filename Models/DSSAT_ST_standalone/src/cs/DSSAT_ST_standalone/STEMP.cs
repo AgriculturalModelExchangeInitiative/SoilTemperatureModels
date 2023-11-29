@@ -5,12 +5,12 @@ public class STEMP
 {
     public void Init(STEMP_State s, STEMP_State s1, STEMP_Rate r, STEMP_Auxiliary a, STEMP_Exogenous ex)
     {
-        double SRAD;
-        double TAVG;
-        double TMAX;
-        double TAV;
-        double TAMP;
-        int DOY;
+        double SRAD = ex.SRAD;
+        double TAVG = ex.TAVG;
+        double TMAX = ex.TMAX;
+        double TAV = ex.TAV;
+        double TAMP = ex.TAMP;
+        int DOY = ex.DOY;
         double CUMDPT;
         double[] DSMID =  new double [NL];
         double TDL;
@@ -553,7 +553,7 @@ public class STEMP
         {
             TMA[K - 1] = TMA[K - 1 - 1];
         }
-        TMA[1 - 1] = (1.00d - ALBEDO) * (TAVG + ((TMAX - TAVG) * Math.Sqrt(SRAD * 0.030d))) + (ALBEDO * TMA[(1 - 1)]);
+        TMA[1 - 1] = TAVG;
         TMA[1 - 1] = (int)(TMA[(1 - 1)] * 10000.0d) / 10000.0d;
         ATOT = ATOT + TMA[1 - 1];
         WC = Math.Max(0.010d, PESW) / (WW * CUMDPT) * 10.00d;

@@ -225,12 +225,12 @@ public class STEMP extends FWSimComponent
         Double t_TAV = TAV.getValue();
         Double t_TAMP = TAMP.getValue();
         Double t_CUMDPT = CUMDPT.getValue();
-        Double [] t_DSMID = new Double[t_NL];
+        Double [] t_DSMID = DSMID.getValue();
         Double t_TDL = TDL.getValue();
-        Double [] t_TMA = new Double[5];
+        Double [] t_TMA = TMA.getValue();
         Double t_ATOT = ATOT.getValue();
         Double t_SRFTEMP = SRFTEMP.getValue();
-        Double [] t_ST = new Double[t_NL];
+        Double [] t_ST = ST.getValue();
         Integer t_DOY = DOY.getValue();
         Double t_HDAY = HDAY.getValue();
         Integer L;
@@ -300,7 +300,7 @@ public class STEMP extends FWSimComponent
         {
             t_TMA[K - 1] = t_TMA[K - 1 - 1];
         }
-        t_TMA[1 - 1] = (1.0d - ALBEDO) * (t_TAVG + ((t_TMAX - t_TAVG) * Math.sqrt(t_SRAD * 0.03d))) + (ALBEDO * t_TMA[(1 - 1)]);
+        t_TMA[1 - 1] = t_TAVG;
         t_TMA[1 - 1] = (int)(t_TMA[(1 - 1)] * 10000.d) / 10000.d;
         t_ATOT = t_ATOT + t_TMA[1 - 1];
         WC = Math.max(0.01d, PESW) / (WW * t_CUMDPT) * 10.0d;

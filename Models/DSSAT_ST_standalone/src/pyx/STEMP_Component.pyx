@@ -1,30 +1,31 @@
 from datetime import datetime
 from math import *
 from DSSAT_ST_standalone.stemp import model_stemp
-def model_stemp_(float SRFTEMP,
-      float TAMP,
-      float XLAT,
+def model_stemp_(float TMAX,
+      float MSALB,
       float HDAY,
-      float TMA[5],
-      float CUMDPT,
-      str ISWWAT,
-      int NLAYR,
-      float ATOT,
-      float DUL[NL],
-      float TDL,
-      float SRAD,
-      float DS[NL],
+      int NL,
+      float SRFTEMP,
       float LL[NL],
-      float TAV,
-      float TMAX,
+      int NLAYR,
+      float DS[NL],
+      float ST[NL],
+      float SRAD,
+      float TAMP,
+      float DLAYR[NL],
+      float TMA[5],
+      float TDL,
+      str ISWWAT,
+      float CUMDPT,
       float TAVG,
       float BD[NL],
-      int DOY,
+      float SW[NL],
+      float ATOT,
+      float TAV,
+      float XLAT,
+      float DUL[NL],
       float DSMID[NL],
-      float MSALB,
-      int NL,
-      float DLAYR[NL],
-      float ST[NL],
-      float SW[NL]):
-    CUMDPT, DSMID, TDL, TMA, ATOT, SRFTEMP, ST = model_stemp( NL,ISWWAT,BD,DLAYR,DS,DUL,LL,NLAYR,MSALB,SRAD,SW,TAVG,TMAX,XLAT,TAV,TAMP,CUMDPT,DSMID,TDL,TMA,ATOT,SRFTEMP,ST,DOY,HDAY)
+      int DOY):
+    CUMDPT, DSMID, TDL, TMA, ATOT, SRFTEMP, ST = model_stemp(NL,ISWWAT,BD,DLAYR,DS,DUL,LL,NLAYR,MSALB,SRAD,SW,TAVG,TMAX,XLAT,TAV,TAMP,CUMDPT,DSMID,TDL,TMA,ATOT,SRFTEMP,ST,DOY,HDAY)
+
     return CUMDPT, DSMID, TDL, TMA, ATOT, SRFTEMP, ST

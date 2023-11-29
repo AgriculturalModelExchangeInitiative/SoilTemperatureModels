@@ -1,5 +1,6 @@
-import numpy 
+import numpy
 from math import *
+
 def init_stemp(int NL,
                str ISWWAT,
                float BD[NL],
@@ -92,6 +93,7 @@ def init_stemp(int NL,
     for I in range(1 , 8 + 1 , 1):
         (ATOT, TMA, SRFTEMP, ST)=SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ATOT, TMA)
     return  CUMDPT, DSMID, TDL, TMA, ATOT, SRFTEMP, ST, HDAY
+
 def model_stemp(int NL,
                 str ISWWAT,
                 float BD[NL],
@@ -118,15 +120,14 @@ def model_stemp(int NL,
                 int DOY,
                 float HDAY):
     """
-
     Model of STEMP
     Author: DSSAT 
     Reference: https://doi.org/10.2134/agronj1994.00021962008600060014x
     Institution: DSSAT Florida
     ExtendedDescription: None
     ShortDescription: Determines soil temperature by layer
-
     """
+
     cdef int L 
     cdef float ABD , ALBEDO , B 
     cdef float DP , FX , PESW 
@@ -159,6 +160,7 @@ def model_stemp(int NL,
     (ATOT, TMA, SRFTEMP, ST)=SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ATOT, TMA)
     #-----------------------------------------------------------------------
     return  CUMDPT, DSMID, TDL, TMA, ATOT, SRFTEMP, ST
+
 
 
 #=======================================================================
@@ -207,7 +209,7 @@ def SOILT(int NL,
     ATOT=ATOT - TMA[5 - 1]
     for K in range(5 , 2 - 1 , -1):
         TMA[K - 1]=TMA[K - 1 - 1]
-    TMA[1 - 1]=(1.0 - ALBEDO) * (TAVG + ((TMAX - TAVG) * sqrt(SRAD * 0.03))) + (ALBEDO * TMA[(1 - 1)])
+    TMA[1 - 1]=TAVG
     #     Prevents differences between release & debug modes:
     #       Keep only 4 decimals. chp 06/03/03
     #chp 

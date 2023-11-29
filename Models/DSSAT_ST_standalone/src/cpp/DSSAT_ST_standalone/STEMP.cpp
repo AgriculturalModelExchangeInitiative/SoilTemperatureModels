@@ -1,4 +1,3 @@
-#ifndef _STEMP_
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
@@ -10,9 +9,8 @@
 #include <map>
 #include <tuple>
 #include "STEMP.h"
-using namespace std;
-
-void STEMP::Init(STEMP_State& s, STEMP_State& s1, STEMP_Rate& r, STEMP_Auxiliary& a, STEMP_Exogenous& ex)
+using namespace DSSAT_ST_standalone;
+void STEMP::Init(STEMP_State &s, STEMP_State &s1, STEMP_Rate &r, STEMP_Auxiliary &a, STEMP_Exogenous &ex)
 {
     double SRAD = ex.getSRAD();
     double TAVG = ex.getTAVG();
@@ -21,12 +19,12 @@ void STEMP::Init(STEMP_State& s, STEMP_State& s1, STEMP_Rate& r, STEMP_Auxiliary
     double TAMP = ex.getTAMP();
     int DOY = ex.getDOY();
     double CUMDPT;
-    vector<double> DSMID(NL);
+    std::vector<double> DSMID(NL);
     double TDL;
-    vector<double> TMA(5);
+    std::vector<double> TMA(5);
     double ATOT;
     double SRFTEMP;
-    vector<double> ST(NL);
+    std::vector<double> ST(NL);
     double HDAY;
     CUMDPT = 0.0;
     fill(DSMID.begin(),DSMID.end(), 0.0);
@@ -48,9 +46,9 @@ void STEMP::Init(STEMP_State& s, STEMP_State& s1, STEMP_Rate& r, STEMP_Auxiliary
     double WW;
     double TLL;
     double TSW;
-    vector<double> DLI(NL);
-    vector<double> DSI(NL);
-    vector<double> SWI(NL);
+    std::vector<double> DLI(NL);
+    std::vector<double> DSI(NL);
+    std::vector<double> SWI(NL);
     SWI = SW;
     DSI = DS;
     if (XLAT < 0.0)
@@ -85,17 +83,17 @@ void STEMP::Init(STEMP_State& s, STEMP_State& s1, STEMP_Rate& r, STEMP_Auxiliary
     }
     if (ISWWAT == "Y")
     {
-        PESW = max(0.0, TSW - TLL);
+        PESW = std::max(0.0, TSW - TLL);
     }
     else
     {
-        PESW = max(0.0, TDL - TLL);
+        PESW = std::max(0.0, TDL - TLL);
     }
     ABD = TBD / DSI[(NLAYR - 1)];
-    FX = ABD / (ABD + (686.0 * exp(-(5.63 * ABD))));
+    FX = ABD / (ABD + (686.0 * std::exp(-(5.63 * ABD))));
     DP = 1000.0 + (2500.0 * FX);
     WW = 0.356 - (0.144 * ABD);
-    B = log(500.0 / DP);
+    B = std::log(500.0 / DP);
     ALBEDO = MSALB;
     for (I=1 ; I!=5 + 1 ; I+=1)
     {
@@ -119,42 +117,42 @@ void STEMP::Init(STEMP_State& s, STEMP_State& s1, STEMP_Rate& r, STEMP_Auxiliary
     s.setST(ST);
     s.setHDAY(HDAY);
 }
-STEMP::STEMP() { }
-int STEMP::getNL() {return this-> NL; }
-string STEMP::getISWWAT() {return this-> ISWWAT; }
-vector<double> & STEMP::getBD() {return this-> BD; }
-vector<double> & STEMP::getDLAYR() {return this-> DLAYR; }
-vector<double> & STEMP::getDS() {return this-> DS; }
-vector<double> & STEMP::getDUL() {return this-> DUL; }
-vector<double> & STEMP::getLL() {return this-> LL; }
-int STEMP::getNLAYR() {return this-> NLAYR; }
-double STEMP::getMSALB() {return this-> MSALB; }
-vector<double> & STEMP::getSW() {return this-> SW; }
-double STEMP::getXLAT() {return this-> XLAT; }
+STEMP::STEMP() {}
+int STEMP::getNL() { return this->NL; }
+std::string STEMP::getISWWAT() { return this->ISWWAT; }
+std::vector<double> & STEMP::getBD() { return this->BD; }
+std::vector<double> & STEMP::getDLAYR() { return this->DLAYR; }
+std::vector<double> & STEMP::getDS() { return this->DS; }
+std::vector<double> & STEMP::getDUL() { return this->DUL; }
+std::vector<double> & STEMP::getLL() { return this->LL; }
+int STEMP::getNLAYR() { return this->NLAYR; }
+double STEMP::getMSALB() { return this->MSALB; }
+std::vector<double> & STEMP::getSW() { return this->SW; }
+double STEMP::getXLAT() { return this->XLAT; }
 void STEMP::setNL(int _NL) { this->NL = _NL; }
-void STEMP::setISWWAT(string _ISWWAT) { this->ISWWAT = _ISWWAT; }
-void STEMP::setBD(vector<double> const & _BD){
+void STEMP::setISWWAT(std::string _ISWWAT) { this->ISWWAT = _ISWWAT; }
+void STEMP::setBD(std::vector<double> const &_BD){
     this->BD = _BD;
 }
-void STEMP::setDLAYR(vector<double> const & _DLAYR){
+void STEMP::setDLAYR(std::vector<double> const &_DLAYR){
     this->DLAYR = _DLAYR;
 }
-void STEMP::setDS(vector<double> const & _DS){
+void STEMP::setDS(std::vector<double> const &_DS){
     this->DS = _DS;
 }
-void STEMP::setDUL(vector<double> const & _DUL){
+void STEMP::setDUL(std::vector<double> const &_DUL){
     this->DUL = _DUL;
 }
-void STEMP::setLL(vector<double> const & _LL){
+void STEMP::setLL(std::vector<double> const &_LL){
     this->LL = _LL;
 }
 void STEMP::setNLAYR(int _NLAYR) { this->NLAYR = _NLAYR; }
 void STEMP::setMSALB(double _MSALB) { this->MSALB = _MSALB; }
-void STEMP::setSW(vector<double> const & _SW){
+void STEMP::setSW(std::vector<double> const &_SW){
     this->SW = _SW;
 }
 void STEMP::setXLAT(double _XLAT) { this->XLAT = _XLAT; }
-void STEMP::Calculate_Model(STEMP_State& s, STEMP_State& s1, STEMP_Rate& r, STEMP_Auxiliary& a, STEMP_Exogenous& ex)
+void STEMP::Calculate_Model(STEMP_State &s, STEMP_State &s1, STEMP_Rate &r, STEMP_Auxiliary &a, STEMP_Exogenous &ex)
 {
     //- Name: STEMP -Version:  1.0, -Time step:  1
     //- Description:
@@ -458,12 +456,12 @@ void STEMP::Calculate_Model(STEMP_State& s, STEMP_State& s1, STEMP_Rate& r, STEM
     double TAV = ex.getTAV();
     double TAMP = ex.getTAMP();
     double CUMDPT = s.getCUMDPT();
-    vector<double>  DSMID = s.getDSMID();
+    std::vector<double> & DSMID = s.getDSMID();
     double TDL = s.getTDL();
-    vector<double>  TMA = s.getTMA();
+    std::vector<double> & TMA = s.getTMA();
     double ATOT = s.getATOT();
     double SRFTEMP = s.getSRFTEMP();
-    vector<double>  ST = s.getST();
+    std::vector<double> & ST = s.getST();
     int DOY = ex.getDOY();
     double HDAY = s.getHDAY();
     int L;
@@ -488,18 +486,18 @@ void STEMP::Calculate_Model(STEMP_State& s, STEMP_State& s1, STEMP_Rate& r, STEM
         TSW = TSW + (SW[(L - 1)] * DLAYR[(L - 1)]);
     }
     ABD = TBD / DS[(NLAYR - 1)];
-    FX = ABD / (ABD + (686.0 * exp(-(5.63 * ABD))));
+    FX = ABD / (ABD + (686.0 * std::exp(-(5.63 * ABD))));
     DP = 1000.0 + (2500.0 * FX);
     WW = 0.356 - (0.144 * ABD);
-    B = log(500.0 / DP);
+    B = std::log(500.0 / DP);
     ALBEDO = MSALB;
     if (ISWWAT == "Y")
     {
-        PESW = max(0.0, TSW - TLL);
+        PESW = std::max(0.0, TSW - TLL);
     }
     else
     {
-        PESW = max(0.0, TDL - TLL);
+        PESW = std::max(0.0, TDL - TLL);
     }
     tie(ATOT, TMA, SRFTEMP, ST) = SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ATOT, TMA);
     s.setCUMDPT(CUMDPT);
@@ -510,7 +508,7 @@ void STEMP::Calculate_Model(STEMP_State& s, STEMP_State& s1, STEMP_Rate& r, STEM
     s.setSRFTEMP(SRFTEMP);
     s.setST(ST);
 }
-tuple<double,vector<double> ,double,vector<double> > STEMP:: SOILT(int NL, double ALBEDO, double B, double CUMDPT, int DOY, double DP, double HDAY, int NLAYR, double PESW, double SRAD, double TAMP, double TAV, double TAVG, double TMAX, double WW, vector<double> DSMID, double ATOT, vector<double> TMA)
+std::tuple<double,std::vector<double> ,double,std::vector<double> > STEMP::SOILT(int NL, double ALBEDO, double B, double CUMDPT, int DOY, double DP, double HDAY, int NLAYR, double PESW, double SRAD, double TAMP, double TAV, double TAVG, double TMAX, double WW, std::vector<double> DSMID, double ATOT, std::vector<double> TMA)
 {
     int K;
     int L;
@@ -522,28 +520,27 @@ tuple<double,vector<double> ,double,vector<double> > STEMP:: SOILT(int NL, doubl
     double TA;
     double WC;
     double ZD;
-    vector<double> ST(NL);
+    std::vector<double> ST(NL);
     ALX = (float(DOY) - HDAY) * 0.0174;
     ATOT = ATOT - TMA[5 - 1];
     for (K=5 ; K!=2 - 1 ; K+=-1)
     {
         TMA[K - 1] = TMA[K - 1 - 1];
     }
-    TMA[1 - 1] = (1.0 - ALBEDO) * (TAVG + ((TMAX - TAVG) * sqrt(SRAD * 0.03))) + (ALBEDO * TMA[(1 - 1)]);
+    TMA[1 - 1] = TAVG;
     TMA[1 - 1] = int(TMA[(1 - 1)] * 10000.) / 10000.;
     ATOT = ATOT + TMA[1 - 1];
-    WC = max(0.01, PESW) / (WW * CUMDPT) * 10.0;
-    FX = exp(B * pow((1.0 - WC) / (1.0 + WC), 2));
+    WC = std::max(0.01, PESW) / (WW * CUMDPT) * 10.0;
+    FX = std::exp(B * std::pow((1.0 - WC) / (1.0 + WC), 2));
     DD = FX * DP;
-    TA = TAV + (TAMP * cos(ALX) / 2.0);
+    TA = TAV + (TAMP * std::cos(ALX) / 2.0);
     DT = ATOT / 5.0 - TA;
     for (L=1 ; L!=NLAYR + 1 ; L+=1)
     {
         ZD = -(DSMID[(L - 1)] / DD);
-        ST[L - 1] = TAV + ((TAMP / 2.0 * cos((ALX + ZD)) + DT) * exp(ZD));
+        ST[L - 1] = TAV + ((TAMP / 2.0 * std::cos((ALX + ZD)) + DT) * std::exp(ZD));
         ST[L - 1] = int(ST[(L - 1)] * 1000.) / 1000.;
     }
-    SRFTEMP = TAV + (TAMP / 2. * cos(ALX) + DT);
+    SRFTEMP = TAV + (TAMP / 2. * std::cos(ALX) + DT);
     return make_tuple(ATOT, TMA, SRFTEMP, ST);
 }
-#endif

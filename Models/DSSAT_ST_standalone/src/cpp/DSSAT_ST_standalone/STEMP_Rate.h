@@ -1,11 +1,10 @@
-#ifndef _STEMP_Rate_
-#define _STEMP_Rate_
+#pragma once
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
-# include<vector>
-# include<string>
-using namespace std;
+#include <vector>
+#include <string>
+namespace DSSAT_ST_standalone {
 class STEMP_Rate
 {
     private:
@@ -13,4 +12,4 @@ class STEMP_Rate
         STEMP_Rate();
 
 };
-#endif
+}

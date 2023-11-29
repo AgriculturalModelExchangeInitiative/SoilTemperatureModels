@@ -1,11 +1,10 @@
-#ifndef _STEMP_Auxiliary_
-#define _STEMP_Auxiliary_
+#pragma once
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
-# include<vector>
-# include<string>
-using namespace std;
+#include <vector>
+#include <string>
+namespace DSSAT_ST_standalone {
 class STEMP_Auxiliary
 {
     private:
@@ -13,4 +12,4 @@ class STEMP_Auxiliary
         STEMP_Auxiliary();
 
 };
-#endif
+}

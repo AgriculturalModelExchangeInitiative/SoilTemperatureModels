@@ -11,31 +11,31 @@
     <Composition>
         <Model name="STEMP" id="DSSAT_.STEMP" filename="unit.STEMP.xml"/>
         <Links>
-            <InputLink target="STEMP.SRFTEMP" source="SRFTEMP"/>
-            <InputLink target="STEMP.TAMP" source="TAMP"/>
-            <InputLink target="STEMP.XLAT" source="XLAT"/>
-            <InputLink target="STEMP.HDAY" source="HDAY"/>
-            <InputLink target="STEMP.TMA" source="TMA"/>
-            <InputLink target="STEMP.CUMDPT" source="CUMDPT"/>
-            <InputLink target="STEMP.ISWWAT" source="ISWWAT"/>
-            <InputLink target="STEMP.NLAYR" source="NLAYR"/>
-            <InputLink target="STEMP.ATOT" source="ATOT"/>
-            <InputLink target="STEMP.DUL" source="DUL"/>
-            <InputLink target="STEMP.TDL" source="TDL"/>
-            <InputLink target="STEMP.SRAD" source="SRAD"/>
-            <InputLink target="STEMP.DS" source="DS"/>
-            <InputLink target="STEMP.LL" source="LL"/>
-            <InputLink target="STEMP.TAV" source="TAV"/>
             <InputLink target="STEMP.TMAX" source="TMAX"/>
+            <InputLink target="STEMP.MSALB" source="MSALB"/>
+            <InputLink target="STEMP.HDAY" source="HDAY"/>
+            <InputLink target="STEMP.NL" source="NL"/>
+            <InputLink target="STEMP.SRFTEMP" source="SRFTEMP"/>
+            <InputLink target="STEMP.LL" source="LL"/>
+            <InputLink target="STEMP.NLAYR" source="NLAYR"/>
+            <InputLink target="STEMP.DS" source="DS"/>
+            <InputLink target="STEMP.ST" source="ST"/>
+            <InputLink target="STEMP.SRAD" source="SRAD"/>
+            <InputLink target="STEMP.TAMP" source="TAMP"/>
+            <InputLink target="STEMP.DLAYR" source="DLAYR"/>
+            <InputLink target="STEMP.TMA" source="TMA"/>
+            <InputLink target="STEMP.TDL" source="TDL"/>
+            <InputLink target="STEMP.ISWWAT" source="ISWWAT"/>
+            <InputLink target="STEMP.CUMDPT" source="CUMDPT"/>
             <InputLink target="STEMP.TAVG" source="TAVG"/>
             <InputLink target="STEMP.BD" source="BD"/>
-            <InputLink target="STEMP.DOY" source="DOY"/>
-            <InputLink target="STEMP.DSMID" source="DSMID"/>
-            <InputLink target="STEMP.MSALB" source="MSALB"/>
-            <InputLink target="STEMP.NL" source="NL"/>
-            <InputLink target="STEMP.DLAYR" source="DLAYR"/>
-            <InputLink target="STEMP.ST" source="ST"/>
             <InputLink target="STEMP.SW" source="SW"/>
+            <InputLink target="STEMP.ATOT" source="ATOT"/>
+            <InputLink target="STEMP.TAV" source="TAV"/>
+            <InputLink target="STEMP.XLAT" source="XLAT"/>
+            <InputLink target="STEMP.DUL" source="DUL"/>
+            <InputLink target="STEMP.DSMID" source="DSMID"/>
+            <InputLink target="STEMP.DOY" source="DOY"/>
             <OutputLink target="CUMDPT" source="STEMP.CUMDPT"/>
             <OutputLink target="DSMID" source="STEMP.DSMID"/>
             <OutputLink target="TDL" source="STEMP.TDL"/>
