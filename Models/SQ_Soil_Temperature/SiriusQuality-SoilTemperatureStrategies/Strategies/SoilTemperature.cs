@@ -486,7 +486,7 @@ namespace SiriusQualitySoilTemperature.Strategies
 			//Call of the associated strategies
 			private void EstimateOfAssociatedClasses(INRA.SiriusQualitySoilT.Interfaces.DeepLayerStates deeplayerstates,INRA.SiriusQualitySoilT.Interfaces.DeepLayerStates deeplayerstates1,INRA.SiriusQualitySoilT.Interfaces.Exogenous exogenous,INRA.SiriusQualitySoilT.Interfaces.RatesExternal ratesexternal,INRA.SiriusQualitySoilT.Interfaces.States states){
 				_calculatesoiltemperature.Estimate(deeplayerstates,deeplayerstates1,exogenous,ratesexternal,states);
-                if (isHourlyTemperatureCalculated==1) _calculatehourlysoiltemperature.Estimate(deeplayerstates, deeplayerstates1, exogenous, ratesexternal, states);
+                _calculatehourlysoiltemperature.Estimate(deeplayerstates, deeplayerstates1, exogenous, ratesexternal, states);
 			}
 
 			#endregion
@@ -498,13 +498,13 @@ namespace SiriusQualitySoilTemperature.Strategies
 				//GENERATED CODE END - PLACE YOUR CUSTOM CODE BELOW - Section2
 				//Code written below will not be overwritten by a future code generation
 
-                  public void Init()
+                  public void Init(INRA.SiriusQualitySoilT.Interfaces.DeepLayerStates deeplayerstates, INRA.SiriusQualitySoilT.Interfaces.DeepLayerStates deeplayerstates1, INRA.SiriusQualitySoilT.Interfaces.Exogenous exogenous, INRA.SiriusQualitySoilT.Interfaces.RatesExternal ratesexternal, INRA.SiriusQualitySoilT.Interfaces.States states)
                   {
-                      //Nothing to do here, Init reported to Wrapper Soil T
+					//Nothing to do here, Init Day Step reported to Wrapper Soil T, beware the DeepLayer T initilization
 
-                  }
+					}
 
-                  public void InitDayStep()
+        public void InitDayStep()
                   {
                       //Nothing to do here, Init Day Step reported to Wrapper Soil T, beware the DeepLayer T initilization
 

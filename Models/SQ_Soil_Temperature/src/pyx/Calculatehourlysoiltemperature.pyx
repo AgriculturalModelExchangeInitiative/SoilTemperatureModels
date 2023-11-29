@@ -1,21 +1,21 @@
-import numpy 
+import numpy
 from math import *
-def model_calculatehourlysoiltemperature(float c,
+
+def model_calculatehourlysoiltemperature(float minTSoil,
                                          float dayLength,
-                                         float maxTSoil,
                                          float b,
                                          float a,
-                                         float minTSoil):
+                                         float maxTSoil,
+                                         float c):
     """
-
     CalculateHourlySoilTemperature model
     Author: loic.manceau@inra.fr
     Reference: ('http://biomamodelling.org',)
     Institution: INRA
     ExtendedDescription: Calculate Soil temperature on a hourly basis.Parton, W.J. and Logan, J.A., 1981. A model for diurnal variation in soil and air temperature. Agric. Meteorol., 23: 205-216
     ShortDescription: None
-
     """
+
     cdef float hourlySoilT[24]
     cdef int i 
     if maxTSoil == float(-999) and minTSoil == float(999):
@@ -26,16 +26,17 @@ def model_calculatehourlysoiltemperature(float c,
     else:
         for i in range(0 , 24 , 1):
             hourlySoilT[i]=0.0
-        hourlySoilT=getHourlySoilSurfaceTemperature(maxTSoil, minTSoil, dayLength, b, c, a)
+        hourlySoilT=getHourlySoilSurfaceTemperature(maxTSoil, minTSoil, dayLength, b, a, c)
     return  hourlySoilT
+
 
 
 def getHourlySoilSurfaceTemperature(float TMax,
          float TMin,
          float ady,
          float b,
-         float c,
-         float a):
+         float a,
+         float c):
     cdef int i 
     cdef float result[24]
     cdef float ahou 

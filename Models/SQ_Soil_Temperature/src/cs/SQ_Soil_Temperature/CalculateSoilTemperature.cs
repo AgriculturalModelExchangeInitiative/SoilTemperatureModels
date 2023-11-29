@@ -3,6 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 public class CalculateSoilTemperature
 {
+    public void Init(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a, SoilTemperatureExogenous ex)
+    {
+        double meanTAir = ex.meanTAir;
+        double minTAir = ex.minTAir;
+        double meanAnnualAirTemp = ex.meanAnnualAirTemp;
+        double maxTAir = ex.maxTAir;
+        double deepLayerT = 20.0;
+        deepLayerT = meanAnnualAirTemp;
+        s.deepLayerT= deepLayerT;
+    }
     private double _lambda_;
     public double lambda_
         {
@@ -22,6 +32,33 @@ public class CalculateSoilTemperature
     //            * ExtendedDescription: Calculation of minimum and maximum Soil temperature, Further used in shoot temperature estimate.
     //            * ShortDescription: None
         //- inputs:
+    //            * name: meanTAir
+    //                          ** description : Mean Air Temperature
+    //                          ** inputtype : variable
+    //                          ** variablecategory : exogenous
+    //                          ** datatype : DOUBLE
+    //                          ** max : 80
+    //                          ** min : -30
+    //                          ** default : 22
+    //                          ** unit : Â°C
+    //            * name: minTAir
+    //                          ** description : Minimum Air Temperature from Weather files
+    //                          ** inputtype : variable
+    //                          ** variablecategory : exogenous
+    //                          ** datatype : DOUBLE
+    //                          ** max : 80
+    //                          ** min : -30
+    //                          ** default : 20
+    //                          ** unit : Â°C
+    //            * name: lambda_
+    //                          ** description : Latente heat of water vaporization at 20Â°C
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
+    //                          ** datatype : DOUBLE
+    //                          ** max : 10
+    //                          ** min : 0
+    //                          ** default : 2.454
+    //                          ** unit : MJ.kg-1
     //            * name: deepLayerT
     //                          ** description : Temperature of the last soil layer
     //                          ** inputtype : variable
@@ -30,16 +67,16 @@ public class CalculateSoilTemperature
     //                          ** max : 80
     //                          ** min : -30
     //                          ** default : 20
-    //                          ** unit : °C
-    //            * name: lambda_
-    //                          ** description : Latente heat of water vaporization at 20°C
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
+    //                          ** unit : Â°C
+    //            * name: meanAnnualAirTemp
+    //                          ** description : Annual Mean Air Temperature
+    //                          ** inputtype : variable
+    //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLE
-    //                          ** max : 10
-    //                          ** min : 0
-    //                          ** default : 2.454
-    //                          ** unit : MJ.kg-1
+    //                          ** max : 80
+    //                          ** min : -30
+    //                          ** default : 22
+    //                          ** unit : Â°C
     //            * name: heatFlux
     //                          ** description : Soil Heat Flux from Energy Balance Component
     //                          ** inputtype : variable
@@ -49,33 +86,6 @@ public class CalculateSoilTemperature
     //                          ** min : 0
     //                          ** default : 50
     //                          ** unit : g m-2 d-1
-    //            * name: meanTAir
-    //                          ** description : Mean Air Temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLE
-    //                          ** max : 80
-    //                          ** min : -30
-    //                          ** default : 22
-    //                          ** unit : °C
-    //            * name: minTAir
-    //                          ** description : Minimum Air Temperature from Weather files
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLE
-    //                          ** max : 80
-    //                          ** min : -30
-    //                          ** default : 20
-    //                          ** unit : °C
-    //            * name: deepLayerT_t1
-    //                          ** description : Temperature of the last soil layer
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 80
-    //                          ** min : -30
-    //                          ** default : 20
-    //                          ** unit : °C
     //            * name: maxTAir
     //                          ** description : Maximum Air Temperature from Weather Files
     //                          ** inputtype : variable
@@ -84,52 +94,54 @@ public class CalculateSoilTemperature
     //                          ** max : 80
     //                          ** min : -30
     //                          ** default : 25
-    //                          ** unit : °C
+    //                          ** unit : Â°C
         //- outputs:
-    //            * name: deepLayerT_t1
-    //                          ** description : Temperature of the last soil layer
-    //                          ** datatype : DOUBLE
-    //                          ** variablecategory : state
-    //                          ** max : 80
-    //                          ** min : -30
-    //                          ** unit : °C
-    //            * name: maxTSoil
-    //                          ** description : Maximum Soil Temperature
-    //                          ** datatype : DOUBLE
-    //                          ** variablecategory : state
-    //                          ** max : 80
-    //                          ** min : -30
-    //                          ** unit : °C
     //            * name: minTSoil
     //                          ** description : Minimum Soil Temperature
     //                          ** datatype : DOUBLE
     //                          ** variablecategory : state
     //                          ** max : 80
     //                          ** min : -30
-    //                          ** unit : °C
-        double deepLayerT = s.deepLayerT;
-        double heatFlux = r.heatFlux;
+    //                          ** unit : Â°C
+    //            * name: deepLayerT
+    //                          ** description : Temperature of the last soil layer
+    //                          ** datatype : DOUBLE
+    //                          ** variablecategory : state
+    //                          ** max : 80
+    //                          ** min : -30
+    //                          ** unit : Â°C
+    //            * name: maxTSoil
+    //                          ** description : Maximum Soil Temperature
+    //                          ** datatype : DOUBLE
+    //                          ** variablecategory : state
+    //                          ** max : 80
+    //                          ** min : -30
+    //                          ** unit : Â°C
         double meanTAir = ex.meanTAir;
         double minTAir = ex.minTAir;
-        double deepLayerT_t1 = s1.deepLayerT;
+        double deepLayerT = s.deepLayerT;
+        double meanAnnualAirTemp = ex.meanAnnualAirTemp;
+        double heatFlux = r.heatFlux;
         double maxTAir = ex.maxTAir;
-        double maxTSoil;
         double minTSoil;
+        double maxTSoil;
+        double tmp;
+        tmp = meanAnnualAirTemp;
         if (maxTAir == (double)(-999) && minTAir == (double)(999))
         {
             minTSoil = (double)(999);
             maxTSoil = (double)(-999);
-            deepLayerT_t1 = 0.00d;
+            deepLayerT = 0.00d;
         }
         else
         {
             minTSoil = SoilMinimumTemperature(maxTAir, meanTAir, minTAir, heatFlux, lambda_, deepLayerT);
-            maxTSoil = SoilMaximumTemperature(maxTAir, meanTAir, minTAir, heatFlux, lambda_, deepLayerT_t1);
-            deepLayerT_t1 = UpdateTemperature(minTSoil, maxTSoil, deepLayerT);
+            maxTSoil = SoilMaximumTemperature(maxTAir, meanTAir, minTAir, heatFlux, lambda_, deepLayerT);
+            deepLayerT = UpdateTemperature(minTSoil, maxTSoil, deepLayerT);
         }
-        s.deepLayerT_t1= deepLayerT_t1;
-        s.maxTSoil= maxTSoil;
+        s.deepLayerT= deepLayerT;
         s.minTSoil= minTSoil;
+        s.maxTSoil= maxTSoil;
     }
     public static double SoilTempB(double weatherMinTemp, double deepTemperature)
     {

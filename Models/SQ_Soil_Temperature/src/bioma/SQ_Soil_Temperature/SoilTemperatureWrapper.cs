@@ -25,9 +25,11 @@ namespace Model.Model.SoilTemperature
             loadParameters();
         }
 
-        public double maxTSoil{ get { return s.maxTSoil;}} 
-     
         public double minTSoil{ get { return s.minTSoil;}} 
+     
+        public double deepLayerT{ get { return s.deepLayerT;}} 
+     
+        public double maxTSoil{ get { return s.maxTSoil;}} 
      
         public double[] hourlySoilT{ get { return s.hourlySoilT;}} 
      
@@ -52,15 +54,16 @@ namespace Model.Model.SoilTemperature
         private void loadParameters()
         {
             soiltemperatureComponent.lambda_ = lambda_;
-            soiltemperatureComponent.a = a;
             soiltemperatureComponent.b = b;
             soiltemperatureComponent.c = c;
+            soiltemperatureComponent.a = a;
         }
 
-        public void EstimateSoilTemperature(double meanTAir, double minTAir, double maxTAir, double dayLength)
+        public void EstimateSoilTemperature(double meanTAir, double minTAir, double meanAnnualAirTemp, double maxTAir, double dayLength)
         {
             a.meanTAir = meanTAir;
             a.minTAir = minTAir;
+            a.meanAnnualAirTemp = meanAnnualAirTemp;
             a.maxTAir = maxTAir;
             a.dayLength = dayLength;
             soiltemperatureComponent.CalculateModel(s,s1, r, a, ex);

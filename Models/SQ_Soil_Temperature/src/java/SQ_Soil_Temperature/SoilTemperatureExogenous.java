@@ -6,6 +6,7 @@ public class SoilTemperatureExogenous
 {
     private Double meanTAir;
     private Double minTAir;
+    private Double meanAnnualAirTemp;
     private Double maxTAir;
     private Double dayLength;
     
@@ -17,6 +18,7 @@ public class SoilTemperatureExogenous
         {
             this.meanTAir = toCopy.getmeanTAir();
             this.minTAir = toCopy.getminTAir();
+            this.meanAnnualAirTemp = toCopy.getmeanAnnualAirTemp();
             this.maxTAir = toCopy.getmaxTAir();
             this.dayLength = toCopy.getdayLength();
         }
@@ -32,6 +34,12 @@ public class SoilTemperatureExogenous
 
     public void setminTAir(Double _minTAir)
     { this.minTAir= _minTAir; } 
+    
+    public Double getmeanAnnualAirTemp()
+    { return meanAnnualAirTemp; }
+
+    public void setmeanAnnualAirTemp(Double _meanAnnualAirTemp)
+    { this.meanAnnualAirTemp= _meanAnnualAirTemp; } 
     
     public Double getmaxTAir()
     { return maxTAir; }

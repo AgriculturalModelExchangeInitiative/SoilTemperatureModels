@@ -12,19 +12,19 @@
         <Model name="CalculateSoilTemperature" id="Crop2ML.SQ_Soil_Temperature.CalculateSoilTemperature" filename="unit.CalculateSoilTemperature.xml"/>
         <Model name="CalculateHourlySoilTemperature" id="Crop2ML.SQ_Soil_Temperature.CalculateHourlySoilTemperature" filename="unit.CalculateHourlySoilTemperature.xml"/>
         <Links>
-            <InputLink target="CalculateSoilTemperature.deepLayerT" source="deepLayerT"/>
-            <InputLink target="CalculateSoilTemperature.lambda_" source="lambda_"/>
-            <InputLink target="CalculateSoilTemperature.heatFlux" source="heatFlux"/>
             <InputLink target="CalculateSoilTemperature.meanTAir" source="meanTAir"/>
             <InputLink target="CalculateSoilTemperature.minTAir" source="minTAir"/>
+            <InputLink target="CalculateSoilTemperature.lambda_" source="lambda_"/>
+            <InputLink target="CalculateSoilTemperature.meanAnnualAirTemp" source="meanAnnualAirTemp"/>
+            <InputLink target="CalculateSoilTemperature.heatFlux" source="heatFlux"/>
             <InputLink target="CalculateSoilTemperature.maxTAir" source="maxTAir"/>
-            <InputLink target="CalculateHourlySoilTemperature.a" source="a"/>
             <InputLink target="CalculateHourlySoilTemperature.b" source="b"/>
             <InputLink target="CalculateHourlySoilTemperature.c" source="c"/>
+            <InputLink target="CalculateHourlySoilTemperature.a" source="a"/>
             <InputLink target="CalculateHourlySoilTemperature.dayLength" source="dayLength"/>
-            <InternalLink target="CalculateHourlySoilTemperature.maxTSoil" source="CalculateSoilTemperature.maxTSoil"/>
             <InternalLink target="CalculateHourlySoilTemperature.minTSoil" source="CalculateSoilTemperature.minTSoil"/>
-            <OutputLink target="deepLayerT_t1" source="CalculateSoilTemperature.deepLayerT_t1"/>
-            <OutputLink target="maxTSoil" source="CalculateSoilTemperature.maxTSoil"/>
+            <InternalLink target="CalculateHourlySoilTemperature.maxTSoil" source="CalculateSoilTemperature.maxTSoil"/>
             <OutputLink target="minTSoil" source="CalculateSoilTemperature.minTSoil"/>
+            <OutputLink target="deepLayerT" source="CalculateSoilTemperature.deepLayerT"/>
+            <OutputLink target="maxTSoil" source="CalculateSoilTemperature.maxTSoil"/>
             <OutputLink target="hourlySoilT" source="CalculateHourlySoilTemperature.hourlySoilT"/></Links></Composition></ModelComposition>
