@@ -878,7 +878,7 @@ namespace STEMP_.Strategies
             {
                 ST[L - 1] = TAVG;
             }
-            var toto = Tuple.Create(ATOT, TMA, SRFTEMP, ST)
+            var toto = Tuple.Create(ATOT, TMA, SRFTEMP, ST);
             for (I=1 ; I!=8 + 1 ; I+=1)
             {
                 toto = SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ATOT, TMA);
@@ -949,12 +949,12 @@ namespace STEMP_.Strategies
             {
                 PESW = Math.Max(0.00d, TDL - TLL);
             }
-            var toto = Tuple.Create(ATOT, TMA, SRFTEMP, ST)
+            var toto = Tuple.Create(ATOT, TMA, SRFTEMP, ST);
             toto = SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ATOT, TMA);
             ATOT = toto.item1;
             TMA = toto.item2;
-            SRFTEMP = toto.item3
-            ST = toto.item4
+            SRFTEMP = toto.item3;
+            ST = toto.item4;
             
             s.CUMDPT= CUMDPT;
             s.DSMID= DSMID;
