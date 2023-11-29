@@ -119,7 +119,7 @@ thermCondPar1 = [0.]*(NZ+1)       # A in equation 5; soil solids thermal conduct
 thermCondPar2 = [0.]*(NZ+1)       # B in equation 5; soil solids thermal conductivity parameter
 thermCondPar3 = [0.]*(NZ+1)       # C in equation 5; soil solids thermal conductivity parameter
 thermCondPar4 = [0.]*(NZ+1)       # D in equation 5; soil solids thermal conductivity parameter
-volSpecHeatSoil = [0.]*(NZ+1)     # C in Joules/m^3/K
+volSpecHeatSoil = [0.]*(NZ)     # C in Joules/m^3/K
 soilTemp = [17.]*(NZ+1)           # T soil temperature
 morningSoilTemp = [20.]*(NZ+1)    # soil temperature
 heatStorage  = [0.]*(NZ+1)        # Named S in the equations CP; heat storage between nodes - index is same as upper node (J/s/K or W/K)
@@ -128,7 +128,7 @@ thermalConductivity = [0.]*(NZ+1) # lambda; thermal conductivity (W/m^2/K)
 
 #tempNew= [20]*(NZ+1);             # soil temperature at the end of this iteration (oC)
 depth = [0., 0.] +[i for i in range(NZ)] # node depths - get from water module, metres
-soilWater = [15]*(NZ+1) # volumetric water content (cc water / cc soil)
+soilWater = [0.5]*(NZ+1) # volumetric water content (cc water / cc soil)
 minSoilTemp = [10.]*(NZ+1) # min soil temperature (oC)
 maxSoilTemp = [10.]*(NZ+1) # maximum soil temperature (oC)
 
@@ -268,12 +268,6 @@ def CalcSoilTemp(soilTempIO, NZ=NZ,
     return soilTemp
 
 
-
-def doProcess():
-    print("do process")
-
-
-
 def Init(soilTemp=soilTemp, 
          MAXT=MAXT, MINT=MINT, 
          SALB=SALB, RADN=RADN, TAV=TAV):
@@ -304,6 +298,94 @@ def Init(soilTemp=soilTemp,
     #doProcess()
 
     return (tempNew, minTempYesterday, maxTempYesterday)
+
+def doNetRadiation(
+        ITERATIONSperDAY=48,
+        DOY=DOY,
+        RADN=RADN,
+        ):
+    print("do net radiation computation")
+
+    TSTEPS2RAD = DEG2RAD *360. / ITERATIONSperDAY
+    SOLARconst = 1360.0;     # W/M^2
+    doy_angle = DOY * DOY2RAD
+    solarDeclination = 0.3985 * math.sin(4.869 + doy_angle + 0.03345 * math.sin(6.224 + doy_angle))
+
+    cD = math.sqrt(1.0 - solarDeclination * solarDeclination)
+    m1 = [0.]*(ITERATIONSperDAY+1)
+    m1Tot = 0.
+
+    for timestepNumber in range(1, ITERATIONSperDAY+1):
+        m1[timestepNumber] = ((solarDeclination * math.sin(LATITUDE * DEG2RAD) + 
+                              cD * math.cos(LATITUDE * DEG2RAD) * math.cos(TSTEPS2RAD * (timestepNumber - ITERATIONSperDAY / 2.0))) 
+                              * 24.0 / ITERATIONSperDAY)
+        if (m1[timestepNumber] > 0.0):
+            m1Tot += m1[timestepNumber]
+        else:
+            m1[timestepNumber] = 0.0
+
+    W2MJ = HR2MIN * MIN2SEC * J2MJ
+    psr = m1Tot * SOLARconst * W2MJ   # potential solar radiation for the day (MJ/m^2)
+    fr = max(RADN, 0.1) / psr
+    cloudFr = 2.33 - 3.33 * fr
+    cloudFr = min(1., max(cloudFr, 0.))
+
+    solarRadn = [0.] * (ITERATIONSperDAY+1)
+    for timestepNumber in range(1, ITERATIONSperDAY+1):
+        solarRadn[timestepNumber] = max(RADN, 0.1) * m1[timestepNumber]/ m1Tot
+
+    # convert celsius to kelvin
+    ZEROTkelvin = 273.18
+    minAirTempK = minAirTemp + ZEROTkelvin
+
+    cva = math.exp(31.3716 - 6014.79 / minAirTempK - 0.00792495 * minAirTempK) / minAirTempK
+    return solarRadn, cloudFr, cva
+
+def doVolumetricSpecificHeat(NZ=NZ, 
+                             volSpecHeatSoil=volSpecHeatSoil,
+                             bulkDensity=bulkDensity,
+                             ):
+    print("do Volumetric Specific Heat")
+    SPECIFICbd = 2.65   # (g/cc) specific bulk density
+
+    #volSpecHeatSoil = [0.]*NZ
+    for layer in range(1,NZ):
+        solidity = bulkDensity[layer] / SPECIFICbd
+        volSpecHeatSoil[layer] = (volSpecHeatClay * solidity
+                                 + volSpecHeatWater * soilWater[layer])
+        
+    return volSpecHeatSoil
+
+def doThermConductivity():
+    print("do Thermal Conductivity")
+
+def doProcess( NZ=NZ, 
+               volSpecHeatSoil=volSpecHeatSoil,
+               bulkDensity=bulkDensity):
+    print("do process")
+
+    ITERATIONSperDAY = 48 # number of iterations in a day
+
+    solarRadn, cloudFr, cva = doNetRadiation(ITERATIONSperDAY)
+
+    # debug
+    print(solarRadn, cloudFr, cva) 
+
+    # TODO Check the scale order. Be sure everything (soilWater) is correct
+    volSpecHeatSoil = doVolumetricSpecificHeat(
+        NZ=NZ, 
+        volSpecHeatSoil=volSpecHeatSoil,
+        bulkDensity=bulkDensity)
+    print(volSpecHeatSoil)
+
+    #...
+    doThermConductivity()
+
+    # Solver of soil temperature : equantions + thomas
+    # for ...
+
+
+    return #...
 
 if __name__ == "__main__":
     print("Hello World")
