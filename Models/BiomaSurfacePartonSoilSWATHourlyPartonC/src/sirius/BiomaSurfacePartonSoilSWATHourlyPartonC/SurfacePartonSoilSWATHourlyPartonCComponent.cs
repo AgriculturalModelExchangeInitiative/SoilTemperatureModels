@@ -21,90 +21,90 @@ namespace SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies
             ModellingOptions mo0_0 = new ModellingOptions();
             //Parameters
             List<VarInfo> _parameters0_0 = new List<VarInfo>();
-            VarInfo v1 = new CompositeStrategyVarInfo(_SoilTemperatureSWAT, "BulkDensity");
+            VarInfo v1 = new CompositeStrategyVarInfo(_SoilTemperatureSWAT, "SoilProfileDepth");
             _parameters0_0.Add(v1);
-            VarInfo v2 = new CompositeStrategyVarInfo(_VolumetricHeatCapacityKluitenberg, "BulkDensity");
+            VarInfo v2 = new CompositeStrategyVarInfo(_SoilTemperatureSWAT, "LagCoefficient");
             _parameters0_0.Add(v2);
-            VarInfo v3 = new CompositeStrategyVarInfo(_ThermalConductivitySIMULAT, "BulkDensity");
+            VarInfo v3 = new CompositeStrategyVarInfo(_SoilTemperatureSWAT, "AirTemperatureAnnualAverage");
             _parameters0_0.Add(v3);
-            VarInfo v4 = new CompositeStrategyVarInfo(_SoilTemperatureSWAT, "SoilProfileDepth");
+            VarInfo v4 = new CompositeStrategyVarInfo(_SoilTemperatureSWAT, "LayerThickness");
             _parameters0_0.Add(v4);
-            VarInfo v5 = new CompositeStrategyVarInfo(_SoilTemperatureSWAT, "AirTemperatureAnnualAverage");
+            VarInfo v5 = new CompositeStrategyVarInfo(_RangeOfSoilTemperaturesDAYCENT, "LayerThickness");
             _parameters0_0.Add(v5);
-            VarInfo v6 = new CompositeStrategyVarInfo(_SoilTemperatureSWAT, "LagCoefficient");
+            VarInfo v6 = new CompositeStrategyVarInfo(_SoilTemperatureSWAT, "BulkDensity");
             _parameters0_0.Add(v6);
-            VarInfo v7 = new CompositeStrategyVarInfo(_SoilTemperatureSWAT, "LayerThickness");
+            VarInfo v7 = new CompositeStrategyVarInfo(_VolumetricHeatCapacityKluitenberg, "BulkDensity");
             _parameters0_0.Add(v7);
-            VarInfo v8 = new CompositeStrategyVarInfo(_RangeOfSoilTemperaturesDAYCENT, "LayerThickness");
+            VarInfo v8 = new CompositeStrategyVarInfo(_ThermalConductivitySIMULAT, "BulkDensity");
             _parameters0_0.Add(v8);
-            VarInfo v9 = new CompositeStrategyVarInfo(_VolumetricHeatCapacityKluitenberg, "Clay");
+            VarInfo v9 = new CompositeStrategyVarInfo(_VolumetricHeatCapacityKluitenberg, "Silt");
             _parameters0_0.Add(v9);
-            VarInfo v10 = new CompositeStrategyVarInfo(_ThermalConductivitySIMULAT, "Clay");
+            VarInfo v10 = new CompositeStrategyVarInfo(_VolumetricHeatCapacityKluitenberg, "Clay");
             _parameters0_0.Add(v10);
-            VarInfo v11 = new CompositeStrategyVarInfo(_VolumetricHeatCapacityKluitenberg, "Silt");
+            VarInfo v11 = new CompositeStrategyVarInfo(_ThermalConductivitySIMULAT, "Clay");
             _parameters0_0.Add(v11);
             VarInfo v12 = new CompositeStrategyVarInfo(_ThermalDiffu, "layersNumber");
             _parameters0_0.Add(v12);
             List<PropertyDescription> _inputs0_0 = new List<PropertyDescription>();
             PropertyDescription pd1 = new PropertyDescription();
-            pd1.DomainClassType = typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenous);
-            pd1.PropertyName = "AirTemperatureMaximum";
-            pd1.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.AirTemperatureMaximum).ValueType.TypeForCurrentValue;
-            pd1.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.AirTemperatureMaximum);
+            pd1.DomainClassType = typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliary);
+            pd1.PropertyName = "AboveGroundBiomass";
+            pd1.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.AboveGroundBiomass).ValueType.TypeForCurrentValue;
+            pd1.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.AboveGroundBiomass);
             _inputs0_0.Add(pd1);
             PropertyDescription pd2 = new PropertyDescription();
             pd2.DomainClassType = typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenous);
-            pd2.PropertyName = "GlobalSolarRadiation";
-            pd2.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.GlobalSolarRadiation).ValueType.TypeForCurrentValue;
-            pd2.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.GlobalSolarRadiation);
+            pd2.PropertyName = "AirTemperatureMinimum";
+            pd2.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.AirTemperatureMinimum).ValueType.TypeForCurrentValue;
+            pd2.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.AirTemperatureMinimum);
             _inputs0_0.Add(pd2);
             PropertyDescription pd3 = new PropertyDescription();
             pd3.DomainClassType = typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenous);
-            pd3.PropertyName = "AirTemperatureMinimum";
-            pd3.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.AirTemperatureMinimum).ValueType.TypeForCurrentValue;
-            pd3.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.AirTemperatureMinimum);
+            pd3.PropertyName = "DayLength";
+            pd3.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.DayLength).ValueType.TypeForCurrentValue;
+            pd3.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.DayLength);
             _inputs0_0.Add(pd3);
             PropertyDescription pd4 = new PropertyDescription();
-            pd4.DomainClassType = typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliary);
-            pd4.PropertyName = "AboveGroundBiomass";
-            pd4.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.AboveGroundBiomass).ValueType.TypeForCurrentValue;
-            pd4.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.AboveGroundBiomass);
+            pd4.DomainClassType = typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenous);
+            pd4.PropertyName = "GlobalSolarRadiation";
+            pd4.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.GlobalSolarRadiation).ValueType.TypeForCurrentValue;
+            pd4.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.GlobalSolarRadiation);
             _inputs0_0.Add(pd4);
             PropertyDescription pd5 = new PropertyDescription();
             pd5.DomainClassType = typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenous);
-            pd5.PropertyName = "DayLength";
-            pd5.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.DayLength).ValueType.TypeForCurrentValue;
-            pd5.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.DayLength);
+            pd5.PropertyName = "AirTemperatureMaximum";
+            pd5.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.AirTemperatureMaximum).ValueType.TypeForCurrentValue;
+            pd5.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.AirTemperatureMaximum);
             _inputs0_0.Add(pd5);
             PropertyDescription pd6 = new PropertyDescription();
-            pd6.DomainClassType = typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliary);
+            pd6.DomainClassType = typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenous);
             pd6.PropertyName = "VolumetricWaterContent";
-            pd6.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.VolumetricWaterContent).ValueType.TypeForCurrentValue;
-            pd6.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.VolumetricWaterContent);
+            pd6.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.VolumetricWaterContent).ValueType.TypeForCurrentValue;
+            pd6.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.VolumetricWaterContent);
             _inputs0_0.Add(pd6);
             PropertyDescription pd7 = new PropertyDescription();
             pd7.DomainClassType = typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliary);
-            pd7.PropertyName = "OrganicMatter";
-            pd7.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.OrganicMatter).ValueType.TypeForCurrentValue;
-            pd7.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.OrganicMatter);
+            pd7.PropertyName = "Sand";
+            pd7.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.Sand).ValueType.TypeForCurrentValue;
+            pd7.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.Sand);
             _inputs0_0.Add(pd7);
             PropertyDescription pd8 = new PropertyDescription();
             pd8.DomainClassType = typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliary);
-            pd8.PropertyName = "Sand";
-            pd8.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.Sand).ValueType.TypeForCurrentValue;
-            pd8.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.Sand);
+            pd8.PropertyName = "OrganicMatter";
+            pd8.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.OrganicMatter).ValueType.TypeForCurrentValue;
+            pd8.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.OrganicMatter);
             _inputs0_0.Add(pd8);
             PropertyDescription pd9 = new PropertyDescription();
             pd9.DomainClassType = typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenous);
-            pd9.PropertyName = "HourOfSunrise";
-            pd9.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.HourOfSunrise).ValueType.TypeForCurrentValue;
-            pd9.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.HourOfSunrise);
+            pd9.PropertyName = "HourOfSunset";
+            pd9.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.HourOfSunset).ValueType.TypeForCurrentValue;
+            pd9.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.HourOfSunset);
             _inputs0_0.Add(pd9);
             PropertyDescription pd10 = new PropertyDescription();
             pd10.DomainClassType = typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenous);
-            pd10.PropertyName = "HourOfSunset";
-            pd10.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.HourOfSunset).ValueType.TypeForCurrentValue;
-            pd10.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.HourOfSunset);
+            pd10.PropertyName = "HourOfSunrise";
+            pd10.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.HourOfSunrise).ValueType.TypeForCurrentValue;
+            pd10.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.HourOfSunrise);
             _inputs0_0.Add(pd10);
             mo0_0.Inputs=_inputs0_0;
             List<PropertyDescription> _outputs0_0 = new List<PropertyDescription>();
@@ -139,10 +139,10 @@ namespace SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies
             pd15.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.HeatCapacity);
             _outputs0_0.Add(pd15);
             PropertyDescription pd16 = new PropertyDescription();
-            pd16.DomainClassType = typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliary);
+            pd16.DomainClassType = typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCState);
             pd16.PropertyName = "ThermalConductivity";
-            pd16.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.ThermalConductivity).ValueType.TypeForCurrentValue;
-            pd16.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.ThermalConductivity);
+            pd16.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.ThermalConductivity).ValueType.TypeForCurrentValue;
+            pd16.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.ThermalConductivity);
             _outputs0_0.Add(pd16);
             PropertyDescription pd17 = new PropertyDescription();
             pd17.DomainClassType = typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCState);
@@ -151,22 +151,22 @@ namespace SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies
             pd17.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.ThermalDiffusivity);
             _outputs0_0.Add(pd17);
             PropertyDescription pd18 = new PropertyDescription();
-            pd18.DomainClassType = typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliary);
+            pd18.DomainClassType = typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCState);
             pd18.PropertyName = "SoilTemperatureRangeByLayers";
-            pd18.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.SoilTemperatureRangeByLayers).ValueType.TypeForCurrentValue;
-            pd18.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.SoilTemperatureRangeByLayers);
+            pd18.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.SoilTemperatureRangeByLayers).ValueType.TypeForCurrentValue;
+            pd18.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.SoilTemperatureRangeByLayers);
             _outputs0_0.Add(pd18);
             PropertyDescription pd19 = new PropertyDescription();
-            pd19.DomainClassType = typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliary);
+            pd19.DomainClassType = typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCState);
             pd19.PropertyName = "SoilTemperatureMinimum";
-            pd19.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.SoilTemperatureMinimum).ValueType.TypeForCurrentValue;
-            pd19.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.SoilTemperatureMinimum);
+            pd19.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.SoilTemperatureMinimum).ValueType.TypeForCurrentValue;
+            pd19.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.SoilTemperatureMinimum);
             _outputs0_0.Add(pd19);
             PropertyDescription pd20 = new PropertyDescription();
-            pd20.DomainClassType = typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliary);
+            pd20.DomainClassType = typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCState);
             pd20.PropertyName = "SoilTemperatureMaximum";
-            pd20.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.SoilTemperatureMaximum).ValueType.TypeForCurrentValue;
-            pd20.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.SoilTemperatureMaximum);
+            pd20.PropertyType = (SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.SoilTemperatureMaximum).ValueType.TypeForCurrentValue;
+            pd20.PropertyVarInfo =(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.SoilTemperatureMaximum);
             _outputs0_0.Add(pd20);
             PropertyDescription pd21 = new PropertyDescription();
             pd21.DomainClassType = typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCState);
@@ -248,19 +248,6 @@ namespace SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies
             return new List<Type>() {  typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCState), typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCState), typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCRate), typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliary), typeof(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenous)};
         }
 
-        public double[] BulkDensity
-        {
-            get
-            {
-                 return _SoilTemperatureSWAT.BulkDensity; 
-            }
-            set
-            {
-                _SoilTemperatureSWAT.BulkDensity = value;
-                _VolumetricHeatCapacityKluitenberg.BulkDensity = value;
-                _ThermalConductivitySIMULAT.BulkDensity = value;
-            }
-        }
         public double SoilProfileDepth
         {
             get
@@ -272,17 +259,6 @@ namespace SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies
                 _SoilTemperatureSWAT.SoilProfileDepth = value;
             }
         }
-        public double AirTemperatureAnnualAverage
-        {
-            get
-            {
-                 return _SoilTemperatureSWAT.AirTemperatureAnnualAverage; 
-            }
-            set
-            {
-                _SoilTemperatureSWAT.AirTemperatureAnnualAverage = value;
-            }
-        }
         public double LagCoefficient
         {
             get
@@ -292,6 +268,17 @@ namespace SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies
             set
             {
                 _SoilTemperatureSWAT.LagCoefficient = value;
+            }
+        }
+        public double AirTemperatureAnnualAverage
+        {
+            get
+            {
+                 return _SoilTemperatureSWAT.AirTemperatureAnnualAverage; 
+            }
+            set
+            {
+                _SoilTemperatureSWAT.AirTemperatureAnnualAverage = value;
             }
         }
         public double[] LayerThickness
@@ -306,16 +293,17 @@ namespace SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies
                 _RangeOfSoilTemperaturesDAYCENT.LayerThickness = value;
             }
         }
-        public double[] Clay
+        public double[] BulkDensity
         {
             get
             {
-                 return _VolumetricHeatCapacityKluitenberg.Clay; 
+                 return _SoilTemperatureSWAT.BulkDensity; 
             }
             set
             {
-                _VolumetricHeatCapacityKluitenberg.Clay = value;
-                _ThermalConductivitySIMULAT.Clay = value;
+                _SoilTemperatureSWAT.BulkDensity = value;
+                _VolumetricHeatCapacityKluitenberg.BulkDensity = value;
+                _ThermalConductivitySIMULAT.BulkDensity = value;
             }
         }
         public double[] Silt
@@ -327,6 +315,18 @@ namespace SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies
             set
             {
                 _VolumetricHeatCapacityKluitenberg.Silt = value;
+            }
+        }
+        public double[] Clay
+        {
+            get
+            {
+                 return _VolumetricHeatCapacityKluitenberg.Clay; 
+            }
+            set
+            {
+                _VolumetricHeatCapacityKluitenberg.Clay = value;
+                _ThermalConductivitySIMULAT.Clay = value;
             }
         }
         public int layersNumber
@@ -356,14 +356,6 @@ namespace SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies
         private static void SetStaticParametersVarInfoDefinitions()
         {
 
-            BulkDensityVarInfo.Name = "BulkDensity";
-            BulkDensityVarInfo.Description = "Bulk density";
-            BulkDensityVarInfo.MaxValue = -1D;
-            BulkDensityVarInfo.MinValue = -1D;
-            BulkDensityVarInfo.DefaultValue = -1D;
-            BulkDensityVarInfo.Units = "t m-3";
-            BulkDensityVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
-
             SoilProfileDepthVarInfo.Name = "SoilProfileDepth";
             SoilProfileDepthVarInfo.Description = "Soil profile depth";
             SoilProfileDepthVarInfo.MaxValue = 50;
@@ -371,14 +363,6 @@ namespace SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies
             SoilProfileDepthVarInfo.DefaultValue = 3;
             SoilProfileDepthVarInfo.Units = "m";
             SoilProfileDepthVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
-
-            AirTemperatureAnnualAverageVarInfo.Name = "AirTemperatureAnnualAverage";
-            AirTemperatureAnnualAverageVarInfo.Description = "Annual average air temperature";
-            AirTemperatureAnnualAverageVarInfo.MaxValue = 50;
-            AirTemperatureAnnualAverageVarInfo.MinValue = -40;
-            AirTemperatureAnnualAverageVarInfo.DefaultValue = 15;
-            AirTemperatureAnnualAverageVarInfo.Units = "degC";
-            AirTemperatureAnnualAverageVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             LagCoefficientVarInfo.Name = "LagCoefficient";
             LagCoefficientVarInfo.Description = "Lag coefficient that controls the influence of the previous day's temperature on the current day's temperature";
@@ -388,6 +372,14 @@ namespace SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies
             LagCoefficientVarInfo.Units = "dimensionless";
             LagCoefficientVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
+            AirTemperatureAnnualAverageVarInfo.Name = "AirTemperatureAnnualAverage";
+            AirTemperatureAnnualAverageVarInfo.Description = "Annual average air temperature";
+            AirTemperatureAnnualAverageVarInfo.MaxValue = 50;
+            AirTemperatureAnnualAverageVarInfo.MinValue = -40;
+            AirTemperatureAnnualAverageVarInfo.DefaultValue = 15;
+            AirTemperatureAnnualAverageVarInfo.Units = "degC";
+            AirTemperatureAnnualAverageVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+
             LayerThicknessVarInfo.Name = "LayerThickness";
             LayerThicknessVarInfo.Description = "Soil layer thickness";
             LayerThicknessVarInfo.MaxValue = -1D;
@@ -396,13 +388,13 @@ namespace SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies
             LayerThicknessVarInfo.Units = "m";
             LayerThicknessVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
 
-            ClayVarInfo.Name = "Clay";
-            ClayVarInfo.Description = "Clay content of soil layer";
-            ClayVarInfo.MaxValue = -1D;
-            ClayVarInfo.MinValue = -1D;
-            ClayVarInfo.DefaultValue = -1D;
-            ClayVarInfo.Units = "";
-            ClayVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+            BulkDensityVarInfo.Name = "BulkDensity";
+            BulkDensityVarInfo.Description = "Bulk density";
+            BulkDensityVarInfo.MaxValue = -1D;
+            BulkDensityVarInfo.MinValue = -1D;
+            BulkDensityVarInfo.DefaultValue = -1D;
+            BulkDensityVarInfo.Units = "t m-3";
+            BulkDensityVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
 
             SiltVarInfo.Name = "Silt";
             SiltVarInfo.Description = "Silt content of soil layer";
@@ -411,6 +403,14 @@ namespace SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies
             SiltVarInfo.DefaultValue = -1D;
             SiltVarInfo.Units = "";
             SiltVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+
+            ClayVarInfo.Name = "Clay";
+            ClayVarInfo.Description = "Clay content of soil layer";
+            ClayVarInfo.MaxValue = -1D;
+            ClayVarInfo.MinValue = -1D;
+            ClayVarInfo.DefaultValue = -1D;
+            ClayVarInfo.Units = "";
+            ClayVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
 
             layersNumberVarInfo.Name = "layersNumber";
             layersNumberVarInfo.Description = "Number of layersl";
@@ -421,19 +421,9 @@ namespace SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies
             layersNumberVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Integer");
         }
 
-        public static VarInfo BulkDensityVarInfo
-        {
-            get { return SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies.SoilTemperatureSWAT.BulkDensityVarInfo;} 
-        }
-
         public static VarInfo SoilProfileDepthVarInfo
         {
             get { return SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies.SoilTemperatureSWAT.SoilProfileDepthVarInfo;} 
-        }
-
-        public static VarInfo AirTemperatureAnnualAverageVarInfo
-        {
-            get { return SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies.SoilTemperatureSWAT.AirTemperatureAnnualAverageVarInfo;} 
         }
 
         public static VarInfo LagCoefficientVarInfo
@@ -441,19 +431,29 @@ namespace SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies
             get { return SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies.SoilTemperatureSWAT.LagCoefficientVarInfo;} 
         }
 
+        public static VarInfo AirTemperatureAnnualAverageVarInfo
+        {
+            get { return SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies.SoilTemperatureSWAT.AirTemperatureAnnualAverageVarInfo;} 
+        }
+
         public static VarInfo LayerThicknessVarInfo
         {
             get { return SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies.SoilTemperatureSWAT.LayerThicknessVarInfo;} 
         }
 
-        public static VarInfo ClayVarInfo
+        public static VarInfo BulkDensityVarInfo
         {
-            get { return SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies.VolumetricHeatCapacityKluitenberg.ClayVarInfo;} 
+            get { return SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies.SoilTemperatureSWAT.BulkDensityVarInfo;} 
         }
 
         public static VarInfo SiltVarInfo
         {
             get { return SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies.VolumetricHeatCapacityKluitenberg.SiltVarInfo;} 
+        }
+
+        public static VarInfo ClayVarInfo
+        {
+            get { return SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies.VolumetricHeatCapacityKluitenberg.ClayVarInfo;} 
         }
 
         public static VarInfo layersNumberVarInfo
@@ -471,11 +471,11 @@ namespace SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies
                 SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.SurfaceTemperatureMaximum.CurrentValue=a.SurfaceTemperatureMaximum;
                 SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.SoilTemperatureByLayers.CurrentValue=s.SoilTemperatureByLayers;
                 SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.HeatCapacity.CurrentValue=s.HeatCapacity;
-                SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.ThermalConductivity.CurrentValue=a.ThermalConductivity;
+                SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.ThermalConductivity.CurrentValue=s.ThermalConductivity;
                 SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.ThermalDiffusivity.CurrentValue=s.ThermalDiffusivity;
-                SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.SoilTemperatureRangeByLayers.CurrentValue=a.SoilTemperatureRangeByLayers;
-                SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.SoilTemperatureMinimum.CurrentValue=a.SoilTemperatureMinimum;
-                SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.SoilTemperatureMaximum.CurrentValue=a.SoilTemperatureMaximum;
+                SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.SoilTemperatureRangeByLayers.CurrentValue=s.SoilTemperatureRangeByLayers;
+                SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.SoilTemperatureMinimum.CurrentValue=s.SoilTemperatureMinimum;
+                SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.SoilTemperatureMaximum.CurrentValue=s.SoilTemperatureMaximum;
                 SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.SoilTemperatureByLayersHourly.CurrentValue=s.SoilTemperatureByLayersHourly;
 
                 ConditionsCollection prc = new ConditionsCollection();
@@ -491,16 +491,16 @@ namespace SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies
                 if(r22.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.SoilTemperatureByLayers.ValueType)){prc.AddCondition(r22);}
                 RangeBasedCondition r23 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.HeatCapacity);
                 if(r23.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.HeatCapacity.ValueType)){prc.AddCondition(r23);}
-                RangeBasedCondition r24 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.ThermalConductivity);
-                if(r24.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.ThermalConductivity.ValueType)){prc.AddCondition(r24);}
+                RangeBasedCondition r24 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.ThermalConductivity);
+                if(r24.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.ThermalConductivity.ValueType)){prc.AddCondition(r24);}
                 RangeBasedCondition r25 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.ThermalDiffusivity);
                 if(r25.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.ThermalDiffusivity.ValueType)){prc.AddCondition(r25);}
-                RangeBasedCondition r26 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.SoilTemperatureRangeByLayers);
-                if(r26.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.SoilTemperatureRangeByLayers.ValueType)){prc.AddCondition(r26);}
-                RangeBasedCondition r27 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.SoilTemperatureMinimum);
-                if(r27.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.SoilTemperatureMinimum.ValueType)){prc.AddCondition(r27);}
-                RangeBasedCondition r28 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.SoilTemperatureMaximum);
-                if(r28.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.SoilTemperatureMaximum.ValueType)){prc.AddCondition(r28);}
+                RangeBasedCondition r26 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.SoilTemperatureRangeByLayers);
+                if(r26.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.SoilTemperatureRangeByLayers.ValueType)){prc.AddCondition(r26);}
+                RangeBasedCondition r27 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.SoilTemperatureMinimum);
+                if(r27.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.SoilTemperatureMinimum.ValueType)){prc.AddCondition(r27);}
+                RangeBasedCondition r28 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.SoilTemperatureMaximum);
+                if(r28.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.SoilTemperatureMaximum.ValueType)){prc.AddCondition(r28);}
                 RangeBasedCondition r29 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.SoilTemperatureByLayersHourly);
                 if(r29.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.SoilTemperatureByLayersHourly.ValueType)){prc.AddCondition(r29);}
 
@@ -528,46 +528,46 @@ namespace SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies
             try
             {
                 //Set current values of the inputs to the static VarInfo representing the inputs properties of the domain classes
-                SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.AirTemperatureMaximum.CurrentValue=ex.AirTemperatureMaximum;
-                SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.GlobalSolarRadiation.CurrentValue=ex.GlobalSolarRadiation;
-                SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.AirTemperatureMinimum.CurrentValue=ex.AirTemperatureMinimum;
                 SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.AboveGroundBiomass.CurrentValue=a.AboveGroundBiomass;
+                SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.AirTemperatureMinimum.CurrentValue=ex.AirTemperatureMinimum;
                 SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.DayLength.CurrentValue=ex.DayLength;
-                SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.VolumetricWaterContent.CurrentValue=a.VolumetricWaterContent;
-                SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.OrganicMatter.CurrentValue=a.OrganicMatter;
+                SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.GlobalSolarRadiation.CurrentValue=ex.GlobalSolarRadiation;
+                SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.AirTemperatureMaximum.CurrentValue=ex.AirTemperatureMaximum;
+                SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.VolumetricWaterContent.CurrentValue=ex.VolumetricWaterContent;
                 SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.Sand.CurrentValue=a.Sand;
-                SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.HourOfSunrise.CurrentValue=ex.HourOfSunrise;
+                SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.OrganicMatter.CurrentValue=a.OrganicMatter;
                 SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.HourOfSunset.CurrentValue=ex.HourOfSunset;
+                SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.HourOfSunrise.CurrentValue=ex.HourOfSunrise;
                 ConditionsCollection prc = new ConditionsCollection();
                 Preconditions pre = new Preconditions(); 
-                RangeBasedCondition r1 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.AirTemperatureMaximum);
-                if(r1.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.AirTemperatureMaximum.ValueType)){prc.AddCondition(r1);}
-                RangeBasedCondition r2 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.GlobalSolarRadiation);
-                if(r2.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.GlobalSolarRadiation.ValueType)){prc.AddCondition(r2);}
-                RangeBasedCondition r3 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.AirTemperatureMinimum);
-                if(r3.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.AirTemperatureMinimum.ValueType)){prc.AddCondition(r3);}
-                RangeBasedCondition r4 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.AboveGroundBiomass);
-                if(r4.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.AboveGroundBiomass.ValueType)){prc.AddCondition(r4);}
-                RangeBasedCondition r5 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.DayLength);
-                if(r5.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.DayLength.ValueType)){prc.AddCondition(r5);}
-                RangeBasedCondition r6 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.VolumetricWaterContent);
-                if(r6.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.VolumetricWaterContent.ValueType)){prc.AddCondition(r6);}
-                RangeBasedCondition r7 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.OrganicMatter);
-                if(r7.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.OrganicMatter.ValueType)){prc.AddCondition(r7);}
-                RangeBasedCondition r8 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.Sand);
-                if(r8.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.Sand.ValueType)){prc.AddCondition(r8);}
-                RangeBasedCondition r9 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.HourOfSunrise);
-                if(r9.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.HourOfSunrise.ValueType)){prc.AddCondition(r9);}
-                RangeBasedCondition r10 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.HourOfSunset);
-                if(r10.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.HourOfSunset.ValueType)){prc.AddCondition(r10);}
+                RangeBasedCondition r1 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.AboveGroundBiomass);
+                if(r1.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.AboveGroundBiomass.ValueType)){prc.AddCondition(r1);}
+                RangeBasedCondition r2 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.AirTemperatureMinimum);
+                if(r2.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.AirTemperatureMinimum.ValueType)){prc.AddCondition(r2);}
+                RangeBasedCondition r3 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.DayLength);
+                if(r3.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.DayLength.ValueType)){prc.AddCondition(r3);}
+                RangeBasedCondition r4 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.GlobalSolarRadiation);
+                if(r4.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.GlobalSolarRadiation.ValueType)){prc.AddCondition(r4);}
+                RangeBasedCondition r5 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.AirTemperatureMaximum);
+                if(r5.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.AirTemperatureMaximum.ValueType)){prc.AddCondition(r5);}
+                RangeBasedCondition r6 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.VolumetricWaterContent);
+                if(r6.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.VolumetricWaterContent.ValueType)){prc.AddCondition(r6);}
+                RangeBasedCondition r7 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.Sand);
+                if(r7.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.Sand.ValueType)){prc.AddCondition(r7);}
+                RangeBasedCondition r8 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.OrganicMatter);
+                if(r8.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliaryVarInfo.OrganicMatter.ValueType)){prc.AddCondition(r8);}
+                RangeBasedCondition r9 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.HourOfSunset);
+                if(r9.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.HourOfSunset.ValueType)){prc.AddCondition(r9);}
+                RangeBasedCondition r10 = new RangeBasedCondition(SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.HourOfSunrise);
+                if(r10.ApplicableVarInfoValueTypes.Contains( SiriusQualitySurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.HourOfSunrise.ValueType)){prc.AddCondition(r10);}
 
-                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("BulkDensity")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("SoilProfileDepth")));
-                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("AirTemperatureAnnualAverage")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("LagCoefficient")));
+                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("AirTemperatureAnnualAverage")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("LayerThickness")));
-                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("Clay")));
+                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("BulkDensity")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("Silt")));
+                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("Clay")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("layersNumber")));
                 string ret = "";
                 ret += _SurfaceTemperatureParton.TestPreConditions(s, s1, r, a, ex, " strategy SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies.SurfacePartonSoilSWATHourlyPartonC");
@@ -628,24 +628,24 @@ namespace SiriusQualitySurfacePartonSoilSWATHourlyPartonC.Strategies
 
         public SurfacePartonSoilSWATHourlyPartonCComponent(SurfacePartonSoilSWATHourlyPartonCComponent toCopy): this() // copy constructor 
         {
-                
-            for (int i = 0; i < toCopy._BulkDensity.Length; i++)
-            { BulkDensity[i] = toCopy.BulkDensity[i]; }
-    
                 SoilProfileDepth = toCopy.SoilProfileDepth;
-                AirTemperatureAnnualAverage = toCopy.AirTemperatureAnnualAverage;
                 LagCoefficient = toCopy.LagCoefficient;
+                AirTemperatureAnnualAverage = toCopy.AirTemperatureAnnualAverage;
                 
             for (int i = 0; i < toCopy._LayerThickness.Length; i++)
             { LayerThickness[i] = toCopy.LayerThickness[i]; }
     
                 
-            for (int i = 0; i < toCopy._Clay.Length; i++)
-            { Clay[i] = toCopy.Clay[i]; }
+            for (int i = 0; i < toCopy._BulkDensity.Length; i++)
+            { BulkDensity[i] = toCopy.BulkDensity[i]; }
     
                 
             for (int i = 0; i < toCopy._Silt.Length; i++)
             { Silt[i] = toCopy.Silt[i]; }
+    
+                
+            for (int i = 0; i < toCopy._Clay.Length; i++)
+            { Clay[i] = toCopy.Clay[i]; }
     
                 layersNumber = toCopy.layersNumber;
         }

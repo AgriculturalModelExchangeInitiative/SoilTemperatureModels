@@ -5,6 +5,21 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 public class RangeOfSoilTemperaturesDAYCENT
 {
+    public void Init(SurfacePartonSoilSWATHourlyPartonCState s, SurfacePartonSoilSWATHourlyPartonCState s1, SurfacePartonSoilSWATHourlyPartonCRate r, SurfacePartonSoilSWATHourlyPartonCAuxiliary a,  SurfacePartonSoilSWATHourlyPartonCExogenous ex)
+    {
+        Double[] SoilTemperatureRangeByLayers ;
+        Double[] SoilTemperatureMinimum ;
+        Double[] SoilTemperatureMaximum ;
+        SoilTemperatureRangeByLayers= new Double[LayerThickness.length];
+        Arrays.fill(SoilTemperatureRangeByLayers, 0.0d);
+        SoilTemperatureMaximum= new Double[LayerThickness.length];
+        Arrays.fill(SoilTemperatureMaximum, 0.0d);
+        SoilTemperatureMinimum= new Double[LayerThickness.length];
+        Arrays.fill(SoilTemperatureMinimum, 0.0d);
+        s.setSoilTemperatureRangeByLayers(SoilTemperatureRangeByLayers);
+        s.setSoilTemperatureMinimum(SoilTemperatureMinimum);
+        s.setSoilTemperatureMaximum(SoilTemperatureMaximum);
+    }
     private Double [] LayerThickness;
     public Double [] getLayerThickness()
     { return LayerThickness; }
@@ -72,11 +87,41 @@ public class RangeOfSoilTemperaturesDAYCENT
     //                          ** min : -60
     //                          ** default : 25
     //                          ** unit : degC
+    //            * name: SoilTemperatureRangeByLayers
+    //                          ** description : Soil temperature range by layers
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
+    //                          ** max : 50
+    //                          ** min : 0
+    //                          ** default : 
+    //                          ** unit : degC
+    //            * name: SoilTemperatureMinimum
+    //                          ** description : Minimum soil temperature by layers
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
+    //                          ** max : 60
+    //                          ** min : -60
+    //                          ** default : 
+    //                          ** unit : degC
+    //            * name: SoilTemperatureMaximum
+    //                          ** description : Maximum soil temperature by layers
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
+    //                          ** max : 60
+    //                          ** min : -60
+    //                          ** default : 
+    //                          ** unit : degC
         //- outputs:
     //            * name: SoilTemperatureRangeByLayers
     //                          ** description : Soil temperature range by layers
     //                          ** datatype : DOUBLEARRAY
-    //                          ** variablecategory : auxiliary
+    //                          ** variablecategory : state
     //                          ** len : 
     //                          ** max : 50
     //                          ** min : 0
@@ -84,30 +129,30 @@ public class RangeOfSoilTemperaturesDAYCENT
     //            * name: SoilTemperatureMinimum
     //                          ** description : Minimum soil temperature by layers
     //                          ** datatype : DOUBLEARRAY
-    //                          ** variablecategory : auxiliary
-    //                          ** len : 
-    //                          ** max : 60
-    //                          ** min : -60
-    //                          ** unit : 
-    //            * name: SoilTemperatureMaximum
-    //                          ** description : Maximum soil temperature by layers
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** variablecategory : auxiliary
+    //                          ** variablecategory : state
     //                          ** len : 
     //                          ** max : 60
     //                          ** min : -60
     //                          ** unit : degC
-        Double SurfaceTemperatureMinimum = a.getSurfaceTemperatureMinimum();
+    //            * name: SoilTemperatureMaximum
+    //                          ** description : Maximum soil temperature by layers
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** variablecategory : state
+    //                          ** len : 
+    //                          ** max : 60
+    //                          ** min : -60
+    //                          ** unit : degC
+        double SurfaceTemperatureMinimum = a.getSurfaceTemperatureMinimum();
         Double [] ThermalDiffusivity = a.getThermalDiffusivity();
         Double [] SoilTemperatureByLayers = a.getSoilTemperatureByLayers();
-        Double SurfaceTemperatureMaximum = a.getSurfaceTemperatureMaximum();
-        Double[] SoilTemperatureRangeByLayers ;
-        Double[] SoilTemperatureMinimum ;
-        Double[] SoilTemperatureMaximum ;
+        double SurfaceTemperatureMaximum = a.getSurfaceTemperatureMaximum();
+        Double [] SoilTemperatureRangeByLayers = s.getSoilTemperatureRangeByLayers();
+        Double [] SoilTemperatureMinimum = s.getSoilTemperatureMinimum();
+        Double [] SoilTemperatureMaximum = s.getSoilTemperatureMaximum();
         Integer i;
-        Double _DepthBottom;
-        Double _DepthCenterLayer;
-        Double SurfaceDiurnalRange;
+        double _DepthBottom;
+        double _DepthCenterLayer;
+        double SurfaceDiurnalRange;
         _DepthBottom = (double)(0);
         _DepthCenterLayer = (double)(0);
         SurfaceDiurnalRange = SurfaceTemperatureMaximum - SurfaceTemperatureMinimum;
@@ -129,8 +174,8 @@ public class RangeOfSoilTemperaturesDAYCENT
                 SoilTemperatureMinimum[i] = SoilTemperatureByLayers[i] - (SoilTemperatureRangeByLayers[i] / 2);
             }
         }
-        a.setSoilTemperatureRangeByLayers(SoilTemperatureRangeByLayers);
-        a.setSoilTemperatureMinimum(SoilTemperatureMinimum);
-        a.setSoilTemperatureMaximum(SoilTemperatureMaximum);
+        s.setSoilTemperatureRangeByLayers(SoilTemperatureRangeByLayers);
+        s.setSoilTemperatureMinimum(SoilTemperatureMinimum);
+        s.setSoilTemperatureMaximum(SoilTemperatureMaximum);
     }
 }

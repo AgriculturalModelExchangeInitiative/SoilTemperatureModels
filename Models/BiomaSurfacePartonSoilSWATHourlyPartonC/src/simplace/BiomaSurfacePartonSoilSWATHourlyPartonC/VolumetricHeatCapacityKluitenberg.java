@@ -36,7 +36,7 @@ public class VolumetricHeatCapacityKluitenberg extends FWSimComponent
     {
         addVariable(FWSimVariable.createSimVariable("VolumetricWaterContent", "Volumetric soil water content", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.input,"m3 m-3", 0, 0.8, 0.25, this));
         addVariable(FWSimVariable.createSimVariable("Sand", "Sand content of soil layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.input,"", 0, 100, 30, this));
-        addVariable(FWSimVariable.createSimVariable("BulkDensity", "Bulk density", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.input,"t m-3", 0.9, 1.8, 1.3, this));
+        addVariable(FWSimVariable.createSimVariable("BulkDensity", "Bulk density", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.constant,"t m-3", 0.9, 1.8, 1.3, this));
         addVariable(FWSimVariable.createSimVariable("OrganicMatter", "Organic matter content of soil layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.input,"", 0, 20, 1.5, this));
         addVariable(FWSimVariable.createSimVariable("HeatCapacity", "Volumetric specific heat of soil", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"MJ m-3", 0, 300, 20, this));
         addVariable(FWSimVariable.createSimVariable("Clay", "Clay content of soil layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.constant,"", 0, 100, 0, this));
@@ -55,11 +55,11 @@ public class VolumetricHeatCapacityKluitenberg extends FWSimComponent
         Double [] t_Clay = Clay.getValue();
         Double [] t_Silt = Silt.getValue();
         Integer i;
-        Double SandFraction;
-        Double SiltFraction;
-        Double ClayFraction;
-        Double FractionMinerals;
-        Double OrganicMatterFraction;
+        double SandFraction;
+        double SiltFraction;
+        double ClayFraction;
+        double FractionMinerals;
+        double OrganicMatterFraction;
         SandFraction = (double)(0);
         SiltFraction = (double)(0);
         ClayFraction = (double)(0);

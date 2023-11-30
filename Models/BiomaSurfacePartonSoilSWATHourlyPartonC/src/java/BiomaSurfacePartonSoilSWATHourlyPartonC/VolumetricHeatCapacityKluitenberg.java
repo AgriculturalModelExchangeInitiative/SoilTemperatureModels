@@ -5,6 +5,13 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 public class VolumetricHeatCapacityKluitenberg
 {
+    private Double [] BulkDensity;
+    public Double [] getBulkDensity()
+    { return BulkDensity; }
+
+    public void setBulkDensity(Double [] _BulkDensity)
+    { this.BulkDensity= _BulkDensity; } 
+    
     private Double [] Clay;
     public Double [] getClay()
     { return Clay; }
@@ -34,7 +41,7 @@ public class VolumetricHeatCapacityKluitenberg
     //            * name: VolumetricWaterContent
     //                          ** description : Volumetric soil water content
     //                          ** inputtype : variable
-    //                          ** variablecategory : auxiliary
+    //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 0.8
@@ -53,8 +60,8 @@ public class VolumetricHeatCapacityKluitenberg
     //                          ** unit : 
     //            * name: BulkDensity
     //                          ** description : Bulk density
-    //                          ** inputtype : variable
-    //                          ** variablecategory : auxiliary
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 1.8
@@ -110,17 +117,16 @@ public class VolumetricHeatCapacityKluitenberg
     //                          ** max : 300
     //                          ** min : 0
     //                          ** unit : MJ m-3
-        Double [] VolumetricWaterContent = a.getVolumetricWaterContent();
+        Double [] VolumetricWaterContent = ex.getVolumetricWaterContent();
         Double [] Sand = a.getSand();
-        Double [] BulkDensity = a.getBulkDensity();
         Double [] OrganicMatter = a.getOrganicMatter();
         Double [] HeatCapacity = s.getHeatCapacity();
         Integer i;
-        Double SandFraction;
-        Double SiltFraction;
-        Double ClayFraction;
-        Double FractionMinerals;
-        Double OrganicMatterFraction;
+        double SandFraction;
+        double SiltFraction;
+        double ClayFraction;
+        double FractionMinerals;
+        double OrganicMatterFraction;
         SandFraction = (double)(0);
         SiltFraction = (double)(0);
         ClayFraction = (double)(0);

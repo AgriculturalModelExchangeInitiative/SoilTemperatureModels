@@ -10,7 +10,6 @@ namespace SurfaceSWATSoilSWATC.DomainClass
     public class SurfaceSWATSoilSWATCAuxiliary : ICloneable, IDomainClass
     {
         private double _AboveGroundBiomass;
-        private double[] _VolumetricWaterContent;
         private double _SurfaceSoilTemperature;
         private ParametersIO _parametersIO;
 
@@ -24,10 +23,6 @@ namespace SurfaceSWATSoilSWATC.DomainClass
             if (copyAll)
             {
                 AboveGroundBiomass = toCopy.AboveGroundBiomass;
-                VolumetricWaterContent = new double[toCopy.VolumetricWaterContent.Length];
-            for (int i = 0; i < toCopy.VolumetricWaterContent.Length; i++)
-            { VolumetricWaterContent[i] = toCopy.VolumetricWaterContent[i]; }
-    
                 SurfaceSoilTemperature = toCopy.SurfaceSoilTemperature;
             }
         }
@@ -36,11 +31,6 @@ namespace SurfaceSWATSoilSWATC.DomainClass
         {
             get { return this._AboveGroundBiomass; }
             set { this._AboveGroundBiomass= value; } 
-        }
-        public double[] VolumetricWaterContent
-        {
-            get { return this._VolumetricWaterContent; }
-            set { this._VolumetricWaterContent= value; } 
         }
         public double SurfaceSoilTemperature
         {
@@ -66,7 +56,6 @@ namespace SurfaceSWATSoilSWATC.DomainClass
         public virtual Boolean ClearValues()
         {
              _AboveGroundBiomass = default(double);
-             _VolumetricWaterContent = default(double[]);
              _SurfaceSoilTemperature = default(double);
             return true;
         }

@@ -11,8 +11,12 @@
 #include "VolumetricHeatCapacityKluitenberg.h"
 using namespace BiomaSurfacePartonSoilSWATHourlyPartonC;
 VolumetricHeatCapacityKluitenberg::VolumetricHeatCapacityKluitenberg() {}
+std::vector<double> & VolumetricHeatCapacityKluitenberg::getBulkDensity() { return this->BulkDensity; }
 std::vector<double> & VolumetricHeatCapacityKluitenberg::getClay() { return this->Clay; }
 std::vector<double> & VolumetricHeatCapacityKluitenberg::getSilt() { return this->Silt; }
+void VolumetricHeatCapacityKluitenberg::setBulkDensity(std::vector<double> const &_BulkDensity){
+    this->BulkDensity = _BulkDensity;
+}
 void VolumetricHeatCapacityKluitenberg::setClay(std::vector<double> const &_Clay){
     this->Clay = _Clay;
 }
@@ -33,7 +37,7 @@ void VolumetricHeatCapacityKluitenberg::Calculate_Model(SurfacePartonSoilSWATHou
     //            * name: VolumetricWaterContent
     //                          ** description : Volumetric soil water content
     //                          ** inputtype : variable
-    //                          ** variablecategory : auxiliary
+    //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 0.8
@@ -52,8 +56,8 @@ void VolumetricHeatCapacityKluitenberg::Calculate_Model(SurfacePartonSoilSWATHou
     //                          ** unit : 
     //            * name: BulkDensity
     //                          ** description : Bulk density
-    //                          ** inputtype : variable
-    //                          ** variablecategory : auxiliary
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 1.8
@@ -109,9 +113,8 @@ void VolumetricHeatCapacityKluitenberg::Calculate_Model(SurfacePartonSoilSWATHou
     //                          ** max : 300
     //                          ** min : 0
     //                          ** unit : MJ m-3
-    std::vector<double> & VolumetricWaterContent = a.getVolumetricWaterContent();
+    std::vector<double> & VolumetricWaterContent = ex.getVolumetricWaterContent();
     std::vector<double> & Sand = a.getSand();
-    std::vector<double> & BulkDensity = a.getBulkDensity();
     std::vector<double> & OrganicMatter = a.getOrganicMatter();
     std::vector<double> & HeatCapacity = s.getHeatCapacity();
     int i;

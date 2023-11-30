@@ -10,7 +10,7 @@
         <ExtendedDescription>Strategy for the calculation of soil temperature with SWAT method. Reference: Neitsch,S.L., Arnold, J.G., Kiniry, J.R., Williams, J.R., King, K.W. Soil and Water Assessment Tool. Theoretical documentation. Version 2000. http://swatmodel.tamu.edu/media/1290/swat2000theory.pdf</ExtendedDescription>
         <ShortDescription>Strategy for the calculation of soil temperature with SWAT method</ShortDescription></Description>
     <Inputs>
-        <Input name="VolumetricWaterContent" description="Volumetric soil water content" inputtype="variable" variablecategory="auxiliary" datatype="DOUBLEARRAY" len="" max="0.8" min="0" default="0.25" unit="m3 m-3"/>
+        <Input name="VolumetricWaterContent" description="Volumetric soil water content" inputtype="variable" variablecategory="exogenous" datatype="DOUBLEARRAY" len="" max="0.8" min="0" default="0.25" unit="m3 m-3"/>
         <Input name="SurfaceSoilTemperature" description="Average surface soil temperature" inputtype="variable" variablecategory="auxiliary" datatype="DOUBLE" max="60" min="-60" default="25" unit="degC"/>
         <Input name="LayerThickness" description="Soil layer thickness" inputtype="parameter" parametercategory="constant" datatype="DOUBLEARRAY" len="" max="3" min="0.005" default="0.05" unit="m"/>
         <Input name="LagCoefficient" description="Lag coefficient that controls the influence of the previous day&apos;s temperature on the current day&apos;s temperature" inputtype="parameter" parametercategory="constant" datatype="DOUBLE" max="1" min="0" default="0.8" unit="dimensionless"/>
@@ -20,6 +20,7 @@
         <Input name="SoilProfileDepth" description="Soil profile depth" inputtype="parameter" parametercategory="constant" datatype="DOUBLE" max="50" min="0" default="3" unit="m"/></Inputs>
     <Outputs>
         <Output name="SoilTemperatureByLayers" description="Soil temperature of each layer" datatype="DOUBLEARRAY" variablecategory="state" len="" max="60" min="-60" unit="degC"/></Outputs>
+    <Initialization name="init" language="cyml" filename="algo/pyx/init.SoilTemperatureSWAT.pyx"/>
     <Algorithm language="cyml" platform="" filename="algo/pyx/SoilTemperatureSWAT.pyx"/>
     <Parametersets/>
     <Testsets/></ModelUnit>

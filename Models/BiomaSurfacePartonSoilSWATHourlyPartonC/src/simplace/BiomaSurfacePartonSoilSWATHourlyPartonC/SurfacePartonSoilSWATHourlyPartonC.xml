@@ -3,34 +3,34 @@
 <configuration class="net.simplace.sim.components.BiomaSurfacePartonSoilSWATHourlyPartonC.SurfacePartonSoilSWATHourlyPartonC">
     <simgroup>
         <simcomponent id="SurfaceTemperatureParton" class="net.simplace.sim.components.BiomaSurfacePartonSoilSWATHourlyPartonC.SurfaceTemperatureParton">
-            <input id="AirTemperatureMaximum" source="SurfacePartonSoilSWATHourlyPartonC.AirTemperatureMaximum"/>
-            <input id="GlobalSolarRadiation" source="SurfacePartonSoilSWATHourlyPartonC.GlobalSolarRadiation"/>
-            <input id="AirTemperatureMinimum" source="SurfacePartonSoilSWATHourlyPartonC.AirTemperatureMinimum"/>
             <input id="AboveGroundBiomass" source="SurfacePartonSoilSWATHourlyPartonC.AboveGroundBiomass"/>
+            <input id="AirTemperatureMinimum" source="SurfacePartonSoilSWATHourlyPartonC.AirTemperatureMinimum"/>
             <input id="DayLength" source="SurfacePartonSoilSWATHourlyPartonC.DayLength"/>
+            <input id="GlobalSolarRadiation" source="SurfacePartonSoilSWATHourlyPartonC.GlobalSolarRadiation"/>
+            <input id="AirTemperatureMaximum" source="SurfacePartonSoilSWATHourlyPartonC.AirTemperatureMaximum"/>
             <output id="SurfaceSoilTemperature" destination="SurfacePartonSoilSWATHourlyPartonC.SurfaceSoilTemperature"/>
             <output id="SurfaceTemperatureMinimum" destination="SurfacePartonSoilSWATHourlyPartonC.SurfaceTemperatureMinimum"/>
             <output id="SurfaceTemperatureMaximum" destination="SurfacePartonSoilSWATHourlyPartonC.SurfaceTemperatureMaximum"/></simcomponent>
         <simcomponent id="VolumetricHeatCapacityKluitenberg" class="net.simplace.sim.components.BiomaSurfacePartonSoilSWATHourlyPartonC.VolumetricHeatCapacityKluitenberg">
+            <input id="Sand" source="SurfacePartonSoilSWATHourlyPartonC.Sand"/>
+            <input id="VolumetricWaterContent" source="SurfacePartonSoilSWATHourlyPartonC.VolumetricWaterContent"/>
+            <input id="Silt" source="SurfacePartonSoilSWATHourlyPartonC.Silt"/>
+            <input id="Clay" source="SurfacePartonSoilSWATHourlyPartonC.Clay"/>
             <input id="BulkDensity" source="SurfacePartonSoilSWATHourlyPartonC.BulkDensity"/>
             <input id="OrganicMatter" source="SurfacePartonSoilSWATHourlyPartonC.OrganicMatter"/>
-            <input id="Clay" source="SurfacePartonSoilSWATHourlyPartonC.Clay"/>
-            <input id="Sand" source="SurfacePartonSoilSWATHourlyPartonC.Sand"/>
-            <input id="Silt" source="SurfacePartonSoilSWATHourlyPartonC.Silt"/>
-            <input id="VolumetricWaterContent" source="SurfacePartonSoilSWATHourlyPartonC.VolumetricWaterContent"/>
             <output id="HeatCapacity" destination="SurfacePartonSoilSWATHourlyPartonC.HeatCapacity"/></simcomponent>
         <simcomponent id="ThermalConductivitySIMULAT" class="net.simplace.sim.components.BiomaSurfacePartonSoilSWATHourlyPartonC.ThermalConductivitySIMULAT">
             <input id="Clay" source="SurfacePartonSoilSWATHourlyPartonC.Clay"/>
-            <input id="BulkDensity" source="SurfacePartonSoilSWATHourlyPartonC.BulkDensity"/>
             <input id="VolumetricWaterContent" source="SurfacePartonSoilSWATHourlyPartonC.VolumetricWaterContent"/>
+            <input id="BulkDensity" source="SurfacePartonSoilSWATHourlyPartonC.BulkDensity"/>
             <output id="ThermalConductivity" destination="SurfacePartonSoilSWATHourlyPartonC.ThermalConductivity"/></simcomponent>
         <simcomponent id="SoilTemperatureSWAT" class="net.simplace.sim.components.BiomaSurfacePartonSoilSWATHourlyPartonC.SoilTemperatureSWAT">
-            <input id="BulkDensity" source="SurfacePartonSoilSWATHourlyPartonC.BulkDensity"/>
-            <input id="SoilProfileDepth" source="SurfacePartonSoilSWATHourlyPartonC.SoilProfileDepth"/>
-            <input id="AirTemperatureAnnualAverage" source="SurfacePartonSoilSWATHourlyPartonC.AirTemperatureAnnualAverage"/>
-            <input id="LagCoefficient" source="SurfacePartonSoilSWATHourlyPartonC.LagCoefficient"/>
             <input id="VolumetricWaterContent" source="SurfacePartonSoilSWATHourlyPartonC.VolumetricWaterContent"/>
+            <input id="SoilProfileDepth" source="SurfacePartonSoilSWATHourlyPartonC.SoilProfileDepth"/>
+            <input id="LagCoefficient" source="SurfacePartonSoilSWATHourlyPartonC.LagCoefficient"/>
+            <input id="AirTemperatureAnnualAverage" source="SurfacePartonSoilSWATHourlyPartonC.AirTemperatureAnnualAverage"/>
             <input id="LayerThickness" source="SurfacePartonSoilSWATHourlyPartonC.LayerThickness"/>
+            <input id="BulkDensity" source="SurfacePartonSoilSWATHourlyPartonC.BulkDensity"/>
             <input id="SurfaceSoilTemperature" source="SurfaceTemperatureParton.SurfaceSoilTemperature"/>
             <output id="SoilTemperatureByLayers" destination="SurfacePartonSoilSWATHourlyPartonC.SoilTemperatureByLayers"/></simcomponent>
         <simcomponent id="ThermalDiffu" class="net.simplace.sim.components.BiomaSurfacePartonSoilSWATHourlyPartonC.ThermalDiffu">
@@ -48,9 +48,9 @@
             <output id="SoilTemperatureMinimum" destination="SurfacePartonSoilSWATHourlyPartonC.SoilTemperatureMinimum"/>
             <output id="SoilTemperatureMaximum" destination="SurfacePartonSoilSWATHourlyPartonC.SoilTemperatureMaximum"/></simcomponent>
         <simcomponent id="HourlySoilTemperaturesPartonLogan" class="net.simplace.sim.components.BiomaSurfacePartonSoilSWATHourlyPartonC.HourlySoilTemperaturesPartonLogan">
-            <input id="HourOfSunrise" source="SurfacePartonSoilSWATHourlyPartonC.HourOfSunrise"/>
             <input id="HourOfSunset" source="SurfacePartonSoilSWATHourlyPartonC.HourOfSunset"/>
+            <input id="HourOfSunrise" source="SurfacePartonSoilSWATHourlyPartonC.HourOfSunrise"/>
             <input id="DayLength" source="SurfacePartonSoilSWATHourlyPartonC.DayLength"/>
-            <input id="SoilTemperatureMaximum" source="RangeOfSoilTemperaturesDAYCENT.SoilTemperatureMaximum"/>
             <input id="SoilTemperatureMinimum" source="RangeOfSoilTemperaturesDAYCENT.SoilTemperatureMinimum"/>
+            <input id="SoilTemperatureMaximum" source="RangeOfSoilTemperaturesDAYCENT.SoilTemperatureMaximum"/>
             <output id="SoilTemperatureByLayersHourly" destination="SurfacePartonSoilSWATHourlyPartonC.SoilTemperatureByLayersHourly"/></simcomponent></simgroup></configuration>

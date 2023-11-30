@@ -21,6 +21,7 @@ class SoilTemperatureSWAT
     public:
         SoilTemperatureSWAT();
         void Calculate_Model(SurfaceSWATSoilSWATCState &s, SurfaceSWATSoilSWATCState &s1, SurfaceSWATSoilSWATCRate &r, SurfaceSWATSoilSWATCAuxiliary &a, SurfaceSWATSoilSWATCExogenous &ex);
+        void Init(SurfaceSWATSoilSWATCState &s, SurfaceSWATSoilSWATCState &s1, SurfaceSWATSoilSWATCRate &r, SurfaceSWATSoilSWATCAuxiliary &a, SurfaceSWATSoilSWATCExogenous &ex);
         std::vector<double> & getLayerThickness();
         void setLayerThickness(const std::vector<double> &  _LayerThickness);
         double getLagCoefficient();

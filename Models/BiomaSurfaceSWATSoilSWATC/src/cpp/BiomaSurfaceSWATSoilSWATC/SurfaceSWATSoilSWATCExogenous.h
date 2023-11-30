@@ -8,23 +8,26 @@ namespace BiomaSurfaceSWATSoilSWATC {
 class SurfaceSWATSoilSWATCExogenous
 {
     private:
-        double Albedo ;
-        double AirTemperatureMinimum ;
-        double WaterEquivalentOfSnowPack ;
-        double GlobalSolarRadiation ;
         double AirTemperatureMaximum ;
+        double AirTemperatureMinimum ;
+        double GlobalSolarRadiation ;
+        double WaterEquivalentOfSnowPack ;
+        double Albedo ;
+        std::vector<double> VolumetricWaterContent ;
     public:
         SurfaceSWATSoilSWATCExogenous();
-        double getAlbedo();
-        void setAlbedo(double _Albedo);
-        double getAirTemperatureMinimum();
-        void setAirTemperatureMinimum(double _AirTemperatureMinimum);
-        double getWaterEquivalentOfSnowPack();
-        void setWaterEquivalentOfSnowPack(double _WaterEquivalentOfSnowPack);
-        double getGlobalSolarRadiation();
-        void setGlobalSolarRadiation(double _GlobalSolarRadiation);
         double getAirTemperatureMaximum();
         void setAirTemperatureMaximum(double _AirTemperatureMaximum);
+        double getAirTemperatureMinimum();
+        void setAirTemperatureMinimum(double _AirTemperatureMinimum);
+        double getGlobalSolarRadiation();
+        void setGlobalSolarRadiation(double _GlobalSolarRadiation);
+        double getWaterEquivalentOfSnowPack();
+        void setWaterEquivalentOfSnowPack(double _WaterEquivalentOfSnowPack);
+        double getAlbedo();
+        void setAlbedo(double _Albedo);
+        std::vector<double> & getVolumetricWaterContent();
+        void setVolumetricWaterContent(const std::vector<double> &  _VolumetricWaterContent);
 
 };
 }

@@ -14,11 +14,15 @@
         <Input name="SurfaceTemperatureMinimum" description="Minimum surface soil temperature" inputtype="variable" variablecategory="auxiliary" datatype="DOUBLE" max="60" min="-60" default="10" unit="degC"/>
         <Input name="ThermalDiffusivity" description="Thermal diffusivity of soil layer" inputtype="variable" variablecategory="auxiliary" datatype="DOUBLEARRAY" len="" max="1" min="0" default="0.0025" unit="mm s-1"/>
         <Input name="SoilTemperatureByLayers" description="Soil temperature of each layer" inputtype="variable" variablecategory="auxiliary" datatype="DOUBLEARRAY" len="" max="60" min="-60" default="15" unit="degC"/>
-        <Input name="SurfaceTemperatureMaximum" description="Maximum surface soil temperature" inputtype="variable" variablecategory="auxiliary" datatype="DOUBLE" max="60" min="-60" default="25" unit="degC"/></Inputs>
+        <Input name="SurfaceTemperatureMaximum" description="Maximum surface soil temperature" inputtype="variable" variablecategory="auxiliary" datatype="DOUBLE" max="60" min="-60" default="25" unit="degC"/>
+        <Input name="SoilTemperatureRangeByLayers" description="Soil temperature range by layers" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="" max="50" min="0" default="" unit="degC"/>
+        <Input name="SoilTemperatureMinimum" description="Minimum soil temperature by layers" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="" max="60" min="-60" default="" unit="degC"/>
+        <Input name="SoilTemperatureMaximum" description="Maximum soil temperature by layers" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="" max="60" min="-60" default="" unit="degC"/></Inputs>
     <Outputs>
-        <Output name="SoilTemperatureRangeByLayers" description="Soil temperature range by layers" datatype="DOUBLEARRAY" variablecategory="auxiliary" len="" max="50" min="0" unit="degC"/>
-        <Output name="SoilTemperatureMinimum" description="Minimum soil temperature by layers" datatype="DOUBLEARRAY" variablecategory="auxiliary" len="" max="60" min="-60" unit=""/>
-        <Output name="SoilTemperatureMaximum" description="Maximum soil temperature by layers" datatype="DOUBLEARRAY" variablecategory="auxiliary" len="" max="60" min="-60" unit="degC"/></Outputs>
+        <Output name="SoilTemperatureRangeByLayers" description="Soil temperature range by layers" datatype="DOUBLEARRAY" variablecategory="state" len="" max="50" min="0" unit="degC"/>
+        <Output name="SoilTemperatureMinimum" description="Minimum soil temperature by layers" datatype="DOUBLEARRAY" variablecategory="state" len="" max="60" min="-60" unit="degC"/>
+        <Output name="SoilTemperatureMaximum" description="Maximum soil temperature by layers" datatype="DOUBLEARRAY" variablecategory="state" len="" max="60" min="-60" unit="degC"/></Outputs>
+    <Initialization name="init" language="cyml" filename="algo/pyx/init.RangeOfSoilTemperaturesDAYCENT.pyx"/>
     <Algorithm language="cyml" platform="" filename="algo/pyx/RangeOfSoilTemperaturesDAYCENT.pyx"/>
     <Parametersets/>
     <Testsets/></ModelUnit>

@@ -7,10 +7,21 @@ from datetime import datetime
 
 import numpy
 
+#%%CyML Init Begin%%
+def init_thermalconductivitysimulat(VolumetricWaterContent:'Array[float]',
+         BulkDensity:'Array[float]',
+         Clay:'Array[float]'):
+    ThermalConductivity:'array[float]'
+    ThermalConductivity = None
+    ThermalConductivity = array('f', [0.0]*len(VolumetricWaterContent))
+    return ThermalConductivity
+#%%CyML Init End%%
+
 #%%CyML Model Begin%%
 def model_thermalconductivitysimulat(VolumetricWaterContent:'Array[float]',
          BulkDensity:'Array[float]',
-         Clay:'Array[float]'):
+         Clay:'Array[float]',
+         ThermalConductivity:'Array[float]'):
     """
      - Name: ThermalConductivitySIMULAT -Version: 001, -Time step: 1
      - Description:
@@ -24,7 +35,7 @@ def model_thermalconductivitysimulat(VolumetricWaterContent:'Array[float]',
                  * name: VolumetricWaterContent
                                ** description : Volumetric soil water content
                                ** inputtype : variable
-                               ** variablecategory : auxiliary
+                               ** variablecategory : exogenous
                                ** datatype : DOUBLEARRAY
                                ** len : 
                                ** max : 0.8
@@ -51,18 +62,27 @@ def model_thermalconductivitysimulat(VolumetricWaterContent:'Array[float]',
                                ** min : 0
                                ** default : 0
                                ** unit : 
+                 * name: ThermalConductivity
+                               ** description : Thermal conductivity of soil layer
+                               ** inputtype : variable
+                               ** variablecategory : state
+                               ** datatype : DOUBLEARRAY
+                               ** len : 
+                               ** max : 8
+                               ** min : 0.025
+                               ** default : 
+                               ** unit : W m-1 K-1
      - outputs:
                  * name: ThermalConductivity
                                ** description : Thermal conductivity of soil layer
                                ** datatype : DOUBLEARRAY
-                               ** variablecategory : auxiliary
+                               ** variablecategory : state
                                ** len : 
                                ** max : 8
                                ** min : 0.025
                                ** unit : W m-1 K-1
     """
 
-    ThermalConductivity:'array[float]'
     i:int
     Aterm:float
     Bterm:float

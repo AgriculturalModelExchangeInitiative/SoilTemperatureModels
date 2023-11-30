@@ -46,14 +46,14 @@ public class HourlySoilTemperaturesPartonLogan extends FWSimComponent
     protected void process()
     {
         Double [] t_SoilTemperatureByLayersHourly = SoilTemperatureByLayersHourly.getValue();
-        Double t_HourOfSunrise = HourOfSunrise.getValue();
-        Double t_HourOfSunset = HourOfSunset.getValue();
-        Double t_DayLength = DayLength.getValue();
+        double t_HourOfSunrise = HourOfSunrise.getValue();
+        double t_HourOfSunset = HourOfSunset.getValue();
+        double t_DayLength = DayLength.getValue();
         Double [] t_SoilTemperatureMinimum = SoilTemperatureMinimum.getValue();
         Double [] t_SoilTemperatureMaximum = SoilTemperatureMaximum.getValue();
         Integer h;
         Integer i;
-        Double TemperatureAtSunset;
+        double TemperatureAtSunset;
         for (i=0 ; i!=t_SoilTemperatureMinimum.length ; i+=1)
         {
             for (h=0 ; h!=24 ; h+=1)

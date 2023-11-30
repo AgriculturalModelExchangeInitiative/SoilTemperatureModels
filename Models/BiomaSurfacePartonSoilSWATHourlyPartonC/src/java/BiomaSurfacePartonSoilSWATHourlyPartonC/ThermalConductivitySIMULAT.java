@@ -5,6 +5,14 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 public class ThermalConductivitySIMULAT
 {
+    public void Init(SurfacePartonSoilSWATHourlyPartonCState s, SurfacePartonSoilSWATHourlyPartonCState s1, SurfacePartonSoilSWATHourlyPartonCRate r, SurfacePartonSoilSWATHourlyPartonCAuxiliary a,  SurfacePartonSoilSWATHourlyPartonCExogenous ex)
+    {
+        Double [] VolumetricWaterContent = ex.getVolumetricWaterContent();
+        Double[] ThermalConductivity ;
+        ThermalConductivity= new Double[VolumetricWaterContent.length];
+        Arrays.fill(ThermalConductivity, 0.0d);
+        s.setThermalConductivity(ThermalConductivity);
+    }
     private Double [] BulkDensity;
     public Double [] getBulkDensity()
     { return BulkDensity; }
@@ -34,7 +42,7 @@ public class ThermalConductivitySIMULAT
     //            * name: VolumetricWaterContent
     //                          ** description : Volumetric soil water content
     //                          ** inputtype : variable
-    //                          ** variablecategory : auxiliary
+    //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 0.8
@@ -61,23 +69,33 @@ public class ThermalConductivitySIMULAT
     //                          ** min : 0
     //                          ** default : 0
     //                          ** unit : 
+    //            * name: ThermalConductivity
+    //                          ** description : Thermal conductivity of soil layer
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
+    //                          ** max : 8
+    //                          ** min : 0.025
+    //                          ** default : 
+    //                          ** unit : W m-1 K-1
         //- outputs:
     //            * name: ThermalConductivity
     //                          ** description : Thermal conductivity of soil layer
     //                          ** datatype : DOUBLEARRAY
-    //                          ** variablecategory : auxiliary
+    //                          ** variablecategory : state
     //                          ** len : 
     //                          ** max : 8
     //                          ** min : 0.025
     //                          ** unit : W m-1 K-1
-        Double [] VolumetricWaterContent = a.getVolumetricWaterContent();
-        Double[] ThermalConductivity ;
+        Double [] VolumetricWaterContent = ex.getVolumetricWaterContent();
+        Double [] ThermalConductivity = s.getThermalConductivity();
         Integer i;
-        Double Aterm;
-        Double Bterm;
-        Double Cterm;
-        Double Dterm;
-        Double Eterm;
+        double Aterm;
+        double Bterm;
+        double Cterm;
+        double Dterm;
+        double Eterm;
         Aterm = (double)(0);
         Bterm = (double)(0);
         Cterm = (double)(0);
@@ -91,6 +109,6 @@ public class ThermalConductivitySIMULAT
             Dterm = 0.03d + (0.1d * Math.pow(BulkDensity[i], 2));
             ThermalConductivity[i] = Aterm + (Bterm * VolumetricWaterContent[i]) - ((Aterm - Dterm) * Math.pow(Math.exp(-(Cterm * VolumetricWaterContent[i])), Eterm));
         }
-        a.setThermalConductivity(ThermalConductivity);
+        s.setThermalConductivity(ThermalConductivity);
     }
 }

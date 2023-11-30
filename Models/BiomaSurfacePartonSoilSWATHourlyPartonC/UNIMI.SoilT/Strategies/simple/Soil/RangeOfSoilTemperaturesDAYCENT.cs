@@ -442,6 +442,16 @@ namespace UNIMI.SoilT.Strategies.Soil
             //End of custom code. Do not place your custom code below. It will be overwritten by a future code generation.
             //PLACE YOUR CUSTOM CODE ABOVE - GENERATED CODE START - Section1 
         }
+    
+		public void Init(UNIMI.SoilT.Interfaces.Rates rates,UNIMI.SoilT.Interfaces.States states,UNIMI.SoilT.Interfaces.Auxiliary auxiliary,UNIMI.SoilT.Interfaces.States states1,UNIMI.SoilT.Interfaces.Exogenous exogenous,UNIMI.SoilT.Interfaces.StatesExternal statesexternal,CRA.AgroManagement.ActEvents actevents)
+		{
+
+			states.SoilTemperatureRangeByLayers = new double[states.LayerThickness.Length];
+            states.SoilTemperatureMaximum = new double[states.LayerThickness.Length];
+            states.SoilTemperatureMinimum = new double[states.LayerThickness.Length];
+        
+
+		}
 
 
 
@@ -517,11 +527,41 @@ namespace UNIMI.SoilT.Strategies.Soil
                                ** min : -60
                                ** default : 25
                                ** unit : degC
+                 * name: SoilTemperatureRangeByLayers
+                               ** description : Soil temperature range by layers
+                               ** inputtype : variable
+                               ** datatype : DOUBLEARRAY
+                               ** variablecategory : state
+                               ** default :
+                               ** len : 
+                               ** max : 50
+                               ** min : 0
+                               ** unit : degC
+                 * name: SoilTemperatureMinimum
+                               ** description : Minimum soil temperature by layers
+                               ** inputtype : variable
+                               ** datatype : DOUBLEARRAY
+                               ** variablecategory : state
+                               ** default :
+                               ** len : 
+                               ** max : 60
+                               ** min : -60
+                               ** unit : degC
+                 * name: SoilTemperatureMaximum
+                               ** description : Maximum soil temperature by layers
+                               ** inputtype : variable
+                               ** datatype : DOUBLEARRAY
+                               ** variablecategory : state
+                               ** default :
+                               ** len : 
+                               ** max : 60
+                               ** min : -60
+                               ** unit : degC
      - outputs:
                  * name: SoilTemperatureRangeByLayers
                                ** description : Soil temperature range by layers
                                ** datatype : DOUBLEARRAY
-                               ** variablecategory : auxiliary
+                               ** variablecategory : state
                                ** len : 
                                ** max : 50
                                ** min : 0
@@ -529,15 +569,15 @@ namespace UNIMI.SoilT.Strategies.Soil
                  * name: SoilTemperatureMinimum
                                ** description : Minimum soil temperature by layers
                                ** datatype : DOUBLEARRAY
-                               ** variablecategory : auxiliary
+                               ** variablecategory : state
                                ** len : 
                                ** max : 60
                                ** min : -60
-                               ** unit : Â°C
+                               ** unit : degC
                  * name: SoilTemperatureMaximum
                                ** description : Maximum soil temperature by layers
                                ** datatype : DOUBLEARRAY
-                               ** variablecategory : auxiliary
+                               ** variablecategory : state
                                ** len : 
                                ** max : 60
                                ** min : -60

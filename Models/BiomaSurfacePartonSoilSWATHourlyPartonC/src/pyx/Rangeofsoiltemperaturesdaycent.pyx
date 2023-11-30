@@ -1,11 +1,26 @@
 import numpy
 from math import *
 
+def init_rangeofsoiltemperaturesdaycent(float LayerThickness[]):
+    cdef float SoilTemperatureRangeByLayers[]
+    cdef float SoilTemperatureMinimum[]
+    cdef float SoilTemperatureMaximum[]
+    SoilTemperatureRangeByLayers = None
+    SoilTemperatureMinimum = None
+    SoilTemperatureMaximum = None
+    SoilTemperatureRangeByLayers=array('f', [0.0]*len(LayerThickness))
+    SoilTemperatureMaximum=array('f', [0.0]*len(LayerThickness))
+    SoilTemperatureMinimum=array('f', [0.0]*len(LayerThickness))
+    return  SoilTemperatureRangeByLayers, SoilTemperatureMinimum, SoilTemperatureMaximum
+
 def model_rangeofsoiltemperaturesdaycent(float LayerThickness[],
                                          float SurfaceTemperatureMinimum,
                                          float ThermalDiffusivity[],
                                          float SoilTemperatureByLayers[],
-                                         float SurfaceTemperatureMaximum):
+                                         float SurfaceTemperatureMaximum,
+                                         float SoilTemperatureRangeByLayers[],
+                                         float SoilTemperatureMinimum[],
+                                         float SoilTemperatureMaximum[]):
     """
     RangeOfSoilTemperaturesDAYCENT model
     Author: simone.bregaglio
@@ -15,9 +30,6 @@ def model_rangeofsoiltemperaturesdaycent(float LayerThickness[],
     ShortDescription: Strategy for the calculation of soil thermal conductivity
     """
 
-    cdef float SoilTemperatureRangeByLayers[]
-    cdef float SoilTemperatureMinimum[]
-    cdef float SoilTemperatureMaximum[]
     cdef int i 
     cdef float _DepthBottom 
     cdef float _DepthCenterLayer 

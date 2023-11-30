@@ -1,8 +1,18 @@
 library(gsubfn)
 
-model_thermalconductivitysimulat <- function (VolumetricWaterContent,
+init_thermalconductivitysimulat <- function (VolumetricWaterContent,
          BulkDensity,
          Clay){
+    ThermalConductivity<- vector()
+    ThermalConductivity <- NULL
+    ThermalConductivity <-  rep(0.0,length(VolumetricWaterContent))
+    return( ThermalConductivity)
+}
+
+model_thermalconductivitysimulat <- function (VolumetricWaterContent,
+         BulkDensity,
+         Clay,
+         ThermalConductivity){
     #'- Name: ThermalConductivitySIMULAT -Version: 001, -Time step: 1
     #'- Description:
     #'            * Title: ThermalConductivitySIMULAT model
@@ -15,7 +25,7 @@ model_thermalconductivitysimulat <- function (VolumetricWaterContent,
     #'            * name: VolumetricWaterContent
     #'                          ** description : Volumetric soil water content
     #'                          ** inputtype : variable
-    #'                          ** variablecategory : auxiliary
+    #'                          ** variablecategory : exogenous
     #'                          ** datatype : DOUBLEARRAY
     #'                          ** len : 
     #'                          ** max : 0.8
@@ -42,16 +52,25 @@ model_thermalconductivitysimulat <- function (VolumetricWaterContent,
     #'                          ** min : 0
     #'                          ** default : 0
     #'                          ** unit : 
+    #'            * name: ThermalConductivity
+    #'                          ** description : Thermal conductivity of soil layer
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : state
+    #'                          ** datatype : DOUBLEARRAY
+    #'                          ** len : 
+    #'                          ** max : 8
+    #'                          ** min : 0.025
+    #'                          ** default : 
+    #'                          ** unit : W m-1 K-1
     #'- outputs:
     #'            * name: ThermalConductivity
     #'                          ** description : Thermal conductivity of soil layer
     #'                          ** datatype : DOUBLEARRAY
-    #'                          ** variablecategory : auxiliary
+    #'                          ** variablecategory : state
     #'                          ** len : 
     #'                          ** max : 8
     #'                          ** min : 0.025
     #'                          ** unit : W m-1 K-1
-    ThermalConductivity<- vector()
     Aterm <- as.double(0)
     Bterm <- as.double(0)
     Cterm <- as.double(0)

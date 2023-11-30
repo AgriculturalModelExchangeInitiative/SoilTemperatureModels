@@ -85,14 +85,14 @@ public class HourlySoilTemperaturesPartonLogan
     //                          ** min : -50
     //                          ** unit : degC
         Double [] SoilTemperatureByLayersHourly = s.getSoilTemperatureByLayersHourly();
-        Double HourOfSunrise = ex.getHourOfSunrise();
-        Double HourOfSunset = ex.getHourOfSunset();
-        Double DayLength = ex.getDayLength();
+        double HourOfSunrise = ex.getHourOfSunrise();
+        double HourOfSunset = ex.getHourOfSunset();
+        double DayLength = ex.getDayLength();
         Double [] SoilTemperatureMinimum = a.getSoilTemperatureMinimum();
         Double [] SoilTemperatureMaximum = a.getSoilTemperatureMaximum();
         Integer h;
         Integer i;
-        Double TemperatureAtSunset;
+        double TemperatureAtSunset;
         for (i=0 ; i!=SoilTemperatureMinimum.length ; i+=1)
         {
             for (h=0 ; h!=24 ; h+=1)

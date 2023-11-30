@@ -10,6 +10,13 @@
 #include <tuple>
 #include "ThermalConductivitySIMULAT.h"
 using namespace BiomaSurfacePartonSoilSWATHourlyPartonC;
+void ThermalConductivitySIMULAT::Init(SurfacePartonSoilSWATHourlyPartonCState &s, SurfacePartonSoilSWATHourlyPartonCState &s1, SurfacePartonSoilSWATHourlyPartonCRate &r, SurfacePartonSoilSWATHourlyPartonCAuxiliary &a, SurfacePartonSoilSWATHourlyPartonCExogenous &ex)
+{
+    std::vector<double> & VolumetricWaterContent = ex.getVolumetricWaterContent();
+    std::vector<double> ThermalConductivity;
+    fill(ThermalConductivity.begin(),ThermalConductivity.end(), 0.0);
+    s.setThermalConductivity(ThermalConductivity);
+}
 ThermalConductivitySIMULAT::ThermalConductivitySIMULAT() {}
 std::vector<double> & ThermalConductivitySIMULAT::getBulkDensity() { return this->BulkDensity; }
 std::vector<double> & ThermalConductivitySIMULAT::getClay() { return this->Clay; }
@@ -33,7 +40,7 @@ void ThermalConductivitySIMULAT::Calculate_Model(SurfacePartonSoilSWATHourlyPart
     //            * name: VolumetricWaterContent
     //                          ** description : Volumetric soil water content
     //                          ** inputtype : variable
-    //                          ** variablecategory : auxiliary
+    //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 0.8
@@ -60,17 +67,27 @@ void ThermalConductivitySIMULAT::Calculate_Model(SurfacePartonSoilSWATHourlyPart
     //                          ** min : 0
     //                          ** default : 0
     //                          ** unit : 
+    //            * name: ThermalConductivity
+    //                          ** description : Thermal conductivity of soil layer
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
+    //                          ** max : 8
+    //                          ** min : 0.025
+    //                          ** default : 
+    //                          ** unit : W m-1 K-1
     //- outputs:
     //            * name: ThermalConductivity
     //                          ** description : Thermal conductivity of soil layer
     //                          ** datatype : DOUBLEARRAY
-    //                          ** variablecategory : auxiliary
+    //                          ** variablecategory : state
     //                          ** len : 
     //                          ** max : 8
     //                          ** min : 0.025
     //                          ** unit : W m-1 K-1
-    std::vector<double> & VolumetricWaterContent = a.getVolumetricWaterContent();
-    std::vector<double> ThermalConductivity;
+    std::vector<double> & VolumetricWaterContent = ex.getVolumetricWaterContent();
+    std::vector<double> & ThermalConductivity = s.getThermalConductivity();
     int i;
     double Aterm;
     double Bterm;
@@ -90,5 +107,5 @@ void ThermalConductivitySIMULAT::Calculate_Model(SurfacePartonSoilSWATHourlyPart
         Dterm = 0.03 + (0.1 * std::pow(BulkDensity[i], 2));
         ThermalConductivity[i] = Aterm + (Bterm * VolumetricWaterContent[i]) - ((Aterm - Dterm) * std::pow(std::exp(-(Cterm * VolumetricWaterContent[i])), Eterm));
     }
-    a.setThermalConductivity(ThermalConductivity);
+    s.setThermalConductivity(ThermalConductivity);
 }

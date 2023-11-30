@@ -3,6 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 public class RangeOfSoilTemperaturesDAYCENT
 {
+    public void Init(SurfacePartonSoilSWATHourlyPartonCState s, SurfacePartonSoilSWATHourlyPartonCState s1, SurfacePartonSoilSWATHourlyPartonCRate r, SurfacePartonSoilSWATHourlyPartonCAuxiliary a, SurfacePartonSoilSWATHourlyPartonCExogenous ex)
+    {
+        double[] SoilTemperatureRangeByLayers ;
+        double[] SoilTemperatureMinimum ;
+        double[] SoilTemperatureMaximum ;
+        SoilTemperatureRangeByLayers = new double[LayerThickness.Length];
+        SoilTemperatureMaximum = new double[LayerThickness.Length];
+        SoilTemperatureMinimum = new double[LayerThickness.Length];
+        s.SoilTemperatureRangeByLayers= SoilTemperatureRangeByLayers;
+        s.SoilTemperatureMinimum= SoilTemperatureMinimum;
+        s.SoilTemperatureMaximum= SoilTemperatureMaximum;
+    }
     private double[] _LayerThickness;
     public double[] LayerThickness
         {
@@ -70,11 +82,41 @@ public class RangeOfSoilTemperaturesDAYCENT
     //                          ** min : -60
     //                          ** default : 25
     //                          ** unit : degC
+    //            * name: SoilTemperatureRangeByLayers
+    //                          ** description : Soil temperature range by layers
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
+    //                          ** max : 50
+    //                          ** min : 0
+    //                          ** default : 
+    //                          ** unit : degC
+    //            * name: SoilTemperatureMinimum
+    //                          ** description : Minimum soil temperature by layers
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
+    //                          ** max : 60
+    //                          ** min : -60
+    //                          ** default : 
+    //                          ** unit : degC
+    //            * name: SoilTemperatureMaximum
+    //                          ** description : Maximum soil temperature by layers
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
+    //                          ** max : 60
+    //                          ** min : -60
+    //                          ** default : 
+    //                          ** unit : degC
         //- outputs:
     //            * name: SoilTemperatureRangeByLayers
     //                          ** description : Soil temperature range by layers
     //                          ** datatype : DOUBLEARRAY
-    //                          ** variablecategory : auxiliary
+    //                          ** variablecategory : state
     //                          ** len : 
     //                          ** max : 50
     //                          ** min : 0
@@ -82,15 +124,15 @@ public class RangeOfSoilTemperaturesDAYCENT
     //            * name: SoilTemperatureMinimum
     //                          ** description : Minimum soil temperature by layers
     //                          ** datatype : DOUBLEARRAY
-    //                          ** variablecategory : auxiliary
+    //                          ** variablecategory : state
     //                          ** len : 
     //                          ** max : 60
     //                          ** min : -60
-    //                          ** unit : 
+    //                          ** unit : degC
     //            * name: SoilTemperatureMaximum
     //                          ** description : Maximum soil temperature by layers
     //                          ** datatype : DOUBLEARRAY
-    //                          ** variablecategory : auxiliary
+    //                          ** variablecategory : state
     //                          ** len : 
     //                          ** max : 60
     //                          ** min : -60
@@ -99,9 +141,9 @@ public class RangeOfSoilTemperaturesDAYCENT
         double[] ThermalDiffusivity = a.ThermalDiffusivity;
         double[] SoilTemperatureByLayers = a.SoilTemperatureByLayers;
         double SurfaceTemperatureMaximum = a.SurfaceTemperatureMaximum;
-        double[] SoilTemperatureRangeByLayers ;
-        double[] SoilTemperatureMinimum ;
-        double[] SoilTemperatureMaximum ;
+        double[] SoilTemperatureRangeByLayers = s.SoilTemperatureRangeByLayers;
+        double[] SoilTemperatureMinimum = s.SoilTemperatureMinimum;
+        double[] SoilTemperatureMaximum = s.SoilTemperatureMaximum;
         int i;
         double _DepthBottom;
         double _DepthCenterLayer;
@@ -127,8 +169,8 @@ public class RangeOfSoilTemperaturesDAYCENT
                 SoilTemperatureMinimum[i] = SoilTemperatureByLayers[i] - (SoilTemperatureRangeByLayers[i] / 2);
             }
         }
-        a.SoilTemperatureRangeByLayers= SoilTemperatureRangeByLayers;
-        a.SoilTemperatureMinimum= SoilTemperatureMinimum;
-        a.SoilTemperatureMaximum= SoilTemperatureMaximum;
+        s.SoilTemperatureRangeByLayers= SoilTemperatureRangeByLayers;
+        s.SoilTemperatureMinimum= SoilTemperatureMinimum;
+        s.SoilTemperatureMaximum= SoilTemperatureMaximum;
     }
 }

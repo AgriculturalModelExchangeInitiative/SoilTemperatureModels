@@ -8,26 +8,29 @@ namespace BiomaSurfacePartonSoilSWATHourlyPartonC {
 class SurfacePartonSoilSWATHourlyPartonCExogenous
 {
     private:
-        double AirTemperatureMaximum ;
-        double GlobalSolarRadiation ;
         double AirTemperatureMinimum ;
         double DayLength ;
-        double HourOfSunrise ;
+        double GlobalSolarRadiation ;
+        double AirTemperatureMaximum ;
+        std::vector<double> VolumetricWaterContent ;
         double HourOfSunset ;
+        double HourOfSunrise ;
     public:
         SurfacePartonSoilSWATHourlyPartonCExogenous();
-        double getAirTemperatureMaximum();
-        void setAirTemperatureMaximum(double _AirTemperatureMaximum);
-        double getGlobalSolarRadiation();
-        void setGlobalSolarRadiation(double _GlobalSolarRadiation);
         double getAirTemperatureMinimum();
         void setAirTemperatureMinimum(double _AirTemperatureMinimum);
         double getDayLength();
         void setDayLength(double _DayLength);
-        double getHourOfSunrise();
-        void setHourOfSunrise(double _HourOfSunrise);
+        double getGlobalSolarRadiation();
+        void setGlobalSolarRadiation(double _GlobalSolarRadiation);
+        double getAirTemperatureMaximum();
+        void setAirTemperatureMaximum(double _AirTemperatureMaximum);
+        std::vector<double> & getVolumetricWaterContent();
+        void setVolumetricWaterContent(const std::vector<double> &  _VolumetricWaterContent);
         double getHourOfSunset();
         void setHourOfSunset(double _HourOfSunset);
+        double getHourOfSunrise();
+        void setHourOfSunrise(double _HourOfSunrise);
 
 };
 }

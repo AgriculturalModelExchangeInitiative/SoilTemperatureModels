@@ -3,6 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 public class SoilTemperatureSWAT
 {
+    public void Init(SurfacePartonSoilSWATHourlyPartonCState s, SurfacePartonSoilSWATHourlyPartonCState s1, SurfacePartonSoilSWATHourlyPartonCRate r, SurfacePartonSoilSWATHourlyPartonCAuxiliary a, SurfacePartonSoilSWATHourlyPartonCExogenous ex)
+    {
+        double[] VolumetricWaterContent = ex.VolumetricWaterContent;
+        double[] SoilTemperatureByLayers ;
+        int i;
+        SoilTemperatureByLayers = new double[LayerThickness.Length];
+        for (i=0 ; i!=LayerThickness.Length ; i+=1)
+        {
+            SoilTemperatureByLayers[i] = (double)(15);
+        }
+        s.SoilTemperatureByLayers= SoilTemperatureByLayers;
+    }
     private double[] _LayerThickness;
     public double[] LayerThickness
         {
@@ -49,7 +61,7 @@ public class SoilTemperatureSWAT
     //            * name: VolumetricWaterContent
     //                          ** description : Volumetric soil water content
     //                          ** inputtype : variable
-    //                          ** variablecategory : auxiliary
+    //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 0.8
@@ -131,7 +143,7 @@ public class SoilTemperatureSWAT
     //                          ** max : 60
     //                          ** min : -60
     //                          ** unit : degC
-        double[] VolumetricWaterContent = a.VolumetricWaterContent;
+        double[] VolumetricWaterContent = ex.VolumetricWaterContent;
         double SurfaceSoilTemperature = a.SurfaceSoilTemperature;
         double[] SoilTemperatureByLayers = s.SoilTemperatureByLayers;
         int i;

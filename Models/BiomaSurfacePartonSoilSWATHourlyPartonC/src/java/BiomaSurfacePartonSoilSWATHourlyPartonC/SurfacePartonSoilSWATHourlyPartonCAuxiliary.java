@@ -4,17 +4,16 @@ import java.time.LocalDateTime;
 
 public class SurfacePartonSoilSWATHourlyPartonCAuxiliary
 {
-    private Double AboveGroundBiomass;
-    private Double [] VolumetricWaterContent;
-    private Double [] OrganicMatter;
+    private double AboveGroundBiomass;
     private Double [] Sand;
-    private Double SurfaceSoilTemperature;
-    private Double SurfaceTemperatureMinimum;
-    private Double SurfaceTemperatureMaximum;
-    private Double [] ThermalConductivity;
-    private Double [] SoilTemperatureRangeByLayers;
+    private Double [] OrganicMatter;
+    private double SurfaceSoilTemperature;
+    private double SurfaceTemperatureMinimum;
+    private double SurfaceTemperatureMaximum;
     private Double [] SoilTemperatureMinimum;
     private Double [] SoilTemperatureMaximum;
+    private Double [] ThermalDiffusivity;
+    private Double [] SoilTemperatureByLayers;
     
     public SurfacePartonSoilSWATHourlyPartonCAuxiliary() { }
     
@@ -23,75 +22,48 @@ public class SurfacePartonSoilSWATHourlyPartonCAuxiliary
         if (copyAll)
         {
             this.AboveGroundBiomass = toCopy.getAboveGroundBiomass();
-            VolumetricWaterContent = new Double[toCopy.getVolumetricWaterContent().length];
-        for (int i = 0; i < toCopy.getVolumetricWaterContent().length; i++)
+            Sand = new Double[toCopy.getSand().length];
+        for (int i = 0; i < toCopy.getSand().length; i++)
         {
-            VolumetricWaterContent[i] = toCopy.getVolumetricWaterContent()[i];
+            Sand[i] = toCopy.getSand()[i];
         }
             OrganicMatter = new Double[toCopy.getOrganicMatter().length];
         for (int i = 0; i < toCopy.getOrganicMatter().length; i++)
         {
             OrganicMatter[i] = toCopy.getOrganicMatter()[i];
         }
-            Sand = new Double[toCopy.getSand().length];
-        for (int i = 0; i < toCopy.getSand().length; i++)
-        {
-            Sand[i] = toCopy.getSand()[i];
-        }
             this.SurfaceSoilTemperature = toCopy.getSurfaceSoilTemperature();
             this.SurfaceTemperatureMinimum = toCopy.getSurfaceTemperatureMinimum();
             this.SurfaceTemperatureMaximum = toCopy.getSurfaceTemperatureMaximum();
-            ThermalConductivity = new Double[toCopy.getThermalConductivity().length];
-        for (int i = 0; i < toCopy.getThermalConductivity().length; i++)
-        {
-            ThermalConductivity[i] = toCopy.getThermalConductivity()[i];
-        }
-            SoilTemperatureRangeByLayers = new Double[toCopy.getSoilTemperatureRangeByLayers().length];
-        for (int i = 0; i < toCopy.getSoilTemperatureRangeByLayers().length; i++)
-        {
-            SoilTemperatureRangeByLayers[i] = toCopy.getSoilTemperatureRangeByLayers()[i];
-        }
-            SoilTemperatureMinimum = new Double[toCopy.getSoilTemperatureMinimum().length];
-        for (int i = 0; i < toCopy.getSoilTemperatureMinimum().length; i++)
-        {
-            SoilTemperatureMinimum[i] = toCopy.getSoilTemperatureMinimum()[i];
-        }
-            SoilTemperatureMaximum = new Double[toCopy.getSoilTemperatureMaximum().length];
-        for (int i = 0; i < toCopy.getSoilTemperatureMaximum().length; i++)
-        {
-            SoilTemperatureMaximum[i] = toCopy.getSoilTemperatureMaximum()[i];
-        }
             this.SurfaceSoilTemperature = toCopy.getSurfaceSoilTemperature();
             this.SurfaceTemperatureMaximum = toCopy.getSurfaceTemperatureMaximum();
             this.SurfaceTemperatureMinimum = toCopy.getSurfaceTemperatureMinimum();
-            ThermalConductivity = new Double[toCopy.getThermalConductivity().length];
-        for (int i = 0; i < toCopy.getThermalConductivity().length; i++)
-        {
-            ThermalConductivity[i] = toCopy.getThermalConductivity()[i];
-        }
-            SoilTemperatureMaximum = new Double[toCopy.getSoilTemperatureMaximum().length];
-        for (int i = 0; i < toCopy.getSoilTemperatureMaximum().length; i++)
-        {
-            SoilTemperatureMaximum[i] = toCopy.getSoilTemperatureMaximum()[i];
-        }
-            SoilTemperatureMinimum = new Double[toCopy.getSoilTemperatureMinimum().length];
-        for (int i = 0; i < toCopy.getSoilTemperatureMinimum().length; i++)
-        {
-            SoilTemperatureMinimum[i] = toCopy.getSoilTemperatureMinimum()[i];
-        }
         }
     }
-    public Double getAboveGroundBiomass()
+    public double getAboveGroundBiomass()
     { return AboveGroundBiomass; }
 
-    public void setAboveGroundBiomass(Double _AboveGroundBiomass)
+    public void setAboveGroundBiomass(double _AboveGroundBiomass)
     { this.AboveGroundBiomass= _AboveGroundBiomass; } 
     
-    public Double [] getVolumetricWaterContent()
-    { return VolumetricWaterContent; }
+    public Double [] getSand()
+    { return Sand; }
 
-    public void setVolumetricWaterContent(Double [] _VolumetricWaterContent)
-    { this.VolumetricWaterContent= _VolumetricWaterContent; } 
+    public void setSand(Double [] _Sand)
+    { this.Sand= _Sand; } 
+
+    public Double [] getSoilTemperatureMinimum()
+    { return SoilTemperatureMinimum; }
+
+    public void setSoilTemperatureMinimum(Double [] _SoilTemperatureMinimum)
+    { this.SoilTemperatureMinimum= _SoilTemperatureMinimum; }
+
+
+    public Double [] getSoilTemperatureMaximum()
+    { return SoilTemperatureMaximum; }
+
+    public void setSoilTemperatureMaximum(Double [] _SoilTemperatureMaximum)
+    { this.SoilTemperatureMaximum= _SoilTemperatureMaximum; }
     
     public Double [] getOrganicMatter()
     { return OrganicMatter; }
@@ -99,52 +71,34 @@ public class SurfacePartonSoilSWATHourlyPartonCAuxiliary
     public void setOrganicMatter(Double [] _OrganicMatter)
     { this.OrganicMatter= _OrganicMatter; } 
     
-    public Double [] getSand()
-    { return Sand; }
-
-    public void setSand(Double [] _Sand)
-    { this.Sand= _Sand; } 
-    
-    public Double getSurfaceSoilTemperature()
+    public double getSurfaceSoilTemperature()
     { return SurfaceSoilTemperature; }
 
-    public void setSurfaceSoilTemperature(Double _SurfaceSoilTemperature)
+    public void setSurfaceSoilTemperature(double _SurfaceSoilTemperature)
     { this.SurfaceSoilTemperature= _SurfaceSoilTemperature; } 
     
-    public Double getSurfaceTemperatureMinimum()
+    public double getSurfaceTemperatureMinimum()
     { return SurfaceTemperatureMinimum; }
 
-    public void setSurfaceTemperatureMinimum(Double _SurfaceTemperatureMinimum)
+    public void setSurfaceTemperatureMinimum(double _SurfaceTemperatureMinimum)
     { this.SurfaceTemperatureMinimum= _SurfaceTemperatureMinimum; } 
     
-    public Double getSurfaceTemperatureMaximum()
+    public double getSurfaceTemperatureMaximum()
     { return SurfaceTemperatureMaximum; }
 
-    public void setSurfaceTemperatureMaximum(Double _SurfaceTemperatureMaximum)
+    public void setSurfaceTemperatureMaximum(double _SurfaceTemperatureMaximum)
     { this.SurfaceTemperatureMaximum= _SurfaceTemperatureMaximum; } 
-    
-    public Double [] getThermalConductivity()
-    { return ThermalConductivity; }
 
-    public void setThermalConductivity(Double [] _ThermalConductivity)
-    { this.ThermalConductivity= _ThermalConductivity; } 
-    
-    public Double [] getSoilTemperatureRangeByLayers()
-    { return SoilTemperatureRangeByLayers; }
+    public Double [] getThermalDiffusivity()
+    { return ThermalDiffusivity; }
 
-    public void setSoilTemperatureRangeByLayers(Double [] _SoilTemperatureRangeByLayers)
-    { this.SoilTemperatureRangeByLayers= _SoilTemperatureRangeByLayers; } 
-    
-    public Double [] getSoilTemperatureMinimum()
-    { return SoilTemperatureMinimum; }
+    public void setThermalDiffusivity(Double [] _ThermalDiffusivity)
+    { this.Sand= _ThermalDiffusivity; } 
 
-    public void setSoilTemperatureMinimum(Double [] _SoilTemperatureMinimum)
-    { this.SoilTemperatureMinimum= _SoilTemperatureMinimum; } 
-    
-    public Double [] getSoilTemperatureMaximum()
-    { return SoilTemperatureMaximum; }
+    public Double [] getSoilTemperatureByLayers()
+    { return Sand; }
 
-    public void setSoilTemperatureMaximum(Double [] _SoilTemperatureMaximum)
-    { this.SoilTemperatureMaximum= _SoilTemperatureMaximum; } 
+    public void setSoilTemperatureByLayers(Double [] _SoilTemperatureByLayers)
+    { this.Sand= _SoilTemperatureByLayers; } 
     
 }

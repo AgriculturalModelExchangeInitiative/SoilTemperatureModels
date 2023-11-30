@@ -49,20 +49,20 @@ public class SurfaceTemperatureSWAT extends FWSimComponent
     @Override
     protected void process()
     {
-        Double t_GlobalSolarRadiation = GlobalSolarRadiation.getValue();
+        double t_GlobalSolarRadiation = GlobalSolarRadiation.getValue();
         Double [] t_SoilTemperatureByLayers = SoilTemperatureByLayers.getValue();
-        Double t_AirTemperatureMaximum = AirTemperatureMaximum.getValue();
-        Double t_AirTemperatureMinimum = AirTemperatureMinimum.getValue();
-        Double t_Albedo = Albedo.getValue();
-        Double t_AboveGroundBiomass = AboveGroundBiomass.getValue();
-        Double t_WaterEquivalentOfSnowPack = WaterEquivalentOfSnowPack.getValue();
-        Double t_SurfaceSoilTemperature;
-        Double _Tavg;
-        Double _Hterm;
-        Double _Tbare;
-        Double _WeightingCover;
-        Double _WeightingSnow;
-        Double _WeightingActual;
+        double t_AirTemperatureMaximum = AirTemperatureMaximum.getValue();
+        double t_AirTemperatureMinimum = AirTemperatureMinimum.getValue();
+        double t_Albedo = Albedo.getValue();
+        double t_AboveGroundBiomass = AboveGroundBiomass.getValue();
+        double t_WaterEquivalentOfSnowPack = WaterEquivalentOfSnowPack.getValue();
+        double t_SurfaceSoilTemperature;
+        double _Tavg;
+        double _Hterm;
+        double _Tbare;
+        double _WeightingCover;
+        double _WeightingSnow;
+        double _WeightingActual;
         _Tavg = (t_AirTemperatureMaximum + t_AirTemperatureMinimum) / 2;
         _Hterm = (t_GlobalSolarRadiation * (1 - t_Albedo) - 14) / 20;
         _Tbare = _Tavg + (_Hterm * (t_AirTemperatureMaximum - t_AirTemperatureMinimum) / 2);

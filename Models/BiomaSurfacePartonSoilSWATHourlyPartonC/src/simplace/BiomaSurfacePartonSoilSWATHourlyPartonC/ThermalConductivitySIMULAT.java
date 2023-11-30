@@ -34,9 +34,19 @@ public class ThermalConductivitySIMULAT extends FWSimComponent
         addVariable(FWSimVariable.createSimVariable("VolumetricWaterContent", "Volumetric soil water content", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.input,"m3 m-3", 0, 0.8, 0.25, this));
         addVariable(FWSimVariable.createSimVariable("BulkDensity", "Bulk density", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.constant,"t m-3", 0.9, 1.8, 1.3, this));
         addVariable(FWSimVariable.createSimVariable("Clay", "Clay content of soil layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.constant,"", 0, 100, 0, this));
-        addVariable(FWSimVariable.createSimVariable("ThermalConductivity", "Thermal conductivity of soil layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.out,"W m-1 K-1", 0.025, 8, null, this));
+        addVariable(FWSimVariable.createSimVariable("ThermalConductivity", "Thermal conductivity of soil layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"W m-1 K-1", 0.025, 8, null, this));
 
         return iFieldMap;
+    }
+    @Override
+    protected void init()
+    {
+        Double [] t_VolumetricWaterContent = VolumetricWaterContent.getValue();
+        Double [] t_BulkDensity = BulkDensity.getValue();
+        Double [] t_Clay = Clay.getValue();
+        Double [] t_ThermalConductivity = ThermalConductivity.getValue();;
+        Arrays.fill(t_ThermalConductivity, 0.0d);
+        ThermalConductivity.setValue(t_ThermalConductivity, this);
     }
     @Override
     protected void process()
@@ -44,13 +54,13 @@ public class ThermalConductivitySIMULAT extends FWSimComponent
         Double [] t_VolumetricWaterContent = VolumetricWaterContent.getValue();
         Double [] t_BulkDensity = BulkDensity.getValue();
         Double [] t_Clay = Clay.getValue();
-        Double [] t_ThermalConductivity;
+        Double [] t_ThermalConductivity = ThermalConductivity.getValue();
         Integer i;
-        Double Aterm;
-        Double Bterm;
-        Double Cterm;
-        Double Dterm;
-        Double Eterm;
+        double Aterm;
+        double Bterm;
+        double Cterm;
+        double Dterm;
+        double Eterm;
         Aterm = (double)(0);
         Bterm = (double)(0);
         Cterm = (double)(0);
@@ -67,10 +77,6 @@ public class ThermalConductivitySIMULAT extends FWSimComponent
         ThermalConductivity.setValue(t_ThermalConductivity, this);
     }
 
-    @Override
-    protected void init()
-    {
-    }
     public HashMap<String, FWSimVariable<?>> fillTestVariables(int aParamIndex, TEST_STATE aDefineOrCheck)
     {
         return iFieldMap;

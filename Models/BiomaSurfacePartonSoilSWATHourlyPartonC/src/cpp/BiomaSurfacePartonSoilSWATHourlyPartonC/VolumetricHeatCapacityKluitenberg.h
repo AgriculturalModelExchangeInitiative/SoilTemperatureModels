@@ -13,11 +13,15 @@ namespace BiomaSurfacePartonSoilSWATHourlyPartonC {
 class VolumetricHeatCapacityKluitenberg
 {
     private:
+        std::vector<double> BulkDensity ;
         std::vector<double> Clay ;
         std::vector<double> Silt ;
     public:
         VolumetricHeatCapacityKluitenberg();
         void Calculate_Model(SurfacePartonSoilSWATHourlyPartonCState &s, SurfacePartonSoilSWATHourlyPartonCState &s1, SurfacePartonSoilSWATHourlyPartonCRate &r, SurfacePartonSoilSWATHourlyPartonCAuxiliary &a, SurfacePartonSoilSWATHourlyPartonCExogenous &ex);
+        void Init(SurfacePartonSoilSWATHourlyPartonCState &s, SurfacePartonSoilSWATHourlyPartonCState &s1, SurfacePartonSoilSWATHourlyPartonCRate &r, SurfacePartonSoilSWATHourlyPartonCAuxiliary &a, SurfacePartonSoilSWATHourlyPartonCExogenous &ex);
+        std::vector<double> & getBulkDensity();
+        void setBulkDensity(const std::vector<double> &  _BulkDensity);
         std::vector<double> & getClay();
         void setClay(const std::vector<double> &  _Clay);
         std::vector<double> & getSilt();

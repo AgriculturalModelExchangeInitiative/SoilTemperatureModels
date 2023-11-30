@@ -10,6 +10,18 @@
 #include <tuple>
 #include "SoilTemperatureSWAT.h"
 using namespace BiomaSurfaceSWATSoilSWATC;
+void SoilTemperatureSWAT::Init(SurfaceSWATSoilSWATCState &s, SurfaceSWATSoilSWATCState &s1, SurfaceSWATSoilSWATCRate &r, SurfaceSWATSoilSWATCAuxiliary &a, SurfaceSWATSoilSWATCExogenous &ex)
+{
+    std::vector<double> & VolumetricWaterContent = ex.getVolumetricWaterContent();
+    std::vector<double> SoilTemperatureByLayers;
+    int i;
+    fill(SoilTemperatureByLayers.begin(),SoilTemperatureByLayers.end(), 0.0);
+    for (i=0 ; i!=LayerThickness.size() ; i+=1)
+    {
+        SoilTemperatureByLayers[i] = float(15);
+    }
+    s.setSoilTemperatureByLayers(SoilTemperatureByLayers);
+}
 SoilTemperatureSWAT::SoilTemperatureSWAT() {}
 std::vector<double> & SoilTemperatureSWAT::getLayerThickness() { return this->LayerThickness; }
 double SoilTemperatureSWAT::getLagCoefficient() { return this->LagCoefficient; }
@@ -39,7 +51,7 @@ void SoilTemperatureSWAT::Calculate_Model(SurfaceSWATSoilSWATCState &s, SurfaceS
     //            * name: VolumetricWaterContent
     //                          ** description : Volumetric soil water content
     //                          ** inputtype : variable
-    //                          ** variablecategory : auxiliary
+    //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 0.8
@@ -121,7 +133,7 @@ void SoilTemperatureSWAT::Calculate_Model(SurfaceSWATSoilSWATCState &s, SurfaceS
     //                          ** max : 60
     //                          ** min : -60
     //                          ** unit : degC
-    std::vector<double> & VolumetricWaterContent = a.getVolumetricWaterContent();
+    std::vector<double> & VolumetricWaterContent = ex.getVolumetricWaterContent();
     double SurfaceSoilTemperature = a.getSurfaceSoilTemperature();
     std::vector<double> & SoilTemperatureByLayers = s.getSoilTemperatureByLayers();
     int i;

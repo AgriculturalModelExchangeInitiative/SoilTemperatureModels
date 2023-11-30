@@ -5,6 +5,19 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 public class SoilTemperatureSWAT
 {
+    public void Init(SurfacePartonSoilSWATHourlyPartonCState s, SurfacePartonSoilSWATHourlyPartonCState s1, SurfacePartonSoilSWATHourlyPartonCRate r, SurfacePartonSoilSWATHourlyPartonCAuxiliary a,  SurfacePartonSoilSWATHourlyPartonCExogenous ex)
+    {
+        Double [] VolumetricWaterContent = ex.getVolumetricWaterContent();
+        Double[] SoilTemperatureByLayers ;
+        Integer i;
+        SoilTemperatureByLayers= new Double[LayerThickness.length];
+        Arrays.fill(SoilTemperatureByLayers, 0.0d);
+        for (i=0 ; i!=LayerThickness.length ; i+=1)
+        {
+            SoilTemperatureByLayers[i] = (double)(15);
+        }
+        s.setSoilTemperatureByLayers(SoilTemperatureByLayers);
+    }
     private Double [] LayerThickness;
     public Double [] getLayerThickness()
     { return LayerThickness; }
@@ -12,18 +25,18 @@ public class SoilTemperatureSWAT
     public void setLayerThickness(Double [] _LayerThickness)
     { this.LayerThickness= _LayerThickness; } 
     
-    private Double LagCoefficient;
-    public Double getLagCoefficient()
+    private double LagCoefficient;
+    public double getLagCoefficient()
     { return LagCoefficient; }
 
-    public void setLagCoefficient(Double _LagCoefficient)
+    public void setLagCoefficient(double _LagCoefficient)
     { this.LagCoefficient= _LagCoefficient; } 
     
-    private Double AirTemperatureAnnualAverage;
-    public Double getAirTemperatureAnnualAverage()
+    private double AirTemperatureAnnualAverage;
+    public double getAirTemperatureAnnualAverage()
     { return AirTemperatureAnnualAverage; }
 
-    public void setAirTemperatureAnnualAverage(Double _AirTemperatureAnnualAverage)
+    public void setAirTemperatureAnnualAverage(double _AirTemperatureAnnualAverage)
     { this.AirTemperatureAnnualAverage= _AirTemperatureAnnualAverage; } 
     
     private Double [] BulkDensity;
@@ -33,11 +46,11 @@ public class SoilTemperatureSWAT
     public void setBulkDensity(Double [] _BulkDensity)
     { this.BulkDensity= _BulkDensity; } 
     
-    private Double SoilProfileDepth;
-    public Double getSoilProfileDepth()
+    private double SoilProfileDepth;
+    public double getSoilProfileDepth()
     { return SoilProfileDepth; }
 
-    public void setSoilProfileDepth(Double _SoilProfileDepth)
+    public void setSoilProfileDepth(double _SoilProfileDepth)
     { this.SoilProfileDepth= _SoilProfileDepth; } 
     
     public SoilTemperatureSWAT() { }
@@ -55,7 +68,7 @@ public class SoilTemperatureSWAT
     //            * name: VolumetricWaterContent
     //                          ** description : Volumetric soil water content
     //                          ** inputtype : variable
-    //                          ** variablecategory : auxiliary
+    //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 0.8
@@ -137,19 +150,19 @@ public class SoilTemperatureSWAT
     //                          ** max : 60
     //                          ** min : -60
     //                          ** unit : degC
-        Double [] VolumetricWaterContent = a.getVolumetricWaterContent();
-        Double SurfaceSoilTemperature = a.getSurfaceSoilTemperature();
+        Double [] VolumetricWaterContent = ex.getVolumetricWaterContent();
+        double SurfaceSoilTemperature = a.getSurfaceSoilTemperature();
         Double [] SoilTemperatureByLayers = s.getSoilTemperatureByLayers();
         Integer i;
-        Double _SoilProfileDepthmm;
-        Double _TotalWaterContentmm;
-        Double _MaximumDumpingDepth;
-        Double _DumpingDepth;
-        Double _ScalingFactor;
-        Double _DepthBottom;
-        Double _RatioCenter;
-        Double _DepthFactor;
-        Double _DepthCenterLayer;
+        double _SoilProfileDepthmm;
+        double _TotalWaterContentmm;
+        double _MaximumDumpingDepth;
+        double _DumpingDepth;
+        double _ScalingFactor;
+        double _DepthBottom;
+        double _RatioCenter;
+        double _DepthFactor;
+        double _DepthCenterLayer;
         _SoilProfileDepthmm = SoilProfileDepth * 1000;
         _TotalWaterContentmm = (double)(0);
         for (i=0 ; i!=LayerThickness.length ; i+=1)

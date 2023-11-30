@@ -13,19 +13,6 @@ public class SurfacePartonSoilSWATHourlyPartonCComponent
     RangeOfSoilTemperaturesDAYCENT _RangeOfSoilTemperaturesDAYCENT = new RangeOfSoilTemperaturesDAYCENT();
     HourlySoilTemperaturesPartonLogan _HourlySoilTemperaturesPartonLogan = new HourlySoilTemperaturesPartonLogan();
 
-    public double[] BulkDensity
-    {
-        get
-        {
-             return _SoilTemperatureSWAT.BulkDensity; 
-        }
-        set
-        {
-            _SoilTemperatureSWAT.BulkDensity = value;
-            _VolumetricHeatCapacityKluitenberg.BulkDensity = value;
-            _ThermalConductivitySIMULAT.BulkDensity = value;
-        }
-    }
     public double SoilProfileDepth
     {
         get
@@ -37,17 +24,6 @@ public class SurfacePartonSoilSWATHourlyPartonCComponent
             _SoilTemperatureSWAT.SoilProfileDepth = value;
         }
     }
-    public double AirTemperatureAnnualAverage
-    {
-        get
-        {
-             return _SoilTemperatureSWAT.AirTemperatureAnnualAverage; 
-        }
-        set
-        {
-            _SoilTemperatureSWAT.AirTemperatureAnnualAverage = value;
-        }
-    }
     public double LagCoefficient
     {
         get
@@ -57,6 +33,17 @@ public class SurfacePartonSoilSWATHourlyPartonCComponent
         set
         {
             _SoilTemperatureSWAT.LagCoefficient = value;
+        }
+    }
+    public double AirTemperatureAnnualAverage
+    {
+        get
+        {
+             return _SoilTemperatureSWAT.AirTemperatureAnnualAverage; 
+        }
+        set
+        {
+            _SoilTemperatureSWAT.AirTemperatureAnnualAverage = value;
         }
     }
     public double[] LayerThickness
@@ -71,16 +58,17 @@ public class SurfacePartonSoilSWATHourlyPartonCComponent
             _RangeOfSoilTemperaturesDAYCENT.LayerThickness = value;
         }
     }
-    public double[] Clay
+    public double[] BulkDensity
     {
         get
         {
-             return _VolumetricHeatCapacityKluitenberg.Clay; 
+             return _SoilTemperatureSWAT.BulkDensity; 
         }
         set
         {
-            _VolumetricHeatCapacityKluitenberg.Clay = value;
-            _ThermalConductivitySIMULAT.Clay = value;
+            _SoilTemperatureSWAT.BulkDensity = value;
+            _VolumetricHeatCapacityKluitenberg.BulkDensity = value;
+            _ThermalConductivitySIMULAT.BulkDensity = value;
         }
     }
     public double[] Silt
@@ -92,6 +80,18 @@ public class SurfacePartonSoilSWATHourlyPartonCComponent
         set
         {
             _VolumetricHeatCapacityKluitenberg.Silt = value;
+        }
+    }
+    public double[] Clay
+    {
+        get
+        {
+             return _VolumetricHeatCapacityKluitenberg.Clay; 
+        }
+        set
+        {
+            _VolumetricHeatCapacityKluitenberg.Clay = value;
+            _ThermalConductivitySIMULAT.Clay = value;
         }
     }
     public int layersNumber
@@ -120,24 +120,24 @@ public class SurfacePartonSoilSWATHourlyPartonCComponent
     public SurfacePartonSoilSWATHourlyPartonCComponent(SurfacePartonSoilSWATHourlyPartonCComponent toCopy): this() // copy constructor 
     {
 
-        
-            for (int i = 0; i < 100; i++)
-            { BulkDensity[i] = toCopy.BulkDensity[i]; }
-    
         SoilProfileDepth = toCopy.SoilProfileDepth;
-        AirTemperatureAnnualAverage = toCopy.AirTemperatureAnnualAverage;
         LagCoefficient = toCopy.LagCoefficient;
+        AirTemperatureAnnualAverage = toCopy.AirTemperatureAnnualAverage;
         
             for (int i = 0; i < 100; i++)
             { LayerThickness[i] = toCopy.LayerThickness[i]; }
     
         
             for (int i = 0; i < 100; i++)
-            { Clay[i] = toCopy.Clay[i]; }
+            { BulkDensity[i] = toCopy.BulkDensity[i]; }
     
         
             for (int i = 0; i < 100; i++)
             { Silt[i] = toCopy.Silt[i]; }
+    
+        
+            for (int i = 0; i < 100; i++)
+            { Clay[i] = toCopy.Clay[i]; }
     
         layersNumber = toCopy.layersNumber;
     }

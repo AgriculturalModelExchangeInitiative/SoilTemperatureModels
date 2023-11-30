@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 public class VolumetricHeatCapacityKluitenberg
 {
+    private double[] _BulkDensity;
+    public double[] BulkDensity
+        {
+            get { return this._BulkDensity; }
+            set { this._BulkDensity= value; } 
+        }
     private double[] _Clay;
     public double[] Clay
         {
@@ -31,7 +37,7 @@ public class VolumetricHeatCapacityKluitenberg
     //            * name: VolumetricWaterContent
     //                          ** description : Volumetric soil water content
     //                          ** inputtype : variable
-    //                          ** variablecategory : auxiliary
+    //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 0.8
@@ -50,8 +56,8 @@ public class VolumetricHeatCapacityKluitenberg
     //                          ** unit : 
     //            * name: BulkDensity
     //                          ** description : Bulk density
-    //                          ** inputtype : variable
-    //                          ** variablecategory : auxiliary
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 1.8
@@ -107,9 +113,8 @@ public class VolumetricHeatCapacityKluitenberg
     //                          ** max : 300
     //                          ** min : 0
     //                          ** unit : MJ m-3
-        double[] VolumetricWaterContent = a.VolumetricWaterContent;
+        double[] VolumetricWaterContent = ex.VolumetricWaterContent;
         double[] Sand = a.Sand;
-        double[] BulkDensity = a.BulkDensity;
         double[] OrganicMatter = a.OrganicMatter;
         double[] HeatCapacity = s.HeatCapacity;
         int i;

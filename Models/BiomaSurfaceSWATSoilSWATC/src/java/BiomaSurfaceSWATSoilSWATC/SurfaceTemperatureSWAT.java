@@ -90,20 +90,20 @@ public class SurfaceTemperatureSWAT
     //                          ** max : 60
     //                          ** min : -60
     //                          ** unit : degC
-        Double GlobalSolarRadiation = ex.getGlobalSolarRadiation();
+        double GlobalSolarRadiation = ex.getGlobalSolarRadiation();
         Double [] SoilTemperatureByLayers = a.getSoilTemperatureByLayers();
-        Double AirTemperatureMaximum = ex.getAirTemperatureMaximum();
-        Double AirTemperatureMinimum = ex.getAirTemperatureMinimum();
-        Double Albedo = ex.getAlbedo();
-        Double AboveGroundBiomass = a.getAboveGroundBiomass();
-        Double WaterEquivalentOfSnowPack = ex.getWaterEquivalentOfSnowPack();
-        Double SurfaceSoilTemperature;
-        Double _Tavg;
-        Double _Hterm;
-        Double _Tbare;
-        Double _WeightingCover;
-        Double _WeightingSnow;
-        Double _WeightingActual;
+        double AirTemperatureMaximum = ex.getAirTemperatureMaximum();
+        double AirTemperatureMinimum = ex.getAirTemperatureMinimum();
+        double Albedo = ex.getAlbedo();
+        double AboveGroundBiomass = a.getAboveGroundBiomass();
+        double WaterEquivalentOfSnowPack = ex.getWaterEquivalentOfSnowPack();
+        double SurfaceSoilTemperature;
+        double _Tavg;
+        double _Hterm;
+        double _Tbare;
+        double _WeightingCover;
+        double _WeightingSnow;
+        double _WeightingActual;
         _Tavg = (AirTemperatureMaximum + AirTemperatureMinimum) / 2;
         _Hterm = (GlobalSolarRadiation * (1 - Albedo) - 14) / 20;
         _Tbare = _Tavg + (_Hterm * (AirTemperatureMaximum - AirTemperatureMinimum) / 2);

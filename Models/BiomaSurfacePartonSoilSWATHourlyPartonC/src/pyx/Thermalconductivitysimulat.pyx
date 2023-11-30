@@ -1,9 +1,18 @@
 import numpy
 from math import *
 
+def init_thermalconductivitysimulat(float VolumetricWaterContent[],
+                                    float BulkDensity[],
+                                    float Clay[]):
+    cdef float ThermalConductivity[]
+    ThermalConductivity = None
+    ThermalConductivity=array('f', [0.0]*len(VolumetricWaterContent))
+    return  ThermalConductivity
+
 def model_thermalconductivitysimulat(float VolumetricWaterContent[],
                                      float BulkDensity[],
-                                     float Clay[]):
+                                     float Clay[],
+                                     float ThermalConductivity[]):
     """
     ThermalConductivitySIMULAT model
     Author: simone.bregaglio
@@ -13,7 +22,6 @@ def model_thermalconductivitysimulat(float VolumetricWaterContent[],
     ShortDescription: Strategy for the calculation of thermal conductivity
     """
 
-    cdef float ThermalConductivity[]
     cdef int i 
     cdef float Aterm 
     cdef float Bterm 

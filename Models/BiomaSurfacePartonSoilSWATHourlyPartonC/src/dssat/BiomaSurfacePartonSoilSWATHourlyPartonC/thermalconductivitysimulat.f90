@@ -1,6 +1,20 @@
 MODULE Thermalconductivitysimulatmod
+    USE list_sub
     IMPLICIT NONE
 CONTAINS
+
+    SUBROUTINE init_thermalconductivitysimulat(VolumetricWaterContent, &
+        BulkDensity, &
+        Clay, &
+        ThermalConductivity)
+        IMPLICIT NONE
+        INTEGER:: i_cyml_r
+        REAL , DIMENSION(: ), INTENT(IN) :: VolumetricWaterContent
+        REAL , DIMENSION(: ), INTENT(IN) :: BulkDensity
+        REAL , DIMENSION(: ), INTENT(IN) :: Clay
+        REAL , DIMENSION(: ), INTENT(OUT) :: ThermalConductivity
+        ThermalConductivity = 0.0
+    END SUBROUTINE init_thermalconductivitysimulat
 
     SUBROUTINE model_thermalconductivitysimulat(VolumetricWaterContent, &
         BulkDensity, &
@@ -11,7 +25,7 @@ CONTAINS
         REAL , DIMENSION(: ), INTENT(IN) :: VolumetricWaterContent
         REAL , DIMENSION(: ), INTENT(IN) :: BulkDensity
         REAL , DIMENSION(: ), INTENT(IN) :: Clay
-        REAL , DIMENSION(: ), INTENT(OUT) :: ThermalConductivity
+        REAL , DIMENSION(: ), INTENT(INOUT) :: ThermalConductivity
         INTEGER:: i
         REAL:: Aterm
         REAL:: Bterm
@@ -30,7 +44,7 @@ CONTAINS
     !            * name: VolumetricWaterContent
     !                          ** description : Volumetric soil water content
     !                          ** inputtype : variable
-    !                          ** variablecategory : auxiliary
+    !                          ** variablecategory : exogenous
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
     !                          ** max : 0.8
@@ -57,11 +71,21 @@ CONTAINS
     !                          ** min : 0
     !                          ** default : 0
     !                          ** unit : 
+    !            * name: ThermalConductivity
+    !                          ** description : Thermal conductivity of soil layer
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : DOUBLEARRAY
+    !                          ** len : 
+    !                          ** max : 8
+    !                          ** min : 0.025
+    !                          ** default : 
+    !                          ** unit : W m-1 K-1
         !- outputs:
     !            * name: ThermalConductivity
     !                          ** description : Thermal conductivity of soil layer
     !                          ** datatype : DOUBLEARRAY
-    !                          ** variablecategory : auxiliary
+    !                          ** variablecategory : state
     !                          ** len : 
     !                          ** max : 8
     !                          ** min : 0.025

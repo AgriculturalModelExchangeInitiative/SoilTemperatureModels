@@ -456,7 +456,7 @@ namespace UNIMI.SoilT.Strategies.Soil
                  * name: VolumetricWaterContent
                                ** description : Volumetric soil water content
                                ** inputtype : variable
-                               ** variablecategory : auxiliary
+                               ** variablecategory : exogenous
                                ** datatype : DOUBLEARRAY
                                ** len : 
                                ** max : 0.8
@@ -475,8 +475,8 @@ namespace UNIMI.SoilT.Strategies.Soil
                                ** unit : %
                  * name: BulkDensity
                                ** description : Bulk density
-                               ** inputtype : variable
-                               ** variablecategory : auxiliary
+                               ** inputtype : parameter
+                               ** parametercategory : constant
                                ** datatype : DOUBLEARRAY
                                ** len : 
                                ** max : 1.8

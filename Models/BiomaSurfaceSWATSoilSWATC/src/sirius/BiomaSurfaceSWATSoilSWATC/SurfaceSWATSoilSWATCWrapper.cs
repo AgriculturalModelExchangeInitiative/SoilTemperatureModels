@@ -49,22 +49,22 @@ namespace SiriusModel.Model.SurfaceSWATSoilSWATC
 
         private void loadParameters()
         {
+            surfaceswatsoilswatcComponent.BulkDensity = BulkDensity;
             surfaceswatsoilswatcComponent.AirTemperatureAnnualAverage = AirTemperatureAnnualAverage;
             surfaceswatsoilswatcComponent.SoilProfileDepth = SoilProfileDepth;
-            surfaceswatsoilswatcComponent.BulkDensity = BulkDensity;
-            surfaceswatsoilswatcComponent.LayerThickness = LayerThickness;
             surfaceswatsoilswatcComponent.LagCoefficient = LagCoefficient;
+            surfaceswatsoilswatcComponent.LayerThickness = LayerThickness;
         }
 
-        public void EstimateSurfaceSWATSoilSWATC(double AboveGroundBiomass, double[] VolumetricWaterContent, double Albedo, double AirTemperatureMinimum, double WaterEquivalentOfSnowPack, double GlobalSolarRadiation, double AirTemperatureMaximum)
+        public void EstimateSurfaceSWATSoilSWATC(double AboveGroundBiomass, double AirTemperatureMaximum, double AirTemperatureMinimum, double GlobalSolarRadiation, double WaterEquivalentOfSnowPack, double Albedo, double[] VolumetricWaterContent)
         {
             a.AboveGroundBiomass = AboveGroundBiomass;
-            a.VolumetricWaterContent = VolumetricWaterContent;
-            a.Albedo = Albedo;
-            a.AirTemperatureMinimum = AirTemperatureMinimum;
-            a.WaterEquivalentOfSnowPack = WaterEquivalentOfSnowPack;
-            a.GlobalSolarRadiation = GlobalSolarRadiation;
             a.AirTemperatureMaximum = AirTemperatureMaximum;
+            a.AirTemperatureMinimum = AirTemperatureMinimum;
+            a.GlobalSolarRadiation = GlobalSolarRadiation;
+            a.WaterEquivalentOfSnowPack = WaterEquivalentOfSnowPack;
+            a.Albedo = Albedo;
+            a.VolumetricWaterContent = VolumetricWaterContent;
             surfaceswatsoilswatcComponent.CalculateModel(s,s1, r, a, ex);
         }
 

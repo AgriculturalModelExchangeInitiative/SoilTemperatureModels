@@ -10,7 +10,6 @@ namespace SurfaceSWATSoilSWATC.DomainClass
     public class SurfaceSWATSoilSWATCAuxiliaryVarInfo : IVarInfoClass
     {
         static VarInfo _AboveGroundBiomass = new VarInfo();
-        static VarInfo _VolumetricWaterContent = new VarInfo();
         static VarInfo _SurfaceSoilTemperature = new VarInfo();
 
         static SurfaceSWATSoilSWATCAuxiliaryVarInfo()
@@ -38,11 +37,6 @@ namespace SurfaceSWATSoilSWATC.DomainClass
             get { return _AboveGroundBiomass;}
         }
 
-        public static  VarInfo VolumetricWaterContent
-        {
-            get { return _VolumetricWaterContent;}
-        }
-
         public static  VarInfo SurfaceSoilTemperature
         {
             get { return _SurfaceSoilTemperature;}
@@ -57,14 +51,6 @@ namespace SurfaceSWATSoilSWATC.DomainClass
             _AboveGroundBiomass.DefaultValue = 3;
             _AboveGroundBiomass.Units = "Kg ha-1";
             _AboveGroundBiomass.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
-
-            _VolumetricWaterContent.Name = "VolumetricWaterContent";
-            _VolumetricWaterContent.Description = "Volumetric soil water content";
-            _VolumetricWaterContent.MaxValue = -1D;
-            _VolumetricWaterContent.MinValue = -1D;
-            _VolumetricWaterContent.DefaultValue = -1D;
-            _VolumetricWaterContent.Units = "m3 m-3";
-            _VolumetricWaterContent.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
 
             _SurfaceSoilTemperature.Name = "SurfaceSoilTemperature";
             _SurfaceSoilTemperature.Description = "Average surface soil temperature";

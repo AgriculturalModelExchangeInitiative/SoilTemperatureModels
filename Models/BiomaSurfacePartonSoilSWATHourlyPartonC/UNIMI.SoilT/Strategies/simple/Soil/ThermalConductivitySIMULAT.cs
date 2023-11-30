@@ -394,6 +394,18 @@ namespace UNIMI.SoilT.Strategies.Soil
 				//PLACE YOUR CUSTOM CODE ABOVE - GENERATED CODE START - Section1 
 			}
 
+		public void Init(UNIMI.SoilT.Interfaces.Rates rates,UNIMI.SoilT.Interfaces.States states,UNIMI.SoilT.Interfaces.Auxiliary auxiliary,UNIMI.SoilT.Interfaces.States states1,UNIMI.SoilT.Interfaces.Exogenous exogenous,UNIMI.SoilT.Interfaces.StatesExternal statesexternal,CRA.AgroManagement.ActEvents actevents)
+		{
+
+			states.ThermalConductivity = new double[states.VolumetricWaterContent.Length];
+
+			/*for (int i = 0; i < states.LayerThickness.Length; i++)
+			{
+				states.SoilTemperatureByLayers[i] = 15;
+			}*/
+
+		}
+
 				
 
 	#endregion
@@ -422,7 +434,7 @@ namespace UNIMI.SoilT.Strategies.Soil
                  * name: VolumetricWaterContent
                                ** description : Volumetric soil water content
                                ** inputtype : variable
-                               ** variablecategory : auxiliary
+                               ** variablecategory : exogenous
                                ** datatype : DOUBLEARRAY
                                ** len : 
                                ** max : 0.8
@@ -449,11 +461,21 @@ namespace UNIMI.SoilT.Strategies.Soil
                                ** min : 0
                                ** default : 0
                                ** unit : %
+                 * name: ThermalConductivity
+                               ** description : Thermal conductivity of soil layer
+							   ** inputtype : variable
+                               ** datatype : DOUBLEARRAY
+                               ** variablecategory : state
+							   ** default : 
+                               ** len : 
+                               ** max : 8
+                               ** min : 0.025
+                               ** unit : W m-1 K-1	
      - outputs:
                  * name: ThermalConductivity
                                ** description : Thermal conductivity of soil layer
                                ** datatype : DOUBLEARRAY
-                               ** variablecategory : auxiliary
+                               ** variablecategory : state
                                ** len : 
                                ** max : 8
                                ** min : 0.025

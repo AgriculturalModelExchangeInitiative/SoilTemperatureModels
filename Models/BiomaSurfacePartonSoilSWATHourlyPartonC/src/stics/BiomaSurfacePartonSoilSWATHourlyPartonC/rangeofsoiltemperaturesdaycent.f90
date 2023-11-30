@@ -1,6 +1,22 @@
 MODULE Rangeofsoiltemperaturesdaycentmod
+    USE list_sub
     IMPLICIT NONE
 CONTAINS
+
+    SUBROUTINE init_rangeofsoiltemperaturesdaycent(LayerThickness, &
+        SoilTemperatureRangeByLayers, &
+        SoilTemperatureMinimum, &
+        SoilTemperatureMaximum)
+        IMPLICIT NONE
+        INTEGER:: i_cyml_r
+        REAL , DIMENSION(: ), INTENT(IN) :: LayerThickness
+        REAL , DIMENSION(: ), INTENT(OUT) :: SoilTemperatureRangeByLayers
+        REAL , DIMENSION(: ), INTENT(OUT) :: SoilTemperatureMinimum
+        REAL , DIMENSION(: ), INTENT(OUT) :: SoilTemperatureMaximum
+        SoilTemperatureRangeByLayers = 0.0
+        SoilTemperatureMaximum = 0.0
+        SoilTemperatureMinimum = 0.0
+    END SUBROUTINE init_rangeofsoiltemperaturesdaycent
 
     SUBROUTINE model_rangeofsoiltemperaturesdaycent(LayerThickness, &
         SurfaceTemperatureMinimum, &
@@ -17,9 +33,9 @@ CONTAINS
         REAL , DIMENSION(: ), INTENT(IN) :: ThermalDiffusivity
         REAL , DIMENSION(: ), INTENT(IN) :: SoilTemperatureByLayers
         REAL, INTENT(IN) :: SurfaceTemperatureMaximum
-        REAL , DIMENSION(: ), INTENT(OUT) :: SoilTemperatureRangeByLayers
-        REAL , DIMENSION(: ), INTENT(OUT) :: SoilTemperatureMinimum
-        REAL , DIMENSION(: ), INTENT(OUT) :: SoilTemperatureMaximum
+        REAL , DIMENSION(: ), INTENT(INOUT) :: SoilTemperatureRangeByLayers
+        REAL , DIMENSION(: ), INTENT(INOUT) :: SoilTemperatureMinimum
+        REAL , DIMENSION(: ), INTENT(INOUT) :: SoilTemperatureMaximum
         INTEGER:: i
         REAL:: _DepthBottom
         REAL:: _DepthCenterLayer
@@ -81,11 +97,41 @@ CONTAINS
     !                          ** min : -60
     !                          ** default : 25
     !                          ** unit : degC
+    !            * name: SoilTemperatureRangeByLayers
+    !                          ** description : Soil temperature range by layers
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : DOUBLEARRAY
+    !                          ** len : 
+    !                          ** max : 50
+    !                          ** min : 0
+    !                          ** default : 
+    !                          ** unit : degC
+    !            * name: SoilTemperatureMinimum
+    !                          ** description : Minimum soil temperature by layers
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : DOUBLEARRAY
+    !                          ** len : 
+    !                          ** max : 60
+    !                          ** min : -60
+    !                          ** default : 
+    !                          ** unit : degC
+    !            * name: SoilTemperatureMaximum
+    !                          ** description : Maximum soil temperature by layers
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : DOUBLEARRAY
+    !                          ** len : 
+    !                          ** max : 60
+    !                          ** min : -60
+    !                          ** default : 
+    !                          ** unit : degC
         !- outputs:
     !            * name: SoilTemperatureRangeByLayers
     !                          ** description : Soil temperature range by layers
     !                          ** datatype : DOUBLEARRAY
-    !                          ** variablecategory : auxiliary
+    !                          ** variablecategory : state
     !                          ** len : 
     !                          ** max : 50
     !                          ** min : 0
@@ -93,15 +139,15 @@ CONTAINS
     !            * name: SoilTemperatureMinimum
     !                          ** description : Minimum soil temperature by layers
     !                          ** datatype : DOUBLEARRAY
-    !                          ** variablecategory : auxiliary
+    !                          ** variablecategory : state
     !                          ** len : 
     !                          ** max : 60
     !                          ** min : -60
-    !                          ** unit : 
+    !                          ** unit : degC
     !            * name: SoilTemperatureMaximum
     !                          ** description : Maximum soil temperature by layers
     !                          ** datatype : DOUBLEARRAY
-    !                          ** variablecategory : auxiliary
+    !                          ** variablecategory : state
     !                          ** len : 
     !                          ** max : 60
     !                          ** min : -60

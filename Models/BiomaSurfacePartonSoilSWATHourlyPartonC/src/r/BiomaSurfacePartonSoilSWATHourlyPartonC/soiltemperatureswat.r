@@ -1,5 +1,19 @@
 library(gsubfn)
 
+init_soiltemperatureswat <- function (VolumetricWaterContent,
+         LayerThickness,
+         LagCoefficient,
+         AirTemperatureAnnualAverage,
+         BulkDensity,
+         SoilProfileDepth){
+    SoilTemperatureByLayers<- vector()
+    SoilTemperatureByLayers <-  rep(0.0,length(LayerThickness))
+    for( i in seq(0, length(LayerThickness)-1, 1)){
+        SoilTemperatureByLayers[i+1] <- as.double(15)
+    }
+    return( SoilTemperatureByLayers)
+}
+
 model_soiltemperatureswat <- function (VolumetricWaterContent,
          SurfaceSoilTemperature,
          LayerThickness,
@@ -20,7 +34,7 @@ model_soiltemperatureswat <- function (VolumetricWaterContent,
     #'            * name: VolumetricWaterContent
     #'                          ** description : Volumetric soil water content
     #'                          ** inputtype : variable
-    #'                          ** variablecategory : auxiliary
+    #'                          ** variablecategory : exogenous
     #'                          ** datatype : DOUBLEARRAY
     #'                          ** len : 
     #'                          ** max : 0.8

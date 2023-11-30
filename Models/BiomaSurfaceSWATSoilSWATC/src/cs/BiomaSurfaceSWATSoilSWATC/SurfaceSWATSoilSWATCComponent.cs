@@ -8,6 +8,17 @@ public class SurfaceSWATSoilSWATCComponent
     SurfaceTemperatureSWAT _SurfaceTemperatureSWAT = new SurfaceTemperatureSWAT();
     SoilTemperatureSWAT _SoilTemperatureSWAT = new SoilTemperatureSWAT();
 
+    public double[] BulkDensity
+    {
+        get
+        {
+             return _SoilTemperatureSWAT.BulkDensity; 
+        }
+        set
+        {
+            _SoilTemperatureSWAT.BulkDensity = value;
+        }
+    }
     public double AirTemperatureAnnualAverage
     {
         get
@@ -30,15 +41,15 @@ public class SurfaceSWATSoilSWATCComponent
             _SoilTemperatureSWAT.SoilProfileDepth = value;
         }
     }
-    public double[] BulkDensity
+    public double LagCoefficient
     {
         get
         {
-             return _SoilTemperatureSWAT.BulkDensity; 
+             return _SoilTemperatureSWAT.LagCoefficient; 
         }
         set
         {
-            _SoilTemperatureSWAT.BulkDensity = value;
+            _SoilTemperatureSWAT.LagCoefficient = value;
         }
     }
     public double[] LayerThickness
@@ -52,17 +63,6 @@ public class SurfaceSWATSoilSWATCComponent
             _SoilTemperatureSWAT.LayerThickness = value;
         }
     }
-    public double LagCoefficient
-    {
-        get
-        {
-             return _SoilTemperatureSWAT.LagCoefficient; 
-        }
-        set
-        {
-            _SoilTemperatureSWAT.LagCoefficient = value;
-        }
-    }
 
     public void  CalculateModel(SurfaceSWATSoilSWATCState s, SurfaceSWATSoilSWATCState s1, SurfaceSWATSoilSWATCRate r, SurfaceSWATSoilSWATCAuxiliary a, SurfaceSWATSoilSWATCExogenous ex)
     {
@@ -73,16 +73,16 @@ public class SurfaceSWATSoilSWATCComponent
     public SurfaceSWATSoilSWATCComponent(SurfaceSWATSoilSWATCComponent toCopy): this() // copy constructor 
     {
 
-        AirTemperatureAnnualAverage = toCopy.AirTemperatureAnnualAverage;
-        SoilProfileDepth = toCopy.SoilProfileDepth;
         
             for (int i = 0; i < 100; i++)
             { BulkDensity[i] = toCopy.BulkDensity[i]; }
     
+        AirTemperatureAnnualAverage = toCopy.AirTemperatureAnnualAverage;
+        SoilProfileDepth = toCopy.SoilProfileDepth;
+        LagCoefficient = toCopy.LagCoefficient;
         
             for (int i = 0; i < 100; i++)
             { LayerThickness[i] = toCopy.LayerThickness[i]; }
     
-        LagCoefficient = toCopy.LagCoefficient;
     }
 }

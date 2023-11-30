@@ -7,6 +7,21 @@ from datetime import datetime
 
 import numpy
 
+#%%CyML Init Begin%%
+def init_soiltemperatureswat(VolumetricWaterContent:'Array[float]',
+         LayerThickness:'Array[float]',
+         LagCoefficient:float,
+         AirTemperatureAnnualAverage:float,
+         BulkDensity:'Array[float]',
+         SoilProfileDepth:float):
+    SoilTemperatureByLayers:'array[float]'
+    i:int
+    SoilTemperatureByLayers = array('f', [0.0]*len(LayerThickness))
+    for i in range(0 , len(LayerThickness) , 1):
+        SoilTemperatureByLayers[i] = float(15)
+    return SoilTemperatureByLayers
+#%%CyML Init End%%
+
 #%%CyML Model Begin%%
 def model_soiltemperatureswat(VolumetricWaterContent:'Array[float]',
          SurfaceSoilTemperature:float,
@@ -29,7 +44,7 @@ def model_soiltemperatureswat(VolumetricWaterContent:'Array[float]',
                  * name: VolumetricWaterContent
                                ** description : Volumetric soil water content
                                ** inputtype : variable
-                               ** variablecategory : auxiliary
+                               ** variablecategory : exogenous
                                ** datatype : DOUBLEARRAY
                                ** len : 
                                ** max : 0.8

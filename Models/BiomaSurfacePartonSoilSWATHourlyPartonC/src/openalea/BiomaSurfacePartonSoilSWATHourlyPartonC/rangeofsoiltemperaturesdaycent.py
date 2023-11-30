@@ -7,12 +7,29 @@ from datetime import datetime
 
 import numpy
 
+#%%CyML Init Begin%%
+def init_rangeofsoiltemperaturesdaycent(LayerThickness:'Array[float]'):
+    SoilTemperatureRangeByLayers:'array[float]'
+    SoilTemperatureMinimum:'array[float]'
+    SoilTemperatureMaximum:'array[float]'
+    SoilTemperatureRangeByLayers = None
+    SoilTemperatureMinimum = None
+    SoilTemperatureMaximum = None
+    SoilTemperatureRangeByLayers = array('f', [0.0]*len(LayerThickness))
+    SoilTemperatureMaximum = array('f', [0.0]*len(LayerThickness))
+    SoilTemperatureMinimum = array('f', [0.0]*len(LayerThickness))
+    return (SoilTemperatureRangeByLayers, SoilTemperatureMinimum, SoilTemperatureMaximum)
+#%%CyML Init End%%
+
 #%%CyML Model Begin%%
 def model_rangeofsoiltemperaturesdaycent(LayerThickness:'Array[float]',
          SurfaceTemperatureMinimum:float,
          ThermalDiffusivity:'Array[float]',
          SoilTemperatureByLayers:'Array[float]',
-         SurfaceTemperatureMaximum:float):
+         SurfaceTemperatureMaximum:float,
+         SoilTemperatureRangeByLayers:'Array[float]',
+         SoilTemperatureMinimum:'Array[float]',
+         SoilTemperatureMaximum:'Array[float]'):
     """
      - Name: RangeOfSoilTemperaturesDAYCENT -Version: 001, -Time step: 1
      - Description:
@@ -71,11 +88,41 @@ def model_rangeofsoiltemperaturesdaycent(LayerThickness:'Array[float]',
                                ** min : -60
                                ** default : 25
                                ** unit : degC
+                 * name: SoilTemperatureRangeByLayers
+                               ** description : Soil temperature range by layers
+                               ** inputtype : variable
+                               ** variablecategory : state
+                               ** datatype : DOUBLEARRAY
+                               ** len : 
+                               ** max : 50
+                               ** min : 0
+                               ** default : 
+                               ** unit : degC
+                 * name: SoilTemperatureMinimum
+                               ** description : Minimum soil temperature by layers
+                               ** inputtype : variable
+                               ** variablecategory : state
+                               ** datatype : DOUBLEARRAY
+                               ** len : 
+                               ** max : 60
+                               ** min : -60
+                               ** default : 
+                               ** unit : degC
+                 * name: SoilTemperatureMaximum
+                               ** description : Maximum soil temperature by layers
+                               ** inputtype : variable
+                               ** variablecategory : state
+                               ** datatype : DOUBLEARRAY
+                               ** len : 
+                               ** max : 60
+                               ** min : -60
+                               ** default : 
+                               ** unit : degC
      - outputs:
                  * name: SoilTemperatureRangeByLayers
                                ** description : Soil temperature range by layers
                                ** datatype : DOUBLEARRAY
-                               ** variablecategory : auxiliary
+                               ** variablecategory : state
                                ** len : 
                                ** max : 50
                                ** min : 0
@@ -83,24 +130,21 @@ def model_rangeofsoiltemperaturesdaycent(LayerThickness:'Array[float]',
                  * name: SoilTemperatureMinimum
                                ** description : Minimum soil temperature by layers
                                ** datatype : DOUBLEARRAY
-                               ** variablecategory : auxiliary
+                               ** variablecategory : state
                                ** len : 
                                ** max : 60
                                ** min : -60
-                               ** unit : 
+                               ** unit : degC
                  * name: SoilTemperatureMaximum
                                ** description : Maximum soil temperature by layers
                                ** datatype : DOUBLEARRAY
-                               ** variablecategory : auxiliary
+                               ** variablecategory : state
                                ** len : 
                                ** max : 60
                                ** min : -60
                                ** unit : degC
     """
 
-    SoilTemperatureRangeByLayers:'array[float]'
-    SoilTemperatureMinimum:'array[float]'
-    SoilTemperatureMaximum:'array[float]'
     i:int
     _DepthBottom:float
     _DepthCenterLayer:float

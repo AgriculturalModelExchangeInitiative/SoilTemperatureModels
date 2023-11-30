@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 public class ThermalConductivitySIMULAT
 {
+    public void Init(SurfacePartonSoilSWATHourlyPartonCState s, SurfacePartonSoilSWATHourlyPartonCState s1, SurfacePartonSoilSWATHourlyPartonCRate r, SurfacePartonSoilSWATHourlyPartonCAuxiliary a, SurfacePartonSoilSWATHourlyPartonCExogenous ex)
+    {
+        double[] VolumetricWaterContent = ex.VolumetricWaterContent;
+        double[] ThermalConductivity ;
+        ThermalConductivity = new double[VolumetricWaterContent.Length];
+        s.ThermalConductivity= ThermalConductivity;
+    }
     private double[] _BulkDensity;
     public double[] BulkDensity
         {
@@ -31,7 +38,7 @@ public class ThermalConductivitySIMULAT
     //            * name: VolumetricWaterContent
     //                          ** description : Volumetric soil water content
     //                          ** inputtype : variable
-    //                          ** variablecategory : auxiliary
+    //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 0.8
@@ -58,17 +65,27 @@ public class ThermalConductivitySIMULAT
     //                          ** min : 0
     //                          ** default : 0
     //                          ** unit : 
+    //            * name: ThermalConductivity
+    //                          ** description : Thermal conductivity of soil layer
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
+    //                          ** max : 8
+    //                          ** min : 0.025
+    //                          ** default : 
+    //                          ** unit : W m-1 K-1
         //- outputs:
     //            * name: ThermalConductivity
     //                          ** description : Thermal conductivity of soil layer
     //                          ** datatype : DOUBLEARRAY
-    //                          ** variablecategory : auxiliary
+    //                          ** variablecategory : state
     //                          ** len : 
     //                          ** max : 8
     //                          ** min : 0.025
     //                          ** unit : W m-1 K-1
-        double[] VolumetricWaterContent = a.VolumetricWaterContent;
-        double[] ThermalConductivity ;
+        double[] VolumetricWaterContent = ex.VolumetricWaterContent;
+        double[] ThermalConductivity = s.ThermalConductivity;
         int i;
         double Aterm;
         double Bterm;
@@ -88,6 +105,6 @@ public class ThermalConductivitySIMULAT
             Dterm = 0.030d + (0.10d * Math.Pow(BulkDensity[i], 2));
             ThermalConductivity[i] = Aterm + (Bterm * VolumetricWaterContent[i]) - ((Aterm - Dterm) * Math.Pow(Math.Exp(-(Cterm * VolumetricWaterContent[i])), Eterm));
         }
-        a.ThermalConductivity= ThermalConductivity;
+        s.ThermalConductivity= ThermalConductivity;
     }
 }

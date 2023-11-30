@@ -513,6 +513,18 @@ namespace UNIMI.SoilT.Strategies.Soil
 			//PLACE YOUR CUSTOM CODE ABOVE - GENERATED CODE START - Section1 
 		}
 
+		public void Init(UNIMI.SoilT.Interfaces.Rates rates,UNIMI.SoilT.Interfaces.States states,UNIMI.SoilT.Interfaces.Auxiliary auxiliary,UNIMI.SoilT.Interfaces.States states1,UNIMI.SoilT.Interfaces.Exogenous exogenous,UNIMI.SoilT.Interfaces.StatesExternal statesexternal,CRA.AgroManagement.ActEvents actevents)
+		{
+
+			states.SoilTemperatureByLayers = new double[states.LayerThickness.Length];
+
+			for (int i = 0; i < states.LayerThickness.Length; i++)
+			{
+				states.SoilTemperatureByLayers[i] = 15;
+			}
+
+		}
+
 
 
 		#endregion
@@ -550,7 +562,7 @@ namespace UNIMI.SoilT.Strategies.Soil
                  * name: VolumetricWaterContent
                                ** description : Volumetric soil water content
                                ** inputtype : variable
-                               ** variablecategory : auxiliary
+                               ** variablecategory : exogenous
                                ** datatype : DOUBLEARRAY
                                ** len : 
                                ** max : 0.8

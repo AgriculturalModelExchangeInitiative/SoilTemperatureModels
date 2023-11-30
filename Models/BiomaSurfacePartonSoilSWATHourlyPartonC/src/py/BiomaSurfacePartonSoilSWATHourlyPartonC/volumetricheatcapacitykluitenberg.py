@@ -28,7 +28,7 @@ def model_volumetricheatcapacitykluitenberg(VolumetricWaterContent:'Array[float]
                  * name: VolumetricWaterContent
                                ** description : Volumetric soil water content
                                ** inputtype : variable
-                               ** variablecategory : auxiliary
+                               ** variablecategory : exogenous
                                ** datatype : DOUBLEARRAY
                                ** len : 
                                ** max : 0.8
@@ -47,8 +47,8 @@ def model_volumetricheatcapacitykluitenberg(VolumetricWaterContent:'Array[float]
                                ** unit : 
                  * name: BulkDensity
                                ** description : Bulk density
-                               ** inputtype : variable
-                               ** variablecategory : auxiliary
+                               ** inputtype : parameter
+                               ** parametercategory : constant
                                ** datatype : DOUBLEARRAY
                                ** len : 
                                ** max : 1.8
