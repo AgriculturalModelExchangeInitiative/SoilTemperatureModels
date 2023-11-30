@@ -9,11 +9,12 @@ namespace SiriusQualitySurfacePartonSoilSWATC.DomainClass
 {
     public class SurfacePartonSoilSWATCExogenous : ICloneable, IDomainClass
     {
-        private double _AboveGroundBiomass;
         private double _DayLength;
-        private double _AirTemperatureMinimum;
         private double _GlobalSolarRadiation;
+        private double _AboveGroundBiomass;
+        private double _AirTemperatureMinimum;
         private double _AirTemperatureMaximum;
+        private double[] _VolumetricWaterContent;
         private ParametersIO _parametersIO;
 
         public SurfacePartonSoilSWATCExogenous()
@@ -25,38 +26,47 @@ namespace SiriusQualitySurfacePartonSoilSWATC.DomainClass
         {
             if (copyAll)
             {
-                AboveGroundBiomass = toCopy.AboveGroundBiomass;
                 DayLength = toCopy.DayLength;
-                AirTemperatureMinimum = toCopy.AirTemperatureMinimum;
                 GlobalSolarRadiation = toCopy.GlobalSolarRadiation;
+                AboveGroundBiomass = toCopy.AboveGroundBiomass;
+                AirTemperatureMinimum = toCopy.AirTemperatureMinimum;
                 AirTemperatureMaximum = toCopy.AirTemperatureMaximum;
+                VolumetricWaterContent = new double[toCopy.VolumetricWaterContent.Length];
+            for (int i = 0; i < toCopy.VolumetricWaterContent.Length; i++)
+            { VolumetricWaterContent[i] = toCopy.VolumetricWaterContent[i]; }
+    
             }
         }
 
-        public double AboveGroundBiomass
-        {
-            get { return this._AboveGroundBiomass; }
-            set { this._AboveGroundBiomass= value; } 
-        }
         public double DayLength
         {
             get { return this._DayLength; }
             set { this._DayLength= value; } 
-        }
-        public double AirTemperatureMinimum
-        {
-            get { return this._AirTemperatureMinimum; }
-            set { this._AirTemperatureMinimum= value; } 
         }
         public double GlobalSolarRadiation
         {
             get { return this._GlobalSolarRadiation; }
             set { this._GlobalSolarRadiation= value; } 
         }
+        public double AboveGroundBiomass
+        {
+            get { return this._AboveGroundBiomass; }
+            set { this._AboveGroundBiomass= value; } 
+        }
+        public double AirTemperatureMinimum
+        {
+            get { return this._AirTemperatureMinimum; }
+            set { this._AirTemperatureMinimum= value; } 
+        }
         public double AirTemperatureMaximum
         {
             get { return this._AirTemperatureMaximum; }
             set { this._AirTemperatureMaximum= value; } 
+        }
+        public double[] VolumetricWaterContent
+        {
+            get { return this._VolumetricWaterContent; }
+            set { this._VolumetricWaterContent= value; } 
         }
 
         public string Description
@@ -76,11 +86,12 @@ namespace SiriusQualitySurfacePartonSoilSWATC.DomainClass
 
         public virtual Boolean ClearValues()
         {
-             _AboveGroundBiomass = default(double);
              _DayLength = default(double);
-             _AirTemperatureMinimum = default(double);
              _GlobalSolarRadiation = default(double);
+             _AboveGroundBiomass = default(double);
+             _AirTemperatureMinimum = default(double);
              _AirTemperatureMaximum = default(double);
+             _VolumetricWaterContent = new double[];
             return true;
         }
 

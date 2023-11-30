@@ -53,21 +53,21 @@ namespace SiriusModel.Model.SurfacePartonSoilSWATC
 
         private void loadParameters()
         {
+            surfacepartonsoilswatcComponent.LayerThickness = LayerThickness;
             surfacepartonsoilswatcComponent.BulkDensity = BulkDensity;
+            surfacepartonsoilswatcComponent.SoilProfileDepth = SoilProfileDepth;
             surfacepartonsoilswatcComponent.AirTemperatureAnnualAverage = AirTemperatureAnnualAverage;
             surfacepartonsoilswatcComponent.LagCoefficient = LagCoefficient;
-            surfacepartonsoilswatcComponent.LayerThickness = LayerThickness;
-            surfacepartonsoilswatcComponent.SoilProfileDepth = SoilProfileDepth;
         }
 
-        public void EstimateSurfacePartonSoilSWATC(double[] VolumetricWaterContent, double AboveGroundBiomass, double DayLength, double AirTemperatureMinimum, double GlobalSolarRadiation, double AirTemperatureMaximum)
+        public void EstimateSurfacePartonSoilSWATC(double DayLength, double GlobalSolarRadiation, double AboveGroundBiomass, double AirTemperatureMinimum, double AirTemperatureMaximum, double[] VolumetricWaterContent)
         {
-            a.VolumetricWaterContent = VolumetricWaterContent;
-            a.AboveGroundBiomass = AboveGroundBiomass;
             a.DayLength = DayLength;
-            a.AirTemperatureMinimum = AirTemperatureMinimum;
             a.GlobalSolarRadiation = GlobalSolarRadiation;
+            a.AboveGroundBiomass = AboveGroundBiomass;
+            a.AirTemperatureMinimum = AirTemperatureMinimum;
             a.AirTemperatureMaximum = AirTemperatureMaximum;
+            a.VolumetricWaterContent = VolumetricWaterContent;
             surfacepartonsoilswatcComponent.CalculateModel(s,s1, r, a, ex);
         }
 

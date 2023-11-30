@@ -90,10 +90,10 @@ namespace SurfacePartonSoilSWATC.Strategies
             //Inputs
             List<PropertyDescription> _inputs0_0 = new List<PropertyDescription>();
             PropertyDescription pd1 = new PropertyDescription();
-            pd1.DomainClassType = typeof(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCAuxiliary);
+            pd1.DomainClassType = typeof(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCExogenous);
             pd1.PropertyName = "VolumetricWaterContent";
-            pd1.PropertyType = (SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCAuxiliaryVarInfo.VolumetricWaterContent).ValueType.TypeForCurrentValue;
-            pd1.PropertyVarInfo =(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCAuxiliaryVarInfo.VolumetricWaterContent);
+            pd1.PropertyType = (SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCExogenousVarInfo.VolumetricWaterContent).ValueType.TypeForCurrentValue;
+            pd1.PropertyVarInfo =(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCExogenousVarInfo.VolumetricWaterContent);
             _inputs0_0.Add(pd1);
             PropertyDescription pd2 = new PropertyDescription();
             pd2.DomainClassType = typeof(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCAuxiliary);
@@ -353,13 +353,13 @@ namespace SurfacePartonSoilSWATC.Strategies
             try
             {
                 //Set current values of the inputs to the static VarInfo representing the inputs properties of the domain classes
-                SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCAuxiliaryVarInfo.VolumetricWaterContent.CurrentValue=a.VolumetricWaterContent;
+                SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCExogenousVarInfo.VolumetricWaterContent.CurrentValue=ex.VolumetricWaterContent;
                 SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCAuxiliaryVarInfo.SurfaceSoilTemperature.CurrentValue=a.SurfaceSoilTemperature;
                 SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SoilTemperatureByLayers.CurrentValue=s.SoilTemperatureByLayers;
                 ConditionsCollection prc = new ConditionsCollection();
                 Preconditions pre = new Preconditions(); 
-                RangeBasedCondition r1 = new RangeBasedCondition(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCAuxiliaryVarInfo.VolumetricWaterContent);
-                if(r1.ApplicableVarInfoValueTypes.Contains( SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCAuxiliaryVarInfo.VolumetricWaterContent.ValueType)){prc.AddCondition(r1);}
+                RangeBasedCondition r1 = new RangeBasedCondition(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCExogenousVarInfo.VolumetricWaterContent);
+                if(r1.ApplicableVarInfoValueTypes.Contains( SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCExogenousVarInfo.VolumetricWaterContent.ValueType)){prc.AddCondition(r1);}
                 RangeBasedCondition r2 = new RangeBasedCondition(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCAuxiliaryVarInfo.SurfaceSoilTemperature);
                 if(r2.ApplicableVarInfoValueTypes.Contains( SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCAuxiliaryVarInfo.SurfaceSoilTemperature.ValueType)){prc.AddCondition(r2);}
                 RangeBasedCondition r3 = new RangeBasedCondition(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCStateVarInfo.SoilTemperatureByLayers);
@@ -393,6 +393,7 @@ namespace SurfacePartonSoilSWATC.Strategies
 
         public void Init(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCState s, SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCState s1, SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCRate r, SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCAuxiliary a, SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCExogenous ex)
         {
+            double[] VolumetricWaterContent = ex.VolumetricWaterContent;
             double[] SoilTemperatureByLayers ;
             int i;
             SoilTemperatureByLayers = new double[LayerThickness.Length];
@@ -405,7 +406,7 @@ namespace SurfacePartonSoilSWATC.Strategies
 
         private void CalculateModel(SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCState s, SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCState s1, SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCRate r, SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCAuxiliary a, SurfacePartonSoilSWATC.DomainClass.SurfacePartonSoilSWATCExogenous ex)
         {
-            double[] VolumetricWaterContent = a.VolumetricWaterContent;
+            double[] VolumetricWaterContent = ex.VolumetricWaterContent;
             double SurfaceSoilTemperature = a.SurfaceSoilTemperature;
             double[] SoilTemperatureByLayers = s.SoilTemperatureByLayers;
             int i;

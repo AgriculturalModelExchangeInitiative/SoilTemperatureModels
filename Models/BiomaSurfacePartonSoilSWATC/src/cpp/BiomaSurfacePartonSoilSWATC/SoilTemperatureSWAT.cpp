@@ -12,6 +12,7 @@
 using namespace BiomaSurfacePartonSoilSWATC;
 void SoilTemperatureSWAT::Init(SurfacePartonSoilSWATCState &s, SurfacePartonSoilSWATCState &s1, SurfacePartonSoilSWATCRate &r, SurfacePartonSoilSWATCAuxiliary &a, SurfacePartonSoilSWATCExogenous &ex)
 {
+    std::vector<double> & VolumetricWaterContent = ex.getVolumetricWaterContent();
     std::vector<double> SoilTemperatureByLayers;
     int i;
     fill(SoilTemperatureByLayers.begin(),SoilTemperatureByLayers.end(), 0.0);
@@ -50,7 +51,7 @@ void SoilTemperatureSWAT::Calculate_Model(SurfacePartonSoilSWATCState &s, Surfac
     //            * name: VolumetricWaterContent
     //                          ** description : Volumetric soil water content
     //                          ** inputtype : variable
-    //                          ** variablecategory : auxiliary
+    //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 0.8
@@ -132,7 +133,7 @@ void SoilTemperatureSWAT::Calculate_Model(SurfacePartonSoilSWATCState &s, Surfac
     //                          ** max : 60
     //                          ** min : -60
     //                          ** unit : degC
-    std::vector<double> & VolumetricWaterContent = a.getVolumetricWaterContent();
+    std::vector<double> & VolumetricWaterContent = ex.getVolumetricWaterContent();
     double SurfaceSoilTemperature = a.getSurfaceSoilTemperature();
     std::vector<double> & SoilTemperatureByLayers = s.getSoilTemperatureByLayers();
     int i;

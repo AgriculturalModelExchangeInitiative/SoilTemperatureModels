@@ -49,18 +49,18 @@ public class SurfaceTemperatureParton extends FWSimComponent
     @Override
     protected void process()
     {
-        Double t_DayLength = DayLength.getValue();
-        Double t_AirTemperatureMaximum = AirTemperatureMaximum.getValue();
-        Double t_AirTemperatureMinimum = AirTemperatureMinimum.getValue();
-        Double t_AboveGroundBiomass = AboveGroundBiomass.getValue();
-        Double t_GlobalSolarRadiation = GlobalSolarRadiation.getValue();
-        Double t_SurfaceTemperatureMinimum;
-        Double t_SurfaceTemperatureMaximum;
-        Double t_SurfaceSoilTemperature;
-        Double _AGB;
-        Double _AirTMax;
-        Double _AirTmin;
-        Double _SolarRad;
+        double t_DayLength = DayLength.getValue();
+        double t_AirTemperatureMaximum = AirTemperatureMaximum.getValue();
+        double t_AirTemperatureMinimum = AirTemperatureMinimum.getValue();
+        double t_AboveGroundBiomass = AboveGroundBiomass.getValue();
+        double t_GlobalSolarRadiation = GlobalSolarRadiation.getValue();
+        double t_SurfaceTemperatureMinimum;
+        double t_SurfaceTemperatureMaximum;
+        double t_SurfaceSoilTemperature;
+        double _AGB;
+        double _AirTMax;
+        double _AirTmin;
+        double _SolarRad;
         _AGB = t_AboveGroundBiomass / 10000;
         _AirTMax = t_AirTemperatureMaximum;
         _AirTmin = t_AirTemperatureMinimum;

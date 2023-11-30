@@ -9,7 +9,6 @@ namespace SurfacePartonSoilSWATC.DomainClass
 {
     public class SurfacePartonSoilSWATCAuxiliary : ICloneable, IDomainClass
     {
-        private double[] _VolumetricWaterContent;
         private double _SurfaceTemperatureMinimum;
         private double _SurfaceTemperatureMaximum;
         private double _SurfaceSoilTemperature;
@@ -24,21 +23,12 @@ namespace SurfacePartonSoilSWATC.DomainClass
         {
             if (copyAll)
             {
-                VolumetricWaterContent = new double[toCopy.VolumetricWaterContent.Length];
-            for (int i = 0; i < toCopy.VolumetricWaterContent.Length; i++)
-            { VolumetricWaterContent[i] = toCopy.VolumetricWaterContent[i]; }
-    
                 SurfaceTemperatureMinimum = toCopy.SurfaceTemperatureMinimum;
                 SurfaceTemperatureMaximum = toCopy.SurfaceTemperatureMaximum;
                 SurfaceSoilTemperature = toCopy.SurfaceSoilTemperature;
             }
         }
 
-        public double[] VolumetricWaterContent
-        {
-            get { return this._VolumetricWaterContent; }
-            set { this._VolumetricWaterContent= value; } 
-        }
         public double SurfaceTemperatureMinimum
         {
             get { return this._SurfaceTemperatureMinimum; }
@@ -72,7 +62,6 @@ namespace SurfacePartonSoilSWATC.DomainClass
 
         public virtual Boolean ClearValues()
         {
-             _VolumetricWaterContent = default(double[]);
              _SurfaceTemperatureMinimum = default(double);
              _SurfaceTemperatureMaximum = default(double);
              _SurfaceSoilTemperature = default(double);

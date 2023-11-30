@@ -1,7 +1,8 @@
 import numpy
 from math import *
 
-def init_soiltemperatureswat(float LayerThickness[],
+def init_soiltemperatureswat(float VolumetricWaterContent[],
+                             float LayerThickness[],
                              float LagCoefficient,
                              float AirTemperatureAnnualAverage,
                              float BulkDensity[],

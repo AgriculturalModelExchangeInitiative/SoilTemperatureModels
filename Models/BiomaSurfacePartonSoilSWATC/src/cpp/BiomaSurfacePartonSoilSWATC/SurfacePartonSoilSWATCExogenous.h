@@ -8,23 +8,26 @@ namespace BiomaSurfacePartonSoilSWATC {
 class SurfacePartonSoilSWATCExogenous
 {
     private:
-        double AboveGroundBiomass ;
         double DayLength ;
-        double AirTemperatureMinimum ;
         double GlobalSolarRadiation ;
+        double AboveGroundBiomass ;
+        double AirTemperatureMinimum ;
         double AirTemperatureMaximum ;
+        std::vector<double> VolumetricWaterContent ;
     public:
         SurfacePartonSoilSWATCExogenous();
-        double getAboveGroundBiomass();
-        void setAboveGroundBiomass(double _AboveGroundBiomass);
         double getDayLength();
         void setDayLength(double _DayLength);
-        double getAirTemperatureMinimum();
-        void setAirTemperatureMinimum(double _AirTemperatureMinimum);
         double getGlobalSolarRadiation();
         void setGlobalSolarRadiation(double _GlobalSolarRadiation);
+        double getAboveGroundBiomass();
+        void setAboveGroundBiomass(double _AboveGroundBiomass);
+        double getAirTemperatureMinimum();
+        void setAirTemperatureMinimum(double _AirTemperatureMinimum);
         double getAirTemperatureMaximum();
         void setAirTemperatureMaximum(double _AirTemperatureMaximum);
+        std::vector<double> & getVolumetricWaterContent();
+        void setVolumetricWaterContent(const std::vector<double> &  _VolumetricWaterContent);
 
 };
 }

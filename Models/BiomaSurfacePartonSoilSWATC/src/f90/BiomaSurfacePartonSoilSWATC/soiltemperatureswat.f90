@@ -3,7 +3,8 @@ MODULE Soiltemperatureswatmod
     IMPLICIT NONE
 CONTAINS
 
-    SUBROUTINE init_soiltemperatureswat(LayerThickness, &
+    SUBROUTINE init_soiltemperatureswat(VolumetricWaterContent, &
+        LayerThickness, &
         LagCoefficient, &
         AirTemperatureAnnualAverage, &
         BulkDensity, &
@@ -11,6 +12,7 @@ CONTAINS
         SoilTemperatureByLayers)
         IMPLICIT NONE
         INTEGER:: i_cyml_r
+        REAL , DIMENSION(: ), INTENT(IN) :: VolumetricWaterContent
         REAL , DIMENSION(: ), INTENT(IN) :: LayerThickness
         REAL, INTENT(IN) :: LagCoefficient
         REAL, INTENT(IN) :: AirTemperatureAnnualAverage
@@ -64,7 +66,7 @@ CONTAINS
     !            * name: VolumetricWaterContent
     !                          ** description : Volumetric soil water content
     !                          ** inputtype : variable
-    !                          ** variablecategory : auxiliary
+    !                          ** variablecategory : exogenous
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
     !                          ** max : 0.8

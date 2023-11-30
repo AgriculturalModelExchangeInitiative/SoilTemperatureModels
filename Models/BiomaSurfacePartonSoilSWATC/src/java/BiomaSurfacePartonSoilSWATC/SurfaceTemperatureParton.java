@@ -85,18 +85,18 @@ public class SurfaceTemperatureParton
     //                          ** max : 60
     //                          ** min : -60
     //                          ** unit : degC
-        Double DayLength = ex.getDayLength();
-        Double AirTemperatureMaximum = ex.getAirTemperatureMaximum();
-        Double AirTemperatureMinimum = ex.getAirTemperatureMinimum();
-        Double AboveGroundBiomass = ex.getAboveGroundBiomass();
-        Double GlobalSolarRadiation = ex.getGlobalSolarRadiation();
-        Double SurfaceTemperatureMinimum;
-        Double SurfaceTemperatureMaximum;
-        Double SurfaceSoilTemperature;
-        Double _AGB;
-        Double _AirTMax;
-        Double _AirTmin;
-        Double _SolarRad;
+        double DayLength = ex.getDayLength();
+        double AirTemperatureMaximum = ex.getAirTemperatureMaximum();
+        double AirTemperatureMinimum = ex.getAirTemperatureMinimum();
+        double AboveGroundBiomass = ex.getAboveGroundBiomass();
+        double GlobalSolarRadiation = ex.getGlobalSolarRadiation();
+        double SurfaceTemperatureMinimum;
+        double SurfaceTemperatureMaximum;
+        double SurfaceSoilTemperature;
+        double _AGB;
+        double _AirTMax;
+        double _AirTmin;
+        double _SolarRad;
         _AGB = AboveGroundBiomass / 10000;
         _AirTMax = AirTemperatureMaximum;
         _AirTmin = AirTemperatureMinimum;

@@ -49,11 +49,12 @@ public class SoilTemperatureSWAT extends FWSimComponent
     @Override
     protected void init()
     {
+        Double [] t_VolumetricWaterContent = VolumetricWaterContent.getValue();
         Double [] t_LayerThickness = LayerThickness.getValue();
-        Double t_LagCoefficient = LagCoefficient.getValue();
-        Double t_AirTemperatureAnnualAverage = AirTemperatureAnnualAverage.getValue();
+        double t_LagCoefficient = LagCoefficient.getValue();
+        double t_AirTemperatureAnnualAverage = AirTemperatureAnnualAverage.getValue();
         Double [] t_BulkDensity = BulkDensity.getValue();
-        Double t_SoilProfileDepth = SoilProfileDepth.getValue();
+        double t_SoilProfileDepth = SoilProfileDepth.getValue();
         Double [] t_SoilTemperatureByLayers = SoilTemperatureByLayers.getDefault();
         Integer i;
         Arrays.fill(t_SoilTemperatureByLayers, 0.0d);
@@ -67,23 +68,23 @@ public class SoilTemperatureSWAT extends FWSimComponent
     protected void process()
     {
         Double [] t_VolumetricWaterContent = VolumetricWaterContent.getValue();
-        Double t_SurfaceSoilTemperature = SurfaceSoilTemperature.getValue();
+        double t_SurfaceSoilTemperature = SurfaceSoilTemperature.getValue();
         Double [] t_LayerThickness = LayerThickness.getValue();
-        Double t_LagCoefficient = LagCoefficient.getValue();
+        double t_LagCoefficient = LagCoefficient.getValue();
         Double [] t_SoilTemperatureByLayers = SoilTemperatureByLayers.getValue();
-        Double t_AirTemperatureAnnualAverage = AirTemperatureAnnualAverage.getValue();
+        double t_AirTemperatureAnnualAverage = AirTemperatureAnnualAverage.getValue();
         Double [] t_BulkDensity = BulkDensity.getValue();
-        Double t_SoilProfileDepth = SoilProfileDepth.getValue();
+        double t_SoilProfileDepth = SoilProfileDepth.getValue();
         Integer i;
-        Double _SoilProfileDepthmm;
-        Double _TotalWaterContentmm;
-        Double _MaximumDumpingDepth;
-        Double _DumpingDepth;
-        Double _ScalingFactor;
-        Double _DepthBottom;
-        Double _RatioCenter;
-        Double _DepthFactor;
-        Double _DepthCenterLayer;
+        double _SoilProfileDepthmm;
+        double _TotalWaterContentmm;
+        double _MaximumDumpingDepth;
+        double _DumpingDepth;
+        double _ScalingFactor;
+        double _DepthBottom;
+        double _RatioCenter;
+        double _DepthFactor;
+        double _DepthCenterLayer;
         _SoilProfileDepthmm = t_SoilProfileDepth * 1000;
         _TotalWaterContentmm = (double)(0);
         for (i=0 ; i!=t_LayerThickness.length ; i+=1)

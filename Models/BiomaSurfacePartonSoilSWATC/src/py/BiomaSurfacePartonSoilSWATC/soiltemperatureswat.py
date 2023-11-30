@@ -8,7 +8,8 @@ from datetime import datetime
 import numpy
 
 #%%CyML Init Begin%%
-def init_soiltemperatureswat(LayerThickness:'Array[float]',
+def init_soiltemperatureswat(VolumetricWaterContent:'Array[float]',
+         LayerThickness:'Array[float]',
          LagCoefficient:float,
          AirTemperatureAnnualAverage:float,
          BulkDensity:'Array[float]',
@@ -43,7 +44,7 @@ def model_soiltemperatureswat(VolumetricWaterContent:'Array[float]',
                  * name: VolumetricWaterContent
                                ** description : Volumetric soil water content
                                ** inputtype : variable
-                               ** variablecategory : auxiliary
+                               ** variablecategory : exogenous
                                ** datatype : DOUBLEARRAY
                                ** len : 
                                ** max : 0.8

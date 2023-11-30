@@ -563,7 +563,7 @@ namespace UNIMI.SoilT.Strategies.Soil
                  * name: VolumetricWaterContent
                                ** description : Volumetric soil water content
                                ** inputtype : variable
-                               ** variablecategory : auxiliary
+                               ** variablecategory : exogenous
                                ** datatype : DOUBLEARRAY
                                ** len : 
                                ** max : 0.8
