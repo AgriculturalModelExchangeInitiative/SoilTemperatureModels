@@ -4,20 +4,20 @@ import java.time.LocalDateTime;
 
 public class SoilTemperatureExogenous
 {
-    private Double iAirTemperatureMax;
-    private Double iTempMax;
-    private Double iAirTemperatureMin;
-    private Double iTempMin;
-    private Double iGlobalSolarRadiation;
-    private Double iRadiation;
-    private Double iRAIN;
-    private Double iCropResidues;
-    private Double iPotentialSoilEvaporation;
-    private Double iLeafAreaIndex;
+    private double iAirTemperatureMax;
+    private double iTempMax;
+    private double iAirTemperatureMin;
+    private double iTempMin;
+    private double iGlobalSolarRadiation;
+    private double iRadiation;
+    private double iRAIN;
+    private double iCropResidues;
+    private double iPotentialSoilEvaporation;
+    private double iLeafAreaIndex;
     private Double [] SoilTempArray;
     private Double [] iSoilTempArray;
-    private Double iSoilWaterContent;
-    private Double iSoilSurfaceTemperature;
+    private double iSoilWaterContent;
+    private double iSoilSurfaceTemperature;
     
     public SoilTemperatureExogenous() { }
     
@@ -49,64 +49,64 @@ public class SoilTemperatureExogenous
             this.iSoilSurfaceTemperature = toCopy.getiSoilSurfaceTemperature();
         }
     }
-    public Double getiAirTemperatureMax()
+    public double getiAirTemperatureMax()
     { return iAirTemperatureMax; }
 
-    public void setiAirTemperatureMax(Double _iAirTemperatureMax)
+    public void setiAirTemperatureMax(double _iAirTemperatureMax)
     { this.iAirTemperatureMax= _iAirTemperatureMax; } 
     
-    public Double getiTempMax()
+    public double getiTempMax()
     { return iTempMax; }
 
-    public void setiTempMax(Double _iTempMax)
+    public void setiTempMax(double _iTempMax)
     { this.iTempMax= _iTempMax; } 
     
-    public Double getiAirTemperatureMin()
+    public double getiAirTemperatureMin()
     { return iAirTemperatureMin; }
 
-    public void setiAirTemperatureMin(Double _iAirTemperatureMin)
+    public void setiAirTemperatureMin(double _iAirTemperatureMin)
     { this.iAirTemperatureMin= _iAirTemperatureMin; } 
     
-    public Double getiTempMin()
+    public double getiTempMin()
     { return iTempMin; }
 
-    public void setiTempMin(Double _iTempMin)
+    public void setiTempMin(double _iTempMin)
     { this.iTempMin= _iTempMin; } 
     
-    public Double getiGlobalSolarRadiation()
+    public double getiGlobalSolarRadiation()
     { return iGlobalSolarRadiation; }
 
-    public void setiGlobalSolarRadiation(Double _iGlobalSolarRadiation)
+    public void setiGlobalSolarRadiation(double _iGlobalSolarRadiation)
     { this.iGlobalSolarRadiation= _iGlobalSolarRadiation; } 
     
-    public Double getiRadiation()
+    public double getiRadiation()
     { return iRadiation; }
 
-    public void setiRadiation(Double _iRadiation)
+    public void setiRadiation(double _iRadiation)
     { this.iRadiation= _iRadiation; } 
     
-    public Double getiRAIN()
+    public double getiRAIN()
     { return iRAIN; }
 
-    public void setiRAIN(Double _iRAIN)
+    public void setiRAIN(double _iRAIN)
     { this.iRAIN= _iRAIN; } 
     
-    public Double getiCropResidues()
+    public double getiCropResidues()
     { return iCropResidues; }
 
-    public void setiCropResidues(Double _iCropResidues)
+    public void setiCropResidues(double _iCropResidues)
     { this.iCropResidues= _iCropResidues; } 
     
-    public Double getiPotentialSoilEvaporation()
+    public double getiPotentialSoilEvaporation()
     { return iPotentialSoilEvaporation; }
 
-    public void setiPotentialSoilEvaporation(Double _iPotentialSoilEvaporation)
+    public void setiPotentialSoilEvaporation(double _iPotentialSoilEvaporation)
     { this.iPotentialSoilEvaporation= _iPotentialSoilEvaporation; } 
     
-    public Double getiLeafAreaIndex()
+    public double getiLeafAreaIndex()
     { return iLeafAreaIndex; }
 
-    public void setiLeafAreaIndex(Double _iLeafAreaIndex)
+    public void setiLeafAreaIndex(double _iLeafAreaIndex)
     { this.iLeafAreaIndex= _iLeafAreaIndex; } 
     
     public Double [] getSoilTempArray()
@@ -121,16 +121,16 @@ public class SoilTemperatureExogenous
     public void setiSoilTempArray(Double [] _iSoilTempArray)
     { this.iSoilTempArray= _iSoilTempArray; } 
     
-    public Double getiSoilWaterContent()
+    public double getiSoilWaterContent()
     { return iSoilWaterContent; }
 
-    public void setiSoilWaterContent(Double _iSoilWaterContent)
+    public void setiSoilWaterContent(double _iSoilWaterContent)
     { this.iSoilWaterContent= _iSoilWaterContent; } 
     
-    public Double getiSoilSurfaceTemperature()
+    public double getiSoilSurfaceTemperature()
     { return iSoilSurfaceTemperature; }
 
-    public void setiSoilSurfaceTemperature(Double _iSoilSurfaceTemperature)
+    public void setiSoilSurfaceTemperature(double _iSoilSurfaceTemperature)
     { this.iSoilSurfaceTemperature= _iSoilSurfaceTemperature; } 
     
 }

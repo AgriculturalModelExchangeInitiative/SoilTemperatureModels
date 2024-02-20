@@ -33,7 +33,6 @@ init_stmpsimcalculator <- function (cSoilLayerDepth,
             depth <- tProfileDepth + firstAdditionalLayerHight + i - length(cSoilLayerDepth)
         }
         tz[i+1] <- depth
-        tStmpRate[i+1] <- 0.0
         tStmp[i+1] <- (cFirstDayMeanTemp * (cDampingDepth - depth) + (cAVT * depth)) / cDampingDepth
     }
     rSoilTempArrayRate <- tStmpRate
@@ -131,8 +130,8 @@ model_stmpsimcalculator <- function (cSoilLayerDepth,
     #'                          ** variablecategory : state
     #'                          ** datatype : DOUBLEARRAY
     #'                          ** len : 
-    #'                          ** max : 40
-    #'                          ** min : -20
+    #'                          ** max : 50.0
+    #'                          ** min : -40.0
     #'                          ** default : 
     #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
     #'            * name: rSoilTempArrayRate
@@ -141,7 +140,7 @@ model_stmpsimcalculator <- function (cSoilLayerDepth,
     #'                          ** variablecategory : state
     #'                          ** datatype : DOUBLEARRAY
     #'                          ** len : 
-    #'                          ** max : 40
+    #'                          ** max : 20
     #'                          ** min : -20
     #'                          ** default : 
     #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
@@ -161,15 +160,15 @@ model_stmpsimcalculator <- function (cSoilLayerDepth,
     #'                          ** datatype : DOUBLEARRAY
     #'                          ** variablecategory : state
     #'                          ** len : 
-    #'                          ** max : 40
-    #'                          ** min : -20
+    #'                          ** max : 50.0
+    #'                          ** min : -40.0
     #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
     #'            * name: rSoilTempArrayRate
     #'                          ** description : Array of daily temperature change
     #'                          ** datatype : DOUBLEARRAY
     #'                          ** variablecategory : state
     #'                          ** len : 
-    #'                          ** max : 40
+    #'                          ** max : 20
     #'                          ** min : -20
     #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
     XLAG <- .8

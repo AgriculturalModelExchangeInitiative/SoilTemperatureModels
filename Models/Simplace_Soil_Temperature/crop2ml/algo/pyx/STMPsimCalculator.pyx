@@ -25,7 +25,7 @@ for i in range(0 , len(SoilTempArray) , 1):
     #b'/Factor of the depth in soil: Middle of depth of layer divided by damping depth'
     ZD=0.5 * (Z1 + pSoilLayerDepth[i]) / DD
     RATE=ZD / (ZD + exp(-.8669 - (2.0775 * ZD))) * (cAVT - iSoilSurfaceTemperature)
-    #b'/RATE = Rate of change of STMP(ISL) (\xc3\x83\xe2\x80\x9a\xc3\x82\xc2\xb0C)'
+    #b'/RATE = Rate of change of STMP(ISL) (\xc3\x82\xc2\xb0C)'
     RATE=XLG1 * (RATE + iSoilSurfaceTemperature - SoilTempArray[i])
     Z1=pSoilLayerDepth[i]
     rSoilTempArrayRate[i]=RATE

@@ -9,7 +9,7 @@ namespace SoilTemperature.DomainClass
 {
     public class SoilTemperatureStateVarInfo : IVarInfoClass
     {
-        static VarInfo _Albedo = new VarInfo();
+        static VarInfo _pInternalAlbedo = new VarInfo();
         static VarInfo _SnowWaterContent = new VarInfo();
         static VarInfo _SoilSurfaceTemperature = new VarInfo();
         static VarInfo _AgeOfSnow = new VarInfo();
@@ -37,9 +37,9 @@ namespace SoilTemperature.DomainClass
             get { return "SoilTemperatureState";}
         }
 
-        public static  VarInfo Albedo
+        public static  VarInfo pInternalAlbedo
         {
-            get { return _Albedo;}
+            get { return _pInternalAlbedo;}
         }
 
         public static  VarInfo SnowWaterContent
@@ -74,13 +74,13 @@ namespace SoilTemperature.DomainClass
 
         static void DescribeVariables()
         {
-            _Albedo.Name = "Albedo";
-            _Albedo.Description = "Albedo";
-            _Albedo.MaxValue = 1.0;
-            _Albedo.MinValue = 0.0;
-            _Albedo.DefaultValue = -1D;
-            _Albedo.Units = "http://www.wurvoc.org/vocabularies/om-1.8/one";
-            _Albedo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+            _pInternalAlbedo.Name = "pInternalAlbedo";
+            _pInternalAlbedo.Description = "Albedo privat";
+            _pInternalAlbedo.MaxValue = 1.0;
+            _pInternalAlbedo.MinValue = 0.0;
+            _pInternalAlbedo.DefaultValue = -1D;
+            _pInternalAlbedo.Units = "http://www.wurvoc.org/vocabularies/om-1.8/one";
+            _pInternalAlbedo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _SnowWaterContent.Name = "SnowWaterContent";
             _SnowWaterContent.Description = "Snow water content";
@@ -103,7 +103,7 @@ namespace SoilTemperature.DomainClass
             _AgeOfSnow.MaxValue = -1D;
             _AgeOfSnow.MinValue = 0;
             _AgeOfSnow.DefaultValue = 0;
-            _AgeOfSnow.Units = "http://www.wurvoc.org/vocabularies/om-1.8/one";
+            _AgeOfSnow.Units = "http://www.wurvoc.org/vocabularies/om-1.8/day";
             _AgeOfSnow.ValueType = VarInfoValueTypes.GetInstanceForName("Integer");
 
             _rSoilTempArrayRate.Name = "rSoilTempArrayRate";

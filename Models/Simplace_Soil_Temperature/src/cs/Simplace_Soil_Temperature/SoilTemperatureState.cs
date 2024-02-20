@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 public class SoilTemperatureState 
 {
-    private double _Albedo;
+    private double _pInternalAlbedo;
     private double _SnowWaterContent;
     private double _SoilSurfaceTemperature;
     private int _AgeOfSnow;
@@ -18,7 +18,7 @@ public class SoilTemperatureState
     if (copyAll)
     {
     
-    Albedo = toCopy.Albedo;
+    pInternalAlbedo = toCopy.pInternalAlbedo;
     SnowWaterContent = toCopy.SnowWaterContent;
     SoilSurfaceTemperature = toCopy.SoilSurfaceTemperature;
     AgeOfSnow = toCopy.AgeOfSnow;
@@ -36,10 +36,10 @@ public class SoilTemperatureState
     
     }
     }
-    public double Albedo
+    public double pInternalAlbedo
         {
-            get { return this._Albedo; }
-            set { this._Albedo= value; } 
+            get { return this._pInternalAlbedo; }
+            set { this._pInternalAlbedo= value; } 
         }
     public double SnowWaterContent
         {

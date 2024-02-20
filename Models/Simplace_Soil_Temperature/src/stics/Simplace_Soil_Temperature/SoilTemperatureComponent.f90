@@ -5,6 +5,7 @@ MODULE Soiltemperaturemod
 CONTAINS
 
     SUBROUTINE model_soiltemperature(cCarbonContent, &
+        cAlbedo, &
         iAirTemperatureMax, &
         iAirTemperatureMin, &
         iGlobalSolarRadiation, &
@@ -19,16 +20,20 @@ CONTAINS
         cAverageBulkDensity, &
         cDampingDepth, &
         iSoilWaterContent, &
-        Albedo, &
+        pInternalAlbedo, &
         SnowWaterContent, &
         SoilSurfaceTemperature, &
         AgeOfSnow, &
         rSoilTempArrayRate, &
         pSoilLayerDepth, &
-        SnowIsolationIndex)
+        SnowIsolationIndex, &
+        rSnowWaterContentRate, &
+        rSoilSurfaceTemperatureRate, &
+        rAgeOfSnowRate)
         IMPLICIT NONE
         INTEGER:: i_cyml_r
         REAL, INTENT(IN) :: cCarbonContent
+        REAL, INTENT(IN) :: cAlbedo
         REAL, INTENT(IN) :: iAirTemperatureMax
         REAL, INTENT(IN) :: iAirTemperatureMin
         REAL, INTENT(IN) :: iGlobalSolarRadiation
@@ -43,16 +48,24 @@ CONTAINS
         REAL, INTENT(IN) :: cAverageBulkDensity
         REAL, INTENT(IN) :: cDampingDepth
         REAL, INTENT(IN) :: iSoilWaterContent
-        REAL, INTENT(IN) :: Albedo
+        REAL, INTENT(IN) :: pInternalAlbedo
         REAL, INTENT(INOUT) :: SnowWaterContent
         REAL, INTENT(INOUT) :: SoilSurfaceTemperature
         INTEGER, INTENT(INOUT) :: AgeOfSnow
         REAL , DIMENSION(: ), INTENT(INOUT) :: rSoilTempArrayRate
         REAL , DIMENSION(: ), INTENT(IN) :: pSoilLayerDepth
+        INTEGER:: cInitialAgeOfSnow
+        REAL:: cInitialSnowWaterContent
+        REAL:: Albedo
+        REAL:: cSnowIsolationFactorA
+        REAL:: cSnowIsolationFactorB
         REAL:: iTempMax
         REAL:: iTempMin
         REAL:: iRadiation
         REAL , DIMENSION(: ), ALLOCATABLE :: iSoilTempArray
+        REAL, INTENT(OUT) :: rSnowWaterContentRate
+        REAL, INTENT(OUT) :: rSoilSurfaceTemperatureRate
+        INTEGER, INTENT(OUT) :: rAgeOfSnowRate
         REAL, INTENT(OUT) :: SnowIsolationIndex
         REAL:: cAVT
         REAL:: cABD
@@ -72,9 +85,18 @@ CONTAINS
     !                          ** parametercategory : constant
     !                          ** datatype : DOUBLE
     !                          ** max : 20.0
-    !                          ** min : 0.0
+    !                          ** min : 0.5
     !                          ** default : 0.5
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/percent
+    !            * name: cAlbedo
+    !                          ** description : Albedo
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
+    !                          ** datatype : DOUBLE
+    !                          ** max : 1.0
+    !                          ** min : 0.0
+    !                          ** default : 
+    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
     !            * name: iAirTemperatureMax
     !                          ** description : Daily maximum air temperature
     !                          ** inputtype : variable
@@ -109,7 +131,7 @@ CONTAINS
     !                          ** datatype : DOUBLE
     !                          ** max : 60.0
     !                          ** min : 0.0
-    !                          ** default : 
+    !                          ** default : 0.0
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/millimetre
     !            * name: iCropResidues
     !                          ** description : Crop residues plus above ground biomass
@@ -127,7 +149,7 @@ CONTAINS
     !                          ** datatype : DOUBLE
     !                          ** max : 12.0
     !                          ** min : 0.0
-    !                          ** default : 
+    !                          ** default : 0.0
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/millimetre
     !            * name: iLeafAreaIndex
     !                          ** description : Leaf area index
@@ -203,8 +225,8 @@ CONTAINS
     !                          ** min : 1.5
     !                          ** default : 5.0
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/millimetre
-    !            * name: Albedo
-    !                          ** description : Albedo
+    !            * name: pInternalAlbedo
+    !                          ** description : Albedo privat
     !                          ** inputtype : variable
     !                          ** variablecategory : state
     !                          ** datatype : DOUBLE
@@ -238,14 +260,14 @@ CONTAINS
     !                          ** max : 
     !                          ** min : 0
     !                          ** default : 0
-    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
+    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/day
     !            * name: rSoilTempArrayRate
     !                          ** description : Array of daily temperature change
     !                          ** inputtype : variable
     !                          ** variablecategory : state
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
-    !                          ** max : 40
+    !                          ** max : 20
     !                          ** min : -20
     !                          ** default : 
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
@@ -281,39 +303,64 @@ CONTAINS
     !                          ** max : 1500.0
     !                          ** min : 0.0
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/millimetre
-    !            * name: SoilTempArray
-    !                          ** description : Array of soil temperatures in layers 
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** variablecategory : state
-    !                          ** len : 
-    !                          ** max : 40
-    !                          ** min : -20
-    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
+    !            * name: rSnowWaterContentRate
+    !                          ** description : daily snow water content change rate
+    !                          ** datatype : DOUBLE
+    !                          ** variablecategory : rate
+    !                          ** max : 1500.0
+    !                          ** min : -1500.0
+    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/millimetre_per_day
+    !            * name: rSoilSurfaceTemperatureRate
+    !                          ** description : daily soil surface temperature change rate
+    !                          ** datatype : DOUBLE
+    !                          ** variablecategory : rate
+    !                          ** max : 70.0
+    !                          ** min : -40.0
+    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
+    !            * name: rAgeOfSnowRate
+    !                          ** description : daily age of snow change rate
+    !                          ** datatype : INT
+    !                          ** variablecategory : rate
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
     !            * name: AgeOfSnow
     !                          ** description : Age of snow
     !                          ** datatype : INT
     !                          ** variablecategory : state
     !                          ** max : 
     !                          ** min : 0
-    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
+    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/day
+    !            * name: SoilTempArray
+    !                          ** description : Array of soil temperatures in layers 
+    !                          ** datatype : DOUBLEARRAY
+    !                          ** variablecategory : state
+    !                          ** len : 
+    !                          ** max : 50.0
+    !                          ** min : -40.0
+    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
     !            * name: rSoilTempArrayRate
     !                          ** description : Array of daily temperature change
     !                          ** datatype : DOUBLEARRAY
     !                          ** variablecategory : state
     !                          ** len : 
-    !                          ** max : 40
+    !                          ** max : 20
     !                          ** min : -20
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
+        Albedo = cAlbedo
         iTempMax = iAirTemperatureMax
         iTempMin = iAirTemperatureMin
         iRadiation = iGlobalSolarRadiation
         iSoilTempArray = SoilTempArray
         cAVT = cAverageGroundTemperature
         cABD = cAverageBulkDensity
-        call model_snowcovercalculator(cCarbonContent, iTempMax, iTempMin,  &
+        call model_snowcovercalculator(cCarbonContent, cInitialAgeOfSnow,  &
+                cInitialSnowWaterContent, Albedo, pInternalAlbedo,  &
+                cSnowIsolationFactorA, cSnowIsolationFactorB, iTempMax, iTempMin,  &
                 iRadiation, iRAIN, iCropResidues, iPotentialSoilEvaporation,  &
-                iLeafAreaIndex, iSoilTempArray, Albedo, SnowWaterContent,  &
-                SoilSurfaceTemperature, AgeOfSnow,SnowIsolationIndex)
+                iLeafAreaIndex, iSoilTempArray, SnowWaterContent,  &
+                SoilSurfaceTemperature,  &
+                AgeOfSnow,rSnowWaterContentRate,rSoilSurfaceTemperatureRate,rAgeOfSnowRate,SnowIsolationIndex)
         iSoilSurfaceTemperature = SoilSurfaceTemperature
         call model_stmpsimcalculator(cSoilLayerDepth, cFirstDayMeanTemp,  &
                 cAVT, cABD, cDampingDepth, iSoilWaterContent,  &
