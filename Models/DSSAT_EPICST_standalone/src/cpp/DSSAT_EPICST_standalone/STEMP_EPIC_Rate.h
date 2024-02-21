@@ -1,11 +1,10 @@
-#ifndef _STEMP_EPIC_Rate_
-#define _STEMP_EPIC_Rate_
+#pragma once
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
-# include<vector>
-# include<string>
-using namespace std;
+#include <vector>
+#include <string>
+namespace DSSAT_EPICST_standalone {
 class STEMP_EPIC_Rate
 {
     private:
@@ -13,4 +12,4 @@ class STEMP_EPIC_Rate
         STEMP_EPIC_Rate();
 
 };
-#endif
+}
