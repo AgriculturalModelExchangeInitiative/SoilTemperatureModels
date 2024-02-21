@@ -1,9 +1,5 @@
-package net.simplace.sim.components.BiomaSurfacePartonSoilSWATC;
-import  java.io.*;
+package net.simplace.usermodules.amei.Bioma;
 import  java.util.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import net.simplace.sim.model.FWSimComponent;
 import net.simplace.sim.util.FWSimVarMap;
 import net.simplace.sim.util.FWSimVariable;
@@ -35,14 +31,14 @@ public class SoilTemperatureSWAT extends FWSimComponent
     @Override
     public HashMap<String, FWSimVariable<?>> createVariables()
     {
-        addVariable(FWSimVariable.createSimVariable("VolumetricWaterContent", "Volumetric soil water content", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.input,"m3 m-3", 0, 0.8, 0.25, this));
-        addVariable(FWSimVariable.createSimVariable("SurfaceSoilTemperature", "Average surface soil temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"degC", -60, 60, 25, this));
-        addVariable(FWSimVariable.createSimVariable("LayerThickness", "Soil layer thickness", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.constant,"m", 0.005, 3, 0.05, this));
+        addVariable(FWSimVariable.createSimVariable("VolumetricWaterContent", "Volumetric soil water content", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.input,"m3 m-3", 0, 0.8, null, this));
+        addVariable(FWSimVariable.createSimVariable("SurfaceSoilTemperature", "Average surface soil temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"degC", -60d, 60d, 25d, this));
+        addVariable(FWSimVariable.createSimVariable("LayerThickness", "Soil layer thickness", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.constant,"m", 0.005, 3d, null, this));
         addVariable(FWSimVariable.createSimVariable("LagCoefficient", "Lag coefficient that controls the influence of the previous day's temperature on the current day's temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"dimensionless", 0, 1, 0.8, this));
-        addVariable(FWSimVariable.createSimVariable("SoilTemperatureByLayers", "Soil temperature of each layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"degC", -60, 60, 15, this));
-        addVariable(FWSimVariable.createSimVariable("AirTemperatureAnnualAverage", "Annual average air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"degC", -40, 50, 15, this));
-        addVariable(FWSimVariable.createSimVariable("BulkDensity", "Bulk density", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.constant,"t m-3", 0.9, 1.8, 1.3, this));
-        addVariable(FWSimVariable.createSimVariable("SoilProfileDepth", "Soil profile depth", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"m", 0, 50, 3, this));
+        addVariable(FWSimVariable.createSimVariable("SoilTemperatureByLayers", "Soil temperature of each layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"degC", -60, 60, null, this));
+        addVariable(FWSimVariable.createSimVariable("AirTemperatureAnnualAverage", "Annual average air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"degC", -40d, 50d, 15d, this));
+        addVariable(FWSimVariable.createSimVariable("BulkDensity", "Bulk density", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.constant,"t m-3", 0.9, 1.8, null, this));
+        addVariable(FWSimVariable.createSimVariable("SoilProfileDepth", "Soil profile depth", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"m", 0, 50d, 3d, this));
 
         return iFieldMap;
     }
@@ -55,7 +51,7 @@ public class SoilTemperatureSWAT extends FWSimComponent
         double t_AirTemperatureAnnualAverage = AirTemperatureAnnualAverage.getValue();
         Double [] t_BulkDensity = BulkDensity.getValue();
         double t_SoilProfileDepth = SoilProfileDepth.getValue();
-        Double [] t_SoilTemperatureByLayers = SoilTemperatureByLayers.getDefault();
+        Double [] t_SoilTemperatureByLayers = new Double[t_LayerThickness.length];
         Integer i;
         Arrays.fill(t_SoilTemperatureByLayers, 0.0d);
         for (i=0 ; i!=t_LayerThickness.length ; i+=1)

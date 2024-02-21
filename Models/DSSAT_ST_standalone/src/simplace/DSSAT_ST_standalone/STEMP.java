@@ -1,15 +1,14 @@
-package net.simplace.sim.components.DSSAT_ST_standalone;
-import  java.io.*;
-import  java.util.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+package net.simplace.usermodules.amei.DSSAT_ST_standalone;
+import java.util.Arrays;
+import java.util.HashMap;
+
+import org.jdom2.Element;
+
 import net.simplace.sim.model.FWSimComponent;
 import net.simplace.sim.util.FWSimVarMap;
 import net.simplace.sim.util.FWSimVariable;
 import net.simplace.sim.util.FWSimVariable.CONTENT_TYPE;
 import net.simplace.sim.util.FWSimVariable.DATA_TYPE;
-import org.jdom2.Element;
 
 
 public class STEMP extends FWSimComponent
@@ -189,7 +188,7 @@ public class STEMP extends FWSimComponent
         }
         for (I=1 ; I!=8 + 1 ; I+=1)
         {
-            zz_SOILT = Calculate_SOILT(t_NL, ALBEDO, B, t_CUMDPT, t_DOY, DP, t_HDAY, t_NLAYR, PESW, t_SRAD, t_TAMP, t_TAV, t_TAVG, t_TMAX, WW, t_DSMID, t_ATOT, t_TMA);
+            zz_SOILT = Calculate_SOILT(t_NL, ALBEDO, B, t_CUMDPT, t_DOY, DP, t_HDAY, t_NLAYR, PESW, t_SRAD, t_TAMP, t_TAV, t_TAVG, t_TMAX, WW, t_DSMID, t_ATOT, t_TMA, t_ST);
             t_ATOT = zz_SOILT.getATOT();
             t_TMA = zz_SOILT.getTMA();
             t_SRFTEMP = zz_SOILT.getSRFTEMP();
@@ -260,7 +259,7 @@ public class STEMP extends FWSimComponent
         WW = 0.356d - (0.144d * ABD);
         B = Math.log(500.0d / DP);
         ALBEDO = t_MSALB;
-        if (t_ISWWAT == "Y")
+        if (t_ISWWAT.equalsIgnoreCase("Y"))
         {
             PESW = Math.max(0.0d, TSW - TLL);
         }
@@ -268,7 +267,7 @@ public class STEMP extends FWSimComponent
         {
             PESW = Math.max(0.0d, t_TDL - TLL);
         }
-        zz_SOILT = Calculate_SOILT(t_NL, ALBEDO, B, t_CUMDPT, t_DOY, DP, t_HDAY, t_NLAYR, PESW, t_SRAD, t_TAMP, t_TAV, t_TAVG, t_TMAX, WW, t_DSMID, t_ATOT, t_TMA);
+        zz_SOILT = Calculate_SOILT(t_NL, ALBEDO, B, t_CUMDPT, t_DOY, DP, t_HDAY, t_NLAYR, PESW, t_SRAD, t_TAMP, t_TAV, t_TAVG, t_TMAX, WW, t_DSMID, t_ATOT, t_TMA, t_ST);
         t_ATOT = zz_SOILT.getATOT();
         t_TMA = zz_SOILT.getTMA();
         t_SRFTEMP = zz_SOILT.getSRFTEMP();
@@ -281,7 +280,7 @@ public class STEMP extends FWSimComponent
         SRFTEMP.setValue(t_SRFTEMP, this);
         ST.setValue(t_ST, this);
     }
-    public SOILT Calculate_SOILT (Integer t_NL, Double ALBEDO, Double B, Double t_CUMDPT, Integer t_DOY, Double DP, Double t_HDAY, Integer t_NLAYR, Double PESW, Double t_SRAD, Double t_TAMP, Double t_TAV, Double t_TAVG, Double t_TMAX, Double WW, Double [] t_DSMID, Double t_ATOT, Double [] t_TMA)
+    public SOILT Calculate_SOILT (Integer t_NL, Double ALBEDO, Double B, Double t_CUMDPT, Integer t_DOY, Double DP, Double t_HDAY, Integer t_NLAYR, Double PESW, Double t_SRAD, Double t_TAMP, Double t_TAV, Double t_TAVG, Double t_TMAX, Double WW, Double [] t_DSMID, Double t_ATOT, Double [] t_TMA, Double[] t_ST)
     {
         Integer K;
         Integer L;
@@ -300,7 +299,7 @@ public class STEMP extends FWSimComponent
         {
             t_TMA[K - 1] = t_TMA[K - 1 - 1];
         }
-        t_TMA[1 - 1] = t_TAVG;
+        t_TMA[1 - 1] = (1.0d - ALBEDO) * (t_TAVG + ((t_TMAX - t_TAVG) * Math.sqrt(t_SRAD * 0.03d))) + (ALBEDO * t_TMA[(1 - 1)]);
         t_TMA[1 - 1] = (int)(t_TMA[(1 - 1)] * 10000.d) / 10000.d;
         t_ATOT = t_ATOT + t_TMA[1 - 1];
         WC = Math.max(0.01d, PESW) / (WW * t_CUMDPT) * 10.0d;
