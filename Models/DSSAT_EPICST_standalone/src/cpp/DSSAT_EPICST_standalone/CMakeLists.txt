@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
-project(DSSAT_ST_standalone)
+project(DSSAT_EPICST_standalone)
 
-message(STATUS "-> DSSAT_ST_standalone")
+message(STATUS "-> DSSAT_EPICST_standalone")
 
 # https://cmake.org/cmake/help/latest/prop_tgt/CXX_STANDARD.html
 set(CMAKE_CXX_STANDARD 17)
@@ -71,34 +71,34 @@ find_package(Threads REQUIRED)
 #------------------------------------------------------------------------------
 
 # create DSSAT_ST_standalone_lib
-add_library(DSSAT_ST_standalone_lib
-	STEMP.h
-	STEMP.cpp
-	STEMP_Auxiliary.h
-	STEMP_Auxiliary.cpp
-	STEMP_Component.h
-	STEMP_Component.cpp
-	STEMP_Exogenous.h
-	STEMP_Exogenous.cpp
-	STEMP_Rate.h
-	STEMP_Rate.cpp
-	STEMP_State.h
-	STEMP_State.cpp
+add_library(DSSAT_EPICST_standalone_lib
+	STEMP_EPIC.h
+	STEMP_EPIC.cpp
+	STEMP_EPIC_Auxiliary.h
+	STEMP_EPIC_Auxiliary.cpp
+	STEMP_EPIC_Component.h
+	STEMP_EPIC_Component.cpp
+	STEMP_EPIC_Exogenous.h
+	STEMP_EPIC_Exogenous.cpp
+	STEMP_EPIC_Rate.h
+	STEMP_EPIC_Rate.cpp
+	STEMP_EPIC_State.h
+	STEMP_EPIC_State.cpp
 )
-target_link_libraries(DSSAT_ST_standalone_lib
+target_link_libraries(DSSAT_EPICST_standalone_lib
 	PUBLIC
 	${CMAKE_THREAD_LIBS_INIT}
 	${CMAKE_DL_LIBS}
 )
-target_include_directories(DSSAT_ST_standalone_lib
+target_include_directories(DSSAT_EPICST_standalone_lib
 	PUBLIC
 	${CMAKE_CURRENT_SOURCE_DIR}     # for #include "STEMP_Component.h"
-	${CMAKE_CURRENT_SOURCE_DIR}/..  # for #include "DSSAT_ST_standalone/STEMP_Component.h"
+	${CMAKE_CURRENT_SOURCE_DIR}/..  # for #include "DSSAT_EPICST_standalone/STEMP_Component.h"
 )
 if (MSVC)
-	target_compile_options(DSSAT_ST_standalone_lib PRIVATE "/MT$<$<CONFIG:Debug>:d>")
+	target_compile_options(DSSAT_EPICST_standalone_lib PRIVATE "/MT$<$<CONFIG:Debug>:d>")
 endif()
 
 #------------------------------------------------------------------------------
 
-message(STATUS "<- DSSAT_ST_standalone")
+message(STATUS "<- DSSAT_EPICST_standalone")

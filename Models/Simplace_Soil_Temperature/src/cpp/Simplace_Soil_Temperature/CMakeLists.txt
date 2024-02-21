@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
-project(DSSAT_ST_standalone)
+project(Simplace_Soil_Temperature)
 
-message(STATUS "-> DSSAT_ST_standalone")
+message(STATUS "-> Simplace_Soil_Temperature")
 
 # https://cmake.org/cmake/help/latest/prop_tgt/CXX_STANDARD.html
 set(CMAKE_CXX_STANDARD 17)
@@ -71,34 +71,36 @@ find_package(Threads REQUIRED)
 #------------------------------------------------------------------------------
 
 # create DSSAT_ST_standalone_lib
-add_library(DSSAT_ST_standalone_lib
-	STEMP.h
-	STEMP.cpp
-	STEMP_Auxiliary.h
-	STEMP_Auxiliary.cpp
-	STEMP_Component.h
-	STEMP_Component.cpp
-	STEMP_Exogenous.h
-	STEMP_Exogenous.cpp
-	STEMP_Rate.h
-	STEMP_Rate.cpp
-	STEMP_State.h
-	STEMP_State.cpp
+add_library(Simplace_Soil_Temperature_lib
+	SnowCoverCalculator.cpp
+	SnowCoverCalculator.h
+	SoilTemperatureAuxiliary.h
+	SoilTemperatureAuxiliary.cpp
+	SoilTemperatureComponent.h
+	SoilTemperatureComponent.cpp
+	SoilTemperatureExogenous.h
+	SoilTemperatureExogenous.cpp
+	SoilTemperatureRate.h
+	SoilTemperatureRate.cpp
+	SoilTemperatureState.h
+	SoilTemperatureState.cpp
+	STMPsimCalculator.cpp
+	STMPSimCalculator.h
 )
-target_link_libraries(DSSAT_ST_standalone_lib
+target_link_libraries(Simplace_Soil_Temperature_lib
 	PUBLIC
 	${CMAKE_THREAD_LIBS_INIT}
 	${CMAKE_DL_LIBS}
 )
-target_include_directories(DSSAT_ST_standalone_lib
+target_include_directories(Simplace_Soil_Temperature_lib
 	PUBLIC
-	${CMAKE_CURRENT_SOURCE_DIR}     # for #include "STEMP_Component.h"
-	${CMAKE_CURRENT_SOURCE_DIR}/..  # for #include "DSSAT_ST_standalone/STEMP_Component.h"
+	${CMAKE_CURRENT_SOURCE_DIR}     # for #include "SoilTemperatureComponent.h"
+	${CMAKE_CURRENT_SOURCE_DIR}/..  # for #include "Simplace_Soil_Temperature/SoilTemperatureComponent.h"
 )
 if (MSVC)
-	target_compile_options(DSSAT_ST_standalone_lib PRIVATE "/MT$<$<CONFIG:Debug>:d>")
+	target_compile_options(Simplace_Soil_Temperature_lib PRIVATE "/MT$<$<CONFIG:Debug>:d>")
 endif()
 
 #------------------------------------------------------------------------------
 
-message(STATUS "<- DSSAT_ST_standalone")
+message(STATUS "<- Simplace_Soil_Temperature")
