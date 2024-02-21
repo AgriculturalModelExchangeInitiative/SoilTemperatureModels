@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//SIMPLACE/DTD GRP 1.0//EN" "https://simplace.net/dtd/GroupComponent.dtd">
+<configuration class="">
+	<simgroup>
+		<simcomponent id="temp_amp"	class="net.simplace.usermodules.amei.Stics_soil_temperature.Temp_amp">
+			<input id="min_temp" source="SoiltempStics.min_temp" />
+			<input id="max_temp" source="SoiltempStics.max_temp" />
+			<output id="temp_amp" destination="SoiltempStics.temp_amp" />
+		</simcomponent>
+		<simcomponent id="canopy_temp_avg" class="net.simplace.usermodules.amei.Stics_soil_temperature.Canopy_temp_avg">
+			<input id="min_canopy_temp" source="SoiltempStics.min_temp" />
+			<input id="max_canopy_temp" source="SoiltempStics.max_temp" />
+			<output id="canopy_temp_avg" destination="SoiltempStics.canopy_temp_avg" />
+		</simcomponent>
+		<simcomponent id="temp_profile"	class="net.simplace.usermodules.amei.Stics_soil_temperature.Temp_profile">
+			<input id="min_air_temp" source="SoiltempStics.min_temp" />
+			<input id="air_temp_day1" source="SoiltempStics.avg_temp" />
+			<input id="layer_thick" source="SoiltempStics.layer_thick" />
+			<input id="temp_amp" source="temp_amp.temp_amp" />
+			<input id="canopy_temp_avg" source="canopy_temp_avg.canopy_temp_avg" />
+			<output id="temp_profile" destination="SoiltempStics.temp_profile" />
+		</simcomponent>
+		<simcomponent id="layers_temp" class="net.simplace.usermodules.amei.Stics_soil_temperature.Layers_temp">
+			<input id="layer_thick" source="SoiltempStics.layer_thick" />
+			<input id="temp_profile" source="temp_profile.temp_profile" />
+			<output id="layer_temp" destination="SoiltempStics.layer_temp" />
+		</simcomponent>
+	</simgroup>
+</configuration>
