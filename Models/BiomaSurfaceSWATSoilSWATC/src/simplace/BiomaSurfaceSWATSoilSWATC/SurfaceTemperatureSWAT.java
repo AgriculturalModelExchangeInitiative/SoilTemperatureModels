@@ -1,15 +1,13 @@
-package net.simplace.sim.components.BiomaSurfaceSWATSoilSWATC;
-import  java.io.*;
-import  java.util.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+package net.simplace.usermodules.amei.Bioma;
+import java.util.HashMap;
+
+import org.jdom2.Element;
+
 import net.simplace.sim.model.FWSimComponent;
 import net.simplace.sim.util.FWSimVarMap;
 import net.simplace.sim.util.FWSimVariable;
 import net.simplace.sim.util.FWSimVariable.CONTENT_TYPE;
 import net.simplace.sim.util.FWSimVariable.DATA_TYPE;
-import org.jdom2.Element;
 
 
 public class SurfaceTemperatureSWAT extends FWSimComponent
@@ -35,13 +33,13 @@ public class SurfaceTemperatureSWAT extends FWSimComponent
     @Override
     public HashMap<String, FWSimVariable<?>> createVariables()
     {
-        addVariable(FWSimVariable.createSimVariable("GlobalSolarRadiation", "Daily global solar radiation", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Mj m-2 d-1", 0, 50, 15, this));
-        addVariable(FWSimVariable.createSimVariable("SoilTemperatureByLayers", "Soil temperature of each layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.input,"", -60, 60, 15, this));
-        addVariable(FWSimVariable.createSimVariable("AirTemperatureMaximum", "Maximum daily air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"", -40, 60, 15, this));
-        addVariable(FWSimVariable.createSimVariable("AirTemperatureMinimum", "Minimum daily air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"", -60, 50, 5, this));
+        addVariable(FWSimVariable.createSimVariable("GlobalSolarRadiation", "Daily global solar radiation", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Mj m-2 d-1", 0, 50, 15d, this));
+        addVariable(FWSimVariable.createSimVariable("SoilTemperatureByLayers", "Soil temperature of each layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.input,"", -60, 60, null, this));
+        addVariable(FWSimVariable.createSimVariable("AirTemperatureMaximum", "Maximum daily air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"", -40, 60, 15d, this));
+        addVariable(FWSimVariable.createSimVariable("AirTemperatureMinimum", "Minimum daily air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"", -60, 50, 5d, this));
         addVariable(FWSimVariable.createSimVariable("Albedo", "Albedo of soil", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"unitless", 0, 1, 0.2, this));
-        addVariable(FWSimVariable.createSimVariable("AboveGroundBiomass", "Above ground biomass", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Kg ha-1", 0, 60, 3, this));
-        addVariable(FWSimVariable.createSimVariable("WaterEquivalentOfSnowPack", "Water equivalent of snow pack", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"mm", 0, 1000, 10, this));
+        addVariable(FWSimVariable.createSimVariable("AboveGroundBiomass", "Above ground biomass", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Kg ha-1", 0, 60, 3d, this));
+        addVariable(FWSimVariable.createSimVariable("WaterEquivalentOfSnowPack", "Water equivalent of snow pack", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"mm", 0, 1000, 10d, this));
         addVariable(FWSimVariable.createSimVariable("SurfaceSoilTemperature", "Average surface soil temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.out,"degC", -60, 60, null, this));
 
         return iFieldMap;
