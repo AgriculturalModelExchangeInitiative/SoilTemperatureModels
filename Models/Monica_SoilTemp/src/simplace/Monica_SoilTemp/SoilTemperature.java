@@ -14,6 +14,8 @@ import org.jdom2.Element;
 
 public class SoilTemperature extends FWSimComponent
 {
+    private FWSimVariable<Integer> noOfTempLayers;
+    private FWSimVariable<Integer> noOfSoilLayers;
     private FWSimVariable<Double> soilSurfaceTemperature;
     private FWSimVariable<Double> timeStep;
     private FWSimVariable<Double> soilMoistureConst;
@@ -28,8 +30,6 @@ public class SoilTemperature extends FWSimComponent
     private FWSimVariable<Double> quartzRawDensity;
     private FWSimVariable<Double> specificHeatCapacityQuartz;
     private FWSimVariable<Double> nTau;
-    private FWSimVariable<Integer> noOfTempLayers;
-    private FWSimVariable<Integer> noOfSoilLayers;
     private FWSimVariable<Double[]> layerThickness;
     private FWSimVariable<Double[]> soilBulkDensity;
     private FWSimVariable<Double[]> saturation;
@@ -61,22 +61,22 @@ public class SoilTemperature extends FWSimComponent
     @Override
     public HashMap<String, FWSimVariable<?>> createVariables()
     {
-        addVariable(FWSimVariable.createSimVariable("soilSurfaceTemperature", "current soilSurfaceTemperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"°C", -50, 80, 0.0, this));
+        addVariable(FWSimVariable.createSimVariable("noOfTempLayers", "noOfTempLayers=noOfSoilLayers+2", DATA_TYPE.INT, CONTENT_TYPE.constant,"dimensionless", null, null, 22, this));
+        addVariable(FWSimVariable.createSimVariable("noOfSoilLayers", "noOfSoilLayers", DATA_TYPE.INT, CONTENT_TYPE.constant,"dimensionless", null, null, 20.0, this));
+        addVariable(FWSimVariable.createSimVariable("soilSurfaceTemperature", "current soilSurfaceTemperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"°C", -50.0, 80.0, 0.0, this));
         addVariable(FWSimVariable.createSimVariable("timeStep", "timeStep", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"dimensionless", null, null, 1.0, this));
         addVariable(FWSimVariable.createSimVariable("soilMoistureConst", "initial soilmoisture", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"m**3/m**3", null, null, 0.25, this));
         addVariable(FWSimVariable.createSimVariable("baseTemp", "baseTemperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"°C", null, null, 9.5, this));
         addVariable(FWSimVariable.createSimVariable("initialSurfaceTemp", "initialSurfaceTemperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"°C", null, null, 10.0, this));
         addVariable(FWSimVariable.createSimVariable("densityAir", "DensityAir", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"kg/m**3", null, null, 1.25, this));
-        addVariable(FWSimVariable.createSimVariable("specificHeatCapacityAir", "SpecificHeatCapacityAir", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"J/kg/K", null, null, 1005, this));
-        addVariable(FWSimVariable.createSimVariable("densityHumus", "DensityHumus", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"kg/m**3", null, null, 1300, this));
-        addVariable(FWSimVariable.createSimVariable("specificHeatCapacityHumus", "SpecificHeatCapacityHumus", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"J/kg/K", null, null, 1920, this));
-        addVariable(FWSimVariable.createSimVariable("densityWater", "DensityWater", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"kg/m**3", null, null, 1000, this));
-        addVariable(FWSimVariable.createSimVariable("specificHeatCapacityWater", "SpecificHeatCapacityWater", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"J/kg/K", null, null, 4192, this));
-        addVariable(FWSimVariable.createSimVariable("quartzRawDensity", "QuartzRawDensity", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"kg/m**3", null, null, 2650, this));
-        addVariable(FWSimVariable.createSimVariable("specificHeatCapacityQuartz", "SpecificHeatCapacityQuartz", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"J/kg/K", null, null, 750, this));
+        addVariable(FWSimVariable.createSimVariable("specificHeatCapacityAir", "SpecificHeatCapacityAir", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"J/kg/K", null, null, 1005.0, this));
+        addVariable(FWSimVariable.createSimVariable("densityHumus", "DensityHumus", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"kg/m**3", null, null, 1300.0, this));
+        addVariable(FWSimVariable.createSimVariable("specificHeatCapacityHumus", "SpecificHeatCapacityHumus", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"J/kg/K", null, null, 1920.0, this));
+        addVariable(FWSimVariable.createSimVariable("densityWater", "DensityWater", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"kg/m**3", null, null, 1000.0, this));
+        addVariable(FWSimVariable.createSimVariable("specificHeatCapacityWater", "SpecificHeatCapacityWater", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"J/kg/K", null, null, 4192.0, this));
+        addVariable(FWSimVariable.createSimVariable("quartzRawDensity", "QuartzRawDensity", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"kg/m**3", null, null, 2650.0, this));
+        addVariable(FWSimVariable.createSimVariable("specificHeatCapacityQuartz", "SpecificHeatCapacityQuartz", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"J/kg/K", null, null, 750.0, this));
         addVariable(FWSimVariable.createSimVariable("nTau", "NTau", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"?", null, null, 0.65, this));
-        addVariable(FWSimVariable.createSimVariable("noOfTempLayers", "noOfTempLayers=noOfSoilLayers+2", DATA_TYPE.INT, CONTENT_TYPE.constant,"dimensionless", null, null, 22, this));
-        addVariable(FWSimVariable.createSimVariable("noOfSoilLayers", "noOfSoilLayers", DATA_TYPE.INT, CONTENT_TYPE.constant,"dimensionless", null, null, 20, this));
         addVariable(FWSimVariable.createSimVariable("layerThickness", "layerThickness", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.constant,"m", null, null, null, this));
         addVariable(FWSimVariable.createSimVariable("soilBulkDensity", "bulkDensity", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.constant,"kg/m**3", null, null, null, this));
         addVariable(FWSimVariable.createSimVariable("saturation", "saturation", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.constant,"m**3/m**3", null, null, null, this));
@@ -101,40 +101,39 @@ public class SoilTemperature extends FWSimComponent
     @Override
     protected void init()
     {
-        Double t_timeStep = timeStep.getValue();
-        Double t_soilMoistureConst = soilMoistureConst.getValue();
-        Double t_baseTemp = baseTemp.getValue();
-        Double t_initialSurfaceTemp = initialSurfaceTemp.getValue();
-        Double t_densityAir = densityAir.getValue();
-        Double t_specificHeatCapacityAir = specificHeatCapacityAir.getValue();
-        Double t_densityHumus = densityHumus.getValue();
-        Double t_specificHeatCapacityHumus = specificHeatCapacityHumus.getValue();
-        Double t_densityWater = densityWater.getValue();
-        Double t_specificHeatCapacityWater = specificHeatCapacityWater.getValue();
-        Double t_quartzRawDensity = quartzRawDensity.getValue();
-        Double t_specificHeatCapacityQuartz = specificHeatCapacityQuartz.getValue();
-        Double t_nTau = nTau.getValue();
         Integer t_noOfTempLayers = noOfTempLayers.getValue();
         Integer t_noOfSoilLayers = noOfSoilLayers.getValue();
+        double t_timeStep = timeStep.getValue();
+        double t_soilMoistureConst = soilMoistureConst.getValue();
+        double t_baseTemp = baseTemp.getValue();
+        double t_initialSurfaceTemp = initialSurfaceTemp.getValue();
+        double t_densityAir = densityAir.getValue();
+        double t_specificHeatCapacityAir = specificHeatCapacityAir.getValue();
+        double t_densityHumus = densityHumus.getValue();
+        double t_specificHeatCapacityHumus = specificHeatCapacityHumus.getValue();
+        double t_densityWater = densityWater.getValue();
+        double t_specificHeatCapacityWater = specificHeatCapacityWater.getValue();
+        double t_quartzRawDensity = quartzRawDensity.getValue();
+        double t_specificHeatCapacityQuartz = specificHeatCapacityQuartz.getValue();
+        double t_nTau = nTau.getValue();
         Double [] t_layerThickness = layerThickness.getValue();
         Double [] t_soilBulkDensity = soilBulkDensity.getValue();
         Double [] t_saturation = saturation.getValue();
         Double [] t_soilOrganicMatter = soilOrganicMatter.getValue();
-        Double t_soilSurfaceTemperature = soilSurfaceTemperature.getDefault();
-        Double [] t_soilTemperature = new Double[22];
-        Double [] t_V = new Double[22];
-        Double [] t_B = new Double[22];
-        Double [] t_volumeMatrix = new Double[22];
-        Double [] t_volumeMatrixOld = new Double[22];
-        Double [] t_matrixPrimaryDiagonal = new Double[22];
-        Double [] t_matrixSecondaryDiagonal = new Double[23];
-        Double [] t_heatConductivity = new Double[22];
-        Double [] t_heatConductivityMean = new Double[22];
-        Double [] t_heatCapacity = new Double[22];
-        Double [] t_solution = new Double[22];
-        Double [] t_matrixDiagonal = new Double[22];
-        Double [] t_matrixLowerTriangle = new Double[22];
-        Double [] t_heatFlow = new Double[22];
+        Double [] t_soilTemperature = new double[22];
+        Double [] t_V = new double[22];
+        Double [] t_B = new double[22];
+        Double [] t_volumeMatrix = new double[22];
+        Double [] t_volumeMatrixOld = new double[22];
+        Double [] t_matrixPrimaryDiagonal = new double[22];
+        Double [] t_matrixSecondaryDiagonal = new double[23];
+        Double [] t_heatConductivity = new double[22];
+        Double [] t_heatConductivityMean = new double[22];
+        Double [] t_heatCapacity = new double[22];
+        Double [] t_solution = new double[22];
+        Double [] t_matrixDiagonal = new double[22];
+        Double [] t_matrixLowerTriangle = new double[22];
+        Double [] t_heatFlow = new double[22];
         Arrays.fill(t_soilTemperature, 0.0d);
         Arrays.fill(t_V, 0.0d);
         Arrays.fill(t_B, 0.0d);
@@ -149,28 +148,31 @@ public class SoilTemperature extends FWSimComponent
         Arrays.fill(t_matrixDiagonal, 0.0d);
         Arrays.fill(t_matrixLowerTriangle, 0.0d);
         Arrays.fill(t_heatFlow, 0.0d);
-        t_soilTemperature = new Double [t_noOfTempLayers];
-        t_V = new Double [t_noOfTempLayers];
-        t_volumeMatrix = new Double [t_noOfTempLayers];
-        t_volumeMatrixOld = new Double [t_noOfTempLayers];
-        t_B = new Double [t_noOfTempLayers];
-        t_matrixPrimaryDiagonal = new Double [t_noOfTempLayers];
-        t_matrixSecondaryDiagonal = new Double [t_noOfTempLayers + 1];
-        t_heatConductivity = new Double [t_noOfTempLayers];
-        t_heatConductivityMean = new Double [t_noOfTempLayers];
-        t_heatCapacity = new Double [t_noOfTempLayers];
-        t_solution = new Double [t_noOfTempLayers];
-        t_matrixDiagonal = new Double [t_noOfTempLayers];
-        t_matrixLowerTriangle = new Double [t_noOfTempLayers];
-        t_heatFlow = new Double [t_noOfTempLayers];
+        Integer groundLayer;
+        Integer bottomLayer;
+        double lti_1;
+        double lti;
+        double ts;
+        double dw;
+        double cw;
+        double dq;
+        double cq;
+        double da;
+        double ca;
+        double dh;
+        double ch;
+        double sbdi;
+        double smi;
+        double sati;
+        double somi;
+        double hci_1;
+        double hci;
         Integer i;
         for (i=0 ; i!=t_noOfSoilLayers ; i+=1)
         {
             t_soilTemperature[i] = (1.0d - ((double)(i) / t_noOfSoilLayers)) * t_initialSurfaceTemp + ((double)(i) / t_noOfSoilLayers * t_baseTemp);
         }
-        Integer groundLayer;
         groundLayer = t_noOfTempLayers - 2;
-        Integer bottomLayer;
         bottomLayer = t_noOfTempLayers - 1;
         t_layerThickness[groundLayer] = 2.0d * t_layerThickness[(groundLayer - 1)];
         t_layerThickness[bottomLayer] = 1.0d;
@@ -178,8 +180,6 @@ public class SoilTemperature extends FWSimComponent
         t_soilTemperature[bottomLayer] = t_baseTemp;
         t_V[0] = t_layerThickness[0];
         t_B[0] = 2.0d / t_layerThickness[0];
-        Double lti_1;
-        Double lti;
         for (i=1 ; i!=t_noOfTempLayers ; i+=1)
         {
             lti_1 = t_layerThickness[i - 1];
@@ -187,28 +187,15 @@ public class SoilTemperature extends FWSimComponent
             t_B[i] = 2.0d / (lti + lti_1);
             t_V[i] = lti * t_nTau;
         }
-        Double ts;
         ts = t_timeStep;
-        Double dw;
         dw = t_densityWater;
-        Double cw;
         cw = t_specificHeatCapacityWater;
-        Double dq;
         dq = t_quartzRawDensity;
-        Double cq;
         cq = t_specificHeatCapacityQuartz;
-        Double da;
         da = t_densityAir;
-        Double ca;
         ca = t_specificHeatCapacityAir;
-        Double dh;
         dh = t_densityHumus;
-        Double ch;
         ch = t_specificHeatCapacityHumus;
-        Double sbdi;
-        Double smi;
-        Double sati;
-        Double somi;
         for (i=0 ; i!=t_noOfSoilLayers ; i+=1)
         {
             sbdi = t_soilBulkDensity[i];
@@ -224,8 +211,6 @@ public class SoilTemperature extends FWSimComponent
         t_heatConductivity[bottomLayer] = t_heatConductivity[groundLayer];
         t_soilSurfaceTemperature = t_initialSurfaceTemp;
         t_heatConductivityMean[0] = t_heatConductivity[0];
-        Double hci_1;
-        Double hci;
         for (i=1 ; i!=t_noOfTempLayers ; i+=1)
         {
             lti_1 = t_layerThickness[i - 1];
@@ -264,46 +249,48 @@ public class SoilTemperature extends FWSimComponent
     @Override
     protected void process()
     {
-        Double t_soilSurfaceTemperature = soilSurfaceTemperature.getValue();
-        Double t_timeStep = timeStep.getValue();
-        Double t_soilMoistureConst = soilMoistureConst.getValue();
-        Double t_baseTemp = baseTemp.getValue();
-        Double t_initialSurfaceTemp = initialSurfaceTemp.getValue();
-        Double t_densityAir = densityAir.getValue();
-        Double t_specificHeatCapacityAir = specificHeatCapacityAir.getValue();
-        Double t_densityHumus = densityHumus.getValue();
-        Double t_specificHeatCapacityHumus = specificHeatCapacityHumus.getValue();
-        Double t_densityWater = densityWater.getValue();
-        Double t_specificHeatCapacityWater = specificHeatCapacityWater.getValue();
-        Double t_quartzRawDensity = quartzRawDensity.getValue();
-        Double t_specificHeatCapacityQuartz = specificHeatCapacityQuartz.getValue();
-        Double t_nTau = nTau.getValue();
         Integer t_noOfTempLayers = noOfTempLayers.getValue();
         Integer t_noOfSoilLayers = noOfSoilLayers.getValue();
+        double t_soilSurfaceTemperature = soilSurfaceTemperature.getValue();
+        double t_timeStep = timeStep.getValue();
+        double t_soilMoistureConst = soilMoistureConst.getValue();
+        double t_baseTemp = baseTemp.getValue();
+        double t_initialSurfaceTemp = initialSurfaceTemp.getValue();
+        double t_densityAir = densityAir.getValue();
+        double t_specificHeatCapacityAir = specificHeatCapacityAir.getValue();
+        double t_densityHumus = densityHumus.getValue();
+        double t_specificHeatCapacityHumus = specificHeatCapacityHumus.getValue();
+        double t_densityWater = densityWater.getValue();
+        double t_specificHeatCapacityWater = specificHeatCapacityWater.getValue();
+        double t_quartzRawDensity = quartzRawDensity.getValue();
+        double t_specificHeatCapacityQuartz = specificHeatCapacityQuartz.getValue();
+        double t_nTau = nTau.getValue();
         Double [] t_layerThickness = layerThickness.getValue();
         Double [] t_soilBulkDensity = soilBulkDensity.getValue();
         Double [] t_saturation = saturation.getValue();
         Double [] t_soilOrganicMatter = soilOrganicMatter.getValue();
-        Double [] t_soilTemperature = new Double[22];
-        Double [] t_V = new Double[22];
-        Double [] t_B = new Double[22];
-        Double [] t_volumeMatrix = new Double[22];
-        Double [] t_volumeMatrixOld = new Double[22];
-        Double [] t_matrixPrimaryDiagonal = new Double[22];
-        Double [] t_matrixSecondaryDiagonal = new Double[23];
-        Double [] t_heatConductivity = new Double[22];
-        Double [] t_heatConductivityMean = new Double[22];
-        Double [] t_heatCapacity = new Double[22];
-        Double [] t_solution = new Double[22];
-        Double [] t_matrixDiagonal = new Double[22];
-        Double [] t_matrixLowerTriangle = new Double[22];
-        Double [] t_heatFlow = new Double[22];
+        Double [] t_soilTemperature = soilTemperature.getValue();
+        Double [] t_V = V.getValue();
+        Double [] t_B = B.getValue();
+        Double [] t_volumeMatrix = volumeMatrix.getValue();
+        Double [] t_volumeMatrixOld = volumeMatrixOld.getValue();
+        Double [] t_matrixPrimaryDiagonal = matrixPrimaryDiagonal.getValue();
+        Double [] t_matrixSecondaryDiagonal = matrixSecondaryDiagonal.getValue();
+        Double [] t_heatConductivity = heatConductivity.getValue();
+        Double [] t_heatConductivityMean = heatConductivityMean.getValue();
+        Double [] t_heatCapacity = heatCapacity.getValue();
+        Double [] t_solution = solution.getValue();
+        Double [] t_matrixDiagonal = matrixDiagonal.getValue();
+        Double [] t_matrixLowerTriangle = matrixLowerTriangle.getValue();
+        Double [] t_heatFlow = heatFlow.getValue();
         Integer groundLayer;
         Integer bottomLayer;
+        Integer i;
+        Integer j;
+        Integer j_1;
         groundLayer = t_noOfTempLayers - 2;
         bottomLayer = t_noOfTempLayers - 1;
         t_heatFlow[0] = t_soilSurfaceTemperature * t_B[0] * t_heatConductivityMean[0];
-        Integer i;
         for (i=0 ; i!=t_noOfTempLayers ; i+=1)
         {
             t_solution[i] = (t_volumeMatrixOld[i] + ((t_volumeMatrix[i] - t_volumeMatrixOld[i]) / t_layerThickness[i])) * t_soilTemperature[i] + t_heatFlow[i];
@@ -319,8 +306,6 @@ public class SoilTemperature extends FWSimComponent
             t_solution[i] = t_solution[i] - (t_matrixLowerTriangle[i] * t_solution[(i - 1)]);
         }
         t_solution[bottomLayer] = t_solution[bottomLayer] / t_matrixDiagonal[bottomLayer];
-        Integer j;
-        Integer j_1;
         for (i=0 ; i!=bottomLayer ; i+=1)
         {
             j = bottomLayer - 1 - i;

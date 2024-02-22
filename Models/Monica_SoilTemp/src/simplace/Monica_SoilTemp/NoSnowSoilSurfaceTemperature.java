@@ -33,9 +33,9 @@ public class NoSnowSoilSurfaceTemperature extends FWSimComponent
     @Override
     public HashMap<String, FWSimVariable<?>> createVariables()
     {
-        addVariable(FWSimVariable.createSimVariable("tmin", "the days min air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"°C", -50, 70, null, this));
-        addVariable(FWSimVariable.createSimVariable("tmax", "the days max air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"°C", -50, 70, null, this));
-        addVariable(FWSimVariable.createSimVariable("globrad", "the days global radiation", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"MJ/m**2/d", 0, 30, 0, this));
+        addVariable(FWSimVariable.createSimVariable("tmin", "the days min air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"°C", -50.0, 70.0, null, this));
+        addVariable(FWSimVariable.createSimVariable("tmax", "the days max air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"°C", -50.0, 70.0, null, this));
+        addVariable(FWSimVariable.createSimVariable("globrad", "the days global radiation", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"MJ/m**2/d", 0.0, 30.0, 0.0, this));
         addVariable(FWSimVariable.createSimVariable("soilCoverage", "soilCoverage", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"dimensionless", 0.0, null, 0.0, this));
         addVariable(FWSimVariable.createSimVariable("dampingFactor", "dampingFactor", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"dimensionless", null, null, 0.8, this));
         addVariable(FWSimVariable.createSimVariable("soilSurfaceTemperature", "soilSurfaceTemperature of previous day", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"°C", null, null, 0.0, this));
@@ -45,14 +45,14 @@ public class NoSnowSoilSurfaceTemperature extends FWSimComponent
     @Override
     protected void process()
     {
-        Double t_tmin = tmin.getValue();
-        Double t_tmax = tmax.getValue();
-        Double t_globrad = globrad.getValue();
-        Double t_soilCoverage = soilCoverage.getValue();
-        Double t_dampingFactor = dampingFactor.getValue();
-        Double t_soilSurfaceTemperature = soilSurfaceTemperature.getValue();
+        double t_tmin = tmin.getValue();
+        double t_tmax = tmax.getValue();
+        double t_globrad = globrad.getValue();
+        double t_soilCoverage = soilCoverage.getValue();
+        double t_dampingFactor = dampingFactor.getValue();
+        double t_soilSurfaceTemperature = soilSurfaceTemperature.getValue();
+        double shadingCoefficient;
         t_globrad = Math.max(8.33d, t_globrad);
-        Double shadingCoefficient;
         shadingCoefficient = 0.1d + (t_soilCoverage * t_dampingFactor + ((1 - t_soilCoverage) * (1 - t_dampingFactor)));
         t_soilSurfaceTemperature = (1.0d - shadingCoefficient) * (t_tmin + ((t_tmax - t_tmin) * Math.pow(0.03d * t_globrad, 0.5d))) + (shadingCoefficient * t_soilSurfaceTemperature);
         if (t_soilSurfaceTemperature < 0.0d)

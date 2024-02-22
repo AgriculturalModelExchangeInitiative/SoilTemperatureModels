@@ -41,10 +41,10 @@ public class WithSnowSoilSurfaceTemperature extends FWSimComponent
     @Override
     protected void process()
     {
-        Double t_noSnowSoilSurfaceTemperature = noSnowSoilSurfaceTemperature.getValue();
-        Double t_soilSurfaceTemperatureBelowSnow = soilSurfaceTemperatureBelowSnow.getValue();
+        double t_noSnowSoilSurfaceTemperature = noSnowSoilSurfaceTemperature.getValue();
+        double t_soilSurfaceTemperatureBelowSnow = soilSurfaceTemperatureBelowSnow.getValue();
         Boolean t_hasSnowCover = hasSnowCover.getValue();
-        Double t_soilSurfaceTemperature;
+        double t_soilSurfaceTemperature;
         if (t_hasSnowCover)
         {
             t_soilSurfaceTemperature = t_soilSurfaceTemperatureBelowSnow;
