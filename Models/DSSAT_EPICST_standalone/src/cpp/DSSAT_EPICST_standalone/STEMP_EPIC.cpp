@@ -567,7 +567,7 @@ void STEMP_EPIC::Calculate_Model(STEMP_EPIC_State &s, STEMP_EPIC_State &s1, STEM
     {
         WetDay[NDays - 1] = 0;
     }
-    NWetDays = accumulate(WetDay.begin(), WetDay.end(), decltype(WetDay)::value_type(0));
+    NWetDays = accumulate(WetDay.begin(), WetDay.end(), 0);
     WFT = float(NWetDays) / float(NDays);
     CV = (BIOMAS + MULCHMASS) / 1000.;
     BCV1 = CV / (CV + std::exp(5.3396 - (2.3951 * CV)));
