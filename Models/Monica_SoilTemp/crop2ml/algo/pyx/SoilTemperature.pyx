@@ -1,5 +1,8 @@
 cdef int groundLayer
 cdef int bottomLayer
+cdef int i
+cdef int j, j_1
+
 groundLayer = noOfTempLayers - 2
 bottomLayer = noOfTempLayers - 1
 
@@ -10,7 +13,7 @@ bottomLayer = noOfTempLayers - 1
 heatFlow[0] = soilSurfaceTemperature * B[0] * heatConductivityMean[0] # [J]
 #assert _heatFlow[i>0] == 0.0;
 
-cdef int i
+
 for i in range(noOfTempLayers):
     solution[i] = (volumeMatrixOld[i] + (volumeMatrix[i] - volumeMatrixOld[i]) / layerThickness[i]) \
                   * soilTemperature[i] + heatFlow[i]
@@ -35,7 +38,7 @@ for i in range(1, noOfTempLayers):
 
 # Solution of L'X=D(-1)Y
 solution[bottomLayer] = solution[bottomLayer] / matrixDiagonal[bottomLayer]
-cdef int j, j_1
+
 for i in range(bottomLayer):
     j = (bottomLayer - 1) - i
     j_1 = j + 1

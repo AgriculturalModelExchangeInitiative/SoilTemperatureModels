@@ -29,8 +29,8 @@ def model_nosnowsoilsurfacetemperature(tmin:float,
                                ** inputtype : variable
                                ** variablecategory : exogenous
                                ** datatype : DOUBLE
-                               ** max : 70
-                               ** min : -50
+                               ** max : 70.0
+                               ** min : -50.0
                                ** default : 
                                ** unit : °C
                  * name: tmax
@@ -38,8 +38,8 @@ def model_nosnowsoilsurfacetemperature(tmin:float,
                                ** inputtype : variable
                                ** variablecategory : exogenous
                                ** datatype : DOUBLE
-                               ** max : 70
-                               ** min : -50
+                               ** max : 70.0
+                               ** min : -50.0
                                ** default : 
                                ** unit : °C
                  * name: globrad
@@ -47,9 +47,9 @@ def model_nosnowsoilsurfacetemperature(tmin:float,
                                ** inputtype : variable
                                ** variablecategory : exogenous
                                ** datatype : DOUBLE
-                               ** max : 30
-                               ** min : 0
-                               ** default : 0
+                               ** max : 30.0
+                               ** min : 0.0
+                               ** default : 0.0
                                ** unit : MJ/m**2/d
                  * name: soilCoverage
                                ** description : soilCoverage
@@ -88,8 +88,8 @@ def model_nosnowsoilsurfacetemperature(tmin:float,
                                ** unit : °C
     """
 
-    globrad = max(8.33, globrad)
     shadingCoefficient:float
+    globrad = max(8.33, globrad)
     shadingCoefficient = 0.1 + (soilCoverage * dampingFactor + ((1 - soilCoverage) * (1 - dampingFactor)))
     soilSurfaceTemperature = (1.0 - shadingCoefficient) * (tmin + ((tmax - tmin) * pow(0.03 * globrad, 0.5))) + (shadingCoefficient * soilSurfaceTemperature)
     if soilSurfaceTemperature < 0.0:

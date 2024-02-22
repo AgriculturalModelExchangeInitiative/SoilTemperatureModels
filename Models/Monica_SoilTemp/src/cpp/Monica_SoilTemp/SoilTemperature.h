@@ -13,6 +13,8 @@ namespace Monica_SoilTemp {
 class SoilTemperature
 {
     private:
+        int noOfTempLayers ;
+        int noOfSoilLayers ;
         double timeStep ;
         double soilMoistureConst ;
         double baseTemp ;
@@ -26,8 +28,6 @@ class SoilTemperature
         double quartzRawDensity ;
         double specificHeatCapacityQuartz ;
         double nTau ;
-        int noOfTempLayers ;
-        int noOfSoilLayers ;
         std::vector<double> layerThickness ;
         std::vector<double> soilBulkDensity ;
         std::vector<double> saturation ;
@@ -36,6 +36,10 @@ class SoilTemperature
         SoilTemperature();
         void Calculate_Model(SoilTemperatureCompState &s, SoilTemperatureCompState &s1, SoilTemperatureCompRate &r, SoilTemperatureCompAuxiliary &a, SoilTemperatureCompExogenous &ex);
         void Init(SoilTemperatureCompState &s, SoilTemperatureCompState &s1, SoilTemperatureCompRate &r, SoilTemperatureCompAuxiliary &a, SoilTemperatureCompExogenous &ex);
+        int getnoOfTempLayers();
+        void setnoOfTempLayers(int _noOfTempLayers);
+        int getnoOfSoilLayers();
+        void setnoOfSoilLayers(int _noOfSoilLayers);
         double gettimeStep();
         void settimeStep(double _timeStep);
         double getsoilMoistureConst();
@@ -62,10 +66,6 @@ class SoilTemperature
         void setspecificHeatCapacityQuartz(double _specificHeatCapacityQuartz);
         double getnTau();
         void setnTau(double _nTau);
-        int getnoOfTempLayers();
-        void setnoOfTempLayers(int _noOfTempLayers);
-        int getnoOfSoilLayers();
-        void setnoOfSoilLayers(int _noOfSoilLayers);
         std::vector<double> & getlayerThickness();
         void setlayerThickness(const std::vector<double> &  _layerThickness);
         std::vector<double> & getsoilBulkDensity();

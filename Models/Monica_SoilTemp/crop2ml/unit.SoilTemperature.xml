@@ -12,8 +12,14 @@
         <ShortDescription>Calculates the soil temperature at all soil layers</ShortDescription>
     </Description>
     <Inputs>
-        <Input name="soilSurfaceTemperature" description="current soilSurfaceTemperature" inputtype="variable"
-               variablecategory="state" datatype="DOUBLE" max="80" min="-50" default="0.0" unit="°C"/>
+
+      <Input name="noOfTempLayers" description="noOfTempLayers=noOfSoilLayers+2" inputtype="parameter"
+               parametercategory="constant" datatype="INT" max="" min="" default="22" unit="dimensionless"/>
+       <Input name="noOfSoilLayers" description="noOfSoilLayers" inputtype="parameter" parametercategory="constant"
+               datatype="INT" max="" min="" default="20.0" unit="dimensionless"/>
+
+       <Input name="soilSurfaceTemperature" description="current soilSurfaceTemperature" inputtype="variable"
+               variablecategory="state" datatype="DOUBLE" max="80.0" min="-50.0" default="0.0" unit="°C"/>
 
         <Input name="timeStep" description="timeStep" inputtype="parameter" parametercategory="constant"
                datatype="DOUBLE" max="" min="" default="1.0" unit="dimensionless"/>
@@ -27,33 +33,29 @@
         <Input name="densityAir" description="DensityAir" inputtype="parameter" parametercategory="constant"
                datatype="DOUBLE" max="" min="" default="1.25" unit="kg/m**3"/>
         <Input name="specificHeatCapacityAir" description="SpecificHeatCapacityAir" inputtype="parameter"
-               parametercategory="constant" datatype="DOUBLE" max="" min="" default="1005" unit="J/kg/K"/>
+               parametercategory="constant" datatype="DOUBLE" max="" min="" default="1005.0" unit="J/kg/K"/>
 
         <Input name="densityHumus" description="DensityHumus" inputtype="parameter" parametercategory="constant"
-               datatype="DOUBLE" max="" min="" default="1300" unit="kg/m**3"/>
+               datatype="DOUBLE" max="" min="" default="1300.0" unit="kg/m**3"/>
         <Input name="specificHeatCapacityHumus" description="SpecificHeatCapacityHumus" inputtype="parameter"
-               parametercategory="constant" datatype="DOUBLE" max="" min="" default="1920" unit="J/kg/K"/>
+               parametercategory="constant" datatype="DOUBLE" max="" min="" default="1920.0" unit="J/kg/K"/>
 
         <Input name="densityWater" description="DensityWater" inputtype="parameter" parametercategory="constant"
-               datatype="DOUBLE" max="" min="" default="1000" unit="kg/m**3"/>
+               datatype="DOUBLE" max="" min="" default="1000.0" unit="kg/m**3"/>
         <Input name="specificHeatCapacityWater" description="SpecificHeatCapacityWater" inputtype="parameter"
-               parametercategory="constant" datatype="DOUBLE" max="" min="" default="4192" unit="J/kg/K"/>
+               parametercategory="constant" datatype="DOUBLE" max="" min="" default="4192.0" unit="J/kg/K"/>
 
         <Input name="quartzRawDensity" description="QuartzRawDensity" inputtype="parameter" parametercategory="constant"
-               datatype="DOUBLE" max="" min="" default="2650" unit="kg/m**3"/>
+               datatype="DOUBLE" max="" min="" default="2650.0" unit="kg/m**3"/>
         <Input name="specificHeatCapacityQuartz" description="SpecificHeatCapacityQuartz" inputtype="parameter"
-               parametercategory="constant" datatype="DOUBLE" max="" min="" default="750" unit="J/kg/K"/>
+               parametercategory="constant" datatype="DOUBLE" max="" min="" default="750.0" unit="J/kg/K"/>
 
         <Input name="nTau" description="NTau" inputtype="parameter" parametercategory="constant" datatype="DOUBLE"
                max="" min="" default="0.65" unit="?"/>
         <!--<Input name="soilAlbedo" description="SoilAlbedo" inputtype="parameter" parametercategory="constant"
                datatype="DOUBLE" max="" min="" default="0.7" unit="?"/>-->
 
-        <Input name="noOfTempLayers" description="noOfTempLayers=noOfSoilLayers+2" inputtype="parameter"
-               parametercategory="constant" datatype="INT" max="" min="" default="22" unit="dimensionless"/>
-        <Input name="noOfSoilLayers" description="noOfSoilLayers" inputtype="parameter" parametercategory="constant"
-               datatype="INT" max="" min="" default="20" unit="dimensionless"/>
-        <Input name="layerThickness" description="layerThickness" inputtype="parameter" parametercategory="constant"
+          <Input name="layerThickness" description="layerThickness" inputtype="parameter" parametercategory="constant"
                datatype="DOUBLEARRAY" len="22" max="" min="" default="" unit="m"/>
         <Input name="soilBulkDensity" description="bulkDensity" inputtype="parameter" parametercategory="constant"
                datatype="DOUBLEARRAY" len="20" max="" min="" default="" unit="kg/m**3"/>

@@ -3,7 +3,9 @@ MODULE Soiltemperaturemod
     IMPLICIT NONE
 CONTAINS
 
-    SUBROUTINE init_soiltemperature(timeStep, &
+    SUBROUTINE init_soiltemperature(noOfTempLayers, &
+        noOfSoilLayers, &
+        timeStep, &
         soilMoistureConst, &
         baseTemp, &
         initialSurfaceTemp, &
@@ -16,8 +18,6 @@ CONTAINS
         quartzRawDensity, &
         specificHeatCapacityQuartz, &
         nTau, &
-        noOfTempLayers, &
-        noOfSoilLayers, &
         layerThickness, &
         soilBulkDensity, &
         saturation, &
@@ -39,6 +39,8 @@ CONTAINS
         heatFlow)
         IMPLICIT NONE
         INTEGER:: i_cyml_r
+        INTEGER, INTENT(IN) :: noOfTempLayers
+        INTEGER, INTENT(IN) :: noOfSoilLayers
         REAL, INTENT(IN) :: timeStep
         REAL, INTENT(IN) :: soilMoistureConst
         REAL, INTENT(IN) :: baseTemp
@@ -52,28 +54,29 @@ CONTAINS
         REAL, INTENT(IN) :: quartzRawDensity
         REAL, INTENT(IN) :: specificHeatCapacityQuartz
         REAL, INTENT(IN) :: nTau
-        INTEGER, INTENT(IN) :: noOfTempLayers
-        INTEGER, INTENT(IN) :: noOfSoilLayers
         REAL , DIMENSION(22 ), INTENT(IN) :: layerThickness
         REAL , DIMENSION(20 ), INTENT(IN) :: soilBulkDensity
         REAL , DIMENSION(20 ), INTENT(IN) :: saturation
         REAL , DIMENSION(20 ), INTENT(IN) :: soilOrganicMatter
         REAL, INTENT(OUT) :: soilSurfaceTemperature
-        REAL , DIMENSION(22 ), INTENT(OUT) :: soilTemperature
-        REAL , DIMENSION(22 ), INTENT(OUT) :: V
-        REAL , DIMENSION(22 ), INTENT(OUT) :: B
-        REAL , DIMENSION(22 ), INTENT(OUT) :: volumeMatrix
-        REAL , DIMENSION(22 ), INTENT(OUT) :: volumeMatrixOld
-        REAL , DIMENSION(22 ), INTENT(OUT) :: matrixPrimaryDiagonal
-        REAL , DIMENSION(23 ), INTENT(OUT) :: matrixSecondaryDiagonal
-        REAL , DIMENSION(22 ), INTENT(OUT) :: heatConductivity
-        REAL , DIMENSION(22 ), INTENT(OUT) :: heatConductivityMean
-        REAL , DIMENSION(22 ), INTENT(OUT) :: heatCapacity
-        REAL , DIMENSION(22 ), INTENT(OUT) :: solution
-        REAL , DIMENSION(22 ), INTENT(OUT) :: matrixDiagonal
-        REAL , DIMENSION(22 ), INTENT(OUT) :: matrixLowerTriangle
-        REAL , DIMENSION(22 ), INTENT(OUT) :: heatFlow
-        INTEGER:: i
+        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) :: soilTemperature
+        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) :: V
+        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) :: B
+        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) :: volumeMatrix
+        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) :: volumeMatrixOld
+        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) ::  &
+                matrixPrimaryDiagonal
+        REAL , DIMENSION(23 ), ALLOCATABLE , INTENT(OUT) ::  &
+                matrixSecondaryDiagonal
+        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) :: heatConductivity
+        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) ::  &
+                heatConductivityMean
+        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) :: heatCapacity
+        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) :: solution
+        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) :: matrixDiagonal
+        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) ::  &
+                matrixLowerTriangle
+        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) :: heatFlow
         INTEGER:: groundLayer
         INTEGER:: bottomLayer
         REAL:: lti_1
@@ -93,6 +96,7 @@ CONTAINS
         REAL:: somi
         REAL:: hci_1
         REAL:: hci
+        INTEGER:: i
         soilSurfaceTemperature = 0.0
         soilTemperature = 0.0
         V = 0.0
@@ -108,20 +112,6 @@ CONTAINS
         matrixDiagonal = 0.0
         matrixLowerTriangle = 0.0
         heatFlow = 0.0
-        allocate(soilTemperature(noOfTempLayers))
-        allocate(V(noOfTempLayers))
-        allocate(volumeMatrix(noOfTempLayers))
-        allocate(volumeMatrixOld(noOfTempLayers))
-        allocate(B(noOfTempLayers))
-        allocate(matrixPrimaryDiagonal(noOfTempLayers))
-        allocate(matrixSecondaryDiagonal(noOfTempLayers + 1))
-        allocate(heatConductivity(noOfTempLayers))
-        allocate(heatConductivityMean(noOfTempLayers))
-        allocate(heatCapacity(noOfTempLayers))
-        allocate(solution(noOfTempLayers))
-        allocate(matrixDiagonal(noOfTempLayers))
-        allocate(matrixLowerTriangle(noOfTempLayers))
-        allocate(heatFlow(noOfTempLayers))
         DO i = 0 , noOfSoilLayers-1, 1
             soilTemperature(i+1) = (1.0 - (REAL(i) / noOfSoilLayers)) *  &
                     initialSurfaceTemp + (REAL(i) / noOfSoilLayers * baseTemp)
@@ -188,7 +178,9 @@ CONTAINS
         END DO
     END SUBROUTINE init_soiltemperature
 
-    SUBROUTINE model_soiltemperature(soilSurfaceTemperature, &
+    SUBROUTINE model_soiltemperature(noOfTempLayers, &
+        noOfSoilLayers, &
+        soilSurfaceTemperature, &
         timeStep, &
         soilMoistureConst, &
         baseTemp, &
@@ -202,8 +194,6 @@ CONTAINS
         quartzRawDensity, &
         specificHeatCapacityQuartz, &
         nTau, &
-        noOfTempLayers, &
-        noOfSoilLayers, &
         layerThickness, &
         soilBulkDensity, &
         saturation, &
@@ -224,6 +214,8 @@ CONTAINS
         heatFlow)
         IMPLICIT NONE
         INTEGER:: i_cyml_r
+        INTEGER, INTENT(IN) :: noOfTempLayers
+        INTEGER, INTENT(IN) :: noOfSoilLayers
         REAL, INTENT(IN) :: soilSurfaceTemperature
         REAL, INTENT(IN) :: timeStep
         REAL, INTENT(IN) :: soilMoistureConst
@@ -238,8 +230,6 @@ CONTAINS
         REAL, INTENT(IN) :: quartzRawDensity
         REAL, INTENT(IN) :: specificHeatCapacityQuartz
         REAL, INTENT(IN) :: nTau
-        INTEGER, INTENT(IN) :: noOfTempLayers
-        INTEGER, INTENT(IN) :: noOfSoilLayers
         REAL , DIMENSION(22 ), INTENT(IN) :: layerThickness
         REAL , DIMENSION(20 ), INTENT(IN) :: soilBulkDensity
         REAL , DIMENSION(20 ), INTENT(IN) :: saturation
@@ -272,13 +262,31 @@ CONTAINS
     !            * ExtendedDescription: None
     !            * ShortDescription: Calculates the soil temperature at all soil layers
         !- inputs:
+    !            * name: noOfTempLayers
+    !                          ** description : noOfTempLayers=noOfSoilLayers+2
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
+    !                          ** datatype : INT
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 22
+    !                          ** unit : dimensionless
+    !            * name: noOfSoilLayers
+    !                          ** description : noOfSoilLayers
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
+    !                          ** datatype : INT
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 20.0
+    !                          ** unit : dimensionless
     !            * name: soilSurfaceTemperature
     !                          ** description : current soilSurfaceTemperature
     !                          ** inputtype : variable
     !                          ** variablecategory : state
     !                          ** datatype : DOUBLE
-    !                          ** max : 80
-    !                          ** min : -50
+    !                          ** max : 80.0
+    !                          ** min : -50.0
     !                          ** default : 0.0
     !                          ** unit : °C
     !            * name: timeStep
@@ -333,7 +341,7 @@ CONTAINS
     !                          ** datatype : DOUBLE
     !                          ** max : 
     !                          ** min : 
-    !                          ** default : 1005
+    !                          ** default : 1005.0
     !                          ** unit : J/kg/K
     !            * name: densityHumus
     !                          ** description : DensityHumus
@@ -342,7 +350,7 @@ CONTAINS
     !                          ** datatype : DOUBLE
     !                          ** max : 
     !                          ** min : 
-    !                          ** default : 1300
+    !                          ** default : 1300.0
     !                          ** unit : kg/m**3
     !            * name: specificHeatCapacityHumus
     !                          ** description : SpecificHeatCapacityHumus
@@ -351,7 +359,7 @@ CONTAINS
     !                          ** datatype : DOUBLE
     !                          ** max : 
     !                          ** min : 
-    !                          ** default : 1920
+    !                          ** default : 1920.0
     !                          ** unit : J/kg/K
     !            * name: densityWater
     !                          ** description : DensityWater
@@ -360,7 +368,7 @@ CONTAINS
     !                          ** datatype : DOUBLE
     !                          ** max : 
     !                          ** min : 
-    !                          ** default : 1000
+    !                          ** default : 1000.0
     !                          ** unit : kg/m**3
     !            * name: specificHeatCapacityWater
     !                          ** description : SpecificHeatCapacityWater
@@ -369,7 +377,7 @@ CONTAINS
     !                          ** datatype : DOUBLE
     !                          ** max : 
     !                          ** min : 
-    !                          ** default : 4192
+    !                          ** default : 4192.0
     !                          ** unit : J/kg/K
     !            * name: quartzRawDensity
     !                          ** description : QuartzRawDensity
@@ -378,7 +386,7 @@ CONTAINS
     !                          ** datatype : DOUBLE
     !                          ** max : 
     !                          ** min : 
-    !                          ** default : 2650
+    !                          ** default : 2650.0
     !                          ** unit : kg/m**3
     !            * name: specificHeatCapacityQuartz
     !                          ** description : SpecificHeatCapacityQuartz
@@ -387,7 +395,7 @@ CONTAINS
     !                          ** datatype : DOUBLE
     !                          ** max : 
     !                          ** min : 
-    !                          ** default : 750
+    !                          ** default : 750.0
     !                          ** unit : J/kg/K
     !            * name: nTau
     !                          ** description : NTau
@@ -398,24 +406,6 @@ CONTAINS
     !                          ** min : 
     !                          ** default : 0.65
     !                          ** unit : ?
-    !            * name: noOfTempLayers
-    !                          ** description : noOfTempLayers=noOfSoilLayers+2
-    !                          ** inputtype : parameter
-    !                          ** parametercategory : constant
-    !                          ** datatype : INT
-    !                          ** max : 
-    !                          ** min : 
-    !                          ** default : 22
-    !                          ** unit : dimensionless
-    !            * name: noOfSoilLayers
-    !                          ** description : noOfSoilLayers
-    !                          ** inputtype : parameter
-    !                          ** parametercategory : constant
-    !                          ** datatype : INT
-    !                          ** max : 
-    !                          ** min : 
-    !                          ** default : 20
-    !                          ** unit : dimensionless
     !            * name: layerThickness
     !                          ** description : layerThickness
     !                          ** inputtype : parameter

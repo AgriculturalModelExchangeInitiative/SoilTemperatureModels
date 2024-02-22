@@ -1,6 +1,8 @@
 library(gsubfn)
 
-init_soiltemperature <- function (timeStep,
+init_soiltemperature <- function (noOfTempLayers,
+         noOfSoilLayers,
+         timeStep,
          soilMoistureConst,
          baseTemp,
          initialSurfaceTemp,
@@ -13,8 +15,6 @@ init_soiltemperature <- function (timeStep,
          quartzRawDensity,
          specificHeatCapacityQuartz,
          nTau,
-         noOfTempLayers,
-         noOfSoilLayers,
          layerThickness,
          soilBulkDensity,
          saturation,
@@ -48,20 +48,6 @@ init_soiltemperature <- function (timeStep,
     matrixDiagonal <-  rep(0.0,22)
     matrixLowerTriangle <-  rep(0.0,22)
     heatFlow <-  rep(0.0,22)
-    soilTemperature <- vector(, noOfTempLayers)
-    V <- vector(, noOfTempLayers)
-    volumeMatrix <- vector(, noOfTempLayers)
-    volumeMatrixOld <- vector(, noOfTempLayers)
-    B <- vector(, noOfTempLayers)
-    matrixPrimaryDiagonal <- vector(, noOfTempLayers)
-    matrixSecondaryDiagonal <- vector(, noOfTempLayers + 1)
-    heatConductivity <- vector(, noOfTempLayers)
-    heatConductivityMean <- vector(, noOfTempLayers)
-    heatCapacity <- vector(, noOfTempLayers)
-    solution <- vector(, noOfTempLayers)
-    matrixDiagonal <- vector(, noOfTempLayers)
-    matrixLowerTriangle <- vector(, noOfTempLayers)
-    heatFlow <- vector(, noOfTempLayers)
     for( i in seq(0, noOfSoilLayers-1, 1)){
         soilTemperature[i+1] <- (1.0 - (as.double(i) / noOfSoilLayers)) * initialSurfaceTemp + (as.double(i) / noOfSoilLayers * baseTemp)
     }
@@ -121,7 +107,9 @@ init_soiltemperature <- function (timeStep,
     return (list ("soilSurfaceTemperature" = soilSurfaceTemperature,"soilTemperature" = soilTemperature,"V" = V,"B" = B,"volumeMatrix" = volumeMatrix,"volumeMatrixOld" = volumeMatrixOld,"matrixPrimaryDiagonal" = matrixPrimaryDiagonal,"matrixSecondaryDiagonal" = matrixSecondaryDiagonal,"heatConductivity" = heatConductivity,"heatConductivityMean" = heatConductivityMean,"heatCapacity" = heatCapacity,"solution" = solution,"matrixDiagonal" = matrixDiagonal,"matrixLowerTriangle" = matrixLowerTriangle,"heatFlow" = heatFlow))
 }
 
-model_soiltemperature <- function (soilSurfaceTemperature,
+model_soiltemperature <- function (noOfTempLayers,
+         noOfSoilLayers,
+         soilSurfaceTemperature,
          timeStep,
          soilMoistureConst,
          baseTemp,
@@ -135,8 +123,6 @@ model_soiltemperature <- function (soilSurfaceTemperature,
          quartzRawDensity,
          specificHeatCapacityQuartz,
          nTau,
-         noOfTempLayers,
-         noOfSoilLayers,
          layerThickness,
          soilBulkDensity,
          saturation,
@@ -164,13 +150,31 @@ model_soiltemperature <- function (soilSurfaceTemperature,
     #'            * ExtendedDescription: None
     #'            * ShortDescription: Calculates the soil temperature at all soil layers
     #'- inputs:
+    #'            * name: noOfTempLayers
+    #'                          ** description : noOfTempLayers=noOfSoilLayers+2
+    #'                          ** inputtype : parameter
+    #'                          ** parametercategory : constant
+    #'                          ** datatype : INT
+    #'                          ** max : 
+    #'                          ** min : 
+    #'                          ** default : 22
+    #'                          ** unit : dimensionless
+    #'            * name: noOfSoilLayers
+    #'                          ** description : noOfSoilLayers
+    #'                          ** inputtype : parameter
+    #'                          ** parametercategory : constant
+    #'                          ** datatype : INT
+    #'                          ** max : 
+    #'                          ** min : 
+    #'                          ** default : 20.0
+    #'                          ** unit : dimensionless
     #'            * name: soilSurfaceTemperature
     #'                          ** description : current soilSurfaceTemperature
     #'                          ** inputtype : variable
     #'                          ** variablecategory : state
     #'                          ** datatype : DOUBLE
-    #'                          ** max : 80
-    #'                          ** min : -50
+    #'                          ** max : 80.0
+    #'                          ** min : -50.0
     #'                          ** default : 0.0
     #'                          ** unit : °C
     #'            * name: timeStep
@@ -225,7 +229,7 @@ model_soiltemperature <- function (soilSurfaceTemperature,
     #'                          ** datatype : DOUBLE
     #'                          ** max : 
     #'                          ** min : 
-    #'                          ** default : 1005
+    #'                          ** default : 1005.0
     #'                          ** unit : J/kg/K
     #'            * name: densityHumus
     #'                          ** description : DensityHumus
@@ -234,7 +238,7 @@ model_soiltemperature <- function (soilSurfaceTemperature,
     #'                          ** datatype : DOUBLE
     #'                          ** max : 
     #'                          ** min : 
-    #'                          ** default : 1300
+    #'                          ** default : 1300.0
     #'                          ** unit : kg/m**3
     #'            * name: specificHeatCapacityHumus
     #'                          ** description : SpecificHeatCapacityHumus
@@ -243,7 +247,7 @@ model_soiltemperature <- function (soilSurfaceTemperature,
     #'                          ** datatype : DOUBLE
     #'                          ** max : 
     #'                          ** min : 
-    #'                          ** default : 1920
+    #'                          ** default : 1920.0
     #'                          ** unit : J/kg/K
     #'            * name: densityWater
     #'                          ** description : DensityWater
@@ -252,7 +256,7 @@ model_soiltemperature <- function (soilSurfaceTemperature,
     #'                          ** datatype : DOUBLE
     #'                          ** max : 
     #'                          ** min : 
-    #'                          ** default : 1000
+    #'                          ** default : 1000.0
     #'                          ** unit : kg/m**3
     #'            * name: specificHeatCapacityWater
     #'                          ** description : SpecificHeatCapacityWater
@@ -261,7 +265,7 @@ model_soiltemperature <- function (soilSurfaceTemperature,
     #'                          ** datatype : DOUBLE
     #'                          ** max : 
     #'                          ** min : 
-    #'                          ** default : 4192
+    #'                          ** default : 4192.0
     #'                          ** unit : J/kg/K
     #'            * name: quartzRawDensity
     #'                          ** description : QuartzRawDensity
@@ -270,7 +274,7 @@ model_soiltemperature <- function (soilSurfaceTemperature,
     #'                          ** datatype : DOUBLE
     #'                          ** max : 
     #'                          ** min : 
-    #'                          ** default : 2650
+    #'                          ** default : 2650.0
     #'                          ** unit : kg/m**3
     #'            * name: specificHeatCapacityQuartz
     #'                          ** description : SpecificHeatCapacityQuartz
@@ -279,7 +283,7 @@ model_soiltemperature <- function (soilSurfaceTemperature,
     #'                          ** datatype : DOUBLE
     #'                          ** max : 
     #'                          ** min : 
-    #'                          ** default : 750
+    #'                          ** default : 750.0
     #'                          ** unit : J/kg/K
     #'            * name: nTau
     #'                          ** description : NTau
@@ -290,24 +294,6 @@ model_soiltemperature <- function (soilSurfaceTemperature,
     #'                          ** min : 
     #'                          ** default : 0.65
     #'                          ** unit : ?
-    #'            * name: noOfTempLayers
-    #'                          ** description : noOfTempLayers=noOfSoilLayers+2
-    #'                          ** inputtype : parameter
-    #'                          ** parametercategory : constant
-    #'                          ** datatype : INT
-    #'                          ** max : 
-    #'                          ** min : 
-    #'                          ** default : 22
-    #'                          ** unit : dimensionless
-    #'            * name: noOfSoilLayers
-    #'                          ** description : noOfSoilLayers
-    #'                          ** inputtype : parameter
-    #'                          ** parametercategory : constant
-    #'                          ** datatype : INT
-    #'                          ** max : 
-    #'                          ** min : 
-    #'                          ** default : 20
-    #'                          ** unit : dimensionless
     #'            * name: layerThickness
     #'                          ** description : layerThickness
     #'                          ** inputtype : parameter

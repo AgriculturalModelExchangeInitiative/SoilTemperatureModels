@@ -64,8 +64,8 @@ def model_soiltemperaturecomp(tmin:float,
                                ** inputtype : variable
                                ** variablecategory : exogenous
                                ** datatype : DOUBLE
-                               ** max : 70
-                               ** min : -50
+                               ** max : 70.0
+                               ** min : -50.0
                                ** default : 
                                ** unit : °C
                  * name: tmax
@@ -73,8 +73,8 @@ def model_soiltemperaturecomp(tmin:float,
                                ** inputtype : variable
                                ** variablecategory : exogenous
                                ** datatype : DOUBLE
-                               ** max : 70
-                               ** min : -50
+                               ** max : 70.0
+                               ** min : -50.0
                                ** default : 
                                ** unit : °C
                  * name: globrad
@@ -82,9 +82,9 @@ def model_soiltemperaturecomp(tmin:float,
                                ** inputtype : variable
                                ** variablecategory : exogenous
                                ** datatype : DOUBLE
-                               ** max : 30
-                               ** min : 0
-                               ** default : 0
+                               ** max : 30.0
+                               ** min : 0.0
+                               ** default : 0.0
                                ** unit : MJ/m**2/d
                  * name: dampingFactor
                                ** description : dampingFactor
@@ -174,7 +174,7 @@ def model_soiltemperaturecomp(tmin:float,
                                ** datatype : DOUBLE
                                ** max : 
                                ** min : 
-                               ** default : 1005
+                               ** default : 1005.0
                                ** unit : J/kg/K
                  * name: densityHumus
                                ** description : DensityHumus
@@ -183,7 +183,7 @@ def model_soiltemperaturecomp(tmin:float,
                                ** datatype : DOUBLE
                                ** max : 
                                ** min : 
-                               ** default : 1300
+                               ** default : 1300.0
                                ** unit : kg/m**3
                  * name: specificHeatCapacityHumus
                                ** description : SpecificHeatCapacityHumus
@@ -192,7 +192,7 @@ def model_soiltemperaturecomp(tmin:float,
                                ** datatype : DOUBLE
                                ** max : 
                                ** min : 
-                               ** default : 1920
+                               ** default : 1920.0
                                ** unit : J/kg/K
                  * name: densityWater
                                ** description : DensityWater
@@ -201,7 +201,7 @@ def model_soiltemperaturecomp(tmin:float,
                                ** datatype : DOUBLE
                                ** max : 
                                ** min : 
-                               ** default : 1000
+                               ** default : 1000.0
                                ** unit : kg/m**3
                  * name: specificHeatCapacityWater
                                ** description : SpecificHeatCapacityWater
@@ -210,7 +210,7 @@ def model_soiltemperaturecomp(tmin:float,
                                ** datatype : DOUBLE
                                ** max : 
                                ** min : 
-                               ** default : 4192
+                               ** default : 4192.0
                                ** unit : J/kg/K
                  * name: quartzRawDensity
                                ** description : QuartzRawDensity
@@ -219,7 +219,7 @@ def model_soiltemperaturecomp(tmin:float,
                                ** datatype : DOUBLE
                                ** max : 
                                ** min : 
-                               ** default : 2650
+                               ** default : 2650.0
                                ** unit : kg/m**3
                  * name: specificHeatCapacityQuartz
                                ** description : SpecificHeatCapacityQuartz
@@ -228,7 +228,7 @@ def model_soiltemperaturecomp(tmin:float,
                                ** datatype : DOUBLE
                                ** max : 
                                ** min : 
-                               ** default : 750
+                               ** default : 750.0
                                ** unit : J/kg/K
                  * name: nTau
                                ** description : NTau
@@ -255,7 +255,7 @@ def model_soiltemperaturecomp(tmin:float,
                                ** datatype : INT
                                ** max : 
                                ** min : 
-                               ** default : 20
+                               ** default : 20.0
                                ** unit : dimensionless
                  * name: layerThickness
                                ** description : layerThickness
@@ -451,6 +451,6 @@ def model_soiltemperaturecomp(tmin:float,
     soilSurfaceTemperature = model_nosnowsoilsurfacetemperature(tmin, tmax, globrad, soilCoverage, dampingFactor, soilSurfaceTemperature)
     noSnowSoilSurfaceTemperature = soilSurfaceTemperature
     soilSurfaceTemperature = model_withsnowsoilsurfacetemperature(noSnowSoilSurfaceTemperature, soilSurfaceTemperatureBelowSnow, hasSnowCover)
-    soilTemperature = model_soiltemperature(soilSurfaceTemperature, timeStep, soilMoistureConst, baseTemp, initialSurfaceTemp, densityAir, specificHeatCapacityAir, densityHumus, specificHeatCapacityHumus, densityWater, specificHeatCapacityWater, quartzRawDensity, specificHeatCapacityQuartz, nTau, noOfTempLayers, noOfSoilLayers, layerThickness, soilBulkDensity, saturation, soilOrganicMatter, soilTemperature, V, B, volumeMatrix, volumeMatrixOld, matrixPrimaryDiagonal, matrixSecondaryDiagonal, heatConductivity, heatConductivityMean, heatCapacity, solution, matrixDiagonal, matrixLowerTriangle, heatFlow)
+    soilTemperature = model_soiltemperature(noOfTempLayers, noOfSoilLayers, soilSurfaceTemperature, timeStep, soilMoistureConst, baseTemp, initialSurfaceTemp, densityAir, specificHeatCapacityAir, densityHumus, specificHeatCapacityHumus, densityWater, specificHeatCapacityWater, quartzRawDensity, specificHeatCapacityQuartz, nTau, layerThickness, soilBulkDensity, saturation, soilOrganicMatter, soilTemperature, V, B, volumeMatrix, volumeMatrixOld, matrixPrimaryDiagonal, matrixSecondaryDiagonal, heatConductivity, heatConductivityMean, heatCapacity, solution, matrixDiagonal, matrixLowerTriangle, heatFlow)
     return (soilSurfaceTemperature, soilTemperature)
 #%%CyML Model End%%

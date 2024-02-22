@@ -54,10 +54,10 @@ public class WithSnowSoilSurfaceTemperature
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : °C
-        Double noSnowSoilSurfaceTemperature = s.getnoSnowSoilSurfaceTemperature();
-        Double soilSurfaceTemperatureBelowSnow = ex.getsoilSurfaceTemperatureBelowSnow();
+        double noSnowSoilSurfaceTemperature = s.getnoSnowSoilSurfaceTemperature();
+        double soilSurfaceTemperatureBelowSnow = ex.getsoilSurfaceTemperatureBelowSnow();
         Boolean hasSnowCover = ex.gethasSnowCover();
-        Double soilSurfaceTemperature;
+        double soilSurfaceTemperature;
         if (hasSnowCover)
         {
             soilSurfaceTemperature = soilSurfaceTemperatureBelowSnow;

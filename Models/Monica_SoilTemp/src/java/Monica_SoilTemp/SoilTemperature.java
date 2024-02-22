@@ -7,7 +7,7 @@ public class SoilTemperature
 {
     public void Init(SoilTemperatureCompState s, SoilTemperatureCompState s1, SoilTemperatureCompRate r, SoilTemperatureCompAuxiliary a,  SoilTemperatureCompExogenous ex)
     {
-        Double soilSurfaceTemperature = 0.0;
+        double soilSurfaceTemperature = 0.0;
         Double[] soilTemperature =  new Double [22];
         Double[] V =  new Double [22];
         Double[] B =  new Double [22];
@@ -22,42 +22,59 @@ public class SoilTemperature
         Double[] matrixDiagonal =  new Double [22];
         Double[] matrixLowerTriangle =  new Double [22];
         Double[] heatFlow =  new Double [22];
+        soilTemperature= new Double[22];
         Arrays.fill(soilTemperature, 0.0d);
+        V= new Double[22];
         Arrays.fill(V, 0.0d);
+        B= new Double[22];
         Arrays.fill(B, 0.0d);
+        volumeMatrix= new Double[22];
         Arrays.fill(volumeMatrix, 0.0d);
+        volumeMatrixOld= new Double[22];
         Arrays.fill(volumeMatrixOld, 0.0d);
+        matrixPrimaryDiagonal= new Double[22];
         Arrays.fill(matrixPrimaryDiagonal, 0.0d);
+        matrixSecondaryDiagonal= new Double[23];
         Arrays.fill(matrixSecondaryDiagonal, 0.0d);
+        heatConductivity= new Double[22];
         Arrays.fill(heatConductivity, 0.0d);
+        heatConductivityMean= new Double[22];
         Arrays.fill(heatConductivityMean, 0.0d);
+        heatCapacity= new Double[22];
         Arrays.fill(heatCapacity, 0.0d);
+        solution= new Double[22];
         Arrays.fill(solution, 0.0d);
+        matrixDiagonal= new Double[22];
         Arrays.fill(matrixDiagonal, 0.0d);
+        matrixLowerTriangle= new Double[22];
         Arrays.fill(matrixLowerTriangle, 0.0d);
+        heatFlow= new Double[22];
         Arrays.fill(heatFlow, 0.0d);
-        soilTemperature = new Double [noOfTempLayers];
-        V = new Double [noOfTempLayers];
-        volumeMatrix = new Double [noOfTempLayers];
-        volumeMatrixOld = new Double [noOfTempLayers];
-        B = new Double [noOfTempLayers];
-        matrixPrimaryDiagonal = new Double [noOfTempLayers];
-        matrixSecondaryDiagonal = new Double [noOfTempLayers + 1];
-        heatConductivity = new Double [noOfTempLayers];
-        heatConductivityMean = new Double [noOfTempLayers];
-        heatCapacity = new Double [noOfTempLayers];
-        solution = new Double [noOfTempLayers];
-        matrixDiagonal = new Double [noOfTempLayers];
-        matrixLowerTriangle = new Double [noOfTempLayers];
-        heatFlow = new Double [noOfTempLayers];
+        Integer groundLayer;
+        Integer bottomLayer;
+        double lti_1;
+        double lti;
+        double ts;
+        double dw;
+        double cw;
+        double dq;
+        double cq;
+        double da;
+        double ca;
+        double dh;
+        double ch;
+        double sbdi;
+        double smi;
+        double sati;
+        double somi;
+        double hci_1;
+        double hci;
         Integer i;
         for (i=0 ; i!=noOfSoilLayers ; i+=1)
         {
             soilTemperature[i] = (1.0d - ((double)(i) / noOfSoilLayers)) * initialSurfaceTemp + ((double)(i) / noOfSoilLayers * baseTemp);
         }
-        Integer groundLayer;
         groundLayer = noOfTempLayers - 2;
-        Integer bottomLayer;
         bottomLayer = noOfTempLayers - 1;
         layerThickness[groundLayer] = 2.0d * layerThickness[(groundLayer - 1)];
         layerThickness[bottomLayer] = 1.0d;
@@ -65,8 +82,6 @@ public class SoilTemperature
         soilTemperature[bottomLayer] = baseTemp;
         V[0] = layerThickness[0];
         B[0] = 2.0d / layerThickness[0];
-        Double lti_1;
-        Double lti;
         for (i=1 ; i!=noOfTempLayers ; i+=1)
         {
             lti_1 = layerThickness[i - 1];
@@ -74,28 +89,15 @@ public class SoilTemperature
             B[i] = 2.0d / (lti + lti_1);
             V[i] = lti * nTau;
         }
-        Double ts;
         ts = timeStep;
-        Double dw;
         dw = densityWater;
-        Double cw;
         cw = specificHeatCapacityWater;
-        Double dq;
         dq = quartzRawDensity;
-        Double cq;
         cq = specificHeatCapacityQuartz;
-        Double da;
         da = densityAir;
-        Double ca;
         ca = specificHeatCapacityAir;
-        Double dh;
         dh = densityHumus;
-        Double ch;
         ch = specificHeatCapacityHumus;
-        Double sbdi;
-        Double smi;
-        Double sati;
-        Double somi;
         for (i=0 ; i!=noOfSoilLayers ; i+=1)
         {
             sbdi = soilBulkDensity[i];
@@ -111,8 +113,6 @@ public class SoilTemperature
         heatConductivity[bottomLayer] = heatConductivity[groundLayer];
         soilSurfaceTemperature = initialSurfaceTemp;
         heatConductivityMean[0] = heatConductivity[0];
-        Double hci_1;
-        Double hci;
         for (i=1 ; i!=noOfTempLayers ; i+=1)
         {
             lti_1 = layerThickness[i - 1];
@@ -148,97 +148,6 @@ public class SoilTemperature
         s.setmatrixLowerTriangle(matrixLowerTriangle);
         s.setheatFlow(heatFlow);
     }
-    private Double timeStep;
-    public Double gettimeStep()
-    { return timeStep; }
-
-    public void settimeStep(Double _timeStep)
-    { this.timeStep= _timeStep; } 
-    
-    private Double soilMoistureConst;
-    public Double getsoilMoistureConst()
-    { return soilMoistureConst; }
-
-    public void setsoilMoistureConst(Double _soilMoistureConst)
-    { this.soilMoistureConst= _soilMoistureConst; } 
-    
-    private Double baseTemp;
-    public Double getbaseTemp()
-    { return baseTemp; }
-
-    public void setbaseTemp(Double _baseTemp)
-    { this.baseTemp= _baseTemp; } 
-    
-    private Double initialSurfaceTemp;
-    public Double getinitialSurfaceTemp()
-    { return initialSurfaceTemp; }
-
-    public void setinitialSurfaceTemp(Double _initialSurfaceTemp)
-    { this.initialSurfaceTemp= _initialSurfaceTemp; } 
-    
-    private Double densityAir;
-    public Double getdensityAir()
-    { return densityAir; }
-
-    public void setdensityAir(Double _densityAir)
-    { this.densityAir= _densityAir; } 
-    
-    private Double specificHeatCapacityAir;
-    public Double getspecificHeatCapacityAir()
-    { return specificHeatCapacityAir; }
-
-    public void setspecificHeatCapacityAir(Double _specificHeatCapacityAir)
-    { this.specificHeatCapacityAir= _specificHeatCapacityAir; } 
-    
-    private Double densityHumus;
-    public Double getdensityHumus()
-    { return densityHumus; }
-
-    public void setdensityHumus(Double _densityHumus)
-    { this.densityHumus= _densityHumus; } 
-    
-    private Double specificHeatCapacityHumus;
-    public Double getspecificHeatCapacityHumus()
-    { return specificHeatCapacityHumus; }
-
-    public void setspecificHeatCapacityHumus(Double _specificHeatCapacityHumus)
-    { this.specificHeatCapacityHumus= _specificHeatCapacityHumus; } 
-    
-    private Double densityWater;
-    public Double getdensityWater()
-    { return densityWater; }
-
-    public void setdensityWater(Double _densityWater)
-    { this.densityWater= _densityWater; } 
-    
-    private Double specificHeatCapacityWater;
-    public Double getspecificHeatCapacityWater()
-    { return specificHeatCapacityWater; }
-
-    public void setspecificHeatCapacityWater(Double _specificHeatCapacityWater)
-    { this.specificHeatCapacityWater= _specificHeatCapacityWater; } 
-    
-    private Double quartzRawDensity;
-    public Double getquartzRawDensity()
-    { return quartzRawDensity; }
-
-    public void setquartzRawDensity(Double _quartzRawDensity)
-    { this.quartzRawDensity= _quartzRawDensity; } 
-    
-    private Double specificHeatCapacityQuartz;
-    public Double getspecificHeatCapacityQuartz()
-    { return specificHeatCapacityQuartz; }
-
-    public void setspecificHeatCapacityQuartz(Double _specificHeatCapacityQuartz)
-    { this.specificHeatCapacityQuartz= _specificHeatCapacityQuartz; } 
-    
-    private Double nTau;
-    public Double getnTau()
-    { return nTau; }
-
-    public void setnTau(Double _nTau)
-    { this.nTau= _nTau; } 
-    
     private Integer noOfTempLayers;
     public Integer getnoOfTempLayers()
     { return noOfTempLayers; }
@@ -252,6 +161,97 @@ public class SoilTemperature
 
     public void setnoOfSoilLayers(Integer _noOfSoilLayers)
     { this.noOfSoilLayers= _noOfSoilLayers; } 
+    
+    private double timeStep;
+    public double gettimeStep()
+    { return timeStep; }
+
+    public void settimeStep(double _timeStep)
+    { this.timeStep= _timeStep; } 
+    
+    private double soilMoistureConst;
+    public double getsoilMoistureConst()
+    { return soilMoistureConst; }
+
+    public void setsoilMoistureConst(double _soilMoistureConst)
+    { this.soilMoistureConst= _soilMoistureConst; } 
+    
+    private double baseTemp;
+    public double getbaseTemp()
+    { return baseTemp; }
+
+    public void setbaseTemp(double _baseTemp)
+    { this.baseTemp= _baseTemp; } 
+    
+    private double initialSurfaceTemp;
+    public double getinitialSurfaceTemp()
+    { return initialSurfaceTemp; }
+
+    public void setinitialSurfaceTemp(double _initialSurfaceTemp)
+    { this.initialSurfaceTemp= _initialSurfaceTemp; } 
+    
+    private double densityAir;
+    public double getdensityAir()
+    { return densityAir; }
+
+    public void setdensityAir(double _densityAir)
+    { this.densityAir= _densityAir; } 
+    
+    private double specificHeatCapacityAir;
+    public double getspecificHeatCapacityAir()
+    { return specificHeatCapacityAir; }
+
+    public void setspecificHeatCapacityAir(double _specificHeatCapacityAir)
+    { this.specificHeatCapacityAir= _specificHeatCapacityAir; } 
+    
+    private double densityHumus;
+    public double getdensityHumus()
+    { return densityHumus; }
+
+    public void setdensityHumus(double _densityHumus)
+    { this.densityHumus= _densityHumus; } 
+    
+    private double specificHeatCapacityHumus;
+    public double getspecificHeatCapacityHumus()
+    { return specificHeatCapacityHumus; }
+
+    public void setspecificHeatCapacityHumus(double _specificHeatCapacityHumus)
+    { this.specificHeatCapacityHumus= _specificHeatCapacityHumus; } 
+    
+    private double densityWater;
+    public double getdensityWater()
+    { return densityWater; }
+
+    public void setdensityWater(double _densityWater)
+    { this.densityWater= _densityWater; } 
+    
+    private double specificHeatCapacityWater;
+    public double getspecificHeatCapacityWater()
+    { return specificHeatCapacityWater; }
+
+    public void setspecificHeatCapacityWater(double _specificHeatCapacityWater)
+    { this.specificHeatCapacityWater= _specificHeatCapacityWater; } 
+    
+    private double quartzRawDensity;
+    public double getquartzRawDensity()
+    { return quartzRawDensity; }
+
+    public void setquartzRawDensity(double _quartzRawDensity)
+    { this.quartzRawDensity= _quartzRawDensity; } 
+    
+    private double specificHeatCapacityQuartz;
+    public double getspecificHeatCapacityQuartz()
+    { return specificHeatCapacityQuartz; }
+
+    public void setspecificHeatCapacityQuartz(double _specificHeatCapacityQuartz)
+    { this.specificHeatCapacityQuartz= _specificHeatCapacityQuartz; } 
+    
+    private double nTau;
+    public double getnTau()
+    { return nTau; }
+
+    public void setnTau(double _nTau)
+    { this.nTau= _nTau; } 
     
     private Double [] layerThickness;
     public Double [] getlayerThickness()
@@ -293,13 +293,31 @@ public class SoilTemperature
     //            * ExtendedDescription: None
     //            * ShortDescription: Calculates the soil temperature at all soil layers
         //- inputs:
+    //            * name: noOfTempLayers
+    //                          ** description : noOfTempLayers=noOfSoilLayers+2
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
+    //                          ** datatype : INT
+    //                          ** max : 
+    //                          ** min : 
+    //                          ** default : 22
+    //                          ** unit : dimensionless
+    //            * name: noOfSoilLayers
+    //                          ** description : noOfSoilLayers
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
+    //                          ** datatype : INT
+    //                          ** max : 
+    //                          ** min : 
+    //                          ** default : 20.0
+    //                          ** unit : dimensionless
     //            * name: soilSurfaceTemperature
     //                          ** description : current soilSurfaceTemperature
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLE
-    //                          ** max : 80
-    //                          ** min : -50
+    //                          ** max : 80.0
+    //                          ** min : -50.0
     //                          ** default : 0.0
     //                          ** unit : °C
     //            * name: timeStep
@@ -354,7 +372,7 @@ public class SoilTemperature
     //                          ** datatype : DOUBLE
     //                          ** max : 
     //                          ** min : 
-    //                          ** default : 1005
+    //                          ** default : 1005.0
     //                          ** unit : J/kg/K
     //            * name: densityHumus
     //                          ** description : DensityHumus
@@ -363,7 +381,7 @@ public class SoilTemperature
     //                          ** datatype : DOUBLE
     //                          ** max : 
     //                          ** min : 
-    //                          ** default : 1300
+    //                          ** default : 1300.0
     //                          ** unit : kg/m**3
     //            * name: specificHeatCapacityHumus
     //                          ** description : SpecificHeatCapacityHumus
@@ -372,7 +390,7 @@ public class SoilTemperature
     //                          ** datatype : DOUBLE
     //                          ** max : 
     //                          ** min : 
-    //                          ** default : 1920
+    //                          ** default : 1920.0
     //                          ** unit : J/kg/K
     //            * name: densityWater
     //                          ** description : DensityWater
@@ -381,7 +399,7 @@ public class SoilTemperature
     //                          ** datatype : DOUBLE
     //                          ** max : 
     //                          ** min : 
-    //                          ** default : 1000
+    //                          ** default : 1000.0
     //                          ** unit : kg/m**3
     //            * name: specificHeatCapacityWater
     //                          ** description : SpecificHeatCapacityWater
@@ -390,7 +408,7 @@ public class SoilTemperature
     //                          ** datatype : DOUBLE
     //                          ** max : 
     //                          ** min : 
-    //                          ** default : 4192
+    //                          ** default : 4192.0
     //                          ** unit : J/kg/K
     //            * name: quartzRawDensity
     //                          ** description : QuartzRawDensity
@@ -399,7 +417,7 @@ public class SoilTemperature
     //                          ** datatype : DOUBLE
     //                          ** max : 
     //                          ** min : 
-    //                          ** default : 2650
+    //                          ** default : 2650.0
     //                          ** unit : kg/m**3
     //            * name: specificHeatCapacityQuartz
     //                          ** description : SpecificHeatCapacityQuartz
@@ -408,7 +426,7 @@ public class SoilTemperature
     //                          ** datatype : DOUBLE
     //                          ** max : 
     //                          ** min : 
-    //                          ** default : 750
+    //                          ** default : 750.0
     //                          ** unit : J/kg/K
     //            * name: nTau
     //                          ** description : NTau
@@ -419,24 +437,6 @@ public class SoilTemperature
     //                          ** min : 
     //                          ** default : 0.65
     //                          ** unit : ?
-    //            * name: noOfTempLayers
-    //                          ** description : noOfTempLayers=noOfSoilLayers+2
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : INT
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 22
-    //                          ** unit : dimensionless
-    //            * name: noOfSoilLayers
-    //                          ** description : noOfSoilLayers
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : INT
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 20
-    //                          ** unit : dimensionless
     //            * name: layerThickness
     //                          ** description : layerThickness
     //                          ** inputtype : parameter
@@ -626,7 +626,7 @@ public class SoilTemperature
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : °C
-        Double soilSurfaceTemperature = s.getsoilSurfaceTemperature();
+        double soilSurfaceTemperature = s.getsoilSurfaceTemperature();
         Double [] soilTemperature = s.getsoilTemperature();
         Double [] V = s.getV();
         Double [] B = s.getB();
@@ -643,10 +643,12 @@ public class SoilTemperature
         Double [] heatFlow = s.getheatFlow();
         Integer groundLayer;
         Integer bottomLayer;
+        Integer i;
+        Integer j;
+        Integer j_1;
         groundLayer = noOfTempLayers - 2;
         bottomLayer = noOfTempLayers - 1;
         heatFlow[0] = soilSurfaceTemperature * B[0] * heatConductivityMean[0];
-        Integer i;
         for (i=0 ; i!=noOfTempLayers ; i+=1)
         {
             solution[i] = (volumeMatrixOld[i] + ((volumeMatrix[i] - volumeMatrixOld[i]) / layerThickness[i])) * soilTemperature[i] + heatFlow[i];
@@ -662,8 +664,6 @@ public class SoilTemperature
             solution[i] = solution[i] - (matrixLowerTriangle[i] * solution[(i - 1)]);
         }
         solution[bottomLayer] = solution[bottomLayer] / matrixDiagonal[bottomLayer];
-        Integer j;
-        Integer j_1;
         for (i=0 ; i!=bottomLayer ; i+=1)
         {
             j = bottomLayer - 1 - i;

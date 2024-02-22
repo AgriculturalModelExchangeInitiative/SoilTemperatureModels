@@ -15,20 +15,14 @@
 #double baseTemp = _params.pt_BaseTemperature;  // temperature for lowest layer (avg yearly air temp)
 #double initialSurfaceTemp = _params.pt_InitialSurfaceTemperature; // Replace by Mean air temperature
 
-soilTemperature.allocate(noOfTempLayers)
-V.allocate(noOfTempLayers)
-volumeMatrix.allocate(noOfTempLayers)
-volumeMatrixOld.allocate(noOfTempLayers)
-B.allocate(noOfTempLayers)
-matrixPrimaryDiagonal.allocate(noOfTempLayers)
-matrixSecondaryDiagonal.allocate(noOfTempLayers + 1)
-heatConductivity.allocate(noOfTempLayers)
-heatConductivityMean.allocate(noOfTempLayers)
-heatCapacity.allocate(noOfTempLayers)
-solution.allocate(noOfTempLayers)
-matrixDiagonal.allocate(noOfTempLayers)
-matrixLowerTriangle.allocate(noOfTempLayers)
-heatFlow.allocate(noOfTempLayers)
+cdef int groundLayer 
+cdef int bottomLayer 
+cdef float lti_1, lti
+cdef float ts, dw, cw, dq, cq, da, ca, dh, ch,sbdi, smi, sati, somi
+cdef float hci_1, hci
+
+
+
 
 # Initialising the soil properties
 cdef int i
@@ -45,9 +39,8 @@ for i in range(noOfSoilLayers):
 
 # Determination of the geometry parameters for soil temperature calculation
 # with Cholesky-Method
-cdef int groundLayer 
+
 groundLayer = noOfTempLayers - 2
-cdef int bottomLayer 
 bottomLayer = noOfTempLayers - 1
 layerThickness[groundLayer] = 2.0 * layerThickness[groundLayer - 1]
 layerThickness[bottomLayer] = 1.0
@@ -56,7 +49,6 @@ soilTemperature[bottomLayer] = baseTemp
 
 V[0] = layerThickness[0]
 B[0] = 2.0 / layerThickness[0]
-cdef float lti_1, lti
 for i in range(1, noOfTempLayers):
     lti_1 = layerThickness[i-1] # [m]
     lti = layerThickness[i] # [m]
@@ -64,29 +56,22 @@ for i in range(1, noOfTempLayers):
     V[i] = lti * nTau # [m3]
 # End determination of the geometry parameters for soil temperature calculation
 
-cdef float ts
+
 ts = timeStep  
-cdef float dw
 dw = densityWater # [kg m-3]
-cdef float cw
 cw = specificHeatCapacityWater # [J kg-1 K-1]
-cdef float dq
 dq = quartzRawDensity
-cdef float cq
 cq = specificHeatCapacityQuartz # [J kg-1 K-1]
-cdef float da
+
 da = densityAir # [kg m-3]
-cdef float ca
 ca = specificHeatCapacityAir # [J kg-1 K-1]
-cdef float dh
 dh = densityHumus # [kg m-3]
-cdef float ch
 ch = specificHeatCapacityHumus # [J kg-1 K-1]
 
 # initializing heat state variables
 # iterates only over the standard soil number of layers, the other two layers
 # will be assigned below that loop
-cdef float sbdi, smi, sati, somi
+
 for i in range(noOfSoilLayers):
     #######################################################################################
     # Calculate heat conductivity following Neusypina 1979
@@ -134,8 +119,7 @@ soilSurfaceTemperature = initialSurfaceTemp
 
 # Calculation of the mean heat conductivity per layer
 heatConductivityMean[0] = heatConductivity[0]
-
-cdef float hci_1, hci
+ 
 for i in range(1, noOfTempLayers):
     lti_1 = layerThickness[i - 1]
     lti = layerThickness[i]

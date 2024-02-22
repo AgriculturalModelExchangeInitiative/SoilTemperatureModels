@@ -1,6 +1,6 @@
 library(gsubfn)
 library (gsubfn) 
-setwd('/src/r')
+setwd('D:/Docs/AMEI_Workshop/AMEI_10_14_2022/Models/Monica_SoilTemp/src/r')
 source('Soiltemperature.r')
 source('Nosnowsoilsurfacetemperature.r')
 source('Withsnowsoilsurfacetemperature.r')
@@ -58,8 +58,8 @@ model_soiltemperaturecomp <- function (tmin,
     #'                          ** inputtype : variable
     #'                          ** variablecategory : exogenous
     #'                          ** datatype : DOUBLE
-    #'                          ** max : 70
-    #'                          ** min : -50
+    #'                          ** max : 70.0
+    #'                          ** min : -50.0
     #'                          ** default : 
     #'                          ** unit : °C
     #'            * name: tmax
@@ -67,8 +67,8 @@ model_soiltemperaturecomp <- function (tmin,
     #'                          ** inputtype : variable
     #'                          ** variablecategory : exogenous
     #'                          ** datatype : DOUBLE
-    #'                          ** max : 70
-    #'                          ** min : -50
+    #'                          ** max : 70.0
+    #'                          ** min : -50.0
     #'                          ** default : 
     #'                          ** unit : °C
     #'            * name: globrad
@@ -76,9 +76,9 @@ model_soiltemperaturecomp <- function (tmin,
     #'                          ** inputtype : variable
     #'                          ** variablecategory : exogenous
     #'                          ** datatype : DOUBLE
-    #'                          ** max : 30
-    #'                          ** min : 0
-    #'                          ** default : 0
+    #'                          ** max : 30.0
+    #'                          ** min : 0.0
+    #'                          ** default : 0.0
     #'                          ** unit : MJ/m**2/d
     #'            * name: dampingFactor
     #'                          ** description : dampingFactor
@@ -168,7 +168,7 @@ model_soiltemperaturecomp <- function (tmin,
     #'                          ** datatype : DOUBLE
     #'                          ** max : 
     #'                          ** min : 
-    #'                          ** default : 1005
+    #'                          ** default : 1005.0
     #'                          ** unit : J/kg/K
     #'            * name: densityHumus
     #'                          ** description : DensityHumus
@@ -177,7 +177,7 @@ model_soiltemperaturecomp <- function (tmin,
     #'                          ** datatype : DOUBLE
     #'                          ** max : 
     #'                          ** min : 
-    #'                          ** default : 1300
+    #'                          ** default : 1300.0
     #'                          ** unit : kg/m**3
     #'            * name: specificHeatCapacityHumus
     #'                          ** description : SpecificHeatCapacityHumus
@@ -186,7 +186,7 @@ model_soiltemperaturecomp <- function (tmin,
     #'                          ** datatype : DOUBLE
     #'                          ** max : 
     #'                          ** min : 
-    #'                          ** default : 1920
+    #'                          ** default : 1920.0
     #'                          ** unit : J/kg/K
     #'            * name: densityWater
     #'                          ** description : DensityWater
@@ -195,7 +195,7 @@ model_soiltemperaturecomp <- function (tmin,
     #'                          ** datatype : DOUBLE
     #'                          ** max : 
     #'                          ** min : 
-    #'                          ** default : 1000
+    #'                          ** default : 1000.0
     #'                          ** unit : kg/m**3
     #'            * name: specificHeatCapacityWater
     #'                          ** description : SpecificHeatCapacityWater
@@ -204,7 +204,7 @@ model_soiltemperaturecomp <- function (tmin,
     #'                          ** datatype : DOUBLE
     #'                          ** max : 
     #'                          ** min : 
-    #'                          ** default : 4192
+    #'                          ** default : 4192.0
     #'                          ** unit : J/kg/K
     #'            * name: quartzRawDensity
     #'                          ** description : QuartzRawDensity
@@ -213,7 +213,7 @@ model_soiltemperaturecomp <- function (tmin,
     #'                          ** datatype : DOUBLE
     #'                          ** max : 
     #'                          ** min : 
-    #'                          ** default : 2650
+    #'                          ** default : 2650.0
     #'                          ** unit : kg/m**3
     #'            * name: specificHeatCapacityQuartz
     #'                          ** description : SpecificHeatCapacityQuartz
@@ -222,7 +222,7 @@ model_soiltemperaturecomp <- function (tmin,
     #'                          ** datatype : DOUBLE
     #'                          ** max : 
     #'                          ** min : 
-    #'                          ** default : 750
+    #'                          ** default : 750.0
     #'                          ** unit : J/kg/K
     #'            * name: nTau
     #'                          ** description : NTau
@@ -249,7 +249,7 @@ model_soiltemperaturecomp <- function (tmin,
     #'                          ** datatype : INT
     #'                          ** max : 
     #'                          ** min : 
-    #'                          ** default : 20
+    #'                          ** default : 20.0
     #'                          ** unit : dimensionless
     #'            * name: layerThickness
     #'                          ** description : layerThickness
@@ -441,6 +441,6 @@ model_soiltemperaturecomp <- function (tmin,
     soilSurfaceTemperature <- model_nosnowsoilsurfacetemperature(tmin, tmax, globrad, soilCoverage, dampingFactor, soilSurfaceTemperature)
     noSnowSoilSurfaceTemperature <- soilSurfaceTemperature
     soilSurfaceTemperature <- model_withsnowsoilsurfacetemperature(noSnowSoilSurfaceTemperature, soilSurfaceTemperatureBelowSnow, hasSnowCover)
-    soilTemperature <- model_soiltemperature(soilSurfaceTemperature, timeStep, soilMoistureConst, baseTemp, initialSurfaceTemp, densityAir, specificHeatCapacityAir, densityHumus, specificHeatCapacityHumus, densityWater, specificHeatCapacityWater, quartzRawDensity, specificHeatCapacityQuartz, nTau, noOfTempLayers, noOfSoilLayers, layerThickness, soilBulkDensity, saturation, soilOrganicMatter, soilTemperature, V, B, volumeMatrix, volumeMatrixOld, matrixPrimaryDiagonal, matrixSecondaryDiagonal, heatConductivity, heatConductivityMean, heatCapacity, solution, matrixDiagonal, matrixLowerTriangle, heatFlow)
+    soilTemperature <- model_soiltemperature(noOfTempLayers, noOfSoilLayers, soilSurfaceTemperature, timeStep, soilMoistureConst, baseTemp, initialSurfaceTemp, densityAir, specificHeatCapacityAir, densityHumus, specificHeatCapacityHumus, densityWater, specificHeatCapacityWater, quartzRawDensity, specificHeatCapacityQuartz, nTau, layerThickness, soilBulkDensity, saturation, soilOrganicMatter, soilTemperature, V, B, volumeMatrix, volumeMatrixOld, matrixPrimaryDiagonal, matrixSecondaryDiagonal, heatConductivity, heatConductivityMean, heatCapacity, solution, matrixDiagonal, matrixLowerTriangle, heatFlow)
     return (list ("soilSurfaceTemperature" = soilSurfaceTemperature,"soilTemperature" = soilTemperature))
 }

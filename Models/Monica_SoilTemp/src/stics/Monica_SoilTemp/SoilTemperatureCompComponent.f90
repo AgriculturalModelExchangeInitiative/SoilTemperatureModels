@@ -88,7 +88,7 @@ CONTAINS
         REAL , DIMENSION(22 ), INTENT(IN) :: matrixLowerTriangle
         REAL , DIMENSION(22 ), INTENT(IN) :: heatFlow
         REAL, INTENT(OUT) :: soilSurfaceTemperature
-        REAL , DIMENSION(22 ), INTENT(OUT) :: soilTemperature
+        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) :: soilTemperature
         REAL:: noSnowSoilSurfaceTemperature
         !- Name: SoilTemperatureComp -Version: 1, -Time step: 1
         !- Description:
@@ -104,8 +104,8 @@ CONTAINS
     !                          ** inputtype : variable
     !                          ** variablecategory : exogenous
     !                          ** datatype : DOUBLE
-    !                          ** max : 70
-    !                          ** min : -50
+    !                          ** max : 70.0
+    !                          ** min : -50.0
     !                          ** default : 
     !                          ** unit : °C
     !            * name: tmax
@@ -113,8 +113,8 @@ CONTAINS
     !                          ** inputtype : variable
     !                          ** variablecategory : exogenous
     !                          ** datatype : DOUBLE
-    !                          ** max : 70
-    !                          ** min : -50
+    !                          ** max : 70.0
+    !                          ** min : -50.0
     !                          ** default : 
     !                          ** unit : °C
     !            * name: globrad
@@ -122,9 +122,9 @@ CONTAINS
     !                          ** inputtype : variable
     !                          ** variablecategory : exogenous
     !                          ** datatype : DOUBLE
-    !                          ** max : 30
-    !                          ** min : 0
-    !                          ** default : 0
+    !                          ** max : 30.0
+    !                          ** min : 0.0
+    !                          ** default : 0.0
     !                          ** unit : MJ/m**2/d
     !            * name: dampingFactor
     !                          ** description : dampingFactor
@@ -214,7 +214,7 @@ CONTAINS
     !                          ** datatype : DOUBLE
     !                          ** max : 
     !                          ** min : 
-    !                          ** default : 1005
+    !                          ** default : 1005.0
     !                          ** unit : J/kg/K
     !            * name: densityHumus
     !                          ** description : DensityHumus
@@ -223,7 +223,7 @@ CONTAINS
     !                          ** datatype : DOUBLE
     !                          ** max : 
     !                          ** min : 
-    !                          ** default : 1300
+    !                          ** default : 1300.0
     !                          ** unit : kg/m**3
     !            * name: specificHeatCapacityHumus
     !                          ** description : SpecificHeatCapacityHumus
@@ -232,7 +232,7 @@ CONTAINS
     !                          ** datatype : DOUBLE
     !                          ** max : 
     !                          ** min : 
-    !                          ** default : 1920
+    !                          ** default : 1920.0
     !                          ** unit : J/kg/K
     !            * name: densityWater
     !                          ** description : DensityWater
@@ -241,7 +241,7 @@ CONTAINS
     !                          ** datatype : DOUBLE
     !                          ** max : 
     !                          ** min : 
-    !                          ** default : 1000
+    !                          ** default : 1000.0
     !                          ** unit : kg/m**3
     !            * name: specificHeatCapacityWater
     !                          ** description : SpecificHeatCapacityWater
@@ -250,7 +250,7 @@ CONTAINS
     !                          ** datatype : DOUBLE
     !                          ** max : 
     !                          ** min : 
-    !                          ** default : 4192
+    !                          ** default : 4192.0
     !                          ** unit : J/kg/K
     !            * name: quartzRawDensity
     !                          ** description : QuartzRawDensity
@@ -259,7 +259,7 @@ CONTAINS
     !                          ** datatype : DOUBLE
     !                          ** max : 
     !                          ** min : 
-    !                          ** default : 2650
+    !                          ** default : 2650.0
     !                          ** unit : kg/m**3
     !            * name: specificHeatCapacityQuartz
     !                          ** description : SpecificHeatCapacityQuartz
@@ -268,7 +268,7 @@ CONTAINS
     !                          ** datatype : DOUBLE
     !                          ** max : 
     !                          ** min : 
-    !                          ** default : 750
+    !                          ** default : 750.0
     !                          ** unit : J/kg/K
     !            * name: nTau
     !                          ** description : NTau
@@ -295,7 +295,7 @@ CONTAINS
     !                          ** datatype : INT
     !                          ** max : 
     !                          ** min : 
-    !                          ** default : 20
+    !                          ** default : 20.0
     !                          ** unit : dimensionless
     !            * name: layerThickness
     !                          ** description : layerThickness
@@ -489,16 +489,16 @@ CONTAINS
         call  &
                 model_withsnowsoilsurfacetemperature(noSnowSoilSurfaceTemperature,  &
                 soilSurfaceTemperatureBelowSnow, hasSnowCover,soilSurfaceTemperature)
-        call model_soiltemperature(soilSurfaceTemperature, timeStep,  &
-                soilMoistureConst, baseTemp, initialSurfaceTemp, densityAir,  &
-                specificHeatCapacityAir, densityHumus, specificHeatCapacityHumus,  &
-                densityWater, specificHeatCapacityWater, quartzRawDensity,  &
-                specificHeatCapacityQuartz, nTau, noOfTempLayers, noOfSoilLayers,  &
-                layerThickness, soilBulkDensity, saturation, soilOrganicMatter,  &
-                soilTemperature, V, B, volumeMatrix, volumeMatrixOld,  &
-                matrixPrimaryDiagonal, matrixSecondaryDiagonal, heatConductivity,  &
-                heatConductivityMean, heatCapacity, solution, matrixDiagonal,  &
-                matrixLowerTriangle, heatFlow)
+        call model_soiltemperature(noOfTempLayers, noOfSoilLayers,  &
+                soilSurfaceTemperature, timeStep, soilMoistureConst, baseTemp,  &
+                initialSurfaceTemp, densityAir, specificHeatCapacityAir,  &
+                densityHumus, specificHeatCapacityHumus, densityWater,  &
+                specificHeatCapacityWater, quartzRawDensity,  &
+                specificHeatCapacityQuartz, nTau, layerThickness, soilBulkDensity,  &
+                saturation, soilOrganicMatter, soilTemperature, V, B, volumeMatrix,  &
+                volumeMatrixOld, matrixPrimaryDiagonal, matrixSecondaryDiagonal,  &
+                heatConductivity, heatConductivityMean, heatCapacity, solution,  &
+                matrixDiagonal, matrixLowerTriangle, heatFlow)
     END SUBROUTINE model_soiltemperaturecomp
 
 END MODULE

@@ -4,11 +4,11 @@ import java.time.LocalDateTime;
 
 public class SoilTemperatureCompExogenous
 {
-    private Double tmin;
-    private Double tmax;
-    private Double globrad;
-    private Double soilCoverage;
-    private Double soilSurfaceTemperatureBelowSnow;
+    private double tmin;
+    private double tmax;
+    private double globrad;
+    private double soilCoverage;
+    private double soilSurfaceTemperatureBelowSnow;
     private Boolean hasSnowCover;
     
     public SoilTemperatureCompExogenous() { }
@@ -25,34 +25,34 @@ public class SoilTemperatureCompExogenous
             this.hasSnowCover = toCopy.gethasSnowCover();
         }
     }
-    public Double gettmin()
+    public double gettmin()
     { return tmin; }
 
-    public void settmin(Double _tmin)
+    public void settmin(double _tmin)
     { this.tmin= _tmin; } 
     
-    public Double gettmax()
+    public double gettmax()
     { return tmax; }
 
-    public void settmax(Double _tmax)
+    public void settmax(double _tmax)
     { this.tmax= _tmax; } 
     
-    public Double getglobrad()
+    public double getglobrad()
     { return globrad; }
 
-    public void setglobrad(Double _globrad)
+    public void setglobrad(double _globrad)
     { this.globrad= _globrad; } 
     
-    public Double getsoilCoverage()
+    public double getsoilCoverage()
     { return soilCoverage; }
 
-    public void setsoilCoverage(Double _soilCoverage)
+    public void setsoilCoverage(double _soilCoverage)
     { this.soilCoverage= _soilCoverage; } 
     
-    public Double getsoilSurfaceTemperatureBelowSnow()
+    public double getsoilSurfaceTemperatureBelowSnow()
     { return soilSurfaceTemperatureBelowSnow; }
 
-    public void setsoilSurfaceTemperatureBelowSnow(Double _soilSurfaceTemperatureBelowSnow)
+    public void setsoilSurfaceTemperatureBelowSnow(double _soilSurfaceTemperatureBelowSnow)
     { this.soilSurfaceTemperatureBelowSnow= _soilSurfaceTemperatureBelowSnow; } 
     
     public Boolean gethasSnowCover()

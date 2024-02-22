@@ -14,11 +14,11 @@
     </Description>
     <Inputs>
         <Input name="tmin" description="the days min air temperature" inputtype="variable" variablecategory="exogenous"
-               datatype="DOUBLE" max="70" min="-50" default="" unit="°C"/>
+               datatype="DOUBLE" max="70.0" min="-50.0" default="" unit="°C"/>
         <Input name="tmax" description="the days max air temperature" inputtype="variable" variablecategory="exogenous"
-               datatype="DOUBLE" max="70" min="-50" default="" unit="°C"/>
+               datatype="DOUBLE" max="70.0" min="-50.0" default="" unit="°C"/>
         <Input name="globrad" description="the days global radiation" inputtype="variable" variablecategory="exogenous"
-               datatype="DOUBLE" max="30" min="0" default="0" unit="MJ/m**2/d"/>
+               datatype="DOUBLE" max="30.0" min="0.0" default="0.0" unit="MJ/m**2/d"/>
 
         <Input name="soilCoverage" description="soilCoverage" inputtype="variable" variablecategory="exogenous"
                datatype="DOUBLE" max="" min="0.0" default="0.0" unit="dimensionless"/>

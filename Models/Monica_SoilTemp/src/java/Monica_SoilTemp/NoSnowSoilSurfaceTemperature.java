@@ -5,11 +5,11 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 public class NoSnowSoilSurfaceTemperature
 {
-    private Double dampingFactor;
-    public Double getdampingFactor()
+    private double dampingFactor;
+    public double getdampingFactor()
     { return dampingFactor; }
 
-    public void setdampingFactor(Double _dampingFactor)
+    public void setdampingFactor(double _dampingFactor)
     { this.dampingFactor= _dampingFactor; } 
     
     public NoSnowSoilSurfaceTemperature() { }
@@ -29,8 +29,8 @@ public class NoSnowSoilSurfaceTemperature
     //                          ** inputtype : variable
     //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLE
-    //                          ** max : 70
-    //                          ** min : -50
+    //                          ** max : 70.0
+    //                          ** min : -50.0
     //                          ** default : 
     //                          ** unit : °C
     //            * name: tmax
@@ -38,8 +38,8 @@ public class NoSnowSoilSurfaceTemperature
     //                          ** inputtype : variable
     //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLE
-    //                          ** max : 70
-    //                          ** min : -50
+    //                          ** max : 70.0
+    //                          ** min : -50.0
     //                          ** default : 
     //                          ** unit : °C
     //            * name: globrad
@@ -47,9 +47,9 @@ public class NoSnowSoilSurfaceTemperature
     //                          ** inputtype : variable
     //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLE
-    //                          ** max : 30
-    //                          ** min : 0
-    //                          ** default : 0
+    //                          ** max : 30.0
+    //                          ** min : 0.0
+    //                          ** default : 0.0
     //                          ** unit : MJ/m**2/d
     //            * name: soilCoverage
     //                          ** description : soilCoverage
@@ -86,13 +86,13 @@ public class NoSnowSoilSurfaceTemperature
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : °C
-        Double tmin = ex.gettmin();
-        Double tmax = ex.gettmax();
-        Double globrad = ex.getglobrad();
-        Double soilCoverage = ex.getsoilCoverage();
-        Double soilSurfaceTemperature = s.getsoilSurfaceTemperature();
+        double tmin = ex.gettmin();
+        double tmax = ex.gettmax();
+        double globrad = ex.getglobrad();
+        double soilCoverage = ex.getsoilCoverage();
+        double soilSurfaceTemperature = s.getsoilSurfaceTemperature();
+        double shadingCoefficient;
         globrad = Math.max(8.33d, globrad);
-        Double shadingCoefficient;
         shadingCoefficient = 0.1d + (soilCoverage * dampingFactor + ((1 - soilCoverage) * (1 - dampingFactor)));
         soilSurfaceTemperature = (1.0d - shadingCoefficient) * (tmin + ((tmax - tmin) * Math.pow(0.03d * globrad, 0.5d))) + (shadingCoefficient * soilSurfaceTemperature);
         if (soilSurfaceTemperature < 0.0d)

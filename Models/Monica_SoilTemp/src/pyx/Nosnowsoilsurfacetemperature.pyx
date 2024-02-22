@@ -17,8 +17,8 @@ def model_nosnowsoilsurfacetemperature(float tmin,
     """
 
     # corrected for very low radiation in winter
-    globrad = max(8.33, globrad)
     cdef float shadingCoefficient
+    globrad = max(8.33, globrad)
     shadingCoefficient = 0.1 + ((soilCoverage * dampingFactor) + ((1 - soilCoverage) * (1 - dampingFactor)))
     # Soil surface temperature calculation following Williams 1984
     soilSurfaceTemperature = \

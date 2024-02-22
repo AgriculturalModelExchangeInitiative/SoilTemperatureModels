@@ -7,87 +7,87 @@ public class SoilTemperatureCompComponent
     NoSnowSoilSurfaceTemperature _NoSnowSoilSurfaceTemperature = new NoSnowSoilSurfaceTemperature();
     WithSnowSoilSurfaceTemperature _WithSnowSoilSurfaceTemperature = new WithSnowSoilSurfaceTemperature();
 
-    public Double getdampingFactor()
+    public double getdampingFactor()
     { return _NoSnowSoilSurfaceTemperature.getdampingFactor(); }
-    public void setdampingFactor(Double _dampingFactor){
+    public void setdampingFactor(double _dampingFactor){
     _NoSnowSoilSurfaceTemperature.setdampingFactor(_dampingFactor);
     }
 
-    public Double gettimeStep()
+    public double gettimeStep()
     { return _SoilTemperature.gettimeStep(); }
-    public void settimeStep(Double _timeStep){
+    public void settimeStep(double _timeStep){
     _SoilTemperature.settimeStep(_timeStep);
     }
 
-    public Double getsoilMoistureConst()
+    public double getsoilMoistureConst()
     { return _SoilTemperature.getsoilMoistureConst(); }
-    public void setsoilMoistureConst(Double _soilMoistureConst){
+    public void setsoilMoistureConst(double _soilMoistureConst){
     _SoilTemperature.setsoilMoistureConst(_soilMoistureConst);
     }
 
-    public Double getbaseTemp()
+    public double getbaseTemp()
     { return _SoilTemperature.getbaseTemp(); }
-    public void setbaseTemp(Double _baseTemp){
+    public void setbaseTemp(double _baseTemp){
     _SoilTemperature.setbaseTemp(_baseTemp);
     }
 
-    public Double getinitialSurfaceTemp()
+    public double getinitialSurfaceTemp()
     { return _SoilTemperature.getinitialSurfaceTemp(); }
-    public void setinitialSurfaceTemp(Double _initialSurfaceTemp){
+    public void setinitialSurfaceTemp(double _initialSurfaceTemp){
     _SoilTemperature.setinitialSurfaceTemp(_initialSurfaceTemp);
     }
 
-    public Double getdensityAir()
+    public double getdensityAir()
     { return _SoilTemperature.getdensityAir(); }
-    public void setdensityAir(Double _densityAir){
+    public void setdensityAir(double _densityAir){
     _SoilTemperature.setdensityAir(_densityAir);
     }
 
-    public Double getspecificHeatCapacityAir()
+    public double getspecificHeatCapacityAir()
     { return _SoilTemperature.getspecificHeatCapacityAir(); }
-    public void setspecificHeatCapacityAir(Double _specificHeatCapacityAir){
+    public void setspecificHeatCapacityAir(double _specificHeatCapacityAir){
     _SoilTemperature.setspecificHeatCapacityAir(_specificHeatCapacityAir);
     }
 
-    public Double getdensityHumus()
+    public double getdensityHumus()
     { return _SoilTemperature.getdensityHumus(); }
-    public void setdensityHumus(Double _densityHumus){
+    public void setdensityHumus(double _densityHumus){
     _SoilTemperature.setdensityHumus(_densityHumus);
     }
 
-    public Double getspecificHeatCapacityHumus()
+    public double getspecificHeatCapacityHumus()
     { return _SoilTemperature.getspecificHeatCapacityHumus(); }
-    public void setspecificHeatCapacityHumus(Double _specificHeatCapacityHumus){
+    public void setspecificHeatCapacityHumus(double _specificHeatCapacityHumus){
     _SoilTemperature.setspecificHeatCapacityHumus(_specificHeatCapacityHumus);
     }
 
-    public Double getdensityWater()
+    public double getdensityWater()
     { return _SoilTemperature.getdensityWater(); }
-    public void setdensityWater(Double _densityWater){
+    public void setdensityWater(double _densityWater){
     _SoilTemperature.setdensityWater(_densityWater);
     }
 
-    public Double getspecificHeatCapacityWater()
+    public double getspecificHeatCapacityWater()
     { return _SoilTemperature.getspecificHeatCapacityWater(); }
-    public void setspecificHeatCapacityWater(Double _specificHeatCapacityWater){
+    public void setspecificHeatCapacityWater(double _specificHeatCapacityWater){
     _SoilTemperature.setspecificHeatCapacityWater(_specificHeatCapacityWater);
     }
 
-    public Double getquartzRawDensity()
+    public double getquartzRawDensity()
     { return _SoilTemperature.getquartzRawDensity(); }
-    public void setquartzRawDensity(Double _quartzRawDensity){
+    public void setquartzRawDensity(double _quartzRawDensity){
     _SoilTemperature.setquartzRawDensity(_quartzRawDensity);
     }
 
-    public Double getspecificHeatCapacityQuartz()
+    public double getspecificHeatCapacityQuartz()
     { return _SoilTemperature.getspecificHeatCapacityQuartz(); }
-    public void setspecificHeatCapacityQuartz(Double _specificHeatCapacityQuartz){
+    public void setspecificHeatCapacityQuartz(double _specificHeatCapacityQuartz){
     _SoilTemperature.setspecificHeatCapacityQuartz(_specificHeatCapacityQuartz);
     }
 
-    public Double getnTau()
+    public double getnTau()
     { return _SoilTemperature.getnTau(); }
-    public void setnTau(Double _nTau){
+    public void setnTau(double _nTau){
     _SoilTemperature.setnTau(_nTau);
     }
 
@@ -133,20 +133,20 @@ public class SoilTemperatureCompComponent
         _WithSnowSoilSurfaceTemperature.Calculate_Model(s, s1, r, a, ex);
         _SoilTemperature.Calculate_Model(s, s1, r, a, ex);
     }
-    private Double dampingFactor;
-    private Double timeStep;
-    private Double soilMoistureConst;
-    private Double baseTemp;
-    private Double initialSurfaceTemp;
-    private Double densityAir;
-    private Double specificHeatCapacityAir;
-    private Double densityHumus;
-    private Double specificHeatCapacityHumus;
-    private Double densityWater;
-    private Double specificHeatCapacityWater;
-    private Double quartzRawDensity;
-    private Double specificHeatCapacityQuartz;
-    private Double nTau;
+    private double dampingFactor;
+    private double timeStep;
+    private double soilMoistureConst;
+    private double baseTemp;
+    private double initialSurfaceTemp;
+    private double densityAir;
+    private double specificHeatCapacityAir;
+    private double densityHumus;
+    private double specificHeatCapacityHumus;
+    private double densityWater;
+    private double specificHeatCapacityWater;
+    private double quartzRawDensity;
+    private double specificHeatCapacityQuartz;
+    private double nTau;
     private Integer noOfTempLayers;
     private Integer noOfSoilLayers;
     private Double [] layerThickness;

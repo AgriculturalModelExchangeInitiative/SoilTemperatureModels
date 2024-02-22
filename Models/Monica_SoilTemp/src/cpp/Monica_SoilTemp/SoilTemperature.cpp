@@ -41,42 +41,31 @@ void SoilTemperature::Init(SoilTemperatureCompState &s, SoilTemperatureCompState
     fill(matrixDiagonal.begin(),matrixDiagonal.end(), 0.0);
     fill(matrixLowerTriangle.begin(),matrixLowerTriangle.end(), 0.0);
     fill(heatFlow.begin(),heatFlow.end(), 0.0);
-    soilTemperature = std::vector<double> (noOfTempLayers);
-    ;
-    V = std::vector<double> (noOfTempLayers);
-    ;
-    volumeMatrix = std::vector<double> (noOfTempLayers);
-    ;
-    volumeMatrixOld = std::vector<double> (noOfTempLayers);
-    ;
-    B = std::vector<double> (noOfTempLayers);
-    ;
-    matrixPrimaryDiagonal = std::vector<double> (noOfTempLayers);
-    ;
-    matrixSecondaryDiagonal = std::vector<double> (noOfTempLayers + 1);
-    ;
-    heatConductivity = std::vector<double> (noOfTempLayers);
-    ;
-    heatConductivityMean = std::vector<double> (noOfTempLayers);
-    ;
-    heatCapacity = std::vector<double> (noOfTempLayers);
-    ;
-    solution = std::vector<double> (noOfTempLayers);
-    ;
-    matrixDiagonal = std::vector<double> (noOfTempLayers);
-    ;
-    matrixLowerTriangle = std::vector<double> (noOfTempLayers);
-    ;
-    heatFlow = std::vector<double> (noOfTempLayers);
-    ;
+    int groundLayer;
+    int bottomLayer;
+    double lti_1;
+    double lti;
+    double ts;
+    double dw;
+    double cw;
+    double dq;
+    double cq;
+    double da;
+    double ca;
+    double dh;
+    double ch;
+    double sbdi;
+    double smi;
+    double sati;
+    double somi;
+    double hci_1;
+    double hci;
     int i;
     for (i=0 ; i!=noOfSoilLayers ; i+=1)
     {
         soilTemperature[i] = (1.0 - (float(i) / noOfSoilLayers)) * initialSurfaceTemp + (float(i) / noOfSoilLayers * baseTemp);
     }
-    int groundLayer;
     groundLayer = noOfTempLayers - 2;
-    int bottomLayer;
     bottomLayer = noOfTempLayers - 1;
     layerThickness[groundLayer] = 2.0 * layerThickness[(groundLayer - 1)];
     layerThickness[bottomLayer] = 1.0;
@@ -84,8 +73,6 @@ void SoilTemperature::Init(SoilTemperatureCompState &s, SoilTemperatureCompState
     soilTemperature[bottomLayer] = baseTemp;
     V[0] = layerThickness[0];
     B[0] = 2.0 / layerThickness[0];
-    double lti_1;
-    double lti;
     for (i=1 ; i!=noOfTempLayers ; i+=1)
     {
         lti_1 = layerThickness[i - 1];
@@ -93,28 +80,15 @@ void SoilTemperature::Init(SoilTemperatureCompState &s, SoilTemperatureCompState
         B[i] = 2.0 / (lti + lti_1);
         V[i] = lti * nTau;
     }
-    double ts;
     ts = timeStep;
-    double dw;
     dw = densityWater;
-    double cw;
     cw = specificHeatCapacityWater;
-    double dq;
     dq = quartzRawDensity;
-    double cq;
     cq = specificHeatCapacityQuartz;
-    double da;
     da = densityAir;
-    double ca;
     ca = specificHeatCapacityAir;
-    double dh;
     dh = densityHumus;
-    double ch;
     ch = specificHeatCapacityHumus;
-    double sbdi;
-    double smi;
-    double sati;
-    double somi;
     for (i=0 ; i!=noOfSoilLayers ; i+=1)
     {
         sbdi = soilBulkDensity[i];
@@ -130,8 +104,6 @@ void SoilTemperature::Init(SoilTemperatureCompState &s, SoilTemperatureCompState
     heatConductivity[bottomLayer] = heatConductivity[groundLayer];
     soilSurfaceTemperature = initialSurfaceTemp;
     heatConductivityMean[0] = heatConductivity[0];
-    double hci_1;
-    double hci;
     for (i=1 ; i!=noOfTempLayers ; i+=1)
     {
         lti_1 = layerThickness[i - 1];
@@ -168,6 +140,8 @@ void SoilTemperature::Init(SoilTemperatureCompState &s, SoilTemperatureCompState
     s.setheatFlow(heatFlow);
 }
 SoilTemperature::SoilTemperature() {}
+int SoilTemperature::getnoOfTempLayers() { return this->noOfTempLayers; }
+int SoilTemperature::getnoOfSoilLayers() { return this->noOfSoilLayers; }
 double SoilTemperature::gettimeStep() { return this->timeStep; }
 double SoilTemperature::getsoilMoistureConst() { return this->soilMoistureConst; }
 double SoilTemperature::getbaseTemp() { return this->baseTemp; }
@@ -181,12 +155,12 @@ double SoilTemperature::getspecificHeatCapacityWater() { return this->specificHe
 double SoilTemperature::getquartzRawDensity() { return this->quartzRawDensity; }
 double SoilTemperature::getspecificHeatCapacityQuartz() { return this->specificHeatCapacityQuartz; }
 double SoilTemperature::getnTau() { return this->nTau; }
-int SoilTemperature::getnoOfTempLayers() { return this->noOfTempLayers; }
-int SoilTemperature::getnoOfSoilLayers() { return this->noOfSoilLayers; }
 std::vector<double> & SoilTemperature::getlayerThickness() { return this->layerThickness; }
 std::vector<double> & SoilTemperature::getsoilBulkDensity() { return this->soilBulkDensity; }
 std::vector<double> & SoilTemperature::getsaturation() { return this->saturation; }
 std::vector<double> & SoilTemperature::getsoilOrganicMatter() { return this->soilOrganicMatter; }
+void SoilTemperature::setnoOfTempLayers(int _noOfTempLayers) { this->noOfTempLayers = _noOfTempLayers; }
+void SoilTemperature::setnoOfSoilLayers(int _noOfSoilLayers) { this->noOfSoilLayers = _noOfSoilLayers; }
 void SoilTemperature::settimeStep(double _timeStep) { this->timeStep = _timeStep; }
 void SoilTemperature::setsoilMoistureConst(double _soilMoistureConst) { this->soilMoistureConst = _soilMoistureConst; }
 void SoilTemperature::setbaseTemp(double _baseTemp) { this->baseTemp = _baseTemp; }
@@ -200,8 +174,6 @@ void SoilTemperature::setspecificHeatCapacityWater(double _specificHeatCapacityW
 void SoilTemperature::setquartzRawDensity(double _quartzRawDensity) { this->quartzRawDensity = _quartzRawDensity; }
 void SoilTemperature::setspecificHeatCapacityQuartz(double _specificHeatCapacityQuartz) { this->specificHeatCapacityQuartz = _specificHeatCapacityQuartz; }
 void SoilTemperature::setnTau(double _nTau) { this->nTau = _nTau; }
-void SoilTemperature::setnoOfTempLayers(int _noOfTempLayers) { this->noOfTempLayers = _noOfTempLayers; }
-void SoilTemperature::setnoOfSoilLayers(int _noOfSoilLayers) { this->noOfSoilLayers = _noOfSoilLayers; }
 void SoilTemperature::setlayerThickness(std::vector<double> const &_layerThickness){
     this->layerThickness = _layerThickness;
 }
@@ -225,13 +197,31 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //            * ExtendedDescription: None
     //            * ShortDescription: Calculates the soil temperature at all soil layers
     //- inputs:
+    //            * name: noOfTempLayers
+    //                          ** description : noOfTempLayers=noOfSoilLayers+2
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
+    //                          ** datatype : INT
+    //                          ** max : 
+    //                          ** min : 
+    //                          ** default : 22
+    //                          ** unit : dimensionless
+    //            * name: noOfSoilLayers
+    //                          ** description : noOfSoilLayers
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
+    //                          ** datatype : INT
+    //                          ** max : 
+    //                          ** min : 
+    //                          ** default : 20.0
+    //                          ** unit : dimensionless
     //            * name: soilSurfaceTemperature
     //                          ** description : current soilSurfaceTemperature
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLE
-    //                          ** max : 80
-    //                          ** min : -50
+    //                          ** max : 80.0
+    //                          ** min : -50.0
     //                          ** default : 0.0
     //                          ** unit : °C
     //            * name: timeStep
@@ -286,7 +276,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** datatype : DOUBLE
     //                          ** max : 
     //                          ** min : 
-    //                          ** default : 1005
+    //                          ** default : 1005.0
     //                          ** unit : J/kg/K
     //            * name: densityHumus
     //                          ** description : DensityHumus
@@ -295,7 +285,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** datatype : DOUBLE
     //                          ** max : 
     //                          ** min : 
-    //                          ** default : 1300
+    //                          ** default : 1300.0
     //                          ** unit : kg/m**3
     //            * name: specificHeatCapacityHumus
     //                          ** description : SpecificHeatCapacityHumus
@@ -304,7 +294,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** datatype : DOUBLE
     //                          ** max : 
     //                          ** min : 
-    //                          ** default : 1920
+    //                          ** default : 1920.0
     //                          ** unit : J/kg/K
     //            * name: densityWater
     //                          ** description : DensityWater
@@ -313,7 +303,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** datatype : DOUBLE
     //                          ** max : 
     //                          ** min : 
-    //                          ** default : 1000
+    //                          ** default : 1000.0
     //                          ** unit : kg/m**3
     //            * name: specificHeatCapacityWater
     //                          ** description : SpecificHeatCapacityWater
@@ -322,7 +312,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** datatype : DOUBLE
     //                          ** max : 
     //                          ** min : 
-    //                          ** default : 4192
+    //                          ** default : 4192.0
     //                          ** unit : J/kg/K
     //            * name: quartzRawDensity
     //                          ** description : QuartzRawDensity
@@ -331,7 +321,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** datatype : DOUBLE
     //                          ** max : 
     //                          ** min : 
-    //                          ** default : 2650
+    //                          ** default : 2650.0
     //                          ** unit : kg/m**3
     //            * name: specificHeatCapacityQuartz
     //                          ** description : SpecificHeatCapacityQuartz
@@ -340,7 +330,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** datatype : DOUBLE
     //                          ** max : 
     //                          ** min : 
-    //                          ** default : 750
+    //                          ** default : 750.0
     //                          ** unit : J/kg/K
     //            * name: nTau
     //                          ** description : NTau
@@ -351,24 +341,6 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** min : 
     //                          ** default : 0.65
     //                          ** unit : ?
-    //            * name: noOfTempLayers
-    //                          ** description : noOfTempLayers=noOfSoilLayers+2
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : INT
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 22
-    //                          ** unit : dimensionless
-    //            * name: noOfSoilLayers
-    //                          ** description : noOfSoilLayers
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : INT
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 20
-    //                          ** unit : dimensionless
     //            * name: layerThickness
     //                          ** description : layerThickness
     //                          ** inputtype : parameter
@@ -575,10 +547,12 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     std::vector<double> & heatFlow = s.getheatFlow();
     int groundLayer;
     int bottomLayer;
+    int i;
+    int j;
+    int j_1;
     groundLayer = noOfTempLayers - 2;
     bottomLayer = noOfTempLayers - 1;
     heatFlow[0] = soilSurfaceTemperature * B[0] * heatConductivityMean[0];
-    int i;
     for (i=0 ; i!=noOfTempLayers ; i+=1)
     {
         solution[i] = (volumeMatrixOld[i] + ((volumeMatrix[i] - volumeMatrixOld[i]) / layerThickness[i])) * soilTemperature[i] + heatFlow[i];
@@ -594,8 +568,6 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
         solution[i] = solution[i] - (matrixLowerTriangle[i] * solution[(i - 1)]);
     }
     solution[bottomLayer] = solution[bottomLayer] / matrixDiagonal[bottomLayer];
-    int j;
-    int j_1;
     for (i=0 ; i!=bottomLayer ; i+=1)
     {
         j = bottomLayer - 1 - i;

@@ -31,8 +31,8 @@ CONTAINS
     !                          ** inputtype : variable
     !                          ** variablecategory : exogenous
     !                          ** datatype : DOUBLE
-    !                          ** max : 70
-    !                          ** min : -50
+    !                          ** max : 70.0
+    !                          ** min : -50.0
     !                          ** default : 
     !                          ** unit : °C
     !            * name: tmax
@@ -40,8 +40,8 @@ CONTAINS
     !                          ** inputtype : variable
     !                          ** variablecategory : exogenous
     !                          ** datatype : DOUBLE
-    !                          ** max : 70
-    !                          ** min : -50
+    !                          ** max : 70.0
+    !                          ** min : -50.0
     !                          ** default : 
     !                          ** unit : °C
     !            * name: globrad
@@ -49,9 +49,9 @@ CONTAINS
     !                          ** inputtype : variable
     !                          ** variablecategory : exogenous
     !                          ** datatype : DOUBLE
-    !                          ** max : 30
-    !                          ** min : 0
-    !                          ** default : 0
+    !                          ** max : 30.0
+    !                          ** min : 0.0
+    !                          ** default : 0.0
     !                          ** unit : MJ/m**2/d
     !            * name: soilCoverage
     !                          ** description : soilCoverage

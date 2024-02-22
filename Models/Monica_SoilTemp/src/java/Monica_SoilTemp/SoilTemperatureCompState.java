@@ -16,9 +16,9 @@ public class SoilTemperatureCompState
     private Double [] matrixDiagonal;
     private Double [] matrixLowerTriangle;
     private Double [] heatFlow;
-    private Double soilSurfaceTemperature;
+    private double soilSurfaceTemperature;
     private Double [] soilTemperature;
-    private Double noSnowSoilSurfaceTemperature;
+    private double noSnowSoilSurfaceTemperature;
     
     public SoilTemperatureCompState() { }
     
@@ -178,10 +178,10 @@ public class SoilTemperatureCompState
     public void setheatFlow(Double [] _heatFlow)
     { this.heatFlow= _heatFlow; } 
     
-    public Double getsoilSurfaceTemperature()
+    public double getsoilSurfaceTemperature()
     { return soilSurfaceTemperature; }
 
-    public void setsoilSurfaceTemperature(Double _soilSurfaceTemperature)
+    public void setsoilSurfaceTemperature(double _soilSurfaceTemperature)
     { this.soilSurfaceTemperature= _soilSurfaceTemperature; } 
     
     public Double [] getsoilTemperature()
@@ -190,10 +190,10 @@ public class SoilTemperatureCompState
     public void setsoilTemperature(Double [] _soilTemperature)
     { this.soilTemperature= _soilTemperature; } 
     
-    public Double getnoSnowSoilSurfaceTemperature()
+    public double getnoSnowSoilSurfaceTemperature()
     { return noSnowSoilSurfaceTemperature; }
 
-    public void setnoSnowSoilSurfaceTemperature(Double _noSnowSoilSurfaceTemperature)
+    public void setnoSnowSoilSurfaceTemperature(double _noSnowSoilSurfaceTemperature)
     { this.noSnowSoilSurfaceTemperature= _noSnowSoilSurfaceTemperature; } 
     
 }
