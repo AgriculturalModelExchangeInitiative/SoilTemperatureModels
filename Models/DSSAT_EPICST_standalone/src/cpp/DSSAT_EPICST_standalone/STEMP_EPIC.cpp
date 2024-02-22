@@ -616,7 +616,7 @@ std::tuple<std::vector<double> ,double,std::vector<double> ,double,double> STEMP
     {
         TMA[K - 1] = TMA[K - 1 - 1];
     }
-    X2_AVG = accumulate(TMA.begin(), TMA.end(), decltype(TMA)::value_type(0)) / 5.0;
+    X2_AVG = accumulate(TMA.begin(), TMA.end(), 0.0) / 5.0;
     X3 = (1. - BCV) * X2_AVG + (BCV * X2_PREV);
     SRFTEMP = std::min(X2_AVG, X3);
     X1 = TAV - X3;
