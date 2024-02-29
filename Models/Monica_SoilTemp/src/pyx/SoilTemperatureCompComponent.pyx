@@ -24,30 +24,31 @@ def model_soiltemperaturecomp(float tmin,
       float specificHeatCapacityQuartz,
       float nTau,
       int noOfTempLayers,
+      int noOfTempLayersPlus1,
       int noOfSoilLayers,
-      float layerThickness[22],
-      float soilBulkDensity[20],
-      float saturation[20],
-      float soilOrganicMatter[20],
-      float V[22],
-      float B[22],
-      float volumeMatrix[22],
-      float volumeMatrixOld[22],
-      float matrixPrimaryDiagonal[22],
-      float matrixSecondaryDiagonal[23],
-      float heatConductivity[22],
-      float heatConductivityMean[22],
-      float heatCapacity[22],
-      float solution[22],
-      float matrixDiagonal[22],
-      float matrixLowerTriangle[22],
-      float heatFlow[22]):
+      float layerThickness[noOfTempLayers],
+      float soilBulkDensity[noOfSoilLayers],
+      float saturation[noOfSoilLayers],
+      float soilOrganicMatter[noOfSoilLayers],
+      float V[noOfTempLayers],
+      float B[noOfTempLayers],
+      float volumeMatrix[noOfTempLayers],
+      float volumeMatrixOld[noOfTempLayers],
+      float matrixPrimaryDiagonal[noOfTempLayers],
+      float matrixSecondaryDiagonal[noOfTempLayersPlus1],
+      float heatConductivity[noOfTempLayers],
+      float heatConductivityMean[noOfTempLayers],
+      float heatCapacity[noOfTempLayers],
+      float solution[noOfTempLayers],
+      float matrixDiagonal[noOfTempLayers],
+      float matrixLowerTriangle[noOfTempLayers],
+      float heatFlow[noOfTempLayers]):
     cdef float soilSurfaceTemperature
-    cdef float soilTemperature[22]
+    cdef float soilTemperature[noOfTempLayers]
     cdef float noSnowSoilSurfaceTemperature
     soilSurfaceTemperature = model_nosnowsoilsurfacetemperature(tmin,tmax,globrad,soilCoverage,dampingFactor,soilSurfaceTemperature)
     noSnowSoilSurfaceTemperature = soilSurfaceTemperature
     soilSurfaceTemperature = model_withsnowsoilsurfacetemperature(noSnowSoilSurfaceTemperature,soilSurfaceTemperatureBelowSnow,hasSnowCover)
-    soilTemperature = model_soiltemperature(noOfTempLayers,noOfSoilLayers,soilSurfaceTemperature,timeStep,soilMoistureConst,baseTemp,initialSurfaceTemp,densityAir,specificHeatCapacityAir,densityHumus,specificHeatCapacityHumus,densityWater,specificHeatCapacityWater,quartzRawDensity,specificHeatCapacityQuartz,nTau,layerThickness,soilBulkDensity,saturation,soilOrganicMatter,soilTemperature,V,B,volumeMatrix,volumeMatrixOld,matrixPrimaryDiagonal,matrixSecondaryDiagonal,heatConductivity,heatConductivityMean,heatCapacity,solution,matrixDiagonal,matrixLowerTriangle,heatFlow)
+    soilTemperature = model_soiltemperature(noOfSoilLayers,noOfTempLayers,noOfTempLayersPlus1,soilSurfaceTemperature,timeStep,soilMoistureConst,baseTemp,initialSurfaceTemp,densityAir,specificHeatCapacityAir,densityHumus,specificHeatCapacityHumus,densityWater,specificHeatCapacityWater,quartzRawDensity,specificHeatCapacityQuartz,nTau,layerThickness,soilBulkDensity,saturation,soilOrganicMatter,soilTemperature,V,B,volumeMatrix,volumeMatrixOld,matrixPrimaryDiagonal,matrixSecondaryDiagonal,heatConductivity,heatConductivityMean,heatCapacity,solution,matrixDiagonal,matrixLowerTriangle,heatFlow)
 
     return soilSurfaceTemperature, soilTemperature

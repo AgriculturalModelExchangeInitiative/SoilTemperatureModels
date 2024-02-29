@@ -21,6 +21,7 @@ class SoilTemperatureCompComponent
         double specificHeatCapacityQuartz ;
         double nTau ;
         int noOfTempLayers ;
+        int noOfTempLayersPlus1 ;
         int noOfSoilLayers ;
         std::vector<double> layerThickness ;
         std::vector<double> soilBulkDensity ;
@@ -61,6 +62,8 @@ class SoilTemperatureCompComponent
         void setnTau(double _nTau);
         int getnoOfTempLayers();
         void setnoOfTempLayers(int _noOfTempLayers);
+        int getnoOfTempLayersPlus1();
+        void setnoOfTempLayersPlus1(int _noOfTempLayersPlus1);
         int getnoOfSoilLayers();
         void setnoOfSoilLayers(int _noOfSoilLayers);
         std::vector<double> & getlayerThickness();

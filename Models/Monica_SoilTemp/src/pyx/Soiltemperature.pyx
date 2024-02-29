@@ -1,8 +1,9 @@
 import numpy
 from math import *
 
-def init_soiltemperature(int noOfTempLayers,
-                         int noOfSoilLayers,
+def init_soiltemperature(int noOfSoilLayers,
+                         int noOfTempLayers,
+                         int noOfTempLayersPlus1,
                          float timeStep,
                          float soilMoistureConst,
                          float baseTemp,
@@ -16,39 +17,39 @@ def init_soiltemperature(int noOfTempLayers,
                          float quartzRawDensity,
                          float specificHeatCapacityQuartz,
                          float nTau,
-                         float layerThickness[22],
-                         float soilBulkDensity[20],
-                         float saturation[20],
-                         float soilOrganicMatter[20]):
+                         float layerThickness[noOfTempLayers],
+                         float soilBulkDensity[noOfSoilLayers],
+                         float saturation[noOfSoilLayers],
+                         float soilOrganicMatter[noOfSoilLayers]):
     cdef float soilSurfaceTemperature = 0.0
-    cdef float soilTemperature[22]
-    cdef float V[22]
-    cdef float B[22]
-    cdef float volumeMatrix[22]
-    cdef float volumeMatrixOld[22]
-    cdef float matrixPrimaryDiagonal[22]
-    cdef float matrixSecondaryDiagonal[23]
-    cdef float heatConductivity[22]
-    cdef float heatConductivityMean[22]
-    cdef float heatCapacity[22]
-    cdef float solution[22]
-    cdef float matrixDiagonal[22]
-    cdef float matrixLowerTriangle[22]
-    cdef float heatFlow[22]
-    soilTemperature = array('f', [0.0]*22)
-    V = array('f', [0.0]*22)
-    B = array('f', [0.0]*22)
-    volumeMatrix = array('f', [0.0]*22)
-    volumeMatrixOld = array('f', [0.0]*22)
-    matrixPrimaryDiagonal = array('f', [0.0]*22)
-    matrixSecondaryDiagonal = array('f', [0.0]*23)
-    heatConductivity = array('f', [0.0]*22)
-    heatConductivityMean = array('f', [0.0]*22)
-    heatCapacity = array('f', [0.0]*22)
-    solution = array('f', [0.0]*22)
-    matrixDiagonal = array('f', [0.0]*22)
-    matrixLowerTriangle = array('f', [0.0]*22)
-    heatFlow = array('f', [0.0]*22)
+    cdef float soilTemperature[noOfTempLayers]
+    cdef float V[noOfTempLayers]
+    cdef float B[noOfTempLayers]
+    cdef float volumeMatrix[noOfTempLayers]
+    cdef float volumeMatrixOld[noOfTempLayers]
+    cdef float matrixPrimaryDiagonal[noOfTempLayers]
+    cdef float matrixSecondaryDiagonal[noOfTempLayersPlus1]
+    cdef float heatConductivity[noOfTempLayers]
+    cdef float heatConductivityMean[noOfTempLayers]
+    cdef float heatCapacity[noOfTempLayers]
+    cdef float solution[noOfTempLayers]
+    cdef float matrixDiagonal[noOfTempLayers]
+    cdef float matrixLowerTriangle[noOfTempLayers]
+    cdef float heatFlow[noOfTempLayers]
+    soilTemperature = array('f', [0.0]*noOfTempLayers)
+    V = array('f', [0.0]*noOfTempLayers)
+    B = array('f', [0.0]*noOfTempLayers)
+    volumeMatrix = array('f', [0.0]*noOfTempLayers)
+    volumeMatrixOld = array('f', [0.0]*noOfTempLayers)
+    matrixPrimaryDiagonal = array('f', [0.0]*noOfTempLayers)
+    matrixSecondaryDiagonal = array('f', [0.0]*noOfTempLayersPlus1)
+    heatConductivity = array('f', [0.0]*noOfTempLayers)
+    heatConductivityMean = array('f', [0.0]*noOfTempLayers)
+    heatCapacity = array('f', [0.0]*noOfTempLayers)
+    solution = array('f', [0.0]*noOfTempLayers)
+    matrixDiagonal = array('f', [0.0]*noOfTempLayers)
+    matrixLowerTriangle = array('f', [0.0]*noOfTempLayers)
+    heatFlow = array('f', [0.0]*noOfTempLayers)
     # initialize the two additional layers to the same values 
     # as the bottom most standard soil layer
     # even though this hadn't been done before it was ok, 
@@ -145,7 +146,7 @@ def init_soiltemperature(int noOfTempLayers,
     ##################################################################
     # Initialising Numerical Solution
     # Suckow,F. (1985): A model serving the calculation of soil
-    # temperatures. Zeitschrift fÃ¼r Meteorologie 35 (1), 66 -70.
+    # temperatures. Zeitschrift für Meteorologie 35 (1), 66 -70.
     ##################################################################
     # Calculation of the mean heat conductivity per layer
     heatConductivityMean[0] = heatConductivity[0]
@@ -170,8 +171,9 @@ def init_soiltemperature(int noOfTempLayers,
             - matrixSecondaryDiagonal[i] - matrixSecondaryDiagonal[i + 1] # [J K-1]
     return  soilSurfaceTemperature, soilTemperature, V, B, volumeMatrix, volumeMatrixOld, matrixPrimaryDiagonal, matrixSecondaryDiagonal, heatConductivity, heatConductivityMean, heatCapacity, solution, matrixDiagonal, matrixLowerTriangle, heatFlow
 
-def model_soiltemperature(int noOfTempLayers,
-                          int noOfSoilLayers,
+def model_soiltemperature(int noOfSoilLayers,
+                          int noOfTempLayers,
+                          int noOfTempLayersPlus1,
                           float soilSurfaceTemperature,
                           float timeStep,
                           float soilMoistureConst,
@@ -186,24 +188,24 @@ def model_soiltemperature(int noOfTempLayers,
                           float quartzRawDensity,
                           float specificHeatCapacityQuartz,
                           float nTau,
-                          float layerThickness[22],
-                          float soilBulkDensity[20],
-                          float saturation[20],
-                          float soilOrganicMatter[20],
-                          float soilTemperature[22],
-                          float V[22],
-                          float B[22],
-                          float volumeMatrix[22],
-                          float volumeMatrixOld[22],
-                          float matrixPrimaryDiagonal[22],
-                          float matrixSecondaryDiagonal[23],
-                          float heatConductivity[22],
-                          float heatConductivityMean[22],
-                          float heatCapacity[22],
-                          float solution[22],
-                          float matrixDiagonal[22],
-                          float matrixLowerTriangle[22],
-                          float heatFlow[22]):
+                          float layerThickness[noOfTempLayers],
+                          float soilBulkDensity[noOfSoilLayers],
+                          float saturation[noOfSoilLayers],
+                          float soilOrganicMatter[noOfSoilLayers],
+                          float soilTemperature[noOfTempLayers],
+                          float V[noOfTempLayers],
+                          float B[noOfTempLayers],
+                          float volumeMatrix[noOfTempLayers],
+                          float volumeMatrixOld[noOfTempLayers],
+                          float matrixPrimaryDiagonal[noOfTempLayers],
+                          float matrixSecondaryDiagonal[noOfTempLayersPlus1],
+                          float heatConductivity[noOfTempLayers],
+                          float heatConductivityMean[noOfTempLayers],
+                          float heatCapacity[noOfTempLayers],
+                          float solution[noOfTempLayers],
+                          float matrixDiagonal[noOfTempLayers],
+                          float matrixLowerTriangle[noOfTempLayers],
+                          float heatFlow[noOfTempLayers]):
     """
     Model of soil temperature
     Author: Michael Berg-Mohnicke
