@@ -51,19 +51,20 @@ void update::Calculate_Model(soil_tempState &s, soil_tempState &s1, soil_tempRat
     //                          ** unit : degC
     //            * name: prev_temp_profile
     //                          ** description : previous soil temperature profile (for 1 cm layers)
-    //                          ** datatype : DOUBLELIST
+    //                          ** datatype : DOUBLEARRAY
     //                          ** variablecategory : state
+    //                          ** len : 1
     //                          ** max : 50.0
     //                          ** min : -50.0
     //                          ** unit : degC
     double canopy_temp_avg = s.getcanopy_temp_avg();
-    std::vector<double>& temp_profile = s.gettemp_profile();
+    std::vector<double> & temp_profile = s.gettemp_profile();
     double prev_canopy_temp;
-    std::vector<double> prev_temp_profile;
+    std::vector<double> prev_temp_profile(1);
     int n;
     prev_canopy_temp = canopy_temp_avg;
     n = temp_profile.size();
-    prev_temp_profile = std::vector<double>(n);
+    prev_temp_profile = std::vector<double> (n);
     prev_temp_profile = temp_profile;
     s.setprev_canopy_temp(prev_canopy_temp);
     s.setprev_temp_profile(prev_temp_profile);

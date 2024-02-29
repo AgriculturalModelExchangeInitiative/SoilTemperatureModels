@@ -11,12 +11,12 @@ std::vector<int> & soil_tempComponent::getlayer_thick(){ return this->layer_thic
 
 void soil_tempComponent::setair_temp_day1(double _air_temp_day1)
 {
-    _temp_profile.setair_temp_day1(_air_temp_day1);
+    _Temp_profile.setair_temp_day1(_air_temp_day1);
 }
 void soil_tempComponent::setlayer_thick(const std::vector<int> & _layer_thick)
 {
-    _temp_profile.setlayer_thick(_layer_thick);
-    _layers_temp.setlayer_thick(_layer_thick);
+    _Temp_profile.setlayer_thick(_layer_thick);
+    _Layers_temp.setlayer_thick(_layer_thick);
 }
 void soil_tempComponent::Calculate_Model(soil_tempState &s, soil_tempState &s1, soil_tempRate &r, soil_tempAuxiliary &a, soil_tempExogenous &ex)
 {

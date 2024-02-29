@@ -16,11 +16,10 @@ void temp_profile::Init(soil_tempState &s, soil_tempState &s1, soil_tempRate &r,
     double temp_amp = 0.0;
     std::vector<double> prev_temp_profile;
     double prev_canopy_temp;
-    prev_temp_profile = std::vector<double>();
     prev_canopy_temp = 0.0;
     int soil_depth;
-    soil_depth = accumulate(layer_thick.begin(), layer_thick.end(), decltype(layer_thick)::value_type(0));
-    prev_temp_profile = std::vector<double>(soil_depth);
+    soil_depth = accumulate(layer_thick.begin(), layer_thick.end(), 0);
+    prev_temp_profile = std::vector<double> (soil_depth);
     prev_temp_profile.assign(soil_depth, air_temp_day1);
     prev_canopy_temp = air_temp_day1;
     s.settemp_amp(temp_amp);
@@ -58,7 +57,8 @@ void temp_profile::Calculate_Model(soil_tempState &s, soil_tempState &s1, soil_t
     //                          ** description : previous soil temperature profile (for 1 cm layers)
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLELIST
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
     //                          ** max : 50.0
     //                          ** min : -50.0
     //                          ** default : 
@@ -103,13 +103,14 @@ void temp_profile::Calculate_Model(soil_tempState &s, soil_tempState &s1, soil_t
     //- outputs:
     //            * name: temp_profile
     //                          ** description : current soil profile temperature (for 1 cm layers)
-    //                          ** datatype : DOUBLELIST
+    //                          ** datatype : DOUBLEARRAY
     //                          ** variablecategory : state
+    //                          ** len : 
     //                          ** max : 50.0
     //                          ** min : -50.0
     //                          ** unit : degC
     double temp_amp = s.gettemp_amp();
-    std::vector<double>& prev_temp_profile = s.getprev_temp_profile();
+    std::vector<double> & prev_temp_profile = s.getprev_temp_profile();
     double prev_canopy_temp = s.getprev_canopy_temp();
     double min_air_temp = ex.getmin_air_temp();
     std::vector<double> temp_profile;
@@ -120,7 +121,7 @@ void temp_profile::Calculate_Model(soil_tempState &s, soil_tempState &s1, soil_t
     double temp_freq = 7.272e-5;
     double therm_amp;
     n = prev_temp_profile.size();
-    temp_profile = std::vector<double>(n);
+    temp_profile = std::vector<double> (n);
     vexp = std::vector<double>(n);
     therm_amp = std::sqrt(temp_freq / 2 / therm_diff);
     for (z=1 ; z!=n + 1 ; z+=1)

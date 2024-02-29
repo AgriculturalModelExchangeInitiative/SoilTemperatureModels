@@ -30,7 +30,8 @@ void layers_temp::Calculate_Model(soil_tempState &s, soil_tempState &s1, soil_te
     //                          ** description : soil temperature profile
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLELIST
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
     //                          ** max : 50.0
     //                          ** min : -50.0
     //                          ** default : 0.0
@@ -48,12 +49,13 @@ void layers_temp::Calculate_Model(soil_tempState &s, soil_tempState &s1, soil_te
     //- outputs:
     //            * name: layer_temp
     //                          ** description : soil layers temperature
-    //                          ** datatype : DOUBLELIST
+    //                          ** datatype : DOUBLEARRAY
     //                          ** variablecategory : state
+    //                          ** len : 
     //                          ** max : 50.0
     //                          ** min : -50.0
     //                          ** unit : degC
-    std::vector<double>& temp_profile = s.gettemp_profile();
+    std::vector<double> & temp_profile = s.gettemp_profile();
     std::vector<double> layer_temp;
     int z;
     int layers_nb;
@@ -61,7 +63,7 @@ void layers_temp::Calculate_Model(soil_tempState &s, soil_tempState &s1, soil_te
     std::vector<int> layer_depth;
     int depth_value;
     layers_nb = get_layers_number(layer_thick);
-    layer_temp = std::vector<double>(layers_nb);
+    layer_temp = std::vector<double> (layers_nb);
     up_depth = std::vector<int>(layers_nb + 1);
     layer_depth = std::vector<int>(layers_nb);
     up_depth.assign(layers_nb + 1, 0);
