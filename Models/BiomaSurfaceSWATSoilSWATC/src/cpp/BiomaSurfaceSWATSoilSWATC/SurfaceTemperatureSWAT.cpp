@@ -34,7 +34,7 @@ void SurfaceTemperatureSWAT::Calculate_Model(SurfaceSWATSoilSWATCState &s, Surfa
     //            * name: SoilTemperatureByLayers
     //                          ** description : Soil temperature of each layer
     //                          ** inputtype : variable
-    //                          ** variablecategory : auxiliary
+    //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 60
@@ -95,7 +95,7 @@ void SurfaceTemperatureSWAT::Calculate_Model(SurfaceSWATSoilSWATCState &s, Surfa
     //                          ** min : -60
     //                          ** unit : degC
     double GlobalSolarRadiation = ex.getGlobalSolarRadiation();
-    std::vector<double> & SoilTemperatureByLayers = a.getSoilTemperatureByLayers();
+    std::vector<double> & SoilTemperatureByLayers = s.getSoilTemperatureByLayers();
     double AirTemperatureMaximum = ex.getAirTemperatureMaximum();
     double AirTemperatureMinimum = ex.getAirTemperatureMinimum();
     double Albedo = ex.getAlbedo();
