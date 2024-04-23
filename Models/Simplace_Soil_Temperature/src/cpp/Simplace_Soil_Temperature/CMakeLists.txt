@@ -85,7 +85,7 @@ add_library(Simplace_Soil_Temperature_lib
 	SoilTemperatureState.h
 	SoilTemperatureState.cpp
 	STMPsimCalculator.cpp
-	STMPSimCalculator.h
+	STMPsimCalculator.h
 )
 target_link_libraries(Simplace_Soil_Temperature_lib
 	PUBLIC
