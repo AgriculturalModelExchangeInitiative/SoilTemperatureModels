@@ -31,6 +31,8 @@ def model_calculatehourlysoiltemperature(float minTSoil,
 
 
 
+from math import pi
+
 def getHourlySoilSurfaceTemperature(float TMax,
          float TMin,
          float ady,
