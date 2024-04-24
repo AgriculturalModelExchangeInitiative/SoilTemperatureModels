@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
-project(Simplace_Soil_Temperature)
+project(BiomaSurfaceSWATSoilSWATC)
 
-message(STATUS "-> Simplace_Soil_Temperature")
+message(STATUS "-> BiomaSurfaceSWATSoilSWATC")
 
 # https://cmake.org/cmake/help/latest/prop_tgt/CXX_STANDARD.html
 set(CMAKE_CXX_STANDARD 17)
@@ -70,37 +70,37 @@ find_package(Threads REQUIRED)
 
 #------------------------------------------------------------------------------
 
-# create DSSAT_ST_standalone_lib
-add_library(Simplace_Soil_Temperature_lib
-	SnowCoverCalculator.cpp
-	SnowCoverCalculator.h
-	SoilTemperatureAuxiliary.h
-	SoilTemperatureAuxiliary.cpp
-	SoilTemperatureComponent.h
-	SoilTemperatureComponent.cpp
-	SoilTemperatureExogenous.h
-	SoilTemperatureExogenous.cpp
-	SoilTemperatureRate.h
-	SoilTemperatureRate.cpp
-	SoilTemperatureState.h
-	SoilTemperatureState.cpp
-	STMPsimCalculator.cpp
-	STMPsimCalculator.h
+# create BiomaSurfaceSWATSoilSWATC_lib
+add_library(BiomaSurfaceSWATSoilSWATC_lib
+	SoilTemperatureSWAT.h
+	SoilTemperatureSWAT.cpp
+	SurfaceSWATSoilSWATCAuxiliary.h
+	SurfaceSWATSoilSWATCAuxiliary.cpp
+	SurfaceSWATSoilSWATCComponent.h
+	SurfaceSWATSoilSWATCComponent.cpp
+	SurfaceSWATSoilSWATCExogenous.h
+	SurfaceSWATSoilSWATCExogenous.cpp
+	SurfaceSWATSoilSWATCRate.h
+	SurfaceSWATSoilSWATCRate.cpp
+	SurfaceSWATSoilSWATCState.h
+	SurfaceSWATSoilSWATCState.cpp
+	SurfaceTemperatureSWAT.h
+	SurfaceTemperatureSWAT.cpp
 )
-target_link_libraries(Simplace_Soil_Temperature_lib
+target_link_libraries(BiomaSurfaceSWATSoilSWATC_lib
 	PUBLIC
 	${CMAKE_THREAD_LIBS_INIT}
 	${CMAKE_DL_LIBS}
 )
-target_include_directories(Simplace_Soil_Temperature_lib
+target_include_directories(BiomaSurfaceSWATSoilSWATC_lib
 	PUBLIC
-	${CMAKE_CURRENT_SOURCE_DIR}     # for #include "SoilTemperatureComponent.h"
-	${CMAKE_CURRENT_SOURCE_DIR}/..  # for #include "Simplace_Soil_Temperature/SoilTemperatureComponent.h"
+	${CMAKE_CURRENT_SOURCE_DIR}     # for #include "SurfaceSWATPartonSoilSWATCComponent.h"
+	${CMAKE_CURRENT_SOURCE_DIR}/..  # for #include "BiomaSurfaceSWATSoilSWATC/SurfaceSWATPartonSoilSWATCComponent.h"
 )
 if (MSVC)
-	target_compile_options(Simplace_Soil_Temperature_lib PRIVATE "/MT$<$<CONFIG:Debug>:d>")
+	target_compile_options(BiomaSurfaceSWATSoilSWATC_lib PRIVATE "/MT$<$<CONFIG:Debug>:d>")
 endif()
 
 #------------------------------------------------------------------------------
 
-message(STATUS "<- Simplace_Soil_Temperature")
+message(STATUS "<- BiomaSurfaceSWATSoilSWATC")

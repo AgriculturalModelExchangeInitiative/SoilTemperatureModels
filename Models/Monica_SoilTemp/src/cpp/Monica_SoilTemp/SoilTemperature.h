@@ -13,8 +13,9 @@ namespace Monica_SoilTemp {
 class SoilTemperature
 {
     private:
-        int noOfTempLayers ;
         int noOfSoilLayers ;
+        int noOfTempLayers ;
+        int noOfTempLayersPlus1 ;
         double timeStep ;
         double soilMoistureConst ;
         double baseTemp ;
@@ -36,10 +37,12 @@ class SoilTemperature
         SoilTemperature();
         void Calculate_Model(SoilTemperatureCompState &s, SoilTemperatureCompState &s1, SoilTemperatureCompRate &r, SoilTemperatureCompAuxiliary &a, SoilTemperatureCompExogenous &ex);
         void Init(SoilTemperatureCompState &s, SoilTemperatureCompState &s1, SoilTemperatureCompRate &r, SoilTemperatureCompAuxiliary &a, SoilTemperatureCompExogenous &ex);
-        int getnoOfTempLayers();
-        void setnoOfTempLayers(int _noOfTempLayers);
         int getnoOfSoilLayers();
         void setnoOfSoilLayers(int _noOfSoilLayers);
+        int getnoOfTempLayers();
+        void setnoOfTempLayers(int _noOfTempLayers);
+        int getnoOfTempLayersPlus1();
+        void setnoOfTempLayersPlus1(int _noOfTempLayersPlus1);
         double gettimeStep();
         void settimeStep(double _timeStep);
         double getsoilMoistureConst();

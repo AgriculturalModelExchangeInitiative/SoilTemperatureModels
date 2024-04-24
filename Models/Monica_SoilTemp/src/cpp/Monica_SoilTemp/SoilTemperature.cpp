@@ -13,20 +13,20 @@ using namespace Monica_SoilTemp;
 void SoilTemperature::Init(SoilTemperatureCompState &s, SoilTemperatureCompState &s1, SoilTemperatureCompRate &r, SoilTemperatureCompAuxiliary &a, SoilTemperatureCompExogenous &ex)
 {
     double soilSurfaceTemperature = 0.0;
-    std::vector<double> soilTemperature(22);
-    std::vector<double> V(22);
-    std::vector<double> B(22);
-    std::vector<double> volumeMatrix(22);
-    std::vector<double> volumeMatrixOld(22);
-    std::vector<double> matrixPrimaryDiagonal(22);
-    std::vector<double> matrixSecondaryDiagonal(23);
-    std::vector<double> heatConductivity(22);
-    std::vector<double> heatConductivityMean(22);
-    std::vector<double> heatCapacity(22);
-    std::vector<double> solution(22);
-    std::vector<double> matrixDiagonal(22);
-    std::vector<double> matrixLowerTriangle(22);
-    std::vector<double> heatFlow(22);
+    std::vector<double> soilTemperature(noOfTempLayers);
+    std::vector<double> V(noOfTempLayers);
+    std::vector<double> B(noOfTempLayers);
+    std::vector<double> volumeMatrix(noOfTempLayers);
+    std::vector<double> volumeMatrixOld(noOfTempLayers);
+    std::vector<double> matrixPrimaryDiagonal(noOfTempLayers);
+    std::vector<double> matrixSecondaryDiagonal(noOfTempLayersPlus1);
+    std::vector<double> heatConductivity(noOfTempLayers);
+    std::vector<double> heatConductivityMean(noOfTempLayers);
+    std::vector<double> heatCapacity(noOfTempLayers);
+    std::vector<double> solution(noOfTempLayers);
+    std::vector<double> matrixDiagonal(noOfTempLayers);
+    std::vector<double> matrixLowerTriangle(noOfTempLayers);
+    std::vector<double> heatFlow(noOfTempLayers);
     fill(soilTemperature.begin(),soilTemperature.end(), 0.0);
     fill(V.begin(),V.end(), 0.0);
     fill(B.begin(),B.end(), 0.0);
@@ -140,8 +140,9 @@ void SoilTemperature::Init(SoilTemperatureCompState &s, SoilTemperatureCompState
     s.setheatFlow(heatFlow);
 }
 SoilTemperature::SoilTemperature() {}
-int SoilTemperature::getnoOfTempLayers() { return this->noOfTempLayers; }
 int SoilTemperature::getnoOfSoilLayers() { return this->noOfSoilLayers; }
+int SoilTemperature::getnoOfTempLayers() { return this->noOfTempLayers; }
+int SoilTemperature::getnoOfTempLayersPlus1() { return this->noOfTempLayersPlus1; }
 double SoilTemperature::gettimeStep() { return this->timeStep; }
 double SoilTemperature::getsoilMoistureConst() { return this->soilMoistureConst; }
 double SoilTemperature::getbaseTemp() { return this->baseTemp; }
@@ -159,8 +160,9 @@ std::vector<double> & SoilTemperature::getlayerThickness() { return this->layerT
 std::vector<double> & SoilTemperature::getsoilBulkDensity() { return this->soilBulkDensity; }
 std::vector<double> & SoilTemperature::getsaturation() { return this->saturation; }
 std::vector<double> & SoilTemperature::getsoilOrganicMatter() { return this->soilOrganicMatter; }
-void SoilTemperature::setnoOfTempLayers(int _noOfTempLayers) { this->noOfTempLayers = _noOfTempLayers; }
 void SoilTemperature::setnoOfSoilLayers(int _noOfSoilLayers) { this->noOfSoilLayers = _noOfSoilLayers; }
+void SoilTemperature::setnoOfTempLayers(int _noOfTempLayers) { this->noOfTempLayers = _noOfTempLayers; }
+void SoilTemperature::setnoOfTempLayersPlus1(int _noOfTempLayersPlus1) { this->noOfTempLayersPlus1 = _noOfTempLayersPlus1; }
 void SoilTemperature::settimeStep(double _timeStep) { this->timeStep = _timeStep; }
 void SoilTemperature::setsoilMoistureConst(double _soilMoistureConst) { this->soilMoistureConst = _soilMoistureConst; }
 void SoilTemperature::setbaseTemp(double _baseTemp) { this->baseTemp = _baseTemp; }
@@ -197,6 +199,15 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //            * ExtendedDescription: None
     //            * ShortDescription: Calculates the soil temperature at all soil layers
     //- inputs:
+    //            * name: noOfSoilLayers
+    //                          ** description : noOfSoilLayers
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
+    //                          ** datatype : INT
+    //                          ** max : 
+    //                          ** min : 
+    //                          ** default : 20
+    //                          ** unit : dimensionless
     //            * name: noOfTempLayers
     //                          ** description : noOfTempLayers=noOfSoilLayers+2
     //                          ** inputtype : parameter
@@ -206,14 +217,14 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** min : 
     //                          ** default : 22
     //                          ** unit : dimensionless
-    //            * name: noOfSoilLayers
-    //                          ** description : noOfSoilLayers
+    //            * name: noOfTempLayersPlus1
+    //                          ** description : for matrixSecondaryDiagonal
     //                          ** inputtype : parameter
     //                          ** parametercategory : constant
     //                          ** datatype : INT
     //                          ** max : 
     //                          ** min : 
-    //                          ** default : 20.0
+    //                          ** default : 23
     //                          ** unit : dimensionless
     //            * name: soilSurfaceTemperature
     //                          ** description : current soilSurfaceTemperature
@@ -346,7 +357,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** inputtype : parameter
     //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -356,7 +367,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** inputtype : parameter
     //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 20
+    //                          ** len : noOfSoilLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -366,7 +377,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** inputtype : parameter
     //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 20
+    //                          ** len : noOfSoilLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -376,7 +387,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** inputtype : parameter
     //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 20
+    //                          ** len : noOfSoilLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -386,7 +397,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -396,7 +407,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -406,7 +417,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -416,7 +427,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -426,7 +437,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -436,7 +447,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -446,7 +457,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 23
+    //                          ** len : noOfTempLayersPlus1
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -456,7 +467,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -466,7 +477,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -476,7 +487,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -486,7 +497,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -496,7 +507,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -506,7 +517,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -516,7 +527,7 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 

@@ -20,11 +20,11 @@ class soil_tempComponent
         std::vector<int> & getlayer_thick();
         void setlayer_thick(const std::vector<int> &  _layer_thick);
 
-        temp_amp _temp_amp;
-        temp_profile _temp_profile;
-        layers_temp _layers_temp;
-        canopy_temp_avg _canopy_temp_avg;
-        update _update;
+        temp_amp _Temp_amp;
+        temp_profile _Temp_profile;
+        layers_temp _Layers_temp;
+        canopy_temp_avg _Canopy_temp_avg;
+        update _Update;
 
 };
 }

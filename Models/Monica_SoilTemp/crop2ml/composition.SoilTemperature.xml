@@ -44,6 +44,7 @@
             <InputLink source="nTau" target="SoilTemperature.nTau"/>
             <!--<InputLink source="soilAlbedo" target="SoilTemperature.soilAlbedo"/>-->
             <InputLink source="noOfTempLayers" target="SoilTemperature.noOfTempLayers"/>
+            <InputLink source="noOfTempLayersPlus1" target="SoilTemperature.noOfTempLayersPlus1"/>
             <InputLink source="noOfSoilLayers" target="SoilTemperature.noOfSoilLayers"/>
 
             <InputLink source="layerThickness" target="SoilTemperature.layerThickness"/>

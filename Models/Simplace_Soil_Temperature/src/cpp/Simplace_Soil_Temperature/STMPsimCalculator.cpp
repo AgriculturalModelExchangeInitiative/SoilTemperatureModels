@@ -31,11 +31,8 @@ void STMPsimCalculator::Init(SoilTemperatureState &s, SoilTemperatureState &s1, 
     firstAdditionalLayerHight = additionalDepth - float(std::floor(additionalDepth));
     layers = int(std::abs(float((int) std::ceil(additionalDepth)))) + cSoilLayerDepth.size();
     tStmp = std::vector<double> (layers);
-    ;
     tStmpRate = std::vector<double> (layers);
-    ;
     tz = std::vector<double> (layers);
-    ;
     for (i=0 ; i!=tStmp.size() ; i+=1)
     {
         if (i < cSoilLayerDepth.size())

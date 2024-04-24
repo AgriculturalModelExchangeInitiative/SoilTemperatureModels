@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
-project(Simplace_Soil_Temperature)
+project(BiomaSurfacePartonSoilSWATC)
 
-message(STATUS "-> Simplace_Soil_Temperature")
+message(STATUS "-> BiomaSurfacePartonSoilSWATC")
 
 # https://cmake.org/cmake/help/latest/prop_tgt/CXX_STANDARD.html
 set(CMAKE_CXX_STANDARD 17)
@@ -70,37 +70,37 @@ find_package(Threads REQUIRED)
 
 #------------------------------------------------------------------------------
 
-# create DSSAT_ST_standalone_lib
-add_library(Simplace_Soil_Temperature_lib
-	SnowCoverCalculator.cpp
-	SnowCoverCalculator.h
-	SoilTemperatureAuxiliary.h
-	SoilTemperatureAuxiliary.cpp
-	SoilTemperatureComponent.h
-	SoilTemperatureComponent.cpp
-	SoilTemperatureExogenous.h
-	SoilTemperatureExogenous.cpp
-	SoilTemperatureRate.h
-	SoilTemperatureRate.cpp
-	SoilTemperatureState.h
-	SoilTemperatureState.cpp
-	STMPsimCalculator.cpp
-	STMPsimCalculator.h
+# create BiomaSurfacePartonSoilSWATC_lib
+add_library(BiomaSurfacePartonSoilSWATC_lib
+	SoilTemperatureSWAT.h
+	SoilTemperatureSWAT.cpp
+	SurfacePartonSoilSWATCAuxiliary.h
+	SurfacePartonSoilSWATCAuxiliary.cpp
+	SurfacePartonSoilSWATCComponent.h
+	SurfacePartonSoilSWATCComponent.cpp
+	SurfacePartonSoilSWATCExogenous.h
+	SurfacePartonSoilSWATCExogenous.cpp
+	SurfacePartonSoilSWATCRate.h
+	SurfacePartonSoilSWATCRate.cpp
+	SurfacePartonSoilSWATCState.h
+	SurfacePartonSoilSWATCState.cpp
+	SurfaceTemperatureParton.h
+	SurfaceTemperatureParton.cpp
 )
-target_link_libraries(Simplace_Soil_Temperature_lib
+target_link_libraries(BiomaSurfacePartonSoilSWATC_lib
 	PUBLIC
 	${CMAKE_THREAD_LIBS_INIT}
 	${CMAKE_DL_LIBS}
 )
-target_include_directories(Simplace_Soil_Temperature_lib
+target_include_directories(BiomaSurfacePartonSoilSWATC_lib
 	PUBLIC
-	${CMAKE_CURRENT_SOURCE_DIR}     # for #include "SoilTemperatureComponent.h"
-	${CMAKE_CURRENT_SOURCE_DIR}/..  # for #include "Simplace_Soil_Temperature/SoilTemperatureComponent.h"
+	${CMAKE_CURRENT_SOURCE_DIR}     # for #include "SurfacePartonSoilSWATCComponent.h"
+	${CMAKE_CURRENT_SOURCE_DIR}/..  # for #include "BiomaSurfacePartonSoilSWATC/SurfacePartonSoilSWATCComponent.h"
 )
 if (MSVC)
-	target_compile_options(Simplace_Soil_Temperature_lib PRIVATE "/MT$<$<CONFIG:Debug>:d>")
+	target_compile_options(BiomaSurfacePartonSoilSWATC_lib PRIVATE "/MT$<$<CONFIG:Debug>:d>")
 endif()
 
 #------------------------------------------------------------------------------
 
-message(STATUS "<- Simplace_Soil_Temperature")
+message(STATUS "<- BiomaSurfacePartonSoilSWATC")

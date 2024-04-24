@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
-project(Simplace_Soil_Temperature)
+project(Stics_soil_temperature)
 
-message(STATUS "-> Simplace_Soil_Temperature")
+message(STATUS "-> Stics_soil_temperature")
 
 # https://cmake.org/cmake/help/latest/prop_tgt/CXX_STANDARD.html
 set(CMAKE_CXX_STANDARD 17)
@@ -70,37 +70,43 @@ find_package(Threads REQUIRED)
 
 #------------------------------------------------------------------------------
 
-# create DSSAT_ST_standalone_lib
-add_library(Simplace_Soil_Temperature_lib
-	SnowCoverCalculator.cpp
-	SnowCoverCalculator.h
-	SoilTemperatureAuxiliary.h
-	SoilTemperatureAuxiliary.cpp
-	SoilTemperatureComponent.h
-	SoilTemperatureComponent.cpp
-	SoilTemperatureExogenous.h
-	SoilTemperatureExogenous.cpp
-	SoilTemperatureRate.h
-	SoilTemperatureRate.cpp
-	SoilTemperatureState.h
-	SoilTemperatureState.cpp
-	STMPsimCalculator.cpp
-	STMPsimCalculator.h
+# create Stics_soil_temperature_lib
+add_library(Stics_soil_temperature_lib
+    Canopy_temp_avg.cpp
+    canopy_temp_avg.h
+    Layers_temp.cpp
+    layers_temp.h
+	soil_tempAuxiliary.h
+	soil_tempAuxiliary.cpp
+	soil_tempComponent.h
+	soil_tempComponent.cpp
+	soil_tempExogenous.h
+	soil_tempExogenous.cpp
+	soil_tempRate.h
+	soil_tempRate.cpp
+	soil_tempState.h
+	soil_tempState.cpp
+	Temp_amp.cpp
+	temp_amp.h
+	Temp_profile.cpp
+	temp_profile.h
+	Update.cpp
+	update.h
 )
-target_link_libraries(Simplace_Soil_Temperature_lib
+target_link_libraries(Stics_soil_temperature_lib
 	PUBLIC
 	${CMAKE_THREAD_LIBS_INIT}
 	${CMAKE_DL_LIBS}
 )
-target_include_directories(Simplace_Soil_Temperature_lib
+target_include_directories(Stics_soil_temperature_lib
 	PUBLIC
-	${CMAKE_CURRENT_SOURCE_DIR}     # for #include "SoilTemperatureComponent.h"
-	${CMAKE_CURRENT_SOURCE_DIR}/..  # for #include "Simplace_Soil_Temperature/SoilTemperatureComponent.h"
+	${CMAKE_CURRENT_SOURCE_DIR}     # for #include "soil_tempComponent.h"
+	${CMAKE_CURRENT_SOURCE_DIR}/..  # for #include "Stics_soil_temperature/soil_tempComponent.h"
 )
 if (MSVC)
-	target_compile_options(Simplace_Soil_Temperature_lib PRIVATE "/MT$<$<CONFIG:Debug>:d>")
+	target_compile_options(Stics_soil_temperature_lib PRIVATE "/MT$<$<CONFIG:Debug>:d>")
 endif()
 
 #------------------------------------------------------------------------------
 
-message(STATUS "<- Simplace_Soil_Temperature")
+message(STATUS "<- Stics_soil_temperature")

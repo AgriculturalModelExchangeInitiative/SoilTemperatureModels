@@ -21,6 +21,7 @@ double SoilTemperatureCompComponent::getquartzRawDensity(){ return this->quartzR
 double SoilTemperatureCompComponent::getspecificHeatCapacityQuartz(){ return this->specificHeatCapacityQuartz; }
 double SoilTemperatureCompComponent::getnTau(){ return this->nTau; }
 int SoilTemperatureCompComponent::getnoOfTempLayers(){ return this->noOfTempLayers; }
+int SoilTemperatureCompComponent::getnoOfTempLayersPlus1(){ return this->noOfTempLayersPlus1; }
 int SoilTemperatureCompComponent::getnoOfSoilLayers(){ return this->noOfSoilLayers; }
 std::vector<double> & SoilTemperatureCompComponent::getlayerThickness(){ return this->layerThickness; }
 std::vector<double> & SoilTemperatureCompComponent::getsoilBulkDensity(){ return this->soilBulkDensity; }
@@ -87,6 +88,10 @@ void SoilTemperatureCompComponent::setnoOfTempLayers(int _noOfTempLayers)
 {
     _SoilTemperature.setnoOfTempLayers(_noOfTempLayers);
 }
+void SoilTemperatureCompComponent::setnoOfTempLayersPlus1(int _noOfTempLayersPlus1)
+{
+    _SoilTemperature.setnoOfTempLayersPlus1(_noOfTempLayersPlus1);
+}
 void SoilTemperatureCompComponent::setnoOfSoilLayers(int _noOfSoilLayers)
 {
     _SoilTemperature.setnoOfSoilLayers(_noOfSoilLayers);
@@ -131,23 +136,24 @@ SoilTemperatureCompComponent::SoilTemperatureCompComponent(SoilTemperatureCompCo
     specificHeatCapacityQuartz = toCopy.getspecificHeatCapacityQuartz();
     nTau = toCopy.getnTau();
     noOfTempLayers = toCopy.getnoOfTempLayers();
+    noOfTempLayersPlus1 = toCopy.getnoOfTempLayersPlus1();
     noOfSoilLayers = toCopy.getnoOfSoilLayers();
-    for (int i = 0; i < 22; i++)
+    for (int i = 0; i < noOfTempLayers; i++)
 {
     layerThickness[i] = toCopy.getlayerThickness()[i];
 }
 
-    for (int i = 0; i < 20; i++)
+    for (int i = 0; i < noOfSoilLayers; i++)
 {
     soilBulkDensity[i] = toCopy.getsoilBulkDensity()[i];
 }
 
-    for (int i = 0; i < 20; i++)
+    for (int i = 0; i < noOfSoilLayers; i++)
 {
     saturation[i] = toCopy.getsaturation()[i];
 }
 
-    for (int i = 0; i < 20; i++)
+    for (int i = 0; i < noOfSoilLayers; i++)
 {
     soilOrganicMatter[i] = toCopy.getsoilOrganicMatter()[i];
 }

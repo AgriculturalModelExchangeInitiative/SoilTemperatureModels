@@ -11,7 +11,7 @@
         <ShortDescription>Strategy for the calculation of surface soil temperature with SWAT method</ShortDescription></Description>
     <Inputs>
         <Input name="GlobalSolarRadiation" description="Daily global solar radiation" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="50" min="0" default="15" unit="Mj m-2 d-1"/>
-        <Input name="SoilTemperatureByLayers" description="Soil temperature of each layer" inputtype="variable" variablecategory="auxiliary" datatype="DOUBLEARRAY" len="" max="60" min="-60" default="15" unit=""/>
+        <Input name="SoilTemperatureByLayers" description="Soil temperature of each layer" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="" max="60" min="-60" default="15" unit=""/>
         <Input name="AirTemperatureMaximum" description="Maximum daily air temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="60" min="-40" default="15" unit=""/>
         <Input name="AirTemperatureMinimum" description="Minimum daily air temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="50" min="-60" default="5" unit=""/>
         <Input name="Albedo" description="Albedo of soil" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="1" min="0" default="0.2" unit="unitless"/>
