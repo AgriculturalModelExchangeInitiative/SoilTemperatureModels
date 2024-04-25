@@ -32,14 +32,14 @@ void STEMP_EPIC::Init(STEMP_EPIC_State &s, STEMP_EPIC_State &s1, STEMP_EPIC_Rate
     double SRFTEMP;
     std::vector<double> ST(NL);
     CUMDPT = 0.0;
-    fill(DSMID.begin(),DSMID.end(), 0.0);
+    DSMID = std::move(std::vector<double>(NL, 0.0));
     TDL = 0.0;
-    fill(TMA.begin(),TMA.end(), 0.0);
+    TMA = std::move(std::vector<double>(5, 0.0));
     NDays = 0;
-    fill(WetDay.begin(),WetDay.end(), 0);
+    WetDay = std::move(std::vector<int>(30, 0));
     X2_PREV = 0.0;
     SRFTEMP = 0.0;
-    fill(ST.begin(),ST.end(), 0.0);
+    ST = std::move(std::vector<double>(NL, 0.0));
     int I;
     int L;
     double ABD;
