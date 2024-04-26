@@ -8,47 +8,47 @@ public class SoilTemperature
     public void Init(SoilTemperatureCompState s, SoilTemperatureCompState s1, SoilTemperatureCompRate r, SoilTemperatureCompAuxiliary a,  SoilTemperatureCompExogenous ex)
     {
         double soilSurfaceTemperature = 0.0;
-        Double[] soilTemperature =  new Double [22];
-        Double[] V =  new Double [22];
-        Double[] B =  new Double [22];
-        Double[] volumeMatrix =  new Double [22];
-        Double[] volumeMatrixOld =  new Double [22];
-        Double[] matrixPrimaryDiagonal =  new Double [22];
-        Double[] matrixSecondaryDiagonal =  new Double [23];
-        Double[] heatConductivity =  new Double [22];
-        Double[] heatConductivityMean =  new Double [22];
-        Double[] heatCapacity =  new Double [22];
-        Double[] solution =  new Double [22];
-        Double[] matrixDiagonal =  new Double [22];
-        Double[] matrixLowerTriangle =  new Double [22];
-        Double[] heatFlow =  new Double [22];
-        soilTemperature= new Double[22];
+        Double[] soilTemperature =  new Double [noOfTempLayers];
+        Double[] V =  new Double [noOfTempLayers];
+        Double[] B =  new Double [noOfTempLayers];
+        Double[] volumeMatrix =  new Double [noOfTempLayers];
+        Double[] volumeMatrixOld =  new Double [noOfTempLayers];
+        Double[] matrixPrimaryDiagonal =  new Double [noOfTempLayers];
+        Double[] matrixSecondaryDiagonal =  new Double [noOfTempLayersPlus1];
+        Double[] heatConductivity =  new Double [noOfTempLayers];
+        Double[] heatConductivityMean =  new Double [noOfTempLayers];
+        Double[] heatCapacity =  new Double [noOfTempLayers];
+        Double[] solution =  new Double [noOfTempLayers];
+        Double[] matrixDiagonal =  new Double [noOfTempLayers];
+        Double[] matrixLowerTriangle =  new Double [noOfTempLayers];
+        Double[] heatFlow =  new Double [noOfTempLayers];
+        soilTemperature= new Double[noOfTempLayers];
         Arrays.fill(soilTemperature, 0.0d);
-        V= new Double[22];
+        V= new Double[noOfTempLayers];
         Arrays.fill(V, 0.0d);
-        B= new Double[22];
+        B= new Double[noOfTempLayers];
         Arrays.fill(B, 0.0d);
-        volumeMatrix= new Double[22];
+        volumeMatrix= new Double[noOfTempLayers];
         Arrays.fill(volumeMatrix, 0.0d);
-        volumeMatrixOld= new Double[22];
+        volumeMatrixOld= new Double[noOfTempLayers];
         Arrays.fill(volumeMatrixOld, 0.0d);
-        matrixPrimaryDiagonal= new Double[22];
+        matrixPrimaryDiagonal= new Double[noOfTempLayers];
         Arrays.fill(matrixPrimaryDiagonal, 0.0d);
-        matrixSecondaryDiagonal= new Double[23];
+        matrixSecondaryDiagonal= new Double[noOfTempLayersPlus1];
         Arrays.fill(matrixSecondaryDiagonal, 0.0d);
-        heatConductivity= new Double[22];
+        heatConductivity= new Double[noOfTempLayers];
         Arrays.fill(heatConductivity, 0.0d);
-        heatConductivityMean= new Double[22];
+        heatConductivityMean= new Double[noOfTempLayers];
         Arrays.fill(heatConductivityMean, 0.0d);
-        heatCapacity= new Double[22];
+        heatCapacity= new Double[noOfTempLayers];
         Arrays.fill(heatCapacity, 0.0d);
-        solution= new Double[22];
+        solution= new Double[noOfTempLayers];
         Arrays.fill(solution, 0.0d);
-        matrixDiagonal= new Double[22];
+        matrixDiagonal= new Double[noOfTempLayers];
         Arrays.fill(matrixDiagonal, 0.0d);
-        matrixLowerTriangle= new Double[22];
+        matrixLowerTriangle= new Double[noOfTempLayers];
         Arrays.fill(matrixLowerTriangle, 0.0d);
-        heatFlow= new Double[22];
+        heatFlow= new Double[noOfTempLayers];
         Arrays.fill(heatFlow, 0.0d);
         Integer groundLayer;
         Integer bottomLayer;
@@ -101,7 +101,7 @@ public class SoilTemperature
         for (i=0 ; i!=noOfSoilLayers ; i+=1)
         {
             sbdi = soilBulkDensity[i];
-            smi = soilMoistureConst;
+            smi = soilMoistureConst[i];
             heatConductivity[i] = (3.0d * (sbdi / 1000.0d) - 1.7d) * 0.001d / (1.0d + ((11.5d - (5.0d * (sbdi / 1000.0d))) * Math.exp(-50.0d * Math.pow(smi / (sbdi / 1000.0d), 1.5d)))) * 86400.0d * ts * 100.0d * 4.184d;
             sati = saturation[i];
             somi = soilOrganicMatter[i] / da * sbdi;
@@ -148,6 +148,13 @@ public class SoilTemperature
         s.setmatrixLowerTriangle(matrixLowerTriangle);
         s.setheatFlow(heatFlow);
     }
+    private Integer noOfSoilLayers;
+    public Integer getnoOfSoilLayers()
+    { return noOfSoilLayers; }
+
+    public void setnoOfSoilLayers(Integer _noOfSoilLayers)
+    { this.noOfSoilLayers= _noOfSoilLayers; } 
+    
     private Integer noOfTempLayers;
     public Integer getnoOfTempLayers()
     { return noOfTempLayers; }
@@ -155,12 +162,12 @@ public class SoilTemperature
     public void setnoOfTempLayers(Integer _noOfTempLayers)
     { this.noOfTempLayers= _noOfTempLayers; } 
     
-    private Integer noOfSoilLayers;
-    public Integer getnoOfSoilLayers()
-    { return noOfSoilLayers; }
+    private Integer noOfTempLayersPlus1;
+    public Integer getnoOfTempLayersPlus1()
+    { return noOfTempLayersPlus1; }
 
-    public void setnoOfSoilLayers(Integer _noOfSoilLayers)
-    { this.noOfSoilLayers= _noOfSoilLayers; } 
+    public void setnoOfTempLayersPlus1(Integer _noOfTempLayersPlus1)
+    { this.noOfTempLayersPlus1= _noOfTempLayersPlus1; } 
     
     private double timeStep;
     public double gettimeStep()
@@ -169,11 +176,11 @@ public class SoilTemperature
     public void settimeStep(double _timeStep)
     { this.timeStep= _timeStep; } 
     
-    private double soilMoistureConst;
-    public double getsoilMoistureConst()
+    private Double [] soilMoistureConst;
+    public Double [] getsoilMoistureConst()
     { return soilMoistureConst; }
 
-    public void setsoilMoistureConst(double _soilMoistureConst)
+    public void setsoilMoistureConst(Double [] _soilMoistureConst)
     { this.soilMoistureConst= _soilMoistureConst; } 
     
     private double baseTemp;
@@ -293,6 +300,15 @@ public class SoilTemperature
     //            * ExtendedDescription: None
     //            * ShortDescription: Calculates the soil temperature at all soil layers
         //- inputs:
+    //            * name: noOfSoilLayers
+    //                          ** description : noOfSoilLayers
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
+    //                          ** datatype : INT
+    //                          ** max : 
+    //                          ** min : 
+    //                          ** default : 20
+    //                          ** unit : dimensionless
     //            * name: noOfTempLayers
     //                          ** description : noOfTempLayers=noOfSoilLayers+2
     //                          ** inputtype : parameter
@@ -302,14 +318,14 @@ public class SoilTemperature
     //                          ** min : 
     //                          ** default : 22
     //                          ** unit : dimensionless
-    //            * name: noOfSoilLayers
-    //                          ** description : noOfSoilLayers
+    //            * name: noOfTempLayersPlus1
+    //                          ** description : for matrixSecondaryDiagonal
     //                          ** inputtype : parameter
     //                          ** parametercategory : constant
     //                          ** datatype : INT
     //                          ** max : 
     //                          ** min : 
-    //                          ** default : 20.0
+    //                          ** default : 23
     //                          ** unit : dimensionless
     //            * name: soilSurfaceTemperature
     //                          ** description : current soilSurfaceTemperature
@@ -330,13 +346,14 @@ public class SoilTemperature
     //                          ** default : 1.0
     //                          ** unit : dimensionless
     //            * name: soilMoistureConst
-    //                          ** description : initial soilmoisture
+    //                          ** description : constant soilmoisture during the model run
     //                          ** inputtype : parameter
     //                          ** parametercategory : constant
-    //                          ** datatype : DOUBLE
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : noOfSoilLayers
     //                          ** max : 
     //                          ** min : 
-    //                          ** default : 0.25
+    //                          ** default : 
     //                          ** unit : m**3/m**3
     //            * name: baseTemp
     //                          ** description : baseTemperature
@@ -442,7 +459,7 @@ public class SoilTemperature
     //                          ** inputtype : parameter
     //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -452,7 +469,7 @@ public class SoilTemperature
     //                          ** inputtype : parameter
     //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 20
+    //                          ** len : noOfSoilLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -462,7 +479,7 @@ public class SoilTemperature
     //                          ** inputtype : parameter
     //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 20
+    //                          ** len : noOfSoilLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -472,7 +489,7 @@ public class SoilTemperature
     //                          ** inputtype : parameter
     //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 20
+    //                          ** len : noOfSoilLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -482,7 +499,7 @@ public class SoilTemperature
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -492,7 +509,7 @@ public class SoilTemperature
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -502,7 +519,7 @@ public class SoilTemperature
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -512,7 +529,7 @@ public class SoilTemperature
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -522,7 +539,7 @@ public class SoilTemperature
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -532,7 +549,7 @@ public class SoilTemperature
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -542,7 +559,7 @@ public class SoilTemperature
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 23
+    //                          ** len : noOfTempLayersPlus1
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -552,7 +569,7 @@ public class SoilTemperature
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -562,7 +579,7 @@ public class SoilTemperature
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -572,7 +589,7 @@ public class SoilTemperature
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -582,7 +599,7 @@ public class SoilTemperature
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -592,7 +609,7 @@ public class SoilTemperature
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -602,7 +619,7 @@ public class SoilTemperature
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -612,7 +629,7 @@ public class SoilTemperature
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 22
+    //                          ** len : noOfTempLayers
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 

@@ -19,9 +19,9 @@ public class SoilTemperatureCompComponent
     _SoilTemperature.settimeStep(_timeStep);
     }
 
-    public double getsoilMoistureConst()
+    public Double [] getsoilMoistureConst()
     { return _SoilTemperature.getsoilMoistureConst(); }
-    public void setsoilMoistureConst(double _soilMoistureConst){
+    public void setsoilMoistureConst(Double [] _soilMoistureConst){
     _SoilTemperature.setsoilMoistureConst(_soilMoistureConst);
     }
 
@@ -97,6 +97,12 @@ public class SoilTemperatureCompComponent
     _SoilTemperature.setnoOfTempLayers(_noOfTempLayers);
     }
 
+    public Integer getnoOfTempLayersPlus1()
+    { return _SoilTemperature.getnoOfTempLayersPlus1(); }
+    public void setnoOfTempLayersPlus1(Integer _noOfTempLayersPlus1){
+    _SoilTemperature.setnoOfTempLayersPlus1(_noOfTempLayersPlus1);
+    }
+
     public Integer getnoOfSoilLayers()
     { return _SoilTemperature.getnoOfSoilLayers(); }
     public void setnoOfSoilLayers(Integer _noOfSoilLayers){
@@ -135,7 +141,7 @@ public class SoilTemperatureCompComponent
     }
     private double dampingFactor;
     private double timeStep;
-    private double soilMoistureConst;
+    private Double [] soilMoistureConst;
     private double baseTemp;
     private double initialSurfaceTemp;
     private double densityAir;
@@ -148,6 +154,7 @@ public class SoilTemperatureCompComponent
     private double specificHeatCapacityQuartz;
     private double nTau;
     private Integer noOfTempLayers;
+    private Integer noOfTempLayersPlus1;
     private Integer noOfSoilLayers;
     private Double [] layerThickness;
     private Double [] soilBulkDensity;
@@ -157,7 +164,11 @@ public class SoilTemperatureCompComponent
     {
         this.dampingFactor = toCopy.getdampingFactor();
         this.timeStep = toCopy.gettimeStep();
-        this.soilMoistureConst = toCopy.getsoilMoistureConst();
+        
+        for (int i = 0; i < toCopy.getsoilMoistureConst().length; i++)
+        {
+            soilMoistureConst[i] = toCopy.getsoilMoistureConst()[i];
+        }
         this.baseTemp = toCopy.getbaseTemp();
         this.initialSurfaceTemp = toCopy.getinitialSurfaceTemp();
         this.densityAir = toCopy.getdensityAir();
@@ -170,24 +181,25 @@ public class SoilTemperatureCompComponent
         this.specificHeatCapacityQuartz = toCopy.getspecificHeatCapacityQuartz();
         this.nTau = toCopy.getnTau();
         this.noOfTempLayers = toCopy.getnoOfTempLayers();
+        this.noOfTempLayersPlus1 = toCopy.getnoOfTempLayersPlus1();
         this.noOfSoilLayers = toCopy.getnoOfSoilLayers();
         
-        for (int i = 0; i < 22; i++)
+        for (int i = 0; i < toCopy.getlayerThickness().length; i++)
         {
             layerThickness[i] = toCopy.getlayerThickness()[i];
         }
         
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < toCopy.getsoilBulkDensity().length; i++)
         {
             soilBulkDensity[i] = toCopy.getsoilBulkDensity()[i];
         }
         
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < toCopy.getsaturation().length; i++)
         {
             saturation[i] = toCopy.getsaturation()[i];
         }
         
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < toCopy.getsoilOrganicMatter().length; i++)
         {
             soilOrganicMatter[i] = toCopy.getsoilOrganicMatter()[i];
         }

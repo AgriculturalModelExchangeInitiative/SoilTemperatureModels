@@ -92,7 +92,7 @@ void SoilTemperature::Init(SoilTemperatureCompState &s, SoilTemperatureCompState
     for (i=0 ; i!=noOfSoilLayers ; i+=1)
     {
         sbdi = soilBulkDensity[i];
-        smi = soilMoistureConst;
+        smi = soilMoistureConst[i];
         heatConductivity[i] = (3.0 * (sbdi / 1000.0) - 1.7) * 0.001 / (1.0 + ((11.5 - (5.0 * (sbdi / 1000.0))) * std::exp(-50.0 * std::pow(smi / (sbdi / 1000.0), 1.5)))) * 86400.0 * ts * 100.0 * 4.184;
         sati = saturation[i];
         somi = soilOrganicMatter[i] / da * sbdi;
@@ -144,7 +144,7 @@ int SoilTemperature::getnoOfSoilLayers() { return this->noOfSoilLayers; }
 int SoilTemperature::getnoOfTempLayers() { return this->noOfTempLayers; }
 int SoilTemperature::getnoOfTempLayersPlus1() { return this->noOfTempLayersPlus1; }
 double SoilTemperature::gettimeStep() { return this->timeStep; }
-double SoilTemperature::getsoilMoistureConst() { return this->soilMoistureConst; }
+std::vector<double> & SoilTemperature::getsoilMoistureConst() { return this->soilMoistureConst; }
 double SoilTemperature::getbaseTemp() { return this->baseTemp; }
 double SoilTemperature::getinitialSurfaceTemp() { return this->initialSurfaceTemp; }
 double SoilTemperature::getdensityAir() { return this->densityAir; }
@@ -164,7 +164,9 @@ void SoilTemperature::setnoOfSoilLayers(int _noOfSoilLayers) { this->noOfSoilLay
 void SoilTemperature::setnoOfTempLayers(int _noOfTempLayers) { this->noOfTempLayers = _noOfTempLayers; }
 void SoilTemperature::setnoOfTempLayersPlus1(int _noOfTempLayersPlus1) { this->noOfTempLayersPlus1 = _noOfTempLayersPlus1; }
 void SoilTemperature::settimeStep(double _timeStep) { this->timeStep = _timeStep; }
-void SoilTemperature::setsoilMoistureConst(double _soilMoistureConst) { this->soilMoistureConst = _soilMoistureConst; }
+void SoilTemperature::setsoilMoistureConst(std::vector<double> const &_soilMoistureConst){
+    this->soilMoistureConst = _soilMoistureConst;
+}
 void SoilTemperature::setbaseTemp(double _baseTemp) { this->baseTemp = _baseTemp; }
 void SoilTemperature::setinitialSurfaceTemp(double _initialSurfaceTemp) { this->initialSurfaceTemp = _initialSurfaceTemp; }
 void SoilTemperature::setdensityAir(double _densityAir) { this->densityAir = _densityAir; }
@@ -245,13 +247,14 @@ void SoilTemperature::Calculate_Model(SoilTemperatureCompState &s, SoilTemperatu
     //                          ** default : 1.0
     //                          ** unit : dimensionless
     //            * name: soilMoistureConst
-    //                          ** description : initial soilmoisture
+    //                          ** description : constant soilmoisture during the model run
     //                          ** inputtype : parameter
     //                          ** parametercategory : constant
-    //                          ** datatype : DOUBLE
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : noOfSoilLayers
     //                          ** max : 
     //                          ** min : 
-    //                          ** default : 0.25
+    //                          ** default : 
     //                          ** unit : m**3/m**3
     //            * name: baseTemp
     //                          ** description : baseTemperature

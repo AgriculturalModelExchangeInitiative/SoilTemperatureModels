@@ -5,7 +5,7 @@ def init_soiltemperature(int noOfSoilLayers,
                          int noOfTempLayers,
                          int noOfTempLayersPlus1,
                          float timeStep,
-                         float soilMoistureConst,
+                         float soilMoistureConst[noOfSoilLayers],
                          float baseTemp,
                          float initialSurfaceTemp,
                          float densityAir,
@@ -58,10 +58,6 @@ def init_soiltemperature(int noOfSoilLayers,
     # manually below, nevertheless initializing them to some sensible values
     # shouldn't hurt
     #if(!_soilColumn.empty()) _soilColumnGroundLayer = _soilColumnBottomLayer = _soilColumn.back();
-    # according to sensitivity tests, soil moisture has minor
-    # influence to the temperature and thus can be set as constant
-    # by xenia
-    #cdef double soilMoistureConst = _params.pt_SoilMoisture;
     #double baseTemp = _params.pt_BaseTemperature;  // temperature for lowest layer (avg yearly air temp)
     #double initialSurfaceTemp = _params.pt_InitialSurfaceTemperature; // Replace by Mean air temperature
     cdef int groundLayer 
@@ -75,11 +71,6 @@ def init_soiltemperature(int noOfSoilLayers,
         # Initialising the soil temperature
         soilTemperature[i] = ((1.0 - (float(i) / noOfSoilLayers)) * initialSurfaceTemp) \
             + ((float(i) / noOfSoilLayers) * baseTemp)
-        # Initialising the soil moisture content
-        # Soil moisture content is held constant for numeric stability.
-        # If dynamic soil moisture should be used, the energy balance
-        # must be extended by latent heat flow.
-        #vs_SoilMoisture_const[i] = soilMoistureConst;
     # Determination of the geometry parameters for soil temperature calculation
     # with Cholesky-Method
     groundLayer = noOfTempLayers - 2
@@ -117,7 +108,7 @@ def init_soiltemperature(int noOfSoilLayers,
         # Note: in this original publication lambda is calculated in cal cm-1 s-1 K-1!
         #######################################################################################
         sbdi = soilBulkDensity[i]
-        smi = soilMoistureConst # SoilMoisture_const[i]
+        smi = soilMoistureConst[i]
         heatConductivity[i] = \
             ((3.0 * (sbdi / 1000.0) - 1.7) * 0.001) \
             / (1.0 + (11.5 - 5.0 * (sbdi / 1000.0)) \
@@ -176,7 +167,7 @@ def model_soiltemperature(int noOfSoilLayers,
                           int noOfTempLayersPlus1,
                           float soilSurfaceTemperature,
                           float timeStep,
-                          float soilMoistureConst,
+                          float soilMoistureConst[noOfSoilLayers],
                           float baseTemp,
                           float initialSurfaceTemp,
                           float densityAir,

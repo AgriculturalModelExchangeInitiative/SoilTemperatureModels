@@ -10,10 +10,10 @@ using System.Reflection;
 using VarInfo=CRA.ModelLayer.Core.VarInfo;
 using Preconditions=CRA.ModelLayer.Core.Preconditions;
 using CRA.AgroManagement;       
-using SoilTemperatureComp.DomainClass;
-namespace SoilTemperatureComp.Strategies
+using SiriusQualitySoilTemperatureComp.DomainClass;
+namespace SiriusQualitySoilTemperatureComp.Strategies
 {
-    public class NoSnowSoilSurfaceTemperature : IStrategySoilTemperatureComp
+    public class NoSnowSoilSurfaceTemperature : IStrategySiriusQualitySoilTemperatureComp
     {
         public NoSnowSoilSurfaceTemperature()
         {
@@ -38,44 +38,44 @@ namespace SoilTemperatureComp.Strategies
             //Inputs
             List<PropertyDescription> _inputs0_0 = new List<PropertyDescription>();
             PropertyDescription pd1 = new PropertyDescription();
-            pd1.DomainClassType = typeof(SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenous);
+            pd1.DomainClassType = typeof(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenous);
             pd1.PropertyName = "tmin";
-            pd1.PropertyType = (SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.tmin).ValueType.TypeForCurrentValue;
-            pd1.PropertyVarInfo =(SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.tmin);
+            pd1.PropertyType = (SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.tmin).ValueType.TypeForCurrentValue;
+            pd1.PropertyVarInfo =(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.tmin);
             _inputs0_0.Add(pd1);
             PropertyDescription pd2 = new PropertyDescription();
-            pd2.DomainClassType = typeof(SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenous);
+            pd2.DomainClassType = typeof(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenous);
             pd2.PropertyName = "tmax";
-            pd2.PropertyType = (SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.tmax).ValueType.TypeForCurrentValue;
-            pd2.PropertyVarInfo =(SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.tmax);
+            pd2.PropertyType = (SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.tmax).ValueType.TypeForCurrentValue;
+            pd2.PropertyVarInfo =(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.tmax);
             _inputs0_0.Add(pd2);
             PropertyDescription pd3 = new PropertyDescription();
-            pd3.DomainClassType = typeof(SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenous);
+            pd3.DomainClassType = typeof(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenous);
             pd3.PropertyName = "globrad";
-            pd3.PropertyType = (SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.globrad).ValueType.TypeForCurrentValue;
-            pd3.PropertyVarInfo =(SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.globrad);
+            pd3.PropertyType = (SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.globrad).ValueType.TypeForCurrentValue;
+            pd3.PropertyVarInfo =(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.globrad);
             _inputs0_0.Add(pd3);
             PropertyDescription pd4 = new PropertyDescription();
-            pd4.DomainClassType = typeof(SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenous);
+            pd4.DomainClassType = typeof(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenous);
             pd4.PropertyName = "soilCoverage";
-            pd4.PropertyType = (SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.soilCoverage).ValueType.TypeForCurrentValue;
-            pd4.PropertyVarInfo =(SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.soilCoverage);
+            pd4.PropertyType = (SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.soilCoverage).ValueType.TypeForCurrentValue;
+            pd4.PropertyVarInfo =(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.soilCoverage);
             _inputs0_0.Add(pd4);
             PropertyDescription pd5 = new PropertyDescription();
-            pd5.DomainClassType = typeof(SoilTemperatureComp.DomainClass.SoilTemperatureCompState);
+            pd5.DomainClassType = typeof(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompState);
             pd5.PropertyName = "soilSurfaceTemperature";
-            pd5.PropertyType = (SoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilSurfaceTemperature).ValueType.TypeForCurrentValue;
-            pd5.PropertyVarInfo =(SoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilSurfaceTemperature);
+            pd5.PropertyType = (SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilSurfaceTemperature).ValueType.TypeForCurrentValue;
+            pd5.PropertyVarInfo =(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilSurfaceTemperature);
             _inputs0_0.Add(pd5);
             mo0_0.Inputs=_inputs0_0;
 
             //Outputs
             List<PropertyDescription> _outputs0_0 = new List<PropertyDescription>();
             PropertyDescription pd6 = new PropertyDescription();
-            pd6.DomainClassType = typeof(SoilTemperatureComp.DomainClass.SoilTemperatureCompState);
+            pd6.DomainClassType = typeof(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompState);
             pd6.PropertyName = "soilSurfaceTemperature";
-            pd6.PropertyType = (SoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilSurfaceTemperature).ValueType.TypeForCurrentValue;
-            pd6.PropertyVarInfo =(SoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilSurfaceTemperature);
+            pd6.PropertyType = (SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilSurfaceTemperature).ValueType.TypeForCurrentValue;
+            pd6.PropertyVarInfo =(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilSurfaceTemperature);
             _outputs0_0.Add(pd6);
             mo0_0.Outputs=_outputs0_0;
             //Associated strategies
@@ -90,7 +90,7 @@ namespace SoilTemperatureComp.Strategies
 
         public string Description
         {
-            get { return "" ;}
+            
         }
 
         public string URL
@@ -144,7 +144,7 @@ namespace SoilTemperatureComp.Strategies
 
         public IEnumerable<Type> GetStrategyDomainClassesTypes()
         {
-            return new List<Type>() {  typeof(SoilTemperatureComp.DomainClass.SoilTemperatureCompState),  typeof(SoilTemperatureComp.DomainClass.SoilTemperatureCompState), typeof(SoilTemperatureComp.DomainClass.SoilTemperatureCompRate), typeof(SoilTemperatureComp.DomainClass.SoilTemperatureCompAuxiliary), typeof(SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenous)};
+            return new List<Type>() {  typeof(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompState),  typeof(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompState), typeof(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompRate), typeof(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompAuxiliary), typeof(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenous)};
         }
 
         // Getter and setters for the value of the parameters of the strategy. The actual parameters are stored into the ModelingOptionsManager of the strategy.
@@ -185,58 +185,58 @@ namespace SoilTemperatureComp.Strategies
             get { return _dampingFactorVarInfo;} 
         }
 
-        public string TestPostConditions(SoilTemperatureComp.DomainClass.SoilTemperatureCompState s,SoilTemperatureComp.DomainClass.SoilTemperatureCompState s1,SoilTemperatureComp.DomainClass.SoilTemperatureCompRate r,SoilTemperatureComp.DomainClass.SoilTemperatureCompAuxiliary a,SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenous ex,string callID)
+        public string TestPostConditions(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompState s,SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompState s1,SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompRate r,SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompAuxiliary a,SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenous ex,string callID)
         {
             try
             {
                 //Set current values of the outputs to the static VarInfo representing the output properties of the domain classes
-                SoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilSurfaceTemperature.CurrentValue=s.soilSurfaceTemperature;
+                SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilSurfaceTemperature.CurrentValue=s.soilSurfaceTemperature;
                 ConditionsCollection prc = new ConditionsCollection();
                 Preconditions pre = new Preconditions(); 
-                RangeBasedCondition r7 = new RangeBasedCondition(SoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilSurfaceTemperature);
-                if(r7.ApplicableVarInfoValueTypes.Contains( SoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilSurfaceTemperature.ValueType)){prc.AddCondition(r7);}
+                RangeBasedCondition r7 = new RangeBasedCondition(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilSurfaceTemperature);
+                if(r7.ApplicableVarInfoValueTypes.Contains( SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilSurfaceTemperature.ValueType)){prc.AddCondition(r7);}
                 string postConditionsResult = pre.VerifyPostconditions(prc, callID); if (!string.IsNullOrEmpty(postConditionsResult)) { pre.TestsOut(postConditionsResult, true, "PostConditions errors in strategy " + this.GetType().Name); } return postConditionsResult;
             }
             catch (Exception exception)
             {
-                string msg = ".SoilTemperatureComp, " + this.GetType().Name + ": Unhandled exception running post-condition test. ";
+                string msg = "SiriusQuality.SoilTemperatureComp, " + this.GetType().Name + ": Unhandled exception running post-condition test. ";
                 throw new Exception(msg, exception);
             }
         }
 
-        public string TestPreConditions(SoilTemperatureComp.DomainClass.SoilTemperatureCompState s,SoilTemperatureComp.DomainClass.SoilTemperatureCompState s1,SoilTemperatureComp.DomainClass.SoilTemperatureCompRate r,SoilTemperatureComp.DomainClass.SoilTemperatureCompAuxiliary a,SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenous ex,string callID)
+        public string TestPreConditions(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompState s,SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompState s1,SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompRate r,SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompAuxiliary a,SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenous ex,string callID)
         {
             try
             {
                 //Set current values of the inputs to the static VarInfo representing the inputs properties of the domain classes
-                SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.tmin.CurrentValue=ex.tmin;
-                SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.tmax.CurrentValue=ex.tmax;
-                SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.globrad.CurrentValue=ex.globrad;
-                SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.soilCoverage.CurrentValue=ex.soilCoverage;
-                SoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilSurfaceTemperature.CurrentValue=s.soilSurfaceTemperature;
+                SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.tmin.CurrentValue=ex.tmin;
+                SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.tmax.CurrentValue=ex.tmax;
+                SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.globrad.CurrentValue=ex.globrad;
+                SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.soilCoverage.CurrentValue=ex.soilCoverage;
+                SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilSurfaceTemperature.CurrentValue=s.soilSurfaceTemperature;
                 ConditionsCollection prc = new ConditionsCollection();
                 Preconditions pre = new Preconditions(); 
-                RangeBasedCondition r1 = new RangeBasedCondition(SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.tmin);
-                if(r1.ApplicableVarInfoValueTypes.Contains( SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.tmin.ValueType)){prc.AddCondition(r1);}
-                RangeBasedCondition r2 = new RangeBasedCondition(SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.tmax);
-                if(r2.ApplicableVarInfoValueTypes.Contains( SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.tmax.ValueType)){prc.AddCondition(r2);}
-                RangeBasedCondition r3 = new RangeBasedCondition(SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.globrad);
-                if(r3.ApplicableVarInfoValueTypes.Contains( SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.globrad.ValueType)){prc.AddCondition(r3);}
-                RangeBasedCondition r4 = new RangeBasedCondition(SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.soilCoverage);
-                if(r4.ApplicableVarInfoValueTypes.Contains( SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.soilCoverage.ValueType)){prc.AddCondition(r4);}
-                RangeBasedCondition r5 = new RangeBasedCondition(SoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilSurfaceTemperature);
-                if(r5.ApplicableVarInfoValueTypes.Contains( SoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilSurfaceTemperature.ValueType)){prc.AddCondition(r5);}
+                RangeBasedCondition r1 = new RangeBasedCondition(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.tmin);
+                if(r1.ApplicableVarInfoValueTypes.Contains( SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.tmin.ValueType)){prc.AddCondition(r1);}
+                RangeBasedCondition r2 = new RangeBasedCondition(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.tmax);
+                if(r2.ApplicableVarInfoValueTypes.Contains( SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.tmax.ValueType)){prc.AddCondition(r2);}
+                RangeBasedCondition r3 = new RangeBasedCondition(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.globrad);
+                if(r3.ApplicableVarInfoValueTypes.Contains( SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.globrad.ValueType)){prc.AddCondition(r3);}
+                RangeBasedCondition r4 = new RangeBasedCondition(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.soilCoverage);
+                if(r4.ApplicableVarInfoValueTypes.Contains( SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenousVarInfo.soilCoverage.ValueType)){prc.AddCondition(r4);}
+                RangeBasedCondition r5 = new RangeBasedCondition(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilSurfaceTemperature);
+                if(r5.ApplicableVarInfoValueTypes.Contains( SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilSurfaceTemperature.ValueType)){prc.AddCondition(r5);}
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("dampingFactor")));
                 string preConditionsResult = pre.VerifyPreconditions(prc, callID); if (!string.IsNullOrEmpty(preConditionsResult)) { pre.TestsOut(preConditionsResult, true, "PreConditions errors in strategy " + this.GetType().Name); } return preConditionsResult;
             }
             catch (Exception exception)
             {
-                string msg = ".SoilTemperatureComp, " + this.GetType().Name + ": Unhandled exception running pre-condition test. ";
+                string msg = "SiriusQuality.SoilTemperatureComp, " + this.GetType().Name + ": Unhandled exception running pre-condition test. ";
                 throw new Exception(msg, exception);
             }
         }
 
-        public void Estimate(SoilTemperatureComp.DomainClass.SoilTemperatureCompState s,SoilTemperatureComp.DomainClass.SoilTemperatureCompState s1,SoilTemperatureComp.DomainClass.SoilTemperatureCompRate r,SoilTemperatureComp.DomainClass.SoilTemperatureCompAuxiliary a,SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenous ex)
+        public void Estimate(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompState s,SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompState s1,SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompRate r,SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompAuxiliary a,SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenous ex)
         {
             try
             {
@@ -244,12 +244,12 @@ namespace SoilTemperatureComp.Strategies
             }
             catch (Exception exception)
             {
-                string msg = "Error in component SoilTemperatureComp, strategy: " + this.GetType().Name + ": Unhandled exception running model. "+exception.GetType().FullName+" - "+exception.Message;
+                string msg = "Error in component SiriusQualitySoilTemperatureComp, strategy: " + this.GetType().Name + ": Unhandled exception running model. "+exception.GetType().FullName+" - "+exception.Message;
                 throw new Exception(msg, exception);
             }
         }
 
-        private void CalculateModel(SoilTemperatureComp.DomainClass.SoilTemperatureCompState s, SoilTemperatureComp.DomainClass.SoilTemperatureCompState s1, SoilTemperatureComp.DomainClass.SoilTemperatureCompRate r, SoilTemperatureComp.DomainClass.SoilTemperatureCompAuxiliary a, SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenous ex)
+        private void CalculateModel(SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompState s, SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompState s1, SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompRate r, SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompAuxiliary a, SiriusQualitySoilTemperatureComp.DomainClass.SoilTemperatureCompExogenous ex)
         {
             double tmin = ex.tmin;
             double tmax = ex.tmax;

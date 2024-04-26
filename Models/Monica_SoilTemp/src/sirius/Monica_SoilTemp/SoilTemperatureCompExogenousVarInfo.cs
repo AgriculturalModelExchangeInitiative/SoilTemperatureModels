@@ -5,7 +5,7 @@ using CRA.ModelLayer.Core;
 using System.Reflection;
 using CRA.ModelLayer.ParametersManagement;   
 
-namespace SoilTemperatureComp.DomainClass
+namespace SiriusQualitySoilTemperatureComp.DomainClass
 {
     public class SoilTemperatureCompExogenousVarInfo : IVarInfoClass
     {

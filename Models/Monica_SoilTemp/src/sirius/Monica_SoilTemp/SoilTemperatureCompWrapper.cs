@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Crop2ML_SoilTemperatureComp.DomainClass;
-using Crop2ML_SoilTemperatureComp.Strategies;
+using SQCrop2ML_SoilTemperatureComp.DomainClass;
+using SQCrop2ML_SoilTemperatureComp.Strategies;
 
-namespace Model.Model.SoilTemperatureComp
+namespace SiriusModel.Model.SoilTemperatureComp
 {
     class SoilTemperatureCompWrapper :  UniverseLink
     {

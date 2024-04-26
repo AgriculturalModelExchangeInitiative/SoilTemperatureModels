@@ -3,8 +3,9 @@ MODULE Soiltemperaturemod
     IMPLICIT NONE
 CONTAINS
 
-    SUBROUTINE init_soiltemperature(noOfTempLayers, &
-        noOfSoilLayers, &
+    SUBROUTINE init_soiltemperature(noOfSoilLayers, &
+        noOfTempLayers, &
+        noOfTempLayersPlus1, &
         timeStep, &
         soilMoistureConst, &
         baseTemp, &
@@ -39,10 +40,11 @@ CONTAINS
         heatFlow)
         IMPLICIT NONE
         INTEGER:: i_cyml_r
-        INTEGER, INTENT(IN) :: noOfTempLayers
         INTEGER, INTENT(IN) :: noOfSoilLayers
+        INTEGER, INTENT(IN) :: noOfTempLayers
+        INTEGER, INTENT(IN) :: noOfTempLayersPlus1
         REAL, INTENT(IN) :: timeStep
-        REAL, INTENT(IN) :: soilMoistureConst
+        REAL , DIMENSION(noOfSoilLayers ), INTENT(IN) :: soilMoistureConst
         REAL, INTENT(IN) :: baseTemp
         REAL, INTENT(IN) :: initialSurfaceTemp
         REAL, INTENT(IN) :: densityAir
@@ -54,29 +56,37 @@ CONTAINS
         REAL, INTENT(IN) :: quartzRawDensity
         REAL, INTENT(IN) :: specificHeatCapacityQuartz
         REAL, INTENT(IN) :: nTau
-        REAL , DIMENSION(22 ), INTENT(IN) :: layerThickness
-        REAL , DIMENSION(20 ), INTENT(IN) :: soilBulkDensity
-        REAL , DIMENSION(20 ), INTENT(IN) :: saturation
-        REAL , DIMENSION(20 ), INTENT(IN) :: soilOrganicMatter
+        REAL , DIMENSION(noOfTempLayers ), INTENT(IN) :: layerThickness
+        REAL , DIMENSION(noOfSoilLayers ), INTENT(IN) :: soilBulkDensity
+        REAL , DIMENSION(noOfSoilLayers ), INTENT(IN) :: saturation
+        REAL , DIMENSION(noOfSoilLayers ), INTENT(IN) :: soilOrganicMatter
         REAL, INTENT(OUT) :: soilSurfaceTemperature
-        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) :: soilTemperature
-        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) :: V
-        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) :: B
-        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) :: volumeMatrix
-        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) :: volumeMatrixOld
-        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) ::  &
+        REAL , DIMENSION(noOfTempLayers ), ALLOCATABLE , INTENT(OUT) ::  &
+                soilTemperature
+        REAL , DIMENSION(noOfTempLayers ), ALLOCATABLE , INTENT(OUT) :: V
+        REAL , DIMENSION(noOfTempLayers ), ALLOCATABLE , INTENT(OUT) :: B
+        REAL , DIMENSION(noOfTempLayers ), ALLOCATABLE , INTENT(OUT) ::  &
+                volumeMatrix
+        REAL , DIMENSION(noOfTempLayers ), ALLOCATABLE , INTENT(OUT) ::  &
+                volumeMatrixOld
+        REAL , DIMENSION(noOfTempLayers ), ALLOCATABLE , INTENT(OUT) ::  &
                 matrixPrimaryDiagonal
-        REAL , DIMENSION(23 ), ALLOCATABLE , INTENT(OUT) ::  &
+        REAL , DIMENSION(noOfTempLayersPlus1 ), ALLOCATABLE , INTENT(OUT) ::  &
                 matrixSecondaryDiagonal
-        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) :: heatConductivity
-        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) ::  &
+        REAL , DIMENSION(noOfTempLayers ), ALLOCATABLE , INTENT(OUT) ::  &
+                heatConductivity
+        REAL , DIMENSION(noOfTempLayers ), ALLOCATABLE , INTENT(OUT) ::  &
                 heatConductivityMean
-        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) :: heatCapacity
-        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) :: solution
-        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) :: matrixDiagonal
-        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) ::  &
+        REAL , DIMENSION(noOfTempLayers ), ALLOCATABLE , INTENT(OUT) ::  &
+                heatCapacity
+        REAL , DIMENSION(noOfTempLayers ), ALLOCATABLE , INTENT(OUT) ::  &
+                solution
+        REAL , DIMENSION(noOfTempLayers ), ALLOCATABLE , INTENT(OUT) ::  &
+                matrixDiagonal
+        REAL , DIMENSION(noOfTempLayers ), ALLOCATABLE , INTENT(OUT) ::  &
                 matrixLowerTriangle
-        REAL , DIMENSION(22 ), ALLOCATABLE , INTENT(OUT) :: heatFlow
+        REAL , DIMENSION(noOfTempLayers ), ALLOCATABLE , INTENT(OUT) ::  &
+                heatFlow
         INTEGER:: groundLayer
         INTEGER:: bottomLayer
         REAL:: lti_1
@@ -143,7 +153,7 @@ CONTAINS
         ch = specificHeatCapacityHumus
         DO i = 0 , noOfSoilLayers-1, 1
             sbdi = soilBulkDensity(i+1)
-            smi = soilMoistureConst
+            smi = soilMoistureConst(i+1)
             heatConductivity(i+1) = (3.0 * (sbdi / 1000.0) - 1.7) * 0.001 / (1.0  &
                     + ((11.5 - (5.0 * (sbdi / 1000.0))) * EXP((-50.0) *  ((smi / (sbdi /  &
                     1000.0)) ** 1.5)))) * 86400.0 * ts * 100.0 * 4.184
@@ -178,8 +188,9 @@ CONTAINS
         END DO
     END SUBROUTINE init_soiltemperature
 
-    SUBROUTINE model_soiltemperature(noOfTempLayers, &
-        noOfSoilLayers, &
+    SUBROUTINE model_soiltemperature(noOfSoilLayers, &
+        noOfTempLayers, &
+        noOfTempLayersPlus1, &
         soilSurfaceTemperature, &
         timeStep, &
         soilMoistureConst, &
@@ -214,11 +225,12 @@ CONTAINS
         heatFlow)
         IMPLICIT NONE
         INTEGER:: i_cyml_r
-        INTEGER, INTENT(IN) :: noOfTempLayers
         INTEGER, INTENT(IN) :: noOfSoilLayers
+        INTEGER, INTENT(IN) :: noOfTempLayers
+        INTEGER, INTENT(IN) :: noOfTempLayersPlus1
         REAL, INTENT(IN) :: soilSurfaceTemperature
         REAL, INTENT(IN) :: timeStep
-        REAL, INTENT(IN) :: soilMoistureConst
+        REAL , DIMENSION(noOfSoilLayers ), INTENT(IN) :: soilMoistureConst
         REAL, INTENT(IN) :: baseTemp
         REAL, INTENT(IN) :: initialSurfaceTemp
         REAL, INTENT(IN) :: densityAir
@@ -230,24 +242,25 @@ CONTAINS
         REAL, INTENT(IN) :: quartzRawDensity
         REAL, INTENT(IN) :: specificHeatCapacityQuartz
         REAL, INTENT(IN) :: nTau
-        REAL , DIMENSION(22 ), INTENT(IN) :: layerThickness
-        REAL , DIMENSION(20 ), INTENT(IN) :: soilBulkDensity
-        REAL , DIMENSION(20 ), INTENT(IN) :: saturation
-        REAL , DIMENSION(20 ), INTENT(IN) :: soilOrganicMatter
-        REAL , DIMENSION(22 ), INTENT(INOUT) :: soilTemperature
-        REAL , DIMENSION(22 ), INTENT(IN) :: V
-        REAL , DIMENSION(22 ), INTENT(IN) :: B
-        REAL , DIMENSION(22 ), INTENT(IN) :: volumeMatrix
-        REAL , DIMENSION(22 ), INTENT(IN) :: volumeMatrixOld
-        REAL , DIMENSION(22 ), INTENT(IN) :: matrixPrimaryDiagonal
-        REAL , DIMENSION(23 ), INTENT(IN) :: matrixSecondaryDiagonal
-        REAL , DIMENSION(22 ), INTENT(IN) :: heatConductivity
-        REAL , DIMENSION(22 ), INTENT(IN) :: heatConductivityMean
-        REAL , DIMENSION(22 ), INTENT(IN) :: heatCapacity
-        REAL , DIMENSION(22 ), INTENT(IN) :: solution
-        REAL , DIMENSION(22 ), INTENT(IN) :: matrixDiagonal
-        REAL , DIMENSION(22 ), INTENT(IN) :: matrixLowerTriangle
-        REAL , DIMENSION(22 ), INTENT(IN) :: heatFlow
+        REAL , DIMENSION(noOfTempLayers ), INTENT(IN) :: layerThickness
+        REAL , DIMENSION(noOfSoilLayers ), INTENT(IN) :: soilBulkDensity
+        REAL , DIMENSION(noOfSoilLayers ), INTENT(IN) :: saturation
+        REAL , DIMENSION(noOfSoilLayers ), INTENT(IN) :: soilOrganicMatter
+        REAL , DIMENSION(noOfTempLayers ), INTENT(INOUT) :: soilTemperature
+        REAL , DIMENSION(noOfTempLayers ), INTENT(IN) :: V
+        REAL , DIMENSION(noOfTempLayers ), INTENT(IN) :: B
+        REAL , DIMENSION(noOfTempLayers ), INTENT(IN) :: volumeMatrix
+        REAL , DIMENSION(noOfTempLayers ), INTENT(IN) :: volumeMatrixOld
+        REAL , DIMENSION(noOfTempLayers ), INTENT(IN) :: matrixPrimaryDiagonal
+        REAL , DIMENSION(noOfTempLayersPlus1 ), INTENT(IN) ::  &
+                matrixSecondaryDiagonal
+        REAL , DIMENSION(noOfTempLayers ), INTENT(IN) :: heatConductivity
+        REAL , DIMENSION(noOfTempLayers ), INTENT(IN) :: heatConductivityMean
+        REAL , DIMENSION(noOfTempLayers ), INTENT(IN) :: heatCapacity
+        REAL , DIMENSION(noOfTempLayers ), INTENT(IN) :: solution
+        REAL , DIMENSION(noOfTempLayers ), INTENT(IN) :: matrixDiagonal
+        REAL , DIMENSION(noOfTempLayers ), INTENT(IN) :: matrixLowerTriangle
+        REAL , DIMENSION(noOfTempLayers ), INTENT(IN) :: heatFlow
         INTEGER:: groundLayer
         INTEGER:: bottomLayer
         INTEGER:: i
@@ -262,6 +275,15 @@ CONTAINS
     !            * ExtendedDescription: None
     !            * ShortDescription: Calculates the soil temperature at all soil layers
         !- inputs:
+    !            * name: noOfSoilLayers
+    !                          ** description : noOfSoilLayers
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
+    !                          ** datatype : INT
+    !                          ** max : 
+    !                          ** min : 
+    !                          ** default : 20
+    !                          ** unit : dimensionless
     !            * name: noOfTempLayers
     !                          ** description : noOfTempLayers=noOfSoilLayers+2
     !                          ** inputtype : parameter
@@ -271,14 +293,14 @@ CONTAINS
     !                          ** min : 
     !                          ** default : 22
     !                          ** unit : dimensionless
-    !            * name: noOfSoilLayers
-    !                          ** description : noOfSoilLayers
+    !            * name: noOfTempLayersPlus1
+    !                          ** description : for matrixSecondaryDiagonal
     !                          ** inputtype : parameter
     !                          ** parametercategory : constant
     !                          ** datatype : INT
     !                          ** max : 
     !                          ** min : 
-    !                          ** default : 20.0
+    !                          ** default : 23
     !                          ** unit : dimensionless
     !            * name: soilSurfaceTemperature
     !                          ** description : current soilSurfaceTemperature
@@ -299,13 +321,14 @@ CONTAINS
     !                          ** default : 1.0
     !                          ** unit : dimensionless
     !            * name: soilMoistureConst
-    !                          ** description : initial soilmoisture
+    !                          ** description : constant soilmoisture during the model run
     !                          ** inputtype : parameter
     !                          ** parametercategory : constant
-    !                          ** datatype : DOUBLE
+    !                          ** datatype : DOUBLEARRAY
+    !                          ** len : noOfSoilLayers
     !                          ** max : 
     !                          ** min : 
-    !                          ** default : 0.25
+    !                          ** default : 
     !                          ** unit : m**3/m**3
     !            * name: baseTemp
     !                          ** description : baseTemperature
@@ -411,7 +434,7 @@ CONTAINS
     !                          ** inputtype : parameter
     !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
-    !                          ** len : 22
+    !                          ** len : noOfTempLayers
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -421,7 +444,7 @@ CONTAINS
     !                          ** inputtype : parameter
     !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
-    !                          ** len : 20
+    !                          ** len : noOfSoilLayers
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -431,7 +454,7 @@ CONTAINS
     !                          ** inputtype : parameter
     !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
-    !                          ** len : 20
+    !                          ** len : noOfSoilLayers
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -441,7 +464,7 @@ CONTAINS
     !                          ** inputtype : parameter
     !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
-    !                          ** len : 20
+    !                          ** len : noOfSoilLayers
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -451,7 +474,7 @@ CONTAINS
     !                          ** inputtype : variable
     !                          ** variablecategory : state
     !                          ** datatype : DOUBLEARRAY
-    !                          ** len : 22
+    !                          ** len : noOfTempLayers
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -461,7 +484,7 @@ CONTAINS
     !                          ** inputtype : variable
     !                          ** variablecategory : state
     !                          ** datatype : DOUBLEARRAY
-    !                          ** len : 22
+    !                          ** len : noOfTempLayers
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -471,7 +494,7 @@ CONTAINS
     !                          ** inputtype : variable
     !                          ** variablecategory : state
     !                          ** datatype : DOUBLEARRAY
-    !                          ** len : 22
+    !                          ** len : noOfTempLayers
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -481,7 +504,7 @@ CONTAINS
     !                          ** inputtype : variable
     !                          ** variablecategory : state
     !                          ** datatype : DOUBLEARRAY
-    !                          ** len : 22
+    !                          ** len : noOfTempLayers
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -491,7 +514,7 @@ CONTAINS
     !                          ** inputtype : variable
     !                          ** variablecategory : state
     !                          ** datatype : DOUBLEARRAY
-    !                          ** len : 22
+    !                          ** len : noOfTempLayers
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -501,7 +524,7 @@ CONTAINS
     !                          ** inputtype : variable
     !                          ** variablecategory : state
     !                          ** datatype : DOUBLEARRAY
-    !                          ** len : 22
+    !                          ** len : noOfTempLayers
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -511,7 +534,7 @@ CONTAINS
     !                          ** inputtype : variable
     !                          ** variablecategory : state
     !                          ** datatype : DOUBLEARRAY
-    !                          ** len : 23
+    !                          ** len : noOfTempLayersPlus1
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -521,7 +544,7 @@ CONTAINS
     !                          ** inputtype : variable
     !                          ** variablecategory : state
     !                          ** datatype : DOUBLEARRAY
-    !                          ** len : 22
+    !                          ** len : noOfTempLayers
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -531,7 +554,7 @@ CONTAINS
     !                          ** inputtype : variable
     !                          ** variablecategory : state
     !                          ** datatype : DOUBLEARRAY
-    !                          ** len : 22
+    !                          ** len : noOfTempLayers
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -541,7 +564,7 @@ CONTAINS
     !                          ** inputtype : variable
     !                          ** variablecategory : state
     !                          ** datatype : DOUBLEARRAY
-    !                          ** len : 22
+    !                          ** len : noOfTempLayers
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -551,7 +574,7 @@ CONTAINS
     !                          ** inputtype : variable
     !                          ** variablecategory : state
     !                          ** datatype : DOUBLEARRAY
-    !                          ** len : 22
+    !                          ** len : noOfTempLayers
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -561,7 +584,7 @@ CONTAINS
     !                          ** inputtype : variable
     !                          ** variablecategory : state
     !                          ** datatype : DOUBLEARRAY
-    !                          ** len : 22
+    !                          ** len : noOfTempLayers
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -571,7 +594,7 @@ CONTAINS
     !                          ** inputtype : variable
     !                          ** variablecategory : state
     !                          ** datatype : DOUBLEARRAY
-    !                          ** len : 22
+    !                          ** len : noOfTempLayers
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -581,7 +604,7 @@ CONTAINS
     !                          ** inputtype : variable
     !                          ** variablecategory : state
     !                          ** datatype : DOUBLEARRAY
-    !                          ** len : 22
+    !                          ** len : noOfTempLayers
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
