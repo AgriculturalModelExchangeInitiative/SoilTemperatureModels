@@ -97,7 +97,7 @@ target_link_libraries(Monica_SoilTemp_lib
 target_include_directories(Monica_SoilTemp_lib
 	PUBLIC
 	${CMAKE_CURRENT_SOURCE_DIR}     # for #include "SoilTemperatureCompComponent.h"
-	#${CMAKE_CURRENT_SOURCE_DIR}/..  # for #include "common/common.h"
+	${CMAKE_CURRENT_SOURCE_DIR}/..  # for #include "common/common.h"
 )
 if (MSVC)
 	target_compile_options(Monica_SoilTemp_lib PRIVATE "/MT$<$<CONFIG:Debug>:d>")
