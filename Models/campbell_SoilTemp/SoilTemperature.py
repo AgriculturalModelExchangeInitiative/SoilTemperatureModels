@@ -1,7 +1,59 @@
 # coding: utf8
+from copy import copy
+from array import array
+from math import *
+from typing import *
+from datetime import datetime
 
-#%%CyML Model Begin%%
-def model_SoilTemperatureCampbell():
+import numpy
+
+#%%CyML Init Begin%%
+def init_SoilTemperatureCampbell(
+    NLAYR: int,
+    THICK: 'Array[float]',
+    BD: 'Array[float]',
+    TMAX: float,
+    TMIN: float,
+    TAV: float,
+    TAMP: float,
+    XLAT: float,
+    CLAY: 'Array[float]',
+    SW: 'Array[float]',
+    DEPTH: 'Array[float]',
+    DOY: float,
+    canopyHeight: float,
+    SALB: float,
+    SRAD: float,
+    ESP: float,
+    EOAD: float,
+    ESAD: float,
+    soilTemp: 'Array[float]'
+):
+    pass
+#%%CyML Init End%%
+
+def model_SoilTemperatureCampbell(NLAYR: int,
+    THICK: 'Array[float]',
+    BD: 'Array[float]',
+    TMAX: float,
+    TMIN: float,
+    TAV: float,
+    TAMP: float,
+    XLAT: float,
+    CLAY: 'Array[float]',
+    SW: 'Array[float]',
+    DEPTH: 'Array[float]',
+    DOY: float,
+    canopyHeight: float,
+    SALB: float,
+    SRAD: float,
+    ESP: float,
+    EOAD: float,
+    ESAD: float,
+    soilTemp: 'Array[float]'
+    ):
+    pass
+
     """
     - Name: SoilTemperatureCampbell
     - Version: 1.0
