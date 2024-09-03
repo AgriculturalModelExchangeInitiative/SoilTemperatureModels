@@ -1,17 +1,6 @@
-"""
-        #region Outputs
-        public double[] soilTemp;
-        public double[] minSoilTemp;
-        public double[] maxSoilTemp;
-        public double[] aveSoilTemp;
-        public double[] morningSoilTemp;
-        public double[] tempNew;
-        public double[] volSpecHeatSoil;
-        public double[] thermalConductivity;
-        public double[] thermalConductance;
-        public double[] heatStorage;
-        #endregion
-"""
+# coding: utf8
+
+#%%CyML Model Begin%%
 def model_SoilTemperatureCampbell():
     """
     - Name: SoilTemperatureCampbell
@@ -203,84 +192,94 @@ def model_SoilTemperatureCampbell():
                 ** uri : 
 
     - outputs: 
-                * name: soilTemp
-                            ** description :  Temperature at end of last time-step within a day - midnight in layers
-                            ** variablecategory : state
-                            ** datatype : DOUBLEARRAY
-                            ** min : -60.
-                            ** max : 60.
-                            ** unit : degC
-                            ** uri : 
-                * name: minSoilTemp
-                            ** description : Minimum soil temperature in layers
-                            ** variablecategory : state
-                            ** datatype : DOUBLEARRAY
-                            ** min : -60.
-                            ** max : 60.
-                            ** unit : degC
-                            ** uri : 
-                * name: maxSoilTemp
-                            ** description :  Maximum soil temperature in layers
-                            ** variablecategory : state
-                            ** datatype : DOUBLEARRAY
-                            ** min : -60.
-                            ** max : 60.
-                            ** unit : degC
-                            ** uri : 
-                * name: aveSoilTemp
-                            ** description : Temperature averaged over all time-steps within a day in layers.
-                            ** variablecategory : state
-                            ** datatype : DOUBLEARRAY
-                            ** min : -60.
-                            ** max : 60.
-                            ** unit : degC
-                            ** uri : 
-                * name: morningSoilTemp
-                            ** description : Temperature  in the morning in layers.
-                            ** variablecategory : state
-                            ** datatype : DOUBLEARRAY
-                            ** min : -60.
-                            ** max : 60.
-                            ** unit : degC
-                            ** uri : 
-                * name: tempNew
-                            ** description : Soil temperature at the end of one iteration
-                            ** variablecategory : state
-                            ** datatype : DOUBLEARRAY
-                            ** min : -60.
-                            ** max : 60.
-                            ** unit : degC
-                            ** uri : 
-                * name: heatCapacity
-                            ** description : Heat Capacity in layers
-                            ** variablecategory : state
-                            ** datatype : DOUBLEARRAY
-                            ** min : 
-                            ** max : 
-                            ** unit : J/m3/K/s
-                            ** uri : 
-                * name: thermalConductivity
-                            ** description : thermal conductivity in layers
-                            ** variablecategory : state
-                            ** datatype : DOUBLEARRAY
-                            ** min : 
-                            ** max : 
-                            ** unit : (W/m2/K)
-                            ** uri : 
-                * name: thermalConductance
-                            ** description : Thermal conductance between layers 
-                            ** variablecategory : state
-                            ** datatype : DOUBLEARRAY
-                            ** min : 
-                            ** max : 
-                            ** unit : 
-                            ** uri : 
-                * name: heatStorage
-                            ** description : Heat storage between layers (internal)
-                            ** variablecategory : state
-                            ** datatype : DOUBLEARRAY
-                            ** min : 
-                            ** max : 
-                            ** unit : J/s/K
-                            ** uri : 
+        * name: soilTemp
+                    ** description :  Temperature at end of last time-step within a day - midnight in layers
+                    ** variablecategory : state
+                    ** datatype : DOUBLEARRAY
+                    ** min : -60.
+                    ** max : 60.
+                    ** unit : degC
+                    ** uri : 
+        * name: minSoilTemp
+                    ** description : Minimum soil temperature in layers
+                    ** variablecategory : state
+                    ** datatype : DOUBLEARRAY
+                    ** min : -60.
+                    ** max : 60.
+                    ** unit : degC
+                    ** uri : 
+        * name: maxSoilTemp
+                    ** description :  Maximum soil temperature in layers
+                    ** variablecategory : state
+                    ** datatype : DOUBLEARRAY
+                    ** min : -60.
+                    ** max : 60.
+                    ** unit : degC
+                    ** uri : 
+        * name: aveSoilTemp
+                    ** description : Temperature averaged over all time-steps within a day in layers.
+                    ** variablecategory : state
+                    ** datatype : DOUBLEARRAY
+                    ** min : -60.
+                    ** max : 60.
+                    ** unit : degC
+                    ** uri : 
+        * name: morningSoilTemp
+                    ** description : Temperature  in the morning in layers.
+                    ** variablecategory : state
+                    ** datatype : DOUBLEARRAY
+                    ** min : -60.
+                    ** max : 60.
+                    ** unit : degC
+                    ** uri : 
+        * name: tempNew
+                    ** description : Soil temperature at the end of one iteration
+                    ** variablecategory : state
+                    ** datatype : DOUBLEARRAY
+                    ** min : -60.
+                    ** max : 60.
+                    ** unit : degC
+                    ** uri : 
+        * name: heatCapacity
+                    ** description : Heat Capacity in layers
+                    ** variablecategory : state
+                    ** datatype : DOUBLEARRAY
+                    ** min : 
+                    ** max : 
+                    ** unit : J/m3/K/s
+                    ** uri : 
+        * name: thermalConductivity
+                    ** description : thermal conductivity in layers
+                    ** variablecategory : state
+                    ** datatype : DOUBLEARRAY
+                    ** min : 
+                    ** max : 
+                    ** unit : (W/m2/K)
+                    ** uri : 
+        * name: thermalConductance
+                    ** description : Thermal conductance between layers 
+                    ** variablecategory : state
+                    ** datatype : DOUBLEARRAY
+                    ** min : 
+                    ** max : 
+                    ** unit : 
+                    ** uri : 
+        * name: heatStorage
+                    ** description : Heat storage between layers (internal)
+                    ** variablecategory : state
+                    ** datatype : DOUBLEARRAY
+                    ** min : 
+                    ** max : 
+                    ** unit : J/s/K
+                    ** uri : 
     """
+
+    #%%CyML Compute Begin%%
+    pass
+    #%%CyML Compute End%%
+    
+    return soilTemp, minSoilTemp, maxSoilTemp, aveSoilTemp, morningSoilTemp, tempNew, heatCapacity, thermalConductivity, thermalConductance, heatStorage
+
+
+
+#%%CyML Model End%%
