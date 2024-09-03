@@ -5,34 +5,28 @@ from math import *
 from typing import *
 from datetime import datetime
 
-from DSSAT_ST_standalone.stemp import model_stemp
+from Campbell.campbell import model_campbell
 
 #%%CyML Model Begin%%
-def model_stemp_(SRFTEMP:float,
-         TAMP:float,
-         XLAT:float,
-         HDAY:float,
-         TMA:'Array[float]',
-         CUMDPT:float,
-         ISWWAT:str,
-         NLAYR:int,
-         ATOT:float,
-         DUL:'Array[float]',
-         TDL:float,
-         SRAD:float,
-         DS:'Array[float]',
-         LL:'Array[float]',
-         TAV:float,
-         TMAX:float,
-         TAVG:float,
-         BD:'Array[float]',
-         DOY:int,
-         DSMID:'Array[float]',
-         MSALB:float,
-         NL:int,
-         DLAYR:'Array[float]',
-         ST:'Array[float]',
-         SW:'Array[float]'):
+def model_campbell_(NLAYR: int,
+    THICK: 'Array[float]',
+    BD: 'Array[float]',
+    TMAX: float,
+    TMIN: float,
+    TAV: float,
+    TAMP: float,
+    XLAT: float,
+    CLAY: 'Array[float]',
+    SW: 'Array[float]',
+    DEPTH: 'Array[float]',
+    DOY: float,
+    canopyHeight: float,
+    SALB: float,
+    SRAD: float,
+    ESP: float,
+    EOAD: float,
+    ESAD: float,
+    soilTemp: 'Array[float]'):
     """
     - Name: SoilTemperatureCampbell
     - Version: 1.0
@@ -304,7 +298,50 @@ def model_stemp_(SRFTEMP:float,
                             ** unit : J/s/K
                             ** uri : 
     """
-
-    (CUMDPT, DSMID, TDL, TMA, ATOT, SRFTEMP, ST) = model_stemp(NL, ISWWAT, BD, DLAYR, DS, DUL, LL, NLAYR, MSALB, SRAD, SW, TAVG, TMAX, XLAT, TAV, TAMP, CUMDPT, DSMID, TDL, TMA, ATOT, SRFTEMP, ST, DOY, HDAY)
-    return (CUMDPT, DSMID, TDL, TMA, ATOT, SRFTEMP, ST)
+    soilTemp'array[float]'
+    minSoilTemp:float
+    maxSoilTemp:float
+    aveSoilTemp:float
+    morningSoilTemp'array[float]'
+    tempNew'array[float]'
+    heatCapacity'array[float]'
+    thermalConductivity'array[float]'
+    thermalConductance'array[float]'
+    heatStorage'array[float]'
+    (soilTemp,
+    minSoilTemp,
+    maxSoilTemp,
+    aveSoilTemp,
+    morningSoilTemp,
+    tempNew,
+    heatCapacity,
+    thermalConductivity,
+    thermalConductance,
+    heatStorage) = model_campbell(NLAYR, THICK ,BD ,
+    TMAX,
+    TMIN,
+    TAV,
+    TAMP,
+    XLAT,
+    CLAY ,
+    SW ,
+    DEPTH ,
+    DOY,
+    canopyHeight,
+    SALB,
+    SRAD,
+    ESP,
+    EOAD,
+    ESAD,
+    soilTemp )
+    return (soilTemp,
+    minSoilTemp,
+    maxSoilTemp,
+    aveSoilTemp,
+    morningSoilTemp,
+    tempNew,
+    heatCapacity,
+    thermalConductivity,
+    thermalConductance,
+    heatStorage)
 #%%CyML Model End%%
