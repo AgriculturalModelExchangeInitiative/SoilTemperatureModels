@@ -1,262 +1,111 @@
-
-
-def model_SoilTemperature():
+"""
+        #region Outputs
+        public double[] soilTemp;
+        public double[] minSoilTemp;
+        public double[] maxSoilTemp;
+        public double[] aveSoilTemp;
+        public double[] morningSoilTemp;
+        public double[] tempNew;
+        public double[] volSpecHeatSoil;
+        public double[] thermalConductivity;
+        public double[] thermalConductance;
+        public double[] heatStorage;
+        #endregion
+"""
+def model_SoilTemperatureCampbell():
     """
-    - Name: SoilTemperature
+    - Name: SoilTemperatureCampbell
     - Version: 1.0
     - Time step: 1
     - Description:
-                * Title: SoilTemperature model
-                * Author: name
-                * Reference: ref
-                * Institution: CIRAD
+                * Title: SoilTemperature model from Campbell implemented in APSIM
+                * Author: Teiki Raihauti and Christophe Pradal
+                * Reference: Campbell model (TODO)
+                * Institution: CIRAD and INRAE
                 * ExtendedDescription: TODO
                 * ShortDescription: TODO
     
     - inputs: 
-                * name:  
-                            ** description : Sum of photoperiods received by the crop since the beginning of the vegetative phase.
-                            ** inputtype : variable
-                            ** variablecategory : state
-                            ** datatype : DOUBLE
-                            ** default : 0.0
-                            ** min : 0.0
-                            ** max : 
-                            ** unit : h
-                            ** uri : 
-                * name: PPSens
-                            ** description : Photoperiod sensitivity of the crop. Range 0.3-0.6 is PP sensitive, sensititivity disappears towards values of 0.7 to 1.
-                            ** inputtype : parameter
-                            ** parametercategory : species
-                            ** datatype : DOUBLE
-                            ** default : 0.4
-                            ** min : 0.2
-                            ** max : 3.0
-                            ** unit : dimensionless
-                            ** uri : 
-                * name: SommeDegresJour
-                            ** description : Sum of degree days accumulated by the crop since the beginning of the simulation.
-                            ** inputtype : variable
-                            ** variablecategory : state
-                            ** datatype : DOUBLE
-                            ** default : 
-                            ** min : 0.0
-                            ** max : 
-                            ** unit : degC*d
-                            ** uri : 
-                * name: SeuilTempLevee
-                            ** description : Temperature threshold for crop emergence / germination (but may be overrode by drought).
-                            ** inputtype : parameter
-                            ** parametercategory : species
-                            ** datatype : DOUBLE
-                            ** default : 50.0
-                            ** min : 0.0
-                            ** max : 
-                            ** unit : degC*d
-                            ** uri : 
-                * name: SeuilTempBVP
-                            ** description : Temperature threshold for earliest possible panicle initiation (PI), onset of basic vegetative phase (BVP) with internode and panicle (structural component) development.
-                            ** inputtype : parameter
-                            ** parametercategory : species
-                            ** datatype : DOUBLE
-                            ** default : 400.0
-                            ** min : 200.0
-                            ** max : 1000.0
-                            ** unit : degC*d
-                            ** uri : 
-                * name: SeuilTempRPR
-                            ** description : Temperature threshold for flowering (reproductive phase). 
-                            ** inputtype : parameter
-                            ** parametercategory : species
-                            ** datatype : DOUBLE
-                            ** default : 400.0
-                            ** min : 200.0
-                            ** max : 600.0
-                            ** unit : degC*d
-                            ** uri : 
-                * name: SeuilTempMatu1
-                            ** description : Temperature threshold for end of grain filling. No more structural growth happens.
-                            ** inputtype : parameter
-                            ** parametercategory : species
-                            ** datatype : DOUBLE
-                            ** default : 400.0
-                            ** min : 200.0
-                            ** max : 600.0
-                            ** unit : degC*d
-                            ** uri : 
-                * name: SeuilTempMatu2
-                            ** description : Temperature threshold for maturity/harvest date. No more growth but Assimilation & Rm continue, causing changes in IN.
-                            ** inputtype : parameter
-                            ** parametercategory : species
-                            ** datatype : DOUBLE
-                            ** default : 50.0
-                            ** min : 0.0
-                            ** max : 300.0
-                            ** unit : degC*d
-                            ** uri : 
-                * name: StockSurface
-                            ** description : Water column stored in topsoil layer.
-                            ** inputtype : variable
-                            ** variablecategory : state
-                            ** datatype : DOUBLE
-                            ** default : 
-                            ** min : 0.0
-                            ** max : 20.0
-                            ** unit : mm
-                            ** uri : 
-                * name: PourcRuSurfGermi
-                            ** description : Top soil relative water content required for germination. 
-                            ** inputtype : parameter
-                            ** parametercategory : species
-                            ** datatype : DOUBLE
-                            ** default : 0.6
-                            ** min : 0.4
-                            ** max : 1.0
-                            ** unit : dimensionless
-                            ** uri : 
-                * name: RuSurf
-                            ** description : Useful water reserve of surface horizon.
-                            ** inputtype : variable
-                            ** variablecategory : state
-                            ** datatype : DOUBLE
-                            ** default : 
-                            ** min : 0.0
-                            ** max : 
-                            ** unit : mm
-                            ** uri : 
-                * name: stRu
-                            ** description : Total water column stored in soil profile.
-                            ** inputtype : variable
-                            ** variablecategory : state
-                            ** datatype : DOUBLE
-                            ** default : 
-                            ** min : 0.0
-                            ** max : 
-                            ** unit : mm
-                            ** uri : 
-                * name: NumPhase
-                            ** description : Current crop phenological phase (e.g., 1 for germination, 2 for BVP, etc.).
-                            ** inputtype : variable
-                            ** variablecategory : state
-                            ** datatype : INT
-                            ** default : 0
-                            ** min : 0
-                            ** max : 7
-                            ** unit : dimensionless
-                            ** uri : 
-                * name: SommeDegresJourPhasePrec
-                            ** description : Sum of degree days accumulated during the previous phenological phase.
-                            ** inputtype : variable
-                            ** variablecategory : state
-                            ** datatype : DOUBLE
-                            ** default : 
-                            ** min : 0.0
-                            ** max : 
-                            ** unit : degC*d
-                            ** uri : 
-                * name: SeuilTempPhaseSuivante
-                            ** description : Temperature threshold for the next phenological phase.
-                            ** inputtype : variable
-                            ** variablecategory : state
-                            ** datatype : DOUBLE
-                            ** default : 400.0
-                            ** min : 200.0
-                            ** max : 1000.0
-                            ** unit : degC*d
-                            ** uri : 
-                * name: SeuilTempSousPhaseSuivante
-                            ** description : Temperature threshold for the next phenological subphase.
-                            ** inputtype : variable
-                            ** variablecategory : state
-                            ** datatype : DOUBLE
-                            ** default : 
-                            ** min : 
-                            ** max : 
-                            ** unit : degC*d
-                            ** uri : 
-                * name: NumSousPhase
-                            ** description : Current crop RPR subphase.
-                            ** inputtype : variable
-                            ** variablecategory : state
-                            ** datatype : INT
-                            ** default : 0
-                            ** min : 0
-                            ** max : 4
-                            ** unit : dimensionless
-                            ** uri : 
-                * name: MonCompteur
-                            ** description : Number of days spent in a RPR subphase.
-                            ** inputtype : variable
-                            ** variablecategory : auxiliary
-                            ** datatype : INT
-                            ** default : 0
-                            ** min : 0
-                            ** max : 
-                            ** unit : dimensionless
-                            ** uri : 
+
     - outputs: 
-                * name: NumPhase
-                            ** description : Current crop phenological phase (e.g., 1 for germination, 2 for BVP, etc.).
+                * name: soilTemp
+                            ** description :  Temperature at end of last time-step within a day - midnight in layers
                             ** variablecategory : state
-                            ** datatype : INT
-                            ** min : 0
-                            ** max : 7
-                            ** unit : dimensionless
+                            ** datatype : DOUBLEARRAY
+                            ** min : -60.
+                            ** max : 60.
+                            ** unit : degC
                             ** uri : 
-                * name: SommeDegresJourPhasePrec
-                            ** description : Sum of degree days accumulated during the previous phenological phase.
+                * name: minSoilTemp
+                            ** description : Minimum soil temperature in layers
                             ** variablecategory : state
-                            ** datatype : DOUBLE
-                            ** min : 0.0
-                            ** max : 
-                            ** unit : degC*d
+                            ** datatype : DOUBLEARRAY
+                            ** min : -60.
+                            ** max : 60.
+                            ** unit : degC
                             ** uri : 
-                * name: SeuilTempPhaseSuivante
-                            ** description : Temperature threshold for the next phenological phase.
+                * name: maxSoilTemp
+                            ** description :  Maximum soil temperature in layers
                             ** variablecategory : state
-                            ** datatype : DOUBLE
-                            ** min : 200.0
-                            ** max : 1000.0
-                            ** unit : degC*d
+                            ** datatype : DOUBLEARRAY
+                            ** min : -60.
+                            ** max : 60.
+                            ** unit : degC
                             ** uri : 
-                * name: ChangePhase
-                            ** description : Indicates whether the current day is a day of phenological phase change (1) or not (0). Makes initialization easier.
-                            ** variablecategory : auxiliary
-                            ** datatype : BOOLEAN
+                * name: aveSoilTemp
+                            ** description : Temperature averaged over all time-steps within a day in layers.
+                            ** variablecategory : state
+                            ** datatype : DOUBLEARRAY
+                            ** min : -60.
+                            ** max : 60.
+                            ** unit : degC
+                            ** uri : 
+                * name: morningSoilTemp
+                            ** description : Temperature  in the morning in layers.
+                            ** variablecategory : state
+                            ** datatype : DOUBLEARRAY
+                            ** min : -60.
+                            ** max : 60.
+                            ** unit : degC
+                            ** uri : 
+                * name: tempNew
+                            ** description : Soil temperature at the end of one iteration
+                            ** variablecategory : state
+                            ** datatype : DOUBLEARRAY
+                            ** min : -60.
+                            ** max : 60.
+                            ** unit : degC
+                            ** uri : 
+                * name: heatCapacity
+                            ** description : Heat Capacity in layers
+                            ** variablecategory : state
+                            ** datatype : DOUBLEARRAY
                             ** min : 
                             ** max : 
-                            ** unit : dimensionless
+                            ** unit : J/m3/K/s
                             ** uri : 
-                * name: SeuilTempSousPhaseSuivante
-                            ** description : Temperature threshold for the next phenological subphase.
+                * name: thermalConductivity
+                            ** description : thermal conductivity in layers
                             ** variablecategory : state
-                            ** datatype : DOUBLE
+                            ** datatype : DOUBLEARRAY
                             ** min : 
                             ** max : 
-                            ** unit : degC*d
+                            ** unit : (W/m2/K)
                             ** uri : 
-                * name: ChangeSousPhase
-                            ** description : Indicates whether the current day is a day of RPR subphase change (1) or not (0).
-                            ** variablecategory : auxiliary
-                            ** datatype : BOOLEAN
+                * name: thermalConductance
+                            ** description : Thermal conductance between layers 
+                            ** variablecategory : state
+                            ** datatype : DOUBLEARRAY
                             ** min : 
                             ** max : 
-                            ** unit : dimensionless
+                            ** unit : 
                             ** uri : 
-                * name: NumSousPhase
-                            ** description : Current crop RPR subphase.
+                * name: heatStorage
+                            ** description : Heat storage between layers (internal)
                             ** variablecategory : state
-                            ** datatype : INT
-                            ** min : 0
-                            ** max : 4
-                            ** unit : dimensionless
-                            ** uri : 
-                * name: MonCompteur
-                            ** description : Number of days spent in a RPR subphase.
-                            ** variablecategory : auxiliary
-                            ** datatype : INT
-                            ** min : 0
+                            ** datatype : DOUBLEARRAY
+                            ** min : 
                             ** max : 
-                            ** unit : dimensionless
+                            ** unit : J/s/K
                             ** uri : 
     """
