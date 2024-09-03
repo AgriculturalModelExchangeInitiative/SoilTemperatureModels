@@ -27,3 +27,10 @@ Array.ConstrainedCopy(soilTempIO, SURFACEnode, soilTemp, 0, numNodes);
 soilTemp[0:numNodes] = soilTempIO[SURFACEnode:SURFACEnode+numNodes]
 
 offsetDayOfYear : use datetime (date - timedelta).(day of the year)
+
+
+## CyML Interface
+
+- List of inputs
+- list of outpus
+- list of functions with interface
