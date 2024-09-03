@@ -313,14 +313,14 @@ def Init(soilTemp, NZ, LATITUDE,
 
     soilTemp[AIRnode] = (MAXT + MINT) * 0.5
     soilTemp[SURFACEnode] = surfaceT
-    soilTemp[NZ] = TAV
+    soilTemp[NZ+1] = TAV
 
     tempNew = soilTemp.copy()
     maxTempYesterday = MAXT
     minTempYesterday = MINT
 
-    print(ave_temp)
-    print(surfaceT)
+   ##print(ave_temp)
+   # #print(surfaceT)
     # CPL : I comment this line because it is done outside init
     # CPL : In ApSim they have a OnProcess function that initialise if needed then call doProcess
     #doProcess()
@@ -332,7 +332,7 @@ def doNetRadiation(
         DOY, LATITUDE,
         RADN,minAirTemp
         ):
-    print("do net radiation computation")
+    #print("do net radiation computation")
 
     TSTEPS2RAD = DEG2RAD *360. / ITERATIONSperDAY
     SOLARconst = 1360.0;     # W/M^2
@@ -374,13 +374,13 @@ def doVolumetricSpecificHeat(NZ,
                              bulkDensity,
                              soilWater
                              ):
-    print("do Volumetric Specific Heat")
+   # #print("do Volumetric Specific Heat")
     SPECIFICbd = 2.65   # (g/cc) specific bulk density
 
-    #volSpecHeatSoil = [0.]*NZ
-    for layer in range(1,NZ):
+    volSpecHeatSoil = [0.]*(NZ+1)
+    for layer in range(1,NZ+1):
         solidity = bulkDensity[layer] / SPECIFICbd
-        volSpecHeatSoil[layer+1] = (volSpecHeatClay * solidity
+        volSpecHeatSoil[layer] = (volSpecHeatClay * solidity
                                  + volSpecHeatWater * soilWater[layer])
     volSpecHeatSoil[1] = volSpecHeatSoil[2] 
     return volSpecHeatSoil
@@ -390,14 +390,14 @@ def doThermalConductivityCoeffs(
         bulkDensity, 
         clay):
     
-    print('do Thermal Conductivity Coeffs')
+    ##print('do Thermal Conductivity Coeffs')
     thermCondPar1 = [0.65 - 0.78 * bulkDensity[layer] + 0.6 * bulkDensity[layer]**2 for layer in range(1, NZ+1)]
     thermCondPar1.insert(0, 0.)
 
     thermCondPar2 = [1.06 *bdl for bdl in bulkDensity[1:]]
     thermCondPar2.insert(0, 0.)
 
-    thermCondPar3 = [1. + 2.6/clayi if clayi else 1. for clayi in clay[1:] ]
+    thermCondPar3 = [1. + 2.6/math.sqrt(clayi) if clayi else 1. for clayi in clay[1:] ]
     thermCondPar3.insert(0, 0.)
 
     thermCondPar4 = [0.03 + 0.1 * bdi**2 for bdi in bulkDensity[1:]]
@@ -426,12 +426,12 @@ def doThermConductivity(
     /// Here C1=A, C2=B, SW=theta, C3=C, C4=D, 4=E.
     /// RETURNS gThermConductivity_zb() (W/m2/K)
     """
-    print("do Thermal Conductivity")
+    ##print("do Thermal Conductivity")
 
     thermalConductivity = [0.]*(NZ+1)
     thermCondLayers = [0.]*(NZ+1)
     for layer in range(1, NZ+1):
-        temp = -(thermCondPar3[layer] * soilWater[layer])**4
+        temp = -((thermCondPar3[layer] * soilWater[layer])**4)
         # Eqn 4.20 Campbell.
         thermCondLayers[layer] = (
             thermCondPar1[layer] + (thermCondPar2[layer] * soilWater[layer])
@@ -441,12 +441,12 @@ def doThermConductivity(
     # get weighted average for soil elements between the nodes. i.e. map layers to nodes
     for node in range(SURFACEnode, NZ+1):
         layer = node - 1
-        depthLayerAbove = sum(thickness[1:layer+1])
+        depthLayerAbove = sum(thickness[1:layer])
         d1 = depthLayerAbove - (depth[node] * M2MM)
         d2 = depth[node + 1] * M2MM - depthLayerAbove
         dSum = d1 + d2
         if dSum > 0:
-            thermalConductivity[node] = (thermCondLayers[layer] * d1 + thermCondLayers[layer + 1] * d2) / dSum
+            thermalConductivity[node] = ((thermCondLayers[layer] * d1) / dSum) + ((thermCondLayers[layer + 1] * d2) / dSum)
         else:
             thermalConductivity[node] = 0.
 
@@ -460,7 +460,7 @@ def InterpTemp(
         minAirTemp,
         maxAirTemp,
         ):
-    print('InterpTemp')
+    #print('InterpTemp')
 
     time = timeHours / DAYhrs         # Current time of day as a fraction of a day
     maxT_time = maxTempTime / DAYhrs  # Time of maximum temperature as a fraction of a day
@@ -478,7 +478,7 @@ def InterpTemp(
         current_temp = (sin((time + 0.25 - maxT_time) * 2 * PI)
                 * (maxAirTemp - minAirTemp) / 2.
                 + (maxAirTemp + minAirTemp) / 2.)
-    print('Current Temperature ', current_temp)
+    #print('Current Temperature ', current_temp)
     return current_temp
 
 def longWaveRadn(emissivity: float, tDegC: float) -> float:
@@ -492,7 +492,7 @@ def RadnNetInterpolate(solarRadn, airTemp, cloudFr, cva, gDt, potSoilEvap, potEv
     /// <returns>Net radiation (SW and LW) for timestep (MJ)</returns>
     /// <remarks></remarks>    
     """
-    print('RadnNetInterpolate')
+    #print('RadnNetInterpolate')
 
     EMISSIVITYsurface = 0.96    # Campbell Eqn. 12.1
     w2MJ = gDt * J2MJ
@@ -517,7 +517,7 @@ def RadnNetInterpolate(solarRadn, airTemp, cloudFr, cva, gDt, potSoilEvap, potEv
     # Dim swRout As Double = (salb + (1.0 - salb) * (1.0 - sunAngleAdjust())) * solarRadn   'FIXME temp test
     swRnetSoil = (swRin - swRout) * PenetrationConstant
     
-    print('Net Radiation', swRnetSoil + lwRnetSoil)
+    #print('Net Radiation', swRnetSoil + lwRnetSoil)
     return swRnetSoil + lwRnetSoil
 
 def RhoA(temperature: float, AirPressure: float):
@@ -558,7 +558,7 @@ def boundaryLayerConductanceF(
     /// corrections are not made, soil temperature profiles can have large errors.
     /// </remarks>
     """
-    print('boundaryLayerConductanceF')
+    #print('boundaryLayerConductanceF')
     VONK = 0.41      # von Karman's constant
     GRAVITATIONALconst = 9.8    # GR; gravitational constant (m/s/s)
     CAPP = 1010.0               # (J/kg/K) Specific heat of air at constant pressure
@@ -635,7 +635,7 @@ def boundaryLayerConductanceF(
             StabilityCorHeat = -2.0 * log((1.0 + sqrt(1.0 - 16.0 * StabilityParam)) / 2.0)    # Eqn 12.16
             StabilityCorMomentum = 0.6 * StabilityCorHeat                # Eqn 12.17
 
-    print('BoundaryLayerCond', BoundaryLayerCond)
+    #print('BoundaryLayerCond', BoundaryLayerCond)
     return BoundaryLayerCond   # thermal conductivity  (W/m2/K)
 
 def ThomasSolver(a, b, c, d):
@@ -664,7 +664,7 @@ def ThomasSolver(a, b, c, d):
 
     return t
 
-def ThomasSolverApsim(a, b, c, d, temp):
+def ThomasSolverApsim(a, b, c, d, temp, NZ):
     '''
     Thomas solver, a b c d are Python list type.
     refer to http://en.wikipedia.org/wiki/Tridiagonal_matrix_algorithm
@@ -675,18 +675,18 @@ def ThomasSolverApsim(a, b, c, d, temp):
     a, b, c, d are list of size n
     return t of same size (the solution).
     '''
-    print('Solver')
+   # #print('Solver')
     
     a, b, c, d = map(list, (a, b, c, d)) # copy lists
-    for i in range(1, numNodes):
+    for i in range(1, NZ):
         c[i] = c[i] / b[i]
         d[i] = d[i] / b[i]
         b[i+1] -= a[i+1] * c[i]
         d[i+1] -= a[i+1] * d[i]
 
-    temp[numNodes] = d[numNodes] / b[numNodes]
+    temp[NZ] = d[NZ] / b[NZ]
 
-    for i in range(numNodes-1, 1, -1):
+    for i in range(NZ-1, 0, -1):
         temp[i] = (d[i]-c[i]*temp[i+1])
 
     return temp
@@ -703,7 +703,7 @@ def doThomas(newTemps,
              tempStepSec,
              NZ
              ):
-    print('doThomas')
+    ##print('doThomas')
     a = [0.]*(NZ+1+1) # A; thermal conductance at node (W/m/K)
     b = [0.]*(NZ+1) # B; heat storage at node (W/K)
     c = [0.]*(NZ+1) # C; thermal conductance at node (W/m/K)
@@ -750,14 +750,14 @@ def doThomas(newTemps,
     # The boundary condition at the bottom of the soil column is usually specified as remaining at some constant,
     # measured temperature, TN(M+1). The last value for D is therefore -
 
-    d[numNodes] += nu * thermalConductance[numNodes] * newTemps[numNodes + 1];
+    d[NZ] += nu * thermalConductance[NZ] * newTemps[NZ + 1];
 
-    newTemps = ThomasSolverApsim(a, b, c, d, newTemps)
+    newTemps = ThomasSolverApsim(a, b, c, d, newTemps, NZ)
     return newTemps
 
-def doUpdate(ITERATIONSperDAY):
-    print('TODO :',)
-    print('doUpdate')
+#def doUpdate(ITERATIONSperDAY):
+    #print('TODO :',)
+    #print('doUpdate')
 
 def doProcess( soilTemp, 
                NZ, 
@@ -776,13 +776,13 @@ def doProcess( soilTemp,
                potSoilEvap, potEvapotrans, actualSoilEvap, latent_heat_flux,
                canopyHeight
                ):
-    print("do process")
+    ##print("do process")
 
     airPressure = 101325.0 * ((1.0 - 2.25577 * 0.00001 * altitude) ** 5.25588) * PA2HPA
 
-    depth[TOPSOILnode] = 0.5 * thickness[1] * MM2M
-    for i in range(TOPSOILnode, NZ+1):
-        depth[i] = sum(thickness[1:i])
+    #depth[TOPSOILnode] = 0.5 * thickness[1] * MM2M
+    #for i in range(TOPSOILnode, NZ+1):
+     #   depth[i] = sum(thickness[1:i])
 
     tempStepSec = timestep * MIN2SEC
 
@@ -793,7 +793,7 @@ def doProcess( soilTemp,
         RADN, minAirTemp)
 
     # debug
-    print(solarRadn, cloudFr, cva) 
+    ##print(solarRadn, cloudFr, cva) 
 
     # TODO Check the scale order. Be sure everything (soilWater) is correct
     volSpecHeatSoil = doVolumetricSpecificHeat(
@@ -801,10 +801,10 @@ def doProcess( soilTemp,
         volSpecHeatSoil=volSpecHeatSoil,
         bulkDensity=bulkDensity,
         soilWater=soilWater)
-    print(volSpecHeatSoil)
+    ##print(volSpecHeatSoil)
 
     #...
-    print('BD ', bulkDensity)
+    ##print('BD ', bulkDensity)
     thermCondPar1, thermCondPar2, thermCondPar3, thermCondPar4 = \
         doThermalConductivityCoeffs(
             NZ=NZ,
@@ -825,13 +825,13 @@ def doProcess( soilTemp,
     _boundaryLayerConductance = 0.0
     RnTot = 0.0
     gDt = round(tempStepSec / ITERATIONSperDAY)
-    print('Thermal cond is : ', thermalConductivity)
+    ##print('Thermal cond is : ', thermalConductivity)
     
     ################################################
     # Solver of soil temperature : equantions + thomas
     # for ...
 
-    print('Begin solver loop')
+    ##print('Begin solver loop')
     tempNew = list(soilTemp)
     for timeStepIteration in range(1, ITERATIONSperDAY+1):
         
@@ -882,7 +882,8 @@ def doProcess( soilTemp,
              netRadiation, 
              actualSoilEvap,
              tempStepSec,NZ)        # RETURNS TNew_zb()
-            thermalConductivity[AIRnode] = boundaryLayerConductanceF(tempNew, airPressure)
+            thermalConductivity[AIRnode] = boundaryLayerConductanceF(tempNew, airTemp, airPressure, canopyHeight,
+            potSoilEvap, potEvapotrans)
 
         # Now start again with final atmosphere boundary layer conductance
         tempNew = doThomas(tempNew, 
@@ -895,7 +896,7 @@ def doProcess( soilTemp,
              netRadiation, 
              actualSoilEvap,
              tempStepSec,NZ)        # RETURNS gTNew_zb()
-        doUpdate(ITERATIONSperDAY)
+        #doUpdate(ITERATIONSperDAY)
         #if ((RealsAreEqual(timeOfDaySecs, 5.0 * HR2MIN * MIN2SEC)))
         #    soilTemp.CopyTo(morningSoilTemp, 0);
 
@@ -904,7 +905,7 @@ def doProcess( soilTemp,
     minTempYesterday = minAirTemp
     maxTempYesterday = maxAirTemp
 
-    return tempNew
+    return tempNew, tempNew[SURFACEnode], tempNew[TOPSOILnode:NZ+1], minTempYesterday, maxTempYesterday
 
 
 def standalone(
@@ -1054,7 +1055,7 @@ def standalone(
         clay,
         potSoilEvap, potEvapotrans, actualSoilEvap, latent_heat_flux,
         canopyHeight)
-    print(soilTemp)
+    #print(soilTemp)
 
 if __name__ == "__main__":
     NLAYR = 10
@@ -1117,5 +1118,5 @@ if __name__ == "__main__":
         G=[G],       # Soil Heat Flux
         SWLD=SWLD,    # Volumetri Soil Water
         )
-    print(soilTemp)
+    #print(soilTemp)
     
