@@ -7,12 +7,16 @@ A detailled description of the model can be found on the ApSim website (https://
 
 ## ROADMAP
 
-ApSIM Soil Temperature implements a modified version of Campbell without matrices and linear algebra.
+### Provide a C# standalone model of the recent version in APSIM (Teiki)
+- Define key functions as unit components
+- Test the model on a given dataset
+- Extract input / output 
 
-* Extract input / output 
-* Translate the CS code into Python/Notebook
-* Test it on simple input
-* Translate it into Crop2ML
+### Provide a Python standalone model of the recent version in APSIM (Christophe)
+- Use the sdame decomposition for C# and Python
+- Test the model
+- Write the Crop2ML metainformation interface from Python documentation 
+
 
 
 ## Tricks for the conversion
@@ -23,6 +27,3 @@ Array.ConstrainedCopy(soilTempIO, SURFACEnode, soilTemp, 0, numNodes);
 soilTemp[0:numNodes] = soilTempIO[SURFACEnode:SURFACEnode+numNodes]
 
 offsetDayOfYear : use datetime (date - timedelta).(day of the year)
-
-# TODO 
-- dampingDepth
