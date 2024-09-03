@@ -32,7 +32,8 @@ def init_SoilTemperatureCampbell(
     pass
 #%%CyML Init End%%
 
-def model_SoilTemperatureCampbell(NLAYR: int,
+def model_SoilTemperatureCampbell(
+    NLAYR: int,
     THICK: 'Array[float]',
     BD: 'Array[float]',
     TMAX: float,
@@ -52,8 +53,6 @@ def model_SoilTemperatureCampbell(NLAYR: int,
     ESAD: float,
     soilTemp: 'Array[float]'
     ):
-    pass
-
     """
     - Name: SoilTemperatureCampbell
     - Version: 1.0
