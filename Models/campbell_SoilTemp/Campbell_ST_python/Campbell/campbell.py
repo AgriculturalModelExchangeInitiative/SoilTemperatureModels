@@ -28,6 +28,16 @@ def init_campbell(NLAYR: int,
     ESAD: float,
     soilTemp: 'Array[float]'):
 
+    minSoilTemp : 'Array[float]' = []
+    maxSoilTemp : 'Array[float]' = []
+    aveSoilTemp : 'Array[float]' = []
+    morningSoilTemp : 'Array[float]' = []
+    tempNew : 'Array[float]' = []
+    heatCapacity : 'Array[float]' = []
+    thermalConductivity : 'Array[float]' = []
+    thermalConductance : 'Array[float]' = []
+    heatStorage : 'Array[float]' = []
+
     return (soilTemp,
     minSoilTemp,
     maxSoilTemp,
@@ -41,7 +51,7 @@ def init_campbell(NLAYR: int,
 #%%CyML Init End%%
 
 #%%CyML Model Begin%%
-def model_Campbell(NLAYR: int,
+def model_campbell(NLAYR: int,
     THICK: 'Array[float]',
     BD: 'Array[float]',
     TMAX: float,
@@ -61,7 +71,7 @@ def model_Campbell(NLAYR: int,
     ESAD: float,
     soilTemp: 'Array[float]'):
     """
-    - Name: SoilTemperatureCampbell
+    - Name: campbell
     - Version: 1.0
     - Time step: 1
     - Description:
@@ -262,7 +272,7 @@ def model_Campbell(NLAYR: int,
                     ** uri : 
         * name: minSoilTemp
                     ** description : Minimum soil temperature in layers
-                    ** variablecategory : state
+                    ** variablecategory : auxiliary
                     ** datatype : DOUBLEARRAY
                     ** len : NLAYR
                     ** min : -60.
@@ -358,20 +368,16 @@ def model_Campbell(NLAYR: int,
     soilTemp = compute(soilTemp, NLAYR)
     #%%CyML Compute End%%
     
-    return (soilTemp,
-    minSoilTemp,
-    maxSoilTemp,
-    aveSoilTemp,
-    morningSoilTemp,
-    tempNew,
-    heatCapacity,
-    thermalConductivity,
-    thermalConductance,
-    heatStorage)
+    return soilTemp, minSoilTemp, maxSoilTemp, aveSoilTemp, morningSoilTemp, tempNew, heatCapacity, thermalConductivity, thermalConductance, heatStorage
 
 
 #%%CyML Model End%%
     
 def compute(soilTemp: 'Array[float]', NLAYR: int):
-    soilTemp = [float(i) for i in range(NLAYR)]
-    return soilTemp
+    soilTemp2: 'Array[float]'=[]
+    
+    i : int
+    for i in range(NLAYR):
+        soilTemp2.append(float(i))
+
+    return soilTemp2
