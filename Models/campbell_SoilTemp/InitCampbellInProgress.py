@@ -1,7 +1,7 @@
-import numpy as np
-from math import isnan,isinf,pi,sqrt,sin,exp
+from math import isnan, isinf, pi, sqrt, sin, exp
+from array import array 
 
-def init_campbell((NLAYR: int,
+def init_campbell(NLAYR: int,
     THICK: 'Array[float]',
     BD: 'Array[float]',
     TMAX: float,
@@ -22,20 +22,13 @@ def init_campbell((NLAYR: int,
     soilTemp: 'Array[float]'):
  
     #constants
-    soilRoughnessHeight:float
-    AltitudeMetres:float
-    NUM_PHANTOM_NODES:int
-    CONSTANT_TEMPdepth:float
-    AIRnode:int
-    SURFACEnode:int
-    TOPSOILnode:int
-    soilRoughnessHeight = 57.0
-    AltitudeMetres = 18.0
-    NUM_PHANTOM_NODES = 5
-    CONSTANT_TEMPdepth = 10.0
-    AIRnode = 0
-    SURFACEnode = 1
-    TOPSOILnode = 2
+    soilRoughnessHeight: float = 57.0
+    AltitudeMetres: float = 18.0
+    NUM_PHANTOM_NODES: int = 5
+    CONSTANT_TEMPdepth: float = 10.0
+    AIRnode: int = 0
+    SURFACEnode: int = 1
+    TOPSOILnode: int = 2
 
     SALB = SALB
     canopyHeight = max(canopyHeight, soilRoughnessHeight) * 0.001
@@ -43,7 +36,7 @@ def init_campbell((NLAYR: int,
     NLAYR = NLAYR
     numNodes = NLAYR + NUM_PHANTOM_NODES
 
-    thickness = array('f', [0.0]*(NLAYR + 1 + NUM_PHANTOM_NODES))
+    thickness = [0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
     thickness[:len(THICK)] = THICK
     sumThickness = sum(thickness[1:NLAYR + 1])
     BelowProfileDepth = max(CONSTANT_TEMPdepth * 1000.0 - sumThickness, 1.0 * 1000.0)
@@ -64,20 +57,20 @@ def init_campbell((NLAYR: int,
         depth[node + 1] = (sumThickness + 0.5 * thickness[node]) * 0.001
 
     # Bulk Density
-    bulkDensity = array('f', [0.0]*(NLAYR + 1 + NUM_PHANTOM_NODES)
+    bulkDensity = array('f', [0.0]*(NLAYR + 1 + NUM_PHANTOM_NODES))
     bulkDensity[:min(NLAYR + 1 + NUM_PHANTOM_NODES, len(bd))] = bd
     bulkDensity[numNodes - 1] = bulkDensity[NLAYR]
     for layer in range(NLAYR + 1, NLAYR + NUM_PHANTOM_NODES):
         bulkDensity[layer] = bulkDensity[NLAYR]
 
     # Soil Water
-    soilWater = array('f', [0.0]*(NLAYR + 1 + NUM_PHANTOM_NODES)
+    soilWater = array('f', [0.0]*(NLAYR + 1 + NUM_PHANTOM_NODES))
     soilWater[:min(NLAYR + 1 + NUM_PHANTOM_NODES, len(sw))] = sw
     for layer in range(NLAYR + 1, NLAYR + NUM_PHANTOM_NODES):
         soilWater[layer] = soilWater[NLAYR]
 
     # Clay
-    clay = array('f', [0.0]*(NLAYR + 1 + NUM_PHANTOM_NODES)
+    clay = array('f', [0.0]*(NLAYR + 1 + NUM_PHANTOM_NODES))
     for layer in range(1, NLAYR + 1):
         clay[layer] = cla[layer - 1]
     for layer in range(NLAYR + 1, NLAYR + NUM_PHANTOM_NODES):
@@ -129,7 +122,7 @@ def doThermalConductivityCoeffs(nbLayers:int,
         element = layer
         thermCondPar1[element] = 0.65 - 0.78 * bulkDensity[layer] + 0.6 * bulkDensity[layer] ** 2
         thermCondPar2[element] = 1.06 * bulkDensity[layer]
-        thermCondPar3[element] = 1.0 + Divide(2.6, math.sqrt(clay[layer], 0)
+        thermCondPar3[element] = 1.0 + Divide(2.6, math.sqrt(clay[layer], 0))
         thermCondPar4[element] = 0.03 + 0.1 * bulkDensity[layer] ** 2
 
         return thermCondPar1,thermCondPar2,thermCondPar3,thermCondPar4
