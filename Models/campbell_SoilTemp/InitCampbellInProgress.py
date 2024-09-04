@@ -22,6 +22,13 @@ def init_campbell((NLAYR: int,
     soilTemp: 'Array[float]'):
  
     #constants
+    soilRoughnessHeight:float
+    AltitudeMetres:float
+    NUM_PHANTOM_NODES:int
+    CONSTANT_TEMPdepth:float
+    AIRnode:int
+    SURFACEnode:int
+    TOPSOILnode:int
     soilRoughnessHeight = 57.0
     AltitudeMetres = 18.0
     NUM_PHANTOM_NODES = 5
