@@ -68,6 +68,8 @@ for  k, v in files.items():
             extfunc = z.externFunction(file_asg, meth, True)
             # save external functions
             for ext in extfunc:
+                if not ext:
+                     continue
                 name = ext.name
                 mdata.function.append(name)
                 r = [ext]
