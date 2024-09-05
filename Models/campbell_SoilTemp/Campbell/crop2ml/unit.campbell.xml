@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ModelUnit PUBLIC " " "https://raw.githubusercontent.com/AgriculturalModelExchangeInitiative/crop2ml/master/ModelUnit.dtd">
+<ModelUnit modelid="Campbell..campbell" name="campbell" timestep="1" version="1.0">
+    <Description>
+        <Title>SoilTemperature model from Campbell implemented in APSIM</Title>
+        <Authors></Authors>
+        <Institution>CIRAD and INRAE</Institution>
+        <URI></URI>
+        <Reference>Campbell model (TODO)</Reference>
+        <ExtendedDescription>TODO</ExtendedDescription>
+        <ShortDescription>TODO</ShortDescription></Description>
+    <Inputs>
+        <Input name="NLAYR" description="number of soil layers in profile" inputtype="parameter" variablecategory="constant" datatype="INT" max="" min="1" default="10" unit="dimensionless"/>
+        <Input name="THICK" description="APSIM soil layer depths as thickness of layers" inputtype="parameter" variablecategory="constant" datatype="DOUBLEARRAY" len="NLAYR" max="" min="1" default="5" unit="mm"/>
+        <Input name="BD" description="bd (soil bulk density) is name of the APSIM var for bulk density so set bulkDensity" inputtype="parameter" variablecategory="constant" datatype="DOUBLEARRAY" len="NLAYR" max="" min="1" default="" unit="g/cm3"/>
+        <Input name="TMAX" description="Max daily Air temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="60" min="-60" default="" unit=""/>
+        <Input name="TMIN" description="Min daily Air temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="60" min="-60" default="" unit=""/>
+        <Input name="TAV" description="Average daily Air temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="60" min="-60" default="" unit=""/>
+        <Input name="TAMP" description="Amplitude air temperature" inputtype="parameter" variablecategory="constant" datatype="DOUBLE" max="100" min="-100" default="" unit=""/>
+        <Input name="XLAT" description="Latitude" inputtype="parameter" variablecategory="constant" datatype="DOUBLE" max="" min="" default="" unit=""/>
+        <Input name="CLAY" description="Proportion of clay in each layer of profile" inputtype="parameter" variablecategory="constant" datatype="DOUBLEARRAY" len="NLAYR" max="1" min="0" default="0.5" unit="dimensionless"/>
+        <Input name="SW" description="volumetric water content" inputtype="variable" variablecategory="exogenous" datatype="DOUBLEARRAY" len="NLAYR" max="1" min="0" default="0.5" unit="cc water / cc soil"/>
+        <Input name="DEPTH" description="node depths" inputtype="parameter" variablecategory="constant" datatype="DOUBLEARRAY" len="NLAYR" max="" min="" default="" unit="m"/>
+        <Input name="DOY" description="Day of year" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="366" min="0" default="0" unit="dimensionless"/>
+        <Input name="canopyHeight" description="height of canopy above ground" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="0" default="0.057" unit="m"/>
+        <Input name="SALB" description="Soil albedo" inputtype="parameter" variablecategory="constant" datatype="DOUBLE" max="1" min="0" default="" unit="dimensionless"/>
+        <Input name="SRAD" description="Radiation" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit=""/>
+        <Input name="ESP" description="Potential evaporation" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="0" default="" unit="mm"/>
+        <Input name="EOAD" description="Potential evapotranspiration" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="0" default="" unit="mm"/>
+        <Input name="ESAD" description="Actual evapotranspiration" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="0" default="" unit="mm"/>
+        <Input name="soilTemp" description="Temperature at end of last time-step within a day - midnight in layers" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="NLAYR" max="60." min="-60." default="20." unit="degC"/></Inputs>
+    <Outputs>
+        <Output name="soilTemp" description="Temperature at end of last time-step within a day - midnight in layers" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="60." min="-60." unit="degC"/>
+        <Output name="minSoilTemp" description="Minimum soil temperature in layers" datatype="DOUBLEARRAY" variablecategory="auxiliary" len="NLAYR" max="60." min="-60." unit="degC"/>
+        <Output name="maxSoilTemp" description="Maximum soil temperature in layers" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="60." min="-60." unit="degC"/>
+        <Output name="aveSoilTemp" description="Temperature averaged over all time-steps within a day in layers." datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="60." min="-60." unit="degC"/>
+        <Output name="morningSoilTemp" description="Temperature  in the morning in layers." datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="60." min="-60." unit="degC"/>
+        <Output name="tempNew" description="Soil temperature at the end of one iteration" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="60." min="-60." unit="degC"/>
+        <Output name="heatCapacity" description="Heat Capacity in layers" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit="J/m3/K/s"/>
+        <Output name="thermalConductivity" description="thermal conductivity in layers" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit="(W/m2/K)"/>
+        <Output name="thermalConductance" description="Thermal conductance between layers" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit=""/>
+        <Output name="heatStorage" description="Heat storage between layers (internal)" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit="J/s/K"/></Outputs>
+    <Initialization name="init_campbell" language="cyml" filename="init.campbell.pyx"/>
+    <Function name="compute" description="" language="cyml" type="external" filename="algo/pyx/compute.pyx"/>
+    <Algorithm language="cyml" platform="" filename="algo/pyx/campbell.pyx"/>
+    <Parametersets/>
+    <Testsets/></ModelUnit>

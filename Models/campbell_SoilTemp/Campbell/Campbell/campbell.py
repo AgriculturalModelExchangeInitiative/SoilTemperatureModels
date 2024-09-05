@@ -19,7 +19,7 @@ def init_campbell(NLAYR: int,
     CLAY: 'Array[float]',
     SW: 'Array[float]',
     DEPTH: 'Array[float]',
-    DOY: float,
+    DOY: int,
     canopyHeight: float,
     SALB: float,
     SRAD: float,
@@ -37,6 +37,117 @@ def init_campbell(NLAYR: int,
     thermalConductivity : 'Array[float]' = []
     thermalConductance : 'Array[float]' = []
     heatStorage : 'Array[float]' = []
+    thickness : 'Array[float]' = []
+    depth : 'Array[float]' = []
+    bulkDensity : 'Array[float]' = []
+    soilWater : 'Array[float]' = []
+    clay : 'Array[float]' = []
+    volSpecHeatSoil : 'Array[float]' = []
+    thermCondPar1 : 'Array[float]' = []
+    thermCondPar2 : 'Array[float]' = []
+    thermCondPar3 : 'Array[float]' = []
+    thermCondPar4 : 'Array[float]' = []
+
+    #Constants
+    soilRoughnessHeight:float
+    AltitudeMetres:float
+    NUM_PHANTOM_NODES:int
+    CONSTANT_TEMPdepth:float
+    AIRnode:int
+    SURFACEnode:int
+    TOPSOILnode:int
+    soilRoughnessHeight = 57.0
+    AltitudeMetres = 18.0
+    NUM_PHANTOM_NODES = 5
+    CONSTANT_TEMPdepth = 10.0
+    AIRnode = 0
+    SURFACEnode = 1
+    TOPSOILnode = 2
+
+    canopyHeight = max(canopyHeight, soilRoughnessHeight) * 0.001
+    airPressure:float = 101325.0 * (1.0 - 2.25577e-5 * AltitudeMetres) ** 5.25588 * 0.01
+    numNodes:int = NLAYR + NUM_PHANTOM_NODES
+
+    thickness = [0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
+    thickness[:len(THICK)] = THICK
+    sumThickness:float = 0.0
+    #sumThickness = sum(thickness[1:NLAYR + 1])
+    I:int
+    for I in range(0, NLAYR, 1):
+        sumThickness = sumThickness + thickness[I]
+    BelowProfileDepth:float = max(CONSTANT_TEMPdepth * 1000.0 - sumThickness, 1.0 * 1000.0)
+    thicknessForPhantomNodes:float = BelowProfileDepth * 2.0 / NUM_PHANTOM_NODES
+    firstPhantomNode:int = NLAYR
+    for I in range(firstPhantomNode, firstPhantomNode + NUM_PHANTOM_NODES):
+        thickness[i] = thicknessForPhantomNodes
+
+    depth = [0.0]*(numNodes + 1 + 1)
+    depth[:min(numNodes + 1 + 1, len(DEPTH))] = DEPTH
+    depth[AIRnode] = 0.0
+    depth[SURFACEnode] = 0.0
+    depth[TOPSOILnode] = 0.5 * thickness[1] * 0.001
+
+    node:int
+    for node in range(TOPSOILnode, numNodes):
+        sumThickness = 0.0
+        for I in range(1, node):
+            sumThickness = sumThickness + thickness[I]
+        depth[node + 1] = (sumThickness + 0.5 * thickness[node]) * 0.001
+
+     # Bulk Density
+    layer:int
+    bulkDensity = [0.0]*(NLAYR + 1 + NUM_PHANTOM_NODES)
+    bulkDensity[:min(NLAYR + 1 + NUM_PHANTOM_NODES, len(BD))] = BD
+    bulkDensity[numNodes - 1] = bulkDensity[NLAYR]
+    for layer in range(NLAYR + 1, NLAYR + NUM_PHANTOM_NODES):
+        bulkDensity[layer] = bulkDensity[NLAYR]
+
+     # Soil Water
+    soilWater = [0.0]*(NLAYR + 1 + NUM_PHANTOM_NODES)
+    soilWater[:min(NLAYR + 1 + NUM_PHANTOM_NODES, len(SW))] = SW
+    for layer in range(NLAYR + 1, NLAYR + NUM_PHANTOM_NODES):
+        soilWater[layer] = soilWater[NLAYR]
+
+     # Clay
+    clay = [0.0]*(NLAYR + 1 + NUM_PHANTOM_NODES)
+    for layer in range(1, NLAYR + 1):
+        clay[layer] = CLAY[layer - 1]
+    for layer in range(NLAYR + 1, NLAYR + NUM_PHANTOM_NODES):
+        clay[layer] = clay[NLAYR]
+
+    maxSoilTemp = [0.0]*(NLAYR + 1 + NUM_PHANTOM_NODES)
+    minSoilTemp = [0.0]*(NLAYR + 1 + NUM_PHANTOM_NODES)
+    aveSoilTemp = [0.0]*(NLAYR + 1 + NUM_PHANTOM_NODES)
+    volSpecHeatSoil = [0.0]*(numNodes + 1)
+    soilTemp = [0.0]*(numNodes + 1 + 1)
+    morningSoilTemp = [0.0]*(numNodes + 1 + 1)
+    tempNew = [0.0]*(numNodes + 1 + 1)
+    thermalConductivity = [0.0]*(numNodes + 1)
+    heatStorage = [0.0]*(numNodes + 1)
+    thermalConductance = [0.0]*(numNodes + 1 + 1)
+
+    thermCondPar1,thermCondPar2,thermCondPar3,thermCondPar4 = doThermalConductivityCoeffs(NLAYR, numNodes, bulkDensity, clay)
+    soilTemp = CalcSoilTemp(soilTemp, thickness, TAV, TAMP, DOY, XLAT)
+
+    InitialValues:'Array[float]' = []
+    InitialValues = [0.0]*(NLAYR)
+    InitialValues[:NLAYR] = soilTemp[TOPSOILnode:]
+
+    ave_temp:float
+    ave_temp = (TMAX + TMIN) * 0.5
+    surfaceT:float
+    surfaceT = (1.0 - SALB) * (ave_temp + (TMAX - ave_temp) * sqrt(max(SRAD, 0.1) * 23.8846 / 800.0)) + SALB * ave_temp
+    soilTemp[SURFACEnode] = surfaceT
+
+    for I in range(numNodes + 1, len(soilTemp)):
+        soilTemp[I] = TAV
+
+    tempNew[:numNodes + 1 + 1] = soilTemp
+
+    minTempYesterday:float
+    minTempYesterday = TMIN
+    maxTempYesterday:float
+    maxTempYesterday = TMAX
 
     return (soilTemp,
     minSoilTemp,
@@ -48,7 +159,7 @@ def init_campbell(NLAYR: int,
     thermalConductivity,
     thermalConductance,
     heatStorage)
-#%%CyML Init End%%
+    #%%CyML Init End%%
 
 #%%CyML Model Begin%%
 def model_campbell(NLAYR: int,
@@ -369,10 +480,9 @@ def model_campbell(NLAYR: int,
     #%%CyML Compute End%%
     
     return soilTemp, minSoilTemp, maxSoilTemp, aveSoilTemp, morningSoilTemp, tempNew, heatCapacity, thermalConductivity, thermalConductance, heatStorage
-
-
 #%%CyML Model End%%
     
+
 def compute(soilTemp: 'Array[float]', NLAYR: int):
     soilTemp2: 'Array[float]'=[]
     
@@ -381,3 +491,86 @@ def compute(soilTemp: 'Array[float]', NLAYR: int):
         soilTemp2.append(float(i))
 
     return soilTemp2
+
+def doThermalConductivityCoeffs(nbLayers:int, 
+                                numNodes:int,
+                                bulkDensity: 'Array[float]',
+                                clay: 'Array[float]'):
+
+    thermCondPar1 : 'Array[float]' = []
+    thermCondPar2 : 'Array[float]' = []
+    thermCondPar3 : 'Array[float]' = []
+    thermCondPar4 : 'Array[float]' = []
+    layer:int
+    element:int
+
+    thermCondPar1 = [0.0]*(numNodes + 1)
+    thermCondPar2 = [0.0]*(numNodes + 1)
+    thermCondPar3 = [0.0]*(numNodes + 1)
+    thermCondPar4 = [0.0]*(numNodes + 1)
+
+    for layer in range(1, nbLayers + 2):
+         element = layer
+         thermCondPar1[element] = 0.65 - 0.78 * bulkDensity[layer] + 0.6 * bulkDensity[layer] ** 2
+         thermCondPar2[element] = 1.06 * bulkDensity[layer]
+         thermCondPar3[element] = Divide(2.6, sqrt(clay[layer]), 0.0)
+         thermCondPar3[element] = 1.0 + thermCondPar3[element]
+         thermCondPar4[element] = 0.03 + 0.1 * bulkDensity[layer] ** 2
+
+    return (thermCondPar1,thermCondPar2,thermCondPar3,thermCondPar4)
+
+
+def Divide(val1:float, 
+           val2:float, 
+           errVal:float):
+
+    returnValue:float = errVal
+    if val2 != 0.0:
+        returnValue = val1 / val2
+
+    return returnValue
+
+
+def CalcSoilTemp(soilTempIO: 'Array[float]',
+                 thickness: 'Array[float]',
+                tav:float,
+                tamp:float, 
+                doy:int, 
+                latitude:float):
+
+    cumulativeDepth: 'Array[float]'
+    soilTemp: 'Array[float]'
+    Layer:int
+    nodes:int
+    tempValue:float
+
+    cumulativeDepth = [0.0]*len(thickness)
+    if len(thickness) > 0:
+        cumulativeDepth[0] = thickness[0]
+        for Layer in range(1, len(thickness)):
+            cumulativeDepth[Layer] = thickness[Layer] + cumulativeDepth[Layer - 1]
+
+    w:float
+    pi:float
+    pi = 3.141592653589793
+    w = pi
+    w = 2 * w
+    w = w / (365.25 * 24.0 * 3600.0)
+    dh:float
+    dh = 0.6
+    zd:float 
+    zd = sqrt(2 * dh / w)
+    offset:float = 0.25
+    if latitude > 0.0:
+        offset = -0.25
+
+    soilTemp = [0.0]*(numNodes + 2)
+    for nodes in range(1, numNodes + 1):
+        soilTemp[nodes] = tav + tamp 
+        soilTemp[nodes] = soilTemp[nodes] * exp(-1 * cumulativeDepth[nodes] / zd) 
+        tempValue = pi
+        tempValue = 2.0 * tempValue - cumulativeDepth[nodes] / zd
+        soilTemp[nodes] = soilTemp[nodes] * sin((doy / 365.0 + offset) * tempValue)
+
+    soilTempIO[SURFACEnode:SURFACEnode + numNodes] = soilTemp[0:numNodes]
+    return soilTempIO

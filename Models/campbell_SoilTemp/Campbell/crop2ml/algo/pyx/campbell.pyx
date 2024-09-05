@@ -1,0 +1,1 @@
+soilTemp=compute(soilTemp, NLAYR)

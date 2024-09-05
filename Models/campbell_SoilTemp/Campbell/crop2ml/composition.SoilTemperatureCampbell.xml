@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ModelComposition PUBLIC " " "https://raw.githubusercontent.com/AgriculturalModelExchangeInitiative/crop2ml/master/ModelComposition.dtd">
+<ModelComposition name="SoilTemperatureCampbell" id="Campbell..SoilTemperatureCampbell" version="1.0" timestep="1">
+    <Description>
+        <Title>SoilTemperature model from Campbell implemented in APSIM</Title>
+        <Authors></Authors>
+        <Institution>CIRAD and INRAE</Institution>
+        <Reference>Campbell model (TODO)</Reference>
+        <ExtendedDescription>TODO</ExtendedDescription>
+        <ShortDescription>TODO</ShortDescription></Description>
+    <Composition>
+        <Links/></Composition></ModelComposition>
