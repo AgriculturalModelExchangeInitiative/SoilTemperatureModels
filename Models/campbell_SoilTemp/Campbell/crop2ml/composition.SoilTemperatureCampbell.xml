@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE ModelComposition PUBLIC " " "https://raw.githubusercontent.com/AgriculturalModelExchangeInitiative/crop2ml/master/ModelComposition.dtd">
-<ModelComposition name="SoilTemperatureCampbell" id="Campbell..SoilTemperatureCampbell" version="1.0" timestep="1">
+<ModelComposition name="SoilTemperatureCampbell" id="...SoilTemperatureCampbell" version="1.0" timestep="1">
     <Description>
         <Title>SoilTemperature model from Campbell implemented in APSIM</Title>
         <Authors></Authors>
@@ -9,4 +9,33 @@
         <ExtendedDescription>TODO</ExtendedDescription>
         <ShortDescription>TODO</ShortDescription></Description>
     <Composition>
-        <Links/></Composition></ModelComposition>
+        <Model name="campbell" id="...campbell" filename="unit.campbell.xml"/>
+        <Links>
+            <InputLink target="campbell.DOY" source="DOY"/>
+            <InputLink target="campbell.TMAX" source="TMAX"/>
+            <InputLink target="campbell.ESAD" source="ESAD"/>
+            <InputLink target="campbell.BD" source="BD"/>
+            <InputLink target="campbell.TAMP" source="TAMP"/>
+            <InputLink target="campbell.TMIN" source="TMIN"/>
+            <InputLink target="campbell.XLAT" source="XLAT"/>
+            <InputLink target="campbell.CLAY" source="CLAY"/>
+            <InputLink target="campbell.EOAD" source="EOAD"/>
+            <InputLink target="campbell.ESP" source="ESP"/>
+            <InputLink target="campbell.canopyHeight" source="canopyHeight"/>
+            <InputLink target="campbell.DEPTH" source="DEPTH"/>
+            <InputLink target="campbell.SW" source="SW"/>
+            <InputLink target="campbell.TAV" source="TAV"/>
+            <InputLink target="campbell.SALB" source="SALB"/>
+            <InputLink target="campbell.THICK" source="THICK"/>
+            <InputLink target="campbell.NLAYR" source="NLAYR"/>
+            <InputLink target="campbell.SRAD" source="SRAD"/>
+            <OutputLink target="soilTemp" source="campbell.soilTemp"/>
+            <OutputLink target="minSoilTemp" source="campbell.minSoilTemp"/>
+            <OutputLink target="maxSoilTemp" source="campbell.maxSoilTemp"/>
+            <OutputLink target="aveSoilTemp" source="campbell.aveSoilTemp"/>
+            <OutputLink target="morningSoilTemp" source="campbell.morningSoilTemp"/>
+            <OutputLink target="tempNew" source="campbell.tempNew"/>
+            <OutputLink target="heatCapacity" source="campbell.heatCapacity"/>
+            <OutputLink target="thermalConductivity" source="campbell.thermalConductivity"/>
+            <OutputLink target="thermalConductance" source="campbell.thermalConductance"/>
+            <OutputLink target="heatStorage" source="campbell.heatStorage"/></Links></Composition></ModelComposition>

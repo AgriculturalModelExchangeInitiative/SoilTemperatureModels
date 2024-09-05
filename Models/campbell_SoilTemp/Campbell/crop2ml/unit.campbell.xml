@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE ModelUnit PUBLIC " " "https://raw.githubusercontent.com/AgriculturalModelExchangeInitiative/crop2ml/master/ModelUnit.dtd">
-<ModelUnit modelid="Campbell..campbell" name="campbell" timestep="1" version="1.0">
+<ModelUnit modelid="...campbell" name="campbell" timestep="1" version="1.0">
     <Description>
         <Title>SoilTemperature model from Campbell implemented in APSIM</Title>
         <Authors></Authors>
@@ -42,6 +42,8 @@
         <Output name="heatStorage" description="Heat storage between layers (internal)" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit="J/s/K"/></Outputs>
     <Initialization name="init_campbell" language="cyml" filename="init.campbell.pyx"/>
     <Function name="compute" description="" language="cyml" type="external" filename="algo/pyx/compute.pyx"/>
+    <Function name="doThermalConductivityCoeffs" description="" language="cyml" type="external" filename="algo/pyx/doThermalConductivityCoeffs.pyx"/>
+    <Function name="CalcSoilTemp" description="" language="cyml" type="external" filename="algo/pyx/CalcSoilTemp.pyx"/>
     <Algorithm language="cyml" platform="" filename="algo/pyx/campbell.pyx"/>
     <Parametersets/>
     <Testsets/></ModelUnit>

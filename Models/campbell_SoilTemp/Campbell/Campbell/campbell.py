@@ -47,6 +47,7 @@ def init_campbell(NLAYR: int,
     thermCondPar2 : 'Array[float]' = []
     thermCondPar3 : 'Array[float]' = []
     thermCondPar4 : 'Array[float]' = []
+    InitialValues:'Array[float]' = []
 
     #Constants
     soilRoughnessHeight:float
@@ -63,23 +64,36 @@ def init_campbell(NLAYR: int,
     AIRnode = 0
     SURFACEnode = 1
     TOPSOILnode = 2
+    
+    airPressure:float
+    sumThickness:float
+    BelowProfileDepth:float
+    thicknessForPhantomNodes:float
+    ave_temp:float
+    I:int
+    numNodes:int
+    firstPhantomNode:int
+    layer:int
+    node:int    
+    surfaceT:float
+    minTempYesterday:float
+    maxTempYesterday:float
 
     canopyHeight = max(canopyHeight, soilRoughnessHeight) * 0.001
-    airPressure:float = 101325.0 * (1.0 - 2.25577e-5 * AltitudeMetres) ** 5.25588 * 0.01
-    numNodes:int = NLAYR + NUM_PHANTOM_NODES
+    airPressure = 101325.0 * (1.0 - 2.25577e-5 * AltitudeMetres) ** 5.25588 * 0.01
+    numNodes = NLAYR + NUM_PHANTOM_NODES
 
     thickness = [0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
     thickness[:len(THICK)] = THICK
-    sumThickness:float = 0.0
+    sumThickness = 0.0
     #sumThickness = sum(thickness[1:NLAYR + 1])
-    I:int
     for I in range(0, NLAYR, 1):
         sumThickness = sumThickness + thickness[I]
-    BelowProfileDepth:float = max(CONSTANT_TEMPdepth * 1000.0 - sumThickness, 1.0 * 1000.0)
-    thicknessForPhantomNodes:float = BelowProfileDepth * 2.0 / NUM_PHANTOM_NODES
-    firstPhantomNode:int = NLAYR
+    BelowProfileDepth = max(CONSTANT_TEMPdepth * 1000.0 - sumThickness, 1.0 * 1000.0)
+    thicknessForPhantomNodes = BelowProfileDepth * 2.0 / NUM_PHANTOM_NODES
+    firstPhantomNode = NLAYR
     for I in range(firstPhantomNode, firstPhantomNode + NUM_PHANTOM_NODES):
-        thickness[i] = thicknessForPhantomNodes
+        thickness[I] = thicknessForPhantomNodes
 
     depth = [0.0]*(numNodes + 1 + 1)
     depth[:min(numNodes + 1 + 1, len(DEPTH))] = DEPTH
@@ -87,7 +101,6 @@ def init_campbell(NLAYR: int,
     depth[SURFACEnode] = 0.0
     depth[TOPSOILnode] = 0.5 * thickness[1] * 0.001
 
-    node:int
     for node in range(TOPSOILnode, numNodes):
         sumThickness = 0.0
         for I in range(1, node):
@@ -95,7 +108,6 @@ def init_campbell(NLAYR: int,
         depth[node + 1] = (sumThickness + 0.5 * thickness[node]) * 0.001
 
      # Bulk Density
-    layer:int
     bulkDensity = [0.0]*(NLAYR + 1 + NUM_PHANTOM_NODES)
     bulkDensity[:min(NLAYR + 1 + NUM_PHANTOM_NODES, len(BD))] = BD
     bulkDensity[numNodes - 1] = bulkDensity[NLAYR]
@@ -129,13 +141,10 @@ def init_campbell(NLAYR: int,
     thermCondPar1,thermCondPar2,thermCondPar3,thermCondPar4 = doThermalConductivityCoeffs(NLAYR, numNodes, bulkDensity, clay)
     soilTemp = CalcSoilTemp(soilTemp, thickness, TAV, TAMP, DOY, XLAT)
 
-    InitialValues:'Array[float]' = []
     InitialValues = [0.0]*(NLAYR)
     InitialValues[:NLAYR] = soilTemp[TOPSOILnode:]
 
-    ave_temp:float
     ave_temp = (TMAX + TMIN) * 0.5
-    surfaceT:float
     surfaceT = (1.0 - SALB) * (ave_temp + (TMAX - ave_temp) * sqrt(max(SRAD, 0.1) * 23.8846 / 800.0)) + SALB * ave_temp
     soilTemp[SURFACEnode] = surfaceT
 
@@ -144,9 +153,7 @@ def init_campbell(NLAYR: int,
 
     tempNew[:numNodes + 1 + 1] = soilTemp
 
-    minTempYesterday:float
     minTempYesterday = TMIN
-    maxTempYesterday:float
     maxTempYesterday = TMAX
 
     return (soilTemp,
@@ -492,6 +499,7 @@ def compute(soilTemp: 'Array[float]', NLAYR: int):
 
     return soilTemp2
 
+
 def doThermalConductivityCoeffs(nbLayers:int, 
                                 numNodes:int,
                                 bulkDensity: 'Array[float]',
@@ -543,6 +551,11 @@ def CalcSoilTemp(soilTempIO: 'Array[float]',
     Layer:int
     nodes:int
     tempValue:float
+    w:float
+    pi:float
+    dh:float
+    zd:float 
+    offset:float
 
     cumulativeDepth = [0.0]*len(thickness)
     if len(thickness) > 0:
@@ -550,17 +563,13 @@ def CalcSoilTemp(soilTempIO: 'Array[float]',
         for Layer in range(1, len(thickness)):
             cumulativeDepth[Layer] = thickness[Layer] + cumulativeDepth[Layer - 1]
 
-    w:float
-    pi:float
     pi = 3.141592653589793
     w = pi
     w = 2 * w
     w = w / (365.25 * 24.0 * 3600.0)
-    dh:float
     dh = 0.6
-    zd:float 
     zd = sqrt(2 * dh / w)
-    offset:float = 0.25
+    offset = 0.25
     if latitude > 0.0:
         offset = -0.25
 

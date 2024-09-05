@@ -8,6 +8,7 @@ cdef float thermCondPar1[]
 cdef float thermCondPar2[]
 cdef float thermCondPar3[]
 cdef float thermCondPar4[]
+cdef float InitialValues[]
 cdef float soilRoughnessHeight 
 cdef float AltitudeMetres 
 cdef int NUM_PHANTOM_NODES 
@@ -16,16 +17,15 @@ cdef int AIRnode
 cdef int SURFACEnode 
 cdef int TOPSOILnode 
 cdef float airPressure 
-cdef int numNodes 
 cdef float sumThickness 
-cdef int I 
 cdef float BelowProfileDepth 
 cdef float thicknessForPhantomNodes 
-cdef int firstPhantomNode 
-cdef int node 
-cdef int layer 
-cdef float InitialValues[]
 cdef float ave_temp 
+cdef int I 
+cdef int numNodes 
+cdef int firstPhantomNode 
+cdef int layer 
+cdef int node 
 cdef float surfaceT 
 cdef float minTempYesterday 
 cdef float maxTempYesterday 
@@ -48,7 +48,7 @@ BelowProfileDepth=max(CONSTANT_TEMPdepth * 1000.0 - sumThickness, 1.0 * 1000.0)
 thicknessForPhantomNodes=BelowProfileDepth * 2.0 / NUM_PHANTOM_NODES
 firstPhantomNode=NLAYR
 for I in range(firstPhantomNode , firstPhantomNode + NUM_PHANTOM_NODES , 1):
-    thickness[]=thicknessForPhantomNodes
+    thickness[I]=thicknessForPhantomNodes
 depth=0.0 * (numNodes + 1 + 1)
 depth[min(numNodes + 1 + 1, len(DEPTH))]=DEPTH
 depth[AIRnode]=0.0
