@@ -200,9 +200,9 @@ def InterpTemp(time_hours: float, tmax: float, tmin: float, max_temp_yesterday: 
     current_temp: float
     if time < min_t_time:
         # Before the time of minimum temperature
-        midnight_temp: float = math.sin((0.0 + 0.25 - max_t_time) * 2.0 * math.pi) \
-                               * (max_temp_yesterday - min_temp_yesterday) / 2.0 \
-                               + (max_temp_yesterday + min_temp_yesterday) / 2.0
+        midnight_temp: float = (sin((0.0 + 0.25 - max_t_time) * 2.0 * pi) 
+                               * (max_temp_yesterday - min_temp_yesterday) / 2.0 
+                               + (max_temp_yesterday + min_temp_yesterday) / 2.0)
         t_scale: float = (min_t_time - time) / min_t_time
 
         # Ensure t_scale is within bounds (0 <= t_scale <= 1)
@@ -394,7 +394,6 @@ def doThomas(newTemps: 'Array[float]',
         - The boundary conditions are accounted for at the soil surface and at the bottom of the soil column.
         - The function calculates coefficients for intermediate nodes and updates soil temperature values.
     """    
-    #numNodes: int = len(newTemps) - 1
     nu: float = 0.6  
     AIRnode: int = 0  # Example node for air node
     SURFACEnode: int = 1  # Example value for surface node
@@ -402,17 +401,18 @@ def doThomas(newTemps: 'Array[float]',
     MJ2J: float = 1000000.0 # Megajoules to joules conversion factor
     LAMBDA: float = 2465000.0  # Latent heat of vaporization of water (J/kg)
     tempStepSec: float = 1440.0 * 60.0
-    heatStorage: list[float] = [0] * (numNodes + 1)  # Array for heat storage
+    heatStorage: 'Array[float]' = [0] * (numNodes + 1)  # Array for heat storage
 
-    a: list[float] = [0.0] * (numNodes + 2)  # Thermal conductance at next node
-    b: list[float] = [0.0] * (numNodes + 1)  # Heat storage at node
-    c: list[float] = [0.0] * (numNodes + 1)  # Thermal conductance at node
-    d: list[float] = [0.0] * (numNodes + 1)  # Heat flux at node
+    a: 'Array[float]' = [0.0] * (numNodes + 2)  # Thermal conductance at next node
+    b: 'Array[float]' = [0.0] * (numNodes + 1)  # Heat storage at node
+    c: 'Array[float]' = [0.0] * (numNodes + 1)  # Thermal conductance at node
+    d: 'Array[float]' = [0.0] * (numNodes + 1)  # Heat flux at node
 
     thermalConductance = [0.] * (numNodes+1)
 
     thermalConductance[AIRnode] = thermalConductivity[AIRnode]
 
+    node : int = SURFACEnode
     for node in range(SURFACEnode, numNodes + 1):
         VolSoilAtNode: float = 0.5 * (depth[node + 1] - depth[node - 1])
         heatStorage[node] = volSpecHeatSoil[node] * VolSoilAtNode / gDt
