@@ -4,7 +4,10 @@ using System.Linq;
 public class temp_amp
 {
     
-        public temp_amp() { }
+    /// <summary>
+    /// Constructor of the temp_amp component")
+    /// </summary>  
+    public temp_amp() { }
     
     public void  CalculateModel(soil_tempState s, soil_tempState s1, soil_tempRate r, soil_tempAuxiliary a, soil_tempExogenous ex)
     {
