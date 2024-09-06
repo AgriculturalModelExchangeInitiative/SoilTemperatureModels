@@ -45,7 +45,6 @@ def doNetRadiation(
         else:
             m1[timestepNumber] = 0.0
 
-
     W2MJ: float = HR2MIN * MIN2SEC * J2MJ      # convert W to MJ
     psr: float = m1Tot * SOLARconst * W2MJ   # potential solar radiation for the day (MJ/m^2)
     fr: float = Divide(max(rad, 0.1), psr, 0)               # ratio of potential to measured daily solar radiation (0-1)
@@ -82,13 +81,101 @@ def Zero( arr: 'Array[float]'):
     i: int = 0
     for i in range(len(arr)):
         arr[i] = 0.
+
+def mapLayer2Node(layerArray: 'Array[float]', nodeArray: 'Array[float]', thickness: 'Array[float]', depth: 'Array[float]', numNodes: int) -> None:
+    """
+    Map layer properties to nodes by averaging properties between layers and nodes.
+
+    Parameters:
+    layerArray (list[float]): Array containing layer properties.
+    nodeArray (list[float]): Array to store node properties.
+    thickness (list[float]): Thickness of each soil layer (mm).
+    depth (list[float]): Depth of nodes (m).
+    numNodes (int): Number of nodes.
+    """
+    # Constant
+    SURFACEnode: int = 1
+    M2MM: float = 1000.0
+
+    i: int = 0
+    for node in range(SURFACEnode, numNodes + 1):
+        layer: float = node - 1  # Node n lies at the center of layer n-1
+        depthLayerAbove: float = 0.0
+
+        if layer >= 1:
+            for i in range(1, layer + 1):
+                depthLayerAbove += thickness[i]
+
+        d1 = depthLayerAbove - (depth[node] * M2MM)
+        d2 = depth[node + 1] * M2MM - depthLayerAbove
+        dSum = d1 + d2
+
+        if dSum != 0:
+            nodeArray[node] = (layerArray[layer] * d1 / dSum) + (layerArray[layer + 1] * d2 / dSum)
+        else:
+            nodeArray[node] = 0  # To prevent division by zero
+
+    return nodeArray
+
     
-def doVolumetricSpecificHeat(soilWater: 'Array[float]'):
-    return
+def doVolumetricSpecificHeat(soilW: 'Array[float]', bulkDensity: 'Array[float]', numLayers: int) -> 'Array[float]':
+    """
+    Calculate the volumetric specific heat (volumetric heat capacity Cv) of the soil layer.
+    Based on Campbell, G.S. (1985) "Soil physics with BASIC: Transport models for soil-plant systems".
 
-def doThermConductivityCampbell(soilWater: 'Array[float]'):
-    return
+    Parameters:
+    soilW (list[float]): Soil water content by layer.
+    bulkDensity (list[float]): Bulk density by layer.
+    numLayers (int): Number of soil layers.
+    volSpecHeatClay (float): Volumetric specific heat of clay.
+    volSpecHeatWater (float): Volumetric specific heat of water.
 
+    Returns:
+    list[float]: Volumetric specific heat of the soil layers (Cv) [Joules*m-3*K-1].
+    """
+    SPECIFICbd: float = 2.65  # Specific bulk density (g/cc)
+    volSpecHeatClay: float = 2.39e6  # [Joules*m-3*K-1]
+    volSpecHeatWater: float = 4.18e6       # [Joules*m-3*K-1]
+
+    volSpecHeatSoil: 'Array[float]' = [0.0] * (numLayers + 1)
+
+    for layer in range(1, numLayers + 1):
+        solidity = bulkDensity[layer] / SPECIFICbd
+        volSpecHeatSoil[layer] = volSpecHeatClay * solidity + volSpecHeatWater * soilW[layer]
+
+    # Assume surface node Cv is the same as top layer Cv
+    volSpecHeatSoil[0] = volSpecHeatSoil[1]  # Surface node Cv is the same as top layer Cv
+    return volSpecHeatSoil
+
+
+def doThermConductivityCampbell(soilW: 'Array[float]', 
+                                thermCondPar1: 'Array[float]', thermCondPar2: 'Array[float]', thermCondPar3: 'Array[float]', thermCondPar4: 'Array[float]', 
+                                thermalConductivity: 'Array[float]', thickness: 'Array[float]', depth: 'Array[float]',
+                                numNodes: int) -> 'Array[float]':
+    """
+    Calculate the thermal conductivity of the soil layer based on Campbell's model.
+
+    Parameters:
+    soilW (list[float]): Soil water content by layer.
+    thermCondPar1 (list[float]): Parameter 1 for thermal conductivity calculation.
+    thermCondPar2 (list[float]): Parameter 2 for thermal conductivity calculation.
+    thermCondPar3 (list[float]): Parameter 3 for thermal conductivity calculation.
+    thermCondPar4 (list[float]): Parameter 4 for thermal conductivity calculation.
+    numNodes (int): Number of nodes for the soil layers.
+
+    Returns:
+    list[float]: Thermal conductivity values for the soil layers.
+    """
+    thermCondLayers: 'Array[float]' = [0.0] * (numNodes + 1)
+
+    layer: int = 1
+    for layer in range(1, numNodes + 1):
+        temp = pow((thermCondPar3[layer] * soilW[layer]), 4) * (-1)
+        thermCondLayers[layer] = thermCondPar1[layer] + (thermCondPar2[layer] * soilW[layer]) - (thermCondPar1[layer] - thermCondPar4[layer]) * exp(temp)
+
+    # Map thermal conductivity layers to nodes
+    thermalConductivity = mapLayer2Node(thermCondLayers, thermalConductivity, thickness=thickness, depth=depth, numNodes=numNodes)
+    return thermalConductivity
 
 def InterpTemp(time_hours: float, tmax: float, tmin: float, max_temp_yesterday: float, min_temp_yesterday: float) -> float:
     """
@@ -285,6 +372,128 @@ def boundaryLayerConductanceF(TNew_zb: list,
     return BoundaryLayerCond
 
 
+def doThomas(newTemps: 'Array[float]', 
+             soilTemp: 'Array[float]',
+             thermalConductivity: 'Array[float]',
+             depth: 'Array[float]',
+             volSpecHeatSoil: 'Array[float]',
+             gDt: float,
+             netRadiation: float, 
+             actE: float, numNodes: int) -> None:
+    """
+    Numerical solution of the differential equations. Solves the
+    tri_diagonal matrix using the Thomas algorithm.
+
+    Based on Thomas, L.H. (1946) "Elliptic problems in linear difference equations over a network"
+    Watson Sci Comput. Lab. Report., (Columbia University, New York).
+    
+    Remarks:
+        This method uses John Hargreaves' version from Campbell Program 4.1.
+
+        - The Thomas algorithm is used to solve the tridiagonal system.
+        - The boundary conditions are accounted for at the soil surface and at the bottom of the soil column.
+        - The function calculates coefficients for intermediate nodes and updates soil temperature values.
+    """    
+    #numNodes: int = len(newTemps) - 1
+    nu: float = 0.6  
+    AIRnode: int = 0  # Example node for air node
+    SURFACEnode: int = 1  # Example value for surface node
+    gDt: float = 1.0  # Example value for gDt
+    MJ2J: float = 1000000.0 # Megajoules to joules conversion factor
+    LAMBDA: float = 2465000.0  # Latent heat of vaporization of water (J/kg)
+    tempStepSec: float = 1440.0 * 60.0
+    heatStorage: list[float] = [0] * (numNodes + 1)  # Array for heat storage
+
+    a: list[float] = [0.0] * (numNodes + 2)  # Thermal conductance at next node
+    b: list[float] = [0.0] * (numNodes + 1)  # Heat storage at node
+    c: list[float] = [0.0] * (numNodes + 1)  # Thermal conductance at node
+    d: list[float] = [0.0] * (numNodes + 1)  # Heat flux at node
+
+    thermalConductance = [0.] * (numNodes+1)
+
+    thermalConductance[AIRnode] = thermalConductivity[AIRnode]
+
+    for node in range(SURFACEnode, numNodes + 1):
+        VolSoilAtNode: float = 0.5 * (depth[node + 1] - depth[node - 1])
+        heatStorage[node] = volSpecHeatSoil[node] * VolSoilAtNode / gDt
+        elementLength: float = depth[node + 1] - depth[node]
+        thermalConductance[node] = thermalConductivity[node] / elementLength
+
+    g: float = 1 - nu
+    for node in range(SURFACEnode, numNodes + 1):
+        c[node] = (-nu) * thermalConductance[node]
+        a[node + 1] = c[node]
+        b[node] = nu * (thermalConductance[node] + thermalConductance[node - 1]) + heatStorage[node]
+        d[node] = (
+            g * thermalConductance[node - 1] * soilTemp[node - 1]
+            + (heatStorage[node] - g * (thermalConductance[node] + thermalConductance[node - 1])) * soilTemp[node]
+            + g * thermalConductance[node] * soilTemp[node + 1]
+        )
+
+    a[SURFACEnode] = 0.0
+
+    sensibleHeatFlux: float = nu * thermalConductance[AIRnode] * newTemps[AIRnode]
+    RadnNet: float = netRadiation * MJ2J / gDt
+    LatentHeatFlux: float = actE * LAMBDA / tempStepSec
+    SoilSurfaceHeatFlux: float = sensibleHeatFlux + RadnNet - LatentHeatFlux
+    d[SURFACEnode] += SoilSurfaceHeatFlux
+
+    d[numNodes] += nu * thermalConductance[numNodes] * newTemps[numNodes + 1]
+
+    for node in range(SURFACEnode, numNodes):
+        c[node] /= b[node]
+        d[node] /= b[node]
+        b[node + 1] -= a[node + 1] * c[node]
+        d[node + 1] -= a[node + 1] * d[node]
+
+    newTemps[numNodes] = d[numNodes] / b[numNodes]
+
+    for node in range(numNodes - 1, SURFACEnode - 1, -1):
+        newTemps[node] = d[node] - c[node] * newTemps[node + 1]
+
+    return newTemps
+
+def doUpdate(tempNew: 'Array[float]',
+             soilTemp: 'Array[float]',
+             minSoilTemp: 'Array[float]',
+             maxSoilTemp: 'Array[float]',
+             aveSoilTemp: 'Array[float]',
+             thermalConductivity: 'Array[float]',
+             boundaryLayerConductance: float,
+             IterationsPerDay: int, 
+             timeOfDaySecs: float,
+             gDt: float,
+             numNodes: int) -> None:
+    """
+    Determine min, max, and average soil temperature from the half-hourly iterations.
+    
+    Returns:
+        None: The function modifies the global min, max, and average soil temperature arrays.
+    """
+    SURFACEnode: int = 1  # Example value for surface node
+
+    # Now transfer to old temperature array
+    soilTemp[:] = tempNew[:]
+
+    # Initialize the min & max to soil temperature if this is the first iteration
+    if timeOfDaySecs < gDt * 1.2:
+        node: int = 1
+        for node in range(SURFACEnode, numNodes + 1):
+            minSoilTemp[node] = soilTemp[node]
+            maxSoilTemp[node] = soilTemp[node]
+
+    for node in range(SURFACEnode, numNodes + 1):
+        if soilTemp[node] < minSoilTemp[node]:
+            minSoilTemp[node] = soilTemp[node]
+        elif soilTemp[node] > maxSoilTemp[node]:
+            maxSoilTemp[node] = soilTemp[node]
+        aveSoilTemp[node] += soilTemp[node] / float(IterationsPerDay)
+
+    boundaryLayerConductance += Divide(thermalConductivity[AIRnode], float(IterationsPerDay), 0)
+    return soilTemp, boundaryLayerConductance
+
+
+
 def doProcess(
         numLayers: int,
         thickness: 'Array[float]',
@@ -305,6 +514,7 @@ def doProcess(
         potET: float, 
         actE: float, 
         airPressure: float,
+        thermCondPar1: 'Array[float]', thermCondPar2: 'Array[float]', thermCondPar3: 'Array[float]', thermCondPar4: 'Array[float]',
         # add input/outputs
         soilTemp: 'Array[float]',
         minSoilTemp: 'Array[float]',
@@ -338,7 +548,6 @@ def doProcess(
     BoundaryLayerConductanceIterations: int  = 1
 
 
-
     cva: float = 0.0
     cloudFr: float = 0.0
     solarRadn: 'Array[float]' = [0.] * 49   # Total incoming short wave solar radiation per timestep
@@ -367,9 +576,12 @@ def doProcess(
     for layer in range(numLayers + 1, numLayers + 1 + NUM_PHANTOM_NODES + 1):
         soilWater[layer] = soilWater[numLayers]
 
-    #####
-    doVolumetricSpecificHeat(soilWater)      # RETURNS volSpecHeatSoil() (volumetric heat capacity of nodes)
-    doThermConductivityCampbell(soilWater)     # RETURNS gThermConductivity_zb()
+    numNodes: int = numLayers + NUM_PHANTOM_NODES
+    volSpecHeatSoil = doVolumetricSpecificHeat(soilWater, bulkDensity=bulkDensity, numLayers=numLayers)      # RETURNS volSpecHeatSoil() (volumetric heat capacity of nodes)
+    thermalConductivity = doThermConductivityCampbell(soilWater,
+                                thermCondPar1, thermCondPar2, thermCondPar3, thermCondPar4,
+                                thermalConductivity=thermalConductivity,
+                                thickness=thickness, depth=depth, numNodes=numNodes)     # RETURNS gThermConductivity_zb()
 
     timeStepIteration: int = 1
     for timeStepIteration in range(1, ITERATIONSperDAY+1):
@@ -387,15 +599,39 @@ def doProcess(
 
         thermalConductivity[AIRnode] = boundaryLayerConductanceF(tempNew, tMean, potE, potET, airPressure, canopyHeight)
     
+        #####
+
         # Iteratively update thermal conductivity and temperature using boundary layer conductance
         iteration: int= 1
         for iteration in range(1, BoundaryLayerConductanceIterations + 1):
-            doThomas(tempNew, netRadiation, actE)  # Update tempNew
-            thermalConductivity[AIRnode] = boundaryLayerConductanceF(tempNew, tMean, potE, potET)
+            tempNew = doThomas(tempNew, soilTemp=soilTemp, 
+                        thermalConductivity=thermalConductivity, depth=depth, 
+                        volSpecHeatSoil=volSpecHeatSoil, 
+                        gDt=gDt,
+                        netRadiation=netRadiation, 
+                        actE=actE,
+                        numNodes=numNodes)  # Update tempNew
+            thermalConductivity[AIRnode] = boundaryLayerConductanceF(tempNew, tMean, potE, potET, airPressure, canopyHeight)
         
         # Final calculation with updated boundary layer conductance
-        doThomas(tempNew, netRadiation, actE)  # Update tempNew again
-        doUpdate(ITERATIONSperDAY, timeOfDaySecs)
+        tempNew = doThomas(tempNew, soilTemp=soilTemp, 
+                        thermalConductivity=thermalConductivity, depth=depth, 
+                        volSpecHeatSoil=volSpecHeatSoil, 
+                        gDt=gDt,
+                        netRadiation=netRadiation, 
+                        actE=actE,
+                        numNodes=numNodes) # Update tempNew again
+        soilTemp, _boundaryLayerConductance = doUpdate(tempNew, 
+                 soilTemp,
+                 minSoilTemp, 
+                 maxSoilTemp,
+                 aveSoilTemp,
+                 thermalConductivity,
+                 _boundaryLayerConductance,
+                 ITERATIONSperDAY, 
+                 timeOfDaySecs,
+                 gDt,
+                 numNodes)
         
         # Check for precision and update morning soil temperature
         precision: float = min(timeOfDaySecs, 5.0 * HR2MIN * MIN2SEC) * 0.0001
