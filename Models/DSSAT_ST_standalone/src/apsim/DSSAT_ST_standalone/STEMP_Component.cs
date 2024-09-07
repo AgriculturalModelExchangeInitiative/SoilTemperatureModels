@@ -227,34 +227,34 @@ public class STEMP_Component
     /// <param name="toCopy"></param>
     public STEMP_Component(STEMP_Component toCopy): this() // copy constructor 
     {
-        MSALB = toCopy.MSALB;
-        NL = toCopy.NL;
-        
-        for (int i = 0; i < NL; i++)
-        { LL[i] = toCopy.LL[i]; }
+            MSALB = toCopy.MSALB;
+            NL = toCopy.NL;
+            
+            for (int i = 0; i < NL; i++)
+                { LL[i] = toCopy.LL[i]; }
     
-        NLAYR = toCopy.NLAYR;
-        
-        for (int i = 0; i < NL; i++)
-        { DS[i] = toCopy.DS[i]; }
+            NLAYR = toCopy.NLAYR;
+            
+            for (int i = 0; i < NL; i++)
+                { DS[i] = toCopy.DS[i]; }
     
-        
-        for (int i = 0; i < NL; i++)
-        { DLAYR[i] = toCopy.DLAYR[i]; }
+            
+            for (int i = 0; i < NL; i++)
+                { DLAYR[i] = toCopy.DLAYR[i]; }
     
-        ISWWAT = toCopy.ISWWAT;
-        
-        for (int i = 0; i < NL; i++)
-        { BD[i] = toCopy.BD[i]; }
+            ISWWAT = toCopy.ISWWAT;
+            
+            for (int i = 0; i < NL; i++)
+                { BD[i] = toCopy.BD[i]; }
     
-        
-        for (int i = 0; i < NL; i++)
-        { SW[i] = toCopy.SW[i]; }
+            
+            for (int i = 0; i < NL; i++)
+                { SW[i] = toCopy.SW[i]; }
     
-        XLAT = toCopy.XLAT;
-        
-        for (int i = 0; i < NL; i++)
-        { DUL[i] = toCopy.DUL[i]; }
+            XLAT = toCopy.XLAT;
+            
+            for (int i = 0; i < NL; i++)
+                { DUL[i] = toCopy.DUL[i]; }
     
     }
 }

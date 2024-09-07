@@ -180,7 +180,7 @@ public class RangeOfSoilTemperaturesDAYCENT
             if (i == 0)
             {
                 _DepthCenterLayer = LayerThickness[0] * 100 / 2;
-                SoilTemperatureRangeByLayers[0] = SurfaceDiurnalRange * Math.Exp(-_DepthCenterLayer * Math.Pow(0.000050d / ThermalDiffusivity[0], 0.50d));
+                SoilTemperatureRangeByLayers[0] = SurfaceDiurnalRange * Math.Exp(-_DepthCenterLayer * Math.Pow(0.00005 / ThermalDiffusivity[0], 0.5));
                 SoilTemperatureMaximum[0] = SoilTemperatureByLayers[0] + (SoilTemperatureRangeByLayers[0] / 2);
                 SoilTemperatureMinimum[0] = SoilTemperatureByLayers[0] - (SoilTemperatureRangeByLayers[0] / 2);
             }
@@ -188,7 +188,7 @@ public class RangeOfSoilTemperaturesDAYCENT
             {
                 _DepthBottom = _DepthBottom + (LayerThickness[(i - 1)] * 100);
                 _DepthCenterLayer = _DepthBottom + (LayerThickness[i] * 100 / 2);
-                SoilTemperatureRangeByLayers[i] = SurfaceDiurnalRange * Math.Exp(-_DepthCenterLayer * Math.Pow(0.000050d / ThermalDiffusivity[i], 0.50d));
+                SoilTemperatureRangeByLayers[i] = SurfaceDiurnalRange * Math.Exp(-_DepthCenterLayer * Math.Pow(0.00005 / ThermalDiffusivity[i], 0.5));
                 SoilTemperatureMaximum[i] = SoilTemperatureByLayers[i] + (SoilTemperatureRangeByLayers[i] / 2);
                 SoilTemperatureMinimum[i] = SoilTemperatureByLayers[i] - (SoilTemperatureRangeByLayers[i] / 2);
             }

@@ -183,13 +183,9 @@ public class SurfacePartonSoilSWATHourlyPartonCComponent
     /// </summary>
     public void Init(SurfacePartonSoilSWATHourlyPartonCState s, SurfacePartonSoilSWATHourlyPartonCState s1, SurfacePartonSoilSWATHourlyPartonCRate r, SurfacePartonSoilSWATHourlyPartonCAuxiliary a, SurfacePartonSoilSWATHourlyPartonCExogenous ex)
     {
-        _SurfaceTemperatureParton.Init(s, s1, r, a, ex);
-        _VolumetricHeatCapacityKluitenberg.Init(s, s1, r, a, ex);
         _ThermalConductivitySIMULAT.Init(s, s1, r, a, ex);
         _SoilTemperatureSWAT.Init(s, s1, r, a, ex);
-        _ThermalDiffu.Init(s, s1, r, a, ex);
         _RangeOfSoilTemperaturesDAYCENT.Init(s, s1, r, a, ex);
-        _HourlySoilTemperaturesPartonLogan.Init(s, s1, r, a, ex);
     }
 
     /// <summary>
@@ -198,25 +194,25 @@ public class SurfacePartonSoilSWATHourlyPartonCComponent
     /// <param name="toCopy"></param>
     public SurfacePartonSoilSWATHourlyPartonCComponent(SurfacePartonSoilSWATHourlyPartonCComponent toCopy): this() // copy constructor 
     {
-        SoilProfileDepth = toCopy.SoilProfileDepth;
-        LagCoefficient = toCopy.LagCoefficient;
-        AirTemperatureAnnualAverage = toCopy.AirTemperatureAnnualAverage;
-        
-        for (int i = 0; i < toCopy.LayerThickness.Length; i++)
-        { LayerThickness[i] = toCopy.LayerThickness[i]; }
+            SoilProfileDepth = toCopy.SoilProfileDepth;
+            LagCoefficient = toCopy.LagCoefficient;
+            AirTemperatureAnnualAverage = toCopy.AirTemperatureAnnualAverage;
+            
+            for (int i = 0; i < toCopy.LayerThickness.Length; i++)
+                { LayerThickness[i] = toCopy.LayerThickness[i]; }
     
-        
-        for (int i = 0; i < toCopy.BulkDensity.Length; i++)
-        { BulkDensity[i] = toCopy.BulkDensity[i]; }
+            
+            for (int i = 0; i < toCopy.BulkDensity.Length; i++)
+                { BulkDensity[i] = toCopy.BulkDensity[i]; }
     
-        
-        for (int i = 0; i < toCopy.Silt.Length; i++)
-        { Silt[i] = toCopy.Silt[i]; }
+            
+            for (int i = 0; i < toCopy.Silt.Length; i++)
+                { Silt[i] = toCopy.Silt[i]; }
     
-        
-        for (int i = 0; i < toCopy.Clay.Length; i++)
-        { Clay[i] = toCopy.Clay[i]; }
+            
+            for (int i = 0; i < toCopy.Clay.Length; i++)
+                { Clay[i] = toCopy.Clay[i]; }
     
-        layersNumber = toCopy.layersNumber;
+            layersNumber = toCopy.layersNumber;
     }
 }

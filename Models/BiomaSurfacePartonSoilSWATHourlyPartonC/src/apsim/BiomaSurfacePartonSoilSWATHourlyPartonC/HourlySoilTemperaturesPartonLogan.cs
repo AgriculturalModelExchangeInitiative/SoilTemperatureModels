@@ -110,7 +110,7 @@ public class HourlySoilTemperaturesPartonLogan
             {
                 if (h >= (int)(HourOfSunrise) && h <= (int)(HourOfSunset))
                 {
-                    SoilTemperatureByLayersHourly[i * 24 + h] = SoilTemperatureMinimum[i] + ((SoilTemperatureMaximum[i] - SoilTemperatureMinimum[i]) * Math.Sin(Math.PI * (h - 12 + (DayLength / 2)) / (DayLength + (2 * 1.80d))));
+                    SoilTemperatureByLayersHourly[i * 24 + h] = SoilTemperatureMinimum[i] + ((SoilTemperatureMaximum[i] - SoilTemperatureMinimum[i]) * Math.Sin(Math.PI * (h - 12 + (DayLength / 2)) / (DayLength + (2 * 1.8))));
                 }
             }
             TemperatureAtSunset = SoilTemperatureByLayersHourly[i + (int)(HourOfSunset)];
@@ -118,11 +118,11 @@ public class HourlySoilTemperaturesPartonLogan
             {
                 if (h > (int)(HourOfSunset))
                 {
-                    SoilTemperatureByLayersHourly[i + h] = (SoilTemperatureMinimum[i] - (TemperatureAtSunset * Math.Exp(-(24 - DayLength) / 2.20d)) + ((TemperatureAtSunset - SoilTemperatureMinimum[i]) * Math.Exp(-(h - HourOfSunset) / 2.20d))) / (1 - Math.Exp(-(24 - DayLength) / 2.20d));
+                    SoilTemperatureByLayersHourly[i + h] = (SoilTemperatureMinimum[i] - (TemperatureAtSunset * Math.Exp(-(24 - DayLength) / 2.2)) + ((TemperatureAtSunset - SoilTemperatureMinimum[i]) * Math.Exp(-(h - HourOfSunset) / 2.2))) / (1 - Math.Exp(-(24 - DayLength) / 2.2));
                 }
                 else if ( h <= (int)(HourOfSunrise))
                 {
-                    SoilTemperatureByLayersHourly[i + h] = (SoilTemperatureMinimum[i] - (TemperatureAtSunset * Math.Exp(-(24 - DayLength) / 2.20d)) + ((TemperatureAtSunset - SoilTemperatureMinimum[i]) * Math.Exp(-(h + 24 - HourOfSunset) / 2.20d))) / (1 - Math.Exp(-(24 - DayLength) / 2.20d));
+                    SoilTemperatureByLayersHourly[i + h] = (SoilTemperatureMinimum[i] - (TemperatureAtSunset * Math.Exp(-(24 - DayLength) / 2.2)) + ((TemperatureAtSunset - SoilTemperatureMinimum[i]) * Math.Exp(-(h + 24 - HourOfSunset) / 2.2))) / (1 - Math.Exp(-(24 - DayLength) / 2.2));
                 }
             }
         }

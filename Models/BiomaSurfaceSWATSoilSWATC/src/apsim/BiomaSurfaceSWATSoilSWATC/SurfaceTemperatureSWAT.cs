@@ -118,8 +118,8 @@ public class SurfaceTemperatureSWAT
         _Tavg = (AirTemperatureMaximum + AirTemperatureMinimum) / 2;
         _Hterm = (GlobalSolarRadiation * (1 - Albedo) - 14) / 20;
         _Tbare = _Tavg + (_Hterm * (AirTemperatureMaximum - AirTemperatureMinimum) / 2);
-        _WeightingCover = AboveGroundBiomass / (AboveGroundBiomass + Math.Exp(7.5630d - (0.00012970d * AboveGroundBiomass)));
-        _WeightingSnow = WaterEquivalentOfSnowPack / (WaterEquivalentOfSnowPack + Math.Exp(6.0550d - (0.30020d * WaterEquivalentOfSnowPack)));
+        _WeightingCover = AboveGroundBiomass / (AboveGroundBiomass + Math.Exp(7.563 - (0.0001297 * AboveGroundBiomass)));
+        _WeightingSnow = WaterEquivalentOfSnowPack / (WaterEquivalentOfSnowPack + Math.Exp(6.055 - (0.3002 * WaterEquivalentOfSnowPack)));
         _WeightingActual = Math.Max(_WeightingCover, _WeightingSnow);
         SurfaceSoilTemperature = _WeightingActual * SoilTemperatureByLayers[0] + ((1 - _WeightingActual) * _Tbare);
         a.SurfaceSoilTemperature= SurfaceSoilTemperature;

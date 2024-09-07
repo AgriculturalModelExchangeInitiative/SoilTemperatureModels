@@ -41,19 +41,19 @@ namespace Models.Crop2ML;
 ///                          ** min : 0.0
 ///                          ** unit : degC
 /// </summary>
-public class canopy_temp_avg
+public class Canopy_temp_avg
 {
 
     
     /// <summary>
-    /// Constructor of the canopy_temp_avg component")
+    /// Constructor of the Canopy_temp_avg component")
     /// </summary>  
-    public canopy_temp_avg() { }
+    public Canopy_temp_avg() { }
     
     /// <summary>
-    /// Algorithm of the canopy_temp_avg component
+    /// Algorithm of the Canopy_temp_avg component
     /// </summary>
-    public void  CalculateModel(soil_tempState s, soil_tempState s1, soil_tempRate r, soil_tempAuxiliary a, soil_tempExogenous ex)
+    public void  CalculateModel(Soil_tempState s, Soil_tempState s1, Soil_tempRate r, Soil_tempAuxiliary a, Soil_tempExogenous ex)
     {
         double min_canopy_temp = ex.min_canopy_temp;
         double max_canopy_temp = ex.max_canopy_temp;

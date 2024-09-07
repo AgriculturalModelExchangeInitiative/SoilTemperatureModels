@@ -32,36 +32,36 @@ public class SurfacePartonSoilSWATHourlyPartonCState
         if (copyAll)
         {
             SoilTemperatureByLayers = new double[toCopy.SoilTemperatureByLayers.Length];
-        for (int i = 0; i < toCopy.SoilTemperatureByLayers.Length; i++)
-        { SoilTemperatureByLayers[i] = toCopy.SoilTemperatureByLayers[i]; }
+            for (int i = 0; i < toCopy.SoilTemperatureByLayers.Length; i++)
+                { SoilTemperatureByLayers[i] = toCopy.SoilTemperatureByLayers[i]; }
     
             HeatCapacity = new double[toCopy.HeatCapacity.Length];
-        for (int i = 0; i < toCopy.HeatCapacity.Length; i++)
-        { HeatCapacity[i] = toCopy.HeatCapacity[i]; }
+            for (int i = 0; i < toCopy.HeatCapacity.Length; i++)
+                { HeatCapacity[i] = toCopy.HeatCapacity[i]; }
     
             ThermalConductivity = new double[toCopy.ThermalConductivity.Length];
-        for (int i = 0; i < toCopy.ThermalConductivity.Length; i++)
-        { ThermalConductivity[i] = toCopy.ThermalConductivity[i]; }
+            for (int i = 0; i < toCopy.ThermalConductivity.Length; i++)
+                { ThermalConductivity[i] = toCopy.ThermalConductivity[i]; }
     
             ThermalDiffusivity = new double[toCopy.ThermalDiffusivity.Length];
-        for (int i = 0; i < toCopy.ThermalDiffusivity.Length; i++)
-        { ThermalDiffusivity[i] = toCopy.ThermalDiffusivity[i]; }
+            for (int i = 0; i < toCopy.ThermalDiffusivity.Length; i++)
+                { ThermalDiffusivity[i] = toCopy.ThermalDiffusivity[i]; }
     
             SoilTemperatureRangeByLayers = new double[toCopy.SoilTemperatureRangeByLayers.Length];
-        for (int i = 0; i < toCopy.SoilTemperatureRangeByLayers.Length; i++)
-        { SoilTemperatureRangeByLayers[i] = toCopy.SoilTemperatureRangeByLayers[i]; }
+            for (int i = 0; i < toCopy.SoilTemperatureRangeByLayers.Length; i++)
+                { SoilTemperatureRangeByLayers[i] = toCopy.SoilTemperatureRangeByLayers[i]; }
     
             SoilTemperatureMinimum = new double[toCopy.SoilTemperatureMinimum.Length];
-        for (int i = 0; i < toCopy.SoilTemperatureMinimum.Length; i++)
-        { SoilTemperatureMinimum[i] = toCopy.SoilTemperatureMinimum[i]; }
+            for (int i = 0; i < toCopy.SoilTemperatureMinimum.Length; i++)
+                { SoilTemperatureMinimum[i] = toCopy.SoilTemperatureMinimum[i]; }
     
             SoilTemperatureMaximum = new double[toCopy.SoilTemperatureMaximum.Length];
-        for (int i = 0; i < toCopy.SoilTemperatureMaximum.Length; i++)
-        { SoilTemperatureMaximum[i] = toCopy.SoilTemperatureMaximum[i]; }
+            for (int i = 0; i < toCopy.SoilTemperatureMaximum.Length; i++)
+                { SoilTemperatureMaximum[i] = toCopy.SoilTemperatureMaximum[i]; }
     
             SoilTemperatureByLayersHourly = new double[toCopy.SoilTemperatureByLayersHourly.Length];
-        for (int i = 0; i < toCopy.SoilTemperatureByLayersHourly.Length; i++)
-        { SoilTemperatureByLayersHourly[i] = toCopy.SoilTemperatureByLayersHourly[i]; }
+            for (int i = 0; i < toCopy.SoilTemperatureByLayersHourly.Length; i++)
+                { SoilTemperatureByLayersHourly[i] = toCopy.SoilTemperatureByLayersHourly[i]; }
     
         }
     }

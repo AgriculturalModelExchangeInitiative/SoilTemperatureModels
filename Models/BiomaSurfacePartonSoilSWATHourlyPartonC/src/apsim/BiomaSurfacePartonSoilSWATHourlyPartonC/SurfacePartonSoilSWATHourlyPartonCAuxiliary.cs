@@ -31,12 +31,12 @@ public class SurfacePartonSoilSWATHourlyPartonCAuxiliary
         {
             AboveGroundBiomass = toCopy.AboveGroundBiomass;
             Sand = new double[toCopy.Sand.Length];
-        for (int i = 0; i < toCopy.Sand.Length; i++)
-        { Sand[i] = toCopy.Sand[i]; }
+            for (int i = 0; i < toCopy.Sand.Length; i++)
+                { Sand[i] = toCopy.Sand[i]; }
     
             OrganicMatter = new double[toCopy.OrganicMatter.Length];
-        for (int i = 0; i < toCopy.OrganicMatter.Length; i++)
-        { OrganicMatter[i] = toCopy.OrganicMatter[i]; }
+            for (int i = 0; i < toCopy.OrganicMatter.Length; i++)
+                { OrganicMatter[i] = toCopy.OrganicMatter[i]; }
     
             SurfaceSoilTemperature = toCopy.SurfaceSoilTemperature;
             SurfaceTemperatureMinimum = toCopy.SurfaceTemperatureMinimum;

@@ -324,14 +324,14 @@ public class STEMP
         double SRFTEMP;
         double[] ST =  new double [NL];
         double HDAY;
-        CUMDPT = 0.00d;
+        CUMDPT = 0.0;
         DSMID = new double[NL];
-        TDL = 0.00d;
+        TDL = 0.0;
         TMA = new double[5];
-        ATOT = 0.00d;
-        SRFTEMP = 0.00d;
+        ATOT = 0.0;
+        SRFTEMP = 0.0;
         ST = new double[NL];
-        HDAY = 0.00d;
+        HDAY = 0.0;
         int I;
         int L;
         double ABD;
@@ -349,19 +349,19 @@ public class STEMP
         double[] SWI =  new double [NL];
         SWI = SW;
         DSI = DS;
-        if (XLAT < 0.00d)
+        if (XLAT < 0.0)
         {
-            HDAY = 20.00d;
+            HDAY = 20.0;
         }
         else
         {
-            HDAY = 200.00d;
+            HDAY = 200.0;
         }
-        TBD = 0.00d;
-        TLL = 0.00d;
-        TSW = 0.00d;
-        TDL = 0.00d;
-        CUMDPT = 0.00d;
+        TBD = 0.0;
+        TLL = 0.0;
+        TSW = 0.0;
+        TDL = 0.0;
+        CUMDPT = 0.0;
         for (L=1 ; L!=NLAYR + 1 ; L+=1)
         {
             if (L == 1)
@@ -372,8 +372,8 @@ public class STEMP
             {
                 DLI[L - 1] = DSI[L - 1] - DSI[L - 1 - 1];
             }
-            DSMID[L - 1] = CUMDPT + (DLI[(L - 1)] * 5.00d);
-            CUMDPT = CUMDPT + (DLI[(L - 1)] * 10.00d);
+            DSMID[L - 1] = CUMDPT + (DLI[(L - 1)] * 5.0);
+            CUMDPT = CUMDPT + (DLI[(L - 1)] * 10.0);
             TBD = TBD + (BD[(L - 1)] * DLI[(L - 1)]);
             TLL = TLL + (LL[(L - 1)] * DLI[(L - 1)]);
             TSW = TSW + (SWI[(L - 1)] * DLI[(L - 1)]);
@@ -381,30 +381,30 @@ public class STEMP
         }
         if (ISWWAT == "Y")
         {
-            PESW = Math.Max(0.00d, TSW - TLL);
+            PESW = Math.Max(0.0, TSW - TLL);
         }
         else
         {
-            PESW = Math.Max(0.00d, TDL - TLL);
+            PESW = Math.Max(0.0, TDL - TLL);
         }
         ABD = TBD / DSI[(NLAYR - 1)];
-        FX = ABD / (ABD + (686.00d * Math.Exp(-(5.630d * ABD))));
-        DP = 1000.00d + (2500.00d * FX);
-        WW = 0.3560d - (0.1440d * ABD);
-        B = Math.Log(500.00d / DP);
+        FX = ABD / (ABD + (686.0 * Math.Exp(-(5.63 * ABD))));
+        DP = 1000.0 + (2500.0 * FX);
+        WW = 0.356 - (0.144 * ABD);
+        B = Math.Log(500.0 / DP);
         ALBEDO = MSALB;
         for (I=1 ; I!=5 + 1 ; I+=1)
         {
             TMA[I - 1] = (int)(TAVG * 10000.0d) / 10000.0d;
         }
-        ATOT = TMA[(1 - 1)] * 5.00d;
+        ATOT = TMA[(1 - 1)] * 5.0;
         for (L=1 ; L!=NLAYR + 1 ; L+=1)
         {
             ST[L - 1] = TAVG;
         }
         for (I=1 ; I!=8 + 1 ; I+=1)
         {
-            Tuple.Create(ATOT, TMA, SRFTEMP, ST) = SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ATOT, TMA);
+            SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ref ATOT, ref TMA, out SRFTEMP, out ST);
         }
         s.CUMDPT= CUMDPT;
         s.DSMID= DSMID;
@@ -595,9 +595,9 @@ public class STEMP
         double WW;
         double TLL;
         double TSW;
-        TBD = 0.00d;
-        TLL = 0.00d;
-        TSW = 0.00d;
+        TBD = 0.0;
+        TLL = 0.0;
+        TSW = 0.0;
         for (L=1 ; L!=NLAYR + 1 ; L+=1)
         {
             TBD = TBD + (BD[(L - 1)] * DLAYR[(L - 1)]);
@@ -606,20 +606,20 @@ public class STEMP
             TSW = TSW + (SW[(L - 1)] * DLAYR[(L - 1)]);
         }
         ABD = TBD / DS[(NLAYR - 1)];
-        FX = ABD / (ABD + (686.00d * Math.Exp(-(5.630d * ABD))));
-        DP = 1000.00d + (2500.00d * FX);
-        WW = 0.3560d - (0.1440d * ABD);
-        B = Math.Log(500.00d / DP);
+        FX = ABD / (ABD + (686.0 * Math.Exp(-(5.63 * ABD))));
+        DP = 1000.0 + (2500.0 * FX);
+        WW = 0.356 - (0.144 * ABD);
+        B = Math.Log(500.0 / DP);
         ALBEDO = MSALB;
         if (ISWWAT == "Y")
         {
-            PESW = Math.Max(0.00d, TSW - TLL);
+            PESW = Math.Max(0.0, TSW - TLL);
         }
         else
         {
-            PESW = Math.Max(0.00d, TDL - TLL);
+            PESW = Math.Max(0.0, TDL - TLL);
         }
-        Tuple.Create(ATOT, TMA, SRFTEMP, ST) = SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ATOT, TMA);
+        SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ref ATOT, ref TMA, out SRFTEMP, out ST);
         s.CUMDPT= CUMDPT;
         s.DSMID= DSMID;
         s.TDL= TDL;
@@ -628,7 +628,10 @@ public class STEMP
         s.SRFTEMP= SRFTEMP;
         s.ST= ST;
     }
-    public static Tuple<double,double[],double,double[]>  SOILT(int NL, double ALBEDO, double B, double CUMDPT, int DOY, double DP, double HDAY, int NLAYR, double PESW, double SRAD, double TAMP, double TAV, double TAVG, double TMAX, double WW, double[] DSMID, double ATOT, double[] TMA)
+    /// <summary>
+    /// 
+    /// </summary>
+    public static void  SOILT(int NL, double ALBEDO, double B, double CUMDPT, int DOY, double DP, double HDAY, int NLAYR, double PESW, double SRAD, double TAMP, double TAV, double TAVG, double TMAX, double WW, double[] DSMID, ref double ATOT, ref double[] TMA, out double SRFTEMP, out double[] ST)
     {
         int K;
         int L;
@@ -636,12 +639,11 @@ public class STEMP
         double DD;
         double DT;
         double FX;
-        double SRFTEMP;
         double TA;
         double WC;
         double ZD;
-        double[] ST =  new double [NL];
-        ALX = ((double)(DOY) - HDAY) * 0.01740d;
+        ST =  new double [NL];
+        ALX = ((double)(DOY) - HDAY) * 0.0174;
         ATOT = ATOT - TMA[5 - 1];
         for (K=5 ; K!=2 - 1 ; K+=-1)
         {
@@ -650,18 +652,17 @@ public class STEMP
         TMA[1 - 1] = TAVG;
         TMA[1 - 1] = (int)(TMA[(1 - 1)] * 10000.0d) / 10000.0d;
         ATOT = ATOT + TMA[1 - 1];
-        WC = Math.Max(0.010d, PESW) / (WW * CUMDPT) * 10.00d;
-        FX = Math.Exp(B * Math.Pow((1.00d - WC) / (1.00d + WC), 2));
+        WC = Math.Max(0.01, PESW) / (WW * CUMDPT) * 10.0;
+        FX = Math.Exp(B * Math.Pow((1.0 - WC) / (1.0 + WC), 2));
         DD = FX * DP;
-        TA = TAV + (TAMP * Math.Cos(ALX) / 2.00d);
-        DT = ATOT / 5.00d - TA;
+        TA = TAV + (TAMP * Math.Cos(ALX) / 2.0);
+        DT = ATOT / 5.0 - TA;
         for (L=1 ; L!=NLAYR + 1 ; L+=1)
         {
             ZD = -(DSMID[(L - 1)] / DD);
-            ST[L - 1] = TAV + ((TAMP / 2.00d * Math.Cos((ALX + ZD)) + DT) * Math.Exp(ZD));
+            ST[L - 1] = TAV + ((TAMP / 2.0 * Math.Cos((ALX + ZD)) + DT) * Math.Exp(ZD));
             ST[L - 1] = (int)(ST[(L - 1)] * 1000.0d) / 1000.0d;
         }
         SRFTEMP = TAV + (TAMP / 2.0d * Math.Cos(ALX) + DT);
-        return Tuple.Create(ATOT, TMA, SRFTEMP, ST);
     }
 }

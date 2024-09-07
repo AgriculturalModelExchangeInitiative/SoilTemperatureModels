@@ -5,20 +5,20 @@ namespace Models.Crop2ML;
 
 /// <summary>
 /// </summary>
-public class soil_tempRate
+public class Soil_tempRate
 {
 
     /// <summary>
-    /// Constructor soil_tempRate domain class
+    /// Constructor Soil_tempRate domain class
     /// </summary>
-    public soil_tempRate() { }
+    public Soil_tempRate() { }
 
     /// <summary>
     /// Copy constructor
     /// </summary>
     /// <param name="toCopy"></param>
     /// <param name="copyAll"></param>
-    public soil_tempRate(soil_tempRate toCopy, bool copyAll) // copy constructor 
+    public Soil_tempRate(Soil_tempRate toCopy, bool copyAll) // copy constructor 
     {
         if (copyAll)
         {

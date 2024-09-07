@@ -10,12 +10,12 @@ public class STEMP_State
 {
     private double _HDAY;
     private double _SRFTEMP;
-    private double[] _ST = new double[NL];
+    private double[] _ST;
     private double[] _TMA = new double[5];
     private double _TDL;
     private double _CUMDPT;
     private double _ATOT;
-    private double[] _DSMID = new double[NL];
+    private double[] _DSMID;
 
     /// <summary>
     /// Constructor STEMP_State domain class
@@ -33,20 +33,20 @@ public class STEMP_State
         {
             HDAY = toCopy.HDAY;
             SRFTEMP = toCopy.SRFTEMP;
-            ST = new double[NL];
-        for (int i = 0; i < NL; i++)
-        { ST[i] = toCopy.ST[i]; }
+            ST = new double[toCopy.ST.Length];
+            for (int i = 0; i < toCopy.ST.Length; i++)
+                { ST[i] = toCopy.ST[i]; }
     
             TMA = new double[5];
-        for (int i = 0; i < 5; i++)
-        { TMA[i] = toCopy.TMA[i]; }
+            for (int i = 0; i < 5; i++)
+                { TMA[i] = toCopy.TMA[i]; }
     
             TDL = toCopy.TDL;
             CUMDPT = toCopy.CUMDPT;
             ATOT = toCopy.ATOT;
-            DSMID = new double[NL];
-        for (int i = 0; i < NL; i++)
-        { DSMID[i] = toCopy.DSMID[i]; }
+            DSMID = new double[toCopy.DSMID.Length];
+            for (int i = 0; i < toCopy.DSMID.Length; i++)
+                { DSMID[i] = toCopy.DSMID[i]; }
     
         }
     }

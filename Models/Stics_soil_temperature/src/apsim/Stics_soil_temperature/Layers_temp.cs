@@ -42,7 +42,7 @@ namespace Models.Crop2ML;
 ///                          ** min : -50.0
 ///                          ** unit : degC
 /// </summary>
-public class layers_temp
+public class Layers_temp
 {
 
     private int[] _layer_thick;
@@ -60,14 +60,14 @@ public class layers_temp
 
     
     /// <summary>
-    /// Constructor of the layers_temp component")
+    /// Constructor of the Layers_temp component")
     /// </summary>  
-    public layers_temp() { }
+    public Layers_temp() { }
     
     /// <summary>
-    /// Algorithm of the layers_temp component
+    /// Algorithm of the Layers_temp component
     /// </summary>
-    public void  CalculateModel(soil_tempState s, soil_tempState s1, soil_tempRate r, soil_tempAuxiliary a, soil_tempExogenous ex)
+    public void  CalculateModel(Soil_tempState s, Soil_tempState s1, Soil_tempRate r, Soil_tempAuxiliary a, Soil_tempExogenous ex)
     {
         List<double> temp_profile = s.temp_profile;
         List<double> layer_temp = new List<double>();
@@ -93,6 +93,9 @@ public class layers_temp
         }
         s.layer_temp= layer_temp;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static int get_layers_number(int[] layer_thick_or_depth)
     {
         int layers_number;
@@ -107,6 +110,9 @@ public class layers_temp
         }
         return layers_number;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static List<int> layer_thickness2depth(int[] layer_thick)
     {
         List<int> layer_depth = new List<int>();

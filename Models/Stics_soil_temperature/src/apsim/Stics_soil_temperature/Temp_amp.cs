@@ -41,19 +41,19 @@ namespace Models.Crop2ML;
 ///                          ** min : 0.0
 ///                          ** unit : degC
 /// </summary>
-public class temp_amp
+public class Temp_amp
 {
 
     
     /// <summary>
-    /// Constructor of the temp_amp component")
+    /// Constructor of the Temp_amp component")
     /// </summary>  
-    public temp_amp() { }
+    public Temp_amp() { }
     
     /// <summary>
-    /// Algorithm of the temp_amp component
+    /// Algorithm of the Temp_amp component
     /// </summary>
-    public void  CalculateModel(soil_tempState s, soil_tempState s1, soil_tempRate r, soil_tempAuxiliary a, soil_tempExogenous ex)
+    public void  CalculateModel(Soil_tempState s, Soil_tempState s1, Soil_tempRate r, Soil_tempAuxiliary a, Soil_tempExogenous ex)
     {
         double min_temp = ex.min_temp;
         double max_temp = ex.max_temp;

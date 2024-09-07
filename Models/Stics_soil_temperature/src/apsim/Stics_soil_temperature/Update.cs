@@ -49,19 +49,19 @@ namespace Models.Crop2ML;
 ///                          ** min : -50.0
 ///                          ** unit : degC
 /// </summary>
-public class update
+public class Update
 {
 
     
     /// <summary>
-    /// Constructor of the update component")
+    /// Constructor of the Update component")
     /// </summary>  
-    public update() { }
+    public Update() { }
     
     /// <summary>
-    /// Algorithm of the update component
+    /// Algorithm of the Update component
     /// </summary>
-    public void  CalculateModel(soil_tempState s, soil_tempState s1, soil_tempRate r, soil_tempAuxiliary a, soil_tempExogenous ex)
+    public void  CalculateModel(Soil_tempState s, Soil_tempState s1, Soil_tempRate r, Soil_tempAuxiliary a, Soil_tempExogenous ex)
     {
         double canopy_temp_avg = s.canopy_temp_avg;
         List<double> temp_profile = s.temp_profile;

@@ -118,7 +118,6 @@ public class SurfaceSWATSoilSWATCComponent
     /// </summary>
     public void Init(SurfaceSWATSoilSWATCState s, SurfaceSWATSoilSWATCState s1, SurfaceSWATSoilSWATCRate r, SurfaceSWATSoilSWATCAuxiliary a, SurfaceSWATSoilSWATCExogenous ex)
     {
-        _SurfaceTemperatureSWAT.Init(s, s1, r, a, ex);
         _SoilTemperatureSWAT.Init(s, s1, r, a, ex);
     }
 
@@ -128,16 +127,16 @@ public class SurfaceSWATSoilSWATCComponent
     /// <param name="toCopy"></param>
     public SurfaceSWATSoilSWATCComponent(SurfaceSWATSoilSWATCComponent toCopy): this() // copy constructor 
     {
-        
-        for (int i = 0; i < toCopy.BulkDensity.Length; i++)
-        { BulkDensity[i] = toCopy.BulkDensity[i]; }
+            
+            for (int i = 0; i < toCopy.BulkDensity.Length; i++)
+                { BulkDensity[i] = toCopy.BulkDensity[i]; }
     
-        AirTemperatureAnnualAverage = toCopy.AirTemperatureAnnualAverage;
-        SoilProfileDepth = toCopy.SoilProfileDepth;
-        LagCoefficient = toCopy.LagCoefficient;
-        
-        for (int i = 0; i < toCopy.LayerThickness.Length; i++)
-        { LayerThickness[i] = toCopy.LayerThickness[i]; }
+            AirTemperatureAnnualAverage = toCopy.AirTemperatureAnnualAverage;
+            SoilProfileDepth = toCopy.SoilProfileDepth;
+            LagCoefficient = toCopy.LagCoefficient;
+            
+            for (int i = 0; i < toCopy.LayerThickness.Length; i++)
+                { LayerThickness[i] = toCopy.LayerThickness[i]; }
     
     }
 }

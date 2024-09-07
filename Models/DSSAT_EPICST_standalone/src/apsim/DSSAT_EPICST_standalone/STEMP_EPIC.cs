@@ -372,14 +372,14 @@ public class STEMP_EPIC
         double X2_PREV;
         double SRFTEMP;
         double[] ST =  new double [NL];
-        CUMDPT = 0.00d;
+        CUMDPT = 0.0;
         DSMID = new double[NL];
-        TDL = 0.00d;
+        TDL = 0.0;
         TMA = new double[5];
         NDays = 0;
         WetDay = new int[30];
-        X2_PREV = 0.00d;
-        SRFTEMP = 0.00d;
+        X2_PREV = 0.0;
+        SRFTEMP = 0.0;
         ST = new double[NL];
         int I;
         int L;
@@ -400,15 +400,15 @@ public class STEMP_EPIC
         double BCV2;
         double[] SWI =  new double [NL];
         SWI = SW;
-        TBD = 0.00d;
-        TLL = 0.00d;
-        TSW = 0.00d;
-        TDL = 0.00d;
-        CUMDPT = 0.00d;
+        TBD = 0.0;
+        TLL = 0.0;
+        TSW = 0.0;
+        TDL = 0.0;
+        CUMDPT = 0.0;
         for (L=1 ; L!=NLAYR + 1 ; L+=1)
         {
-            DSMID[L - 1] = CUMDPT + (DLAYR[(L - 1)] * 5.00d);
-            CUMDPT = CUMDPT + (DLAYR[(L - 1)] * 10.00d);
+            DSMID[L - 1] = CUMDPT + (DLAYR[(L - 1)] * 5.0);
+            CUMDPT = CUMDPT + (DLAYR[(L - 1)] * 10.0);
             TBD = TBD + (BD[(L - 1)] * DLAYR[(L - 1)]);
             TLL = TLL + (LL[(L - 1)] * DLAYR[(L - 1)]);
             TSW = TSW + (SWI[(L - 1)] * DLAYR[(L - 1)]);
@@ -416,36 +416,36 @@ public class STEMP_EPIC
         }
         if (ISWWAT == "Y")
         {
-            PESW = Math.Max(0.00d, TSW - TLL);
+            PESW = Math.Max(0.0, TSW - TLL);
         }
         else
         {
-            PESW = Math.Max(0.00d, TDL - TLL);
+            PESW = Math.Max(0.0, TDL - TLL);
         }
         ABD = TBD / DS[(NLAYR - 1)];
-        FX = ABD / (ABD + (686.00d * Math.Exp(-(5.630d * ABD))));
-        DP = 1000.00d + (2500.00d * FX);
-        WW = 0.3560d - (0.1440d * ABD);
-        B = Math.Log(500.00d / DP);
+        FX = ABD / (ABD + (686.0 * Math.Exp(-(5.63 * ABD))));
+        DP = 1000.0 + (2500.0 * FX);
+        WW = 0.356 - (0.144 * ABD);
+        B = Math.Log(500.0 / DP);
         for (I=1 ; I!=5 + 1 ; I+=1)
         {
             TMA[I - 1] = (int)(TAVG * 10000.0d) / 10000.0d;
         }
-        X2_AVG = TMA[(1 - 1)] * 5.00d;
+        X2_AVG = TMA[(1 - 1)] * 5.0;
         for (L=1 ; L!=NLAYR + 1 ; L+=1)
         {
             ST[L - 1] = TAVG;
         }
-        WFT = 0.10d;
+        WFT = 0.1;
         for (var i = 0; i < 30; i++){WetDay[i] = 0;}
         NDays = 0;
         CV = MULCHMASS / 1000.0d;
-        BCV1 = CV / (CV + Math.Exp(5.33960d - (2.39510d * CV)));
-        BCV2 = SNOW / (SNOW + Math.Exp(2.3030d - (0.21970d * SNOW)));
+        BCV1 = CV / (CV + Math.Exp(5.3396 - (2.3951 * CV)));
+        BCV2 = SNOW / (SNOW + Math.Exp(2.303 - (0.2197 * SNOW)));
         BCV = Math.Max(BCV1, BCV2);
         for (I=1 ; I!=8 + 1 ; I+=1)
         {
-            Tuple.Create(TMA, SRFTEMP, ST, X2_AVG, X2_PREV) = SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, 0, WFT, WW, TMA, ST, X2_PREV);
+            SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, 0, WFT, WW, ref TMA, ref ST, ref X2_PREV, out SRFTEMP, out X2_AVG);
         }
         s.CUMDPT= CUMDPT;
         s.DSMID= DSMID;
@@ -623,9 +623,9 @@ public class STEMP_EPIC
         double CV;
         double BCV1;
         double BCV2;
-        TBD = 0.00d;
-        TLL = 0.00d;
-        TSW = 0.00d;
+        TBD = 0.0;
+        TLL = 0.0;
+        TSW = 0.0;
         for (L=1 ; L!=NLAYR + 1 ; L+=1)
         {
             TBD = TBD + (BD[(L - 1)] * DLAYR[(L - 1)]);
@@ -634,17 +634,17 @@ public class STEMP_EPIC
             TSW = TSW + (SW[(L - 1)] * DLAYR[(L - 1)]);
         }
         ABD = TBD / DS[(NLAYR - 1)];
-        FX = ABD / (ABD + (686.00d * Math.Exp(-(5.630d * ABD))));
-        DP = 1000.00d + (2500.00d * FX);
-        WW = 0.3560d - (0.1440d * ABD);
-        B = Math.Log(500.00d / DP);
+        FX = ABD / (ABD + (686.0 * Math.Exp(-(5.63 * ABD))));
+        DP = 1000.0 + (2500.0 * FX);
+        WW = 0.356 - (0.144 * ABD);
+        B = Math.Log(500.0 / DP);
         if (ISWWAT == "Y")
         {
-            PESW = Math.Max(0.00d, TSW - TLL);
+            PESW = Math.Max(0.0, TSW - TLL);
         }
         else
         {
-            PESW = Math.Max(0.00d, TDL - TLL);
+            PESW = Math.Max(0.0, TDL - TLL);
         }
         if (NDays == 30)
         {
@@ -657,7 +657,7 @@ public class STEMP_EPIC
         {
             NDays = NDays + 1;
         }
-        if (RAIN + DEPIR > 1.E-60d)
+        if (RAIN + DEPIR > 1.0E-6)
         {
             WetDay[NDays - 1] = 1;
         }
@@ -668,10 +668,10 @@ public class STEMP_EPIC
         NWetDays = WetDay.Sum();
         WFT = (double)(NWetDays) / (double)(NDays);
         CV = (BIOMAS + MULCHMASS) / 1000.0d;
-        BCV1 = CV / (CV + Math.Exp(5.33960d - (2.39510d * CV)));
-        BCV2 = SNOW / (SNOW + Math.Exp(2.3030d - (0.21970d * SNOW)));
+        BCV1 = CV / (CV + Math.Exp(5.3396 - (2.3951 * CV)));
+        BCV2 = SNOW / (SNOW + Math.Exp(2.303 - (0.2197 * SNOW)));
         BCV = Math.Max(BCV1, BCV2);
-        Tuple.Create(TMA, SRFTEMP, ST, X2_AVG, X2_PREV) = SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, WetDay[NDays - 1], WFT, WW, TMA, ST, X2_PREV);
+        SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, WetDay[NDays - 1], WFT, WW, ref TMA, ref ST, ref X2_PREV, out SRFTEMP, out X2_AVG);
         s.CUMDPT= CUMDPT;
         s.DSMID= DSMID;
         s.TDL= TDL;
@@ -682,24 +682,25 @@ public class STEMP_EPIC
         s.SRFTEMP= SRFTEMP;
         s.ST= ST;
     }
-    public static Tuple<double[],double,double[],double,double>  SOILT_EPIC(int NL, double B, double BCV, double CUMDPT, double DP, double[] DSMID, int NLAYR, double PESW, double TAV, double TAVG, double TMAX, double TMIN, int WetDay, double WFT, double WW, double[] TMA, double[] ST, double X2_PREV)
+    /// <summary>
+    /// 
+    /// </summary>
+    public static void  SOILT_EPIC(int NL, double B, double BCV, double CUMDPT, double DP, double[] DSMID, int NLAYR, double PESW, double TAV, double TAVG, double TMAX, double TMIN, int WetDay, double WFT, double WW, ref double[] TMA, ref double[] ST, ref double X2_PREV, out double SRFTEMP, out double X2_AVG)
     {
         int K;
         int L;
         double DD;
         double FX;
-        double SRFTEMP;
         double WC;
         double ZD;
         double X1;
         double X2;
         double X3;
         double F;
-        double X2_AVG;
         double LAG;
-        LAG = 0.50d;
-        WC = Math.Max(0.010d, PESW) / (WW * CUMDPT) * 10.00d;
-        FX = Math.Exp(B * Math.Pow((1.00d - WC) / (1.00d + WC), 2));
+        LAG = 0.5;
+        WC = Math.Max(0.01, PESW) / (WW * CUMDPT) * 10.0;
+        FX = Math.Exp(B * Math.Pow((1.0 - WC) / (1.0 + WC), 2));
         DD = FX * DP;
         if (WetDay > 0)
         {
@@ -714,17 +715,16 @@ public class STEMP_EPIC
         {
             TMA[K - 1] = TMA[K - 1 - 1];
         }
-        X2_AVG = TMA.Sum() / 5.00d;
+        X2_AVG = TMA.Sum() / 5.0;
         X3 = (1.0d - BCV) * X2_AVG + (BCV * X2_PREV);
         SRFTEMP = Math.Min(X2_AVG, X3);
         X1 = TAV - X3;
         for (L=1 ; L!=NLAYR + 1 ; L+=1)
         {
             ZD = DSMID[(L - 1)] / DD;
-            F = ZD / (ZD + Math.Exp(-.86690d - (2.07750d * ZD)));
+            F = ZD / (ZD + Math.Exp(-.8669 - (2.0775 * ZD)));
             ST[L - 1] = LAG * ST[(L - 1)] + ((1.0d - LAG) * (F * X1 + X3));
         }
         X2_PREV = X2_AVG;
-        return Tuple.Create(TMA, SRFTEMP, ST, X2_AVG, X2_PREV);
     }
 }

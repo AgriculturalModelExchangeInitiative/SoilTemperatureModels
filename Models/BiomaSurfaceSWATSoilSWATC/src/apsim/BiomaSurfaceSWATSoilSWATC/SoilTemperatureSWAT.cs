@@ -222,21 +222,21 @@ public class SoilTemperatureSWAT
         _RatioCenter = (double)(0);
         _DepthFactor = (double)(0);
         _DepthCenterLayer = LayerThickness[0] * 1000 / 2;
-        _MaximumDumpingDepth = 1000 + (2500 * BulkDensity[0] / (BulkDensity[0] + (686 * Math.Exp(-5.630d * BulkDensity[0]))));
-        _ScalingFactor = _TotalWaterContentmm / ((0.3560d - (0.1440d * BulkDensity[0])) * _SoilProfileDepthmm);
+        _MaximumDumpingDepth = 1000 + (2500 * BulkDensity[0] / (BulkDensity[0] + (686 * Math.Exp(-5.63 * BulkDensity[0]))));
+        _ScalingFactor = _TotalWaterContentmm / ((0.356 - (0.144 * BulkDensity[0])) * _SoilProfileDepthmm);
         _DumpingDepth = _MaximumDumpingDepth * Math.Exp(Math.Log(500 / _MaximumDumpingDepth) * Math.Pow((1 - _ScalingFactor) / (1 + _ScalingFactor), 2));
         _RatioCenter = _DepthCenterLayer / _DumpingDepth;
-        _DepthFactor = _RatioCenter / (_RatioCenter + Math.Exp(-0.8670d - (2.0780d * _RatioCenter)));
+        _DepthFactor = _RatioCenter / (_RatioCenter + Math.Exp(-0.867 - (2.078 * _RatioCenter)));
         SoilTemperatureByLayers[0] = LagCoefficient * SoilTemperatureByLayers[0] + ((1 - LagCoefficient) * (_DepthFactor * (AirTemperatureAnnualAverage - SurfaceSoilTemperature) + SurfaceSoilTemperature));
         for (i=1 ; i!=LayerThickness.Length ; i+=1)
         {
             _DepthBottom = _DepthBottom + (LayerThickness[(i - 1)] * 1000);
             _DepthCenterLayer = _DepthBottom + (LayerThickness[i] * 1000 / 2);
-            _MaximumDumpingDepth = 1000 + (2500 * BulkDensity[i] / (BulkDensity[i] + (686 * Math.Exp(-5.630d * BulkDensity[i]))));
-            _ScalingFactor = _TotalWaterContentmm / ((0.3560d - (0.1440d * BulkDensity[i])) * _SoilProfileDepthmm);
+            _MaximumDumpingDepth = 1000 + (2500 * BulkDensity[i] / (BulkDensity[i] + (686 * Math.Exp(-5.63 * BulkDensity[i]))));
+            _ScalingFactor = _TotalWaterContentmm / ((0.356 - (0.144 * BulkDensity[i])) * _SoilProfileDepthmm);
             _DumpingDepth = _MaximumDumpingDepth * Math.Exp(Math.Log(500 / _MaximumDumpingDepth) * Math.Pow((1 - _ScalingFactor) / (1 + _ScalingFactor), 2));
             _RatioCenter = _DepthCenterLayer / _DumpingDepth;
-            _DepthFactor = _RatioCenter / (_RatioCenter + Math.Exp(-0.8670d - (2.0780d * _RatioCenter)));
+            _DepthFactor = _RatioCenter / (_RatioCenter + Math.Exp(-0.867 - (2.078 * _RatioCenter)));
             SoilTemperatureByLayers[i] = LagCoefficient * SoilTemperatureByLayers[i] + ((1 - LagCoefficient) * (_DepthFactor * (AirTemperatureAnnualAverage - SurfaceSoilTemperature) + SurfaceSoilTemperature));
         }
         s.SoilTemperatureByLayers= SoilTemperatureByLayers;

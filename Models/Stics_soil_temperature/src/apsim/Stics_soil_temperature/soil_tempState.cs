@@ -6,7 +6,7 @@ namespace Models.Crop2ML;
 /// <summary>
 /// state variables class of the soil_temp component
 /// </summary>
-public class soil_tempState
+public class Soil_tempState
 {
     private List<double> _prev_temp_profile = new List<double>();
     private double _prev_canopy_temp;
@@ -16,32 +16,32 @@ public class soil_tempState
     private double _canopy_temp_avg;
 
     /// <summary>
-    /// Constructor soil_tempState domain class
+    /// Constructor Soil_tempState domain class
     /// </summary>
-    public soil_tempState() { }
+    public Soil_tempState() { }
 
     /// <summary>
     /// Copy constructor
     /// </summary>
     /// <param name="toCopy"></param>
     /// <param name="copyAll"></param>
-    public soil_tempState(soil_tempState toCopy, bool copyAll) // copy constructor 
+    public Soil_tempState(Soil_tempState toCopy, bool copyAll) // copy constructor 
     {
         if (copyAll)
         {
             prev_temp_profile = new List<double>();
-        for (int i = 0; i < toCopy.prev_temp_profile.Count; i++)
-        { prev_temp_profile.Add(toCopy.prev_temp_profile[i]); }
+            for (int i = 0; i < toCopy.prev_temp_profile.Count; i++)
+                { prev_temp_profile.Add(toCopy.prev_temp_profile[i]); }
     
             prev_canopy_temp = toCopy.prev_canopy_temp;
             temp_amp = toCopy.temp_amp;
             temp_profile = new List<double>();
-        for (int i = 0; i < toCopy.temp_profile.Count; i++)
-        { temp_profile.Add(toCopy.temp_profile[i]); }
+            for (int i = 0; i < toCopy.temp_profile.Count; i++)
+                { temp_profile.Add(toCopy.temp_profile[i]); }
     
             layer_temp = new List<double>();
-        for (int i = 0; i < toCopy.layer_temp.Count; i++)
-        { layer_temp.Add(toCopy.layer_temp[i]); }
+            for (int i = 0; i < toCopy.layer_temp.Count; i++)
+                { layer_temp.Add(toCopy.layer_temp[i]); }
     
             canopy_temp_avg = toCopy.canopy_temp_avg;
         }

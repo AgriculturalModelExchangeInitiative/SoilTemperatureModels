@@ -11,35 +11,35 @@ using System.Linq;
 namespace Models.Crop2ML;
 
 /// <summary>
-///  This class encapsulates the soil_tempComponent
+///  This class encapsulates the Soil_tempComponent
 /// </summary>
 [Serializable]
 [PresenterName("UserInterface.Presenters.PropertyPresenter")]
 [ViewName("UserInterface.Views.PropertyView")]
 [ValidParent(ParentType = typeof(Zone))]
-class soil_tempWrapper :  Model
+class Soil_tempWrapper :  Model
 {
     [Link] Clock clock = null;
     //[Link] Weather weather = null; // other links
 
-    private soil_tempState s;
-    private soil_tempState s1;
-    private soil_tempRate r;
-    private soil_tempAuxiliary a;
-    private soil_tempExogenous ex;
-    private soil_tempComponent soil_tempComponent;
+    private Soil_tempState s;
+    private Soil_tempState s1;
+    private Soil_tempRate r;
+    private Soil_tempAuxiliary a;
+    private Soil_tempExogenous ex;
+    private Soil_tempComponent soil_tempComponent;
 
     /// <summary>
-    ///  The constructor of the Wrapper of the soil_tempComponent
+    ///  The constructor of the Wrapper of the Soil_tempComponent
     /// </summary>
-    public soil_tempWrapper()
+    public Soil_tempWrapper()
     {
-        s = new soil_tempState();
-        s1 = new soil_tempState();
-        r = new soil_tempRate();
-        a = new soil_tempAuxiliary();
-        ex = new soil_tempExogenous();
-        soil_tempComponent = new soil_tempComponent();
+        s = new Soil_tempState();
+        s1 = new Soil_tempState();
+        r = new Soil_tempRate();
+        a = new Soil_tempAuxiliary();
+        ex = new Soil_tempExogenous();
+        soil_tempComponent = new Soil_tempComponent();
     }
 
     /// <summary>
@@ -91,24 +91,24 @@ class soil_tempWrapper :  Model
      
 
     /// <summary>
-    ///  The Constructor copy of the wrapper of the soil_tempComponent
+    ///  The Constructor copy of the wrapper of the Soil_tempComponent
     /// </summary>
     /// <param name="toCopy"></param>
     /// <param name="copyAll"></param>
-    public soil_tempWrapper(soil_tempWrapper toCopy, bool copyAll) 
+    public Soil_tempWrapper(Soil_tempWrapper toCopy, bool copyAll) 
     {
-        s = (toCopy.s != null) ? new soil_tempState(toCopy.s, copyAll) : null;
-        r = (toCopy.r != null) ? new soil_tempRate(toCopy.r, copyAll) : null;
-        a = (toCopy.a != null) ? new soil_tempAuxiliary(toCopy.a, copyAll) : null;
-        ex = (toCopy.ex != null) ? new soil_tempExogenous(toCopy.ex, copyAll) : null;
+        s = (toCopy.s != null) ? new Soil_tempState(toCopy.s, copyAll) : null;
+        r = (toCopy.r != null) ? new Soil_tempRate(toCopy.r, copyAll) : null;
+        a = (toCopy.a != null) ? new Soil_tempAuxiliary(toCopy.a, copyAll) : null;
+        ex = (toCopy.ex != null) ? new Soil_tempExogenous(toCopy.ex, copyAll) : null;
         if (copyAll)
         {
-            soil_tempComponent = (toCopy.soil_tempComponent != null) ? new soil_tempComponent(toCopy.soil_tempComponent) : null;
+            soil_tempComponent = (toCopy.soil_tempComponent != null) ? new Soil_tempComponent(toCopy.soil_tempComponent) : null;
         }
     }
 
     /// <summary>
-    ///  The Initialization method of the wrapper of the soil_tempComponent
+    ///  The Initialization method of the wrapper of the Soil_tempComponent
     /// </summary>
     public void Init(){
         setExogenous();
@@ -117,7 +117,7 @@ class soil_tempWrapper :  Model
     }
 
     /// <summary>
-    ///  Load parameters of the wrapper of the soil_tempComponent
+    ///  Load parameters of the wrapper of the Soil_tempComponent
     /// </summary>
     private void loadParameters()
     {
@@ -126,7 +126,7 @@ class soil_tempWrapper :  Model
     }
 
     /// <summary>
-    ///  Set exogenous variables of the wrapper of the soil_tempComponent
+    ///  Set exogenous variables of the wrapper of the Soil_tempComponent
     /// </summary>
     private void setExogenous()
     {

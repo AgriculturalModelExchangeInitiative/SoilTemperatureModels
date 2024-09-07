@@ -169,7 +169,7 @@ public class VolumetricHeatCapacityKluitenberg
             ClayFraction = Clay[i] / (Sand[i] + Silt[i] + Clay[i] + OrganicMatter[i]);
             FractionMinerals = SandFraction + SiltFraction + ClayFraction;
             OrganicMatterFraction = OrganicMatter[i] / (Sand[i] + Silt[i] + Clay[i] + OrganicMatter[i]);
-            HeatCapacity[i] = BulkDensity[i] * 0.730d * FractionMinerals + (BulkDensity[i] * 1.90d * OrganicMatterFraction) + (4.180d * VolumetricWaterContent[i]);
+            HeatCapacity[i] = BulkDensity[i] * 0.73 * FractionMinerals + (BulkDensity[i] * 1.9 * OrganicMatterFraction) + (4.18 * VolumetricWaterContent[i]);
         }
         s.HeatCapacity= HeatCapacity;
     }

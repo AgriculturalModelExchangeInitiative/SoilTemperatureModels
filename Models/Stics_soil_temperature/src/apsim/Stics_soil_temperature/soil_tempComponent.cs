@@ -7,13 +7,13 @@ namespace Models.Crop2ML;
 /// <summary>
 ///  soil_temp component
 /// </summary>
-public class soil_tempComponent 
+public class Soil_tempComponent 
 {
 
     /// <summary>
-    ///  constructor of soil_temp component
+    ///  constructor of Soil_temp component
     /// </summary>
-    public soil_tempComponent() {}
+    public Soil_tempComponent() {}
 
     //Declaration of the associated strategies
     Temp_amp _Temp_amp = new Temp_amp();
@@ -31,11 +31,11 @@ public class soil_tempComponent
     {
         get
         {
-             return _temp_profile.air_temp_day1; 
+             return _Temp_profile.air_temp_day1; 
         }
         set
         {
-            _temp_profile.air_temp_day1 = value;
+            _Temp_profile.air_temp_day1 = value;
         }
     }
 
@@ -48,19 +48,19 @@ public class soil_tempComponent
     {
         get
         {
-             return _temp_profile.layer_thick; 
+             return _Temp_profile.layer_thick; 
         }
         set
         {
-            _temp_profile.layer_thick = value;
-            _layers_temp.layer_thick = value;
+            _Temp_profile.layer_thick = value;
+            _Layers_temp.layer_thick = value;
         }
     }
 
     /// <summary>
-    /// Algorithm of soil_temp component
+    /// Algorithm of Soil_temp component
     /// </summary>
-    public void CalculateModel(soil_tempState s,soil_tempState s1,soil_tempRate r,soil_tempAuxiliary a,soil_tempExogenous ex)
+    public void CalculateModel(Soil_tempState s,Soil_tempState s1,Soil_tempRate r,Soil_tempAuxiliary a,Soil_tempExogenous ex)
     {
         _Temp_amp.CalculateModel(s,s1, r, a, ex);
         _Canopy_temp_avg.CalculateModel(s,s1, r, a, ex);
@@ -70,27 +70,23 @@ public class soil_tempComponent
     }
 
     /// <summary>
-    /// Initialization of soil_temp component
+    /// Initialization of Soil_temp component
     /// </summary>
-    public void Init(soil_tempState s, soil_tempState s1, soil_tempRate r, soil_tempAuxiliary a, soil_tempExogenous ex)
+    public void Init(Soil_tempState s, Soil_tempState s1, Soil_tempRate r, Soil_tempAuxiliary a, Soil_tempExogenous ex)
     {
-        _temp_amp.Init(s, s1, r, a, ex);
-        _canopy_temp_avg.Init(s, s1, r, a, ex);
-        _temp_profile.Init(s, s1, r, a, ex);
-        _layers_temp.Init(s, s1, r, a, ex);
-        _update.Init(s, s1, r, a, ex);
+        _Temp_profile.Init(s, s1, r, a, ex);
     }
 
     /// <summary>
-    /// constructor copy of soil_temp component
+    /// constructor copy of Soil_temp component
     /// </summary>
     /// <param name="toCopy"></param>
-    public soil_tempComponent(soil_tempComponent toCopy): this() // copy constructor 
+    public Soil_tempComponent(Soil_tempComponent toCopy): this() // copy constructor 
     {
-        air_temp_day1 = toCopy.air_temp_day1;
-        
-        for (int i = 0; i < toCopy.layer_thick.Length; i++)
-        { layer_thick[i] = toCopy.layer_thick[i]; }
+            air_temp_day1 = toCopy.air_temp_day1;
+            
+            for (int i = 0; i < toCopy.layer_thick.Length; i++)
+                { layer_thick[i] = toCopy.layer_thick[i]; }
     
     }
 }

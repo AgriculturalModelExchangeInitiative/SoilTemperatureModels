@@ -130,10 +130,10 @@ public class ThermalConductivitySIMULAT
         Eterm = (double)(4);
         for (i=0 ; i!=VolumetricWaterContent.Length ; i+=1)
         {
-            Aterm = 0.650d - (0.780d * BulkDensity[i]) + (0.60d * Math.Pow(BulkDensity[i], 2));
-            Bterm = 1.060d * BulkDensity[i] * VolumetricWaterContent[i];
-            Cterm = 1 + (2.60d * Math.Sqrt(Clay[i] / 100));
-            Dterm = 0.030d + (0.10d * Math.Pow(BulkDensity[i], 2));
+            Aterm = 0.65 - (0.78 * BulkDensity[i]) + (0.6 * Math.Pow(BulkDensity[i], 2));
+            Bterm = 1.06 * BulkDensity[i] * VolumetricWaterContent[i];
+            Cterm = 1 + (2.6 * Math.Sqrt(Clay[i] / 100));
+            Dterm = 0.03 + (0.1 * Math.Pow(BulkDensity[i], 2));
             ThermalConductivity[i] = Aterm + (Bterm * VolumetricWaterContent[i]) - ((Aterm - Dterm) * Math.Pow(Math.Exp(-(Cterm * VolumetricWaterContent[i])), Eterm));
         }
         s.ThermalConductivity= ThermalConductivity;

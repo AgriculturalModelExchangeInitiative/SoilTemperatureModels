@@ -25,8 +25,8 @@ public class SurfaceSWATSoilSWATCState
         if (copyAll)
         {
             SoilTemperatureByLayers = new double[toCopy.SoilTemperatureByLayers.Length];
-        for (int i = 0; i < toCopy.SoilTemperatureByLayers.Length; i++)
-        { SoilTemperatureByLayers[i] = toCopy.SoilTemperatureByLayers[i]; }
+            for (int i = 0; i < toCopy.SoilTemperatureByLayers.Length; i++)
+                { SoilTemperatureByLayers[i] = toCopy.SoilTemperatureByLayers[i]; }
     
         }
     }

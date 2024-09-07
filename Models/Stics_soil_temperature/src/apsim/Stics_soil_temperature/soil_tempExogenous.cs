@@ -6,7 +6,7 @@ namespace Models.Crop2ML;
 /// <summary>
 /// exogenous variables class of the soil_temp component
 /// </summary>
-public class soil_tempExogenous
+public class Soil_tempExogenous
 {
     private double _min_temp;
     private double _max_temp;
@@ -15,16 +15,16 @@ public class soil_tempExogenous
     private double _max_canopy_temp;
 
     /// <summary>
-    /// Constructor soil_tempExogenous domain class
+    /// Constructor Soil_tempExogenous domain class
     /// </summary>
-    public soil_tempExogenous() { }
+    public Soil_tempExogenous() { }
 
     /// <summary>
     /// Copy constructor
     /// </summary>
     /// <param name="toCopy"></param>
     /// <param name="copyAll"></param>
-    public soil_tempExogenous(soil_tempExogenous toCopy, bool copyAll) // copy constructor 
+    public Soil_tempExogenous(Soil_tempExogenous toCopy, bool copyAll) // copy constructor 
     {
         if (copyAll)
         {

@@ -35,8 +35,8 @@ public class SurfacePartonSoilSWATHourlyPartonCExogenous
             GlobalSolarRadiation = toCopy.GlobalSolarRadiation;
             AirTemperatureMaximum = toCopy.AirTemperatureMaximum;
             VolumetricWaterContent = new double[toCopy.VolumetricWaterContent.Length];
-        for (int i = 0; i < toCopy.VolumetricWaterContent.Length; i++)
-        { VolumetricWaterContent[i] = toCopy.VolumetricWaterContent[i]; }
+            for (int i = 0; i < toCopy.VolumetricWaterContent.Length; i++)
+                { VolumetricWaterContent[i] = toCopy.VolumetricWaterContent[i]; }
     
             HourOfSunset = toCopy.HourOfSunset;
             HourOfSunrise = toCopy.HourOfSunrise;

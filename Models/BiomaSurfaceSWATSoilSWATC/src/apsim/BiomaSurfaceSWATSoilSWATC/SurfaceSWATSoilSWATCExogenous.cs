@@ -35,8 +35,8 @@ public class SurfaceSWATSoilSWATCExogenous
             WaterEquivalentOfSnowPack = toCopy.WaterEquivalentOfSnowPack;
             Albedo = toCopy.Albedo;
             VolumetricWaterContent = new double[toCopy.VolumetricWaterContent.Length];
-        for (int i = 0; i < toCopy.VolumetricWaterContent.Length; i++)
-        { VolumetricWaterContent[i] = toCopy.VolumetricWaterContent[i]; }
+            for (int i = 0; i < toCopy.VolumetricWaterContent.Length; i++)
+                { VolumetricWaterContent[i] = toCopy.VolumetricWaterContent[i]; }
     
         }
     }

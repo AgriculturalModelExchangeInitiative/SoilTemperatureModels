@@ -78,20 +78,20 @@ namespace Models.Crop2ML;
 ///                          ** min : -50.0
 ///                          ** unit : degC
 /// </summary>
-public class temp_profile
+public class Temp_profile
 {
 
     /// <summary>
-    /// initialization of the temp_profile component
+    /// initialization of the Temp_profile component
     /// </summary>
-    public void Init(soil_tempState s, soil_tempState s1, soil_tempRate r, soil_tempAuxiliary a, soil_tempExogenous ex)
+    public void Init(Soil_tempState s, Soil_tempState s1, Soil_tempRate r, Soil_tempAuxiliary a, Soil_tempExogenous ex)
     {
         double min_air_temp = ex.min_air_temp;
         double temp_amp = 0.0;
         List<double> prev_temp_profile = new List<double>();
         double prev_canopy_temp;
         prev_temp_profile = new List<double>{};
-        prev_canopy_temp = 0.00d;
+        prev_canopy_temp = 0.0;
         int soil_depth;
         soil_depth = layer_thick.Sum();
         prev_temp_profile = new List<double>(soil_depth);
@@ -130,14 +130,14 @@ public class temp_profile
 
     
     /// <summary>
-    /// Constructor of the temp_profile component")
+    /// Constructor of the Temp_profile component")
     /// </summary>  
-    public temp_profile() { }
+    public Temp_profile() { }
     
     /// <summary>
-    /// Algorithm of the temp_profile component
+    /// Algorithm of the Temp_profile component
     /// </summary>
-    public void  CalculateModel(soil_tempState s, soil_tempState s1, soil_tempRate r, soil_tempAuxiliary a, soil_tempExogenous ex)
+    public void  CalculateModel(Soil_tempState s, Soil_tempState s1, Soil_tempRate r, Soil_tempAuxiliary a, Soil_tempExogenous ex)
     {
         double temp_amp = s.temp_amp;
         List<double> prev_temp_profile = s.prev_temp_profile;
@@ -160,7 +160,7 @@ public class temp_profile
         }
         for (z=1 ; z!=n + 1 ; z+=1)
         {
-            temp_profile[z - 1] = prev_temp_profile[z - 1] - (vexp[(z - 1)] * (prev_canopy_temp - min_air_temp)) + (0.10d * (prev_canopy_temp - prev_temp_profile[z - 1])) + (temp_amp * vexp[(z - 1)] / 2);
+            temp_profile[z - 1] = prev_temp_profile[z - 1] - (vexp[(z - 1)] * (prev_canopy_temp - min_air_temp)) + (0.1 * (prev_canopy_temp - prev_temp_profile[z - 1])) + (temp_amp * vexp[(z - 1)] / 2);
         }
         s.temp_profile= temp_profile;
     }

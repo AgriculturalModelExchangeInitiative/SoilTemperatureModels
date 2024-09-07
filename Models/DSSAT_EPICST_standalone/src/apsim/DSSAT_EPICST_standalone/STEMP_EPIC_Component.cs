@@ -193,32 +193,32 @@ public class STEMP_EPIC_Component
     /// <param name="toCopy"></param>
     public STEMP_EPIC_Component(STEMP_EPIC_Component toCopy): this() // copy constructor 
     {
-        
-        for (int i = 0; i < NL; i++)
-        { DUL[i] = toCopy.DUL[i]; }
+            
+            for (int i = 0; i < NL; i++)
+                { DUL[i] = toCopy.DUL[i]; }
     
-        NL = toCopy.NL;
-        NLAYR = toCopy.NLAYR;
-        
-        for (int i = 0; i < NL; i++)
-        { DS[i] = toCopy.DS[i]; }
+            NL = toCopy.NL;
+            NLAYR = toCopy.NLAYR;
+            
+            for (int i = 0; i < NL; i++)
+                { DS[i] = toCopy.DS[i]; }
     
-        ISWWAT = toCopy.ISWWAT;
-        
-        for (int i = 0; i < NL; i++)
-        { BD[i] = toCopy.BD[i]; }
+            ISWWAT = toCopy.ISWWAT;
+            
+            for (int i = 0; i < NL; i++)
+                { BD[i] = toCopy.BD[i]; }
     
-        
-        for (int i = 0; i < NL; i++)
-        { LL[i] = toCopy.LL[i]; }
+            
+            for (int i = 0; i < NL; i++)
+                { LL[i] = toCopy.LL[i]; }
     
-        
-        for (int i = 0; i < NL; i++)
-        { DLAYR[i] = toCopy.DLAYR[i]; }
+            
+            for (int i = 0; i < NL; i++)
+                { DLAYR[i] = toCopy.DLAYR[i]; }
     
-        
-        for (int i = 0; i < NL; i++)
-        { SW[i] = toCopy.SW[i]; }
+            
+            for (int i = 0; i < NL; i++)
+                { SW[i] = toCopy.SW[i]; }
     
     }
 }

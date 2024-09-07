@@ -11,11 +11,11 @@ public class STEMP_EPIC_State
     private int[] _WetDay = new int[30];
     private double _SRFTEMP;
     private int _NDays;
-    private double[] _ST = new double[NL];
+    private double[] _ST;
     private double[] _TMA = new double[5];
     private double _TDL;
     private double _X2_PREV;
-    private double[] _DSMID = new double[NL];
+    private double[] _DSMID;
     private double _CUMDPT;
 
     /// <summary>
@@ -33,24 +33,24 @@ public class STEMP_EPIC_State
         if (copyAll)
         {
             WetDay = new int[30];
-        for (int i = 0; i < 30; i++)
-        { WetDay[i] = toCopy.WetDay[i]; }
+            for (int i = 0; i < 30; i++)
+                { WetDay[i] = toCopy.WetDay[i]; }
     
             SRFTEMP = toCopy.SRFTEMP;
             NDays = toCopy.NDays;
-            ST = new double[NL];
-        for (int i = 0; i < NL; i++)
-        { ST[i] = toCopy.ST[i]; }
+            ST = new double[toCopy.ST.Length];
+            for (int i = 0; i < toCopy.ST.Length; i++)
+                { ST[i] = toCopy.ST[i]; }
     
             TMA = new double[5];
-        for (int i = 0; i < 5; i++)
-        { TMA[i] = toCopy.TMA[i]; }
+            for (int i = 0; i < 5; i++)
+                { TMA[i] = toCopy.TMA[i]; }
     
             TDL = toCopy.TDL;
             X2_PREV = toCopy.X2_PREV;
-            DSMID = new double[NL];
-        for (int i = 0; i < NL; i++)
-        { DSMID[i] = toCopy.DSMID[i]; }
+            DSMID = new double[toCopy.DSMID.Length];
+            for (int i = 0; i < toCopy.DSMID.Length; i++)
+                { DSMID[i] = toCopy.DSMID[i]; }
     
             CUMDPT = toCopy.CUMDPT;
         }
