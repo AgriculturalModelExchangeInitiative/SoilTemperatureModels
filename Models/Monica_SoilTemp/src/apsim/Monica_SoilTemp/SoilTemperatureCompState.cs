@@ -8,19 +8,19 @@ namespace Models.Crop2ML;
 /// </summary>
 public class SoilTemperatureCompState
 {
-    private double[] _V = new double[noOfTempLayers];
-    private double[] _B = new double[noOfTempLayers];
-    private double[] _volumeMatrix = new double[noOfTempLayers];
-    private double[] _volumeMatrixOld = new double[noOfTempLayers];
-    private double[] _matrixPrimaryDiagonal = new double[noOfTempLayers];
-    private double[] _matrixSecondaryDiagonal = new double[noOfTempLayersPlus1];
-    private double[] _heatConductivity = new double[noOfTempLayers];
-    private double[] _heatConductivityMean = new double[noOfTempLayers];
-    private double[] _heatCapacity = new double[noOfTempLayers];
-    private double[] _solution = new double[noOfTempLayers];
-    private double[] _matrixDiagonal = new double[noOfTempLayers];
-    private double[] _matrixLowerTriangle = new double[noOfTempLayers];
-    private double[] _heatFlow = new double[noOfTempLayers];
+    private double[] _V;
+    private double[] _B;
+    private double[] _volumeMatrix;
+    private double[] _volumeMatrixOld;
+    private double[] _matrixPrimaryDiagonal;
+    private double[] _matrixSecondaryDiagonal;
+    private double[] _heatConductivity;
+    private double[] _heatConductivityMean;
+    private double[] _heatCapacity;
+    private double[] _solution;
+    private double[] _matrixDiagonal;
+    private double[] _matrixLowerTriangle;
+    private double[] _heatFlow;
     private double _soilSurfaceTemperature;
     private double[] _soilTemperature = new double[22];
     private double _noSnowSoilSurfaceTemperature;
@@ -39,62 +39,62 @@ public class SoilTemperatureCompState
     {
         if (copyAll)
         {
-            V = new double[noOfTempLayers];
-        for (int i = 0; i < noOfTempLayers; i++)
-        { V[i] = toCopy.V[i]; }
+            V = new double[toCopy.V.Length];
+            for (int i = 0; i < toCopy.V.Length; i++)
+                { V[i] = toCopy.V[i]; }
     
-            B = new double[noOfTempLayers];
-        for (int i = 0; i < noOfTempLayers; i++)
-        { B[i] = toCopy.B[i]; }
+            B = new double[toCopy.B.Length];
+            for (int i = 0; i < toCopy.B.Length; i++)
+                { B[i] = toCopy.B[i]; }
     
-            volumeMatrix = new double[noOfTempLayers];
-        for (int i = 0; i < noOfTempLayers; i++)
-        { volumeMatrix[i] = toCopy.volumeMatrix[i]; }
+            volumeMatrix = new double[toCopy.volumeMatrix.Length];
+            for (int i = 0; i < toCopy.volumeMatrix.Length; i++)
+                { volumeMatrix[i] = toCopy.volumeMatrix[i]; }
     
-            volumeMatrixOld = new double[noOfTempLayers];
-        for (int i = 0; i < noOfTempLayers; i++)
-        { volumeMatrixOld[i] = toCopy.volumeMatrixOld[i]; }
+            volumeMatrixOld = new double[toCopy.volumeMatrixOld.Length];
+            for (int i = 0; i < toCopy.volumeMatrixOld.Length; i++)
+                { volumeMatrixOld[i] = toCopy.volumeMatrixOld[i]; }
     
-            matrixPrimaryDiagonal = new double[noOfTempLayers];
-        for (int i = 0; i < noOfTempLayers; i++)
-        { matrixPrimaryDiagonal[i] = toCopy.matrixPrimaryDiagonal[i]; }
+            matrixPrimaryDiagonal = new double[toCopy.matrixPrimaryDiagonal.Length];
+            for (int i = 0; i < toCopy.matrixPrimaryDiagonal.Length; i++)
+                { matrixPrimaryDiagonal[i] = toCopy.matrixPrimaryDiagonal[i]; }
     
-            matrixSecondaryDiagonal = new double[noOfTempLayersPlus1];
-        for (int i = 0; i < noOfTempLayersPlus1; i++)
-        { matrixSecondaryDiagonal[i] = toCopy.matrixSecondaryDiagonal[i]; }
+            matrixSecondaryDiagonal = new double[toCopy.matrixSecondaryDiagonal.Length];
+            for (int i = 0; i < toCopy.matrixSecondaryDiagonal.Length; i++)
+                { matrixSecondaryDiagonal[i] = toCopy.matrixSecondaryDiagonal[i]; }
     
-            heatConductivity = new double[noOfTempLayers];
-        for (int i = 0; i < noOfTempLayers; i++)
-        { heatConductivity[i] = toCopy.heatConductivity[i]; }
+            heatConductivity = new double[toCopy.heatConductivity.Length];
+            for (int i = 0; i < toCopy.heatConductivity.Length; i++)
+                { heatConductivity[i] = toCopy.heatConductivity[i]; }
     
-            heatConductivityMean = new double[noOfTempLayers];
-        for (int i = 0; i < noOfTempLayers; i++)
-        { heatConductivityMean[i] = toCopy.heatConductivityMean[i]; }
+            heatConductivityMean = new double[toCopy.heatConductivityMean.Length];
+            for (int i = 0; i < toCopy.heatConductivityMean.Length; i++)
+                { heatConductivityMean[i] = toCopy.heatConductivityMean[i]; }
     
-            heatCapacity = new double[noOfTempLayers];
-        for (int i = 0; i < noOfTempLayers; i++)
-        { heatCapacity[i] = toCopy.heatCapacity[i]; }
+            heatCapacity = new double[toCopy.heatCapacity.Length];
+            for (int i = 0; i < toCopy.heatCapacity.Length; i++)
+                { heatCapacity[i] = toCopy.heatCapacity[i]; }
     
-            solution = new double[noOfTempLayers];
-        for (int i = 0; i < noOfTempLayers; i++)
-        { solution[i] = toCopy.solution[i]; }
+            solution = new double[toCopy.solution.Length];
+            for (int i = 0; i < toCopy.solution.Length; i++)
+                { solution[i] = toCopy.solution[i]; }
     
-            matrixDiagonal = new double[noOfTempLayers];
-        for (int i = 0; i < noOfTempLayers; i++)
-        { matrixDiagonal[i] = toCopy.matrixDiagonal[i]; }
+            matrixDiagonal = new double[toCopy.matrixDiagonal.Length];
+            for (int i = 0; i < toCopy.matrixDiagonal.Length; i++)
+                { matrixDiagonal[i] = toCopy.matrixDiagonal[i]; }
     
-            matrixLowerTriangle = new double[noOfTempLayers];
-        for (int i = 0; i < noOfTempLayers; i++)
-        { matrixLowerTriangle[i] = toCopy.matrixLowerTriangle[i]; }
+            matrixLowerTriangle = new double[toCopy.matrixLowerTriangle.Length];
+            for (int i = 0; i < toCopy.matrixLowerTriangle.Length; i++)
+                { matrixLowerTriangle[i] = toCopy.matrixLowerTriangle[i]; }
     
-            heatFlow = new double[noOfTempLayers];
-        for (int i = 0; i < noOfTempLayers; i++)
-        { heatFlow[i] = toCopy.heatFlow[i]; }
+            heatFlow = new double[toCopy.heatFlow.Length];
+            for (int i = 0; i < toCopy.heatFlow.Length; i++)
+                { heatFlow[i] = toCopy.heatFlow[i]; }
     
             soilSurfaceTemperature = toCopy.soilSurfaceTemperature;
             soilTemperature = new double[22];
-        for (int i = 0; i < 22; i++)
-        { soilTemperature[i] = toCopy.soilTemperature[i]; }
+            for (int i = 0; i < 22; i++)
+                { soilTemperature[i] = toCopy.soilTemperature[i]; }
     
             noSnowSoilSurfaceTemperature = toCopy.noSnowSoilSurfaceTemperature;
         }

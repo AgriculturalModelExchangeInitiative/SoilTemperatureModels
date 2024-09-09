@@ -417,21 +417,21 @@ public class SoilTemperature
         int i;
         for (i=0 ; i!=noOfSoilLayers ; i+=1)
         {
-            soilTemperature[i] = (1.00d - ((double)(i) / noOfSoilLayers)) * initialSurfaceTemp + ((double)(i) / noOfSoilLayers * baseTemp);
+            soilTemperature[i] = (1.0 - ((double)(i) / noOfSoilLayers)) * initialSurfaceTemp + ((double)(i) / noOfSoilLayers * baseTemp);
         }
         groundLayer = noOfTempLayers - 2;
         bottomLayer = noOfTempLayers - 1;
-        layerThickness[groundLayer] = 2.00d * layerThickness[(groundLayer - 1)];
-        layerThickness[bottomLayer] = 1.00d;
-        soilTemperature[groundLayer] = (soilTemperature[groundLayer - 1] + baseTemp) * 0.50d;
+        layerThickness[groundLayer] = 2.0 * layerThickness[(groundLayer - 1)];
+        layerThickness[bottomLayer] = 1.0;
+        soilTemperature[groundLayer] = (soilTemperature[groundLayer - 1] + baseTemp) * 0.5;
         soilTemperature[bottomLayer] = baseTemp;
         V[0] = layerThickness[0];
-        B[0] = 2.00d / layerThickness[0];
+        B[0] = 2.0 / layerThickness[0];
         for (i=1 ; i!=noOfTempLayers ; i+=1)
         {
             lti_1 = layerThickness[i - 1];
             lti = layerThickness[i];
-            B[i] = 2.00d / (lti + lti_1);
+            B[i] = 2.0 / (lti + lti_1);
             V[i] = lti * nTau;
         }
         ts = timeStep;
@@ -447,10 +447,10 @@ public class SoilTemperature
         {
             sbdi = soilBulkDensity[i];
             smi = soilMoistureConst[i];
-            heatConductivity[i] = (3.00d * (sbdi / 1000.00d) - 1.70d) * 0.0010d / (1.00d + ((11.50d - (5.00d * (sbdi / 1000.00d))) * Math.Exp(-50.00d * Math.Pow(smi / (sbdi / 1000.00d), 1.50d)))) * 86400.00d * ts * 100.00d * 4.1840d;
+            heatConductivity[i] = (3.0 * (sbdi / 1000.0) - 1.7) * 0.001 / (1.0 + ((11.5 - (5.0 * (sbdi / 1000.0))) * Math.Exp(-50.0 * Math.Pow(smi / (sbdi / 1000.0), 1.5)))) * 86400.0 * ts * 100.0 * 4.184;
             sati = saturation[i];
             somi = soilOrganicMatter[i] / da * sbdi;
-            heatCapacity[i] = smi * dw * cw + ((sati - smi) * da * ca) + (somi * dh * ch) + ((1.00d - sati - somi) * dq * cq);
+            heatCapacity[i] = smi * dw * cw + ((sati - smi) * da * ca) + (somi * dh * ch) + ((1.0 - sati - somi) * dq * cq);
         }
         heatCapacity[groundLayer] = heatCapacity[groundLayer - 1];
         heatCapacity[bottomLayer] = heatCapacity[groundLayer];
@@ -472,7 +472,7 @@ public class SoilTemperature
             volumeMatrixOld[i] = volumeMatrix[i];
             matrixSecondaryDiagonal[i] = -B[i] * heatConductivityMean[i];
         }
-        matrixSecondaryDiagonal[bottomLayer + 1] = 0.00d;
+        matrixSecondaryDiagonal[bottomLayer + 1] = 0.0;
         for (i=0 ; i!=noOfTempLayers ; i+=1)
         {
             matrixPrimaryDiagonal[i] = volumeMatrix[i] - matrixSecondaryDiagonal[i] - matrixSecondaryDiagonal[i + 1];

@@ -110,12 +110,12 @@ public class NoSnowSoilSurfaceTemperature
         double soilCoverage = ex.soilCoverage;
         double soilSurfaceTemperature = s.soilSurfaceTemperature;
         double shadingCoefficient;
-        globrad = Math.Max(8.330d, globrad);
-        shadingCoefficient = 0.10d + (soilCoverage * dampingFactor + ((1 - soilCoverage) * (1 - dampingFactor)));
-        soilSurfaceTemperature = (1.00d - shadingCoefficient) * (tmin + ((tmax - tmin) * Math.Pow(0.030d * globrad, 0.50d))) + (shadingCoefficient * soilSurfaceTemperature);
-        if (soilSurfaceTemperature < 0.00d)
+        globrad = Math.Max(8.33, globrad);
+        shadingCoefficient = 0.1 + (soilCoverage * dampingFactor + ((1 - soilCoverage) * (1 - dampingFactor)));
+        soilSurfaceTemperature = (1.0 - shadingCoefficient) * (tmin + ((tmax - tmin) * Math.Pow(0.03 * globrad, 0.5))) + (shadingCoefficient * soilSurfaceTemperature);
+        if (soilSurfaceTemperature < 0.0)
         {
-            soilSurfaceTemperature = soilSurfaceTemperature * 0.50d;
+            soilSurfaceTemperature = soilSurfaceTemperature * 0.5;
         }
         s.soilSurfaceTemperature= soilSurfaceTemperature;
     }

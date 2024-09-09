@@ -393,8 +393,6 @@ public class SoilTemperatureCompComponent
     /// </summary>
     public void Init(SoilTemperatureCompState s, SoilTemperatureCompState s1, SoilTemperatureCompRate r, SoilTemperatureCompAuxiliary a, SoilTemperatureCompExogenous ex)
     {
-        _NoSnowSoilSurfaceTemperature.Init(s, s1, r, a, ex);
-        _WithSnowSoilSurfaceTemperature.Init(s, s1, r, a, ex);
         _SoilTemperature.Init(s, s1, r, a, ex);
     }
 
@@ -404,41 +402,41 @@ public class SoilTemperatureCompComponent
     /// <param name="toCopy"></param>
     public SoilTemperatureCompComponent(SoilTemperatureCompComponent toCopy): this() // copy constructor 
     {
-        dampingFactor = toCopy.dampingFactor;
-        timeStep = toCopy.timeStep;
-        
-        for (int i = 0; i < noOfSoilLayers; i++)
-        { soilMoistureConst[i] = toCopy.soilMoistureConst[i]; }
+            dampingFactor = toCopy.dampingFactor;
+            timeStep = toCopy.timeStep;
+            
+            for (int i = 0; i < noOfSoilLayers; i++)
+                { soilMoistureConst[i] = toCopy.soilMoistureConst[i]; }
     
-        baseTemp = toCopy.baseTemp;
-        initialSurfaceTemp = toCopy.initialSurfaceTemp;
-        densityAir = toCopy.densityAir;
-        specificHeatCapacityAir = toCopy.specificHeatCapacityAir;
-        densityHumus = toCopy.densityHumus;
-        specificHeatCapacityHumus = toCopy.specificHeatCapacityHumus;
-        densityWater = toCopy.densityWater;
-        specificHeatCapacityWater = toCopy.specificHeatCapacityWater;
-        quartzRawDensity = toCopy.quartzRawDensity;
-        specificHeatCapacityQuartz = toCopy.specificHeatCapacityQuartz;
-        nTau = toCopy.nTau;
-        noOfTempLayers = toCopy.noOfTempLayers;
-        noOfTempLayersPlus1 = toCopy.noOfTempLayersPlus1;
-        noOfSoilLayers = toCopy.noOfSoilLayers;
-        
-        for (int i = 0; i < noOfTempLayers; i++)
-        { layerThickness[i] = toCopy.layerThickness[i]; }
+            baseTemp = toCopy.baseTemp;
+            initialSurfaceTemp = toCopy.initialSurfaceTemp;
+            densityAir = toCopy.densityAir;
+            specificHeatCapacityAir = toCopy.specificHeatCapacityAir;
+            densityHumus = toCopy.densityHumus;
+            specificHeatCapacityHumus = toCopy.specificHeatCapacityHumus;
+            densityWater = toCopy.densityWater;
+            specificHeatCapacityWater = toCopy.specificHeatCapacityWater;
+            quartzRawDensity = toCopy.quartzRawDensity;
+            specificHeatCapacityQuartz = toCopy.specificHeatCapacityQuartz;
+            nTau = toCopy.nTau;
+            noOfTempLayers = toCopy.noOfTempLayers;
+            noOfTempLayersPlus1 = toCopy.noOfTempLayersPlus1;
+            noOfSoilLayers = toCopy.noOfSoilLayers;
+            
+            for (int i = 0; i < noOfTempLayers; i++)
+                { layerThickness[i] = toCopy.layerThickness[i]; }
     
-        
-        for (int i = 0; i < noOfSoilLayers; i++)
-        { soilBulkDensity[i] = toCopy.soilBulkDensity[i]; }
+            
+            for (int i = 0; i < noOfSoilLayers; i++)
+                { soilBulkDensity[i] = toCopy.soilBulkDensity[i]; }
     
-        
-        for (int i = 0; i < noOfSoilLayers; i++)
-        { saturation[i] = toCopy.saturation[i]; }
+            
+            for (int i = 0; i < noOfSoilLayers; i++)
+                { saturation[i] = toCopy.saturation[i]; }
     
-        
-        for (int i = 0; i < noOfSoilLayers; i++)
-        { soilOrganicMatter[i] = toCopy.soilOrganicMatter[i]; }
+            
+            for (int i = 0; i < noOfSoilLayers; i++)
+                { soilOrganicMatter[i] = toCopy.soilOrganicMatter[i]; }
     
     }
 }
