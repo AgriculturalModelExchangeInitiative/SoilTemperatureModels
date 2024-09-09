@@ -19,16 +19,25 @@ def model_SoilTemperatureCampbell(NLAYR: int,
     CLAY: 'Array[float]',
     SW: 'Array[float]',
     DEPTH: 'Array[float]',
-    DOY: float,
+    DOY: int,
+    airPressure: float,
     canopyHeight: float,
     SALB: float,
     SRAD: float,
     ESP: float,
+    ES: float,
     EOAD: float,
-    ESAD: float,
-    soilTemp: 'Array[float]'):
+    ESAD: float,    
+    soilTemp: 'Array[float]',
+    thermalCondPar1: 'Array[float]',
+    thermalCondPar2: 'Array[float]',
+    thermalCondPar3: 'Array[float]',
+    thermalCondPar4: 'Array[float]',
+    maxTempYesterday: float,
+    minTempYesterday: float
+    ):
     """
-    - Name: SoilTemperatureCampbell
+    - Name: campbell
     - Version: 1.0
     - Time step: 1
     - Description:
@@ -42,7 +51,7 @@ def model_SoilTemperatureCampbell(NLAYR: int,
          * name: NLAYR
                ** description : number of soil layers in profile
                ** inputtype : parameter
-               ** variablecategory : constant
+               ** parametercategory : constant
                ** datatype : INT
                ** max :
                ** min : 1
@@ -51,7 +60,7 @@ def model_SoilTemperatureCampbell(NLAYR: int,
          * name: THICK
                ** description : APSIM soil layer depths as thickness of layers
                ** inputtype : parameter
-               ** variablecategory : constant
+               ** parametercategory : constant
                ** datatype : DOUBLEARRAY
                ** len : NLAYR
                ** max :
@@ -61,12 +70,12 @@ def model_SoilTemperatureCampbell(NLAYR: int,
         * name: BD
                ** description : bd (soil bulk density) is name of the APSIM var for bulk density so set bulkDensity = bd later
                ** inputtype : parameter
-               ** variablecategory : constant
+               ** parametercategory : constant
                ** datatype : DOUBLEARRAY
                ** len : NLAYR
                ** max :
-               ** min : 1
-               ** default : 
+               ** min : 
+               ** default : 1.4
                ** unit : g/cm3
         * name: TMAX
                ** description : Max daily Air temperature
@@ -98,7 +107,7 @@ def model_SoilTemperatureCampbell(NLAYR: int,
         * name: TAMP
                ** description : Amplitude air temperature
                ** inputtype : parameter
-               ** variablecategory : constant
+               ** parametercategory : constant
                ** datatype : DOUBLE
                ** max : 100
                ** min : -100
@@ -107,7 +116,7 @@ def model_SoilTemperatureCampbell(NLAYR: int,
         * name: XLAT
                ** description : Latitude
                ** inputtype : parameter
-               ** variablecategory : constant
+               ** parametercategory : constant
                ** datatype : DOUBLE
                ** max : 
                ** min :
@@ -116,7 +125,7 @@ def model_SoilTemperatureCampbell(NLAYR: int,
         * name: CLAY
                ** description : Proportion of clay in each layer of profile
                ** inputtype : parameter
-               ** variablecategory : constant
+               ** parametercategory : constant
                ** datatype : DOUBLEARRAY
                ** len : NLAYR
                ** max : 1
@@ -136,7 +145,7 @@ def model_SoilTemperatureCampbell(NLAYR: int,
         * name: DEPTH
                ** description : node depths
                ** inputtype : parameter
-               ** variablecategory : constant
+               ** parametercategory : constant
                ** datatype : DOUBLEARRAY
                ** len : NLAYR
                ** max :
@@ -147,10 +156,19 @@ def model_SoilTemperatureCampbell(NLAYR: int,
                ** description : Day of year
                ** inputtype : variable
                ** variablecategory : exogenous
-               ** datatype : DOUBLE
+               ** datatype : INT
                ** max : 366
                ** min : 0
                ** default : 0
+               ** unit : dimensionless
+        * name: airPressure
+               ** description : Air pressure
+               ** inputtype : variable
+               ** variablecategory : state
+               ** datatype : DOUBLE
+               ** max : 
+               ** min : 
+               ** default : 
                ** unit : dimensionless
         * name: canopyHeight
                ** description : height of canopy above ground
@@ -164,7 +182,7 @@ def model_SoilTemperatureCampbell(NLAYR: int,
         * name: SALB
                ** description : Soil albedo
                ** inputtype : parameter
-               ** variablecategory : constant
+               ** parametercategory : constant
                ** datatype : DOUBLE
                ** max : 1
                ** min : 0
@@ -176,11 +194,20 @@ def model_SoilTemperatureCampbell(NLAYR: int,
                ** variablecategory : exogenous
                ** datatype : DOUBLE
                ** max : 
-               ** min : 
+               ** min : 0
                ** default : 
-               ** unit : 
+               ** unit : MJ/m2-day
         * name: ESP
                ** description : Potential evaporation
+               ** inputtype : variable
+               ** variablecategory : exogenous
+               ** datatype : DOUBLE
+               ** max : 
+               ** min : 0
+               ** default : 
+               ** unit : mm
+        * name: ES
+               ** description : Actual evaporation
                ** inputtype : variable
                ** variablecategory : exogenous
                ** datatype : DOUBLE
@@ -217,97 +244,222 @@ def model_SoilTemperatureCampbell(NLAYR: int,
                ** max : 60.
                ** unit : degC
                ** uri : 
+        * name: thermalCondPar1
+               ** description : thermal conductivity coeff in layers
+               ** inputtype : variable
+               ** variablecategory : state
+               ** datatype : DOUBLEARRAY
+               ** len : NLAYR
+               ** default : 
+               ** min : 
+               ** max : 
+               ** unit : (W/m2/K)
+               ** uri : 
+        * name: thermalCondPar2
+               ** description : thermal conductivity coeff in layers
+               ** inputtype : variable
+               ** variablecategory : state
+               ** datatype : DOUBLEARRAY
+               ** len : NLAYR
+               ** default : 
+               ** min : 
+               ** max : 
+               ** unit : (W/m2/K)
+               ** uri : 
+        * name: thermalCondPar3
+               ** description : thermal conductivity coeff in layers
+               ** inputtype : variable
+               ** variablecategory : state
+               ** datatype : DOUBLEARRAY
+               ** len : NLAYR
+               ** default : 
+               ** min : 
+               ** max : 
+               ** unit : (W/m2/K)
+               ** uri : 
+        * name: thermalCondPar4
+               ** description : thermal conductivity coeff in layers
+               ** inputtype : variable
+               ** variablecategory : state
+               ** datatype : DOUBLEARRAY
+               ** len : NLAYR
+               ** default : 
+               ** min : 
+               ** max : 
+               ** unit : (W/m2/K)
+               ** uri :
+        * name: maxTempYesterday
+               ** description : Air max temperature from previous day
+               ** inputtype : variable
+               ** variablecategory : state
+               ** datatype : DOUBLE
+               ** default : 
+               ** min : -60
+               ** max : 60
+               ** unit : °C
+               ** uri : 
+        * name: minTempYesterday
+               ** description : Air min temperature from previous day
+               ** inputtype : variable
+               ** variablecategory : state
+               ** datatype : DOUBLE
+               ** default : 
+               ** min : -60
+               ** max : 60
+               ** unit : °C
+               ** uri : 
     - outputs: 
         * name: soilTemp
-                    ** description :  Temperature at end of last time-step within a day - midnight in layers
-                    ** variablecategory : state
-                    ** datatype : DOUBLEARRAY
-                    ** len : NLAYR
-                    ** min : -60.
-                    ** max : 60.
-                    ** unit : degC
-                    ** uri : 
+                ** description :  Temperature at end of last time-step within a day - midnight in layers
+                ** variablecategory : state
+                ** datatype : DOUBLEARRAY
+                ** len : NLAYR
+                ** min : -60.
+                ** max : 60.
+                ** unit : degC
+                ** uri : 
+        * name: maxTempYesterday
+                ** description :  Max temperature at previous day
+                ** variablecategory : state
+                ** datatype : DOUBLE
+                ** min : -60.
+                ** max : 60.
+                ** unit : degC
+                ** uri : 
+        * name: minTempYesterday
+                ** description :  Min temperature at previous day
+                ** variablecategory : state
+                ** datatype : DOUBLE
+                ** min : -60.
+                ** max : 60.
+                ** unit : degC
+                ** uri : 
         * name: minSoilTemp
-                    ** description : Minimum soil temperature in layers
-                    ** variablecategory : auxiliary
-                    ** datatype : DOUBLEARRAY
-                    ** len : NLAYR
-                    ** min : -60.
-                    ** max : 60.
-                    ** unit : degC
-                    ** uri : 
+                ** description : Minimum soil temperature in layers
+                ** variablecategory : auxiliary
+                ** datatype : DOUBLEARRAY
+                ** len : NLAYR
+                ** min : -60.
+                ** max : 60.
+                ** unit : degC
+                ** uri : 
         * name: maxSoilTemp
-                    ** description :  Maximum soil temperature in layers
-                    ** variablecategory : state
-                    ** datatype : DOUBLEARRAY
-                    ** len : NLAYR
-                    ** min : -60.
-                    ** max : 60.
-                    ** unit : degC
-                    ** uri : 
+                ** description :  Maximum soil temperature in layers
+                ** variablecategory : state
+                ** datatype : DOUBLEARRAY
+                ** len : NLAYR
+                ** min : -60.
+                ** max : 60.
+                ** unit : degC
+                ** uri : 
         * name: aveSoilTemp
-                    ** description : Temperature averaged over all time-steps within a day in layers.
-                    ** variablecategory : state
-                    ** datatype : DOUBLEARRAY
-                    ** len : NLAYR
-                    ** min : -60.
-                    ** max : 60.
-                    ** unit : degC
-                    ** uri : 
+                ** description : Temperature averaged over all time-steps within a day in layers.
+                ** variablecategory : state
+                ** datatype : DOUBLEARRAY
+                ** len : NLAYR
+                ** min : -60.
+                ** max : 60.
+                ** unit : degC
+                ** uri : 
         * name: morningSoilTemp
-                    ** description : Temperature  in the morning in layers.
-                    ** variablecategory : state
-                    ** datatype : DOUBLEARRAY
-                    ** len : NLAYR
-                    ** min : -60.
-                    ** max : 60.
-                    ** unit : degC
-                    ** uri : 
+                ** description : Temperature  in the morning in layers.
+                ** variablecategory : state
+                ** datatype : DOUBLEARRAY
+                ** len : NLAYR
+                ** min : -60.
+                ** max : 60.
+                ** unit : degC
+                ** uri : 
         * name: tempNew
-                    ** description : Soil temperature at the end of one iteration
-                    ** variablecategory : state
-                    ** datatype : DOUBLEARRAY
-                    ** len : NLAYR
-                    ** min : -60.
-                    ** max : 60.
-                    ** unit : degC
-                    ** uri : 
+                ** description : Soil temperature at the end of one iteration
+                ** variablecategory : state
+                ** datatype : DOUBLEARRAY
+                ** len : NLAYR
+                ** min : -60.
+                ** max : 60.
+                ** unit : degC
+                ** uri : 
         * name: heatCapacity
-                    ** description : Heat Capacity in layers
-                    ** variablecategory : state
-                    ** datatype : DOUBLEARRAY
-                    ** len : NLAYR
-                    ** min : 
-                    ** max : 
-                    ** unit : J/m3/K/s
-                    ** uri : 
+                ** description : Heat Capacity in layers
+                ** variablecategory : state
+                ** datatype : DOUBLEARRAY
+                ** len : NLAYR
+                ** min : 
+                ** max : 
+                ** unit : J/m3/K/s
+                ** uri :
+        * name: thermalCondPar1
+                ** description : thermal conductivity coeff in layers
+                ** variablecategory : state
+                ** datatype : DOUBLEARRAY
+                ** len : NLAYR
+                ** min : 
+                ** max : 
+                ** unit : (W/m2/K)
+                ** uri : 
+        * name: thermalCondPar2
+                ** description : thermal conductivity coeff in layers
+                ** variablecategory : state
+                ** datatype : DOUBLEARRAY
+                ** len : NLAYR
+                ** min : 
+                ** max : 
+                ** unit : (W/m2/K)
+                ** uri : 
+        * name: thermalCondPar3
+                ** description : thermal conductivity coeff in layers
+                ** variablecategory : state
+                ** datatype : DOUBLEARRAY
+                ** len : NLAYR
+                ** min : 
+                ** max : 
+                ** unit : (W/m2/K)
+                ** uri : 
+        * name: thermalCondPar4
+                ** description : thermal conductivity coeff in layers
+                ** variablecategory : state
+                ** datatype : DOUBLEARRAY
+                ** len : NLAYR
+                ** min : 
+                ** max : 
+                ** unit : (W/m2/K)
+                ** uri : 
         * name: thermalConductivity
-                    ** description : thermal conductivity in layers
-                    ** variablecategory : state
-                    ** datatype : DOUBLEARRAY
-                    ** len : NLAYR
-                    ** min : 
-                    ** max : 
-                    ** unit : (W/m2/K)
-                    ** uri : 
+                ** description : thermal conductivity in layers
+                ** variablecategory : state
+                ** datatype : DOUBLEARRAY
+                ** len : NLAYR
+                ** min : 
+                ** max : 
+                ** unit : (W/m2/K)
+                ** uri : 
         * name: thermalConductance
-                    ** description : Thermal conductance between layers 
-                    ** variablecategory : state
-                    ** datatype : DOUBLEARRAY
-                    ** len : NLAYR
-                    ** min : 
-                    ** max : 
-                    ** unit : 
-                    ** uri : 
+                ** description : Thermal conductance between layers 
+                ** variablecategory : state
+                ** datatype : DOUBLEARRAY
+                ** len : NLAYR
+                ** min : 
+                ** max : 
+                ** unit : 
+                ** uri : 
         * name: heatStorage
-                    ** description : Heat storage between layers (internal)
-                    ** variablecategory : state
-                    ** datatype : DOUBLEARRAY
-                    ** len : NLAYR
-                    ** min : 
-                    ** max : 
-                    ** unit : J/s/K
-                    ** uri : 
+                ** description : Heat storage between layers (internal)
+                ** variablecategory : state
+                ** datatype : DOUBLEARRAY
+                ** len : NLAYR
+                ** min : 
+                ** max : 
+                ** unit : J/s/K
+                ** uri : 
+        * name: airPressure
+                ** description : Air pressure
+                ** inputtype : variable
+                ** variablecategory : state
+                ** datatype : DOUBLE
+                ** max : 
+                ** min : 
+                ** default : 
+                ** unit : hPa
     """
     #%%CyML Compute Begin%%
     minSoilTemp : 'Array[float]' = []
@@ -319,18 +471,26 @@ def model_SoilTemperatureCampbell(NLAYR: int,
     thermalConductivity : 'Array[float]' = []
     thermalConductance : 'Array[float]' = []
     heatStorage : 'Array[float]' = []
-    
-    (soilTemp,
+    volSpecHeatSoil : 'Array[float]' = []
+
+    soilTemp,
+    maxTempYesterday,
+    minTempYesterday,
     minSoilTemp,
     maxSoilTemp,
     aveSoilTemp,
     morningSoilTemp,
     tempNew,
     heatCapacity,
+    thermalCondPar1,
+    thermalCondPar2,
+    thermalCondPar3,
+    thermalCondPar4,
     thermalConductivity,
     thermalConductance,
-    heatStorage) = model_campbell(
-       NLAYR, THICK ,BD ,
+    heatStorage,
+    airPressure = model_campbell(
+       NLAYR, THICK, BD,
        TMAX,
        TMIN,
        TAV,
@@ -344,19 +504,34 @@ def model_SoilTemperatureCampbell(NLAYR: int,
        SALB,
        SRAD,
        ESP,
+       ES,
        EOAD,
        ESAD,
-       soilTemp)
+       maxTempYesterday,
+       minTempYesterday,
+       airPressure,
+       soilTemp,
+       thermalCondPar1,)
+       thermalCondPar2,)
+       thermalCondPar3,)
+       thermalCondPar4)
 
     #%%CyML Compute End%%
     return (soilTemp,
-    minSoilTemp,
-    maxSoilTemp,
-    aveSoilTemp,
-    morningSoilTemp,
-    tempNew,
-    heatCapacity,
-    thermalConductivity,
-    thermalConductance,
-    heatStorage)
+            maxTempYesterday,
+            minTempYesterday,
+            minSoilTemp,
+            maxSoilTemp,
+            aveSoilTemp,
+            morningSoilTemp,
+            tempNew,
+            heatCapacity,
+            thermalCondPar1,
+            thermalCondPar2,
+            thermalCondPar3,
+            thermalCondPar4,
+            thermalConductivity,
+            thermalConductance,
+            heatStorage,
+            airPressure)
 #%%CyML Model End%%
