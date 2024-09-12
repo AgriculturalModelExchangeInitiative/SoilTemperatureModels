@@ -3,13 +3,11 @@ using System.Collections.Generic;
 public class CampbellState 
 {
     private double[] _soilTemp;
-    private double _maxTempYesterday;
-    private double _minTempYesterday;
+    private double[] _newTemperature;
     private double[] _maxSoilTemp;
     private double[] _aveSoilTemp;
     private double[] _morningSoilTemp;
-    private double[] _tempNew;
-    private double[] _heatCapacity;
+    private double _airPressure;
     private double[] _thermalCondPar1;
     private double[] _thermalCondPar2;
     private double[] _thermalCondPar3;
@@ -17,7 +15,14 @@ public class CampbellState
     private double[] _thermalConductivity;
     private double[] _thermalConductance;
     private double[] _heatStorage;
-    private double _airPressure;
+    private double[] _volSpecHeatSoil;
+    private double _maxTempYesterday;
+    private double _minTempYesterday;
+    private double[] _SLCARB;
+    private double[] _SLROCK;
+    private double[] _SLSILT;
+    private double[] _SLSAND;
+    private double __boundaryLayerConductance;
     
     /// <summary>
     /// Constructor of the campbellState component")
@@ -34,8 +39,10 @@ public class CampbellState
             for (int i = 0; i < toCopy.soilTemp.Length; i++)
                 { soilTemp[i] = toCopy.soilTemp[i]; }
     
-            maxTempYesterday = toCopy.maxTempYesterday;
-            minTempYesterday = toCopy.minTempYesterday;
+            newTemperature = new double[toCopy.newTemperature.Length];
+            for (int i = 0; i < toCopy.newTemperature.Length; i++)
+                { newTemperature[i] = toCopy.newTemperature[i]; }
+    
             maxSoilTemp = new double[toCopy.maxSoilTemp.Length];
             for (int i = 0; i < toCopy.maxSoilTemp.Length; i++)
                 { maxSoilTemp[i] = toCopy.maxSoilTemp[i]; }
@@ -48,14 +55,7 @@ public class CampbellState
             for (int i = 0; i < toCopy.morningSoilTemp.Length; i++)
                 { morningSoilTemp[i] = toCopy.morningSoilTemp[i]; }
     
-            tempNew = new double[toCopy.tempNew.Length];
-            for (int i = 0; i < toCopy.tempNew.Length; i++)
-                { tempNew[i] = toCopy.tempNew[i]; }
-    
-            heatCapacity = new double[toCopy.heatCapacity.Length];
-            for (int i = 0; i < toCopy.heatCapacity.Length; i++)
-                { heatCapacity[i] = toCopy.heatCapacity[i]; }
-    
+            airPressure = toCopy.airPressure;
             thermalCondPar1 = new double[toCopy.thermalCondPar1.Length];
             for (int i = 0; i < toCopy.thermalCondPar1.Length; i++)
                 { thermalCondPar1[i] = toCopy.thermalCondPar1[i]; }
@@ -84,7 +84,29 @@ public class CampbellState
             for (int i = 0; i < toCopy.heatStorage.Length; i++)
                 { heatStorage[i] = toCopy.heatStorage[i]; }
     
-            airPressure = toCopy.airPressure;
+            volSpecHeatSoil = new double[toCopy.volSpecHeatSoil.Length];
+            for (int i = 0; i < toCopy.volSpecHeatSoil.Length; i++)
+                { volSpecHeatSoil[i] = toCopy.volSpecHeatSoil[i]; }
+    
+            maxTempYesterday = toCopy.maxTempYesterday;
+            minTempYesterday = toCopy.minTempYesterday;
+            SLCARB = new double[toCopy.SLCARB.Length];
+            for (int i = 0; i < toCopy.SLCARB.Length; i++)
+                { SLCARB[i] = toCopy.SLCARB[i]; }
+    
+            SLROCK = new double[toCopy.SLROCK.Length];
+            for (int i = 0; i < toCopy.SLROCK.Length; i++)
+                { SLROCK[i] = toCopy.SLROCK[i]; }
+    
+            SLSILT = new double[toCopy.SLSILT.Length];
+            for (int i = 0; i < toCopy.SLSILT.Length; i++)
+                { SLSILT[i] = toCopy.SLSILT[i]; }
+    
+            SLSAND = new double[toCopy.SLSAND.Length];
+            for (int i = 0; i < toCopy.SLSAND.Length; i++)
+                { SLSAND[i] = toCopy.SLSAND[i]; }
+    
+            _boundaryLayerConductance = toCopy._boundaryLayerConductance;
         }
     }
     public double[] soilTemp
@@ -92,15 +114,10 @@ public class CampbellState
         get { return this._soilTemp; }
         set { this._soilTemp= value; } 
     }
-    public double maxTempYesterday
+    public double[] newTemperature
     {
-        get { return this._maxTempYesterday; }
-        set { this._maxTempYesterday= value; } 
-    }
-    public double minTempYesterday
-    {
-        get { return this._minTempYesterday; }
-        set { this._minTempYesterday= value; } 
+        get { return this._newTemperature; }
+        set { this._newTemperature= value; } 
     }
     public double[] maxSoilTemp
     {
@@ -117,15 +134,10 @@ public class CampbellState
         get { return this._morningSoilTemp; }
         set { this._morningSoilTemp= value; } 
     }
-    public double[] tempNew
+    public double airPressure
     {
-        get { return this._tempNew; }
-        set { this._tempNew= value; } 
-    }
-    public double[] heatCapacity
-    {
-        get { return this._heatCapacity; }
-        set { this._heatCapacity= value; } 
+        get { return this._airPressure; }
+        set { this._airPressure= value; } 
     }
     public double[] thermalCondPar1
     {
@@ -162,9 +174,44 @@ public class CampbellState
         get { return this._heatStorage; }
         set { this._heatStorage= value; } 
     }
-    public double airPressure
+    public double[] volSpecHeatSoil
     {
-        get { return this._airPressure; }
-        set { this._airPressure= value; } 
+        get { return this._volSpecHeatSoil; }
+        set { this._volSpecHeatSoil= value; } 
+    }
+    public double maxTempYesterday
+    {
+        get { return this._maxTempYesterday; }
+        set { this._maxTempYesterday= value; } 
+    }
+    public double minTempYesterday
+    {
+        get { return this._minTempYesterday; }
+        set { this._minTempYesterday= value; } 
+    }
+    public double[] SLCARB
+    {
+        get { return this._SLCARB; }
+        set { this._SLCARB= value; } 
+    }
+    public double[] SLROCK
+    {
+        get { return this._SLROCK; }
+        set { this._SLROCK= value; } 
+    }
+    public double[] SLSILT
+    {
+        get { return this._SLSILT; }
+        set { this._SLSILT= value; } 
+    }
+    public double[] SLSAND
+    {
+        get { return this._SLSAND; }
+        set { this._SLSAND= value; } 
+    }
+    public double _boundaryLayerConductance
+    {
+        get { return this.__boundaryLayerConductance; }
+        set { this.__boundaryLayerConductance= value; } 
     }
 }
