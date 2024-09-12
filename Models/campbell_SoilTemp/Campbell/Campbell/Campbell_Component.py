@@ -8,9 +8,10 @@ from datetime import datetime
 #%%CyML Model Begin%%
 from Campbell.campbell import model_campbell
 
-def model_SoilTemperatureCampbell(NLAYR: int,
+def model_SoilTempCampbell(NLAYR: int,
     THICK: 'Array[float]',
     DEPTH: 'Array[float]',
+    CONSTANT_TEMPdepth:float,
     BD: 'Array[float]',
     T2M: float,
     TMAX: float,
@@ -54,7 +55,7 @@ def model_SoilTemperatureCampbell(NLAYR: int,
     SLSAND:'Array[float]',
     _boundaryLayerConductance:float
     ):
-"""
+    '''
     - Name: campbell
     - Version: 1.0
     - Time step: 1
@@ -275,7 +276,7 @@ def model_SoilTemperatureCampbell(NLAYR: int,
         * name: minSoilTemp
                 ** description : Minimum soil temperature in layers
                 ** inputtype : variable
-                ** variablecategory : auxiliary
+                ** variablecategory : state
                 ** datatype : DOUBLEARRAY
                 ** len : NLAYR
                 ** min : -60.
@@ -525,7 +526,7 @@ def model_SoilTemperatureCampbell(NLAYR: int,
                 ** uri : 
         * name: minSoilTemp
                 ** description : Minimum soil temperature in layers
-                ** variablecategory : auxiliary
+                ** variablecategory : state
                 ** datatype : DOUBLEARRAY
                 ** len : NLAYR
                 ** min : -60.
@@ -705,41 +706,41 @@ def model_SoilTemperatureCampbell(NLAYR: int,
                 ** max : 
                 ** unit : K/W
                 ** uri : 
-    """
+    '''
     #%%CyML Compute Begin%%
-    soilTemp: 'Array[float]' = []
-    minSoilTemp: 'Array[float]' = []
-    maxSoilTemp: 'Array[float]' = []
-    aveSoilTemp: 'Array[float]' = []
-    morningSoilTemp: 'Array[float]' = []
-    newTemperature: 'Array[float]' = []
-    maxTempYesterday: float
-    minTempYesterday: float
-    thermalCondPar1: 'Array[float]' = []
-    thermalCondPar2: 'Array[float]' = []
-    thermalCondPar3: 'Array[float]' = []
-    thermalCondPar4: 'Array[float]' = []
-    thermalConductivity: 'Array[float]' = []
-    thermalConductance: 'Array[float]' = []
-    heatStorage: 'Array[float]' = []
-    volSpecHeatSoil: 'Array[float]' = []
-    boundaryLayerConductance:float
-    thickness: 'Array[float]' = []
-    depth: 'Array[float]' = []
-    bulkDensity: 'Array[float]' = []
-    soilW: 'Array[float]' = []
-    clay: 'Array[float]' = []
-    rocks: 'Array[float]' = []
-    carbon: 'Array[float]' = []
-    silt: 'Array[float]' = []
-    sand: 'Array[float]' = []
-    airPressure:float
+    # soilTemp: 'Array[float]' = []
+    # minSoilTemp: 'Array[float]' = []
+    # maxSoilTemp: 'Array[float]' = []
+    # aveSoilTemp: 'Array[float]' = []
+    # morningSoilTemp: 'Array[float]' = []
+    # newTemperature: 'Array[float]' = []
+    # maxTempYesterday: float
+    # minTempYesterday: float
+    # thermalCondPar1: 'Array[float]' = []
+    # thermalCondPar2: 'Array[float]' = []
+    # thermalCondPar3: 'Array[float]' = []
+    # thermalCondPar4: 'Array[float]' = []
+    # thermalConductivity: 'Array[float]' = []
+    # thermalConductance: 'Array[float]' = []
+    # heatStorage: 'Array[float]' = []
+    # volSpecHeatSoil: 'Array[float]' = []
+    # boundaryLayerConductance:float
+    # thickness: 'Array[float]' = []
+    # depth: 'Array[float]' = []
+    # bulkDensity: 'Array[float]' = []
+    # soilW: 'Array[float]' = []
+    # clay: 'Array[float]' = []
+    # rocks: 'Array[float]' = []
+    # carbon: 'Array[float]' = []
+    # silt: 'Array[float]' = []
+    # sand: 'Array[float]' = []
+    # airPressure:float
 
     (soilTemp, minSoilTemp, maxSoilTemp, aveSoilTemp,
         morningSoilTemp, newTemperature, maxTempYesterday, minTempYesterday, thermalCondPar1, thermalCondPar2, 
         thermalCondPar3, thermalCondPar4, thermalConductivity, thermalConductance, 
-        heatStorage, volSpecHeatSoil, boundaryLayerConductance, thickness, depth, bulkDensity, soilW, clay,
-        rocks, carbon, sand, silt, airPressure) = model_campbell(NLAYR, THICK, DEPTH, BD, 
+        heatStorage, volSpecHeatSoil, _boundaryLayerConductance, THICK, DEPTH, BD, SW, CLAY,
+        SLROCK, SLCARB, SLSAND, SLSILT, airPressure) = model_campbell(NLAYR, THICK, DEPTH, CONSTANT_TEMPdepth, BD, 
                                                 T2M, TMAX, TMIN, TAV, TAMP, XLAT, 
                                                 CLAY, SW, DOY, airPressure, 
                                                 canopyHeight, SALB, SRAD, ESP, ES, 
@@ -754,6 +755,6 @@ def model_SoilTemperatureCampbell(NLAYR: int,
     return (soilTemp, minSoilTemp, maxSoilTemp, aveSoilTemp,
         morningSoilTemp, newTemperature, maxTempYesterday, minTempYesterday, thermalCondPar1, thermalCondPar2, 
         thermalCondPar3, thermalCondPar4, thermalConductivity, thermalConductance, 
-        heatStorage, volSpecHeatSoil, boundaryLayerConductance, thickness, depth, bulkDensity, soilW, clay,
-        rocks, carbon, sand, silt, airPressure)
+        heatStorage, volSpecHeatSoil, _boundaryLayerConductance, THICK, DEPTH, BD, SW, CLAY,
+        SLROCK, SLCARB, SLSAND, SLSILT, airPressure)
 #%%CyML Model End%%

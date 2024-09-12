@@ -29,9 +29,10 @@ def init_campbell(NLAYR: int,
     ESP: float,
     ES: float,
     EOAD: float,
-    instrumentHeight:float,
-    windSpeed:float
+    instrumentHeight:float
     ):
+
+    #%%CyML Compute Begin%%
 
     soilTemp:'Array[float]' = []
     minSoilTemp : 'Array[float]' = []
@@ -189,6 +190,7 @@ def init_campbell(NLAYR: int,
     newTemperature[:] = soilTemp
     maxTempYesterday = TMAX
     minTempYesterday = TMIN
+    #%%CyML Compute End%%
 
     return (soilTemp,
             minSoilTemp,
@@ -221,6 +223,7 @@ def init_campbell(NLAYR: int,
 def model_campbell(NLAYR: int,
     THICK: 'Array[float]',
     DEPTH: 'Array[float]',
+    CONSTANT_TEMPdepth:float,
     BD: 'Array[float]',
     T2M: float,
     TMAX: float,
@@ -284,7 +287,16 @@ def model_campbell(NLAYR: int,
                ** max :
                ** min : 1
                ** default : 10
-               ** unit : dimensionless
+               ** unit : dimensionless 
+        * name: CONSTANT_TEMPdepth
+               ** description : Depth of constant temperature
+               ** inputtype : parameter
+               ** parametercategory : constant
+               ** datatype : DOUBLE
+               ** max :
+               ** min :
+               ** default : 1000.0
+               ** unit : mm
          * name: THICK
                ** description : APSIM soil layer depths as thickness of layers
                ** inputtype : parameter
@@ -486,7 +498,7 @@ def model_campbell(NLAYR: int,
         * name: minSoilTemp
                 ** description : Minimum soil temperature in layers
                 ** inputtype : variable
-                ** variablecategory : auxiliary
+                ** variablecategory : state
                 ** datatype : DOUBLEARRAY
                 ** len : NLAYR
                 ** default :
@@ -645,7 +657,7 @@ def model_campbell(NLAYR: int,
                ** max : 
                ** unit : m
                ** uri : 
-        * name: boundarLayerConductanceSource
+        * name: boundaryLayerConductanceSource
                 ** description : Flag whether boundary layer conductance is calculated or gotten from input
                 ** inputtype : parameter
                 ** parametercategory : constant
@@ -748,7 +760,7 @@ def model_campbell(NLAYR: int,
                 ** uri : 
         * name: minSoilTemp
                 ** description : Minimum soil temperature in layers
-                ** variablecategory : auxiliary
+                ** variablecategory : state
                 ** datatype : DOUBLEARRAY
                 ** len : NLAYR
                 ** min : -60.
@@ -963,9 +975,9 @@ def model_campbell(NLAYR: int,
     solarRadn, cloudFr, cva = doNetRadiation(solarRadn, cloudFr, cva, ITERATIONSperDAY, DOY, SRAD, TMIN, XLAT)
 
     # zero the temperature profiles
-    Zero(minSoilTemp)
-    Zero(maxSoilTemp)
-    Zero(aveSoilTemp)
+    minSoilTemp = Zero(minSoilTemp)
+    maxSoilTemp = Zero(maxSoilTemp)
+    aveSoilTemp = Zero(aveSoilTemp)
     _boundaryLayerConductance = 0.0
 
     # calc dt
@@ -1195,11 +1207,12 @@ def kelvinT(celciusT: float) -> float:
     res:float = celciusT + ZEROTkelvin
     return res
 
-def Zero(arr: 'Array[float]'):
+def Zero(arr: 'Array[float]') -> 'Array[float]':
     "Zero the specified array."
     i: int = 0
     for i in range(len(arr)):
         arr[i] = 0.
+    return arr
 
 def mapLayer2Node(layerArray: 'Array[float]', nodeArray: 'Array[float]', thickness: 'Array[float]', depth: 'Array[float]', numNodes: int):
     """
@@ -1602,11 +1615,9 @@ def boundaryLayerConductanceF(TNew_zb: 'Array[float]',
     GRAVITATIONALconst: float = 9.8  # Gravitational constant (m/s²)
     specificHeatOfAir: float = 1010.0  # Specific heat of air at constant pressure (J/kg/K)
     EMISSIVITYsurface: float = 0.98  # Surface emissivity
-    SpecificHeatAir:float = specificHeatOfAir * airDensity(t2M, airPressure)
 
     SURFACEnode: int = 1
     STEFAN_BOLTZMANNconst: float = 0.0000000567  # Stefan-Boltzmann constant in W/m^2K^4
-    windSpeed: float = 259.2
 
     SpecificHeatAir: float = specificHeatOfAir * airDensity(t2M, airPressure)  # Volumetric specific heat of air (J/m³/K)
     

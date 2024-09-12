@@ -2,6 +2,7 @@ import numpy
 from math import *
 
 def init_campbell(int NLAYR,
+                  float CONSTANT_TEMPdepth,
                   float THICK[NLAYR],
                   float DEPTH[NLAYR],
                   float BD[NLAYR],
@@ -21,12 +22,13 @@ def init_campbell(int NLAYR,
                   float ES,
                   float EOAD,
                   float instrumentHeight,
-                  str boundarLayerConductanceSource,
+                  str boundaryLayerConductanceSource,
                   str netRadiationSource,
                   float windSpeed):
     cdef float airPressure = 1010.0
     cdef float soilTemp[NLAYR]
     cdef float newTemperature[NLAYR]
+    cdef float minSoilTemp[NLAYR]
     cdef float maxSoilTemp[NLAYR]
     cdef float aveSoilTemp[NLAYR]
     cdef float morningSoilTemp[NLAYR]
@@ -47,6 +49,7 @@ def init_campbell(int NLAYR,
     cdef float _boundaryLayerConductance
     soilTemp = array('f', [0.0]*NLAYR)
     newTemperature = array('f', [0.0]*NLAYR)
+    minSoilTemp = array('f', [0.0]*NLAYR)
     maxSoilTemp = array('f', [0.0]*NLAYR)
     aveSoilTemp = array('f', [0.0]*NLAYR)
     morningSoilTemp = array('f', [0.0]*NLAYR)
@@ -184,9 +187,10 @@ def init_campbell(int NLAYR,
     newTemperature[:]=soilTemp
     maxTempYesterday=TMAX
     minTempYesterday=TMIN
-    return  airPressure, soilTemp, newTemperature, maxSoilTemp, aveSoilTemp, morningSoilTemp, thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4, thermalConductivity, thermalConductance, heatStorage, volSpecHeatSoil, maxTempYesterday, minTempYesterday, SLCARB, SLROCK, SLSILT, SLSAND, _boundaryLayerConductance
+    return  airPressure, soilTemp, newTemperature, minSoilTemp, maxSoilTemp, aveSoilTemp, morningSoilTemp, thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4, thermalConductivity, thermalConductance, heatStorage, volSpecHeatSoil, maxTempYesterday, minTempYesterday, SLCARB, SLROCK, SLSILT, SLSAND, _boundaryLayerConductance
 
 def model_campbell(int NLAYR,
+                   float CONSTANT_TEMPdepth,
                    float THICK[NLAYR],
                    float DEPTH[NLAYR],
                    float BD[NLAYR],
@@ -223,7 +227,7 @@ def model_campbell(int NLAYR,
                    float maxTempYesterday,
                    float minTempYesterday,
                    float instrumentHeight,
-                   str boundarLayerConductanceSource,
+                   str boundaryLayerConductanceSource,
                    str netRadiationSource,
                    float windSpeed,
                    float SLCARB[NLAYR],
@@ -298,9 +302,9 @@ def model_campbell(int NLAYR,
     cloudFr=0.0
     solarRadn=[0.0] * 49
     (solarRadn, cloudFr, cva)=doNetRadiation(solarRadn, cloudFr, cva, ITERATIONSperDAY, DOY, SRAD, TMIN, XLAT)
-    Zero(minSoilTemp)
-    Zero(maxSoilTemp)
-    Zero(aveSoilTemp)
+    minSoilTemp=Zero(minSoilTemp)
+    maxSoilTemp=Zero(maxSoilTemp)
+    aveSoilTemp=Zero(aveSoilTemp)
     _boundaryLayerConductance=0.0
     internalTimeStep=tempStepSec / float(ITERATIONSperDAY)
     soilWater=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
@@ -386,6 +390,7 @@ def Zero(floatarray arr):
     cdef int i = 0
     for i in range(0 , len(arr) , 1):
         arr[i]=0.
+    return arr
 
 
 
@@ -750,10 +755,8 @@ def boundaryLayerConductanceF(floatarray TNew_zb,
     cdef float GRAVITATIONALconst = 9.8
     cdef float specificHeatOfAir = 1010.0
     cdef float EMISSIVITYsurface = 0.98
-    cdef float SpecificHeatAir = specificHeatOfAir * airDensity(t2M, airPressure)
     cdef int SURFACEnode = 1
     cdef float STEFAN_BOLTZMANNconst = 0.0000000567
-    cdef float windSpeed = 259.2
     cdef float SpecificHeatAir = specificHeatOfAir * airDensity(t2M, airPressure)
     cdef float RoughnessFacMomentum = 0.13 * canopyHeight
     cdef float RoughnessFacHeat = 0.2 * RoughnessFacMomentum
