@@ -6,10 +6,13 @@ def doNetRadiation(floatarray solarRadn,
          float rad,
          float tmin,
          float latitude):
-    cdef float pi = 3.14
-    cdef float TSTEPS2RAD = Divide(2.0 * pi, float(ITERATIONSperDAY), 0.0)
-    cdef float SOLARconst = 1360.0
-    cdef float solarDeclination = 0.3985 * sin((4.869 + (doy * 2.0 * pi / 365.25) + (0.03345 * sin((6.224 + (doy * 2.0 * pi / 365.25))))))
+    cdef float piVal = 3.1415
+    cdef float TSTEPS2RAD = 1.0
+    cdef float SOLARconst = 1.0
+    cdef float solarDeclination = 1.0
+    TSTEPS2RAD=Divide(2.0 * piVal, float(ITERATIONSperDAY), 0.0)
+    SOLARconst=1360.0
+    solarDeclination=0.3985 * sin((4.869 + (doy * 2.0 * piVal / 365.25) + (0.03345 * sin((6.224 + (doy * 2.0 * piVal / 365.25))))))
     cdef float cD = sqrt(1.0 - (solarDeclination * solarDeclination))
     cdef float m1[]
     cdef float m1Tot = 0.0
@@ -17,7 +20,7 @@ def doNetRadiation(floatarray solarRadn,
     cdef int timestepNumber = 1
     cdef float fr 
     for timestepNumber in range(1 , ITERATIONSperDAY + 1 , 1):
-        m1[timestepNumber]=(solarDeclination * sin(latitude * pi / 180.0) + (cD * cos(latitude * pi / 180.0) * cos(TSTEPS2RAD * (float(timestepNumber) - (float(ITERATIONSperDAY) / 2.0))))) * 24.0 / float(ITERATIONSperDAY)
+        m1[timestepNumber]=(solarDeclination * sin(latitude * piVal / 180.0) + (cD * cos(latitude * piVal / 180.0) * cos(TSTEPS2RAD * (float(timestepNumber) - (float(ITERATIONSperDAY) / 2.0))))) * 24.0 / float(ITERATIONSperDAY)
         if m1[timestepNumber] > 0.0:
             m1Tot=m1Tot + m1[timestepNumber]
         else:

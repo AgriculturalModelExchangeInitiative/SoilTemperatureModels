@@ -131,7 +131,8 @@ def volumetricFractionWater(floatarray soilWater,
          floatarray carbon,
          floatarray bulkDensity,
          int layer):
-    return (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer)) * soilWater[layer]
+    cdef float res = (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer)) * soilWater[layer]
+    return res
 
 def volumetricFractionAir(floatarray rocks,
          floatarray carbon,
@@ -141,11 +142,13 @@ def volumetricFractionAir(floatarray rocks,
          floatarray soilWater,
          floatarray bulkDensity,
          int layer):
-    return 1.0 - volumetricFractionRocks(rocks, layer) - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - volumetricFractionSand(sand, rocks, carbon, bulkDensity, layer) - volumetricFractionSilt(silt, rocks, carbon, bulkDensity, layer) - volumetricFractionClay(clay, rocks, carbon, bulkDensity, layer) - volumetricFractionWater(soilWater, carbon, bulkDensity, layer) - 0.0
+    cdef float res = 1.0 - volumetricFractionRocks(rocks, layer) - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - volumetricFractionSand(sand, rocks, carbon, bulkDensity, layer) - volumetricFractionSilt(silt, rocks, carbon, bulkDensity, layer) - volumetricFractionClay(clay, rocks, carbon, bulkDensity, layer) - volumetricFractionWater(soilWater, carbon, bulkDensity, layer) - 0.0
+    return res
 
 def volumetricFractionRocks(floatarray rocks,
          int layer):
-    return rocks[layer] / 100.0
+    cdef float res = rocks[layer] / 100.0
+    return res
 
 def volumetricFractionSand(floatarray sand,
          floatarray rocks,
@@ -153,7 +156,8 @@ def volumetricFractionSand(floatarray sand,
          floatarray bulkDensity,
          int layer):
     cdef float ps = 2.63
-    return (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - volumetricFractionRocks(rocks, layer)) * sand[layer] / 100.0 * bulkDensity[layer] / ps
+    cdef float res = (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - volumetricFractionRocks(rocks, layer)) * sand[layer] / 100.0 * bulkDensity[layer] / ps
+    return res
 
 def volumetricFractionSilt(floatarray silt,
          floatarray rocks,
@@ -161,7 +165,8 @@ def volumetricFractionSilt(floatarray silt,
          floatarray bulkDensity,
          int layer):
     cdef float ps = 2.63
-    return (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - volumetricFractionRocks(rocks, layer)) * silt[layer] / 100.0 * bulkDensity[layer] / ps
+    cdef float res = (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - volumetricFractionRocks(rocks, layer)) * silt[layer] / 100.0 * bulkDensity[layer] / ps
+    return res
 
 def volumetricFractionClay(floatarray clay,
          floatarray rocks,
@@ -169,7 +174,8 @@ def volumetricFractionClay(floatarray clay,
          floatarray bulkDensity,
          int layer):
     cdef float ps = 2.63
-    return (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - volumetricFractionRocks(rocks, layer)) * clay[layer] / 100.0 * bulkDensity[layer] / ps
+    cdef float res = (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - volumetricFractionRocks(rocks, layer)) * clay[layer] / 100.0 * bulkDensity[layer] / ps
+    return res
 
 def volumetricSpecificHeat(str name):
     cdef float specificHeatRocks = 7.7
@@ -203,4 +209,5 @@ def volumetricFractionOrganicMatter(floatarray carbon,
          floatarray bulkDensity,
          int layer):
     cdef float pom = 1.3
-    return carbon[layer] / 100.0 * 2.5 * bulkDensity[layer] / pom
+    cdef float res = carbon[layer] / 100.0 * 2.5 * bulkDensity[layer] / pom
+    return res

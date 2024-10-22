@@ -15,13 +15,13 @@ def CalcSoilTemp(floatarray soilTempIO,
     cdef float zd 
     cdef float offset 
     cdef int SURFACEnode = 1
-    cdef float pi = 3.14
+    cdef float piVal = 3.14
     cumulativeDepth=[0.0] * len(thickness)
     if len(thickness) > 0:
         cumulativeDepth[0]=thickness[0]
         for Layer in range(1 , len(thickness) , 1):
             cumulativeDepth[Layer]=thickness[Layer] + cumulativeDepth[Layer - 1]
-    w=pi
+    w=piVal
     w=2.0 * w
     w=w / (365.25 * 24.0 * 3600.0)
     dh=0.6
@@ -31,6 +31,6 @@ def CalcSoilTemp(floatarray soilTempIO,
         offset=-0.25
     soilTemp=[0.0] * (numNodes + 2)
     for nodes in range(1 , numNodes + 1 , 1):
-        soilTemp[nodes]=tav + (tamp * exp(-1.0 * cumulativeDepth[nodes] / zd) * sin(((doy / 365.0 + offset) * 2.0 * pi - (cumulativeDepth[nodes] / zd))))
+        soilTemp[nodes]=tav + (tamp * exp(-1.0 * cumulativeDepth[nodes] / zd) * sin(((doy / 365.0 + offset) * 2.0 * piVal - (cumulativeDepth[nodes] / zd))))
     soilTempIO[SURFACEnode:SURFACEnode + numNodes]=soilTemp[0:numNodes]
     return soilTempIO

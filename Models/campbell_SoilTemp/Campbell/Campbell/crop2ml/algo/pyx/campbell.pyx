@@ -84,6 +84,7 @@ for timeStepIteration in range(1 , ITERATIONSperDAY + 1 , 1):
     (soilTemp, _boundaryLayerConductance)=doUpdate(newTemperature, soilTemp, minSoilTemp, maxSoilTemp, aveSoilTemp, thermalConductivity, _boundaryLayerConductance, ITERATIONSperDAY, timeOfDaySecs, internalTimeStep, numNodes)
     precision=min(timeOfDaySecs, 5.0 * 3600.0) * 0.0001
     if abs(timeOfDaySecs - (5.0 * 3600.0)) <= precision:
-        morningSoilTemp[:]=soilTemp[:]
+        for layer in range(0 , len(soilTemp) , 1):
+            morningSoilTemp[layer]=soilTemp[layer]
 minTempYesterday=TMIN
 maxTempYesterday=TMAX

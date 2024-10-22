@@ -114,6 +114,7 @@ surfaceT=(1.0 - SALB) * (T2M + ((TMAX - T2M) * sqrt(max(SRAD, 0.1) * 23.8846 / 8
 soilTemp[SURFACEnode]=surfaceT
 for i in range(numNodes + 1 , len(soilTemp) , 1):
     soilTemp[i]=TAV
-newTemperature[:]=soilTemp
+for i in range(0 , len(soilTemp) , 1):
+    newTemperature[i]=soilTemp[i]
 maxTempYesterday=TMAX
 minTempYesterday=TMIN

@@ -34,3 +34,17 @@ offsetDayOfYear : use datetime (date - timedelta).(day of the year)
 - List of inputs
 - list of outpus
 - list of functions with interface
+
+## Documentation of the work in progress
+- The transpilation from python code to crop2ml package works
+- The transpilation from crop2ml to languages/platforms still has some problems :
+    - py : OK
+    - cs : OK
+    - f90 : NO
+    - java : OK
+    - apsim : NO
+    - bioma : OK
+    - dssat : NO
+    - openalea : OK
+    - simplace : NO
+    - stics : NO
