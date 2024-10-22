@@ -32,32 +32,30 @@ def init_campbell(NLAYR: int,
     instrumentHeight:float
     ):
 
-    #%%CyML Compute Begin%%
-
-    soilTemp:'Array[float]' = []
-    minSoilTemp : 'Array[float]' = []
-    maxSoilTemp : 'Array[float]' = []
-    aveSoilTemp : 'Array[float]' = []
-    morningSoilTemp : 'Array[float]' = []
-    newTemperature : 'Array[float]' = []
-    heatCapacity : 'Array[float]' = []
-    thermalConductivity : 'Array[float]' = []
-    thermalConductance : 'Array[float]' = []
-    heatStorage : 'Array[float]' = []
-    thickness : 'Array[float]' = []
-    depth : 'Array[float]' = []
-    bulkDensity : 'Array[float]' = []
-    soilWater : 'Array[float]' = []
-    clay : 'Array[float]' = []
-    volSpecHeatSoil : 'Array[float]' = []
-    thermalCondPar1 : 'Array[float]' = []
-    thermalCondPar2 : 'Array[float]' = []
-    thermalCondPar3 : 'Array[float]' = []
-    thermalCondPar4 : 'Array[float]' = []
-    carbon:'Array[float]' = []
-    rocks:'Array[float]' = []
-    sand:'Array[float]' = []
-    silt:'Array[float]' = []
+    soilTemp:'Array[float]'
+    minSoilTemp : 'Array[float]'
+    maxSoilTemp : 'Array[float]'
+    aveSoilTemp : 'Array[float]'
+    morningSoilTemp : 'Array[float]'
+    newTemperature : 'Array[float]'
+    heatCapacity : 'Array[float]'
+    thermalConductivity : 'Array[float]'
+    thermalConductance : 'Array[float]'
+    heatStorage : 'Array[float]'
+    thickness : 'Array[float]'
+    depth : 'Array[float]'
+    bulkDensity : 'Array[float]'
+    soilWater : 'Array[float]'
+    clay : 'Array[float]'
+    volSpecHeatSoil : 'Array[float]'
+    thermalCondPar1 : 'Array[float]'
+    thermalCondPar2 : 'Array[float]'
+    thermalCondPar3 : 'Array[float]'
+    thermalCondPar4 : 'Array[float]'
+    carbon:'Array[float]'
+    rocks:'Array[float]'
+    sand:'Array[float]'
+    silt:'Array[float]'
 
     #Constants
     soilRoughnessHeight:float = 57.0
@@ -187,10 +185,10 @@ def init_campbell(NLAYR: int,
     for i in range(numNodes + 1, len(soilTemp)):
         soilTemp[i] = TAV
 
-    newTemperature[:] = soilTemp
+    for i in range(len(soilTemp)):
+        newTemperature[i] = soilTemp[i]
     maxTempYesterday = TMAX
     minTempYesterday = TMIN
-    #%%CyML Compute End%%
 
     return (soilTemp,
             minSoilTemp,
@@ -1043,7 +1041,8 @@ def model_campbell(NLAYR: int,
         # Check for precision and update morning soil temperature
         precision = min(timeOfDaySecs, 5.0 * 3600.0) * 0.0001
         if abs(timeOfDaySecs - 5.0 * 3600.0) <= precision:
-            morningSoilTemp[:] = soilTemp[:]  # Copy soilTemp to morningSoilTemp
+            for layer in range(len(soilTemp)):
+                morningSoilTemp[layer] = soilTemp[layer]  # Copy soilTemp to morningSoilTemp
         
     # Update previous day's minimum and maximum temperatures
     minTempYesterday = TMIN
@@ -1078,10 +1077,10 @@ def doThermalConductivityCoeffs(nbLayers:int,
                                 bulkDensity: 'Array[float]',
                                 clay: 'Array[float]'):
 
-    thermalCondPar1 : 'Array[float]' = []
-    thermalCondPar2 : 'Array[float]' = []
-    thermalCondPar3 : 'Array[float]' = []
-    thermalCondPar4 : 'Array[float]' = []
+    thermalCondPar1 : 'Array[float]' #= []
+    thermalCondPar2 : 'Array[float]' #= []
+    thermalCondPar3 : 'Array[float]' #= []
+    thermalCondPar4 : 'Array[float]' #= []
     layer:int
     element:int
 
@@ -1130,7 +1129,7 @@ def CalcSoilTemp(soilTempIO: 'Array[float]',
     zd:float 
     offset:float
     SURFACEnode:int = 1
-    pi:float = 3.14
+    piVal:float = 3.14
 
     cumulativeDepth = [0.0]*len(thickness)
     if len(thickness) > 0:
@@ -1138,7 +1137,7 @@ def CalcSoilTemp(soilTempIO: 'Array[float]',
         for Layer in range(1, len(thickness)):
             cumulativeDepth[Layer] = thickness[Layer] + cumulativeDepth[Layer - 1]
 
-    w = pi
+    w = piVal
     w = 2.0 * w
     w = w / (365.25 * 24.0 * 3600.0)
     dh = 0.6
@@ -1149,7 +1148,7 @@ def CalcSoilTemp(soilTempIO: 'Array[float]',
 
     soilTemp = [0.0]*(numNodes + 2)
     for nodes in range(1, numNodes + 1):
-        soilTemp[nodes] = tav + tamp * exp(-1.0 * cumulativeDepth[nodes] / zd) * sin((doy / 365.0 + offset) * 2.0 * pi - cumulativeDepth[nodes] / zd)
+        soilTemp[nodes] = tav + tamp * exp(-1.0 * cumulativeDepth[nodes] / zd) * sin((doy / 365.0 + offset) * 2.0 * piVal - cumulativeDepth[nodes] / zd)
 
     soilTempIO[SURFACEnode:SURFACEnode + numNodes] = soilTemp[0:numNodes]
     return soilTempIO
@@ -1166,11 +1165,15 @@ def doNetRadiation(
         latitude: float
         ):
 
-    pi:float = 3.14
+    piVal: float = 3.1415
+    TSTEPS2RAD:float = 1.0
+    SOLARconst:float = 1.0
+    solarDeclination:float = 1.0
 
-    TSTEPS2RAD: float = Divide(2.0 * pi, float(ITERATIONSperDAY), 0.0)          # convert timestep of day to radians
-    SOLARconst: float = 1360.0     # W/M^2
-    solarDeclination: float = 0.3985 * sin(4.869 + (doy * 2.0 * pi / 365.25) + 0.03345 * sin(6.224 + (doy * 2.0 * pi / 365.25)))
+
+    TSTEPS2RAD = Divide(2.0 * piVal, float(ITERATIONSperDAY), 0.0)          # convert timestep of day to radians
+    SOLARconst = 1360.0     # W/M^2
+    solarDeclination = 0.3985 * sin(4.869 + (doy * 2.0 * piVal / 365.25) + 0.03345 * sin(6.224 + (doy * 2.0 * piVal / 365.25)))
     cD: float = sqrt(1.0 - solarDeclination * solarDeclination)
     m1: 'Array[float]' = [0.]*(ITERATIONSperDAY + 1)
     m1Tot: float = 0.0
@@ -1179,7 +1182,7 @@ def doNetRadiation(
     fr: float 
 
     for timestepNumber in range(1, ITERATIONSperDAY+1):
-        m1[timestepNumber] = (solarDeclination * sin(latitude * pi / 180.0) + cD * cos(latitude * pi / 180.0) *
+        m1[timestepNumber] = (solarDeclination * sin(latitude * piVal / 180.0) + cD * cos(latitude * piVal / 180.0) *
             cos(TSTEPS2RAD * (float(timestepNumber) - float(ITERATIONSperDAY) / 2.0))) * 24.0 / float(ITERATIONSperDAY)
         if (m1[timestepNumber] > 0.0):
             m1Tot = m1Tot + m1[timestepNumber]
@@ -1309,36 +1312,43 @@ def doVolumetricSpecificHeat(volSpecLayer: 'Array[float]', soilW: 'Array[float]'
     return volSpecLayer
 
 def volumetricFractionRocks(rocks:'Array[float]', layer: int) -> float:
-    return rocks[layer] / 100.0
+    res:float = rocks[layer] / 100.0
+    return res
 
 def volumetricFractionOrganicMatter(carbon:'Array[float]', bulkDensity:'Array[float]', layer: int) -> float:
     pom:float = 1.3
-    return carbon[layer] / 100.0 * 2.5 * bulkDensity[layer] / pom
+    res:float = carbon[layer] / 100.0 * 2.5 * bulkDensity[layer] / pom
+    return res
 
 def volumetricFractionSand(sand:'Array[float]', rocks:'Array[float]', carbon:'Array[float]', bulkDensity:'Array[float]', layer: int) -> float:
     ps:float = 2.63
-    return (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - 
+    res:float = (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - 
             volumetricFractionRocks(rocks, layer)) * sand[layer] / 100.0 * bulkDensity[layer] / ps
+    return res
 
 def volumetricFractionSilt(silt:'Array[float]', rocks:'Array[float]', carbon:'Array[float]', bulkDensity:'Array[float]', layer: int) -> float:
     ps:float = 2.63
-    return (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - 
+    res:float = (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - 
             volumetricFractionRocks(rocks, layer)) * silt[layer] / 100.0 * bulkDensity[layer] / ps
+    return res
 
 def volumetricFractionClay(clay:'Array[float]', rocks:'Array[float]', carbon:'Array[float]', bulkDensity:'Array[float]', layer: int) -> float:
     ps:float = 2.63
-    return (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - 
+    res:float = (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - 
             volumetricFractionRocks(rocks, layer)) * clay[layer] / 100.0 * bulkDensity[layer] / ps
+    return res
 
 def volumetricFractionWater(soilWater:'Array[float]', carbon:'Array[float]', bulkDensity:'Array[float]', layer: int) -> float:
-    return (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer)) * soilWater[layer]
+    res:float = (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer)) * soilWater[layer]
+    return res
 
 #def volumetricFractionIce() -> float:
 #    return 0.0 
 
 def volumetricFractionAir(rocks:'Array[float]', carbon:'Array[float]', sand:'Array[float]', silt:'Array[float]', 
                           clay:'Array[float]', soilWater:'Array[float]', bulkDensity:'Array[float]', layer: int) -> float:
-    return 1.0 - volumetricFractionRocks(rocks, layer) - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - volumetricFractionSand(sand, rocks, carbon, bulkDensity, layer) - volumetricFractionSilt(silt, rocks, carbon, bulkDensity, layer) - volumetricFractionClay(clay, rocks, carbon, bulkDensity, layer) - volumetricFractionWater(soilWater, carbon, bulkDensity, layer) - 0.0
+    res:float = 1.0 - volumetricFractionRocks(rocks, layer) - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - volumetricFractionSand(sand, rocks, carbon, bulkDensity, layer) - volumetricFractionSilt(silt, rocks, carbon, bulkDensity, layer) - volumetricFractionClay(clay, rocks, carbon, bulkDensity, layer) - volumetricFractionWater(soilWater, carbon, bulkDensity, layer) - 0.0
+    return res
 
 
 def shapeFactor(name:str, rocks:'Array[float]', carbon:'Array[float]', sand:'Array[float]', silt:'Array[float]', 
@@ -1465,7 +1475,7 @@ def doThermConductivity(soilW: 'Array[float]', carbon: 'Array[float]', rocks: 'A
     thermalConductivity = mapLayer2Node(thermCondLayers, thermalConductivity, thickness, depth, numNodes)
     return thermalConductivity
 
-def InterpTemp(time_hours: float, tmax: float, tmin: float, t2m:float, max_temp_yesterday: float, min_temp_yesterday: float):
+def InterpTemp(time_hours: float, tmax: float, tmin: float, t2m:float, max_temp_yesterday: float, min_temp_yesterday: float) -> float:
     """
     Interpolates the temperature for a given time based on maximum and minimum temperatures for today and yesterday.
     
@@ -1482,18 +1492,18 @@ def InterpTemp(time_hours: float, tmax: float, tmin: float, t2m:float, max_temp_
     defaultTimeOfMaximumTemperature:float = 14.0
     midnight_temp: float
     t_scale: float 
-    pi:float = 3.14
+    piVal:float = 3.14
 
 
     # Convert current time and times for max and min temperatures to fractions of a day
     time: float = time_hours / 24.0  # Current time as a fraction of the day
     max_t_time: float = defaultTimeOfMaximumTemperature / 24.0  # Time of max temperature as a fraction of the day
     min_t_time: float = max_t_time - 0.5  # Time of minimum temperature, 12 hours before max temp
-    current_temp: float
+    current_temp: float = 0.0
 
     if time < min_t_time:
         # Before the time of minimum temperature
-        midnight_temp = sin((0.0 + 0.25 - max_t_time) * 2.0 * pi) * (max_temp_yesterday - min_temp_yesterday) / 2.0 + (max_temp_yesterday + min_temp_yesterday) / 2.0
+        midnight_temp = sin((0.0 + 0.25 - max_t_time) * 2.0 * piVal) * (max_temp_yesterday - min_temp_yesterday) / 2.0 + (max_temp_yesterday + min_temp_yesterday) / 2.0
         t_scale = (min_t_time - time) / min_t_time
 
         # Ensure t_scale is within bounds (0 <= t_scale <= 1)
@@ -1507,8 +1517,9 @@ def InterpTemp(time_hours: float, tmax: float, tmin: float, t2m:float, max_temp_
     
     else:
         # At or after the time of minimum temperature
-        current_temp = sin((time + 0.25 - max_t_time) * 2.0 * pi) * (tmax - tmin) / 2.0 + t2m
+        current_temp = sin((time + 0.25 - max_t_time) * 2.0 * piVal) * (tmax - tmin) / 2.0 + t2m
         return current_temp
+    return current_temp
 
 
 def longWaveRadn(emissivity: float, tDegC: float) -> float:
@@ -1778,7 +1789,9 @@ def doUpdate(tempNew: 'Array[float]',
     node: int = 1
 
     # Now transfer to old temperature array
-    soilTemp[:] = tempNew[:]
+    for node in range(len(tempNew)):
+        soilTemp[node] = tempNew[node]
+    
 
     # Initialize the min & max to soil temperature if this is the first iteration
     if timeOfDaySecs < gDt * 1.2:

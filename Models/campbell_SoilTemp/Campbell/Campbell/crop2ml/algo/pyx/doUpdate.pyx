@@ -12,7 +12,8 @@ def doUpdate(floatarray tempNew,
     cdef int SURFACEnode = 1
     cdef int AIRnode = 0
     cdef int node = 1
-    soilTemp[:]=tempNew[:]
+    for node in range(0 , len(tempNew) , 1):
+        soilTemp[node]=tempNew[node]
     if timeOfDaySecs < (gDt * 1.2):
         for node in range(SURFACEnode , numNodes + 1 , 1):
             minSoilTemp[node]=soilTemp[node]

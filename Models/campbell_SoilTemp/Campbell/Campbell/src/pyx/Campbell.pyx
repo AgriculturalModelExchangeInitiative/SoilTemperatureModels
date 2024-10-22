@@ -2,9 +2,9 @@ import numpy
 from math import *
 
 def init_campbell(int NLAYR,
-                  float CONSTANT_TEMPdepth,
                   float THICK[NLAYR],
                   float DEPTH[NLAYR],
+                  float CONSTANT_TEMPdepth,
                   float BD[NLAYR],
                   float T2M,
                   float TMAX,
@@ -184,15 +184,16 @@ def init_campbell(int NLAYR,
     soilTemp[SURFACEnode]=surfaceT
     for i in range(numNodes + 1 , len(soilTemp) , 1):
         soilTemp[i]=TAV
-    newTemperature[:]=soilTemp
+    for i in range(0 , len(soilTemp) , 1):
+        newTemperature[i]=soilTemp[i]
     maxTempYesterday=TMAX
     minTempYesterday=TMIN
     return  airPressure, soilTemp, newTemperature, minSoilTemp, maxSoilTemp, aveSoilTemp, morningSoilTemp, thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4, thermalConductivity, thermalConductance, heatStorage, volSpecHeatSoil, maxTempYesterday, minTempYesterday, SLCARB, SLROCK, SLSILT, SLSAND, _boundaryLayerConductance
 
 def model_campbell(int NLAYR,
-                   float CONSTANT_TEMPdepth,
                    float THICK[NLAYR],
                    float DEPTH[NLAYR],
+                   float CONSTANT_TEMPdepth,
                    float BD[NLAYR],
                    float T2M,
                    float TMAX,
@@ -330,10 +331,11 @@ def model_campbell(int NLAYR,
         (soilTemp, _boundaryLayerConductance)=doUpdate(newTemperature, soilTemp, minSoilTemp, maxSoilTemp, aveSoilTemp, thermalConductivity, _boundaryLayerConductance, ITERATIONSperDAY, timeOfDaySecs, internalTimeStep, numNodes)
         precision=min(timeOfDaySecs, 5.0 * 3600.0) * 0.0001
         if abs(timeOfDaySecs - (5.0 * 3600.0)) <= precision:
-            morningSoilTemp[:]=soilTemp[:]
+            for layer in range(0 , len(soilTemp) , 1):
+                morningSoilTemp[layer]=soilTemp[layer]
     minTempYesterday=TMIN
     maxTempYesterday=TMAX
-    return  soilTemp, newTemperature, minSoilTemp, maxSoilTemp, aveSoilTemp, morningSoilTemp, airPressure, thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4, thermalConductivity, thermalConductance, heatStorage, volSpecHeatSoil, maxTempYesterday, minTempYesterday, SLCARB, SLROCK, SLSILT, SLSAND, _boundaryLayerConductance
+    return  soilTemp, minSoilTemp, maxSoilTemp, aveSoilTemp, morningSoilTemp, newTemperature, maxTempYesterday, minTempYesterday, thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4, thermalConductivity, thermalConductance, heatStorage, volSpecHeatSoil, _boundaryLayerConductance, SLROCK, SLCARB, SLSAND, SLSILT, airPressure
 
 
 
@@ -345,10 +347,13 @@ def doNetRadiation(floatarray solarRadn,
          float rad,
          float tmin,
          float latitude):
-    cdef float pi = 3.14
-    cdef float TSTEPS2RAD = Divide(2.0 * pi, float(ITERATIONSperDAY), 0.0)
-    cdef float SOLARconst = 1360.0
-    cdef float solarDeclination = 0.3985 * sin((4.869 + (doy * 2.0 * pi / 365.25) + (0.03345 * sin((6.224 + (doy * 2.0 * pi / 365.25))))))
+    cdef float piVal = 3.1415
+    cdef float TSTEPS2RAD = 1.0
+    cdef float SOLARconst = 1.0
+    cdef float solarDeclination = 1.0
+    TSTEPS2RAD=Divide(2.0 * piVal, float(ITERATIONSperDAY), 0.0)
+    SOLARconst=1360.0
+    solarDeclination=0.3985 * sin((4.869 + (doy * 2.0 * piVal / 365.25) + (0.03345 * sin((6.224 + (doy * 2.0 * piVal / 365.25))))))
     cdef float cD = sqrt(1.0 - (solarDeclination * solarDeclination))
     cdef float m1[]
     cdef float m1Tot = 0.0
@@ -356,7 +361,7 @@ def doNetRadiation(floatarray solarRadn,
     cdef int timestepNumber = 1
     cdef float fr 
     for timestepNumber in range(1 , ITERATIONSperDAY + 1 , 1):
-        m1[timestepNumber]=(solarDeclination * sin(latitude * pi / 180.0) + (cD * cos(latitude * pi / 180.0) * cos(TSTEPS2RAD * (float(timestepNumber) - (float(ITERATIONSperDAY) / 2.0))))) * 24.0 / float(ITERATIONSperDAY)
+        m1[timestepNumber]=(solarDeclination * sin(latitude * piVal / 180.0) + (cD * cos(latitude * piVal / 180.0) * cos(TSTEPS2RAD * (float(timestepNumber) - (float(ITERATIONSperDAY) / 2.0))))) * 24.0 / float(ITERATIONSperDAY)
         if m1[timestepNumber] > 0.0:
             m1Tot=m1Tot + m1[timestepNumber]
         else:
@@ -598,7 +603,8 @@ def volumetricFractionWater(floatarray soilWater,
          floatarray carbon,
          floatarray bulkDensity,
          int layer):
-    return (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer)) * soilWater[layer]
+    cdef float res = (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer)) * soilWater[layer]
+    return res
 
 def volumetricFractionAir(floatarray rocks,
          floatarray carbon,
@@ -608,11 +614,13 @@ def volumetricFractionAir(floatarray rocks,
          floatarray soilWater,
          floatarray bulkDensity,
          int layer):
-    return 1.0 - volumetricFractionRocks(rocks, layer) - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - volumetricFractionSand(sand, rocks, carbon, bulkDensity, layer) - volumetricFractionSilt(silt, rocks, carbon, bulkDensity, layer) - volumetricFractionClay(clay, rocks, carbon, bulkDensity, layer) - volumetricFractionWater(soilWater, carbon, bulkDensity, layer) - 0.0
+    cdef float res = 1.0 - volumetricFractionRocks(rocks, layer) - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - volumetricFractionSand(sand, rocks, carbon, bulkDensity, layer) - volumetricFractionSilt(silt, rocks, carbon, bulkDensity, layer) - volumetricFractionClay(clay, rocks, carbon, bulkDensity, layer) - volumetricFractionWater(soilWater, carbon, bulkDensity, layer) - 0.0
+    return res
 
 def volumetricFractionRocks(floatarray rocks,
          int layer):
-    return rocks[layer] / 100.0
+    cdef float res = rocks[layer] / 100.0
+    return res
 
 def volumetricFractionSand(floatarray sand,
          floatarray rocks,
@@ -620,7 +628,8 @@ def volumetricFractionSand(floatarray sand,
          floatarray bulkDensity,
          int layer):
     cdef float ps = 2.63
-    return (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - volumetricFractionRocks(rocks, layer)) * sand[layer] / 100.0 * bulkDensity[layer] / ps
+    cdef float res = (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - volumetricFractionRocks(rocks, layer)) * sand[layer] / 100.0 * bulkDensity[layer] / ps
+    return res
 
 def volumetricFractionSilt(floatarray silt,
          floatarray rocks,
@@ -628,7 +637,8 @@ def volumetricFractionSilt(floatarray silt,
          floatarray bulkDensity,
          int layer):
     cdef float ps = 2.63
-    return (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - volumetricFractionRocks(rocks, layer)) * silt[layer] / 100.0 * bulkDensity[layer] / ps
+    cdef float res = (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - volumetricFractionRocks(rocks, layer)) * silt[layer] / 100.0 * bulkDensity[layer] / ps
+    return res
 
 def volumetricFractionClay(floatarray clay,
          floatarray rocks,
@@ -636,7 +646,8 @@ def volumetricFractionClay(floatarray clay,
          floatarray bulkDensity,
          int layer):
     cdef float ps = 2.63
-    return (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - volumetricFractionRocks(rocks, layer)) * clay[layer] / 100.0 * bulkDensity[layer] / ps
+    cdef float res = (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - volumetricFractionRocks(rocks, layer)) * clay[layer] / 100.0 * bulkDensity[layer] / ps
+    return res
 
 def volumetricSpecificHeat(str name):
     cdef float specificHeatRocks = 7.7
@@ -670,7 +681,8 @@ def volumetricFractionOrganicMatter(floatarray carbon,
          floatarray bulkDensity,
          int layer):
     cdef float pom = 1.3
-    return carbon[layer] / 100.0 * 2.5 * bulkDensity[layer] / pom
+    cdef float res = carbon[layer] / 100.0 * 2.5 * bulkDensity[layer] / pom
+    return res
 
 
 
@@ -683,13 +695,13 @@ def InterpTemp(float time_hours,
     cdef float defaultTimeOfMaximumTemperature = 14.0
     cdef float midnight_temp 
     cdef float t_scale 
-    cdef float pi = 3.14
+    cdef float piVal = 3.14
     cdef float time = time_hours / 24.0
     cdef float max_t_time = defaultTimeOfMaximumTemperature / 24.0
     cdef float min_t_time = max_t_time - 0.5
-    cdef float current_temp 
+    cdef float current_temp = 0.0
     if time < min_t_time:
-        midnight_temp=sin((0.0 + 0.25 - max_t_time) * 2.0 * pi) * (max_temp_yesterday - min_temp_yesterday) / 2.0 + ((max_temp_yesterday + min_temp_yesterday) / 2.0)
+        midnight_temp=sin((0.0 + 0.25 - max_t_time) * 2.0 * piVal) * (max_temp_yesterday - min_temp_yesterday) / 2.0 + ((max_temp_yesterday + min_temp_yesterday) / 2.0)
         t_scale=(min_t_time - time) / min_t_time
         if t_scale > 1.0:
             t_scale=1.0
@@ -698,8 +710,9 @@ def InterpTemp(float time_hours,
         current_temp=tmin + (t_scale * (midnight_temp - tmin))
         return current_temp
     else:
-        current_temp=sin((time + 0.25 - max_t_time) * 2.0 * pi) * (tmax - tmin) / 2.0 + t2m
+        current_temp=sin((time + 0.25 - max_t_time) * 2.0 * piVal) * (tmax - tmin) / 2.0 + t2m
         return current_temp
+    return current_temp
 
 
 
@@ -911,7 +924,8 @@ def doUpdate(floatarray tempNew,
     cdef int SURFACEnode = 1
     cdef int AIRnode = 0
     cdef int node = 1
-    soilTemp[:]=tempNew[:]
+    for node in range(0 , len(tempNew) , 1):
+        soilTemp[node]=tempNew[node]
     if timeOfDaySecs < (gDt * 1.2):
         for node in range(SURFACEnode , numNodes + 1 , 1):
             minSoilTemp[node]=soilTemp[node]
@@ -985,13 +999,13 @@ def CalcSoilTemp(floatarray soilTempIO,
     cdef float zd 
     cdef float offset 
     cdef int SURFACEnode = 1
-    cdef float pi = 3.14
+    cdef float piVal = 3.14
     cumulativeDepth=[0.0] * len(thickness)
     if len(thickness) > 0:
         cumulativeDepth[0]=thickness[0]
         for Layer in range(1 , len(thickness) , 1):
             cumulativeDepth[Layer]=thickness[Layer] + cumulativeDepth[Layer - 1]
-    w=pi
+    w=piVal
     w=2.0 * w
     w=w / (365.25 * 24.0 * 3600.0)
     dh=0.6
@@ -1001,7 +1015,7 @@ def CalcSoilTemp(floatarray soilTempIO,
         offset=-0.25
     soilTemp=[0.0] * (numNodes + 2)
     for nodes in range(1 , numNodes + 1 , 1):
-        soilTemp[nodes]=tav + (tamp * exp(-1.0 * cumulativeDepth[nodes] / zd) * sin(((doy / 365.0 + offset) * 2.0 * pi - (cumulativeDepth[nodes] / zd))))
+        soilTemp[nodes]=tav + (tamp * exp(-1.0 * cumulativeDepth[nodes] / zd) * sin(((doy / 365.0 + offset) * 2.0 * piVal - (cumulativeDepth[nodes] / zd))))
     soilTempIO[SURFACEnode:SURFACEnode + numNodes]=soilTemp[0:numNodes]
     return soilTempIO
 

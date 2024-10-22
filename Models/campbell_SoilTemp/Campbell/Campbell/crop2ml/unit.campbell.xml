@@ -11,9 +11,9 @@
         <ShortDescription>TODO</ShortDescription></Description>
     <Inputs>
         <Input name="NLAYR" description="number of soil layers in profile" inputtype="parameter" parametercategory="constant" datatype="INT" max="" min="1" default="10" unit="dimensionless"/>
-        <Input name="CONSTANT_TEMPdepth" description="Depth of constant temperature" inputtype="parameter" parametercategory="constant" datatype="DOUBLE" max="" min="" default="1000.0" unit="mm"/>
         <Input name="THICK" description="APSIM soil layer depths as thickness of layers" inputtype="parameter" parametercategory="constant" datatype="DOUBLEARRAY" len="NLAYR" max="" min="1" default="50" unit="mm"/>
         <Input name="DEPTH" description="APSIM node depths" inputtype="parameter" parametercategory="constant" datatype="DOUBLEARRAY" len="NLAYR" max="" min="" default="" unit="m"/>
+        <Input name="CONSTANT_TEMPdepth" description="Depth of constant temperature" inputtype="parameter" parametercategory="constant" datatype="DOUBLE" max="" min="" default="1000.0" unit="mm"/>
         <Input name="BD" description="bd (soil bulk density) is name of the APSIM var for bulk density so set bulkDensity" inputtype="parameter" parametercategory="constant" datatype="DOUBLEARRAY" len="NLAYR" max="" min="" default="1.4" unit="g/cm3"/>
         <Input name="T2M" description="Mean daily Air temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="60" min="-60" default="" unit=""/>
         <Input name="TMAX" description="Max daily Air temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="60" min="-60" default="" unit=""/>
@@ -58,12 +58,13 @@
         <Input name="_boundaryLayerConductance" description="Boundary layer conductance" inputtype="variable" variablecategory="state" datatype="DOUBLE" max="" min="" default="" unit="K/W"/></Inputs>
     <Outputs>
         <Output name="soilTemp" description="Temperature at end of last time-step within a day - midnight in layers" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="60." min="-60." unit="degC"/>
-        <Output name="newTemperature" description="Soil temperature at the end of one iteration" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="60." min="-60." unit="degC"/>
         <Output name="minSoilTemp" description="Minimum soil temperature in layers" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="60." min="-60." unit="degC"/>
         <Output name="maxSoilTemp" description="Maximum soil temperature in layers" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="60." min="-60." unit="degC"/>
         <Output name="aveSoilTemp" description="Temperature averaged over all time-steps within a day in layers." datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="60." min="-60." unit="degC"/>
         <Output name="morningSoilTemp" description="Temperature  in the morning in layers." datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="60." min="-60." unit="degC"/>
-        <Output name="airPressure" description="Air pressure" datatype="DOUBLE" variablecategory="state" max="" min="" unit="hPA"/>
+        <Output name="newTemperature" description="Soil temperature at the end of one iteration" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="60." min="-60." unit="degC"/>
+        <Output name="maxTempYesterday" description="Air max temperature from previous day" datatype="DOUBLE" variablecategory="state" max="60" min="-60" unit=""/>
+        <Output name="minTempYesterday" description="Air min temperature from previous day" datatype="DOUBLE" variablecategory="state" max="60" min="-60" unit=""/>
         <Output name="thermalCondPar1" description="thermal conductivity coeff in layers" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit="(W/m2/K)"/>
         <Output name="thermalCondPar2" description="thermal conductivity coeff in layers" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit="(W/m2/K)"/>
         <Output name="thermalCondPar3" description="thermal conductivity coeff in layers" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit="(W/m2/K)"/>
@@ -72,13 +73,12 @@
         <Output name="thermalConductance" description="Thermal conductance between layers" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit="(W/m2/K)"/>
         <Output name="heatStorage" description="Heat storage between layers (internal)" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit="J/s/K"/>
         <Output name="volSpecHeatSoil" description="Volumetric specific heat over the soil profile" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit="J/K/m3"/>
-        <Output name="maxTempYesterday" description="Air max temperature from previous day" datatype="DOUBLE" variablecategory="state" max="60" min="-60" unit=""/>
-        <Output name="minTempYesterday" description="Air min temperature from previous day" datatype="DOUBLE" variablecategory="state" max="60" min="-60" unit=""/>
-        <Output name="SLCARB" description="Volumetric fraction of organic matter in the soil" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit=""/>
+        <Output name="_boundaryLayerConductance" description="Boundary layer conductance" datatype="DOUBLE" variablecategory="state" max="" min="" unit="K/W"/>
         <Output name="SLROCK" description="Volumetric fraction of rocks in the soil" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit=""/>
-        <Output name="SLSILT" description="Volumetric fraction of silt in the soil" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit=""/>
+        <Output name="SLCARB" description="Volumetric fraction of organic matter in the soil" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit=""/>
         <Output name="SLSAND" description="Volumetric fraction of sand in the soil" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit=""/>
-        <Output name="_boundaryLayerConductance" description="Boundary layer conductance" datatype="DOUBLE" variablecategory="state" max="" min="" unit="K/W"/></Outputs>
+        <Output name="SLSILT" description="Volumetric fraction of silt in the soil" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit=""/>
+        <Output name="airPressure" description="Air pressure" datatype="DOUBLE" variablecategory="state" max="" min="" unit="hPA"/></Outputs>
     <Initialization name="init_campbell" language="cyml" filename="algo/pyx/init.campbell.pyx"/>
     <Function name="doNetRadiation" description="" language="cyml" type="external" filename="algo/pyx/doNetRadiation.pyx"/>
     <Function name="Zero" description="" language="cyml" type="external" filename="algo/pyx/Zero.pyx"/>
