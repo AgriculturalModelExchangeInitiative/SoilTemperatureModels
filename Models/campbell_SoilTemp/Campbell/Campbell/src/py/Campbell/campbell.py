@@ -969,22 +969,22 @@ def doNetRadiation(solarRadn:'Array[float]',
          rad:float,
          tmin:float,
          latitude:float):
-    _pi:float = 3.141592653589793
+    piVal:float = 3.141592653589793
     TSTEPS2RAD:float = 1.0
     SOLARconst:float = 1.0
     solarDeclination:float = 1.0
     m1:'array[float]'
     m1 = [0.] * (ITERATIONSperDAY + 1)
-    TSTEPS2RAD = Divide(2.0 * _pi, float(ITERATIONSperDAY), 0.0)
+    TSTEPS2RAD = Divide(2.0 * piVal, float(ITERATIONSperDAY), 0.0)
     SOLARconst = 1360.0
-    solarDeclination = 0.3985 * sin((4.869 + (doy * 2.0 * _pi / 365.25) + (0.03345 * sin((6.224 + (doy * 2.0 * _pi / 365.25))))))
+    solarDeclination = 0.3985 * sin((4.869 + (doy * 2.0 * piVal / 365.25) + (0.03345 * sin((6.224 + (doy * 2.0 * piVal / 365.25))))))
     cD:float = sqrt(1.0 - (solarDeclination * solarDeclination))
     m1Tot:float = 0.0
     psr:float
     timestepNumber:int = 1
     fr:float
     for timestepNumber in range(1 , ITERATIONSperDAY + 1 , 1):
-        m1[timestepNumber] = (solarDeclination * sin(latitude * _pi / 180.0) + (cD * cos(latitude * _pi / 180.0) * cos(TSTEPS2RAD * (float(timestepNumber) - (float(ITERATIONSperDAY) / 2.0))))) * 24.0 / float(ITERATIONSperDAY)
+        m1[timestepNumber] = (solarDeclination * sin(latitude * piVal / 180.0) + (cD * cos(latitude * piVal / 180.0) * cos(TSTEPS2RAD * (float(timestepNumber) - (float(ITERATIONSperDAY) / 2.0))))) * 24.0 / float(ITERATIONSperDAY)
         if m1[timestepNumber] > 0.0:
             m1Tot = m1Tot + m1[timestepNumber]
         else:
@@ -1312,13 +1312,13 @@ def InterpTemp(time_hours:float,
     defaultTimeOfMaximumTemperature:float = 14.0
     midnight_temp:float
     t_scale:float
-    _pi:float = 3.141592653589793
+    piVal:float = 3.141592653589793
     time:float = time_hours / 24.0
     max_t_time:float = defaultTimeOfMaximumTemperature / 24.0
     min_t_time:float = max_t_time - 0.5
     current_temp:float = 0.0
     if time < min_t_time:
-        midnight_temp = sin((0.0 + 0.25 - max_t_time) * 2.0 * _pi) * (max_temp_yesterday - min_temp_yesterday) / 2.0 + ((max_temp_yesterday + min_temp_yesterday) / 2.0)
+        midnight_temp = sin((0.0 + 0.25 - max_t_time) * 2.0 * piVal) * (max_temp_yesterday - min_temp_yesterday) / 2.0 + ((max_temp_yesterday + min_temp_yesterday) / 2.0)
         t_scale = (min_t_time - time) / min_t_time
         if t_scale > 1.0:
             t_scale = 1.0
@@ -1327,7 +1327,7 @@ def InterpTemp(time_hours:float,
         current_temp = tmin + (t_scale * (midnight_temp - tmin))
         return current_temp
     else:
-        current_temp = sin((time + 0.25 - max_t_time) * 2.0 * _pi) * (tmax - tmin) / 2.0 + t2m
+        current_temp = sin((time + 0.25 - max_t_time) * 2.0 * piVal) * (tmax - tmin) / 2.0 + t2m
         return current_temp
     return current_temp
 

@@ -1553,15 +1553,15 @@ namespace SiriusQualitymodel_SoilTempCampbell.Strategies
 
         public static Tuple<double[],double,double>  doNetRadiation(double[] solarRadn, double cloudFr, double cva, int ITERATIONSperDAY, int doy, double rad, double tmin, double latitude)
         {
-            double _pi = 3.141592653589793;
+            double piVal = 3.141592653589793;
             double TSTEPS2RAD = 1.0;
             double SOLARconst = 1.0;
             double solarDeclination = 1.0;
             double[] m1 ;
             for (var i = 0; i < ITERATIONSperDAY + 1; i++){m1[i] = 0.0d;}
-            TSTEPS2RAD = Divide(2.0 * _pi, (double)(ITERATIONSperDAY), 0.0);
+            TSTEPS2RAD = Divide(2.0 * piVal, (double)(ITERATIONSperDAY), 0.0);
             SOLARconst = 1360.0;
-            solarDeclination = 0.3985 * Math.Sin((4.869 + (doy * 2.0 * _pi / 365.25) + (0.03345 * Math.Sin((6.224 + (doy * 2.0 * _pi / 365.25))))));
+            solarDeclination = 0.3985 * Math.Sin((4.869 + (doy * 2.0 * piVal / 365.25) + (0.03345 * Math.Sin((6.224 + (doy * 2.0 * piVal / 365.25))))));
             double cD = Math.Sqrt(1.0 - (solarDeclination * solarDeclination));
             double m1Tot = 0.0;
             double psr;
@@ -1569,7 +1569,7 @@ namespace SiriusQualitymodel_SoilTempCampbell.Strategies
             double fr;
             for (timestepNumber=1 ; timestepNumber!=ITERATIONSperDAY + 1 ; timestepNumber+=1)
             {
-                m1[timestepNumber] = (solarDeclination * Math.Sin(latitude * _pi / 180.0) + (cD * Math.Cos(latitude * _pi / 180.0) * Math.Cos(TSTEPS2RAD * ((double)(timestepNumber) - ((double)(ITERATIONSperDAY) / 2.0))))) * 24.0 / (double)(ITERATIONSperDAY);
+                m1[timestepNumber] = (solarDeclination * Math.Sin(latitude * piVal / 180.0) + (cD * Math.Cos(latitude * piVal / 180.0) * Math.Cos(TSTEPS2RAD * ((double)(timestepNumber) - ((double)(ITERATIONSperDAY) / 2.0))))) * 24.0 / (double)(ITERATIONSperDAY);
                 if (m1[timestepNumber] > 0.0)
                 {
                     m1Tot = m1Tot + m1[timestepNumber];
@@ -1968,14 +1968,14 @@ namespace SiriusQualitymodel_SoilTempCampbell.Strategies
             double defaultTimeOfMaximumTemperature = 14.0;
             double midnight_temp;
             double t_scale;
-            double _pi = 3.141592653589793;
+            double piVal = 3.141592653589793;
             double time = time_hours / 24.0;
             double max_t_time = defaultTimeOfMaximumTemperature / 24.0;
             double min_t_time = max_t_time - 0.5;
             double current_temp = 0.0;
             if (time < min_t_time)
             {
-                midnight_temp = Math.Sin((0.0 + 0.25 - max_t_time) * 2.0 * _pi) * (max_temp_yesterday - min_temp_yesterday) / 2.0 + ((max_temp_yesterday + min_temp_yesterday) / 2.0);
+                midnight_temp = Math.Sin((0.0 + 0.25 - max_t_time) * 2.0 * piVal) * (max_temp_yesterday - min_temp_yesterday) / 2.0 + ((max_temp_yesterday + min_temp_yesterday) / 2.0);
                 t_scale = (min_t_time - time) / min_t_time;
                 if (t_scale > 1.0)
                 {
@@ -1990,7 +1990,7 @@ namespace SiriusQualitymodel_SoilTempCampbell.Strategies
             }
             else
             {
-                current_temp = Math.Sin((time + 0.25 - max_t_time) * 2.0 * _pi) * (tmax - tmin) / 2.0 + t2m;
+                current_temp = Math.Sin((time + 0.25 - max_t_time) * 2.0 * piVal) * (tmax - tmin) / 2.0 + t2m;
                 return current_temp;
             }
             return current_temp;
