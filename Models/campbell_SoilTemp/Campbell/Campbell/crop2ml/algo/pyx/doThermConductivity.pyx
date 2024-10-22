@@ -27,7 +27,7 @@ def doThermConductivity(floatarray soilW,
         for constituent in range(0 , len(constituents) , 1):
             shapeFactorConstituent=shapeFactor(constituents[constituent], rocks, carbon, sand, silt, clay, soilW, bulkDensity, node)
             thermalConductanceConstituent=ThermalConductance(constituents[constituent])
-            thermalConductanceWater=ThermalConductance(Water)
+            thermalConductanceWater=ThermalConductance("Water")
             k=2.0 / 3.0 * pow((1 + (shapeFactorConstituent * (thermalConductanceConstituent / thermalConductanceWater - 1.0))), -1) + (1.0 / 3.0 * pow((1 + (shapeFactorConstituent * (thermalConductanceConstituent / thermalConductanceWater - 1.0) * (1.0 - (2.0 * shapeFactorConstituent)))), -1))
             numerator=numerator + (thermalConductanceConstituent * soilW[node] * k)
             denominator=denominator + (soilW[node] * k)
@@ -51,25 +51,25 @@ def shapeFactor(str name,
     cdef float shapeFactorClay = 0.007755
     cdef float shapeFactorWater = 1.0
     cdef float result = 0.0
-    if name == Rocks:
+    if name == "Rocks":
         result=shapeFactorRocks
-    elif name == OrganicMatter:
+    elif name == "OrganicMatter":
         result=shapeFactorOM
-    elif name == Sand:
+    elif name == "Sand":
         result=shapeFactorSand
-    elif name == Silt:
+    elif name == "Silt":
         result=shapeFactorSilt
-    elif name == Clay:
+    elif name == "Clay":
         result=shapeFactorClay
-    elif name == Water:
+    elif name == "Water":
         result=shapeFactorWater
-    elif name == Ice:
+    elif name == "Ice":
         result=0.333 - (0.333 * 0.0 / (volumetricFractionWater(soilWater, carbon, bulkDensity, layer) + 0.0 + volumetricFractionAir(rocks, carbon, sand, silt, clay, soilWater, bulkDensity, layer)))
         return result
-    elif name == Air:
+    elif name == "Air":
         result=0.333 - (0.333 * volumetricFractionAir(rocks, carbon, sand, silt, clay, soilWater, bulkDensity, layer) / (volumetricFractionWater(soilWater, carbon, bulkDensity, layer) + 0.0 + volumetricFractionAir(rocks, carbon, sand, silt, clay, soilWater, bulkDensity, layer)))
         return result
-    elif name == Minerals:
+    elif name == "Minerals":
         result=shapeFactorRocks * volumetricFractionRocks(rocks, layer) + (shapeFactorSand * volumetricFractionSand(sand, rocks, carbon, bulkDensity, layer)) + (shapeFactorSilt * volumetricFractionSilt(silt, rocks, carbon, bulkDensity, layer)) + (shapeFactorClay * volumetricFractionClay(clay, rocks, carbon, bulkDensity, layer))
     result=volumetricSpecificHeat(name)
     return result
@@ -84,21 +84,21 @@ def ThermalConductance(str name):
     cdef float thermal_conductance_ice = 1.73
     cdef float thermal_conductance_air = 0.0012
     cdef float result = 0.0
-    if name == Rocks:
+    if name == "Rocks":
         result=thermal_conductance_rocks
-    elif name == OrganicMatter:
+    elif name == "OrganicMatter":
         result=thermal_conductance_om
-    elif name == Sand:
+    elif name == "Sand":
         result=thermal_conductance_sand
-    elif name == Silt:
+    elif name == "Silt":
         result=thermal_conductance_silt
-    elif name == Clay:
+    elif name == "Clay":
         result=thermal_conductance_clay
-    elif name == Water:
+    elif name == "Water":
         result=thermal_conductance_water
-    elif name == Ice:
+    elif name == "Ice":
         result=thermal_conductance_ice
-    elif name == Air:
+    elif name == "Air":
         result=thermal_conductance_air
     result=volumetricSpecificHeat(name)
     return result
@@ -188,21 +188,21 @@ def volumetricSpecificHeat(str name):
     cdef float specificHeatIce = 2.18
     cdef float specificHeatAir = 0.025
     cdef float res = 0.0
-    if name == Rocks:
+    if name == "Rocks":
         res=specificHeatRocks
-    elif name == OrganicMatter:
+    elif name == "OrganicMatter":
         res=specificHeatOM
-    elif name == Sand:
+    elif name == "Sand":
         res=specificHeatSand
-    elif name == Silt:
+    elif name == "Silt":
         res=specificHeatSilt
-    elif name == Clay:
+    elif name == "Clay":
         res=specificHeatClay
-    elif name == Water:
+    elif name == "Water":
         res=specificHeatWater
-    elif name == Ice:
+    elif name == "Ice":
         res=specificHeatIce
-    elif name == Air:
+    elif name == "Air":
         res=specificHeatAir
     return res
 

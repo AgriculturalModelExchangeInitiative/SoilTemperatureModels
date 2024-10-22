@@ -49,9 +49,9 @@ def doThomas(floatarray newTemps,
     a[SURFACEnode]=0.0
     sensibleHeatFlux=nu * thermalConductance[AIRnode] * newTemps[AIRnode]
     RadnNet=0.0
-    if netRadiationSource == calc:
+    if netRadiationSource == "calc":
         RadnNet=Divide(netRadiation * 1000000.0, gDt, 0.0)
-    elif netRadiationSource == eos:
+    elif netRadiationSource == "eos":
         RadnNet=Divide(potE * latentHeatOfVapourisation, tempStepSec, 0.0)
     LatentHeatFlux=Divide(actE * latentHeatOfVapourisation, tempStepSec, 0.0)
     SoilSurfaceHeatFlux=sensibleHeatFlux + RadnNet - LatentHeatFlux
