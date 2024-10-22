@@ -24,21 +24,21 @@ def volumetricSpecificHeat(str name):
     cdef float specificHeatIce = 2.18
     cdef float specificHeatAir = 0.025
     cdef float res = 0.0
-    if name == "'Rocks'":
+    if name == "Rocks":
         res=specificHeatRocks
-    elif name == "'OrganicMatter'":
+    elif name == "OrganicMatter":
         res=specificHeatOM
-    elif name == "'Sand'":
+    elif name == "Sand":
         res=specificHeatSand
-    elif name == "'Silt'":
+    elif name == "Silt":
         res=specificHeatSilt
-    elif name == "'Clay'":
+    elif name == "Clay":
         res=specificHeatClay
-    elif name == "'Water'":
+    elif name == "Water":
         res=specificHeatWater
-    elif name == "'Ice'":
+    elif name == "Ice":
         res=specificHeatIce
-    elif name == "'Air'":
+    elif name == "Air":
         res=specificHeatAir
     return res
 

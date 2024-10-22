@@ -1005,9 +1005,9 @@ def model_campbell(NLAYR: int,
         netRadiation = RadnNetInterpolate(internalTimeStep, solarRadn[timeStepIteration], 
                                                  cloudFr, cva, ESP, ES, tMean, SALB, soilTemp)
 
-        if boundaryLayerConductanceSource == 'constant':
+        if boundaryLayerConductanceSource == "constant":
             thermalConductivity[AIRnode] = constantBoundaryLayerConductance
-        elif boundaryLayerConductanceSource == 'calc':
+        elif boundaryLayerConductanceSource == "calc":
             thermalConductivity[AIRnode] = boundaryLayerConductanceF(newTemperature, T2M, ESP, ES, airPressure, canopyHeight, windSpeed, instrumentHeight)
             for iteration in range(1, BoundaryLayerConductanceIterations + 1):
                 newTemperature = doThomas(newTemperature, soilTemp, 
@@ -1170,7 +1170,7 @@ def doNetRadiation(
     SOLARconst:float = 1.0
     solarDeclination:float = 1.0
     m1:'Array[float]' 
-    m1 = array('f', [0.]*(ITERATIONSperDAY + 1))
+    m1 = [0.]*(ITERATIONSperDAY + 1)
 
     TSTEPS2RAD = Divide(2.0 * piVal, float(ITERATIONSperDAY), 0.0)          # convert timestep of day to radians
     SOLARconst = 1360.0     # W/M^2
@@ -1465,7 +1465,7 @@ def doThermConductivity(soilW: 'Array[float]', carbon: 'Array[float]', rocks: 'A
         for constituent in range(0, len(constituents)):
             shapeFactorConstituent = shapeFactor(constituents[constituent], rocks, carbon, sand, silt, clay, soilW, bulkDensity, node)
             thermalConductanceConstituent = ThermalConductance(constituents[constituent])
-            thermalConductanceWater = ThermalConductance('Water')
+            thermalConductanceWater = ThermalConductance("Water")
             k = (2.0 / 3.0) * pow(1 + shapeFactorConstituent * (thermalConductanceConstituent / thermalConductanceWater - 1.0), -1) + (1.0 / 3.0) * pow(1 + shapeFactorConstituent * (thermalConductanceConstituent / thermalConductanceWater - 1.0) * (1.0 - 2.0 * shapeFactorConstituent), -1)
             numerator = numerator + (thermalConductanceConstituent * soilW[node] * k)
             denominator = denominator + (soilW[node] * k)

@@ -1,5 +1,5 @@
 def RadnNetInterpolate(float internalTimeStep,
-         float solarRadn,
+         float solarRadiation,
          float cloudFr,
          float cva,
          float potE,
@@ -15,8 +15,8 @@ def RadnNetInterpolate(float internalTimeStep,
     cdef float lwRinSoil = longWaveRadn(emissivityAtmos, t2m) * PenetrationConstant * w2MJ
     cdef float lwRoutSoil = longWaveRadn(EMISSIVITYsurface, soilTemp[SURFACEnode]) * PenetrationConstant * w2MJ
     cdef float lwRnetSoil = lwRinSoil - lwRoutSoil
-    cdef float swRin = solarRadn
-    cdef float swRout = albedo * solarRadn
+    cdef float swRin = solarRadiation
+    cdef float swRout = albedo * solarRadiation
     cdef float swRnetSoil = (swRin - swRout) * PenetrationConstant
     cdef float total = swRnetSoil + lwRnetSoil
     return total

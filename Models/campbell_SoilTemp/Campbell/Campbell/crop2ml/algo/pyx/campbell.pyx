@@ -48,7 +48,7 @@ J2MJ=1.0 / MJ2J
 tempStepSec=24.0 * 60.0 * 60.0
 BoundaryLayerConductanceIterations=1
 numNodes=NLAYR + NUM_PHANTOM_NODES
-soilConstituentNames=["'Rocks'", "'OrganicMatter'", "'Sand'", "'Silt'", "'Clay'", "'Water'", "'Ice'", "'Air'"]
+soilConstituentNames=["Rocks", "OrganicMatter", "Sand", "Silt", "Clay", "Water", "Ice", "Air"]
 timeStepIteration=1
 constantBoundaryLayerConductance=20.0
 layer=0
@@ -74,9 +74,9 @@ for timeStepIteration in range(1 , ITERATIONSperDAY + 1 , 1):
         tMean=InterpTemp(timeOfDaySecs * SEC2HR, TMAX, TMIN, T2M, maxTempYesterday, minTempYesterday)
     newTemperature[AIRnode]=tMean
     netRadiation=RadnNetInterpolate(internalTimeStep, solarRadn[timeStepIteration], cloudFr, cva, ESP, ES, tMean, SALB, soilTemp)
-    if boundaryLayerConductanceSource == "'constant'":
+    if boundaryLayerConductanceSource == "constant":
         thermalConductivity[AIRnode]=constantBoundaryLayerConductance
-    elif boundaryLayerConductanceSource == "'calc'":
+    elif boundaryLayerConductanceSource == "calc":
         thermalConductivity[AIRnode]=boundaryLayerConductanceF(newTemperature, T2M, ESP, ES, airPressure, canopyHeight, windSpeed, instrumentHeight)
         for iteration in range(1 , BoundaryLayerConductanceIterations + 1 , 1):
             newTemperature=doThomas(newTemperature, soilTemp, thermalConductivity, thermalConductance, DEPTH, volSpecHeatSoil, internalTimeStep, netRadiation, ESP, ES, numNodes, netRadiationSource)

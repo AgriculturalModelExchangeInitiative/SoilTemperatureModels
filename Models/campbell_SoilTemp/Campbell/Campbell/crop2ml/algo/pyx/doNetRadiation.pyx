@@ -10,11 +10,12 @@ def doNetRadiation(floatarray solarRadn,
     cdef float TSTEPS2RAD = 1.0
     cdef float SOLARconst = 1.0
     cdef float solarDeclination = 1.0
+    cdef float m1[]
+    m1=[0.] * (ITERATIONSperDAY + 1)
     TSTEPS2RAD=Divide(2.0 * piVal, float(ITERATIONSperDAY), 0.0)
     SOLARconst=1360.0
     solarDeclination=0.3985 * sin((4.869 + (doy * 2.0 * piVal / 365.25) + (0.03345 * sin((6.224 + (doy * 2.0 * piVal / 365.25))))))
     cdef float cD = sqrt(1.0 - (solarDeclination * solarDeclination))
-    cdef float m1[]
     cdef float m1Tot = 0.0
     cdef float psr 
     cdef int timestepNumber = 1
