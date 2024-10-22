@@ -11,8 +11,8 @@ def RadnNetInterpolate(float internalTimeStep,
     cdef float w2MJ = internalTimeStep / 1000000.0
     cdef int SURFACEnode = 1
     cdef float emissivityAtmos = (1 - (0.84 * cloudFr)) * 0.58 * pow(cva, 1.0 / 7.0) + (0.84 * cloudFr)
-    cdef float PenetrationConstant = Divide(max(0.1, potE), max(0.1, actE), 0.0)
-    cdef float lwRinSoil = longWaveRadn(emissivityAtmos, t2m) * PenetrationConstant * w2MJ
+    cdef float PenetrationConstant = Divide(max(0.1, potE), max(0.1, potET), 0.0)
+    cdef float lwRinSoil = longWaveRadn(emissivityAtmos, tMean) * PenetrationConstant * w2MJ
     cdef float lwRoutSoil = longWaveRadn(EMISSIVITYsurface, soilTemp[SURFACEnode]) * PenetrationConstant * w2MJ
     cdef float lwRnetSoil = lwRinSoil - lwRoutSoil
     cdef float swRin = solarRadiation

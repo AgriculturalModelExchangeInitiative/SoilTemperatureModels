@@ -1,7 +1,7 @@
 def boundaryLayerConductanceF(floatarray TNew_zb,
-         float t2M,
+         float tMean,
          float potE,
-         float actE,
+         float potET,
          float airPressure,
          float canopyHeight,
          float windSpeed,
@@ -12,13 +12,13 @@ def boundaryLayerConductanceF(floatarray TNew_zb,
     cdef float EMISSIVITYsurface = 0.98
     cdef int SURFACEnode = 1
     cdef float STEFAN_BOLTZMANNconst = 0.0000000567
-    cdef float SpecificHeatAir = specificHeatOfAir * airDensity(t2M, airPressure)
+    cdef float SpecificHeatAir = specificHeatOfAir * airDensity(tMean, airPressure)
     cdef float RoughnessFacMomentum = 0.13 * canopyHeight
     cdef float RoughnessFacHeat = 0.2 * RoughnessFacMomentum
     cdef float d = 0.77 * canopyHeight
     cdef float SurfaceTemperature = TNew_zb[SURFACEnode]
-    cdef float PenetrationConstant = max(0.1, potE) / max(0.1, actE)
-    cdef float kelvinTemp = kelvinT(t2M)
+    cdef float PenetrationConstant = max(0.1, potE) / max(0.1, potET)
+    cdef float kelvinTemp = kelvinT(tMean)
     cdef float radiativeConductance = 4.0 * STEFAN_BOLTZMANNconst * EMISSIVITYsurface * PenetrationConstant * pow(kelvinTemp, 3)
     cdef float FrictionVelocity = 0.0
     cdef float BoundaryLayerCond = 0.0
@@ -31,7 +31,7 @@ def boundaryLayerConductanceF(floatarray TNew_zb,
         FrictionVelocity=Divide(windSpeed * VONK, log(Divide(instrumentHeight - d + RoughnessFacMomentum, RoughnessFacMomentum, 0.0)) + StabilityCorMomentum, 0.0)
         BoundaryLayerCond=Divide(SpecificHeatAir * VONK * FrictionVelocity, log(Divide(instrumentHeight - d + RoughnessFacHeat, RoughnessFacHeat, 0.0)) + StabilityCorHeat, 0.0)
         BoundaryLayerCond=BoundaryLayerCond + radiativeConductance
-        HeatFluxDensity=BoundaryLayerCond * (SurfaceTemperature - t2M)
+        HeatFluxDensity=BoundaryLayerCond * (SurfaceTemperature - tMean)
         StabilityParam=Divide(-VONK * instrumentHeight * GRAVITATIONALconst * HeatFluxDensity, SpecificHeatAir * kelvinTemp * pow(FrictionVelocity, 3), 0.0)
         if StabilityParam > 0.0:
             StabilityCorHeat=4.7 * StabilityParam
