@@ -1355,7 +1355,12 @@ def volumetricFractionWater(soilWater:'Array[float]', carbon:'Array[float]', bul
 
 def volumetricFractionAir(rocks:'Array[float]', carbon:'Array[float]', sand:'Array[float]', silt:'Array[float]', 
                           clay:'Array[float]', soilWater:'Array[float]', bulkDensity:'Array[float]', layer: int) -> float:
-    res:float = 1.0 - volumetricFractionRocks(rocks, layer) - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - volumetricFractionSand(sand, rocks, carbon, bulkDensity, layer) - volumetricFractionSilt(silt, rocks, carbon, bulkDensity, layer) - volumetricFractionClay(clay, rocks, carbon, bulkDensity, layer) - volumetricFractionWater(soilWater, carbon, bulkDensity, layer) - 0.0
+    res:float = (1.0 - volumetricFractionRocks(rocks, layer) 
+                 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) 
+                 - volumetricFractionSand(sand, rocks, carbon, bulkDensity, layer) 
+                 - volumetricFractionSilt(silt, rocks, carbon, bulkDensity, layer) 
+                 - volumetricFractionClay(clay, rocks, carbon, bulkDensity, layer) 
+                 - volumetricFractionWater(soilWater, carbon, bulkDensity, layer) - 0.0)
     return res
 
 
@@ -1385,15 +1390,18 @@ def shapeFactor(name:str, rocks:'Array[float]', carbon:'Array[float]', sand:'Arr
     elif name == "Water":
         result = shapeFactorWater
     elif name == "Ice":
-        result = 0.333 - 0.333 * 0.0 / (volumetricFractionWater(soilWater, carbon, bulkDensity, layer) + 0.0 + 
-                                                                 volumetricFractionAir(rocks, carbon, sand, silt, clay, soilWater, bulkDensity, layer))
+        result = 0.333 - 0.333 * 0.0 / (volumetricFractionWater(soilWater, carbon, bulkDensity, layer) + 0.0 
+                                        + volumetricFractionAir(rocks, carbon, sand, silt, clay, soilWater, bulkDensity, layer))
         return result
     elif name == "Air":
         result = 0.333 - 0.333 * volumetricFractionAir(rocks, carbon, sand, silt, clay, soilWater, bulkDensity, layer) / (volumetricFractionWater(soilWater, carbon, bulkDensity, layer) + 0.0 + 
                                                                  volumetricFractionAir(rocks, carbon, sand, silt, clay, soilWater, bulkDensity, layer))
         return result
     elif name == "Minerals":
-        result = shapeFactorRocks * volumetricFractionRocks(rocks, layer) + shapeFactorSand * volumetricFractionSand(sand, rocks, carbon, bulkDensity, layer) + shapeFactorSilt * volumetricFractionSilt(silt, rocks, carbon, bulkDensity, layer) + shapeFactorClay * volumetricFractionClay(clay, rocks, carbon, bulkDensity, layer)
+        result = (shapeFactorRocks * volumetricFractionRocks(rocks, layer) 
+                  + shapeFactorSand * volumetricFractionSand(sand, rocks, carbon, bulkDensity, layer) 
+                  + shapeFactorSilt * volumetricFractionSilt(silt, rocks, carbon, bulkDensity, layer) 
+                  + shapeFactorClay * volumetricFractionClay(clay, rocks, carbon, bulkDensity, layer))
     
     result = volumetricSpecificHeat(name)
     return result
