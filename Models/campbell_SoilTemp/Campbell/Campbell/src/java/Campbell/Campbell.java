@@ -1054,7 +1054,7 @@ public class Campbell
         tempStepSec = 24.0d * 60.0d * 60.0d;
         BoundaryLayerConductanceIterations = 1;
         numNodes = NLAYR + NUM_PHANTOM_NODES;
-        soilConstituentNames = new ArrayList<>(Arrays.asList("'Rocks'", "'OrganicMatter'", "'Sand'", "'Silt'", "'Clay'", "'Water'", "'Ice'", "'Air'"));
+        soilConstituentNames = new ArrayList<>(Arrays.asList("Rocks", "OrganicMatter", "Sand", "Silt", "Clay", "Water", "Ice", "Air"));
         timeStepIteration = 1;
         constantBoundaryLayerConductance = 20.0d;
         layer = 0;
@@ -1071,7 +1071,7 @@ public class Campbell
         _boundaryLayerConductance = 0.0d;
         internalTimeStep = tempStepSec / (double)(ITERATIONSperDAY);
         soilWater.fill(NLAYR + 1 + NUM_PHANTOM_NODES, 0.0d);
-        copyLength = Math.min(NLAYR + 1 + NUM_PHANTOM_NODES, SW.length);
+        copyLength = Math.min(NLAYR + 1 + NUM_PHANTOM_NODES, SW.length + 1);
         soilWater[:copyLength] = SW[:copyLength];
         volSpecHeatSoil = doVolumetricSpecificHeat(volSpecHeatSoil, soilWater, numNodes, soilConstituentNames, THICK, DEPTH);
         thermalConductivity = doThermConductivity(soilWater, SLCARB, SLROCK, SLSAND, SLSILT, CLAY, BD, thermalConductivity, THICK, DEPTH, numNodes, soilConstituentNames);
@@ -1087,17 +1087,18 @@ public class Campbell
                 tMean = InterpTemp(timeOfDaySecs * SEC2HR, TMAX, TMIN, T2M, maxTempYesterday, minTempYesterday);
             }
             newTemperature[AIRnode] = tMean;
-            netRadiation = RadnNetInterpolate(internalTimeStep, solarRadn[timeStepIteration], cloudFr, cva, ESP, ES, tMean, SALB, soilTemp);
-            if (boundaryLayerConductanceSource == "'constant'")
+            netRadiation = RadnNetInterpolate(internalTimeStep, solarRadn[timeStepIteration], cloudFr, cva, ESP, EOAD, tMean, SALB, soilTemp);
+            if (boundaryLayerConductanceSource == "constant")
             {
                 thermalConductivity[AIRnode] = constantBoundaryLayerConductance;
             }
-            else if ( boundaryLayerConductanceSource == "'calc'")
+            else if ( boundaryLayerConductanceSource == "calc")
             {
-                thermalConductivity[AIRnode] = boundaryLayerConductanceF(newTemperature, T2M, ESP, ES, airPressure, canopyHeight, windSpeed, instrumentHeight);
+                thermalConductivity[AIRnode] = boundaryLayerConductanceF(newTemperature, tMean, ESP, EOAD, airPressure, canopyHeight, windSpeed, instrumentHeight);
                 for (iteration=1 ; iteration!=BoundaryLayerConductanceIterations + 1 ; iteration+=1)
                 {
                     newTemperature = doThomas(newTemperature, soilTemp, thermalConductivity, thermalConductance, DEPTH, volSpecHeatSoil, internalTimeStep, netRadiation, ESP, ES, numNodes, netRadiationSource);
+                    thermalConductivity[AIRnode] = boundaryLayerConductanceF(newTemperature, tMean, ESP, EOAD, airPressure, canopyHeight, windSpeed, instrumentHeight);
                 }
             }
             newTemperature = doThomas(newTemperature, soilTemp, thermalConductivity, thermalConductance, DEPTH, volSpecHeatSoil, internalTimeStep, netRadiation, ESP, ES, numNodes, netRadiationSource);
@@ -1140,15 +1141,16 @@ public class Campbell
     }
     public doNetRadiation Calculate_doNetRadiation (Double [] solarRadn, double cloudFr, double cva, Integer ITERATIONSperDAY, Integer doy, double rad, double tmin, double latitude)
     {
-        double piVal = 3.1415;
+        double piVal = 3.141592653589793;
         double TSTEPS2RAD = 1.0;
         double SOLARconst = 1.0;
         double solarDeclination = 1.0;
+        Double[] m1 ;
+        m1.fill(ITERATIONSperDAY + 1, 0.d);
         TSTEPS2RAD = Divide(2.0d * piVal, (double)(ITERATIONSperDAY), 0.0d);
         SOLARconst = 1360.0d;
         solarDeclination = 0.3985d * Math.sin((4.869d + (doy * 2.0d * piVal / 365.25d) + (0.03345d * Math.sin((6.224d + (doy * 2.0d * piVal / 365.25d))))));
         double cD = Math.sqrt(1.0d - (solarDeclination * solarDeclination));
-        Double[] m1 ;
         double m1Tot = 0.0;
         double psr;
         Integer timestepNumber = 1;
@@ -1204,6 +1206,7 @@ public class Campbell
     public static Double [] doVolumetricSpecificHeat(Double [] volSpecLayer, Double [] soilW, Integer numNodes, String [] constituents, Double [] thickness, Double [] depth)
     {
         Double[] volSpecHeatSoil ;
+        volSpecHeatSoil.fill(numNodes + 1, 0.0d);
         Integer node;
         Integer constituent;
         for (node=1 ; node!=numNodes + 1 ; node+=1)
@@ -1228,35 +1231,35 @@ public class Campbell
         double specificHeatIce = 2.18;
         double specificHeatAir = 0.025;
         double res = 0.0;
-        if (name == "'Rocks'")
+        if (name == "Rocks")
         {
             res = specificHeatRocks;
         }
-        else if ( name == "'OrganicMatter'")
+        else if ( name == "OrganicMatter")
         {
             res = specificHeatOM;
         }
-        else if ( name == "'Sand'")
+        else if ( name == "Sand")
         {
             res = specificHeatSand;
         }
-        else if ( name == "'Silt'")
+        else if ( name == "Silt")
         {
             res = specificHeatSilt;
         }
-        else if ( name == "'Clay'")
+        else if ( name == "Clay")
         {
             res = specificHeatClay;
         }
-        else if ( name == "'Water'")
+        else if ( name == "Water")
         {
             res = specificHeatWater;
         }
-        else if ( name == "'Ice'")
+        else if ( name == "Ice")
         {
             res = specificHeatIce;
         }
-        else if ( name == "'Air'")
+        else if ( name == "Air")
         {
             res = specificHeatAir;
         }
@@ -1293,6 +1296,7 @@ public class Campbell
     public static Double [] doThermConductivity(Double [] soilW, Double [] carbon, Double [] rocks, Double [] sand, Double [] silt, Double [] clay, Double [] bulkDensity, Double [] thermalConductivity, Double [] thickness, Double [] depth, Integer numNodes, String [] constituents)
     {
         Double[] thermCondLayers ;
+        thermCondLayers.fill(numNodes + 1, 0.0d);
         Integer node = 1;
         Integer constituent = 1;
         double temp;
@@ -1310,7 +1314,7 @@ public class Campbell
             {
                 shapeFactorConstituent = shapeFactor(constituents[constituent], rocks, carbon, sand, silt, clay, soilW, bulkDensity, node);
                 thermalConductanceConstituent = ThermalConductance(constituents[constituent]);
-                thermalConductanceWater = ThermalConductance("'Water'");
+                thermalConductanceWater = ThermalConductance("Water");
                 k = 2.0d / 3.0d * Math.pow((1 + (shapeFactorConstituent * (thermalConductanceConstituent / thermalConductanceWater - 1.0d))), -1) + (1.0d / 3.0d * Math.pow((1 + (shapeFactorConstituent * (thermalConductanceConstituent / thermalConductanceWater - 1.0d) * (1.0d - (2.0d * shapeFactorConstituent)))), -1));
                 numerator = numerator + (thermalConductanceConstituent * soilW[node] * k);
                 denominator = denominator + (soilW[node] * k);
@@ -1329,41 +1333,41 @@ public class Campbell
         double shapeFactorClay = 0.007755;
         double shapeFactorWater = 1.0;
         double result = 0.0;
-        if (name == "'Rocks'")
+        if (name == "Rocks")
         {
             result = shapeFactorRocks;
         }
-        else if ( name == "'OrganicMatter'")
+        else if ( name == "OrganicMatter")
         {
             result = shapeFactorOM;
         }
-        else if ( name == "'Sand'")
+        else if ( name == "Sand")
         {
             result = shapeFactorSand;
         }
-        else if ( name == "'Silt'")
+        else if ( name == "Silt")
         {
             result = shapeFactorSilt;
         }
-        else if ( name == "'Clay'")
+        else if ( name == "Clay")
         {
             result = shapeFactorClay;
         }
-        else if ( name == "'Water'")
+        else if ( name == "Water")
         {
             result = shapeFactorWater;
         }
-        else if ( name == "'Ice'")
+        else if ( name == "Ice")
         {
             result = 0.333d - (0.333d * 0.0d / (volumetricFractionWater(soilWater, carbon, bulkDensity, layer) + 0.0d + volumetricFractionAir(rocks, carbon, sand, silt, clay, soilWater, bulkDensity, layer)));
             return result;
         }
-        else if ( name == "'Air'")
+        else if ( name == "Air")
         {
             result = 0.333d - (0.333d * volumetricFractionAir(rocks, carbon, sand, silt, clay, soilWater, bulkDensity, layer) / (volumetricFractionWater(soilWater, carbon, bulkDensity, layer) + 0.0d + volumetricFractionAir(rocks, carbon, sand, silt, clay, soilWater, bulkDensity, layer)));
             return result;
         }
-        else if ( name == "'Minerals'")
+        else if ( name == "Minerals")
         {
             result = shapeFactorRocks * volumetricFractionRocks(rocks, layer) + (shapeFactorSand * volumetricFractionSand(sand, rocks, carbon, bulkDensity, layer)) + (shapeFactorSilt * volumetricFractionSilt(silt, rocks, carbon, bulkDensity, layer)) + (shapeFactorClay * volumetricFractionClay(clay, rocks, carbon, bulkDensity, layer));
         }
@@ -1488,35 +1492,35 @@ public class Campbell
         double specificHeatIce = 2.18;
         double specificHeatAir = 0.025;
         double res = 0.0;
-        if (name == "'Rocks'")
+        if (name == "Rocks")
         {
             res = specificHeatRocks;
         }
-        else if ( name == "'OrganicMatter'")
+        else if ( name == "OrganicMatter")
         {
             res = specificHeatOM;
         }
-        else if ( name == "'Sand'")
+        else if ( name == "Sand")
         {
             res = specificHeatSand;
         }
-        else if ( name == "'Silt'")
+        else if ( name == "Silt")
         {
             res = specificHeatSilt;
         }
-        else if ( name == "'Clay'")
+        else if ( name == "Clay")
         {
             res = specificHeatClay;
         }
-        else if ( name == "'Water'")
+        else if ( name == "Water")
         {
             res = specificHeatWater;
         }
-        else if ( name == "'Ice'")
+        else if ( name == "Ice")
         {
             res = specificHeatIce;
         }
-        else if ( name == "'Air'")
+        else if ( name == "Air")
         {
             res = specificHeatAir;
         }
@@ -1533,7 +1537,7 @@ public class Campbell
         double defaultTimeOfMaximumTemperature = 14.0;
         double midnight_temp;
         double t_scale;
-        double piVal = 3.14;
+        double piVal = 3.141592653589793;
         double time = time_hours / 24.0d;
         double max_t_time = defaultTimeOfMaximumTemperature / 24.0d;
         double min_t_time = max_t_time - 0.5d;
@@ -1560,18 +1564,18 @@ public class Campbell
         }
         return current_temp;
     }
-    public static double RadnNetInterpolate(double internalTimeStep, double solarRadn, double cloudFr, double cva, double potE, double actE, double t2m, double albedo, Double [] soilTemp)
+    public static double RadnNetInterpolate(double internalTimeStep, double solarRadiation, double cloudFr, double cva, double potE, double potET, double tMean, double albedo, Double [] soilTemp)
     {
         double EMISSIVITYsurface = 0.96;
         double w2MJ = internalTimeStep / 1000000.0d;
         Integer SURFACEnode = 1;
         double emissivityAtmos = (1 - (0.84d * cloudFr)) * 0.58d * Math.pow(cva, 1.0d / 7.0d) + (0.84d * cloudFr);
-        double PenetrationConstant = Divide(Math.max(0.1d, potE), Math.max(0.1d, actE), 0.0d);
-        double lwRinSoil = longWaveRadn(emissivityAtmos, t2m) * PenetrationConstant * w2MJ;
+        double PenetrationConstant = Divide(Math.max(0.1d, potE), Math.max(0.1d, potET), 0.0d);
+        double lwRinSoil = longWaveRadn(emissivityAtmos, tMean) * PenetrationConstant * w2MJ;
         double lwRoutSoil = longWaveRadn(EMISSIVITYsurface, soilTemp[SURFACEnode]) * PenetrationConstant * w2MJ;
         double lwRnetSoil = lwRinSoil - lwRoutSoil;
-        double swRin = solarRadn;
-        double swRout = albedo * solarRadn;
+        double swRin = solarRadiation;
+        double swRout = albedo * solarRadiation;
         double swRnetSoil = (swRin - swRout) * PenetrationConstant;
         double total = swRnetSoil + lwRnetSoil;
         return total;
@@ -1592,7 +1596,7 @@ public class Campbell
         double res = STEFAN_BOLTZMANNconst * emissivity * Math.pow(kelvinTemp, 4);
         return res;
     }
-    public static double boundaryLayerConductanceF(Double [] TNew_zb, double t2M, double potE, double actE, double airPressure, double canopyHeight, double windSpeed, double instrumentHeight)
+    public static double boundaryLayerConductanceF(Double [] TNew_zb, double tMean, double potE, double potET, double airPressure, double canopyHeight, double windSpeed, double instrumentHeight)
     {
         double VONK = 0.41;
         double GRAVITATIONALconst = 9.8;
@@ -1600,13 +1604,13 @@ public class Campbell
         double EMISSIVITYsurface = 0.98;
         Integer SURFACEnode = 1;
         double STEFAN_BOLTZMANNconst = 0.0000000567;
-        double SpecificHeatAir = specificHeatOfAir * airDensity(t2M, airPressure);
+        double SpecificHeatAir = specificHeatOfAir * airDensity(tMean, airPressure);
         double RoughnessFacMomentum = 0.13d * canopyHeight;
         double RoughnessFacHeat = 0.2d * RoughnessFacMomentum;
         double d = 0.77d * canopyHeight;
         double SurfaceTemperature = TNew_zb[SURFACEnode];
-        double PenetrationConstant = Math.max(0.1d, potE) / Math.max(0.1d, actE);
-        double kelvinTemp = kelvinT(t2M);
+        double PenetrationConstant = Math.max(0.1d, potE) / Math.max(0.1d, potET);
+        double kelvinTemp = kelvinT(tMean);
         double radiativeConductance = 4.0d * STEFAN_BOLTZMANNconst * EMISSIVITYsurface * PenetrationConstant * Math.pow(kelvinTemp, 3);
         double FrictionVelocity = 0.0;
         double BoundaryLayerCond = 0.0;
@@ -1620,7 +1624,7 @@ public class Campbell
             FrictionVelocity = Divide(windSpeed * VONK, Math.log(Divide(instrumentHeight - d + RoughnessFacMomentum, RoughnessFacMomentum, 0.0d)) + StabilityCorMomentum, 0.0d);
             BoundaryLayerCond = Divide(SpecificHeatAir * VONK * FrictionVelocity, Math.log(Divide(instrumentHeight - d + RoughnessFacHeat, RoughnessFacHeat, 0.0d)) + StabilityCorHeat, 0.0d);
             BoundaryLayerCond = BoundaryLayerCond + radiativeConductance;
-            HeatFluxDensity = BoundaryLayerCond * (SurfaceTemperature - t2M);
+            HeatFluxDensity = BoundaryLayerCond * (SurfaceTemperature - tMean);
             StabilityParam = Divide(-VONK * instrumentHeight * GRAVITATIONALconst * HeatFluxDensity, SpecificHeatAir * kelvinTemp * Math.pow(FrictionVelocity, 3), 0.0d);
             if (StabilityParam > 0.0d)
             {
@@ -1683,6 +1687,7 @@ public class Campbell
         double latentHeatOfVapourisation = 2465000.0;
         double tempStepSec = 24.0d * 60.0d * 60.0d;
         Double[] heatStorage ;
+        heatStorage.fill(numNodes + 1, 0.d);
         double VolSoilAtNode;
         double elementLength;
         double g = 1 - nu;
@@ -1694,7 +1699,7 @@ public class Campbell
         Double[] b ;
         Double[] c ;
         Double[] d ;
-        thermalConductance.fill(numNodes + 1, 0.d);
+        a.fill(numNodes + 2, 0.0d);b.fill(numNodes + 1, 0.0d);c.fill(numNodes + 1, 0.0d);d.fill(numNodes + 1, 0.0d);thermalConductance.fill(numNodes + 1, 0.d);
         thermalConductance[AIRnode] = thermalConductivity[AIRnode];
         Integer node = SURFACEnode;
         for (node=SURFACEnode ; node!=numNodes + 1 ; node+=1)
@@ -1714,11 +1719,11 @@ public class Campbell
         a[SURFACEnode] = 0.0d;
         sensibleHeatFlux = nu * thermalConductance[AIRnode] * newTemps[AIRnode];
         RadnNet = 0.0d;
-        if (netRadiationSource == "'calc'")
+        if (netRadiationSource == "calc")
         {
             RadnNet = Divide(netRadiation * 1000000.0d, gDt, 0.0d);
         }
-        else if ( netRadiationSource == "'eos'")
+        else if ( netRadiationSource == "eos")
         {
             RadnNet = Divide(potE * latentHeatOfVapourisation, tempStepSec, 0.0d);
         }

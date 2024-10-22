@@ -917,7 +917,7 @@ def model_campbell(NLAYR:int,
     tempStepSec = 24.0 * 60.0 * 60.0
     BoundaryLayerConductanceIterations = 1
     numNodes = NLAYR + NUM_PHANTOM_NODES
-    soilConstituentNames = ["'Rocks'", "'OrganicMatter'", "'Sand'", "'Silt'", "'Clay'", "'Water'", "'Ice'", "'Air'"]
+    soilConstituentNames = ["Rocks", "OrganicMatter", "Sand", "Silt", "Clay", "Water", "Ice", "Air"]
     timeStepIteration = 1
     constantBoundaryLayerConductance = 20.0
     layer = 0
@@ -931,7 +931,7 @@ def model_campbell(NLAYR:int,
     _boundaryLayerConductance = 0.0
     internalTimeStep = tempStepSec / float(ITERATIONSperDAY)
     soilWater = [0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
-    copyLength = min(NLAYR + 1 + NUM_PHANTOM_NODES, len(SW))
+    copyLength = min(NLAYR + 1 + NUM_PHANTOM_NODES, len(SW) + 1)
     soilWater[:copyLength] = SW[:copyLength]
     volSpecHeatSoil = doVolumetricSpecificHeat(volSpecHeatSoil, soilWater, numNodes, soilConstituentNames, THICK, DEPTH)
     thermalConductivity = doThermConductivity(soilWater, SLCARB, SLROCK, SLSAND, SLSILT, CLAY, BD, thermalConductivity, THICK, DEPTH, numNodes, soilConstituentNames)
@@ -942,13 +942,14 @@ def model_campbell(NLAYR:int,
         else:
             tMean = InterpTemp(timeOfDaySecs * SEC2HR, TMAX, TMIN, T2M, maxTempYesterday, minTempYesterday)
         newTemperature[AIRnode] = tMean
-        netRadiation = RadnNetInterpolate(internalTimeStep, solarRadn[timeStepIteration], cloudFr, cva, ESP, ES, tMean, SALB, soilTemp)
-        if boundaryLayerConductanceSource == "'constant'":
+        netRadiation = RadnNetInterpolate(internalTimeStep, solarRadn[timeStepIteration], cloudFr, cva, ESP, EOAD, tMean, SALB, soilTemp)
+        if boundaryLayerConductanceSource == "constant":
             thermalConductivity[AIRnode] = constantBoundaryLayerConductance
-        elif boundaryLayerConductanceSource == "'calc'":
-            thermalConductivity[AIRnode] = boundaryLayerConductanceF(newTemperature, T2M, ESP, ES, airPressure, canopyHeight, windSpeed, instrumentHeight)
+        elif boundaryLayerConductanceSource == "calc":
+            thermalConductivity[AIRnode] = boundaryLayerConductanceF(newTemperature, tMean, ESP, EOAD, airPressure, canopyHeight, windSpeed, instrumentHeight)
             for iteration in range(1 , BoundaryLayerConductanceIterations + 1 , 1):
                 newTemperature = doThomas(newTemperature, soilTemp, thermalConductivity, thermalConductance, DEPTH, volSpecHeatSoil, internalTimeStep, netRadiation, ESP, ES, numNodes, netRadiationSource)
+                thermalConductivity[AIRnode] = boundaryLayerConductanceF(newTemperature, tMean, ESP, EOAD, airPressure, canopyHeight, windSpeed, instrumentHeight)
         newTemperature = doThomas(newTemperature, soilTemp, thermalConductivity, thermalConductance, DEPTH, volSpecHeatSoil, internalTimeStep, netRadiation, ESP, ES, numNodes, netRadiationSource)
         (soilTemp, _boundaryLayerConductance) = doUpdate(newTemperature, soilTemp, minSoilTemp, maxSoilTemp, aveSoilTemp, thermalConductivity, _boundaryLayerConductance, ITERATIONSperDAY, timeOfDaySecs, internalTimeStep, numNodes)
         precision = min(timeOfDaySecs, 5.0 * 3600.0) * 0.0001
@@ -968,15 +969,16 @@ def doNetRadiation(solarRadn:'Array[float]',
          rad:float,
          tmin:float,
          latitude:float):
-    piVal:float = 3.1415
+    piVal:float = 3.141592653589793
     TSTEPS2RAD:float = 1.0
     SOLARconst:float = 1.0
     solarDeclination:float = 1.0
+    m1:'array[float]'
+    m1 = [0.] * (ITERATIONSperDAY + 1)
     TSTEPS2RAD = Divide(2.0 * piVal, float(ITERATIONSperDAY), 0.0)
     SOLARconst = 1360.0
     solarDeclination = 0.3985 * sin((4.869 + (doy * 2.0 * piVal / 365.25) + (0.03345 * sin((6.224 + (doy * 2.0 * piVal / 365.25))))))
     cD:float = sqrt(1.0 - (solarDeclination * solarDeclination))
-    m1:'array[float]'
     m1Tot:float = 0.0
     psr:float
     timestepNumber:int = 1
@@ -1023,6 +1025,7 @@ def doVolumetricSpecificHeat(volSpecLayer:'Array[float]',
          thickness:'Array[float]',
          depth:'Array[float]'):
     volSpecHeatSoil:'array[float]'
+    volSpecHeatSoil = [0.0] * (numNodes + 1)
     node:int
     constituent:int
     for node in range(1 , numNodes + 1 , 1):
@@ -1042,21 +1045,21 @@ def volumetricSpecificHeat(name:str):
     specificHeatIce:float = 2.18
     specificHeatAir:float = 0.025
     res:float = 0.0
-    if name == "'Rocks'":
+    if name == "Rocks":
         res = specificHeatRocks
-    elif name == "'OrganicMatter'":
+    elif name == "OrganicMatter":
         res = specificHeatOM
-    elif name == "'Sand'":
+    elif name == "Sand":
         res = specificHeatSand
-    elif name == "'Silt'":
+    elif name == "Silt":
         res = specificHeatSilt
-    elif name == "'Clay'":
+    elif name == "Clay":
         res = specificHeatClay
-    elif name == "'Water'":
+    elif name == "Water":
         res = specificHeatWater
-    elif name == "'Ice'":
+    elif name == "Ice":
         res = specificHeatIce
-    elif name == "'Air'":
+    elif name == "Air":
         res = specificHeatAir
     return res
 
@@ -1098,6 +1101,7 @@ def doThermConductivity(soilW:'Array[float]',
          numNodes:int,
          constituents:'Array[str]'):
     thermCondLayers:'array[float]'
+    thermCondLayers = [0.0] * (numNodes + 1)
     node:int = 1
     constituent:int = 1
     temp:float
@@ -1113,7 +1117,7 @@ def doThermConductivity(soilW:'Array[float]',
         for constituent in range(0 , len(constituents) , 1):
             shapeFactorConstituent = shapeFactor(constituents[constituent], rocks, carbon, sand, silt, clay, soilW, bulkDensity, node)
             thermalConductanceConstituent = ThermalConductance(constituents[constituent])
-            thermalConductanceWater = ThermalConductance("'Water'")
+            thermalConductanceWater = ThermalConductance("Water")
             k = 2.0 / 3.0 * pow((1 + (shapeFactorConstituent * (thermalConductanceConstituent / thermalConductanceWater - 1.0))), -1) + (1.0 / 3.0 * pow((1 + (shapeFactorConstituent * (thermalConductanceConstituent / thermalConductanceWater - 1.0) * (1.0 - (2.0 * shapeFactorConstituent)))), -1))
             numerator = numerator + (thermalConductanceConstituent * soilW[node] * k)
             denominator = denominator + (soilW[node] * k)
@@ -1137,25 +1141,25 @@ def shapeFactor(name:str,
     shapeFactorClay:float = 0.007755
     shapeFactorWater:float = 1.0
     result:float = 0.0
-    if name == "'Rocks'":
+    if name == "Rocks":
         result = shapeFactorRocks
-    elif name == "'OrganicMatter'":
+    elif name == "OrganicMatter":
         result = shapeFactorOM
-    elif name == "'Sand'":
+    elif name == "Sand":
         result = shapeFactorSand
-    elif name == "'Silt'":
+    elif name == "Silt":
         result = shapeFactorSilt
-    elif name == "'Clay'":
+    elif name == "Clay":
         result = shapeFactorClay
-    elif name == "'Water'":
+    elif name == "Water":
         result = shapeFactorWater
-    elif name == "'Ice'":
+    elif name == "Ice":
         result = 0.333 - (0.333 * 0.0 / (volumetricFractionWater(soilWater, carbon, bulkDensity, layer) + 0.0 + volumetricFractionAir(rocks, carbon, sand, silt, clay, soilWater, bulkDensity, layer)))
         return result
-    elif name == "'Air'":
+    elif name == "Air":
         result = 0.333 - (0.333 * volumetricFractionAir(rocks, carbon, sand, silt, clay, soilWater, bulkDensity, layer) / (volumetricFractionWater(soilWater, carbon, bulkDensity, layer) + 0.0 + volumetricFractionAir(rocks, carbon, sand, silt, clay, soilWater, bulkDensity, layer)))
         return result
-    elif name == "'Minerals'":
+    elif name == "Minerals":
         result = shapeFactorRocks * volumetricFractionRocks(rocks, layer) + (shapeFactorSand * volumetricFractionSand(sand, rocks, carbon, bulkDensity, layer)) + (shapeFactorSilt * volumetricFractionSilt(silt, rocks, carbon, bulkDensity, layer)) + (shapeFactorClay * volumetricFractionClay(clay, rocks, carbon, bulkDensity, layer))
     result = volumetricSpecificHeat(name)
     return result
@@ -1274,21 +1278,21 @@ def volumetricSpecificHeat(name:str):
     specificHeatIce:float = 2.18
     specificHeatAir:float = 0.025
     res:float = 0.0
-    if name == "'Rocks'":
+    if name == "Rocks":
         res = specificHeatRocks
-    elif name == "'OrganicMatter'":
+    elif name == "OrganicMatter":
         res = specificHeatOM
-    elif name == "'Sand'":
+    elif name == "Sand":
         res = specificHeatSand
-    elif name == "'Silt'":
+    elif name == "Silt":
         res = specificHeatSilt
-    elif name == "'Clay'":
+    elif name == "Clay":
         res = specificHeatClay
-    elif name == "'Water'":
+    elif name == "Water":
         res = specificHeatWater
-    elif name == "'Ice'":
+    elif name == "Ice":
         res = specificHeatIce
-    elif name == "'Air'":
+    elif name == "Air":
         res = specificHeatAir
     return res
 
@@ -1308,7 +1312,7 @@ def InterpTemp(time_hours:float,
     defaultTimeOfMaximumTemperature:float = 14.0
     midnight_temp:float
     t_scale:float
-    piVal:float = 3.14
+    piVal:float = 3.141592653589793
     time:float = time_hours / 24.0
     max_t_time:float = defaultTimeOfMaximumTemperature / 24.0
     min_t_time:float = max_t_time - 0.5
@@ -1328,24 +1332,24 @@ def InterpTemp(time_hours:float,
     return current_temp
 
 def RadnNetInterpolate(internalTimeStep:float,
-         solarRadn:float,
+         solarRadiation:float,
          cloudFr:float,
          cva:float,
          potE:float,
-         actE:float,
-         t2m:float,
+         potET:float,
+         tMean:float,
          albedo:float,
          soilTemp:'Array[float]'):
     EMISSIVITYsurface:float = 0.96
     w2MJ:float = internalTimeStep / 1000000.0
     SURFACEnode:int = 1
     emissivityAtmos:float = (1 - (0.84 * cloudFr)) * 0.58 * pow(cva, 1.0 / 7.0) + (0.84 * cloudFr)
-    PenetrationConstant:float = Divide(max(0.1, potE), max(0.1, actE), 0.0)
-    lwRinSoil:float = longWaveRadn(emissivityAtmos, t2m) * PenetrationConstant * w2MJ
+    PenetrationConstant:float = Divide(max(0.1, potE), max(0.1, potET), 0.0)
+    lwRinSoil:float = longWaveRadn(emissivityAtmos, tMean) * PenetrationConstant * w2MJ
     lwRoutSoil:float = longWaveRadn(EMISSIVITYsurface, soilTemp[SURFACEnode]) * PenetrationConstant * w2MJ
     lwRnetSoil:float = lwRinSoil - lwRoutSoil
-    swRin:float = solarRadn
-    swRout:float = albedo * solarRadn
+    swRin:float = solarRadiation
+    swRout:float = albedo * solarRadiation
     swRnetSoil:float = (swRin - swRout) * PenetrationConstant
     total:float = swRnetSoil + lwRnetSoil
     return total
@@ -1366,9 +1370,9 @@ def longWaveRadn(emissivity:float,
     return res
 
 def boundaryLayerConductanceF(TNew_zb:'Array[float]',
-         t2M:float,
+         tMean:float,
          potE:float,
-         actE:float,
+         potET:float,
          airPressure:float,
          canopyHeight:float,
          windSpeed:float,
@@ -1379,13 +1383,13 @@ def boundaryLayerConductanceF(TNew_zb:'Array[float]',
     EMISSIVITYsurface:float = 0.98
     SURFACEnode:int = 1
     STEFAN_BOLTZMANNconst:float = 0.0000000567
-    SpecificHeatAir:float = specificHeatOfAir * airDensity(t2M, airPressure)
+    SpecificHeatAir:float = specificHeatOfAir * airDensity(tMean, airPressure)
     RoughnessFacMomentum:float = 0.13 * canopyHeight
     RoughnessFacHeat:float = 0.2 * RoughnessFacMomentum
     d:float = 0.77 * canopyHeight
     SurfaceTemperature:float = TNew_zb[SURFACEnode]
-    PenetrationConstant:float = max(0.1, potE) / max(0.1, actE)
-    kelvinTemp:float = kelvinT(t2M)
+    PenetrationConstant:float = max(0.1, potE) / max(0.1, potET)
+    kelvinTemp:float = kelvinT(tMean)
     radiativeConductance:float = 4.0 * STEFAN_BOLTZMANNconst * EMISSIVITYsurface * PenetrationConstant * pow(kelvinTemp, 3)
     FrictionVelocity:float = 0.0
     BoundaryLayerCond:float = 0.0
@@ -1398,7 +1402,7 @@ def boundaryLayerConductanceF(TNew_zb:'Array[float]',
         FrictionVelocity = Divide(windSpeed * VONK, log(Divide(instrumentHeight - d + RoughnessFacMomentum, RoughnessFacMomentum, 0.0)) + StabilityCorMomentum, 0.0)
         BoundaryLayerCond = Divide(SpecificHeatAir * VONK * FrictionVelocity, log(Divide(instrumentHeight - d + RoughnessFacHeat, RoughnessFacHeat, 0.0)) + StabilityCorHeat, 0.0)
         BoundaryLayerCond = BoundaryLayerCond + radiativeConductance
-        HeatFluxDensity = BoundaryLayerCond * (SurfaceTemperature - t2M)
+        HeatFluxDensity = BoundaryLayerCond * (SurfaceTemperature - tMean)
         StabilityParam = Divide(-VONK * instrumentHeight * GRAVITATIONALconst * HeatFluxDensity, SpecificHeatAir * kelvinTemp * pow(FrictionVelocity, 3), 0.0)
         if StabilityParam > 0.0:
             StabilityCorHeat = 4.7 * StabilityParam
@@ -1462,6 +1466,7 @@ def doThomas(newTemps:'Array[float]',
     latentHeatOfVapourisation:float = 2465000.0
     tempStepSec:float = 24.0 * 60.0 * 60.0
     heatStorage:'array[float]'
+    heatStorage = [0.] * (numNodes + 1)
     VolSoilAtNode:float
     elementLength:float
     g:float = 1 - nu
@@ -1473,6 +1478,10 @@ def doThomas(newTemps:'Array[float]',
     b:'array[float]'
     c:'array[float]'
     d:'array[float]'
+    a = [0.0] * (numNodes + 2)
+    b = [0.0] * (numNodes + 1)
+    c = [0.0] * (numNodes + 1)
+    d = [0.0] * (numNodes + 1)
     thermalConductance = [0.] * (numNodes + 1)
     thermalConductance[AIRnode] = thermalConductivity[AIRnode]
     node:int = SURFACEnode
@@ -1489,9 +1498,9 @@ def doThomas(newTemps:'Array[float]',
     a[SURFACEnode] = 0.0
     sensibleHeatFlux = nu * thermalConductance[AIRnode] * newTemps[AIRnode]
     RadnNet = 0.0
-    if netRadiationSource == "'calc'":
+    if netRadiationSource == "calc":
         RadnNet = Divide(netRadiation * 1000000.0, gDt, 0.0)
-    elif netRadiationSource == "'eos'":
+    elif netRadiationSource == "eos":
         RadnNet = Divide(potE * latentHeatOfVapourisation, tempStepSec, 0.0)
     LatentHeatFlux = Divide(actE * latentHeatOfVapourisation, tempStepSec, 0.0)
     SoilSurfaceHeatFlux = sensibleHeatFlux + RadnNet - LatentHeatFlux
