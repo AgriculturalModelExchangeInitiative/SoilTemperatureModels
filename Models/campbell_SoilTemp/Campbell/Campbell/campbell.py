@@ -1169,13 +1169,14 @@ def doNetRadiation(
     TSTEPS2RAD:float = 1.0
     SOLARconst:float = 1.0
     solarDeclination:float = 1.0
-
+    m1:'Array[float]' 
+    m1 = array('f', [0.]*(ITERATIONSperDAY + 1))
 
     TSTEPS2RAD = Divide(2.0 * piVal, float(ITERATIONSperDAY), 0.0)          # convert timestep of day to radians
     SOLARconst = 1360.0     # W/M^2
     solarDeclination = 0.3985 * sin(4.869 + (doy * 2.0 * piVal / 365.25) + 0.03345 * sin(6.224 + (doy * 2.0 * piVal / 365.25)))
     cD: float = sqrt(1.0 - solarDeclination * solarDeclination)
-    m1: 'Array[float]' = [0.]*(ITERATIONSperDAY + 1)
+  
     m1Tot: float = 0.0
     psr: float
     timestepNumber: int =1
@@ -1266,21 +1267,21 @@ def volumetricSpecificHeat(name:str) -> float:
     specificHeatAir:float = 0.025
     res:float = 0.0
 
-    if name == 'Rocks':
+    if name == "Rocks":
         res = specificHeatRocks
-    elif name == 'OrganicMatter':
+    elif name == "OrganicMatter":
         res = specificHeatOM
-    elif name == 'Sand':
+    elif name == "Sand":
         res = specificHeatSand
-    elif name == 'Silt':
+    elif name == "Silt":
         res = specificHeatSilt
-    elif name == 'Clay':
+    elif name == "Clay":
         res = specificHeatClay
-    elif name == 'Water':
+    elif name == "Water":
         res = specificHeatWater
-    elif name == 'Ice':
+    elif name == "Ice":
         res = specificHeatIce
-    elif name == 'Air':
+    elif name == "Air":
         res = specificHeatAir
     return res
 
@@ -1364,27 +1365,27 @@ def shapeFactor(name:str, rocks:'Array[float]', carbon:'Array[float]', sand:'Arr
 
     result:float = 0.0
 
-    if name == 'Rocks':
+    if name == "Rocks":
         result = shapeFactorRocks
-    elif name == 'OrganicMatter':
+    elif name == "OrganicMatter":
         result = shapeFactorOM
-    elif name == 'Sand':
+    elif name == "Sand":
         result = shapeFactorSand
-    elif name == 'Silt':
+    elif name == "Silt":
         result = shapeFactorSilt
-    elif name == 'Clay':
+    elif name == "Clay":
         result = shapeFactorClay
-    elif name == 'Water':
+    elif name == "Water":
         result = shapeFactorWater
-    elif name == 'Ice':
+    elif name == "Ice":
         result = 0.333 - 0.333 * 0.0 / (volumetricFractionWater(soilWater, carbon, bulkDensity, layer) + 0.0 + 
                                                                  volumetricFractionAir(rocks, carbon, sand, silt, clay, soilWater, bulkDensity, layer))
         return result
-    elif name == 'Air':
+    elif name == "Air":
         result = 0.333 - 0.333 * volumetricFractionAir(rocks, carbon, sand, silt, clay, soilWater, bulkDensity, layer) / (volumetricFractionWater(soilWater, carbon, bulkDensity, layer) + 0.0 + 
                                                                  volumetricFractionAir(rocks, carbon, sand, silt, clay, soilWater, bulkDensity, layer))
         return result
-    elif name == 'Minerals':
+    elif name == "Minerals":
         result = shapeFactorRocks * volumetricFractionRocks(rocks, layer) + shapeFactorSand * volumetricFractionSand(sand, rocks, carbon, bulkDensity, layer) + shapeFactorSilt * volumetricFractionSilt(silt, rocks, carbon, bulkDensity, layer) + shapeFactorClay * volumetricFractionClay(clay, rocks, carbon, bulkDensity, layer)
     
     result = volumetricSpecificHeat(name)
@@ -1538,7 +1539,7 @@ def longWaveRadn(emissivity: float, tDegC: float) -> float:
     res:float = STEFAN_BOLTZMANNconst * emissivity * (kelvinTemp ** 4)
     return res
 
-def RadnNetInterpolate(internalTimeStep:float, solarRadn: float, cloudFr: float, cva: float, potE: float, actE: float, t2m: float, albedo: float, soilTemp: 'Array[float]') -> float:
+def RadnNetInterpolate(internalTimeStep:float, solarRadiation: float, cloudFr: float, cva: float, potE: float, actE: float, t2m: float, albedo: float, soilTemp: 'Array[float]') -> float:
     """
     Calculate the net radiation at the soil surface.
     
@@ -1571,8 +1572,8 @@ def RadnNetInterpolate(internalTimeStep:float, solarRadn: float, cloudFr: float,
     lwRnetSoil: float = lwRinSoil - lwRoutSoil
 
     # Shortwave radiation incoming and outgoing at the soil surface
-    swRin: float = solarRadn
-    swRout: float = albedo * solarRadn
+    swRin: float = solarRadiation
+    swRout: float = albedo * solarRadiation
 
     # Net shortwave radiation at the soil surface
     swRnetSoil: float = (swRin - swRout) * PenetrationConstant
