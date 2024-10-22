@@ -1555,7 +1555,7 @@ def longWaveRadn(emissivity: float, tDegC: float) -> float:
     res:float = STEFAN_BOLTZMANNconst * emissivity * (kelvinTemp ** 4)
     return res
 
-def RadnNetInterpolate(internalTimeStep:float, solarRadiation: float, cloudFr: float, cva: float, potE: float, actE: float, t2m: float, albedo: float, soilTemp: 'Array[float]') -> float:
+def RadnNetInterpolate(internalTimeStep:float, solarRadiation: float, cloudFr: float, cva: float, potE: float, potET: float, tMean: float, albedo: float, soilTemp: 'Array[float]') -> float:
     """
     Calculate the net radiation at the soil surface.
     
@@ -1725,7 +1725,7 @@ def doThomas(newTemps: 'Array[float]',
     latentHeatOfVapourisation: float = 2465000.0  # Latent heat of vaporization of water (J/kg)
     tempStepSec: float = 24.0 * 60.0 * 60.0
     heatStorage: 'Array[float]' 
-    heatStorage = [0] * (numNodes + 1)  # Array for heat storage
+    heatStorage = [0.] * (numNodes + 1)  # Array for heat storage
     VolSoilAtNode: float
     elementLength: float
     g: float = 1 - nu
