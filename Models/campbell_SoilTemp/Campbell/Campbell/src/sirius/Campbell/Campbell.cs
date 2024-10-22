@@ -1470,7 +1470,7 @@ namespace SiriusQualitymodel_SoilTempCampbell.Strategies
             tempStepSec = 24.0 * 60.0 * 60.0;
             BoundaryLayerConductanceIterations = 1;
             numNodes = NLAYR + NUM_PHANTOM_NODES;
-            soilConstituentNames = new string[]{"'Rocks'", "'OrganicMatter'", "'Sand'", "'Silt'", "'Clay'", "'Water'", "'Ice'", "'Air'"};
+            soilConstituentNames = new string[]{"Rocks", "OrganicMatter", "Sand", "Silt", "Clay", "Water", "Ice", "Air"};
             timeStepIteration = 1;
             constantBoundaryLayerConductance = 20.0;
             layer = 0;
@@ -1484,7 +1484,7 @@ namespace SiriusQualitymodel_SoilTempCampbell.Strategies
             _boundaryLayerConductance = 0.0;
             internalTimeStep = tempStepSec / (double)(ITERATIONSperDAY);
             for (var i = 0; i < NLAYR + 1 + NUM_PHANTOM_NODES; i++){soilWater[i] = 0.0;}
-            copyLength = Math.Min(NLAYR + 1 + NUM_PHANTOM_NODES, SW.Length);
+            copyLength = Math.Min(NLAYR + 1 + NUM_PHANTOM_NODES, SW.Length + 1);
             soilWater = SW;
             volSpecHeatSoil = doVolumetricSpecificHeat(volSpecHeatSoil, soilWater, numNodes, soilConstituentNames, THICK, DEPTH);
             thermalConductivity = doThermConductivity(soilWater, SLCARB, SLROCK, SLSAND, SLSILT, CLAY, BD, thermalConductivity, THICK, DEPTH, numNodes, soilConstituentNames);
@@ -1500,17 +1500,18 @@ namespace SiriusQualitymodel_SoilTempCampbell.Strategies
                     tMean = InterpTemp(timeOfDaySecs * SEC2HR, TMAX, TMIN, T2M, maxTempYesterday, minTempYesterday);
                 }
                 newTemperature[AIRnode] = tMean;
-                netRadiation = RadnNetInterpolate(internalTimeStep, solarRadn[timeStepIteration], cloudFr, cva, ESP, ES, tMean, SALB, soilTemp);
-                if (boundaryLayerConductanceSource == "'constant'")
+                netRadiation = RadnNetInterpolate(internalTimeStep, solarRadn[timeStepIteration], cloudFr, cva, ESP, EOAD, tMean, SALB, soilTemp);
+                if (boundaryLayerConductanceSource == "constant")
                 {
                     thermalConductivity[AIRnode] = constantBoundaryLayerConductance;
                 }
-                else if ( boundaryLayerConductanceSource == "'calc'")
+                else if ( boundaryLayerConductanceSource == "calc")
                 {
-                    thermalConductivity[AIRnode] = boundaryLayerConductanceF(newTemperature, T2M, ESP, ES, airPressure, canopyHeight, windSpeed, instrumentHeight);
+                    thermalConductivity[AIRnode] = boundaryLayerConductanceF(newTemperature, tMean, ESP, EOAD, airPressure, canopyHeight, windSpeed, instrumentHeight);
                     for (iteration=1 ; iteration!=BoundaryLayerConductanceIterations + 1 ; iteration+=1)
                     {
                         newTemperature = doThomas(newTemperature, soilTemp, thermalConductivity, thermalConductance, DEPTH, volSpecHeatSoil, internalTimeStep, netRadiation, ESP, ES, numNodes, netRadiationSource);
+                        thermalConductivity[AIRnode] = boundaryLayerConductanceF(newTemperature, tMean, ESP, EOAD, airPressure, canopyHeight, windSpeed, instrumentHeight);
                     }
                 }
                 newTemperature = doThomas(newTemperature, soilTemp, thermalConductivity, thermalConductance, DEPTH, volSpecHeatSoil, internalTimeStep, netRadiation, ESP, ES, numNodes, netRadiationSource);
@@ -1552,22 +1553,23 @@ namespace SiriusQualitymodel_SoilTempCampbell.Strategies
 
         public static Tuple<double[],double,double>  doNetRadiation(double[] solarRadn, double cloudFr, double cva, int ITERATIONSperDAY, int doy, double rad, double tmin, double latitude)
         {
-            double piVal = 3.1415;
+            double _pi = 3.141592653589793;
             double TSTEPS2RAD = 1.0;
             double SOLARconst = 1.0;
             double solarDeclination = 1.0;
-            TSTEPS2RAD = Divide(2.0 * piVal, (double)(ITERATIONSperDAY), 0.0);
-            SOLARconst = 1360.0;
-            solarDeclination = 0.3985 * Math.Sin((4.869 + (doy * 2.0 * piVal / 365.25) + (0.03345 * Math.Sin((6.224 + (doy * 2.0 * piVal / 365.25))))));
-            double cD = Math.Sqrt(1.0 - (solarDeclination * solarDeclination));
             double[] m1 ;
+            for (var i = 0; i < ITERATIONSperDAY + 1; i++){m1[i] = 0.0d;}
+            TSTEPS2RAD = Divide(2.0 * _pi, (double)(ITERATIONSperDAY), 0.0);
+            SOLARconst = 1360.0;
+            solarDeclination = 0.3985 * Math.Sin((4.869 + (doy * 2.0 * _pi / 365.25) + (0.03345 * Math.Sin((6.224 + (doy * 2.0 * _pi / 365.25))))));
+            double cD = Math.Sqrt(1.0 - (solarDeclination * solarDeclination));
             double m1Tot = 0.0;
             double psr;
             int timestepNumber = 1;
             double fr;
             for (timestepNumber=1 ; timestepNumber!=ITERATIONSperDAY + 1 ; timestepNumber+=1)
             {
-                m1[timestepNumber] = (solarDeclination * Math.Sin(latitude * piVal / 180.0) + (cD * Math.Cos(latitude * piVal / 180.0) * Math.Cos(TSTEPS2RAD * ((double)(timestepNumber) - ((double)(ITERATIONSperDAY) / 2.0))))) * 24.0 / (double)(ITERATIONSperDAY);
+                m1[timestepNumber] = (solarDeclination * Math.Sin(latitude * _pi / 180.0) + (cD * Math.Cos(latitude * _pi / 180.0) * Math.Cos(TSTEPS2RAD * ((double)(timestepNumber) - ((double)(ITERATIONSperDAY) / 2.0))))) * 24.0 / (double)(ITERATIONSperDAY);
                 if (m1[timestepNumber] > 0.0)
                 {
                     m1Tot = m1Tot + m1[timestepNumber];
@@ -1620,6 +1622,7 @@ namespace SiriusQualitymodel_SoilTempCampbell.Strategies
         public static double[] doVolumetricSpecificHeat(double[] volSpecLayer, double[] soilW, int numNodes, string[] constituents, double[] thickness, double[] depth)
         {
             double[] volSpecHeatSoil ;
+            for (var i = 0; i < numNodes + 1; i++){volSpecHeatSoil[i] = 0.0;}
             int node;
             int constituent;
             for (node=1 ; node!=numNodes + 1 ; node+=1)
@@ -1645,35 +1648,35 @@ namespace SiriusQualitymodel_SoilTempCampbell.Strategies
             double specificHeatIce = 2.18;
             double specificHeatAir = 0.025;
             double res = 0.0;
-            if (name == "'Rocks'")
+            if (name == "Rocks")
             {
                 res = specificHeatRocks;
             }
-            else if ( name == "'OrganicMatter'")
+            else if ( name == "OrganicMatter")
             {
                 res = specificHeatOM;
             }
-            else if ( name == "'Sand'")
+            else if ( name == "Sand")
             {
                 res = specificHeatSand;
             }
-            else if ( name == "'Silt'")
+            else if ( name == "Silt")
             {
                 res = specificHeatSilt;
             }
-            else if ( name == "'Clay'")
+            else if ( name == "Clay")
             {
                 res = specificHeatClay;
             }
-            else if ( name == "'Water'")
+            else if ( name == "Water")
             {
                 res = specificHeatWater;
             }
-            else if ( name == "'Ice'")
+            else if ( name == "Ice")
             {
                 res = specificHeatIce;
             }
-            else if ( name == "'Air'")
+            else if ( name == "Air")
             {
                 res = specificHeatAir;
             }
@@ -1712,6 +1715,7 @@ namespace SiriusQualitymodel_SoilTempCampbell.Strategies
         public static double[] doThermConductivity(double[] soilW, double[] carbon, double[] rocks, double[] sand, double[] silt, double[] clay, double[] bulkDensity, double[] thermalConductivity, double[] thickness, double[] depth, int numNodes, string[] constituents)
         {
             double[] thermCondLayers ;
+            for (var i = 0; i < numNodes + 1; i++){thermCondLayers[i] = 0.0;}
             int node = 1;
             int constituent = 1;
             double temp;
@@ -1729,7 +1733,7 @@ namespace SiriusQualitymodel_SoilTempCampbell.Strategies
                 {
                     shapeFactorConstituent = shapeFactor(constituents[constituent], rocks, carbon, sand, silt, clay, soilW, bulkDensity, node);
                     thermalConductanceConstituent = ThermalConductance(constituents[constituent]);
-                    thermalConductanceWater = ThermalConductance("'Water'");
+                    thermalConductanceWater = ThermalConductance("Water");
                     k = 2.0 / 3.0 * Math.Pow((1 + (shapeFactorConstituent * (thermalConductanceConstituent / thermalConductanceWater - 1.0))), -1) + (1.0 / 3.0 * Math.Pow((1 + (shapeFactorConstituent * (thermalConductanceConstituent / thermalConductanceWater - 1.0) * (1.0 - (2.0 * shapeFactorConstituent)))), -1));
                     numerator = numerator + (thermalConductanceConstituent * soilW[node] * k);
                     denominator = denominator + (soilW[node] * k);
@@ -1749,41 +1753,41 @@ namespace SiriusQualitymodel_SoilTempCampbell.Strategies
             double shapeFactorClay = 0.007755;
             double shapeFactorWater = 1.0;
             double result = 0.0;
-            if (name == "'Rocks'")
+            if (name == "Rocks")
             {
                 result = shapeFactorRocks;
             }
-            else if ( name == "'OrganicMatter'")
+            else if ( name == "OrganicMatter")
             {
                 result = shapeFactorOM;
             }
-            else if ( name == "'Sand'")
+            else if ( name == "Sand")
             {
                 result = shapeFactorSand;
             }
-            else if ( name == "'Silt'")
+            else if ( name == "Silt")
             {
                 result = shapeFactorSilt;
             }
-            else if ( name == "'Clay'")
+            else if ( name == "Clay")
             {
                 result = shapeFactorClay;
             }
-            else if ( name == "'Water'")
+            else if ( name == "Water")
             {
                 result = shapeFactorWater;
             }
-            else if ( name == "'Ice'")
+            else if ( name == "Ice")
             {
                 result = 0.333 - (0.333 * 0.0 / (volumetricFractionWater(soilWater, carbon, bulkDensity, layer) + 0.0 + volumetricFractionAir(rocks, carbon, sand, silt, clay, soilWater, bulkDensity, layer)));
                 return result;
             }
-            else if ( name == "'Air'")
+            else if ( name == "Air")
             {
                 result = 0.333 - (0.333 * volumetricFractionAir(rocks, carbon, sand, silt, clay, soilWater, bulkDensity, layer) / (volumetricFractionWater(soilWater, carbon, bulkDensity, layer) + 0.0 + volumetricFractionAir(rocks, carbon, sand, silt, clay, soilWater, bulkDensity, layer)));
                 return result;
             }
-            else if ( name == "'Minerals'")
+            else if ( name == "Minerals")
             {
                 result = shapeFactorRocks * volumetricFractionRocks(rocks, layer) + (shapeFactorSand * volumetricFractionSand(sand, rocks, carbon, bulkDensity, layer)) + (shapeFactorSilt * volumetricFractionSilt(silt, rocks, carbon, bulkDensity, layer)) + (shapeFactorClay * volumetricFractionClay(clay, rocks, carbon, bulkDensity, layer));
             }
@@ -1917,35 +1921,35 @@ namespace SiriusQualitymodel_SoilTempCampbell.Strategies
             double specificHeatIce = 2.18;
             double specificHeatAir = 0.025;
             double res = 0.0;
-            if (name == "'Rocks'")
+            if (name == "Rocks")
             {
                 res = specificHeatRocks;
             }
-            else if ( name == "'OrganicMatter'")
+            else if ( name == "OrganicMatter")
             {
                 res = specificHeatOM;
             }
-            else if ( name == "'Sand'")
+            else if ( name == "Sand")
             {
                 res = specificHeatSand;
             }
-            else if ( name == "'Silt'")
+            else if ( name == "Silt")
             {
                 res = specificHeatSilt;
             }
-            else if ( name == "'Clay'")
+            else if ( name == "Clay")
             {
                 res = specificHeatClay;
             }
-            else if ( name == "'Water'")
+            else if ( name == "Water")
             {
                 res = specificHeatWater;
             }
-            else if ( name == "'Ice'")
+            else if ( name == "Ice")
             {
                 res = specificHeatIce;
             }
-            else if ( name == "'Air'")
+            else if ( name == "Air")
             {
                 res = specificHeatAir;
             }
@@ -1964,14 +1968,14 @@ namespace SiriusQualitymodel_SoilTempCampbell.Strategies
             double defaultTimeOfMaximumTemperature = 14.0;
             double midnight_temp;
             double t_scale;
-            double piVal = 3.14;
+            double _pi = 3.141592653589793;
             double time = time_hours / 24.0;
             double max_t_time = defaultTimeOfMaximumTemperature / 24.0;
             double min_t_time = max_t_time - 0.5;
             double current_temp = 0.0;
             if (time < min_t_time)
             {
-                midnight_temp = Math.Sin((0.0 + 0.25 - max_t_time) * 2.0 * piVal) * (max_temp_yesterday - min_temp_yesterday) / 2.0 + ((max_temp_yesterday + min_temp_yesterday) / 2.0);
+                midnight_temp = Math.Sin((0.0 + 0.25 - max_t_time) * 2.0 * _pi) * (max_temp_yesterday - min_temp_yesterday) / 2.0 + ((max_temp_yesterday + min_temp_yesterday) / 2.0);
                 t_scale = (min_t_time - time) / min_t_time;
                 if (t_scale > 1.0)
                 {
@@ -1986,24 +1990,24 @@ namespace SiriusQualitymodel_SoilTempCampbell.Strategies
             }
             else
             {
-                current_temp = Math.Sin((time + 0.25 - max_t_time) * 2.0 * piVal) * (tmax - tmin) / 2.0 + t2m;
+                current_temp = Math.Sin((time + 0.25 - max_t_time) * 2.0 * _pi) * (tmax - tmin) / 2.0 + t2m;
                 return current_temp;
             }
             return current_temp;
         }
 
-        public static double RadnNetInterpolate(double internalTimeStep, double solarRadn, double cloudFr, double cva, double potE, double actE, double t2m, double albedo, double[] soilTemp)
+        public static double RadnNetInterpolate(double internalTimeStep, double solarRadiation, double cloudFr, double cva, double potE, double potET, double tMean, double albedo, double[] soilTemp)
         {
             double EMISSIVITYsurface = 0.96;
             double w2MJ = internalTimeStep / 1000000.0;
             int SURFACEnode = 1;
             double emissivityAtmos = (1 - (0.84 * cloudFr)) * 0.58 * Math.Pow(cva, 1.0 / 7.0) + (0.84 * cloudFr);
-            double PenetrationConstant = Divide(Math.Max(0.1, potE), Math.Max(0.1, actE), 0.0);
-            double lwRinSoil = longWaveRadn(emissivityAtmos, t2m) * PenetrationConstant * w2MJ;
+            double PenetrationConstant = Divide(Math.Max(0.1, potE), Math.Max(0.1, potET), 0.0);
+            double lwRinSoil = longWaveRadn(emissivityAtmos, tMean) * PenetrationConstant * w2MJ;
             double lwRoutSoil = longWaveRadn(EMISSIVITYsurface, soilTemp[SURFACEnode]) * PenetrationConstant * w2MJ;
             double lwRnetSoil = lwRinSoil - lwRoutSoil;
-            double swRin = solarRadn;
-            double swRout = albedo * solarRadn;
+            double swRin = solarRadiation;
+            double swRout = albedo * solarRadiation;
             double swRnetSoil = (swRin - swRout) * PenetrationConstant;
             double total = swRnetSoil + lwRnetSoil;
             return total;
@@ -2027,7 +2031,7 @@ namespace SiriusQualitymodel_SoilTempCampbell.Strategies
             return res;
         }
 
-        public static double boundaryLayerConductanceF(double[] TNew_zb, double t2M, double potE, double actE, double airPressure, double canopyHeight, double windSpeed, double instrumentHeight)
+        public static double boundaryLayerConductanceF(double[] TNew_zb, double tMean, double potE, double potET, double airPressure, double canopyHeight, double windSpeed, double instrumentHeight)
         {
             double VONK = 0.41;
             double GRAVITATIONALconst = 9.8;
@@ -2035,13 +2039,13 @@ namespace SiriusQualitymodel_SoilTempCampbell.Strategies
             double EMISSIVITYsurface = 0.98;
             int SURFACEnode = 1;
             double STEFAN_BOLTZMANNconst = 0.0000000567;
-            double SpecificHeatAir = specificHeatOfAir * airDensity(t2M, airPressure);
+            double SpecificHeatAir = specificHeatOfAir * airDensity(tMean, airPressure);
             double RoughnessFacMomentum = 0.13 * canopyHeight;
             double RoughnessFacHeat = 0.2 * RoughnessFacMomentum;
             double d = 0.77 * canopyHeight;
             double SurfaceTemperature = TNew_zb[SURFACEnode];
-            double PenetrationConstant = Math.Max(0.1, potE) / Math.Max(0.1, actE);
-            double kelvinTemp = kelvinT(t2M);
+            double PenetrationConstant = Math.Max(0.1, potE) / Math.Max(0.1, potET);
+            double kelvinTemp = kelvinT(tMean);
             double radiativeConductance = 4.0 * STEFAN_BOLTZMANNconst * EMISSIVITYsurface * PenetrationConstant * Math.Pow(kelvinTemp, 3);
             double FrictionVelocity = 0.0;
             double BoundaryLayerCond = 0.0;
@@ -2055,7 +2059,7 @@ namespace SiriusQualitymodel_SoilTempCampbell.Strategies
                 FrictionVelocity = Divide(windSpeed * VONK, Math.Log(Divide(instrumentHeight - d + RoughnessFacMomentum, RoughnessFacMomentum, 0.0)) + StabilityCorMomentum, 0.0);
                 BoundaryLayerCond = Divide(SpecificHeatAir * VONK * FrictionVelocity, Math.Log(Divide(instrumentHeight - d + RoughnessFacHeat, RoughnessFacHeat, 0.0)) + StabilityCorHeat, 0.0);
                 BoundaryLayerCond = BoundaryLayerCond + radiativeConductance;
-                HeatFluxDensity = BoundaryLayerCond * (SurfaceTemperature - t2M);
+                HeatFluxDensity = BoundaryLayerCond * (SurfaceTemperature - tMean);
                 StabilityParam = Divide(-VONK * instrumentHeight * GRAVITATIONALconst * HeatFluxDensity, SpecificHeatAir * kelvinTemp * Math.Pow(FrictionVelocity, 3), 0.0);
                 if (StabilityParam > 0.0)
                 {
@@ -2124,6 +2128,7 @@ namespace SiriusQualitymodel_SoilTempCampbell.Strategies
             double latentHeatOfVapourisation = 2465000.0;
             double tempStepSec = 24.0 * 60.0 * 60.0;
             double[] heatStorage ;
+            for (var i = 0; i < numNodes + 1; i++){heatStorage[i] = 0.0d;}
             double VolSoilAtNode;
             double elementLength;
             double g = 1 - nu;
@@ -2135,6 +2140,10 @@ namespace SiriusQualitymodel_SoilTempCampbell.Strategies
             double[] b ;
             double[] c ;
             double[] d ;
+            for (var i = 0; i < numNodes + 2; i++){a[i] = 0.0;}
+            for (var i = 0; i < numNodes + 1; i++){b[i] = 0.0;}
+            for (var i = 0; i < numNodes + 1; i++){c[i] = 0.0;}
+            for (var i = 0; i < numNodes + 1; i++){d[i] = 0.0;}
             for (var i = 0; i < numNodes + 1; i++){thermalConductance[i] = 0.0d;}
             thermalConductance[AIRnode] = thermalConductivity[AIRnode];
             int node = SURFACEnode;
@@ -2155,11 +2164,11 @@ namespace SiriusQualitymodel_SoilTempCampbell.Strategies
             a[SURFACEnode] = 0.0;
             sensibleHeatFlux = nu * thermalConductance[AIRnode] * newTemps[AIRnode];
             RadnNet = 0.0;
-            if (netRadiationSource == "'calc'")
+            if (netRadiationSource == "calc")
             {
                 RadnNet = Divide(netRadiation * 1000000.0, gDt, 0.0);
             }
-            else if ( netRadiationSource == "'eos'")
+            else if ( netRadiationSource == "eos")
             {
                 RadnNet = Divide(potE * latentHeatOfVapourisation, tempStepSec, 0.0);
             }
