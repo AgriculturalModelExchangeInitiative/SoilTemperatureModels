@@ -5,6 +5,7 @@ def doVolumetricSpecificHeat(floatarray volSpecLayer,
          floatarray thickness,
          floatarray depth):
     cdef float volSpecHeatSoil[]
+    volSpecHeatSoil=[0.0] * (numNodes + 1)
     cdef int node 
     cdef int constituent 
     for node in range(1 , numNodes + 1 , 1):

@@ -11,6 +11,7 @@ def doThermConductivity(floatarray soilW,
          int numNodes,
          strarray constituents):
     cdef float thermCondLayers[]
+    thermCondLayers=[0.0] * (numNodes + 1)
     cdef int node = 1
     cdef int constituent = 1
     cdef float temp 

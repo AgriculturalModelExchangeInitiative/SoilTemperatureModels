@@ -3,8 +3,8 @@ def RadnNetInterpolate(float internalTimeStep,
          float cloudFr,
          float cva,
          float potE,
-         float actE,
-         float t2m,
+         float potET,
+         float tMean,
          float albedo,
          floatarray soilTemp):
     cdef float EMISSIVITYsurface = 0.96

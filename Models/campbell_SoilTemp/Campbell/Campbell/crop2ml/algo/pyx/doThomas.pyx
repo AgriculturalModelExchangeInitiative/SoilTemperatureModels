@@ -17,6 +17,7 @@ def doThomas(floatarray newTemps,
     cdef float latentHeatOfVapourisation = 2465000.0
     cdef float tempStepSec = 24.0 * 60.0 * 60.0
     cdef float heatStorage[]
+    heatStorage=[0.] * (numNodes + 1)
     cdef float VolSoilAtNode 
     cdef float elementLength 
     cdef float g = 1 - nu
@@ -28,6 +29,10 @@ def doThomas(floatarray newTemps,
     cdef float b[]
     cdef float c[]
     cdef float d[]
+    a=[0.0] * (numNodes + 2)
+    b=[0.0] * (numNodes + 1)
+    c=[0.0] * (numNodes + 1)
+    d=[0.0] * (numNodes + 1)
     thermalConductance=[0.] * (numNodes + 1)
     thermalConductance[AIRnode]=thermalConductivity[AIRnode]
     cdef int node = SURFACEnode
