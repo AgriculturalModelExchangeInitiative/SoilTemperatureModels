@@ -5,6 +5,7 @@ from math import *
 from typing import *
 from datetime import datetime
 
+#pi: float = 3.141592653589793
 #%%CyML Init Begin%%
 def init_campbell(NLAYR: int,
     THICK: 'Array[float]',
@@ -1133,6 +1134,7 @@ def CalcSoilTemp(thickness: 'Array[float]',
     zd:float 
     offset:float
     SURFACEnode:int = 1
+    _pi: float = 3.141592653589793
 
     cumulativeDepth = [0.0]*len(thickness)
     if len(thickness) > 0:
@@ -1140,7 +1142,7 @@ def CalcSoilTemp(thickness: 'Array[float]',
         for Layer in range(1, len(thickness)):
             cumulativeDepth[Layer] = thickness[Layer] + cumulativeDepth[Layer - 1]
 
-    w = pi
+    w = _pi
     w = 2.0 * w
     w = w / (365.25 * 24.0 * 3600.0)
     dh = 0.6
@@ -1152,7 +1154,7 @@ def CalcSoilTemp(thickness: 'Array[float]',
     soilTemperat = [0.0]*(numNodes + 2)
     soilTempIO = [0.0]*(numNodes + 1 + 1)
     for nodes in range(1, numNodes + 1):
-        soilTemperat[nodes] = tav + tamp * exp(-1.0 * cumulativeDepth[nodes] / zd) * sin((doy / 365.0 + offset) * 2.0 * pi - cumulativeDepth[nodes] / zd)
+        soilTemperat[nodes] = tav + tamp * exp(-1.0 * cumulativeDepth[nodes] / zd) * sin(((doy / 365.0) + offset) * 2.0 * _pi - (cumulativeDepth[nodes] / zd))
 
     for Layer in range(SURFACEnode, numNodes + 1):
         soilTempIO[Layer] = soilTemperat[Layer-1]
@@ -1170,15 +1172,16 @@ def doNetRadiation(
         latitude: float
         ):
 
+    _pi: float = 3.141592653589793
     TSTEPS2RAD:float = 1.0
     SOLARconst:float = 1.0
     solarDeclination:float = 1.0
     m1:'Array[float]' 
     m1 = [0.]*(ITERATIONSperDAY + 1)
 
-    TSTEPS2RAD = Divide(2.0 * pi, float(ITERATIONSperDAY), 0.0)          # convert timestep of day to radians
+    TSTEPS2RAD = Divide(2.0 * _pi, float(ITERATIONSperDAY), 0.0)          # convert timestep of day to radians
     SOLARconst = 1360.0     # W/M^2
-    solarDeclination = 0.3985 * sin(4.869 + (doy * 2.0 * pi / 365.25) + 0.03345 * sin(6.224 + (doy * 2.0 * pi / 365.25)))
+    solarDeclination = 0.3985 * sin(4.869 + (doy * 2.0 * _pi / 365.25) + 0.03345 * sin(6.224 + (doy * 2.0 * _pi / 365.25)))
     cD: float = sqrt(1.0 - solarDeclination * solarDeclination)
   
     m1Tot: float = 0.0
@@ -1187,7 +1190,7 @@ def doNetRadiation(
     fr: float 
 
     for timestepNumber in range(1, ITERATIONSperDAY+1):
-        m1[timestepNumber] = (solarDeclination * sin(latitude * pi / 180.0) + cD * cos(latitude * pi / 180.0) *
+        m1[timestepNumber] = (solarDeclination * sin(latitude * _pi / 180.0) + cD * cos(latitude * _pi / 180.0) *
             cos(TSTEPS2RAD * (float(timestepNumber) - float(ITERATIONSperDAY) / 2.0))) * 24.0 / float(ITERATIONSperDAY)
         if (m1[timestepNumber] > 0.0):
             m1Tot = m1Tot + m1[timestepNumber]
@@ -1497,7 +1500,7 @@ def InterpTemp(time_hours: float, tmax: float, tmin: float, t2m:float, max_temp_
     defaultTimeOfMaximumTemperature:float = 14.0
     midnight_temp: float
     t_scale: float 
-
+    _pi: float = 3.141592653589793
 
     # Convert current time and times for max and min temperatures to fractions of a day
     time: float = time_hours / 24.0  # Current time as a fraction of the day
@@ -1507,7 +1510,7 @@ def InterpTemp(time_hours: float, tmax: float, tmin: float, t2m:float, max_temp_
 
     if time < min_t_time:
         # Before the time of minimum temperature
-        midnight_temp = sin((0.0 + 0.25 - max_t_time) * 2.0 * pi) * (max_temp_yesterday - min_temp_yesterday) / 2.0 + (max_temp_yesterday + min_temp_yesterday) / 2.0
+        midnight_temp = sin((0.0 + 0.25 - max_t_time) * 2.0 * _pi) * (max_temp_yesterday - min_temp_yesterday) / 2.0 + (max_temp_yesterday + min_temp_yesterday) / 2.0
         t_scale = (min_t_time - time) / min_t_time
 
         # Ensure t_scale is within bounds (0 <= t_scale <= 1)
@@ -1521,7 +1524,7 @@ def InterpTemp(time_hours: float, tmax: float, tmin: float, t2m:float, max_temp_
     
     else:
         # At or after the time of minimum temperature
-        current_temp = sin((time + 0.25 - max_t_time) * 2.0 * pi) * (tmax - tmin) / 2.0 + t2m
+        current_temp = sin((time + 0.25 - max_t_time) * 2.0 * _pi) * (tmax - tmin) / 2.0 + t2m
         return current_temp
     return current_temp
 
