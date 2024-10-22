@@ -953,7 +953,7 @@ def model_campbell(NLAYR: int,
     tempStepSec: float = 24.0 * 60.0 * 60.0
     BoundaryLayerConductanceIterations: int = 1
     numNodes:int = NLAYR + NUM_PHANTOM_NODES
-    soilConstituentNames : 'Array[str]' = ['Rocks', 'OrganicMatter', 'Sand', 'Silt', 'Clay', 'Water', 'Ice', 'Air' ]
+    soilConstituentNames : 'Array[str]' = ["Rocks", "OrganicMatter", "Sand", "Silt", "Clay", "Water", "Ice", "Air"]
     timeStepIteration: int = 1
     netRadiation: float
     constantBoundaryLayerConductance:float = 20.0

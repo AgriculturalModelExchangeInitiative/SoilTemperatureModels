@@ -23,7 +23,7 @@ for fn in fns:
     files[fn]=fn
 
 mu_names = []
-package = '.'
+package = 'Campbell'
 for  k, v in files.items():
     with open(v, "r") as f:
                 code = f.read()
