@@ -1307,7 +1307,8 @@ def doVolumetricSpecificHeat(volSpecLayer: 'Array[float]', soilW: 'Array[float]'
     list[float]: Volumetric specific heat of the soil layers (Cv) [Joules*m-3*K-1].
     """
 
-    volSpecHeatSoil: 'Array[float]' = [0.0] * (numNodes + 1)
+    volSpecHeatSoil: 'Array[float]' 
+    volSpecHeatSoil= [0.0] * (numNodes + 1)
     node:int
     constituent:int
 
@@ -1463,7 +1464,8 @@ def doThermConductivity(soilW: 'Array[float]', carbon: 'Array[float]', rocks: 'A
     Returns:
     list[float]: Thermal conductivity values for the soil layers.
     """
-    thermCondLayers: 'Array[float]' = [0.0] * (numNodes + 1)
+    thermCondLayers: 'Array[float]' 
+    thermCondLayers = [0.0] * (numNodes + 1)
     node: int = 1
     constituent: int = 1
     temp:float
@@ -1722,7 +1724,8 @@ def doThomas(newTemps: 'Array[float]',
     MJ2J: float = 1000000.0 # Megajoules to joules conversion factor
     latentHeatOfVapourisation: float = 2465000.0  # Latent heat of vaporization of water (J/kg)
     tempStepSec: float = 24.0 * 60.0 * 60.0
-    heatStorage: 'Array[float]' = [0] * (numNodes + 1)  # Array for heat storage
+    heatStorage: 'Array[float]' 
+    heatStorage = [0] * (numNodes + 1)  # Array for heat storage
     VolSoilAtNode: float
     elementLength: float
     g: float = 1 - nu
@@ -1731,10 +1734,14 @@ def doThomas(newTemps: 'Array[float]',
     LatentHeatFlux: float
     SoilSurfaceHeatFlux: float
 
-    a: 'Array[float]' = [0.0] * (numNodes + 2)  # Thermal conductance at next node
-    b: 'Array[float]' = [0.0] * (numNodes + 1)  # Heat storage at node
-    c: 'Array[float]' = [0.0] * (numNodes + 1)  # Thermal conductance at node
-    d: 'Array[float]' = [0.0] * (numNodes + 1)  # Heat flux at node
+    a: 'Array[float]'  # Thermal conductance at next node
+    b: 'Array[float]'  # Heat storage at node
+    c: 'Array[float]'  # Thermal conductance at node
+    d: 'Array[float]'  # Heat flux at node
+    a = [0.0] * (numNodes + 2)  # Thermal conductance at next node
+    b = [0.0] * (numNodes + 1)  # Heat storage at node
+    c = [0.0] * (numNodes + 1)  # Thermal conductance at node
+    d = [0.0] * (numNodes + 1)  # Heat flux at node
 
     thermalConductance = [0.] * (numNodes+1)
 
