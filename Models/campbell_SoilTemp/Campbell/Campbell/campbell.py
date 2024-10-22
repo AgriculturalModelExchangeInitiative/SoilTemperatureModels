@@ -86,7 +86,9 @@ def init_campbell(NLAYR: int,
     numNodes = NLAYR + NUM_PHANTOM_NODES
 
     thickness = [0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
-    thickness[1:len(THICK)] = THICK
+    for layer in range(1, NLAYR + 1):
+       thickness[layer] = THICK[layer - 1]
+    #thickness[1:len(THICK)] = THICK
     sumThickness = 0.0
     for i in range(1, NLAYR + 1):
         sumThickness = sumThickness + thickness[i]
@@ -109,7 +111,7 @@ def init_campbell(NLAYR: int,
 
     # Bulk Density
     bulkDensity = [0.0]*(NLAYR + 1 + NUM_PHANTOM_NODES)
-    bulkDensity[:min(NLAYR + 1 + NUM_PHANTOM_NODES, len(BD))] = BD
+    #bulkDensity[:min(NLAYR + 1 + NUM_PHANTOM_NODES, len(BD))] = BD
     for layer in range(1, NLAYR + 1):
        bulkDensity[layer] = BD[layer - 1]
     bulkDensity[numNodes] = bulkDensity[NLAYR]
@@ -118,11 +120,12 @@ def init_campbell(NLAYR: int,
 
      # Soil Water
     soilWater = [0.0]*(NLAYR + 1 + NUM_PHANTOM_NODES)
-    soilWater[:min(NLAYR + 1 + NUM_PHANTOM_NODES, len(SW))] = SW
+    #soilWater[:min(NLAYR + 1 + NUM_PHANTOM_NODES, len(SW))] = SW
     for layer in range(1, NLAYR + 1):
        soilWater[layer] = SW[layer - 1]
     for layer in range(NLAYR + 1, NLAYR + NUM_PHANTOM_NODES + 1):
-        soilWater[layer] = soilWater[NLAYR]
+        soilWater[layer] = (soilWater[NLAYR-1] * thickness[NLAYR-1]) / thickness[NLAYR]
+
 
     #Carbon
     carbon = [0.0]*(NLAYR + 1 + NUM_PHANTOM_NODES)
@@ -171,12 +174,12 @@ def init_campbell(NLAYR: int,
     thermalConductance = [0.0]*(numNodes + 1 + 1)
 
     thermalCondPar1,thermalCondPar2,thermalCondPar3,thermalCondPar4 = doThermalConductivityCoeffs(NLAYR, numNodes, bulkDensity, clay)
-    newTemperature = CalcSoilTemp(soilTemp, thickness, TAV, TAMP, DOY, XLAT,numNodes)
+    newTemperature = CalcSoilTemp(thickness, TAV, TAMP, DOY, XLAT,numNodes)
 
-    soilWater[numNodes] = soilWater[NLAYR]
+    #soilWater[numNodes] = soilWater[NLAYR]
     instrumentHeight = max(instrumentHeight, canopyHeight + 0.5)
 
-    soilTemp = CalcSoilTemp(soilTemp, thickness, TAV, TAMP, DOY, XLAT,numNodes)
+    soilTemp = CalcSoilTemp(thickness, TAV, TAMP, DOY, XLAT,numNodes)
 
     soilTemp[AIRnode] = T2M
     surfaceT = (1.0 - SALB) * (T2M + (TMAX - T2M) * sqrt(max(SRAD, 0.1) * 23.8846 / 800.0)) + SALB * T2M
@@ -987,7 +990,7 @@ def model_campbell(NLAYR: int,
     # to more communication within subday time steps, these may need to be moved
     # back into the loop. EZJ March 2014
     soilWater: 'Array[float]' = [0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
-    copyLength: int = min(NLAYR + 1 + NUM_PHANTOM_NODES, len(SW))
+    copyLength: int = min(NLAYR + 1 + NUM_PHANTOM_NODES, len(SW)+1)
     soilWater[:copyLength] = SW[:copyLength]     # SW dimensioned for layers 1 to gNumlayers + extra for zone below bottom layer
 
     volSpecHeatSoil = doVolumetricSpecificHeat(volSpecHeatSoil, soilWater, numNodes, soilConstituentNames, THICK, DEPTH)      # RETURNS volSpecHeatSoil() (volumetric heat capacity of nodes)
@@ -1003,12 +1006,12 @@ def model_campbell(NLAYR: int,
         newTemperature[AIRnode] = tMean
 
         netRadiation = RadnNetInterpolate(internalTimeStep, solarRadn[timeStepIteration], 
-                                                 cloudFr, cva, ESP, ES, tMean, SALB, soilTemp)
+                                                 cloudFr, cva, ESP, EOAD, tMean, SALB, soilTemp)
 
         if boundaryLayerConductanceSource == "constant":
             thermalConductivity[AIRnode] = constantBoundaryLayerConductance
         elif boundaryLayerConductanceSource == "calc":
-            thermalConductivity[AIRnode] = boundaryLayerConductanceF(newTemperature, T2M, ESP, ES, airPressure, canopyHeight, windSpeed, instrumentHeight)
+            thermalConductivity[AIRnode] = boundaryLayerConductanceF(newTemperature, tMean, ESP, EOAD, airPressure, canopyHeight, windSpeed, instrumentHeight)
             for iteration in range(1, BoundaryLayerConductanceIterations + 1):
                 newTemperature = doThomas(newTemperature, soilTemp, 
                         thermalConductivity, thermalConductance, DEPTH, 
@@ -1017,6 +1020,7 @@ def model_campbell(NLAYR: int,
                         netRadiation, 
                         ESP, ES,
                         numNodes, netRadiationSource)
+                thermalConductivity[AIRnode] = boundaryLayerConductanceF(newTemperature, tMean, ESP, EOAD, airPressure, canopyHeight, windSpeed, instrumentHeight)
         
         # Final calculation with updated boundary layer conductance
         newTemperature = doThomas(newTemperature, soilTemp, 
@@ -1111,8 +1115,7 @@ def Divide(val1:float,
     return returnValue
 
 
-def CalcSoilTemp(soilTempIO: 'Array[float]',
-                 thickness: 'Array[float]',
+def CalcSoilTemp(thickness: 'Array[float]',
                 tav:float,
                 tamp:float, 
                 doy:int, 
@@ -1120,7 +1123,8 @@ def CalcSoilTemp(soilTempIO: 'Array[float]',
                 numNodes:int):
 
     cumulativeDepth: 'Array[float]'
-    soilTemp: 'Array[float]'
+    soilTempIO: 'Array[float]'
+    soilTemperat: 'Array[float]'
     Layer:int
     nodes:int
     tempValue:float
@@ -1129,7 +1133,6 @@ def CalcSoilTemp(soilTempIO: 'Array[float]',
     zd:float 
     offset:float
     SURFACEnode:int = 1
-    piVal:float = 3.14
 
     cumulativeDepth = [0.0]*len(thickness)
     if len(thickness) > 0:
@@ -1137,7 +1140,7 @@ def CalcSoilTemp(soilTempIO: 'Array[float]',
         for Layer in range(1, len(thickness)):
             cumulativeDepth[Layer] = thickness[Layer] + cumulativeDepth[Layer - 1]
 
-    w = piVal
+    w = pi
     w = 2.0 * w
     w = w / (365.25 * 24.0 * 3600.0)
     dh = 0.6
@@ -1146,11 +1149,13 @@ def CalcSoilTemp(soilTempIO: 'Array[float]',
     if latitude > 0.0:
         offset = -0.25
 
-    soilTemp = [0.0]*(numNodes + 2)
+    soilTemperat = [0.0]*(numNodes + 2)
+    soilTempIO = [0.0]*(numNodes + 1 + 1)
     for nodes in range(1, numNodes + 1):
-        soilTemp[nodes] = tav + tamp * exp(-1.0 * cumulativeDepth[nodes] / zd) * sin((doy / 365.0 + offset) * 2.0 * piVal - cumulativeDepth[nodes] / zd)
+        soilTemperat[nodes] = tav + tamp * exp(-1.0 * cumulativeDepth[nodes] / zd) * sin((doy / 365.0 + offset) * 2.0 * pi - cumulativeDepth[nodes] / zd)
 
-    soilTempIO[SURFACEnode:SURFACEnode + numNodes] = soilTemp[0:numNodes]
+    for Layer in range(SURFACEnode, numNodes + 1):
+        soilTempIO[Layer] = soilTemperat[Layer-1]
     return soilTempIO
 
 
@@ -1165,16 +1170,15 @@ def doNetRadiation(
         latitude: float
         ):
 
-    piVal: float = 3.1415
     TSTEPS2RAD:float = 1.0
     SOLARconst:float = 1.0
     solarDeclination:float = 1.0
     m1:'Array[float]' 
     m1 = [0.]*(ITERATIONSperDAY + 1)
 
-    TSTEPS2RAD = Divide(2.0 * piVal, float(ITERATIONSperDAY), 0.0)          # convert timestep of day to radians
+    TSTEPS2RAD = Divide(2.0 * pi, float(ITERATIONSperDAY), 0.0)          # convert timestep of day to radians
     SOLARconst = 1360.0     # W/M^2
-    solarDeclination = 0.3985 * sin(4.869 + (doy * 2.0 * piVal / 365.25) + 0.03345 * sin(6.224 + (doy * 2.0 * piVal / 365.25)))
+    solarDeclination = 0.3985 * sin(4.869 + (doy * 2.0 * pi / 365.25) + 0.03345 * sin(6.224 + (doy * 2.0 * pi / 365.25)))
     cD: float = sqrt(1.0 - solarDeclination * solarDeclination)
   
     m1Tot: float = 0.0
@@ -1183,7 +1187,7 @@ def doNetRadiation(
     fr: float 
 
     for timestepNumber in range(1, ITERATIONSperDAY+1):
-        m1[timestepNumber] = (solarDeclination * sin(latitude * piVal / 180.0) + cD * cos(latitude * piVal / 180.0) *
+        m1[timestepNumber] = (solarDeclination * sin(latitude * pi / 180.0) + cD * cos(latitude * pi / 180.0) *
             cos(TSTEPS2RAD * (float(timestepNumber) - float(ITERATIONSperDAY) / 2.0))) * 24.0 / float(ITERATIONSperDAY)
         if (m1[timestepNumber] > 0.0):
             m1Tot = m1Tot + m1[timestepNumber]
@@ -1493,7 +1497,6 @@ def InterpTemp(time_hours: float, tmax: float, tmin: float, t2m:float, max_temp_
     defaultTimeOfMaximumTemperature:float = 14.0
     midnight_temp: float
     t_scale: float 
-    piVal:float = 3.14
 
 
     # Convert current time and times for max and min temperatures to fractions of a day
@@ -1504,7 +1507,7 @@ def InterpTemp(time_hours: float, tmax: float, tmin: float, t2m:float, max_temp_
 
     if time < min_t_time:
         # Before the time of minimum temperature
-        midnight_temp = sin((0.0 + 0.25 - max_t_time) * 2.0 * piVal) * (max_temp_yesterday - min_temp_yesterday) / 2.0 + (max_temp_yesterday + min_temp_yesterday) / 2.0
+        midnight_temp = sin((0.0 + 0.25 - max_t_time) * 2.0 * pi) * (max_temp_yesterday - min_temp_yesterday) / 2.0 + (max_temp_yesterday + min_temp_yesterday) / 2.0
         t_scale = (min_t_time - time) / min_t_time
 
         # Ensure t_scale is within bounds (0 <= t_scale <= 1)
@@ -1518,7 +1521,7 @@ def InterpTemp(time_hours: float, tmax: float, tmin: float, t2m:float, max_temp_
     
     else:
         # At or after the time of minimum temperature
-        current_temp = sin((time + 0.25 - max_t_time) * 2.0 * piVal) * (tmax - tmin) / 2.0 + t2m
+        current_temp = sin((time + 0.25 - max_t_time) * 2.0 * pi) * (tmax - tmin) / 2.0 + t2m
         return current_temp
     return current_temp
 
@@ -1544,7 +1547,7 @@ def RadnNetInterpolate(internalTimeStep:float, solarRadiation: float, cloudFr: f
     Calculate the net radiation at the soil surface.
     
     Parameters:
-    solarRadn (float): Incoming solar radiation.
+    solarRadiation (float): Incoming solar radiation.
     cloudFr (float): Cloud fraction.
     cva (float): Clear sky view angle.
     potE (float): Potential evaporation.
@@ -1562,10 +1565,10 @@ def RadnNetInterpolate(internalTimeStep:float, solarRadiation: float, cloudFr: f
     emissivityAtmos: float = (1 - 0.84 * cloudFr) * 0.58 * pow(cva, (1.0 / 7.0)) + 0.84 * cloudFr
 
     # Penetration constant using Soilwat algorithm
-    PenetrationConstant: float = Divide(max(0.1, potE), max(0.1, actE), 0.0)
+    PenetrationConstant: float = Divide(max(0.1, potE), max(0.1, potET), 0.0)
 
     # Longwave radiation incoming and outgoing at the soil surface
-    lwRinSoil: float = longWaveRadn(emissivityAtmos, t2m) * PenetrationConstant * w2MJ
+    lwRinSoil: float = longWaveRadn(emissivityAtmos, tMean) * PenetrationConstant * w2MJ
     lwRoutSoil: float = longWaveRadn(EMISSIVITYsurface, soilTemp[SURFACEnode]) * PenetrationConstant * w2MJ
 
     # Net longwave radiation at the soil surface
@@ -1602,9 +1605,9 @@ def airDensity(temperature: float, AirPressure: float) -> float:
     return res
 
 def boundaryLayerConductanceF(TNew_zb: 'Array[float]', 
-                              t2M: float, 
+                              tMean: float, 
                               potE: float, 
-                              actE: float, 
+                              potET: float, 
                               airPressure: float, 
                               canopyHeight: float,
                               windSpeed:float,
@@ -1631,7 +1634,7 @@ def boundaryLayerConductanceF(TNew_zb: 'Array[float]',
     SURFACEnode: int = 1
     STEFAN_BOLTZMANNconst: float = 0.0000000567  # Stefan-Boltzmann constant in W/m^2K^4
 
-    SpecificHeatAir: float = specificHeatOfAir * airDensity(t2M, airPressure)  # Volumetric specific heat of air (J/m³/K)
+    SpecificHeatAir: float = specificHeatOfAir * airDensity(tMean, airPressure)  # Volumetric specific heat of air (J/m³/K)
     
     # Roughness and zero-plane displacement
     RoughnessFacMomentum: float = 0.13 * canopyHeight  # Surface roughness factor for momentum
@@ -1641,10 +1644,10 @@ def boundaryLayerConductanceF(TNew_zb: 'Array[float]',
     SurfaceTemperature: float = TNew_zb[SURFACEnode]  # Surface temperature (°C)
     
     # Diffuse penetration constant
-    PenetrationConstant: float = max(0.1, potE) / max(0.1, actE)
+    PenetrationConstant: float = max(0.1, potE) / max(0.1, potET)
     
     # Radiative conductance
-    kelvinTemp:float = kelvinT(t2M)
+    kelvinTemp:float = kelvinT(tMean)
     radiativeConductance: float = 4.0 * STEFAN_BOLTZMANNconst * EMISSIVITYsurface * PenetrationConstant * pow(kelvinTemp, 3)
     
     # Initialize variables
@@ -1663,7 +1666,7 @@ def boundaryLayerConductanceF(TNew_zb: 'Array[float]',
         BoundaryLayerCond = Divide(SpecificHeatAir * VONK * FrictionVelocity, log(Divide(instrumentHeight - d + RoughnessFacHeat, RoughnessFacHeat, 0.0)) + StabilityCorHeat, 0.0)
         BoundaryLayerCond = BoundaryLayerCond + radiativeConductance  # Add radiative conductance
         
-        HeatFluxDensity = BoundaryLayerCond * (SurfaceTemperature - t2M)
+        HeatFluxDensity = BoundaryLayerCond * (SurfaceTemperature - tMean)
         
         # Stability parameter (Eqn 12.14)
         StabilityParam = Divide(-VONK * instrumentHeight * GRAVITATIONALconst * HeatFluxDensity, SpecificHeatAir * kelvinTemp * pow(FrictionVelocity, 3), 0.0)
@@ -1809,3 +1812,4 @@ def doUpdate(tempNew: 'Array[float]',
 
     boundaryLayerConductance = boundaryLayerConductance + (Divide(thermalConductivity[AIRnode], float(IterationsPerDay), 0.0))
     return soilTemp, boundaryLayerConductance
+
