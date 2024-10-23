@@ -1,13 +1,12 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4292231.svg)](https://doi.org/10.5281/zenodo.4292231)
 
 
-AgriculturalModelExchangeInitiative
-==============================
+# AgriculturalModelExchangeInitiative
+
 
 Model of Soil Temperature of the crop growth simulation model SiriusQuality
 
-Project Organization
-------------
+## Project Organization
 
 ```
 
@@ -37,7 +36,21 @@ Project Organization
    
 ```
 
-Model visualization
+## Model visualization
 -------------------
 ![](doc/images/SoilTemperature.png)
 
+
+## Crop2ML Model generation
+
+Run the command
+
+```bash
+cyml -c campbell_python Campbell py
+```
+
+# Model population
+
+```bash
+cyml -p Campbell py
+```
