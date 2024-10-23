@@ -74,8 +74,11 @@
             <OutputLink target="heatStorage" source="campbell.heatStorage"/>
             <OutputLink target="volSpecHeatSoil" source="campbell.volSpecHeatSoil"/>
             <OutputLink target="_boundaryLayerConductance" source="campbell._boundaryLayerConductance"/>
+            <OutputLink target="THICK" source="campbell.THICK"/>
+            <OutputLink target="DEPTH" source="campbell.DEPTH"/>
+            <OutputLink target="BD" source="campbell.BD"/>
+            <OutputLink target="CLAY" source="campbell.CLAY"/>
             <OutputLink target="SLROCK" source="campbell.SLROCK"/>
             <OutputLink target="SLCARB" source="campbell.SLCARB"/>
             <OutputLink target="SLSAND" source="campbell.SLSAND"/>
-            <OutputLink target="SLSILT" source="campbell.SLSILT"/>
-            <OutputLink target="airPressure" source="campbell.airPressure"/></Links></Composition></ModelComposition>
+            <OutputLink target="SLSILT" source="campbell.SLSILT"/></Links></Composition></ModelComposition>

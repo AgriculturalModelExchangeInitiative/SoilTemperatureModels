@@ -21,28 +21,6 @@ public class Model_SoilTempCampbellComponent
             _Campbell.NLAYR = value;
         }
     }
-    public double[] THICK
-    {
-        get
-        {
-             return _Campbell.THICK; 
-        }
-        set
-        {
-            _Campbell.THICK = value;
-        }
-    }
-    public double[] DEPTH
-    {
-        get
-        {
-             return _Campbell.DEPTH; 
-        }
-        set
-        {
-            _Campbell.DEPTH = value;
-        }
-    }
     public double CONSTANT_TEMPdepth
     {
         get
@@ -52,17 +30,6 @@ public class Model_SoilTempCampbellComponent
         set
         {
             _Campbell.CONSTANT_TEMPdepth = value;
-        }
-    }
-    public double[] BD
-    {
-        get
-        {
-             return _Campbell.BD; 
-        }
-        set
-        {
-            _Campbell.BD = value;
         }
     }
     public double TAMP
@@ -85,17 +52,6 @@ public class Model_SoilTempCampbellComponent
         set
         {
             _Campbell.XLAT = value;
-        }
-    }
-    public double[] CLAY
-    {
-        get
-        {
-             return _Campbell.CLAY; 
-        }
-        set
-        {
-            _Campbell.CLAY = value;
         }
     }
     public double SALB
@@ -152,25 +108,9 @@ public class Model_SoilTempCampbellComponent
     {
 
             NLAYR = toCopy.NLAYR;
-            
-            for (int i = 0; i < 100; i++)
-                { THICK[i] = toCopy.THICK[i]; }
-    
-            
-            for (int i = 0; i < 100; i++)
-                { DEPTH[i] = toCopy.DEPTH[i]; }
-    
             CONSTANT_TEMPdepth = toCopy.CONSTANT_TEMPdepth;
-            
-            for (int i = 0; i < 100; i++)
-                { BD[i] = toCopy.BD[i]; }
-    
             TAMP = toCopy.TAMP;
             XLAT = toCopy.XLAT;
-            
-            for (int i = 0; i < 100; i++)
-                { CLAY[i] = toCopy.CLAY[i]; }
-    
             SALB = toCopy.SALB;
             instrumentHeight = toCopy.instrumentHeight;
             boundaryLayerConductanceSource = toCopy.boundaryLayerConductanceSource;

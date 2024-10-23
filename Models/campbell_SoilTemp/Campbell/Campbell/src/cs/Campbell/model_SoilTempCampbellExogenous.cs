@@ -7,8 +7,8 @@ public class Model_SoilTempCampbellExogenous
     private double _TMAX;
     private double _TMIN;
     private double _TAV;
-    private double[] _SW;
     private int _DOY;
+    private double _airPressure;
     private double _canopyHeight;
     private double _SRAD;
     private double _ESP;
@@ -31,11 +31,8 @@ public class Model_SoilTempCampbellExogenous
             TMAX = toCopy.TMAX;
             TMIN = toCopy.TMIN;
             TAV = toCopy.TAV;
-            SW = new double[toCopy.SW.Length];
-            for (int i = 0; i < toCopy.SW.Length; i++)
-                { SW[i] = toCopy.SW[i]; }
-    
             DOY = toCopy.DOY;
+            airPressure = toCopy.airPressure;
             canopyHeight = toCopy.canopyHeight;
             SRAD = toCopy.SRAD;
             ESP = toCopy.ESP;
@@ -64,15 +61,15 @@ public class Model_SoilTempCampbellExogenous
         get { return this._TAV; }
         set { this._TAV= value; } 
     }
-    public double[] SW
-    {
-        get { return this._SW; }
-        set { this._SW= value; } 
-    }
     public int DOY
     {
         get { return this._DOY; }
         set { this._DOY= value; } 
+    }
+    public double airPressure
+    {
+        get { return this._airPressure; }
+        set { this._airPressure= value; } 
     }
     public double canopyHeight
     {

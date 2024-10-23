@@ -9,15 +9,19 @@ public class Campbell
         double TMAX = ex.TMAX;
         double TMIN = ex.TMIN;
         double TAV = ex.TAV;
-        double[] SW = ex.SW;
         int DOY = ex.DOY;
+        double airPressure = ex.airPressure;
         double canopyHeight = ex.canopyHeight;
         double SRAD = ex.SRAD;
         double ESP = ex.ESP;
         double ES = ex.ES;
         double EOAD = ex.EOAD;
         double windSpeed = ex.windSpeed;
-        double airPressure = 1010.0;
+        double[] THICK ;
+        double[] DEPTH =  new double [NLAYR];
+        double[] BD ;
+        double[] CLAY ;
+        double[] SW ;
         double[] soilTemp =  new double [NLAYR];
         double[] newTemperature =  new double [NLAYR];
         double[] minSoilTemp =  new double [NLAYR];
@@ -39,6 +43,7 @@ public class Campbell
         double[] SLSILT =  new double [NLAYR];
         double[] SLSAND =  new double [NLAYR];
         double _boundaryLayerConductance;
+        DEPTH = new double[NLAYR];
         soilTemp = new double[NLAYR];
         newTemperature = new double[NLAYR];
         minSoilTemp = new double[NLAYR];
@@ -104,7 +109,10 @@ public class Campbell
         }
         numNodes = NLAYR + NUM_PHANTOM_NODES;
         for (var i = 0; i < NLAYR + 1 + NUM_PHANTOM_NODES; i++){thickness[i] = 0.0;}
-        thickness.ToList().GetRange(1,THICK.Length - 1) = THICK;
+        for (layer=1 ; layer!=NLAYR + 1 ; layer+=1)
+        {
+            thickness[layer] = THICK[layer - 1];
+        }
         sumThickness = 0.0;
         for (i=1 ; i!=NLAYR + 1 ; i+=1)
         {
@@ -131,7 +139,6 @@ public class Campbell
             depth[node + 1] = (sumThickness + (0.5 * thickness[node])) / 1000.0;
         }
         for (var i = 0; i < NLAYR + 1 + NUM_PHANTOM_NODES; i++){bulkDensity[i] = 0.0;}
-        bulkDensity = BD;
         for (layer=1 ; layer!=NLAYR + 1 ; layer+=1)
         {
             bulkDensity[layer] = BD[layer - 1];
@@ -142,14 +149,13 @@ public class Campbell
             bulkDensity[layer] = bulkDensity[NLAYR];
         }
         for (var i = 0; i < NLAYR + 1 + NUM_PHANTOM_NODES; i++){soilWater[i] = 0.0;}
-        soilWater = SW;
         for (layer=1 ; layer!=NLAYR + 1 ; layer+=1)
         {
             soilWater[layer] = SW[layer - 1];
         }
         for (layer=NLAYR + 1 ; layer!=NLAYR + NUM_PHANTOM_NODES + 1 ; layer+=1)
         {
-            soilWater[layer] = soilWater[NLAYR];
+            soilWater[layer] = soilWater[(NLAYR - 1)] * thickness[(NLAYR - 1)] / thickness[NLAYR];
         }
         for (var i = 0; i < NLAYR + 1 + NUM_PHANTOM_NODES; i++){carbon[i] = 0.0;}
         for (layer=1 ; layer!=NLAYR + 1 ; layer+=1)
@@ -207,10 +213,9 @@ public class Campbell
         for (var i = 0; i < numNodes + 1; i++){heatStorage[i] = 0.0;}
         for (var i = 0; i < numNodes + 1 + 1; i++){thermalConductance[i] = 0.0;}
         doThermalConductivityCoeffs(NLAYR, numNodes, bulkDensity, clay, out thermalCondPar1, out thermalCondPar2, out thermalCondPar3, out thermalCondPar4);
-        newTemperature = CalcSoilTemp(soilTemp, thickness, TAV, TAMP, DOY, XLAT, numNodes);
-        soilWater[numNodes] = soilWater[NLAYR];
+        newTemperature = CalcSoilTemp(thickness, TAV, TAMP, DOY, XLAT, numNodes);
         instrumentHeight = Math.Max(instrumentHeight, canopyHeight + 0.5);
-        soilTemp = CalcSoilTemp(soilTemp, thickness, TAV, TAMP, DOY, XLAT, numNodes);
+        soilTemp = CalcSoilTemp(thickness, TAV, TAMP, DOY, XLAT, numNodes);
         soilTemp[AIRnode] = T2M;
         surfaceT = (1.0 - SALB) * (T2M + ((TMAX - T2M) * Math.Sqrt(Math.Max(SRAD, 0.1) * 23.8846 / 800.0))) + (SALB * T2M);
         soilTemp[SURFACEnode] = surfaceT;
@@ -224,7 +229,11 @@ public class Campbell
         }
         maxTempYesterday = TMAX;
         minTempYesterday = TMIN;
-        s.airPressure= airPressure;
+        s.THICK= THICK;
+        s.DEPTH= DEPTH;
+        s.BD= BD;
+        s.CLAY= CLAY;
+        s.SW= SW;
         s.soilTemp= soilTemp;
         s.newTemperature= newTemperature;
         s.minSoilTemp= minSoilTemp;
@@ -253,29 +262,11 @@ public class Campbell
         get { return this._NLAYR; }
         set { this._NLAYR= value; } 
     }
-    private double[] _THICK;
-    public double[] THICK
-    {
-        get { return this._THICK; }
-        set { this._THICK= value; } 
-    }
-    private double[] _DEPTH;
-    public double[] DEPTH
-    {
-        get { return this._DEPTH; }
-        set { this._DEPTH= value; } 
-    }
     private double _CONSTANT_TEMPdepth;
     public double CONSTANT_TEMPdepth
     {
         get { return this._CONSTANT_TEMPdepth; }
         set { this._CONSTANT_TEMPdepth= value; } 
-    }
-    private double[] _BD;
-    public double[] BD
-    {
-        get { return this._BD; }
-        set { this._BD= value; } 
     }
     private double _TAMP;
     public double TAMP
@@ -288,12 +279,6 @@ public class Campbell
     {
         get { return this._XLAT; }
         set { this._XLAT= value; } 
-    }
-    private double[] _CLAY;
-    public double[] CLAY
-    {
-        get { return this._CLAY; }
-        set { this._CLAY= value; } 
     }
     private double _SALB;
     public double SALB
@@ -346,8 +331,8 @@ public class Campbell
     //                          ** unit : dimensionless
     //            * name: THICK
     //                          ** description : APSIM soil layer depths as thickness of layers
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : NLAYR
     //                          ** max : 
@@ -356,8 +341,8 @@ public class Campbell
     //                          ** unit : mm
     //            * name: DEPTH
     //                          ** description : APSIM node depths
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : NLAYR
     //                          ** max : 
@@ -375,14 +360,14 @@ public class Campbell
     //                          ** unit : mm
     //            * name: BD
     //                          ** description : bd (soil bulk density) is name of the APSIM var for bulk density so set bulkDensity
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : NLAYR
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 1.4
-    //                          ** unit : g/cm3
+    //                          ** unit : g/cm3             uri :
     //            * name: T2M
     //                          ** description : Mean daily Air temperature
     //                          ** inputtype : variable
@@ -439,8 +424,8 @@ public class Campbell
     //                          ** unit : 
     //            * name: CLAY
     //                          ** description : Proportion of clay in each layer of profile
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : NLAYR
     //                          ** max : 100
@@ -450,7 +435,7 @@ public class Campbell
     //            * name: SW
     //                          ** description : volumetric water content
     //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
+    //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : NLAYR
     //                          ** max : 1
@@ -469,7 +454,7 @@ public class Campbell
     //            * name: airPressure
     //                          ** description : Air pressure
     //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLE
     //                          ** max : 
     //                          ** min : 
@@ -906,6 +891,38 @@ public class Campbell
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : K/W
+    //            * name: THICK
+    //                          ** description : APSIM soil layer depths as thickness of layers
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** variablecategory : state
+    //                          ** len : NLAYR
+    //                          ** max : 
+    //                          ** min : 1
+    //                          ** unit : mm
+    //            * name: DEPTH
+    //                          ** description : APSIM node depths
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** variablecategory : state
+    //                          ** len : NLAYR
+    //                          ** max : 
+    //                          ** min : 
+    //                          ** unit : m
+    //            * name: BD
+    //                          ** description : bd (soil bulk density) is name of the APSIM var for bulk density so set bulkDensity
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** variablecategory : state
+    //                          ** len : NLAYR
+    //                          ** max : 
+    //                          ** min : 
+    //                          ** unit : g/cm3             uri :
+    //            * name: CLAY
+    //                          ** description : Proportion of clay in each layer of profile
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** variablecategory : state
+    //                          ** len : NLAYR
+    //                          ** max : 100
+    //                          ** min : 0
+    //                          ** unit : 
     //            * name: SLROCK
     //                          ** description : Volumetric fraction of rocks in the soil
     //                          ** datatype : DOUBLEARRAY
@@ -938,20 +955,17 @@ public class Campbell
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : 
-    //            * name: airPressure
-    //                          ** description : Air pressure
-    //                          ** datatype : DOUBLE
-    //                          ** variablecategory : state
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** unit : hPA
+        double[] THICK = s.THICK;
+        double[] DEPTH = s.DEPTH;
+        double[] BD = s.BD;
         double T2M = ex.T2M;
         double TMAX = ex.TMAX;
         double TMIN = ex.TMIN;
         double TAV = ex.TAV;
-        double[] SW = ex.SW;
+        double[] CLAY = s.CLAY;
+        double[] SW = s.SW;
         int DOY = ex.DOY;
-        double airPressure = s.airPressure;
+        double airPressure = ex.airPressure;
         double canopyHeight = ex.canopyHeight;
         double SRAD = ex.SRAD;
         double ESP = ex.ESP;
@@ -1086,7 +1100,10 @@ public class Campbell
         }
         minTempYesterday = TMIN;
         maxTempYesterday = TMAX;
-        s.airPressure= airPressure;
+        s.THICK= THICK;
+        s.DEPTH= DEPTH;
+        s.BD= BD;
+        s.CLAY= CLAY;
         s.soilTemp= soilTemp;
         s.newTemperature= newTemperature;
         s.minSoilTemp= minSoilTemp;
@@ -1141,9 +1158,10 @@ public class Campbell
         fr = Divide(Math.Max(rad, 0.1), psr, 0.0);
         cloudFr = 2.33 - (3.33 * fr);
         cloudFr = Math.Min(Math.Max(cloudFr, 0.0), 1.0);
+        double scalar = Math.Max(rad, 0.1);
         for (timestepNumber=1 ; timestepNumber!=ITERATIONSperDAY + 1 ; timestepNumber+=1)
         {
-            solarRadn[timestepNumber] = Math.Max(rad, 0.1) * Divide(m1[timestepNumber], m1Tot, 0.0);
+            solarRadn[timestepNumber] = scalar * Divide(m1[timestepNumber], m1Tot, 0.0);
         }
         double kelvinTemp = kelvinT(tmin);
         cva = Math.Exp((31.3716 - (6014.79 / kelvinTemp) - (0.00792495 * kelvinTemp))) / kelvinTemp;
@@ -1794,10 +1812,11 @@ public class Campbell
         }
         return returnValue;
     }
-    public static double[] CalcSoilTemp(double[] soilTempIO, double[] thickness, double tav, double tamp, int doy, double latitude, int numNodes)
+    public static double[] CalcSoilTemp(double[] thickness, double tav, double tamp, int doy, double latitude, int numNodes)
     {
         double[] cumulativeDepth ;
-        double[] soilTemp ;
+        double[] soilTempIO ;
+        double[] soilTemperat ;
         int Layer;
         int nodes;
         double tempValue;
@@ -1806,7 +1825,7 @@ public class Campbell
         double zd;
         double offset;
         int SURFACEnode = 1;
-        double piVal = 3.14;
+        double piVal = 3.141592653589793;
         for (var i = 0; i < thickness.Length; i++){cumulativeDepth[i] = 0.0;}
         if (thickness.Length > 0)
         {
@@ -1826,12 +1845,16 @@ public class Campbell
         {
             offset = -0.25;
         }
-        for (var i = 0; i < numNodes + 2; i++){soilTemp[i] = 0.0;}
+        for (var i = 0; i < numNodes + 2; i++){soilTemperat[i] = 0.0;}
+        for (var i = 0; i < numNodes + 1 + 1; i++){soilTempIO[i] = 0.0;}
         for (nodes=1 ; nodes!=numNodes + 1 ; nodes+=1)
         {
-            soilTemp[nodes] = tav + (tamp * Math.Exp(-1.0 * cumulativeDepth[nodes] / zd) * Math.Sin(((doy / 365.0 + offset) * 2.0 * piVal - (cumulativeDepth[nodes] / zd))));
+            soilTemperat[nodes] = tav + (tamp * Math.Exp(-1.0 * cumulativeDepth[nodes] / zd) * Math.Sin(((doy / 365.0 + offset) * 2.0 * piVal - (cumulativeDepth[nodes] / zd))));
         }
-        soilTempIO.ToList().GetRange(SURFACEnode,SURFACEnode + numNodes - SURFACEnode) = soilTemp.ToList().GetRange(0,numNodes - 0);
+        for (Layer=SURFACEnode ; Layer!=numNodes + 1 ; Layer+=1)
+        {
+            soilTempIO[Layer] = soilTemperat[Layer - 1];
+        }
         return soilTempIO;
     }
 }

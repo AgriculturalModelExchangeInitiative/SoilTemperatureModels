@@ -9,19 +9,15 @@ import numpy
 
 #%%CyML Init Begin%%
 def init_campbell(NLAYR:int,
-         THICK:'Array[float]',
-         DEPTH:'Array[float]',
          CONSTANT_TEMPdepth:float,
-         BD:'Array[float]',
          T2M:float,
          TMAX:float,
          TMIN:float,
          TAV:float,
          TAMP:float,
          XLAT:float,
-         CLAY:'Array[float]',
-         SW:'Array[float]',
          DOY:int,
+         airPressure:float,
          canopyHeight:float,
          SALB:float,
          SRAD:float,
@@ -32,7 +28,11 @@ def init_campbell(NLAYR:int,
          boundaryLayerConductanceSource:str,
          netRadiationSource:str,
          windSpeed:float):
-    airPressure:float = 1010.0
+    THICK:'array[float]'
+    DEPTH:'array[float]' = array('f',[0.0]*NLAYR)
+    BD:'array[float]'
+    CLAY:'array[float]'
+    SW:'array[float]'
     soilTemp:'array[float]' = array('f',[0.0]*NLAYR)
     newTemperature:'array[float]' = array('f',[0.0]*NLAYR)
     minSoilTemp:'array[float]' = array('f',[0.0]*NLAYR)
@@ -54,6 +54,7 @@ def init_campbell(NLAYR:int,
     SLSILT:'array[float]' = array('f',[0.0]*NLAYR)
     SLSAND:'array[float]' = array('f',[0.0]*NLAYR)
     _boundaryLayerConductance:float
+    DEPTH = array('f', [0.0]*NLAYR)
     soilTemp = array('f', [0.0]*NLAYR)
     newTemperature = array('f', [0.0]*NLAYR)
     minSoilTemp = array('f', [0.0]*NLAYR)
@@ -115,7 +116,8 @@ def init_campbell(NLAYR:int,
         instrumentHeight = defaultInstrumentHeight
     numNodes = NLAYR + NUM_PHANTOM_NODES
     thickness = [0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
-    thickness[1:len(THICK)] = THICK
+    for layer in range(1 , NLAYR + 1 , 1):
+        thickness[layer] = THICK[layer - 1]
     sumThickness = 0.0
     for i in range(1 , NLAYR + 1 , 1):
         sumThickness = sumThickness + thickness[i]
@@ -134,18 +136,16 @@ def init_campbell(NLAYR:int,
             sumThickness = sumThickness + thickness[i]
         depth[node + 1] = (sumThickness + (0.5 * thickness[node])) / 1000.0
     bulkDensity = [0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
-    bulkDensity[:min(NLAYR + 1 + NUM_PHANTOM_NODES, len(BD))] = BD
     for layer in range(1 , NLAYR + 1 , 1):
         bulkDensity[layer] = BD[layer - 1]
     bulkDensity[numNodes] = bulkDensity[NLAYR]
     for layer in range(NLAYR + 1 , NLAYR + NUM_PHANTOM_NODES + 1 , 1):
         bulkDensity[layer] = bulkDensity[NLAYR]
     soilWater = [0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
-    soilWater[:min(NLAYR + 1 + NUM_PHANTOM_NODES, len(SW))] = SW
     for layer in range(1 , NLAYR + 1 , 1):
         soilWater[layer] = SW[layer - 1]
     for layer in range(NLAYR + 1 , NLAYR + NUM_PHANTOM_NODES + 1 , 1):
-        soilWater[layer] = soilWater[NLAYR]
+        soilWater[layer] = soilWater[(NLAYR - 1)] * thickness[(NLAYR - 1)] / thickness[NLAYR]
     carbon = [0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
     for layer in range(1 , NLAYR + 1 , 1):
         carbon[layer] = SLCARB[layer - 1]
@@ -182,10 +182,9 @@ def init_campbell(NLAYR:int,
     heatStorage = [0.0] * (numNodes + 1)
     thermalConductance = [0.0] * (numNodes + 1 + 1)
     (thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4) = doThermalConductivityCoeffs(NLAYR, numNodes, bulkDensity, clay)
-    newTemperature = CalcSoilTemp(soilTemp, thickness, TAV, TAMP, DOY, XLAT, numNodes)
-    soilWater[numNodes] = soilWater[NLAYR]
+    newTemperature = CalcSoilTemp(thickness, TAV, TAMP, DOY, XLAT, numNodes)
     instrumentHeight = max(instrumentHeight, canopyHeight + 0.5)
-    soilTemp = CalcSoilTemp(soilTemp, thickness, TAV, TAMP, DOY, XLAT, numNodes)
+    soilTemp = CalcSoilTemp(thickness, TAV, TAMP, DOY, XLAT, numNodes)
     soilTemp[AIRnode] = T2M
     surfaceT = (1.0 - SALB) * (T2M + ((TMAX - T2M) * sqrt(max(SRAD, 0.1) * 23.8846 / 800.0))) + (SALB * T2M)
     soilTemp[SURFACEnode] = surfaceT
@@ -195,7 +194,7 @@ def init_campbell(NLAYR:int,
         newTemperature[i] = soilTemp[i]
     maxTempYesterday = TMAX
     minTempYesterday = TMIN
-    return (airPressure, soilTemp, newTemperature, minSoilTemp, maxSoilTemp, aveSoilTemp, morningSoilTemp, thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4, thermalConductivity, thermalConductance, heatStorage, volSpecHeatSoil, maxTempYesterday, minTempYesterday, SLCARB, SLROCK, SLSILT, SLSAND, _boundaryLayerConductance)
+    return (THICK, DEPTH, BD, CLAY, SW, soilTemp, newTemperature, minSoilTemp, maxSoilTemp, aveSoilTemp, morningSoilTemp, thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4, thermalConductivity, thermalConductance, heatStorage, volSpecHeatSoil, maxTempYesterday, minTempYesterday, SLCARB, SLROCK, SLSILT, SLSAND, _boundaryLayerConductance)
 #%%CyML Init End%%
 
 #%%CyML Model Begin%%
@@ -266,8 +265,8 @@ def model_campbell(NLAYR:int,
                                ** unit : dimensionless
                  * name: THICK
                                ** description : APSIM soil layer depths as thickness of layers
-                               ** inputtype : parameter
-                               ** parametercategory : constant
+                               ** inputtype : variable
+                               ** variablecategory : state
                                ** datatype : DOUBLEARRAY
                                ** len : NLAYR
                                ** max : 
@@ -276,8 +275,8 @@ def model_campbell(NLAYR:int,
                                ** unit : mm
                  * name: DEPTH
                                ** description : APSIM node depths
-                               ** inputtype : parameter
-                               ** parametercategory : constant
+                               ** inputtype : variable
+                               ** variablecategory : state
                                ** datatype : DOUBLEARRAY
                                ** len : NLAYR
                                ** max : 
@@ -295,14 +294,14 @@ def model_campbell(NLAYR:int,
                                ** unit : mm
                  * name: BD
                                ** description : bd (soil bulk density) is name of the APSIM var for bulk density so set bulkDensity
-                               ** inputtype : parameter
-                               ** parametercategory : constant
+                               ** inputtype : variable
+                               ** variablecategory : state
                                ** datatype : DOUBLEARRAY
                                ** len : NLAYR
                                ** max : 
                                ** min : 
                                ** default : 1.4
-                               ** unit : g/cm3
+                               ** unit : g/cm3             uri :
                  * name: T2M
                                ** description : Mean daily Air temperature
                                ** inputtype : variable
@@ -359,8 +358,8 @@ def model_campbell(NLAYR:int,
                                ** unit : 
                  * name: CLAY
                                ** description : Proportion of clay in each layer of profile
-                               ** inputtype : parameter
-                               ** parametercategory : constant
+                               ** inputtype : variable
+                               ** variablecategory : state
                                ** datatype : DOUBLEARRAY
                                ** len : NLAYR
                                ** max : 100
@@ -370,7 +369,7 @@ def model_campbell(NLAYR:int,
                  * name: SW
                                ** description : volumetric water content
                                ** inputtype : variable
-                               ** variablecategory : exogenous
+                               ** variablecategory : state
                                ** datatype : DOUBLEARRAY
                                ** len : NLAYR
                                ** max : 1
@@ -389,7 +388,7 @@ def model_campbell(NLAYR:int,
                  * name: airPressure
                                ** description : Air pressure
                                ** inputtype : variable
-                               ** variablecategory : state
+                               ** variablecategory : exogenous
                                ** datatype : DOUBLE
                                ** max : 
                                ** min : 
@@ -826,6 +825,38 @@ def model_campbell(NLAYR:int,
                                ** max : 
                                ** min : 
                                ** unit : K/W
+                 * name: THICK
+                               ** description : APSIM soil layer depths as thickness of layers
+                               ** datatype : DOUBLEARRAY
+                               ** variablecategory : state
+                               ** len : NLAYR
+                               ** max : 
+                               ** min : 1
+                               ** unit : mm
+                 * name: DEPTH
+                               ** description : APSIM node depths
+                               ** datatype : DOUBLEARRAY
+                               ** variablecategory : state
+                               ** len : NLAYR
+                               ** max : 
+                               ** min : 
+                               ** unit : m
+                 * name: BD
+                               ** description : bd (soil bulk density) is name of the APSIM var for bulk density so set bulkDensity
+                               ** datatype : DOUBLEARRAY
+                               ** variablecategory : state
+                               ** len : NLAYR
+                               ** max : 
+                               ** min : 
+                               ** unit : g/cm3             uri :
+                 * name: CLAY
+                               ** description : Proportion of clay in each layer of profile
+                               ** datatype : DOUBLEARRAY
+                               ** variablecategory : state
+                               ** len : NLAYR
+                               ** max : 100
+                               ** min : 0
+                               ** unit : 
                  * name: SLROCK
                                ** description : Volumetric fraction of rocks in the soil
                                ** datatype : DOUBLEARRAY
@@ -858,13 +889,6 @@ def model_campbell(NLAYR:int,
                                ** max : 
                                ** min : 
                                ** unit : 
-                 * name: airPressure
-                               ** description : Air pressure
-                               ** datatype : DOUBLE
-                               ** variablecategory : state
-                               ** max : 
-                               ** min : 
-                               ** unit : hPA
     """
 
     AIRnode:int
@@ -958,7 +982,7 @@ def model_campbell(NLAYR:int,
                 morningSoilTemp[layer] = soilTemp[layer]
     minTempYesterday = TMIN
     maxTempYesterday = TMAX
-    return (soilTemp, minSoilTemp, maxSoilTemp, aveSoilTemp, morningSoilTemp, newTemperature, maxTempYesterday, minTempYesterday, thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4, thermalConductivity, thermalConductance, heatStorage, volSpecHeatSoil, _boundaryLayerConductance, SLROCK, SLCARB, SLSAND, SLSILT, airPressure)
+    return (soilTemp, minSoilTemp, maxSoilTemp, aveSoilTemp, morningSoilTemp, newTemperature, maxTempYesterday, minTempYesterday, thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4, thermalConductivity, thermalConductance, heatStorage, volSpecHeatSoil, _boundaryLayerConductance, THICK, DEPTH, BD, CLAY, SLROCK, SLCARB, SLSAND, SLSILT)
 #%%CyML Model End%%
 
 def doNetRadiation(solarRadn:'Array[float]',
@@ -993,8 +1017,9 @@ def doNetRadiation(solarRadn:'Array[float]',
     fr = Divide(max(rad, 0.1), psr, 0.0)
     cloudFr = 2.33 - (3.33 * fr)
     cloudFr = min(max(cloudFr, 0.0), 1.0)
+    scalar:float = max(rad, 0.1)
     for timestepNumber in range(1 , ITERATIONSperDAY + 1 , 1):
-        solarRadn[timestepNumber] = max(rad, 0.1) * Divide(m1[timestepNumber], m1Tot, 0.0)
+        solarRadn[timestepNumber] = scalar * Divide(m1[timestepNumber], m1Tot, 0.0)
     kelvinTemp:float = kelvinT(tmin)
     cva = exp((31.3716 - (6014.79 / kelvinTemp) - (0.00792495 * kelvinTemp))) / kelvinTemp
     return (solarRadn, cloudFr, cva)
@@ -1592,15 +1617,15 @@ def Divide(val1:float,
         returnValue = val1 / val2
     return returnValue
 
-def CalcSoilTemp(soilTempIO:'Array[float]',
-         thickness:'Array[float]',
+def CalcSoilTemp(thickness:'Array[float]',
          tav:float,
          tamp:float,
          doy:int,
          latitude:float,
          numNodes:int):
     cumulativeDepth:'array[float]'
-    soilTemp:'array[float]'
+    soilTempIO:'array[float]'
+    soilTemperat:'array[float]'
     Layer:int
     nodes:int
     tempValue:float
@@ -1609,7 +1634,7 @@ def CalcSoilTemp(soilTempIO:'Array[float]',
     zd:float
     offset:float
     SURFACEnode:int = 1
-    piVal:float = 3.14
+    piVal:float = 3.141592653589793
     cumulativeDepth = [0.0] * len(thickness)
     if len(thickness) > 0:
         cumulativeDepth[0] = thickness[0]
@@ -1623,8 +1648,10 @@ def CalcSoilTemp(soilTempIO:'Array[float]',
     offset = 0.25
     if latitude > 0.0:
         offset = -0.25
-    soilTemp = [0.0] * (numNodes + 2)
+    soilTemperat = [0.0] * (numNodes + 2)
+    soilTempIO = [0.0] * (numNodes + 1 + 1)
     for nodes in range(1 , numNodes + 1 , 1):
-        soilTemp[nodes] = tav + (tamp * exp(-1.0 * cumulativeDepth[nodes] / zd) * sin(((doy / 365.0 + offset) * 2.0 * piVal - (cumulativeDepth[nodes] / zd))))
-    soilTempIO[SURFACEnode:SURFACEnode + numNodes] = soilTemp[0:numNodes]
+        soilTemperat[nodes] = tav + (tamp * exp(-1.0 * cumulativeDepth[nodes] / zd) * sin(((doy / 365.0 + offset) * 2.0 * piVal - (cumulativeDepth[nodes] / zd))))
+    for Layer in range(SURFACEnode , numNodes + 1 , 1):
+        soilTempIO[Layer] = soilTemperat[Layer - 1]
     return soilTempIO

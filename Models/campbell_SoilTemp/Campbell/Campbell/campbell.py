@@ -1252,8 +1252,9 @@ def doNetRadiation(
     cloudFr = 2.33 - 3.33 * fr    # fractional cloud cover (0-1)
     cloudFr = min(max(cloudFr,0.0),1.0)
 
+    scalar: float= max(rad, 0.1)
     for timestepNumber in range(1, ITERATIONSperDAY+1):
-        solarRadn[timestepNumber] = max(rad, 0.1) * Divide(m1[timestepNumber], m1Tot, 0.0)
+        solarRadn[timestepNumber] = scalar * Divide(m1[timestepNumber], m1Tot, 0.0)
 
     # cva is vapour concentration of the air (g/m^3)
     kelvinTemp:float = kelvinT(tmin)

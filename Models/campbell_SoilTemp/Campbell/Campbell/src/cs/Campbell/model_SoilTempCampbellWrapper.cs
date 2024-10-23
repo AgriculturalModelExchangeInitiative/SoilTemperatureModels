@@ -21,19 +21,21 @@ class Model_SoilTempCampbellWrapper
     }
 
         int NLAYR;
-    double[] THICK =  new double [100];
-    double[] DEPTH =  new double [100];
     double CONSTANT_TEMPdepth;
-    double[] BD =  new double [100];
     double TAMP;
     double XLAT;
-    double[] CLAY =  new double [100];
     double SALB;
     double instrumentHeight;
     string boundaryLayerConductanceSource;
     string netRadiationSource;
 
-    public double airPressure{ get { return s.airPressure;}} 
+    public double[] THICK{ get { return s.THICK;}} 
+     
+    public double[] DEPTH{ get { return s.DEPTH;}} 
+     
+    public double[] BD{ get { return s.BD;}} 
+     
+    public double[] CLAY{ get { return s.CLAY;}} 
      
     public double[] soilTemp{ get { return s.soilTemp;}} 
      
@@ -99,13 +101,9 @@ class Model_SoilTempCampbellWrapper
     private void loadParameters()
     {
         model_soiltempcampbellComponent.NLAYR = null; // To be modified
-        model_soiltempcampbellComponent.THICK = null; // To be modified
-        model_soiltempcampbellComponent.DEPTH = null; // To be modified
         model_soiltempcampbellComponent.CONSTANT_TEMPdepth = null; // To be modified
-        model_soiltempcampbellComponent.BD = null; // To be modified
         model_soiltempcampbellComponent.TAMP = null; // To be modified
         model_soiltempcampbellComponent.XLAT = null; // To be modified
-        model_soiltempcampbellComponent.CLAY = null; // To be modified
         model_soiltempcampbellComponent.SALB = null; // To be modified
         model_soiltempcampbellComponent.instrumentHeight = null; // To be modified
         model_soiltempcampbellComponent.boundaryLayerConductanceSource = null; // To be modified
@@ -118,8 +116,8 @@ class Model_SoilTempCampbellWrapper
         ex.TMAX = null; // To be modified
         ex.TMIN = null; // To be modified
         ex.TAV = null; // To be modified
-        ex.SW = null; // To be modified
         ex.DOY = null; // To be modified
+        ex.airPressure = null; // To be modified
         ex.canopyHeight = null; // To be modified
         ex.SRAD = null; // To be modified
         ex.ESP = null; // To be modified
@@ -128,14 +126,14 @@ class Model_SoilTempCampbellWrapper
         ex.windSpeed = null; // To be modified
     }
 
-    public void EstimateModel_SoilTempCampbell(double T2M, double TMAX, double TMIN, double TAV, double[] SW, int DOY, double canopyHeight, double SRAD, double ESP, double ES, double EOAD, double windSpeed)
+    public void EstimateModel_SoilTempCampbell(double T2M, double TMAX, double TMIN, double TAV, int DOY, double airPressure, double canopyHeight, double SRAD, double ESP, double ES, double EOAD, double windSpeed)
     {
         a.T2M = T2M;
         a.TMAX = TMAX;
         a.TMIN = TMIN;
         a.TAV = TAV;
-        a.SW = SW;
         a.DOY = DOY;
+        a.airPressure = airPressure;
         a.canopyHeight = canopyHeight;
         a.SRAD = SRAD;
         a.ESP = ESP;

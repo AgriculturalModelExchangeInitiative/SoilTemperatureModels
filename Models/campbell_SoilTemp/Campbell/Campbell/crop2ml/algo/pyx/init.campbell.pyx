@@ -38,7 +38,8 @@ else:
     instrumentHeight=defaultInstrumentHeight
 numNodes=NLAYR + NUM_PHANTOM_NODES
 thickness=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
-thickness[1:len(THICK)]=THICK
+for layer in range(1 , NLAYR + 1 , 1):
+    thickness[layer]=THICK[layer - 1]
 sumThickness=0.0
 for i in range(1 , NLAYR + 1 , 1):
     sumThickness=sumThickness + thickness[i]
@@ -57,18 +58,16 @@ for node in range(TOPSOILnode , numNodes + 1 , 1):
         sumThickness=sumThickness + thickness[i]
     depth[node + 1]=(sumThickness + (0.5 * thickness[node])) / 1000.0
 bulkDensity=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
-bulkDensity[:min(NLAYR + 1 + NUM_PHANTOM_NODES, len(BD))]=BD
 for layer in range(1 , NLAYR + 1 , 1):
     bulkDensity[layer]=BD[layer - 1]
 bulkDensity[numNodes]=bulkDensity[NLAYR]
 for layer in range(NLAYR + 1 , NLAYR + NUM_PHANTOM_NODES + 1 , 1):
     bulkDensity[layer]=bulkDensity[NLAYR]
 soilWater=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
-soilWater[:min(NLAYR + 1 + NUM_PHANTOM_NODES, len(SW))]=SW
 for layer in range(1 , NLAYR + 1 , 1):
     soilWater[layer]=SW[layer - 1]
 for layer in range(NLAYR + 1 , NLAYR + NUM_PHANTOM_NODES + 1 , 1):
-    soilWater[layer]=soilWater[NLAYR]
+    soilWater[layer]=soilWater[(NLAYR - 1)] * thickness[(NLAYR - 1)] / thickness[NLAYR]
 carbon=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
 for layer in range(1 , NLAYR + 1 , 1):
     carbon[layer]=SLCARB[layer - 1]
@@ -105,10 +104,9 @@ thermalConductivity=[0.0] * (numNodes + 1)
 heatStorage=[0.0] * (numNodes + 1)
 thermalConductance=[0.0] * (numNodes + 1 + 1)
 (thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4)=doThermalConductivityCoeffs(NLAYR, numNodes, bulkDensity, clay)
-newTemperature=CalcSoilTemp(soilTemp, thickness, TAV, TAMP, DOY, XLAT, numNodes)
-soilWater[numNodes]=soilWater[NLAYR]
+newTemperature=CalcSoilTemp(thickness, TAV, TAMP, DOY, XLAT, numNodes)
 instrumentHeight=max(instrumentHeight, canopyHeight + 0.5)
-soilTemp=CalcSoilTemp(soilTemp, thickness, TAV, TAMP, DOY, XLAT, numNodes)
+soilTemp=CalcSoilTemp(thickness, TAV, TAMP, DOY, XLAT, numNodes)
 soilTemp[AIRnode]=T2M
 surfaceT=(1.0 - SALB) * (T2M + ((TMAX - T2M) * sqrt(max(SRAD, 0.1) * 23.8846 / 800.0))) + (SALB * T2M)
 soilTemp[SURFACEnode]=surfaceT

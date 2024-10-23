@@ -30,8 +30,9 @@ def doNetRadiation(floatarray solarRadn,
     fr=Divide(max(rad, 0.1), psr, 0.0)
     cloudFr=2.33 - (3.33 * fr)
     cloudFr=min(max(cloudFr, 0.0), 1.0)
+    cdef float scalar = max(rad, 0.1)
     for timestepNumber in range(1 , ITERATIONSperDAY + 1 , 1):
-        solarRadn[timestepNumber]=max(rad, 0.1) * Divide(m1[timestepNumber], m1Tot, 0.0)
+        solarRadn[timestepNumber]=scalar * Divide(m1[timestepNumber], m1Tot, 0.0)
     cdef float kelvinTemp = kelvinT(tmin)
     cva=exp((31.3716 - (6014.79 / kelvinTemp) - (0.00792495 * kelvinTemp))) / kelvinTemp
     return (solarRadn, cloudFr, cva)

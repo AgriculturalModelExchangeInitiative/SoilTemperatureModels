@@ -2,7 +2,11 @@ using System;
 using System.Collections.Generic;
 public class Model_SoilTempCampbellState 
 {
-    private double _airPressure;
+    private double[] _THICK;
+    private double[] _DEPTH;
+    private double[] _BD;
+    private double[] _CLAY;
+    private double[] _SW;
     private double[] _soilTemp;
     private double[] _newTemperature;
     private double[] _minSoilTemp;
@@ -36,7 +40,26 @@ public class Model_SoilTempCampbellState
         if (copyAll)
         {
     
-            airPressure = toCopy.airPressure;
+            THICK = new double[toCopy.THICK.Length];
+            for (int i = 0; i < toCopy.THICK.Length; i++)
+                { THICK[i] = toCopy.THICK[i]; }
+    
+            DEPTH = new double[toCopy.DEPTH.Length];
+            for (int i = 0; i < toCopy.DEPTH.Length; i++)
+                { DEPTH[i] = toCopy.DEPTH[i]; }
+    
+            BD = new double[toCopy.BD.Length];
+            for (int i = 0; i < toCopy.BD.Length; i++)
+                { BD[i] = toCopy.BD[i]; }
+    
+            CLAY = new double[toCopy.CLAY.Length];
+            for (int i = 0; i < toCopy.CLAY.Length; i++)
+                { CLAY[i] = toCopy.CLAY[i]; }
+    
+            SW = new double[toCopy.SW.Length];
+            for (int i = 0; i < toCopy.SW.Length; i++)
+                { SW[i] = toCopy.SW[i]; }
+    
             soilTemp = new double[toCopy.soilTemp.Length];
             for (int i = 0; i < toCopy.soilTemp.Length; i++)
                 { soilTemp[i] = toCopy.soilTemp[i]; }
@@ -114,10 +137,30 @@ public class Model_SoilTempCampbellState
             _boundaryLayerConductance = toCopy._boundaryLayerConductance;
         }
     }
-    public double airPressure
+    public double[] THICK
     {
-        get { return this._airPressure; }
-        set { this._airPressure= value; } 
+        get { return this._THICK; }
+        set { this._THICK= value; } 
+    }
+    public double[] DEPTH
+    {
+        get { return this._DEPTH; }
+        set { this._DEPTH= value; } 
+    }
+    public double[] BD
+    {
+        get { return this._BD; }
+        set { this._BD= value; } 
+    }
+    public double[] CLAY
+    {
+        get { return this._CLAY; }
+        set { this._CLAY= value; } 
+    }
+    public double[] SW
+    {
+        get { return this._SW; }
+        set { this._SW= value; } 
     }
     public double[] soilTemp
     {
