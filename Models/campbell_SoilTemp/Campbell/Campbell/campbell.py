@@ -301,34 +301,37 @@ def model_campbell(NLAYR: int,
                ** unit : mm
          * name: THICK
                ** description : APSIM soil layer depths as thickness of layers
-               ** inputtype : parameter
-               ** parametercategory : constant
+               ** inputtype : variable
+               ** variablecategory : state
                ** datatype : DOUBLEARRAY
                ** len : NLAYR
                ** max :
                ** min : 1
                ** default : 50
-               ** unit : mm 
+               ** unit : mm
+               ** uri :
         * name: DEPTH
                ** description : APSIM node depths
-               ** inputtype : parameter
-               ** parametercategory : constant
+               ** inputtype : variable
+               ** variablecategory : state
                ** datatype : DOUBLEARRAY
                ** len : NLAYR
                ** max :
                ** min : 
                ** default : 
                ** unit : m
+               ** uri :
         * name: BD
                ** description : bd (soil bulk density) is name of the APSIM var for bulk density so set bulkDensity = bd later
-               ** inputtype : parameter
-               ** parametercategory : constant
+               ** inputtype : variable
+               ** variablecategory : state
                ** datatype : DOUBLEARRAY
                ** len : NLAYR
                ** max :
                ** min : 
                ** default : 1.4
                ** unit : g/cm3
+               uri :
         * name: T2M
                ** description : Mean daily Air temperature
                ** inputtype : variable
@@ -385,24 +388,26 @@ def model_campbell(NLAYR: int,
                ** unit : °C
         * name: CLAY
                ** description : Proportion of clay in each layer of profile
-               ** inputtype : parameter
-               ** parametercategory : constant
+               ** inputtype : variable
+               ** variablecategory : state
                ** datatype : DOUBLEARRAY
                ** len : NLAYR
                ** max : 100
                ** min : 0
                ** default : 50
                ** unit : %
+               ** uri :
         * name: SW
                ** description : volumetric water content
                ** inputtype : variable
-               ** variablecategory : exogenous
+               ** variablecategory : state
                ** datatype : DOUBLEARRAY
                ** len : NLAYR
                ** max : 1
                ** min : 0
                ** default : 0.5
                ** unit : cc water / cc soil
+               ** uri :
         * name: DOY
                ** description : Day of year
                ** inputtype : variable
@@ -415,7 +420,7 @@ def model_campbell(NLAYR: int,
         * name: airPressure
                ** description : Air pressure
                ** inputtype : variable
-               ** variablecategory : state
+               ** variablecategory : exogenous
                ** datatype : DOUBLE
                ** max : 
                ** min : 
@@ -927,6 +932,51 @@ def model_campbell(NLAYR: int,
                 ** max : 
                 ** unit : %
                 ** uri : 
+         * name: THICK
+               ** description : APSIM soil layer depths as thickness of layers
+               ** variablecategory : state
+               ** datatype : DOUBLEARRAY
+               ** len : NLAYR
+               ** max :
+               ** min : 1
+               ** unit : mm
+               ** uri :
+        * name: DEPTH
+               ** description : APSIM node depths
+               ** variablecategory : state
+               ** datatype : DOUBLEARRAY
+               ** len : NLAYR
+               ** max :
+               ** min : 
+               ** unit : m
+               ** uri :
+        * name: BD
+               ** description : bd (soil bulk density) is name of the APSIM var for bulk density so set bulkDensity = bd later
+               ** variablecategory : state
+               ** datatype : DOUBLEARRAY
+               ** len : NLAYR
+               ** max :
+               ** min : 
+               ** unit : g/cm3
+               uri :
+        * name: CLAY
+               ** description : Proportion of clay in each layer of profile
+               ** variablecategory : state
+               ** datatype : DOUBLEARRAY
+               ** len : NLAYR
+               ** max : 100
+               ** min : 0
+               ** unit : %
+               ** uri :
+        * name: SW
+               ** description : volumetric water content
+               ** variablecategory : state
+               ** datatype : DOUBLEARRAY
+               ** len : NLAYR
+               ** max : 1
+               ** min : 0
+               ** unit : cc water / cc soil
+               ** uri :
         * name: _boundaryLayerConductance
                 ** description : Boundary layer conductance
                 ** variablecategory : state
@@ -1073,7 +1123,7 @@ def model_campbell(NLAYR: int,
             volSpecHeatSoil,
             _boundaryLayerConductance,
             THICK, DEPTH, BD, soilWater, 
-            CLAY, SLROCK, SLCARB, SLSAND, SLSILT, airPressure)
+            CLAY, SLROCK, SLCARB, SLSAND, SLSILT)
 #%%CyML Model End%%
 
 
