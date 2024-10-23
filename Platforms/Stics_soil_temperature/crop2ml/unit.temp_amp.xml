@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ModelUnit PUBLIC " " "https://raw.githubusercontent.com/AgriculturalModelExchangeInitiative/crop2ml/master/ModelUnit.dtd">
+<ModelUnit modelid="Stics.soiltemperature.temp_amp" name="temp_amp" timestep="1" version="1.0">
+    <Description>
+        <Title>temp_amp model</Title>
+        <Authors></Authors>
+        <Institution>INRAE</Institution>
+        <URI></URI>
+        <Reference>doi:http://dx.doi.org/10.1016/j.agrformet.2014.05.002</Reference>
+        <ExtendedDescription></ExtendedDescription>
+        <ShortDescription></ShortDescription></Description>
+    <Inputs>
+        <Input name="min_temp" description="current minimum temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="50.0" min="-50.0" default="0.0" unit="degC"/>
+        <Input name="max_temp" description="current maximum temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="50.0" min="-50.0" default="0.0" unit="degC"/></Inputs>
+    <Outputs>
+        <Output name="temp_amp" description="current temperature amplitude" datatype="DOUBLE" variablecategory="state" max="100.0" min="0.0" unit="degC"/></Outputs>
+    <Algorithm language="cyml" platform="" filename="algo/pyx/temp_amp.pyx"/>
+    <Parametersets/>
+    <Testsets/></ModelUnit>

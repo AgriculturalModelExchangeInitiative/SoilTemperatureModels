@@ -1,4 +1,5 @@
 import os
+from os.path import isdir
 import logging
 from path import Path
 from pycropml.transpiler.main import languages
@@ -35,7 +36,7 @@ def clean(d, targets=['src', 'test', 'doc', 'crop2ml']):
     d = Path(d)
     for t in targets:
         tgt = d / t
-        if tgt.isdir():
+        if isdir(tgt):
             cmd = 'rm -rf '+ str(tgt)
             logger.info(cmd)
             tgt.rmtree()
