@@ -1,0 +1,1 @@
+ThermalConductivity=array('f', [0.0]*len(VolumetricWaterContent))

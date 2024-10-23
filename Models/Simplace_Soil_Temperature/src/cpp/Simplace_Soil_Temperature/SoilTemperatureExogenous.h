@@ -1,11 +1,10 @@
-#ifndef _SoilTemperatureExogenous_
-#define _SoilTemperatureExogenous_
+#pragma once
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
-# include<vector>
-# include<string>
-using namespace std;
+#include <vector>
+#include <string>
+namespace Simplace_Soil_Temperature {
 class SoilTemperatureExogenous
 {
     private:
@@ -19,8 +18,8 @@ class SoilTemperatureExogenous
         double iCropResidues ;
         double iPotentialSoilEvaporation ;
         double iLeafAreaIndex ;
-        vector<double> SoilTempArray ;
-        vector<double> iSoilTempArray ;
+        std::vector<double> SoilTempArray ;
+        std::vector<double> iSoilTempArray ;
         double iSoilWaterContent ;
         double iSoilSurfaceTemperature ;
     public:
@@ -45,14 +44,14 @@ class SoilTemperatureExogenous
         void setiPotentialSoilEvaporation(double _iPotentialSoilEvaporation);
         double getiLeafAreaIndex();
         void setiLeafAreaIndex(double _iLeafAreaIndex);
-        vector<double> & getSoilTempArray();
-        void setSoilTempArray(const vector<double> &  _SoilTempArray);
-        vector<double> & getiSoilTempArray();
-        void setiSoilTempArray(const vector<double> &  _iSoilTempArray);
+        std::vector<double> & getSoilTempArray();
+        void setSoilTempArray(const std::vector<double> &  _SoilTempArray);
+        std::vector<double> & getiSoilTempArray();
+        void setiSoilTempArray(const std::vector<double> &  _iSoilTempArray);
         double getiSoilWaterContent();
         void setiSoilWaterContent(double _iSoilWaterContent);
         double getiSoilSurfaceTemperature();
         void setiSoilSurfaceTemperature(double _iSoilSurfaceTemperature);
 
 };
-#endif
+}

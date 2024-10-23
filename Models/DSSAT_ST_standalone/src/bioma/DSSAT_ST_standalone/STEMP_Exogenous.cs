@@ -9,11 +9,11 @@ namespace STEMP_.DomainClass
 {
     public class STEMP_Exogenous : ICloneable, IDomainClass
     {
-        private double _TAMP;
-        private double _SRAD;
-        private double _TAV;
         private double _TMAX;
+        private double _SRAD;
+        private double _TAMP;
         private double _TAVG;
+        private double _TAV;
         private int _DOY;
         private ParametersIO _parametersIO;
 
@@ -26,39 +26,39 @@ namespace STEMP_.DomainClass
         {
             if (copyAll)
             {
-                TAMP = toCopy.TAMP;
-                SRAD = toCopy.SRAD;
-                TAV = toCopy.TAV;
                 TMAX = toCopy.TMAX;
+                SRAD = toCopy.SRAD;
+                TAMP = toCopy.TAMP;
                 TAVG = toCopy.TAVG;
+                TAV = toCopy.TAV;
                 DOY = toCopy.DOY;
             }
         }
 
-        public double TAMP
+        public double TMAX
         {
-            get { return this._TAMP; }
-            set { this._TAMP= value; } 
+            get { return this._TMAX; }
+            set { this._TMAX= value; } 
         }
         public double SRAD
         {
             get { return this._SRAD; }
             set { this._SRAD= value; } 
         }
-        public double TAV
+        public double TAMP
         {
-            get { return this._TAV; }
-            set { this._TAV= value; } 
-        }
-        public double TMAX
-        {
-            get { return this._TMAX; }
-            set { this._TMAX= value; } 
+            get { return this._TAMP; }
+            set { this._TAMP= value; } 
         }
         public double TAVG
         {
             get { return this._TAVG; }
             set { this._TAVG= value; } 
+        }
+        public double TAV
+        {
+            get { return this._TAV; }
+            set { this._TAV= value; } 
         }
         public int DOY
         {
@@ -83,11 +83,11 @@ namespace STEMP_.DomainClass
 
         public virtual Boolean ClearValues()
         {
-             _TAMP = default(double);
-             _SRAD = default(double);
-             _TAV = default(double);
              _TMAX = default(double);
+             _SRAD = default(double);
+             _TAMP = default(double);
              _TAVG = default(double);
+             _TAV = default(double);
              _DOY = default(int);
             return true;
         }

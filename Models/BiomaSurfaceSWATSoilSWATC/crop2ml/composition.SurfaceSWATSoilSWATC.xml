@@ -12,18 +12,18 @@
         <Model name="SurfaceTemperatureSWAT" id="Crop2ML.BiomaSurfaceSWATSoilSWATC.SurfaceTemperatureSWAT" filename="unit.SurfaceTemperatureSWAT.xml"/>
         <Model name="SoilTemperatureSWAT" id="Crop2ML.BiomaSurfaceSWATSoilSWATC.SoilTemperatureSWAT" filename="unit.SoilTemperatureSWAT.xml"/>
         <Links>
-            <InputLink target="SurfaceTemperatureSWAT.GlobalSolarRadiation" source="GlobalSolarRadiation"/>
             <InputLink target="SurfaceTemperatureSWAT.AirTemperatureMaximum" source="AirTemperatureMaximum"/>
             <InputLink target="SurfaceTemperatureSWAT.AirTemperatureMinimum" source="AirTemperatureMinimum"/>
-            <InputLink target="SurfaceTemperatureSWAT.Albedo" source="Albedo"/>
+            <InputLink target="SurfaceTemperatureSWAT.GlobalSolarRadiation" source="GlobalSolarRadiation"/>
             <InputLink target="SurfaceTemperatureSWAT.AboveGroundBiomass" source="AboveGroundBiomass"/>
             <InputLink target="SurfaceTemperatureSWAT.WaterEquivalentOfSnowPack" source="WaterEquivalentOfSnowPack"/>
-            <InputLink target="SoilTemperatureSWAT.LagCoefficient" source="LagCoefficient"/>
-            <InputLink target="SoilTemperatureSWAT.AirTemperatureAnnualAverage" source="AirTemperatureAnnualAverage"/>
+            <InputLink target="SurfaceTemperatureSWAT.Albedo" source="Albedo"/>
             <InputLink target="SoilTemperatureSWAT.BulkDensity" source="BulkDensity"/>
-            <InputLink target="SoilTemperatureSWAT.LayerThickness" source="LayerThickness"/>
+            <InputLink target="SoilTemperatureSWAT.AirTemperatureAnnualAverage" source="AirTemperatureAnnualAverage"/>
             <InputLink target="SoilTemperatureSWAT.VolumetricWaterContent" source="VolumetricWaterContent"/>
             <InputLink target="SoilTemperatureSWAT.SoilProfileDepth" source="SoilProfileDepth"/>
+            <InputLink target="SoilTemperatureSWAT.LagCoefficient" source="LagCoefficient"/>
+            <InputLink target="SoilTemperatureSWAT.LayerThickness" source="LayerThickness"/>
             <InternalLink target="SoilTemperatureSWAT.SurfaceSoilTemperature" source="SurfaceTemperatureSWAT.SurfaceSoilTemperature"/>
             <OutputLink target="SurfaceSoilTemperature" source="SurfaceTemperatureSWAT.SurfaceSoilTemperature"/>
             <OutputLink target="SoilTemperatureByLayers" source="SoilTemperatureSWAT.SoilTemperatureByLayers"/></Links></Composition></ModelComposition>

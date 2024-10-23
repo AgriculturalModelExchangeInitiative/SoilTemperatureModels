@@ -4,12 +4,12 @@ import java.time.LocalDateTime;
 
 public class SurfaceSWATSoilSWATCExogenous
 {
-    private Double GlobalSolarRadiation;
-    private Double AirTemperatureMaximum;
-    private Double AirTemperatureMinimum;
-    private Double Albedo;
-    private Double WaterEquivalentOfSnowPack;
-    private Double AirTemperatureAnnualAverage;
+    private double AirTemperatureMaximum;
+    private double AirTemperatureMinimum;
+    private double GlobalSolarRadiation;
+    private double WaterEquivalentOfSnowPack;
+    private double Albedo;
+    private Double [] VolumetricWaterContent;
     
     public SurfaceSWATSoilSWATCExogenous() { }
     
@@ -17,48 +17,52 @@ public class SurfaceSWATSoilSWATCExogenous
     {
         if (copyAll)
         {
-            this.GlobalSolarRadiation = toCopy.getGlobalSolarRadiation();
             this.AirTemperatureMaximum = toCopy.getAirTemperatureMaximum();
             this.AirTemperatureMinimum = toCopy.getAirTemperatureMinimum();
-            this.Albedo = toCopy.getAlbedo();
+            this.GlobalSolarRadiation = toCopy.getGlobalSolarRadiation();
             this.WaterEquivalentOfSnowPack = toCopy.getWaterEquivalentOfSnowPack();
-            this.AirTemperatureAnnualAverage = toCopy.getAirTemperatureAnnualAverage();
+            this.Albedo = toCopy.getAlbedo();
+            VolumetricWaterContent = new Double[toCopy.getVolumetricWaterContent().length];
+        for (int i = 0; i < toCopy.getVolumetricWaterContent().length; i++)
+        {
+            VolumetricWaterContent[i] = toCopy.getVolumetricWaterContent()[i];
+        }
         }
     }
-    public Double getGlobalSolarRadiation()
-    { return GlobalSolarRadiation; }
-
-    public void setGlobalSolarRadiation(Double _GlobalSolarRadiation)
-    { this.GlobalSolarRadiation= _GlobalSolarRadiation; } 
-    
-    public Double getAirTemperatureMaximum()
+    public double getAirTemperatureMaximum()
     { return AirTemperatureMaximum; }
 
-    public void setAirTemperatureMaximum(Double _AirTemperatureMaximum)
+    public void setAirTemperatureMaximum(double _AirTemperatureMaximum)
     { this.AirTemperatureMaximum= _AirTemperatureMaximum; } 
     
-    public Double getAirTemperatureMinimum()
+    public double getAirTemperatureMinimum()
     { return AirTemperatureMinimum; }
 
-    public void setAirTemperatureMinimum(Double _AirTemperatureMinimum)
+    public void setAirTemperatureMinimum(double _AirTemperatureMinimum)
     { this.AirTemperatureMinimum= _AirTemperatureMinimum; } 
     
-    public Double getAlbedo()
-    { return Albedo; }
+    public double getGlobalSolarRadiation()
+    { return GlobalSolarRadiation; }
 
-    public void setAlbedo(Double _Albedo)
-    { this.Albedo= _Albedo; } 
+    public void setGlobalSolarRadiation(double _GlobalSolarRadiation)
+    { this.GlobalSolarRadiation= _GlobalSolarRadiation; } 
     
-    public Double getWaterEquivalentOfSnowPack()
+    public double getWaterEquivalentOfSnowPack()
     { return WaterEquivalentOfSnowPack; }
 
-    public void setWaterEquivalentOfSnowPack(Double _WaterEquivalentOfSnowPack)
+    public void setWaterEquivalentOfSnowPack(double _WaterEquivalentOfSnowPack)
     { this.WaterEquivalentOfSnowPack= _WaterEquivalentOfSnowPack; } 
     
-    public Double getAirTemperatureAnnualAverage()
-    { return AirTemperatureAnnualAverage; }
+    public double getAlbedo()
+    { return Albedo; }
 
-    public void setAirTemperatureAnnualAverage(Double _AirTemperatureAnnualAverage)
-    { this.AirTemperatureAnnualAverage= _AirTemperatureAnnualAverage; } 
+    public void setAlbedo(double _Albedo)
+    { this.Albedo= _Albedo; } 
+    
+    public Double [] getVolumetricWaterContent()
+    { return VolumetricWaterContent; }
+
+    public void setVolumetricWaterContent(Double [] _VolumetricWaterContent)
+    { this.VolumetricWaterContent= _VolumetricWaterContent; } 
     
 }

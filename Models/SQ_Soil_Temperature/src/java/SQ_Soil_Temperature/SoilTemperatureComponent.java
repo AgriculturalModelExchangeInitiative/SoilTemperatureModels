@@ -7,39 +7,43 @@ public class SoilTemperatureComponent
     CalculateHourlySoilTemperature _CalculateHourlySoilTemperature = new CalculateHourlySoilTemperature();
 
     public Double getlambda_()
-    { return _Calculatesoiltemperature.getlambda_(); }
-    public void setlambda_(Double lambda_)
-    { _Calculatesoiltemperature.setlambda_(lambda_); } 
-
-    public Double geta()
-    { return _Calculatehourlysoiltemperature.geta(); }
-    public void seta(Double a)
-    { _Calculatehourlysoiltemperature.seta(a); } 
+    { return _CalculateSoilTemperature.getlambda_(); }
+    public void setlambda_(Double _lambda_){
+    _CalculateSoilTemperature.setlambda_(_lambda_);
+    }
 
     public Double getb()
-    { return _Calculatehourlysoiltemperature.getb(); }
-    public void setb(Double b)
-    { _Calculatehourlysoiltemperature.setb(b); } 
+    { return _CalculateHourlySoilTemperature.getb(); }
+    public void setb(Double _b){
+    _CalculateHourlySoilTemperature.setb(_b);
+    }
 
     public Double getc()
-    { return _Calculatehourlysoiltemperature.getc(); }
-    public void setc(Double c)
-    { _Calculatehourlysoiltemperature.setc(c); } 
-    public void  Calculate_soiltemperature(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a, SoilTemperatureExogenous ex)
+    { return _CalculateHourlySoilTemperature.getc(); }
+    public void setc(Double _c){
+    _CalculateHourlySoilTemperature.setc(_c);
+    }
+
+    public Double geta()
+    { return _CalculateHourlySoilTemperature.geta(); }
+    public void seta(Double _a){
+    _CalculateHourlySoilTemperature.seta(_a);
+    }
+    public void  Calculate_Model(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a, SoilTemperatureExogenous ex)
     {
-        _Calculatesoiltemperature.Calculate_calculatesoiltemperature(s, s1, r, a, ex);
-        _Calculatehourlysoiltemperature.Calculate_calculatehourlysoiltemperature(s, s1, r, a, ex);
+        _CalculateSoilTemperature.Calculate_Model(s, s1, r, a, ex);
+        _CalculateHourlySoilTemperature.Calculate_Model(s, s1, r, a, ex);
     }
     private Double lambda_;
-    private Double a;
     private Double b;
     private Double c;
+    private Double a;
     public SoilTemperatureComponent(SoilTemperatureComponent toCopy) // copy constructor 
     {
         this.lambda_ = toCopy.getlambda_();
-        this.a = toCopy.geta();
         this.b = toCopy.getb();
         this.c = toCopy.getc();
+        this.a = toCopy.geta();
 
     }
 }

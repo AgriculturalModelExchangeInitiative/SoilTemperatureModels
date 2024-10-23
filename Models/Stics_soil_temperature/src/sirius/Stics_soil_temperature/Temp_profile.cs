@@ -284,13 +284,14 @@ namespace SiriusQualitysoil_temp.Strategies
         {
             double min_air_temp;
             double temp_amp = 0.0;
-            double[] prev_temp_profile ;
+            List<double> prev_temp_profile = new List<double>();
             double prev_canopy_temp;
+            prev_temp_profile = new List<double>{};
             prev_canopy_temp = 0.00d;
             int soil_depth;
             soil_depth = layer_thick.Sum();
-            prev_temp_profile = new double[ soil_depth];
-            for (var i = 0; i < soil_depth; i++){prev_temp_profile[i] = air_temp_day1;}
+            prev_temp_profile = new List<double>(soil_depth);
+            for (var i = 0; i < soil_depth; i++){prev_temp_profile.Add(air_temp_day1);}
             prev_canopy_temp = air_temp_day1;
             s.temp_amp= temp_amp;
             s.prev_temp_profile= prev_temp_profile;
@@ -300,18 +301,18 @@ namespace SiriusQualitysoil_temp.Strategies
         private void CalculateModel(SiriusQualitysoil_temp.DomainClass.soil_tempState s, SiriusQualitysoil_temp.DomainClass.soil_tempState s1, SiriusQualitysoil_temp.DomainClass.soil_tempRate r, SiriusQualitysoil_temp.DomainClass.soil_tempAuxiliary a, SiriusQualitysoil_temp.DomainClass.soil_tempExogenous ex)
         {
             double temp_amp = s.temp_amp;
-            double[] prev_temp_profile = s.prev_temp_profile;
+            List<double> prev_temp_profile = s.prev_temp_profile;
             double prev_canopy_temp = s.prev_canopy_temp;
             double min_air_temp = ex.min_air_temp;
-            double[] temp_profile ;
+            List<double> temp_profile = new List<double>();
             int z;
             int n;
             List<double> vexp = new List<double>();
             double therm_diff = 5.37e-3;
             double temp_freq = 7.272e-5;
             double therm_amp;
-            n = prev_temp_profile.Length;
-            temp_profile = new double[ n];
+            n = prev_temp_profile.Count;
+            temp_profile = new List<double>(n);
             vexp = new List<double>(n);
             therm_amp = Math.Sqrt(temp_freq / 2 / therm_diff);
             for (z=1 ; z!=n + 1 ; z+=1)

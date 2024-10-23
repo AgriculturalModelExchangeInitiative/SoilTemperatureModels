@@ -4,11 +4,12 @@ import java.time.LocalDateTime;
 
 public class SurfacePartonSoilSWATCExogenous
 {
-    private Double DayLength;
-    private Double AirTemperatureMaximum;
-    private Double AirTemperatureMinimum;
-    private Double GlobalSolarRadiation;
-    private Double AirTemperatureAnnualAverage;
+    private double DayLength;
+    private double GlobalSolarRadiation;
+    private double AboveGroundBiomass;
+    private double AirTemperatureMinimum;
+    private double AirTemperatureMaximum;
+    private Double [] VolumetricWaterContent;
     
     public SurfacePartonSoilSWATCExogenous() { }
     
@@ -17,40 +18,51 @@ public class SurfacePartonSoilSWATCExogenous
         if (copyAll)
         {
             this.DayLength = toCopy.getDayLength();
-            this.AirTemperatureMaximum = toCopy.getAirTemperatureMaximum();
-            this.AirTemperatureMinimum = toCopy.getAirTemperatureMinimum();
             this.GlobalSolarRadiation = toCopy.getGlobalSolarRadiation();
-            this.AirTemperatureAnnualAverage = toCopy.getAirTemperatureAnnualAverage();
+            this.AboveGroundBiomass = toCopy.getAboveGroundBiomass();
+            this.AirTemperatureMinimum = toCopy.getAirTemperatureMinimum();
+            this.AirTemperatureMaximum = toCopy.getAirTemperatureMaximum();
+            VolumetricWaterContent = new Double[toCopy.getVolumetricWaterContent().length];
+        for (int i = 0; i < toCopy.getVolumetricWaterContent().length; i++)
+        {
+            VolumetricWaterContent[i] = toCopy.getVolumetricWaterContent()[i];
+        }
         }
     }
-    public Double getDayLength()
+    public double getDayLength()
     { return DayLength; }
 
-    public void setDayLength(Double _DayLength)
+    public void setDayLength(double _DayLength)
     { this.DayLength= _DayLength; } 
     
-    public Double getAirTemperatureMaximum()
-    { return AirTemperatureMaximum; }
-
-    public void setAirTemperatureMaximum(Double _AirTemperatureMaximum)
-    { this.AirTemperatureMaximum= _AirTemperatureMaximum; } 
-    
-    public Double getAirTemperatureMinimum()
-    { return AirTemperatureMinimum; }
-
-    public void setAirTemperatureMinimum(Double _AirTemperatureMinimum)
-    { this.AirTemperatureMinimum= _AirTemperatureMinimum; } 
-    
-    public Double getGlobalSolarRadiation()
+    public double getGlobalSolarRadiation()
     { return GlobalSolarRadiation; }
 
-    public void setGlobalSolarRadiation(Double _GlobalSolarRadiation)
+    public void setGlobalSolarRadiation(double _GlobalSolarRadiation)
     { this.GlobalSolarRadiation= _GlobalSolarRadiation; } 
     
-    public Double getAirTemperatureAnnualAverage()
-    { return AirTemperatureAnnualAverage; }
+    public double getAboveGroundBiomass()
+    { return AboveGroundBiomass; }
 
-    public void setAirTemperatureAnnualAverage(Double _AirTemperatureAnnualAverage)
-    { this.AirTemperatureAnnualAverage= _AirTemperatureAnnualAverage; } 
+    public void setAboveGroundBiomass(double _AboveGroundBiomass)
+    { this.AboveGroundBiomass= _AboveGroundBiomass; } 
+    
+    public double getAirTemperatureMinimum()
+    { return AirTemperatureMinimum; }
+
+    public void setAirTemperatureMinimum(double _AirTemperatureMinimum)
+    { this.AirTemperatureMinimum= _AirTemperatureMinimum; } 
+    
+    public double getAirTemperatureMaximum()
+    { return AirTemperatureMaximum; }
+
+    public void setAirTemperatureMaximum(double _AirTemperatureMaximum)
+    { this.AirTemperatureMaximum= _AirTemperatureMaximum; } 
+    
+    public Double [] getVolumetricWaterContent()
+    { return VolumetricWaterContent; }
+
+    public void setVolumetricWaterContent(Double [] _VolumetricWaterContent)
+    { this.VolumetricWaterContent= _VolumetricWaterContent; } 
     
 }

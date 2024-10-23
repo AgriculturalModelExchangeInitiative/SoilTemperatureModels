@@ -5,11 +5,14 @@ public class layers_temp
 {
     private int[] _layer_thick;
     public int[] layer_thick
-        {
-            get { return this._layer_thick; }
-            set { this._layer_thick= value; } 
-        }
-        public layers_temp() { }
+    {
+        get { return this._layer_thick; }
+        set { this._layer_thick= value; } 
+    }
+    /// <summary>
+    /// Constructor of the layers_temp component")
+    /// </summary>  
+    public layers_temp() { }
     
     public void  CalculateModel(soil_tempState s, soil_tempState s1, soil_tempRate r, soil_tempAuxiliary a, soil_tempExogenous ex)
     {
@@ -26,8 +29,7 @@ public class layers_temp
     //                          ** description : soil temperature profile
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 50.0
     //                          ** min : -50.0
     //                          ** default : 0.0
@@ -45,21 +47,20 @@ public class layers_temp
         //- outputs:
     //            * name: layer_temp
     //                          ** description : soil layers temperature
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : 
     //                          ** max : 50.0
     //                          ** min : -50.0
     //                          ** unit : degC
-        double[] temp_profile = s.temp_profile;
-        double[] layer_temp ;
+        List<double> temp_profile = s.temp_profile;
+        List<double> layer_temp = new List<double>();
         int z;
         int layers_nb;
         List<int> up_depth = new List<int>();
         List<int> layer_depth = new List<int>();
         int depth_value;
         layers_nb = get_layers_number(layer_thick);
-        layer_temp = new double[ layers_nb];
+        layer_temp = new List<double>(layers_nb);
         up_depth = new List<int>(layers_nb + 1);
         layer_depth = new List<int>(layers_nb);
         for (var i = 0; i < layers_nb + 1; i++){up_depth.Add(0);}
@@ -71,7 +72,7 @@ public class layers_temp
         }
         for (z=1 ; z!=layers_nb + 1 ; z+=1)
         {
-            layer_temp[z - 1] = temp_profile.ToList().GetRange((up_depth[z - 1] + 1 - 1),up_depth[(z + 1 - 1)]).Sum() / layer_thick[(z - 1)];
+            layer_temp[z - 1] = temp_profile.GetRange((up_depth[z - 1] + 1 - 1),up_depth[(z + 1 - 1)] - (up_depth[z - 1] + 1 - 1)).Sum() / layer_thick[(z - 1)];
         }
         s.layer_temp= layer_temp;
     }
@@ -101,7 +102,7 @@ public class layers_temp
         {
             if (layer_thick[z - 1] != 0)
             {
-                layer_depth[z - 1] = layer_thick.ToList().GetRange(1 - 1,z).Sum();
+                layer_depth[z - 1] = layer_thick.ToList().GetRange(1 - 1,z - 1 - 1).Sum();
             }
         }
         return layer_depth;

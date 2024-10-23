@@ -1,2 +1,4 @@
 #include "SurfaceSWATSoilSWATCRate.h"
-SurfaceSWATSoilSWATCRate::SurfaceSWATSoilSWATCRate() { }
+using namespace BiomaSurfaceSWATSoilSWATC;
+
+SurfaceSWATSoilSWATCRate::SurfaceSWATSoilSWATCRate() {}

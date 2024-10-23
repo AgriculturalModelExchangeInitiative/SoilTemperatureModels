@@ -9,6 +9,9 @@ namespace SoilTemperature.DomainClass
 {
     public class SoilTemperatureRate : ICloneable, IDomainClass
     {
+        private double _rSnowWaterContentRate;
+        private double _rSoilSurfaceTemperatureRate;
+        private int _rAgeOfSnowRate;
         private ParametersIO _parametersIO;
 
         public SoilTemperatureRate()
@@ -20,7 +23,26 @@ namespace SoilTemperature.DomainClass
         {
             if (copyAll)
             {
+                rSnowWaterContentRate = toCopy.rSnowWaterContentRate;
+                rSoilSurfaceTemperatureRate = toCopy.rSoilSurfaceTemperatureRate;
+                rAgeOfSnowRate = toCopy.rAgeOfSnowRate;
             }
+        }
+
+        public double rSnowWaterContentRate
+        {
+            get { return this._rSnowWaterContentRate; }
+            set { this._rSnowWaterContentRate= value; } 
+        }
+        public double rSoilSurfaceTemperatureRate
+        {
+            get { return this._rSoilSurfaceTemperatureRate; }
+            set { this._rSoilSurfaceTemperatureRate= value; } 
+        }
+        public int rAgeOfSnowRate
+        {
+            get { return this._rAgeOfSnowRate; }
+            set { this._rAgeOfSnowRate= value; } 
         }
 
         public string Description
@@ -40,6 +62,9 @@ namespace SoilTemperature.DomainClass
 
         public virtual Boolean ClearValues()
         {
+             _rSnowWaterContentRate = default(double);
+             _rSoilSurfaceTemperatureRate = default(double);
+             _rAgeOfSnowRate = default(int);
             return true;
         }
 

@@ -1,3 +1,5 @@
+
+#pragma once
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
@@ -7,15 +9,29 @@
 #include "SurfaceSWATSoilSWATCRate.h"
 #include "SurfaceSWATSoilSWATCAuxiliary.h"
 #include "SurfaceSWATSoilSWATCExogenous.h"
-using namespace std;
+namespace BiomaSurfaceSWATSoilSWATC {
 class SoilTemperatureSWAT
 {
     private:
+        std::vector<double> LayerThickness ;
         double LagCoefficient ;
+        double AirTemperatureAnnualAverage ;
+        std::vector<double> BulkDensity ;
+        double SoilProfileDepth ;
     public:
         SoilTemperatureSWAT();
-        void  Calculate_Model(SurfaceSWATSoilSWATCState& s, SurfaceSWATSoilSWATCState& s1, SurfaceSWATSoilSWATCRate& r, SurfaceSWATSoilSWATCAuxiliary& a, SurfaceSWATSoilSWATCExogenous& ex);
+        void Calculate_Model(SurfaceSWATSoilSWATCState &s, SurfaceSWATSoilSWATCState &s1, SurfaceSWATSoilSWATCRate &r, SurfaceSWATSoilSWATCAuxiliary &a, SurfaceSWATSoilSWATCExogenous &ex);
+        void Init(SurfaceSWATSoilSWATCState &s, SurfaceSWATSoilSWATCState &s1, SurfaceSWATSoilSWATCRate &r, SurfaceSWATSoilSWATCAuxiliary &a, SurfaceSWATSoilSWATCExogenous &ex);
+        std::vector<double> & getLayerThickness();
+        void setLayerThickness(const std::vector<double> &  _LayerThickness);
         double getLagCoefficient();
         void setLagCoefficient(double _LagCoefficient);
+        double getAirTemperatureAnnualAverage();
+        void setAirTemperatureAnnualAverage(double _AirTemperatureAnnualAverage);
+        std::vector<double> & getBulkDensity();
+        void setBulkDensity(const std::vector<double> &  _BulkDensity);
+        double getSoilProfileDepth();
+        void setSoilProfileDepth(double _SoilProfileDepth);
 
 };
+}

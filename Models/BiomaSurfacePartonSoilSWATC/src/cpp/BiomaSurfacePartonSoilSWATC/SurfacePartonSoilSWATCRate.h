@@ -1,11 +1,10 @@
-#ifndef _SurfacePartonSoilSWATCRate_
-#define _SurfacePartonSoilSWATCRate_
+#pragma once
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
-# include<vector>
-# include<string>
-using namespace std;
+#include <vector>
+#include <string>
+namespace BiomaSurfacePartonSoilSWATC {
 class SurfacePartonSoilSWATCRate
 {
     private:
@@ -13,4 +12,4 @@ class SurfacePartonSoilSWATCRate
         SurfacePartonSoilSWATCRate();
 
 };
-#endif
+}

@@ -10,17 +10,18 @@
         <ExtendedDescription>Calculation of minimum and maximum Soil temperature, Further used in shoot temperature estimate.</ExtendedDescription>
         <ShortDescription></ShortDescription></Description>
     <Inputs>
-        <Input name="deepLayerT" description="Temperature of the last soil layer" inputtype="variable" variablecategory="state" datatype="DOUBLE" max="80" min="-30" default="20" unit="°C"/>
-        <Input name="lambda_" description="Latente heat of water vaporization at 20°C" inputtype="parameter" parametercategory="constant" datatype="DOUBLE" max="10" min="0" default="2.454" unit="MJ.kg-1"/>
+        <Input name="meanTAir" description="Mean Air Temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="80" min="-30" default="22" unit="Â°C"/>
+        <Input name="minTAir" description="Minimum Air Temperature from Weather files" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="80" min="-30" default="20" unit="Â°C"/>
+        <Input name="lambda_" description="Latente heat of water vaporization at 20Â°C" inputtype="parameter" parametercategory="constant" datatype="DOUBLE" max="10" min="0" default="2.454" unit="MJ.kg-1"/>
+        <Input name="deepLayerT" description="Temperature of the last soil layer" inputtype="variable" variablecategory="state" datatype="DOUBLE" max="80" min="-30" default="20" unit="Â°C"/>
+        <Input name="meanAnnualAirTemp" description="Annual Mean Air Temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="80" min="-30" default="22" unit="Â°C"/>
         <Input name="heatFlux" description="Soil Heat Flux from Energy Balance Component" inputtype="variable" variablecategory="rate" datatype="DOUBLE" max="100" min="0" default="50" unit="g m-2 d-1"/>
-        <Input name="meanTAir" description="Mean Air Temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="80" min="-30" default="22" unit="°C"/>
-        <Input name="minTAir" description="Minimum Air Temperature from Weather files" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="80" min="-30" default="20" unit="°C"/>
-        <Input name="deepLayerT_t1" description="Temperature of the last soil layer" inputtype="variable" variablecategory="state" datatype="DOUBLE" max="80" min="-30" default="20" unit="°C"/>
-        <Input name="maxTAir" description="Maximum Air Temperature from Weather Files" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="80" min="-30" default="25" unit="°C"/></Inputs>
+        <Input name="maxTAir" description="Maximum Air Temperature from Weather Files" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="80" min="-30" default="25" unit="Â°C"/></Inputs>
     <Outputs>
-        <Output name="deepLayerT_t1" description="Temperature of the last soil layer" datatype="DOUBLE" variablecategory="state" max="80" min="-30" unit="°C"/>
-        <Output name="maxTSoil" description="Maximum Soil Temperature" datatype="DOUBLE" variablecategory="state" max="80" min="-30" unit="°C"/>
-        <Output name="minTSoil" description="Minimum Soil Temperature" datatype="DOUBLE" variablecategory="state" max="80" min="-30" unit="°C"/></Outputs>
+        <Output name="minTSoil" description="Minimum Soil Temperature" datatype="DOUBLE" variablecategory="state" max="80" min="-30" unit="Â°C"/>
+        <Output name="deepLayerT" description="Temperature of the last soil layer" datatype="DOUBLE" variablecategory="state" max="80" min="-30" unit="Â°C"/>
+        <Output name="maxTSoil" description="Maximum Soil Temperature" datatype="DOUBLE" variablecategory="state" max="80" min="-30" unit="Â°C"/></Outputs>
+    <Initialization name="init" language="cyml" filename="algo/pyx/init.CalculateSoilTemperature.pyx"/>
     <Function name="SoilMinimumTemperature" description="" language="cyml" type="external" filename="algo/pyx/SoilMinimumTemperature.pyx"/>
     <Function name="SoilMaximumTemperature" description="" language="cyml" type="external" filename="algo/pyx/SoilMaximumTemperature.pyx"/>
     <Function name="UpdateTemperature" description="" language="cyml" type="external" filename="algo/pyx/UpdateTemperature.pyx"/>

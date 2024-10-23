@@ -7,6 +7,21 @@ from datetime import datetime
 
 import numpy
 
+#%%CyML Init Begin%%
+def init_soiltemperatureswat(VolumetricWaterContent:'Array[float]',
+         LayerThickness:'Array[float]',
+         LagCoefficient:float,
+         AirTemperatureAnnualAverage:float,
+         BulkDensity:'Array[float]',
+         SoilProfileDepth:float):
+    SoilTemperatureByLayers:'array[float]'
+    i:int
+    SoilTemperatureByLayers = array('f', [0.0]*len(LayerThickness))
+    for i in range(0 , len(LayerThickness) , 1):
+        SoilTemperatureByLayers[i] = float(15)
+    return SoilTemperatureByLayers
+#%%CyML Init End%%
+
 #%%CyML Model Begin%%
 def model_soiltemperatureswat(VolumetricWaterContent:'Array[float]',
          SurfaceSoilTemperature:float,
@@ -20,7 +35,7 @@ def model_soiltemperatureswat(VolumetricWaterContent:'Array[float]',
      - Name: SoilTemperatureSWAT -Version: 001, -Time step: 1
      - Description:
                  * Title: SoilTemperatureSWAT model
-                 * Authors: simone.bregaglio@unimi.it
+                 * Authors: simone.bregaglio
                  * Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
                  * Institution: University Of Milan
                  * ExtendedDescription: Strategy for the calculation of soil temperature with SWAT method. Reference: Neitsch,S.L., Arnold, J.G., Kiniry, J.R., Williams, J.R., King, K.W. Soil and Water Assessment Tool. Theoretical documentation. Version 2000. http://swatmodel.tamu.edu/media/1290/swat2000theory.pdf
@@ -29,7 +44,7 @@ def model_soiltemperatureswat(VolumetricWaterContent:'Array[float]',
                  * name: VolumetricWaterContent
                                ** description : Volumetric soil water content
                                ** inputtype : variable
-                               ** variablecategory : state
+                               ** variablecategory : exogenous
                                ** datatype : DOUBLEARRAY
                                ** len : 
                                ** max : 0.8
@@ -39,16 +54,16 @@ def model_soiltemperatureswat(VolumetricWaterContent:'Array[float]',
                  * name: SurfaceSoilTemperature
                                ** description : Average surface soil temperature
                                ** inputtype : variable
-                               ** variablecategory : state
+                               ** variablecategory : auxiliary
                                ** datatype : DOUBLE
                                ** max : 60
                                ** min : -60
                                ** default : 25
-                               ** unit : Â°C
+                               ** unit : degC
                  * name: LayerThickness
                                ** description : Soil layer thickness
-                               ** inputtype : variable
-                               ** variablecategory : state
+                               ** inputtype : parameter
+                               ** parametercategory : constant
                                ** datatype : DOUBLEARRAY
                                ** len : 
                                ** max : 3
@@ -73,20 +88,20 @@ def model_soiltemperatureswat(VolumetricWaterContent:'Array[float]',
                                ** max : 60
                                ** min : -60
                                ** default : 15
-                               ** unit : Â°C
+                               ** unit : degC
                  * name: AirTemperatureAnnualAverage
                                ** description : Annual average air temperature
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
+                               ** inputtype : parameter
+                               ** parametercategory : constant
                                ** datatype : DOUBLE
                                ** max : 50
                                ** min : -40
                                ** default : 15
-                               ** unit : Â°C
+                               ** unit : degC
                  * name: BulkDensity
                                ** description : Bulk density
-                               ** inputtype : variable
-                               ** variablecategory : state
+                               ** inputtype : parameter
+                               ** parametercategory : constant
                                ** datatype : DOUBLEARRAY
                                ** len : 
                                ** max : 1.8
@@ -95,8 +110,8 @@ def model_soiltemperatureswat(VolumetricWaterContent:'Array[float]',
                                ** unit : t m-3
                  * name: SoilProfileDepth
                                ** description : Soil profile depth
-                               ** inputtype : variable
-                               ** variablecategory : state
+                               ** inputtype : parameter
+                               ** parametercategory : constant
                                ** datatype : DOUBLE
                                ** max : 50
                                ** min : 0
@@ -110,7 +125,7 @@ def model_soiltemperatureswat(VolumetricWaterContent:'Array[float]',
                                ** len : 
                                ** max : 60
                                ** min : -60
-                               ** unit : Â°C
+                               ** unit : degC
     """
 
     i:int

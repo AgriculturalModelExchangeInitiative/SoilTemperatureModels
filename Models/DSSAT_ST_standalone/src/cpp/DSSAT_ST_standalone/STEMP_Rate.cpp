@@ -1,2 +1,4 @@
 #include "STEMP_Rate.h"
-STEMP_Rate::STEMP_Rate() { }
+using namespace DSSAT_ST_standalone;
+
+STEMP_Rate::STEMP_Rate() {}

@@ -9,13 +9,13 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
 {
     public class SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo : IVarInfoClass
     {
-        static VarInfo _GlobalSolarRadiation = new VarInfo();
-        static VarInfo _DayLength = new VarInfo();
         static VarInfo _AirTemperatureMinimum = new VarInfo();
+        static VarInfo _DayLength = new VarInfo();
+        static VarInfo _GlobalSolarRadiation = new VarInfo();
         static VarInfo _AirTemperatureMaximum = new VarInfo();
-        static VarInfo _AirTemperatureAnnualAverage = new VarInfo();
-        static VarInfo _HourOfSunrise = new VarInfo();
+        static VarInfo _VolumetricWaterContent = new VarInfo();
         static VarInfo _HourOfSunset = new VarInfo();
+        static VarInfo _HourOfSunrise = new VarInfo();
 
         static SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo()
         {
@@ -37,9 +37,9 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
             get { return "SurfacePartonSoilSWATHourlyPartonCExogenous";}
         }
 
-        public static  VarInfo GlobalSolarRadiation
+        public static  VarInfo AirTemperatureMinimum
         {
-            get { return _GlobalSolarRadiation;}
+            get { return _AirTemperatureMinimum;}
         }
 
         public static  VarInfo DayLength
@@ -47,9 +47,9 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
             get { return _DayLength;}
         }
 
-        public static  VarInfo AirTemperatureMinimum
+        public static  VarInfo GlobalSolarRadiation
         {
-            get { return _AirTemperatureMinimum;}
+            get { return _GlobalSolarRadiation;}
         }
 
         public static  VarInfo AirTemperatureMaximum
@@ -57,14 +57,9 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
             get { return _AirTemperatureMaximum;}
         }
 
-        public static  VarInfo AirTemperatureAnnualAverage
+        public static  VarInfo VolumetricWaterContent
         {
-            get { return _AirTemperatureAnnualAverage;}
-        }
-
-        public static  VarInfo HourOfSunrise
-        {
-            get { return _HourOfSunrise;}
+            get { return _VolumetricWaterContent;}
         }
 
         public static  VarInfo HourOfSunset
@@ -72,15 +67,20 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
             get { return _HourOfSunset;}
         }
 
+        public static  VarInfo HourOfSunrise
+        {
+            get { return _HourOfSunrise;}
+        }
+
         static void DescribeVariables()
         {
-            _GlobalSolarRadiation.Name = "GlobalSolarRadiation";
-            _GlobalSolarRadiation.Description = "Daily global solar radiation";
-            _GlobalSolarRadiation.MaxValue = 50;
-            _GlobalSolarRadiation.MinValue = 0;
-            _GlobalSolarRadiation.DefaultValue = 15;
-            _GlobalSolarRadiation.Units = "Mj m-2 d-1";
-            _GlobalSolarRadiation.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+            _AirTemperatureMinimum.Name = "AirTemperatureMinimum";
+            _AirTemperatureMinimum.Description = "Minimum daily air temperature";
+            _AirTemperatureMinimum.MaxValue = 50;
+            _AirTemperatureMinimum.MinValue = -60;
+            _AirTemperatureMinimum.DefaultValue = 5;
+            _AirTemperatureMinimum.Units = "degC";
+            _AirTemperatureMinimum.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _DayLength.Name = "DayLength";
             _DayLength.Description = "Length of the day";
@@ -90,37 +90,29 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
             _DayLength.Units = "h";
             _DayLength.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
-            _AirTemperatureMinimum.Name = "AirTemperatureMinimum";
-            _AirTemperatureMinimum.Description = "Minimum daily air temperature";
-            _AirTemperatureMinimum.MaxValue = 50;
-            _AirTemperatureMinimum.MinValue = -60;
-            _AirTemperatureMinimum.DefaultValue = 5;
-            _AirTemperatureMinimum.Units = "Â°C";
-            _AirTemperatureMinimum.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+            _GlobalSolarRadiation.Name = "GlobalSolarRadiation";
+            _GlobalSolarRadiation.Description = "Daily global solar radiation";
+            _GlobalSolarRadiation.MaxValue = 50;
+            _GlobalSolarRadiation.MinValue = 0;
+            _GlobalSolarRadiation.DefaultValue = 15;
+            _GlobalSolarRadiation.Units = "Mj m-2 d-1";
+            _GlobalSolarRadiation.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _AirTemperatureMaximum.Name = "AirTemperatureMaximum";
             _AirTemperatureMaximum.Description = "Maximum daily air temperature";
             _AirTemperatureMaximum.MaxValue = 60;
             _AirTemperatureMaximum.MinValue = -40;
             _AirTemperatureMaximum.DefaultValue = 15;
-            _AirTemperatureMaximum.Units = "Â°C";
+            _AirTemperatureMaximum.Units = "degC";
             _AirTemperatureMaximum.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
-            _AirTemperatureAnnualAverage.Name = "AirTemperatureAnnualAverage";
-            _AirTemperatureAnnualAverage.Description = "Annual average air temperature";
-            _AirTemperatureAnnualAverage.MaxValue = 50;
-            _AirTemperatureAnnualAverage.MinValue = -40;
-            _AirTemperatureAnnualAverage.DefaultValue = 15;
-            _AirTemperatureAnnualAverage.Units = "Â°C";
-            _AirTemperatureAnnualAverage.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
-
-            _HourOfSunrise.Name = "HourOfSunrise";
-            _HourOfSunrise.Description = "Hour of sunrise";
-            _HourOfSunrise.MaxValue = 24;
-            _HourOfSunrise.MinValue = 0;
-            _HourOfSunrise.DefaultValue = 6;
-            _HourOfSunrise.Units = "h";
-            _HourOfSunrise.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+            _VolumetricWaterContent.Name = "VolumetricWaterContent";
+            _VolumetricWaterContent.Description = "Volumetric soil water content";
+            _VolumetricWaterContent.MaxValue = -1D;
+            _VolumetricWaterContent.MinValue = -1D;
+            _VolumetricWaterContent.DefaultValue = -1D;
+            _VolumetricWaterContent.Units = "m3 m-3";
+            _VolumetricWaterContent.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
 
             _HourOfSunset.Name = "HourOfSunset";
             _HourOfSunset.Description = "Hour of sunset";
@@ -129,6 +121,14 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
             _HourOfSunset.DefaultValue = 17;
             _HourOfSunset.Units = "h";
             _HourOfSunset.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+
+            _HourOfSunrise.Name = "HourOfSunrise";
+            _HourOfSunrise.Description = "Hour of sunrise";
+            _HourOfSunrise.MaxValue = 24;
+            _HourOfSunrise.MinValue = 0;
+            _HourOfSunrise.DefaultValue = 6;
+            _HourOfSunrise.Units = "h";
+            _HourOfSunrise.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
         }
 

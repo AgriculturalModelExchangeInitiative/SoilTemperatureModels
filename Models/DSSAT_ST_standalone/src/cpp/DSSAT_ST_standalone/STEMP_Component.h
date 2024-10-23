@@ -1,48 +1,49 @@
 #include "STEMP.h"
-using namespace std;
 
+namespace DSSAT_ST_standalone {
 class STEMP_Component
 {
     private:
-        double XLAT ;
-        string ISWWAT ;
-        int NLAYR ;
-        vector<double> DUL ;
-        vector<double> DS ;
-        vector<double> LL ;
-        vector<double> BD ;
         double MSALB ;
         int NL ;
-        vector<double> DLAYR ;
-        vector<double> SW ;
+        std::vector<double> LL ;
+        int NLAYR ;
+        std::vector<double> DS ;
+        std::vector<double> DLAYR ;
+        std::string ISWWAT ;
+        std::vector<double> BD ;
+        std::vector<double> SW ;
+        double XLAT ;
+        std::vector<double> DUL ;
     public:
         STEMP_Component();
-        STEMP_Component(const STEMP_Component& copy);
-        void  Calculate_Model(STEMP_State& s, STEMP_State& s1, STEMP_Rate& r, STEMP_Auxiliary& a, STEMP_Exogenous& ex);
-        void  Init(STEMP_State& s,STEMP_State& s1, STEMP_Rate& r, STEMP_Auxiliary& a, STEMP_Exogenous& ex);
-        double getXLAT();
-        void setXLAT(double _XLAT);
-        string getISWWAT();
-        void setISWWAT(string _ISWWAT);
-        int getNLAYR();
-        void setNLAYR(int _NLAYR);
-        vector<double> & getDUL();
-        void setDUL(const vector<double> &  _DUL);
-        vector<double> & getDS();
-        void setDS(const vector<double> &  _DS);
-        vector<double> & getLL();
-        void setLL(const vector<double> &  _LL);
-        vector<double> & getBD();
-        void setBD(const vector<double> &  _BD);
+        STEMP_Component(STEMP_Component& copy);
+        void Calculate_Model(STEMP_State &s, STEMP_State &s1, STEMP_Rate &r, STEMP_Auxiliary &a, STEMP_Exogenous &ex);
+        void Init(STEMP_State &s, STEMP_State &s1, STEMP_Rate &r, STEMP_Auxiliary &a, STEMP_Exogenous &ex);
         double getMSALB();
         void setMSALB(double _MSALB);
         int getNL();
         void setNL(int _NL);
-        vector<double> & getDLAYR();
-        void setDLAYR(const vector<double> &  _DLAYR);
-        vector<double> & getSW();
-        void setSW(const vector<double> &  _SW);
+        std::vector<double> & getLL();
+        void setLL(const std::vector<double> &  _LL);
+        int getNLAYR();
+        void setNLAYR(int _NLAYR);
+        std::vector<double> & getDS();
+        void setDS(const std::vector<double> &  _DS);
+        std::vector<double> & getDLAYR();
+        void setDLAYR(const std::vector<double> &  _DLAYR);
+        std::string getISWWAT();
+        void setISWWAT(std::string _ISWWAT);
+        std::vector<double> & getBD();
+        void setBD(const std::vector<double> &  _BD);
+        std::vector<double> & getSW();
+        void setSW(const std::vector<double> &  _SW);
+        double getXLAT();
+        void setXLAT(double _XLAT);
+        std::vector<double> & getDUL();
+        void setDUL(const std::vector<double> &  _DUL);
 
         STEMP _STEMP;
 
 };
+}

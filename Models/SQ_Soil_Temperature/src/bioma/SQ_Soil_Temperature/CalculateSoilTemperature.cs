@@ -22,7 +22,7 @@ namespace SoilTemperature.Strategies
             List<VarInfo> _parameters0_0 = new List<VarInfo>();
             VarInfo v1 = new VarInfo();
             v1.DefaultValue = 2.454;
-            v1.Description = "Latente heat of water vaporization at 20°C";
+            v1.Description = "Latente heat of water vaporization at 20Â°C";
             v1.Id = 0;
             v1.MaxValue = 10;
             v1.MinValue = 0;
@@ -38,34 +38,34 @@ namespace SoilTemperature.Strategies
             //Inputs
             List<PropertyDescription> _inputs0_0 = new List<PropertyDescription>();
             PropertyDescription pd1 = new PropertyDescription();
-            pd1.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureState);
-            pd1.PropertyName = "deepLayerT";
-            pd1.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT).ValueType.TypeForCurrentValue;
-            pd1.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT);
+            pd1.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureExogenous);
+            pd1.PropertyName = "meanTAir";
+            pd1.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.meanTAir).ValueType.TypeForCurrentValue;
+            pd1.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.meanTAir);
             _inputs0_0.Add(pd1);
             PropertyDescription pd2 = new PropertyDescription();
-            pd2.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureRate);
-            pd2.PropertyName = "heatFlux";
-            pd2.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureRateVarInfo.heatFlux).ValueType.TypeForCurrentValue;
-            pd2.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureRateVarInfo.heatFlux);
+            pd2.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureExogenous);
+            pd2.PropertyName = "minTAir";
+            pd2.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.minTAir).ValueType.TypeForCurrentValue;
+            pd2.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.minTAir);
             _inputs0_0.Add(pd2);
             PropertyDescription pd3 = new PropertyDescription();
-            pd3.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureExogenous);
-            pd3.PropertyName = "meanTAir";
-            pd3.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.meanTAir).ValueType.TypeForCurrentValue;
-            pd3.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.meanTAir);
+            pd3.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureState);
+            pd3.PropertyName = "deepLayerT";
+            pd3.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT).ValueType.TypeForCurrentValue;
+            pd3.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT);
             _inputs0_0.Add(pd3);
             PropertyDescription pd4 = new PropertyDescription();
             pd4.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureExogenous);
-            pd4.PropertyName = "minTAir";
-            pd4.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.minTAir).ValueType.TypeForCurrentValue;
-            pd4.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.minTAir);
+            pd4.PropertyName = "meanAnnualAirTemp";
+            pd4.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.meanAnnualAirTemp).ValueType.TypeForCurrentValue;
+            pd4.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.meanAnnualAirTemp);
             _inputs0_0.Add(pd4);
             PropertyDescription pd5 = new PropertyDescription();
-            pd5.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureState);
-            pd5.PropertyName = "deepLayerT";
-            pd5.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT).ValueType.TypeForCurrentValue;
-            pd5.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT);
+            pd5.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureRate);
+            pd5.PropertyName = "heatFlux";
+            pd5.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureRateVarInfo.heatFlux).ValueType.TypeForCurrentValue;
+            pd5.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureRateVarInfo.heatFlux);
             _inputs0_0.Add(pd5);
             PropertyDescription pd6 = new PropertyDescription();
             pd6.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureExogenous);
@@ -79,21 +79,21 @@ namespace SoilTemperature.Strategies
             List<PropertyDescription> _outputs0_0 = new List<PropertyDescription>();
             PropertyDescription pd7 = new PropertyDescription();
             pd7.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureState);
-            pd7.PropertyName = "deepLayerT";
-            pd7.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT).ValueType.TypeForCurrentValue;
-            pd7.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT);
+            pd7.PropertyName = "minTSoil";
+            pd7.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.minTSoil).ValueType.TypeForCurrentValue;
+            pd7.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.minTSoil);
             _outputs0_0.Add(pd7);
             mo0_0.Outputs=_outputs0_0;PropertyDescription pd8 = new PropertyDescription();
             pd8.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureState);
-            pd8.PropertyName = "maxTSoil";
-            pd8.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.maxTSoil).ValueType.TypeForCurrentValue;
-            pd8.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.maxTSoil);
+            pd8.PropertyName = "deepLayerT";
+            pd8.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT).ValueType.TypeForCurrentValue;
+            pd8.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT);
             _outputs0_0.Add(pd8);
             mo0_0.Outputs=_outputs0_0;PropertyDescription pd9 = new PropertyDescription();
             pd9.DomainClassType = typeof(SoilTemperature.DomainClass.SoilTemperatureState);
-            pd9.PropertyName = "minTSoil";
-            pd9.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.minTSoil).ValueType.TypeForCurrentValue;
-            pd9.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.minTSoil);
+            pd9.PropertyName = "maxTSoil";
+            pd9.PropertyType = (SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.maxTSoil).ValueType.TypeForCurrentValue;
+            pd9.PropertyVarInfo =(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.maxTSoil);
             _outputs0_0.Add(pd9);
             mo0_0.Outputs=_outputs0_0;
             //Associated strategies
@@ -189,7 +189,7 @@ namespace SoilTemperature.Strategies
         {
 
             lambda_VarInfo.Name = "lambda_";
-            lambda_VarInfo.Description = "Latente heat of water vaporization at 20°C";
+            lambda_VarInfo.Description = "Latente heat of water vaporization at 20Â°C";
             lambda_VarInfo.MaxValue = 10;
             lambda_VarInfo.MinValue = 0;
             lambda_VarInfo.DefaultValue = 2.454;
@@ -208,17 +208,17 @@ namespace SoilTemperature.Strategies
             try
             {
                 //Set current values of the outputs to the static VarInfo representing the output properties of the domain classes
-                SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT_t1.CurrentValue=s.deepLayerT_t1;
-                SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.maxTSoil.CurrentValue=s.maxTSoil;
                 SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.minTSoil.CurrentValue=s.minTSoil;
+                SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT.CurrentValue=s.deepLayerT;
+                SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.maxTSoil.CurrentValue=s.maxTSoil;
                 ConditionsCollection prc = new ConditionsCollection();
                 Preconditions pre = new Preconditions(); 
-                RangeBasedCondition r8 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT_t1);
-                if(r8.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT_t1.ValueType)){prc.AddCondition(r8);}
-                RangeBasedCondition r9 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.maxTSoil);
-                if(r9.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.maxTSoil.ValueType)){prc.AddCondition(r9);}
-                RangeBasedCondition r10 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.minTSoil);
-                if(r10.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.minTSoil.ValueType)){prc.AddCondition(r10);}
+                RangeBasedCondition r8 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.minTSoil);
+                if(r8.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.minTSoil.ValueType)){prc.AddCondition(r8);}
+                RangeBasedCondition r9 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT);
+                if(r9.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT.ValueType)){prc.AddCondition(r9);}
+                RangeBasedCondition r10 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.maxTSoil);
+                if(r10.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.maxTSoil.ValueType)){prc.AddCondition(r10);}
                 string postConditionsResult = pre.VerifyPostconditions(prc, callID); if (!string.IsNullOrEmpty(postConditionsResult)) { pre.TestsOut(postConditionsResult, true, "PostConditions errors in strategy " + this.GetType().Name); } return postConditionsResult;
             }
             catch (Exception exception)
@@ -233,24 +233,24 @@ namespace SoilTemperature.Strategies
             try
             {
                 //Set current values of the inputs to the static VarInfo representing the inputs properties of the domain classes
-                SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT.CurrentValue=s.deepLayerT;
-                SoilTemperature.DomainClass.SoilTemperatureRateVarInfo.heatFlux.CurrentValue=r.heatFlux;
                 SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.meanTAir.CurrentValue=ex.meanTAir;
                 SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.minTAir.CurrentValue=ex.minTAir;
                 SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT.CurrentValue=s.deepLayerT;
+                SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.meanAnnualAirTemp.CurrentValue=ex.meanAnnualAirTemp;
+                SoilTemperature.DomainClass.SoilTemperatureRateVarInfo.heatFlux.CurrentValue=r.heatFlux;
                 SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.maxTAir.CurrentValue=ex.maxTAir;
                 ConditionsCollection prc = new ConditionsCollection();
                 Preconditions pre = new Preconditions(); 
-                RangeBasedCondition r1 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT);
-                if(r1.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT.ValueType)){prc.AddCondition(r1);}
-                RangeBasedCondition r2 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureRateVarInfo.heatFlux);
-                if(r2.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureRateVarInfo.heatFlux.ValueType)){prc.AddCondition(r2);}
-                RangeBasedCondition r3 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.meanTAir);
-                if(r3.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.meanTAir.ValueType)){prc.AddCondition(r3);}
-                RangeBasedCondition r4 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.minTAir);
-                if(r4.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.minTAir.ValueType)){prc.AddCondition(r4);}
-                RangeBasedCondition r5 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT);
-                if(r5.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT.ValueType)){prc.AddCondition(r5);}
+                RangeBasedCondition r1 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.meanTAir);
+                if(r1.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.meanTAir.ValueType)){prc.AddCondition(r1);}
+                RangeBasedCondition r2 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.minTAir);
+                if(r2.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.minTAir.ValueType)){prc.AddCondition(r2);}
+                RangeBasedCondition r3 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT);
+                if(r3.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureStateVarInfo.deepLayerT.ValueType)){prc.AddCondition(r3);}
+                RangeBasedCondition r4 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.meanAnnualAirTemp);
+                if(r4.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.meanAnnualAirTemp.ValueType)){prc.AddCondition(r4);}
+                RangeBasedCondition r5 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureRateVarInfo.heatFlux);
+                if(r5.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureRateVarInfo.heatFlux.ValueType)){prc.AddCondition(r5);}
                 RangeBasedCondition r6 = new RangeBasedCondition(SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.maxTAir);
                 if(r6.ApplicableVarInfoValueTypes.Contains( SoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.maxTAir.ValueType)){prc.AddCondition(r6);}
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("lambda_")));
@@ -276,31 +276,44 @@ namespace SoilTemperature.Strategies
             }
         }
 
-        private void CalculateModel(SoilTemperature.DomainClass.SoilTemperatureState s, SoilTemperature.DomainClass.SoilTemperatureState s1, SoilTemperature.DomainClass.SoilTemperatureRate r, SoilTemperature.DomainClass.SoilTemperatureAuxiliary a, SoilTemperature.DomainClass.SoilTemperatureExogenous ex)
+        public void Init(SoilTemperature.DomainClass.SoilTemperatureState s, SoilTemperature.DomainClass.SoilTemperatureState s1, SoilTemperature.DomainClass.SoilTemperatureRate r, SoilTemperature.DomainClass.SoilTemperatureAuxiliary a, SoilTemperature.DomainClass.SoilTemperatureExogenous ex)
         {
-            double deepLayerT = s.deepLayerT;
-            double heatFlux = r.heatFlux;
             double meanTAir = ex.meanTAir;
             double minTAir = ex.minTAir;
-            double deepLayerT_t1 = s1.deepLayerT;
+            double meanAnnualAirTemp = ex.meanAnnualAirTemp;
             double maxTAir = ex.maxTAir;
-            double maxTSoil;
+            double deepLayerT = 20.0;
+            deepLayerT = meanAnnualAirTemp;
+            s.deepLayerT= deepLayerT;
+        }
+
+        private void CalculateModel(SoilTemperature.DomainClass.SoilTemperatureState s, SoilTemperature.DomainClass.SoilTemperatureState s1, SoilTemperature.DomainClass.SoilTemperatureRate r, SoilTemperature.DomainClass.SoilTemperatureAuxiliary a, SoilTemperature.DomainClass.SoilTemperatureExogenous ex)
+        {
+            double meanTAir = ex.meanTAir;
+            double minTAir = ex.minTAir;
+            double deepLayerT = s.deepLayerT;
+            double meanAnnualAirTemp = ex.meanAnnualAirTemp;
+            double heatFlux = r.heatFlux;
+            double maxTAir = ex.maxTAir;
             double minTSoil;
+            double maxTSoil;
+            double tmp;
+            tmp = meanAnnualAirTemp;
             if (maxTAir == (double)(-999) && minTAir == (double)(999))
             {
                 minTSoil = (double)(999);
                 maxTSoil = (double)(-999);
-                deepLayerT_t1 = 0.00d;
+                deepLayerT = 0.00d;
             }
             else
             {
                 minTSoil = SoilMinimumTemperature(maxTAir, meanTAir, minTAir, heatFlux, lambda_, deepLayerT);
-                maxTSoil = SoilMaximumTemperature(maxTAir, meanTAir, minTAir, heatFlux, lambda_, deepLayerT_t1);
-                deepLayerT_t1 = UpdateTemperature(minTSoil, maxTSoil, deepLayerT);
+                maxTSoil = SoilMaximumTemperature(maxTAir, meanTAir, minTAir, heatFlux, lambda_, deepLayerT);
+                deepLayerT = UpdateTemperature(minTSoil, maxTSoil, deepLayerT);
             }
-            s.deepLayerT_t1= deepLayerT_t1;
-            s.maxTSoil= maxTSoil;
+            s.deepLayerT= deepLayerT;
             s.minTSoil= minTSoil;
+            s.maxTSoil= maxTSoil;
         }
 
         public static double SoilTempB(double weatherMinTemp, double deepTemperature)

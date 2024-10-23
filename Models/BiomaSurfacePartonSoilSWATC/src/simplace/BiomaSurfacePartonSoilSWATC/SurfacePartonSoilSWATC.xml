@@ -4,19 +4,19 @@
     <simgroup>
         <simcomponent id="SurfaceTemperatureParton" class="net.simplace.sim.components.BiomaSurfacePartonSoilSWATC.SurfaceTemperatureParton">
             <input id="DayLength" source="SurfacePartonSoilSWATC.DayLength"/>
-            <input id="AirTemperatureMaximum" source="SurfacePartonSoilSWATC.AirTemperatureMaximum"/>
-            <input id="AirTemperatureMinimum" source="SurfacePartonSoilSWATC.AirTemperatureMinimum"/>
-            <input id="AboveGroundBiomass" source="SurfacePartonSoilSWATC.AboveGroundBiomass"/>
             <input id="GlobalSolarRadiation" source="SurfacePartonSoilSWATC.GlobalSolarRadiation"/>
+            <input id="AboveGroundBiomass" source="SurfacePartonSoilSWATC.AboveGroundBiomass"/>
+            <input id="AirTemperatureMinimum" source="SurfacePartonSoilSWATC.AirTemperatureMinimum"/>
+            <input id="AirTemperatureMaximum" source="SurfacePartonSoilSWATC.AirTemperatureMaximum"/>
             <output id="SurfaceTemperatureMinimum" destination="SurfacePartonSoilSWATC.SurfaceTemperatureMinimum"/>
             <output id="SurfaceTemperatureMaximum" destination="SurfacePartonSoilSWATC.SurfaceTemperatureMaximum"/>
             <output id="SurfaceSoilTemperature" destination="SurfacePartonSoilSWATC.SurfaceSoilTemperature"/></simcomponent>
         <simcomponent id="SoilTemperatureSWAT" class="net.simplace.sim.components.BiomaSurfacePartonSoilSWATC.SoilTemperatureSWAT">
-            <input id="VolumetricWaterContent" source="SurfacePartonSoilSWATC.VolumetricWaterContent"/>
             <input id="LayerThickness" source="SurfacePartonSoilSWATC.LayerThickness"/>
-            <input id="LagCoefficient" source="SurfacePartonSoilSWATC.LagCoefficient"/>
-            <input id="AirTemperatureAnnualAverage" source="SurfacePartonSoilSWATC.AirTemperatureAnnualAverage"/>
             <input id="BulkDensity" source="SurfacePartonSoilSWATC.BulkDensity"/>
             <input id="SoilProfileDepth" source="SurfacePartonSoilSWATC.SoilProfileDepth"/>
+            <input id="AirTemperatureAnnualAverage" source="SurfacePartonSoilSWATC.AirTemperatureAnnualAverage"/>
+            <input id="VolumetricWaterContent" source="SurfacePartonSoilSWATC.VolumetricWaterContent"/>
+            <input id="LagCoefficient" source="SurfacePartonSoilSWATC.LagCoefficient"/>
             <input id="SurfaceSoilTemperature" source="SurfaceTemperatureParton.SurfaceSoilTemperature"/>
             <output id="SoilTemperatureByLayers" destination="SurfacePartonSoilSWATC.SoilTemperatureByLayers"/></simcomponent></simgroup></configuration>

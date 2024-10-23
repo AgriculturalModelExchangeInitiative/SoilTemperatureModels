@@ -3,6 +3,11 @@ MODULE Snowcovercalculatormod
 CONTAINS
 
     SUBROUTINE init_snowcovercalculator(cCarbonContent, &
+        cInitialAgeOfSnow, &
+        cInitialSnowWaterContent, &
+        Albedo, &
+        cSnowIsolationFactorA, &
+        cSnowIsolationFactorB, &
         iTempMax, &
         iTempMin, &
         iRadiation, &
@@ -11,13 +16,18 @@ CONTAINS
         iPotentialSoilEvaporation, &
         iLeafAreaIndex, &
         iSoilTempArray, &
-        Albedo, &
+        pInternalAlbedo, &
         SnowWaterContent, &
         SoilSurfaceTemperature, &
         AgeOfSnow)
         IMPLICIT NONE
         INTEGER:: i_cyml_r
         REAL, INTENT(IN) :: cCarbonContent
+        INTEGER, INTENT(IN) :: cInitialAgeOfSnow
+        REAL, INTENT(IN) :: cInitialSnowWaterContent
+        REAL, INTENT(IN) :: Albedo
+        REAL, INTENT(IN) :: cSnowIsolationFactorA
+        REAL, INTENT(IN) :: cSnowIsolationFactorB
         REAL, INTENT(IN) :: iTempMax
         REAL, INTENT(IN) :: iTempMin
         REAL, INTENT(IN) :: iRadiation
@@ -26,7 +36,7 @@ CONTAINS
         REAL, INTENT(IN) :: iPotentialSoilEvaporation
         REAL, INTENT(IN) :: iLeafAreaIndex
         REAL , DIMENSION(: ), INTENT(IN) :: iSoilTempArray
-        REAL, INTENT(OUT) :: Albedo
+        REAL, INTENT(OUT) :: pInternalAlbedo
         REAL, INTENT(OUT) :: SnowWaterContent
         REAL, INTENT(OUT) :: SoilSurfaceTemperature
         INTEGER, INTENT(OUT) :: AgeOfSnow
@@ -36,15 +46,28 @@ CONTAINS
         SnowWaterContent = 0.0
         SoilSurfaceTemperature = 0.0
         AgeOfSnow = 0
-        Albedo = 0.0
-        Albedo = 0.0226 * LOG(cCarbonContent) / LOG(REAL(10)) + 0.1502
+        pInternalAlbedo = 0.0
+        IF(Albedo .EQ. REAL(0)) THEN
+            pInternalAlbedo = 0.0226 * LOG(cCarbonContent) / LOG(REAL(10)) +  &
+                    0.1502
+        ELSE
+            pInternalAlbedo = Albedo
+        END IF
         TMEAN = 0.5 * (iTempMax + iTempMin)
         TAMPL = 0.5 * (iTempMax - iTempMin)
-        DST = TMEAN + (TAMPL * (iRadiation * (1 - Albedo) - 14) / 20)
+        DST = TMEAN + (TAMPL * (iRadiation * (1 - pInternalAlbedo) - 14) / 20)
         SoilSurfaceTemperature = DST
+        AgeOfSnow = cInitialAgeOfSnow
+        SnowWaterContent = cInitialSnowWaterContent
     END SUBROUTINE init_snowcovercalculator
 
     SUBROUTINE model_snowcovercalculator(cCarbonContent, &
+        cInitialAgeOfSnow, &
+        cInitialSnowWaterContent, &
+        Albedo, &
+        pInternalAlbedo, &
+        cSnowIsolationFactorA, &
+        cSnowIsolationFactorB, &
         iTempMax, &
         iTempMin, &
         iRadiation, &
@@ -53,14 +76,22 @@ CONTAINS
         iPotentialSoilEvaporation, &
         iLeafAreaIndex, &
         iSoilTempArray, &
-        Albedo, &
         SnowWaterContent, &
         SoilSurfaceTemperature, &
         AgeOfSnow, &
+        rSnowWaterContentRate, &
+        rSoilSurfaceTemperatureRate, &
+        rAgeOfSnowRate, &
         SnowIsolationIndex)
         IMPLICIT NONE
         INTEGER:: i_cyml_r
         REAL, INTENT(IN) :: cCarbonContent
+        INTEGER, INTENT(IN) :: cInitialAgeOfSnow
+        REAL, INTENT(IN) :: cInitialSnowWaterContent
+        REAL, INTENT(IN) :: Albedo
+        REAL, INTENT(IN) :: pInternalAlbedo
+        REAL, INTENT(IN) :: cSnowIsolationFactorA
+        REAL, INTENT(IN) :: cSnowIsolationFactorB
         REAL, INTENT(IN) :: iTempMax
         REAL, INTENT(IN) :: iTempMin
         REAL, INTENT(IN) :: iRadiation
@@ -69,10 +100,12 @@ CONTAINS
         REAL, INTENT(IN) :: iPotentialSoilEvaporation
         REAL, INTENT(IN) :: iLeafAreaIndex
         REAL , DIMENSION(: ), INTENT(IN) :: iSoilTempArray
-        REAL, INTENT(IN) :: Albedo
         REAL, INTENT(INOUT) :: SnowWaterContent
         REAL, INTENT(INOUT) :: SoilSurfaceTemperature
         INTEGER, INTENT(INOUT) :: AgeOfSnow
+        REAL, INTENT(OUT) :: rSnowWaterContentRate
+        REAL, INTENT(OUT) :: rSoilSurfaceTemperatureRate
+        INTEGER, INTENT(OUT) :: rAgeOfSnowRate
         REAL, INTENT(OUT) :: SnowIsolationIndex
         REAL:: tiCropResidues
         REAL:: tiSoilTempArray
@@ -101,9 +134,63 @@ CONTAINS
     !                          ** parametercategory : constant
     !                          ** datatype : DOUBLE
     !                          ** max : 20.0
-    !                          ** min : 0.0
+    !                          ** min : 0.5
     !                          ** default : 0.5
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/percent
+    !            * name: cInitialAgeOfSnow
+    !                          ** description : Initial age of snow
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
+    !                          ** datatype : INT
+    !                          ** max : 
+    !                          ** min : 0
+    !                          ** default : 0
+    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/percent
+    !            * name: cInitialSnowWaterContent
+    !                          ** description : Initial snow water content
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
+    !                          ** datatype : DOUBLE
+    !                          ** max : 1500.0
+    !                          ** min : 0.0
+    !                          ** default : 0.0
+    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/percent
+    !            * name: Albedo
+    !                          ** description : Albedo
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
+    !                          ** datatype : DOUBLE
+    !                          ** max : 1.0
+    !                          ** min : 0.0
+    !                          ** default : 
+    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
+    !            * name: pInternalAlbedo
+    !                          ** description : Albedo privat
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : DOUBLE
+    !                          ** max : 1.0
+    !                          ** min : 0.0
+    !                          ** default : 
+    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
+    !            * name: cSnowIsolationFactorA
+    !                          ** description : Static part of the snow isolation index calculation
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
+    !                          ** datatype : DOUBLE
+    !                          ** max : 10.0
+    !                          ** min : 0.0
+    !                          ** default : 2.3
+    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
+    !            * name: cSnowIsolationFactorB
+    !                          ** description : Dynamic part of the snow isolation index calculation
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
+    !                          ** datatype : DOUBLE
+    !                          ** max : 1.0
+    !                          ** min : 0.0
+    !                          ** default : 0.22
+    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
     !            * name: iTempMax
     !                          ** description : Daily maximum air temperature
     !                          ** inputtype : variable
@@ -138,7 +225,7 @@ CONTAINS
     !                          ** datatype : DOUBLE
     !                          ** max : 60.0
     !                          ** min : 0.0
-    !                          ** default : 
+    !                          ** default : 0.0
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/millimetre
     !            * name: iCropResidues
     !                          ** description : Crop residues plus above ground biomass
@@ -156,7 +243,7 @@ CONTAINS
     !                          ** datatype : DOUBLE
     !                          ** max : 12.0
     !                          ** min : 0.0
-    !                          ** default : 
+    !                          ** default : 0.0
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/millimetre
     !            * name: iLeafAreaIndex
     !                          ** description : Leaf area index
@@ -177,15 +264,6 @@ CONTAINS
     !                          ** min : -15.0
     !                          ** default : 
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
-    !            * name: Albedo
-    !                          ** description : Albedo
-    !                          ** inputtype : variable
-    !                          ** variablecategory : state
-    !                          ** datatype : DOUBLE
-    !                          ** max : 1.0
-    !                          ** min : 0.0
-    !                          ** default : 
-    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
     !            * name: SnowWaterContent
     !                          ** description : Snow water content
     !                          ** inputtype : variable
@@ -212,7 +290,7 @@ CONTAINS
     !                          ** max : 
     !                          ** min : 0
     !                          ** default : 0
-    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
+    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/day
         !- outputs:
     !            * name: SnowWaterContent
     !                          ** description : Snow water content
@@ -234,6 +312,27 @@ CONTAINS
     !                          ** variablecategory : state
     !                          ** max : 
     !                          ** min : 0
+    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/day
+    !            * name: rSnowWaterContentRate
+    !                          ** description : daily snow water content change rate
+    !                          ** datatype : DOUBLE
+    !                          ** variablecategory : rate
+    !                          ** max : 1500.0
+    !                          ** min : -1500.0
+    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/millimetre_per_day
+    !            * name: rSoilSurfaceTemperatureRate
+    !                          ** description : daily soil surface temperature change rate
+    !                          ** datatype : DOUBLE
+    !                          ** variablecategory : rate
+    !                          ** max : 70.0
+    !                          ** min : -40.0
+    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
+    !            * name: rAgeOfSnowRate
+    !                          ** description : daily age of snow change rate
+    !                          ** datatype : INT
+    !                          ** variablecategory : rate
+    !                          ** max : 
+    !                          ** min : 
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
     !            * name: SnowIsolationIndex
     !                          ** description : Snow isolation index
@@ -246,7 +345,7 @@ CONTAINS
         tiSoilTempArray = iSoilTempArray(1)
         TMEAN = 0.5 * (iTempMax + iTempMin)
         TAMPL = 0.5 * (iTempMax - iTempMin)
-        DST = TMEAN + (TAMPL * (iRadiation * (1 - Albedo) - 14) / 20)
+        DST = TMEAN + (TAMPL * (iRadiation * (1 - pInternalAlbedo) - 14) / 20)
         IF(iRAIN .GT. REAL(0) .AND. (tiSoilTempArray .LT. REAL(1) .OR.  &
                 (SnowWaterContent .GT. REAL(3) .OR. SoilSurfaceTemperature .LT.  &
                 REAL(0)))) THEN
@@ -263,7 +362,8 @@ CONTAINS
                     DST) + (tSnowIsolationIndex * tiSoilTempArray))
         ELSE
             tSnowIsolationIndex = MAX(SnowWaterContent / (SnowWaterContent +  &
-                    EXP(0.47 - (0.62 * SnowWaterContent))), tSnowIsolationIndex)
+                    EXP(cSnowIsolationFactorA - (cSnowIsolationFactorB *  &
+                    SnowWaterContent))), tSnowIsolationIndex)
             tSoilSurfaceTemperature = (1 - tSnowIsolationIndex) * DST +  &
                     (tSnowIsolationIndex * tiSoilTempArray)
         END IF
@@ -301,8 +401,12 @@ CONTAINS
                 AgeOfSnow = AgeOfSnow + 1
             END IF
         END IF
-        SnowIsolationIndex = tSnowIsolationIndex
+        rSnowWaterContentRate = SnowWaterContent - SnowWaterContent
+        rSoilSurfaceTemperatureRate = tSoilSurfaceTemperature -  &
+                SoilSurfaceTemperature
+        rAgeOfSnowRate = AgeOfSnow - AgeOfSnow
         SoilSurfaceTemperature = tSoilSurfaceTemperature
+        SnowIsolationIndex = tSnowIsolationIndex
     END SUBROUTINE model_snowcovercalculator
 
 END MODULE

@@ -17,6 +17,7 @@ public class ThermalDiffu extends FWSimComponent
     private FWSimVariable<Double[]> ThermalDiffusivity;
     private FWSimVariable<Double[]> ThermalConductivity;
     private FWSimVariable<Double[]> HeatCapacity;
+    private FWSimVariable<Integer> layersNumber;
 
     public ThermalDiffu(String aName, HashMap<String, FWSimVariable<?>> aFieldMap, HashMap<String, String> aInputMap, Element aSimComponentElement, FWSimVarMap aVarMap, int aOrderNumber)
     {
@@ -31,8 +32,9 @@ public class ThermalDiffu extends FWSimComponent
     public HashMap<String, FWSimVariable<?>> createVariables()
     {
         addVariable(FWSimVariable.createSimVariable("ThermalDiffusivity", "Thermal diffusivity of soil layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"mm s-1", 0, 1, 0.0025, this));
-        addVariable(FWSimVariable.createSimVariable("ThermalConductivity", "Thermal conductivity of soil layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"W m-1 K-1", 0.025, 8, 1, this));
-        addVariable(FWSimVariable.createSimVariable("HeatCapacity", "Volumetric specific heat of soil", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"MJ m-3 Â°C-1", 0, 300, 20, this));
+        addVariable(FWSimVariable.createSimVariable("ThermalConductivity", "Thermal conductivity of soil layer", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.input,"W m-1 K-1", 0.025, 8, 1, this));
+        addVariable(FWSimVariable.createSimVariable("HeatCapacity", "Volumetric specific heat of soil", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.input,"MJ m-3", 0, 300, 20, this));
+        addVariable(FWSimVariable.createSimVariable("layersNumber", "Number of layersl", DATA_TYPE.INT, CONTENT_TYPE.constant,"dimensionless", 0, 300, 10, this));
 
         return iFieldMap;
     }
@@ -42,8 +44,9 @@ public class ThermalDiffu extends FWSimComponent
         Double [] t_ThermalDiffusivity = ThermalDiffusivity.getValue();
         Double [] t_ThermalConductivity = ThermalConductivity.getValue();
         Double [] t_HeatCapacity = HeatCapacity.getValue();
+        Integer t_layersNumber = layersNumber.getValue();
         Integer i;
-        for (i=0 ; i!=t_ThermalDiffusivity.length ; i+=1)
+        for (i=0 ; i!=t_layersNumber ; i+=1)
         {
             t_ThermalDiffusivity[i] = t_ThermalConductivity[i] / t_HeatCapacity[i] / 100;
         }

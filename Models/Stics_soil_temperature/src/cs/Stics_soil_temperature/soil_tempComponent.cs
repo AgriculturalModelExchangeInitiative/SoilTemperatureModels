@@ -1,7 +1,10 @@
 public class soil_tempComponent
 {
     
-        public soil_tempComponent() { }
+    /// <summary>
+    /// Constructor of the soil_tempComponent component")
+    /// </summary>  
+    public soil_tempComponent() { }
     
 
     //Declaration of the associated strategies
@@ -47,10 +50,10 @@ public class soil_tempComponent
     public soil_tempComponent(soil_tempComponent toCopy): this() // copy constructor 
     {
 
-        air_temp_day1 = toCopy.air_temp_day1;
-        
-            for (int i = 0; i < 100; i++)
-            { layer_thick[i] = toCopy.layer_thick[i]; }
+    air_temp_day1 = toCopy.air_temp_day1;
+    
+        for (int i = 0; i < 100; i++)
+        { layer_thick[i] = toCopy.layer_thick[i]; }
     
     }
 }

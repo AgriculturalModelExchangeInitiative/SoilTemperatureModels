@@ -1,3 +1,5 @@
+
+#pragma once
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
@@ -7,12 +9,13 @@
 #include "SurfacePartonSoilSWATCRate.h"
 #include "SurfacePartonSoilSWATCAuxiliary.h"
 #include "SurfacePartonSoilSWATCExogenous.h"
-using namespace std;
+namespace BiomaSurfacePartonSoilSWATC {
 class SurfaceTemperatureParton
 {
     private:
     public:
         SurfaceTemperatureParton();
-        void  Calculate_Model(SurfacePartonSoilSWATCState& s, SurfacePartonSoilSWATCState& s1, SurfacePartonSoilSWATCRate& r, SurfacePartonSoilSWATCAuxiliary& a, SurfacePartonSoilSWATCExogenous& ex);
+        void Calculate_Model(SurfacePartonSoilSWATCState &s, SurfacePartonSoilSWATCState &s1, SurfacePartonSoilSWATCRate &r, SurfacePartonSoilSWATCAuxiliary &a, SurfacePartonSoilSWATCExogenous &ex);
 
 };
+}

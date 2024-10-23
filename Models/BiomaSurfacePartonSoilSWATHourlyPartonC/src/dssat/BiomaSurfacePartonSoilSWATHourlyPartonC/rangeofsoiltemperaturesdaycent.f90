@@ -1,6 +1,22 @@
 MODULE Rangeofsoiltemperaturesdaycentmod
+    USE list_sub
     IMPLICIT NONE
 CONTAINS
+
+    SUBROUTINE init_rangeofsoiltemperaturesdaycent(LayerThickness, &
+        SoilTemperatureRangeByLayers, &
+        SoilTemperatureMinimum, &
+        SoilTemperatureMaximum)
+        IMPLICIT NONE
+        INTEGER:: i_cyml_r
+        REAL , DIMENSION(: ), INTENT(IN) :: LayerThickness
+        REAL , DIMENSION(: ), INTENT(OUT) :: SoilTemperatureRangeByLayers
+        REAL , DIMENSION(: ), INTENT(OUT) :: SoilTemperatureMinimum
+        REAL , DIMENSION(: ), INTENT(OUT) :: SoilTemperatureMaximum
+        SoilTemperatureRangeByLayers = 0.0
+        SoilTemperatureMaximum = 0.0
+        SoilTemperatureMinimum = 0.0
+    END SUBROUTINE init_rangeofsoiltemperaturesdaycent
 
     SUBROUTINE model_rangeofsoiltemperaturesdaycent(LayerThickness, &
         SurfaceTemperatureMinimum, &
@@ -17,9 +33,9 @@ CONTAINS
         REAL , DIMENSION(: ), INTENT(IN) :: ThermalDiffusivity
         REAL , DIMENSION(: ), INTENT(IN) :: SoilTemperatureByLayers
         REAL, INTENT(IN) :: SurfaceTemperatureMaximum
-        REAL , DIMENSION(: ), INTENT(OUT) :: SoilTemperatureRangeByLayers
-        REAL , DIMENSION(: ), INTENT(OUT) :: SoilTemperatureMinimum
-        REAL , DIMENSION(: ), INTENT(OUT) :: SoilTemperatureMaximum
+        REAL , DIMENSION(: ), INTENT(INOUT) :: SoilTemperatureRangeByLayers
+        REAL , DIMENSION(: ), INTENT(INOUT) :: SoilTemperatureMinimum
+        REAL , DIMENSION(: ), INTENT(INOUT) :: SoilTemperatureMaximum
         INTEGER:: i
         REAL:: _DepthBottom
         REAL:: _DepthCenterLayer
@@ -27,16 +43,16 @@ CONTAINS
         !- Name: RangeOfSoilTemperaturesDAYCENT -Version: 001, -Time step: 1
         !- Description:
     !            * Title: RangeOfSoilTemperaturesDAYCENT model
-    !            * Authors: simone.bregaglio@unimi.it
-    !            * Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
+    !            * Authors: simone.bregaglio
+    !            * Reference: http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl
     !            * Institution: University Of Milan
-    !            * ExtendedDescription: Strategy for the calculation of soil thermal conductivity.Reference: DAYCENT model written in C code 
-    !            * ShortDescription: None
+    !            * ExtendedDescription: Strategy for the calculation of soil thermal conductivity.Reference: DAYCENT model written in C code
+    !            * ShortDescription: Strategy for the calculation of soil thermal conductivity
         !- inputs:
     !            * name: LayerThickness
     !                          ** description : Soil layer thickness
-    !                          ** inputtype : variable
-    !                          ** variablecategory : state
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
     !                          ** max : 3
@@ -51,11 +67,11 @@ CONTAINS
     !                          ** max : 60
     !                          ** min : -60
     !                          ** default : 10
-    !                          ** unit : Â°C
+    !                          ** unit : degC
     !            * name: ThermalDiffusivity
     !                          ** description : Thermal diffusivity of soil layer
     !                          ** inputtype : variable
-    !                          ** variablecategory : state
+    !                          ** variablecategory : auxiliary
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
     !                          ** max : 1
@@ -65,13 +81,13 @@ CONTAINS
     !            * name: SoilTemperatureByLayers
     !                          ** description : Soil temperature of each layer
     !                          ** inputtype : variable
-    !                          ** variablecategory : state
+    !                          ** variablecategory : auxiliary
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
     !                          ** max : 60
     !                          ** min : -60
     !                          ** default : 15
-    !                          ** unit : Â°C
+    !                          ** unit : degC
     !            * name: SurfaceTemperatureMaximum
     !                          ** description : Maximum surface soil temperature
     !                          ** inputtype : variable
@@ -80,7 +96,37 @@ CONTAINS
     !                          ** max : 60
     !                          ** min : -60
     !                          ** default : 25
-    !                          ** unit : Â°C
+    !                          ** unit : degC
+    !            * name: SoilTemperatureRangeByLayers
+    !                          ** description : Soil temperature range by layers
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : DOUBLEARRAY
+    !                          ** len : 
+    !                          ** max : 50
+    !                          ** min : 0
+    !                          ** default : 
+    !                          ** unit : degC
+    !            * name: SoilTemperatureMinimum
+    !                          ** description : Minimum soil temperature by layers
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : DOUBLEARRAY
+    !                          ** len : 
+    !                          ** max : 60
+    !                          ** min : -60
+    !                          ** default : 
+    !                          ** unit : degC
+    !            * name: SoilTemperatureMaximum
+    !                          ** description : Maximum soil temperature by layers
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : DOUBLEARRAY
+    !                          ** len : 
+    !                          ** max : 60
+    !                          ** min : -60
+    !                          ** default : 
+    !                          ** unit : degC
         !- outputs:
     !            * name: SoilTemperatureRangeByLayers
     !                          ** description : Soil temperature range by layers
@@ -89,7 +135,7 @@ CONTAINS
     !                          ** len : 
     !                          ** max : 50
     !                          ** min : 0
-    !                          ** unit : Â°C
+    !                          ** unit : degC
     !            * name: SoilTemperatureMinimum
     !                          ** description : Minimum soil temperature by layers
     !                          ** datatype : DOUBLEARRAY
@@ -97,7 +143,7 @@ CONTAINS
     !                          ** len : 
     !                          ** max : 60
     !                          ** min : -60
-    !                          ** unit : Â°C
+    !                          ** unit : degC
     !            * name: SoilTemperatureMaximum
     !                          ** description : Maximum soil temperature by layers
     !                          ** datatype : DOUBLEARRAY
@@ -105,7 +151,7 @@ CONTAINS
     !                          ** len : 
     !                          ** max : 60
     !                          ** min : -60
-    !                          ** unit : Â°C
+    !                          ** unit : degC
         _DepthBottom = REAL(0)
         _DepthCenterLayer = REAL(0)
         SurfaceDiurnalRange = SurfaceTemperatureMaximum -  &

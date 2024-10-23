@@ -1,4 +1,3 @@
-#ifndef _SURFACETEMPERATURESWAT_
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
@@ -10,19 +9,18 @@
 #include <map>
 #include <tuple>
 #include "SurfaceTemperatureSWAT.h"
-using namespace std;
-
-SurfaceTemperatureSWAT::SurfaceTemperatureSWAT() { }
-void SurfaceTemperatureSWAT::Calculate_Model(SurfaceSWATSoilSWATCState& s, SurfaceSWATSoilSWATCState& s1, SurfaceSWATSoilSWATCRate& r, SurfaceSWATSoilSWATCAuxiliary& a, SurfaceSWATSoilSWATCExogenous& ex)
+using namespace BiomaSurfaceSWATSoilSWATC;
+SurfaceTemperatureSWAT::SurfaceTemperatureSWAT() {}
+void SurfaceTemperatureSWAT::Calculate_Model(SurfaceSWATSoilSWATCState &s, SurfaceSWATSoilSWATCState &s1, SurfaceSWATSoilSWATCRate &r, SurfaceSWATSoilSWATCAuxiliary &a, SurfaceSWATSoilSWATCExogenous &ex)
 {
     //- Name: SurfaceTemperatureSWAT -Version: 001, -Time step: 1
     //- Description:
     //            * Title: SurfaceTemperatureSWAT model
-    //            * Authors: simone.bregaglio@unimi.it
-    //            * Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
+    //            * Authors: simone.bregaglio
+    //            * Reference: http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl
     //            * Institution: University Of Milan
     //            * ExtendedDescription: Strategy for the calculation of surface soil temperature with SWAT method. Reference: Neitsch,S.L., Arnold, J.G., Kiniry, J.R., Williams, J.R., King, K.W. Soil and Water Assessment Tool. Theoretical documentation. Version 2000. http://swatmodel.tamu.edu/media/1290/swat2000theory.pdf
-    //            * ShortDescription: None
+    //            * ShortDescription: Strategy for the calculation of surface soil temperature with SWAT method
     //- inputs:
     //            * name: GlobalSolarRadiation
     //                          ** description : Daily global solar radiation
@@ -42,7 +40,7 @@ void SurfaceTemperatureSWAT::Calculate_Model(SurfaceSWATSoilSWATCState& s, Surfa
     //                          ** max : 60
     //                          ** min : -60
     //                          ** default : 15
-    //                          ** unit : Â°C
+    //                          ** unit : 
     //            * name: AirTemperatureMaximum
     //                          ** description : Maximum daily air temperature
     //                          ** inputtype : variable
@@ -51,7 +49,7 @@ void SurfaceTemperatureSWAT::Calculate_Model(SurfaceSWATSoilSWATCState& s, Surfa
     //                          ** max : 60
     //                          ** min : -40
     //                          ** default : 15
-    //                          ** unit : Â°C
+    //                          ** unit : 
     //            * name: AirTemperatureMinimum
     //                          ** description : Minimum daily air temperature
     //                          ** inputtype : variable
@@ -60,7 +58,7 @@ void SurfaceTemperatureSWAT::Calculate_Model(SurfaceSWATSoilSWATCState& s, Surfa
     //                          ** max : 50
     //                          ** min : -60
     //                          ** default : 5
-    //                          ** unit : Â°C
+    //                          ** unit : 
     //            * name: Albedo
     //                          ** description : Albedo of soil
     //                          ** inputtype : variable
@@ -73,7 +71,7 @@ void SurfaceTemperatureSWAT::Calculate_Model(SurfaceSWATSoilSWATCState& s, Surfa
     //            * name: AboveGroundBiomass
     //                          ** description : Above ground biomass
     //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** datatype : DOUBLE
     //                          ** max : 60
     //                          ** min : 0
@@ -92,16 +90,16 @@ void SurfaceTemperatureSWAT::Calculate_Model(SurfaceSWATSoilSWATCState& s, Surfa
     //            * name: SurfaceSoilTemperature
     //                          ** description : Average surface soil temperature
     //                          ** datatype : DOUBLE
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** max : 60
     //                          ** min : -60
-    //                          ** unit : Â°C
+    //                          ** unit : degC
     double GlobalSolarRadiation = ex.getGlobalSolarRadiation();
-    vector<double>  SoilTemperatureByLayers = s.getSoilTemperatureByLayers();
+    std::vector<double> & SoilTemperatureByLayers = s.getSoilTemperatureByLayers();
     double AirTemperatureMaximum = ex.getAirTemperatureMaximum();
     double AirTemperatureMinimum = ex.getAirTemperatureMinimum();
     double Albedo = ex.getAlbedo();
-    double AboveGroundBiomass = s.getAboveGroundBiomass();
+    double AboveGroundBiomass = a.getAboveGroundBiomass();
     double WaterEquivalentOfSnowPack = ex.getWaterEquivalentOfSnowPack();
     double SurfaceSoilTemperature;
     double _Tavg;
@@ -113,10 +111,9 @@ void SurfaceTemperatureSWAT::Calculate_Model(SurfaceSWATSoilSWATCState& s, Surfa
     _Tavg = (AirTemperatureMaximum + AirTemperatureMinimum) / 2;
     _Hterm = (GlobalSolarRadiation * (1 - Albedo) - 14) / 20;
     _Tbare = _Tavg + (_Hterm * (AirTemperatureMaximum - AirTemperatureMinimum) / 2);
-    _WeightingCover = AboveGroundBiomass / (AboveGroundBiomass + exp(7.563 - (0.0001297 * AboveGroundBiomass)));
-    _WeightingSnow = WaterEquivalentOfSnowPack / (WaterEquivalentOfSnowPack + exp(6.055 - (0.3002 * WaterEquivalentOfSnowPack)));
-    _WeightingActual = max(_WeightingCover, _WeightingSnow);
+    _WeightingCover = AboveGroundBiomass / (AboveGroundBiomass + std::exp(7.563 - (0.0001297 * AboveGroundBiomass)));
+    _WeightingSnow = WaterEquivalentOfSnowPack / (WaterEquivalentOfSnowPack + std::exp(6.055 - (0.3002 * WaterEquivalentOfSnowPack)));
+    _WeightingActual = std::max(_WeightingCover, _WeightingSnow);
     SurfaceSoilTemperature = _WeightingActual * SoilTemperatureByLayers[0] + ((1 - _WeightingActual) * _Tbare);
-    s.setSurfaceSoilTemperature(SurfaceSoilTemperature);
+    a.setSurfaceSoilTemperature(SurfaceSoilTemperature);
 }
-#endif

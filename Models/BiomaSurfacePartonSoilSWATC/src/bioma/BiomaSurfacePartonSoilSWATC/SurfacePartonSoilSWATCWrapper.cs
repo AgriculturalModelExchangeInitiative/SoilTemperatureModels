@@ -25,13 +25,13 @@ namespace Model.Model.SurfacePartonSoilSWATC
             loadParameters();
         }
 
-        public double SurfaceSoilTemperature{ get { return s.SurfaceSoilTemperature;}} 
-     
         public double[] SoilTemperatureByLayers{ get { return s.SoilTemperatureByLayers;}} 
      
         public double SurfaceTemperatureMinimum{ get { return a.SurfaceTemperatureMinimum;}} 
      
         public double SurfaceTemperatureMaximum{ get { return a.SurfaceTemperatureMaximum;}} 
+     
+        public double SurfaceSoilTemperature{ get { return a.SurfaceSoilTemperature;}} 
      
 
         public SurfacePartonSoilSWATCWrapper(Universe universe, SurfacePartonSoilSWATCWrapper toCopy, bool copyAll) : base(universe)
@@ -53,16 +53,21 @@ namespace Model.Model.SurfacePartonSoilSWATC
 
         private void loadParameters()
         {
+            surfacepartonsoilswatcComponent.LayerThickness = LayerThickness;
+            surfacepartonsoilswatcComponent.BulkDensity = BulkDensity;
+            surfacepartonsoilswatcComponent.SoilProfileDepth = SoilProfileDepth;
+            surfacepartonsoilswatcComponent.AirTemperatureAnnualAverage = AirTemperatureAnnualAverage;
             surfacepartonsoilswatcComponent.LagCoefficient = LagCoefficient;
         }
 
-        public void EstimateSurfacePartonSoilSWATC(double DayLength, double AirTemperatureMaximum, double AirTemperatureMinimum, double GlobalSolarRadiation, double AirTemperatureAnnualAverage)
+        public void EstimateSurfacePartonSoilSWATC(double DayLength, double GlobalSolarRadiation, double AboveGroundBiomass, double AirTemperatureMinimum, double AirTemperatureMaximum, double[] VolumetricWaterContent)
         {
             a.DayLength = DayLength;
-            a.AirTemperatureMaximum = AirTemperatureMaximum;
-            a.AirTemperatureMinimum = AirTemperatureMinimum;
             a.GlobalSolarRadiation = GlobalSolarRadiation;
-            a.AirTemperatureAnnualAverage = AirTemperatureAnnualAverage;
+            a.AboveGroundBiomass = AboveGroundBiomass;
+            a.AirTemperatureMinimum = AirTemperatureMinimum;
+            a.AirTemperatureMaximum = AirTemperatureMaximum;
+            a.VolumetricWaterContent = VolumetricWaterContent;
             surfacepartonsoilswatcComponent.CalculateModel(s,s1, r, a, ex);
         }
 

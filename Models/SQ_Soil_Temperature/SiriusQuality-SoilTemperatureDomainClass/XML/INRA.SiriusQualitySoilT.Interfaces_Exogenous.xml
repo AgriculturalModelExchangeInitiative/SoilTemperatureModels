@@ -72,6 +72,16 @@
     <Description>Length of the day</Description>
     <URL>http://</URL>
   </VarInfoVariables>
+  <VarInfoVariables>
+    <Name>meanAnnualAirTemp</Name>
+    <MinValue>-30</MinValue>
+    <MaxValue>80</MaxValue>
+    <DefaultValue>22</DefaultValue>
+    <Units>°C</Units>
+    <Type>double</Type>
+    <Description>Mean Annual Air Temperature</Description>
+    <URL>http://</URL>
+  </VarInfoVariables>
   <Description>
     <DomainClassNameSpace>INRA.SiriusQualitySoilT.Interfaces</DomainClassNameSpace>
     <DomainTypeName>Exogenous</DomainTypeName>

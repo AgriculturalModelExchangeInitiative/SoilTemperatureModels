@@ -1,5 +1,6 @@
-import numpy 
+import numpy
 from math import *
+
 def init_stemp_epic(int NL,
                     str ISWWAT,
                     float BD[NL],
@@ -93,6 +94,7 @@ def init_stemp_epic(int NL,
     for I in range(1 , 8 + 1 , 1):
         (TMA, SRFTEMP, ST, X2_AVG, X2_PREV)=SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, 0, WFT, WW, TMA, ST, X2_PREV)
     return  CUMDPT, DSMID, TDL, TMA, NDays, WetDay, X2_PREV, SRFTEMP, ST
+
 def model_stemp_epic(int NL,
                      str ISWWAT,
                      float BD[NL],
@@ -122,15 +124,14 @@ def model_stemp_epic(int NL,
                      float MULCHMASS,
                      float SNOW):
     """
-
     Model of STEMP_EPIC
     Author: Kenneth N. Potter , Jimmy R. Williams 
     Reference: https://doi.org/10.2134/agronj1994.00021962008600060014x
     Institution: USDA-ARS, USDA-ARS
     ExtendedDescription: None
     ShortDescription: Determines soil temperature by layer test encore
-
     """
+
     cdef int I , L 
     cdef int NWetDays 
     cdef float ABD , B 
@@ -184,6 +185,7 @@ def model_stemp_epic(int NL,
     BCV=max(BCV1, BCV2)
     (TMA, SRFTEMP, ST, X2_AVG, X2_PREV)=SOILT_EPIC(NL, B, BCV, CUMDPT, DP, DSMID, NLAYR, PESW, TAV, TAVG, TMAX, TMIN, WetDay[NDays - 1], WFT, WW, TMA, ST, X2_PREV)
     return  CUMDPT, DSMID, TDL, TMA, NDays, WetDay, X2_PREV, SRFTEMP, ST
+
 
 
 #=======================================================================

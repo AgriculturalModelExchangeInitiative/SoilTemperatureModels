@@ -44,7 +44,7 @@ def SOILT(int NL,
     ATOT=ATOT - TMA[5 - 1]
     for K in range(5 , 2 - 1 , -1):
         TMA[K - 1]=TMA[K - 1 - 1]
-    TMA[1 - 1]=(1.0 - ALBEDO) * (TAVG + ((TMAX - TAVG) * sqrt(SRAD * 0.03))) + (ALBEDO * TMA[(1 - 1)])
+    TMA[1 - 1]=TAVG
     #     Prevents differences between release & debug modes:
     #       Keep only 4 decimals. chp 06/03/03
     #chp 

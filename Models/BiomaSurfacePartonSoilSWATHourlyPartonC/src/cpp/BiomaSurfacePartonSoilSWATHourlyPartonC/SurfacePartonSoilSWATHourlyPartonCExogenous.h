@@ -1,37 +1,36 @@
-#ifndef _SurfacePartonSoilSWATHourlyPartonCExogenous_
-#define _SurfacePartonSoilSWATHourlyPartonCExogenous_
+#pragma once
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
-# include<vector>
-# include<string>
-using namespace std;
+#include <vector>
+#include <string>
+namespace BiomaSurfacePartonSoilSWATHourlyPartonC {
 class SurfacePartonSoilSWATHourlyPartonCExogenous
 {
     private:
-        double GlobalSolarRadiation ;
-        double DayLength ;
         double AirTemperatureMinimum ;
+        double DayLength ;
+        double GlobalSolarRadiation ;
         double AirTemperatureMaximum ;
-        double AirTemperatureAnnualAverage ;
-        double HourOfSunrise ;
+        std::vector<double> VolumetricWaterContent ;
         double HourOfSunset ;
+        double HourOfSunrise ;
     public:
         SurfacePartonSoilSWATHourlyPartonCExogenous();
-        double getGlobalSolarRadiation();
-        void setGlobalSolarRadiation(double _GlobalSolarRadiation);
-        double getDayLength();
-        void setDayLength(double _DayLength);
         double getAirTemperatureMinimum();
         void setAirTemperatureMinimum(double _AirTemperatureMinimum);
+        double getDayLength();
+        void setDayLength(double _DayLength);
+        double getGlobalSolarRadiation();
+        void setGlobalSolarRadiation(double _GlobalSolarRadiation);
         double getAirTemperatureMaximum();
         void setAirTemperatureMaximum(double _AirTemperatureMaximum);
-        double getAirTemperatureAnnualAverage();
-        void setAirTemperatureAnnualAverage(double _AirTemperatureAnnualAverage);
-        double getHourOfSunrise();
-        void setHourOfSunrise(double _HourOfSunrise);
+        std::vector<double> & getVolumetricWaterContent();
+        void setVolumetricWaterContent(const std::vector<double> &  _VolumetricWaterContent);
         double getHourOfSunset();
         void setHourOfSunset(double _HourOfSunset);
+        double getHourOfSunrise();
+        void setHourOfSunrise(double _HourOfSunrise);
 
 };
-#endif
+}

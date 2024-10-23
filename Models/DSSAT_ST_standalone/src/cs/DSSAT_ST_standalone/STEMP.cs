@@ -5,12 +5,12 @@ public class STEMP
 {
     public void Init(STEMP_State s, STEMP_State s1, STEMP_Rate r, STEMP_Auxiliary a, STEMP_Exogenous ex)
     {
-        double SRAD;
-        double TAVG;
-        double TMAX;
-        double TAV;
-        double TAMP;
-        int DOY;
+        double SRAD = ex.SRAD;
+        double TAVG = ex.TAVG;
+        double TMAX = ex.TMAX;
+        double TAV = ex.TAV;
+        double TAMP = ex.TAMP;
+        int DOY = ex.DOY;
         double CUMDPT;
         double[] DSMID =  new double [NL];
         double TDL;
@@ -97,9 +97,15 @@ public class STEMP
         {
             ST[L - 1] = TAVG;
         }
+        var toto = Tuple.Create(ATOT, TMA, SRFTEMP, ST)
         for (I=1 ; I!=8 + 1 ; I+=1)
         {
-            Tuple.Create(ATOT, TMA, SRFTEMP, ST) = SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ATOT, TMA);
+            toto = SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ATOT, TMA);
+            ATOT = toto.Item1;
+            TMA = toto.Item2;
+            SRFTEMP = toto.Item3;
+            ST = toto.Item4;
+            
         }
         s.CUMDPT= CUMDPT;
         s.DSMID= DSMID;
@@ -525,7 +531,12 @@ public class STEMP
         {
             PESW = Math.Max(0.00d, TDL - TLL);
         }
-        Tuple.Create(ATOT, TMA, SRFTEMP, ST) = SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ATOT, TMA);
+        var toto = Tuple.Create(ATOT, TMA, SRFTEMP, ST)
+        toto = SOILT(NL, ALBEDO, B, CUMDPT, DOY, DP, HDAY, NLAYR, PESW, SRAD, TAMP, TAV, TAVG, TMAX, WW, DSMID, ATOT, TMA);
+        ATOT = toto.item1;
+        TMA = toto.item2;
+        SRFTEMP = toto.item3;
+        ST = toto.item4;
         s.CUMDPT= CUMDPT;
         s.DSMID= DSMID;
         s.TDL= TDL;
@@ -553,7 +564,7 @@ public class STEMP
         {
             TMA[K - 1] = TMA[K - 1 - 1];
         }
-        TMA[1 - 1] = (1.00d - ALBEDO) * (TAVG + ((TMAX - TAVG) * Math.Sqrt(SRAD * 0.030d))) + (ALBEDO * TMA[(1 - 1)]);
+        TMA[1 - 1] = TAVG;
         TMA[1 - 1] = (int)(TMA[(1 - 1)] * 10000.0d) / 10000.0d;
         ATOT = ATOT + TMA[1 - 1];
         WC = Math.Max(0.010d, PESW) / (WW * CUMDPT) * 10.00d;

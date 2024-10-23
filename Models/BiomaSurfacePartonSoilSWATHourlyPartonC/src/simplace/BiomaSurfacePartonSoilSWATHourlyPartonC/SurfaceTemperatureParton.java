@@ -37,30 +37,30 @@ public class SurfaceTemperatureParton extends FWSimComponent
     {
         addVariable(FWSimVariable.createSimVariable("GlobalSolarRadiation", "Daily global solar radiation", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Mj m-2 d-1", 0, 50, 15, this));
         addVariable(FWSimVariable.createSimVariable("DayLength", "Length of the day", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"h", 0, 24, 10, this));
-        addVariable(FWSimVariable.createSimVariable("AboveGroundBiomass", "Above ground biomass", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"Kg ha-1", 0, 60, 3, this));
-        addVariable(FWSimVariable.createSimVariable("AirTemperatureMinimum", "Minimum daily air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Â°C", -60, 50, 5, this));
-        addVariable(FWSimVariable.createSimVariable("AirTemperatureMaximum", "Maximum daily air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Â°C", -40, 60, 15, this));
-        addVariable(FWSimVariable.createSimVariable("SurfaceSoilTemperature", "Average surface soil temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"Â°C", -60, 60, null, this));
-        addVariable(FWSimVariable.createSimVariable("SurfaceTemperatureMinimum", "Minimum surface soil temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.out,"Â°C", -60, 60, null, this));
-        addVariable(FWSimVariable.createSimVariable("SurfaceTemperatureMaximum", "Maximum surface soil temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.out,"Â°C", -60, 60, null, this));
+        addVariable(FWSimVariable.createSimVariable("AboveGroundBiomass", "Above ground biomass", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"Kg ha-1", 0, 60, 3, this));
+        addVariable(FWSimVariable.createSimVariable("AirTemperatureMinimum", "Minimum daily air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"degC", -60, 50, 5, this));
+        addVariable(FWSimVariable.createSimVariable("AirTemperatureMaximum", "Maximum daily air temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"degC", -40, 60, 15, this));
+        addVariable(FWSimVariable.createSimVariable("SurfaceSoilTemperature", "Average surface soil temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.out,"degC", -60, 60, null, this));
+        addVariable(FWSimVariable.createSimVariable("SurfaceTemperatureMinimum", "Minimum surface soil temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.out,"", -60, 60, null, this));
+        addVariable(FWSimVariable.createSimVariable("SurfaceTemperatureMaximum", "Maximum surface soil temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.out,"degC             */", -60, 60, null, this));
 
         return iFieldMap;
     }
     @Override
     protected void process()
     {
-        Double t_GlobalSolarRadiation = GlobalSolarRadiation.getValue();
-        Double t_DayLength = DayLength.getValue();
-        Double t_AboveGroundBiomass = AboveGroundBiomass.getValue();
-        Double t_AirTemperatureMinimum = AirTemperatureMinimum.getValue();
-        Double t_AirTemperatureMaximum = AirTemperatureMaximum.getValue();
-        Double t_SurfaceSoilTemperature;
-        Double t_SurfaceTemperatureMinimum;
-        Double t_SurfaceTemperatureMaximum;
-        Double _AGB;
-        Double _AirTMax;
-        Double _AirTmin;
-        Double _SolarRad;
+        double t_GlobalSolarRadiation = GlobalSolarRadiation.getValue();
+        double t_DayLength = DayLength.getValue();
+        double t_AboveGroundBiomass = AboveGroundBiomass.getValue();
+        double t_AirTemperatureMinimum = AirTemperatureMinimum.getValue();
+        double t_AirTemperatureMaximum = AirTemperatureMaximum.getValue();
+        double t_SurfaceSoilTemperature;
+        double t_SurfaceTemperatureMinimum;
+        double t_SurfaceTemperatureMaximum;
+        double _AGB;
+        double _AirTMax;
+        double _AirTmin;
+        double _SolarRad;
         _AGB = t_AboveGroundBiomass / 10000;
         _AirTMax = t_AirTemperatureMaximum;
         _AirTmin = t_AirTemperatureMinimum;

@@ -21,6 +21,7 @@ class SoilTemperatureWrapper
     }
 
         double cCarbonContent;
+    double cAlbedo;
     double[] cSoilLayerDepth =  new double [100];
     double cFirstDayMeanTemp;
     double cAverageGroundTemperature;
@@ -36,6 +37,12 @@ class SoilTemperatureWrapper
     public double[] rSoilTempArrayRate{ get { return s.rSoilTempArrayRate;}} 
      
     public double[] SoilTempArray{ get { return s.SoilTempArray;}} 
+     
+    public double rSnowWaterContentRate{ get { return r.rSnowWaterContentRate;}} 
+     
+    public double rSoilSurfaceTemperatureRate{ get { return r.rSoilSurfaceTemperatureRate;}} 
+     
+    public int rAgeOfSnowRate{ get { return r.rAgeOfSnowRate;}} 
      
     public double SnowIsolationIndex{ get { return a.SnowIsolationIndex;}} 
      
@@ -60,6 +67,8 @@ class SoilTemperatureWrapper
     private void loadParameters()
     {
         soiltemperatureComponent.cCarbonContent = cCarbonContent;
+        soiltemperatureComponent.cAlbedo = cAlbedo;
+        soiltemperatureComponent.Albedo = Albedo;
         soiltemperatureComponent.cSoilLayerDepth = cSoilLayerDepth;
         soiltemperatureComponent.cFirstDayMeanTemp = cFirstDayMeanTemp;
         soiltemperatureComponent.cAverageGroundTemperature = cAverageGroundTemperature;

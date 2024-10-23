@@ -1,6 +1,12 @@
-import numpy 
+import numpy
 from math import *
+
 def init_snowcovercalculator(float cCarbonContent,
+                             int cInitialAgeOfSnow,
+                             float cInitialSnowWaterContent,
+                             float Albedo,
+                             float cSnowIsolationFactorA,
+                             float cSnowIsolationFactorB,
                              float iTempMax,
                              float iTempMin,
                              float iRadiation,
@@ -9,25 +15,37 @@ def init_snowcovercalculator(float cCarbonContent,
                              float iPotentialSoilEvaporation,
                              float iLeafAreaIndex,
                              float iSoilTempArray[]):
-    cdef float Albedo
-    cdef float SnowWaterContent=0.0
-    cdef float SoilSurfaceTemperature=0.0
-    cdef int AgeOfSnow=0
-    Albedo = 0.0
+    cdef float pInternalAlbedo
+    cdef float SnowWaterContent = 0.0
+    cdef float SoilSurfaceTemperature = 0.0
+    cdef int AgeOfSnow = 0
+    pInternalAlbedo = 0.0
     cdef float TMEAN 
     cdef float TAMPL 
     cdef float DST 
-    #b'/taken from experimental fit from Thomas Gaiser, 2000, n=35, R2=0.97'
-    Albedo=0.0226 * log(cCarbonContent, 10) + 0.1502
+    if Albedo == float(0):
+        #b'/taken from experimental fit from Thomas Gaiser, 2000, n=35, R2=0.97'
+        pInternalAlbedo=0.0226 * log(cCarbonContent, 10) + 0.1502
+    else:
+        pInternalAlbedo=Albedo
     #b'/TMEAN = Mean daily air temperature at 2 m (\xc3\x82\xc2\xb0C)'
     TMEAN=0.5 * (iTempMax + iTempMin)
     #b'/TAMPL = Amplitude of daily air temperature at 2 m (\xc3\x82\xc2\xb0C)'
     TAMPL=0.5 * (iTempMax - iTempMin)
     #b'/DST = Bare soil surface temperature (\xc3\x82\xc2\xb0C)'
-    DST=TMEAN + (TAMPL * (iRadiation * (1 - Albedo) - 14) / 20)
+    DST=TMEAN + (TAMPL * (iRadiation * (1 - pInternalAlbedo) - 14) / 20)
     SoilSurfaceTemperature=DST
-    return  Albedo, SnowWaterContent, SoilSurfaceTemperature, AgeOfSnow
+    AgeOfSnow=cInitialAgeOfSnow
+    SnowWaterContent=cInitialSnowWaterContent
+    return  pInternalAlbedo, SnowWaterContent, SoilSurfaceTemperature, AgeOfSnow
+
 def model_snowcovercalculator(float cCarbonContent,
+                              int cInitialAgeOfSnow,
+                              float cInitialSnowWaterContent,
+                              float Albedo,
+                              float pInternalAlbedo,
+                              float cSnowIsolationFactorA,
+                              float cSnowIsolationFactorB,
                               float iTempMax,
                               float iTempMin,
                               float iRadiation,
@@ -36,20 +54,21 @@ def model_snowcovercalculator(float cCarbonContent,
                               float iPotentialSoilEvaporation,
                               float iLeafAreaIndex,
                               float iSoilTempArray[],
-                              float Albedo,
                               float SnowWaterContent,
                               float SoilSurfaceTemperature,
                               int AgeOfSnow):
     """
-
     SnowCoverCalculator model
     Author: Gunther Krauss
     Reference: ('http://www.simplace.net/doc/simplace_modules/',)
     Institution: INRES Pflanzenbau, Uni Bonn
     ExtendedDescription: as given in the documentation
     ShortDescription: None
-
     """
+
+    cdef float rSnowWaterContentRate
+    cdef float rSoilSurfaceTemperatureRate
+    cdef int rAgeOfSnowRate
     cdef float SnowIsolationIndex
     cdef float tiCropResidues 
     cdef float tiSoilTempArray 
@@ -71,7 +90,7 @@ def model_snowcovercalculator(float cCarbonContent,
     #b'/TAMPL = Amplitude of daily air temperature at 2 m (\xc3\x82\xc2\xb0C)'
     TAMPL=0.5 * (iTempMax - iTempMin)
     #b'/DST = Bare soil surface temperature (\xc3\x82\xc2\xb0C)'
-    DST=TMEAN + (TAMPL * (iRadiation * (1 - Albedo) - 14) / 20)
+    DST=TMEAN + (TAMPL * (iRadiation * (1 - pInternalAlbedo) - 14) / 20)
     #b'/adding new precipitation to snow cover'
     if iRAIN > float(0) and (tiSoilTempArray < float(1) or SnowWaterContent > float(3) or SoilSurfaceTemperature < float(0)):
         SnowWaterContent=SnowWaterContent + iRAIN
@@ -84,8 +103,7 @@ def model_snowcovercalculator(float cCarbonContent,
         #b"/SoilSurfaceTemperature = Actual soil surface temperature (\xc3\x82\xc2\xb0C), iSoilTempArray = Yesterday's temperature in the first layer (\xc3\x82\xc2\xb0C)"
         tSoilSurfaceTemperature=0.5 * (DST + ((1 - tSnowIsolationIndex) * DST) + (tSnowIsolationIndex * tiSoilTempArray))
     else:
-        #b'/coefficients based on EPIC SCRP(17) values from PARM0509.file'
-        tSnowIsolationIndex=max(SnowWaterContent / (SnowWaterContent + exp(0.47 - (0.62 * SnowWaterContent))), tSnowIsolationIndex)
+        tSnowIsolationIndex=max(SnowWaterContent / (SnowWaterContent + exp(cSnowIsolationFactorA - (cSnowIsolationFactorB * SnowWaterContent))), tSnowIsolationIndex)
         #b"/SoilSurfaceTemperature = Actual soil surface temperature (\xc3\x82\xc2\xb0C), iSoilTempArray = Yesterday's temperature in the first layer (\xc3\x82\xc2\xb0C)"
         tSoilSurfaceTemperature=(1 - tSnowIsolationIndex) * DST + (tSnowIsolationIndex * tiSoilTempArray)
     if SnowWaterContent == float(0) and not (iRAIN > float(0) and tiSoilTempArray < float(1)):
@@ -116,8 +134,12 @@ def model_snowcovercalculator(float cCarbonContent,
             AgeOfSnow=0
         else:
             AgeOfSnow=AgeOfSnow + 1
-    SnowIsolationIndex=tSnowIsolationIndex
+    rSnowWaterContentRate=SnowWaterContent - SnowWaterContent
+    rSoilSurfaceTemperatureRate=tSoilSurfaceTemperature - SoilSurfaceTemperature
+    rAgeOfSnowRate=AgeOfSnow - AgeOfSnow
     SoilSurfaceTemperature=tSoilSurfaceTemperature
-    return  SnowWaterContent, SoilSurfaceTemperature, AgeOfSnow, SnowIsolationIndex
+    SnowIsolationIndex=tSnowIsolationIndex
+    return  SnowWaterContent, SoilSurfaceTemperature, AgeOfSnow, rSnowWaterContentRate, rSoilSurfaceTemperatureRate, rAgeOfSnowRate, SnowIsolationIndex
+
 
 

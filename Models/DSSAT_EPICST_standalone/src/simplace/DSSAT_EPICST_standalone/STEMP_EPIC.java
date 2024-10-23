@@ -1,15 +1,14 @@
-package net.simplace.sim.components.DSSAT_EPICST_standalone;
-import  java.io.*;
-import  java.util.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+package net.simplace.usermodules.amei.DSSAT_EPICST_standalone;
+import java.util.Arrays;
+import java.util.HashMap;
+
+import org.jdom2.Element;
+
 import net.simplace.sim.model.FWSimComponent;
 import net.simplace.sim.util.FWSimVarMap;
 import net.simplace.sim.util.FWSimVariable;
 import net.simplace.sim.util.FWSimVariable.CONTENT_TYPE;
 import net.simplace.sim.util.FWSimVariable.DATA_TYPE;
-import org.jdom2.Element;
 
 
 public class STEMP_EPIC extends FWSimComponent
@@ -160,7 +159,7 @@ public class STEMP_EPIC extends FWSimComponent
             TSW = TSW + (SWI[(L - 1)] * t_DLAYR[(L - 1)]);
             t_TDL = t_TDL + (t_DUL[(L - 1)] * t_DLAYR[(L - 1)]);
         }
-        if (t_ISWWAT == "Y")
+        if (t_ISWWAT.equalsIgnoreCase("Y"))
         {
             PESW = Math.max(0.0d, TSW - TLL);
         }
@@ -228,14 +227,14 @@ public class STEMP_EPIC extends FWSimComponent
         Double t_TMIN = TMIN.getValue();
         Double t_TAV = TAV.getValue();
         Double t_CUMDPT = CUMDPT.getValue();
-        Double [] t_DSMID = new Double[t_NL];
+        Double [] t_DSMID = DSMID.getValue();
         Double t_TDL = TDL.getValue();
-        Double [] t_TMA = new Double[5];
+        Double [] t_TMA = TMA.getValue();
         Integer t_NDays = NDays.getValue();
-        Integer [] t_WetDay = new Integer[30];
+        Integer [] t_WetDay = WetDay.getValue();
         Double t_X2_PREV = X2_PREV.getValue();
         Double t_SRFTEMP = SRFTEMP.getValue();
-        Double [] t_ST = new Double[t_NL];
+        Double [] t_ST = ST.getValue();
         Double t_DEPIR = DEPIR.getValue();
         Double t_BIOMAS = BIOMAS.getValue();
         Double t_MULCHMASS = MULCHMASS.getValue();

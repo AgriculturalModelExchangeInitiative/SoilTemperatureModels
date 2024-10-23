@@ -1,6 +1,11 @@
 library(gsubfn)
 
 init_snowcovercalculator <- function (cCarbonContent,
+         cInitialAgeOfSnow,
+         cInitialSnowWaterContent,
+         Albedo,
+         cSnowIsolationFactorA,
+         cSnowIsolationFactorB,
          iTempMax,
          iTempMin,
          iRadiation,
@@ -12,16 +17,31 @@ init_snowcovercalculator <- function (cCarbonContent,
     SnowWaterContent <- 0.0
     SoilSurfaceTemperature <- 0.0
     AgeOfSnow <- 0
-    Albedo <- 0.0
-    Albedo <- 0.0226 * log(cCarbonContent, 10) + 0.1502
+    pInternalAlbedo <- 0.0
+    if (Albedo == as.double(0))
+    {
+        pInternalAlbedo <- 0.0226 * log(cCarbonContent, 10) + 0.1502
+    }
+    else
+    {
+        pInternalAlbedo <- Albedo
+    }
     TMEAN <- 0.5 * (iTempMax + iTempMin)
     TAMPL <- 0.5 * (iTempMax - iTempMin)
-    DST <- TMEAN + (TAMPL * (iRadiation * (1 - Albedo) - 14) / 20)
+    DST <- TMEAN + (TAMPL * (iRadiation * (1 - pInternalAlbedo) - 14) / 20)
     SoilSurfaceTemperature <- DST
-    return (list ("Albedo" = Albedo,"SnowWaterContent" = SnowWaterContent,"SoilSurfaceTemperature" = SoilSurfaceTemperature,"AgeOfSnow" = AgeOfSnow))
+    AgeOfSnow <- cInitialAgeOfSnow
+    SnowWaterContent <- cInitialSnowWaterContent
+    return (list ("pInternalAlbedo" = pInternalAlbedo,"SnowWaterContent" = SnowWaterContent,"SoilSurfaceTemperature" = SoilSurfaceTemperature,"AgeOfSnow" = AgeOfSnow))
 }
 
 model_snowcovercalculator <- function (cCarbonContent,
+         cInitialAgeOfSnow,
+         cInitialSnowWaterContent,
+         Albedo,
+         pInternalAlbedo,
+         cSnowIsolationFactorA,
+         cSnowIsolationFactorB,
          iTempMax,
          iTempMin,
          iRadiation,
@@ -30,7 +50,6 @@ model_snowcovercalculator <- function (cCarbonContent,
          iPotentialSoilEvaporation,
          iLeafAreaIndex,
          iSoilTempArray,
-         Albedo,
          SnowWaterContent,
          SoilSurfaceTemperature,
          AgeOfSnow){
@@ -49,9 +68,63 @@ model_snowcovercalculator <- function (cCarbonContent,
     #'                          ** parametercategory : constant
     #'                          ** datatype : DOUBLE
     #'                          ** max : 20.0
-    #'                          ** min : 0.0
+    #'                          ** min : 0.5
     #'                          ** default : 0.5
     #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/percent
+    #'            * name: cInitialAgeOfSnow
+    #'                          ** description : Initial age of snow
+    #'                          ** inputtype : parameter
+    #'                          ** parametercategory : constant
+    #'                          ** datatype : INT
+    #'                          ** max : 
+    #'                          ** min : 0
+    #'                          ** default : 0
+    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/percent
+    #'            * name: cInitialSnowWaterContent
+    #'                          ** description : Initial snow water content
+    #'                          ** inputtype : parameter
+    #'                          ** parametercategory : constant
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 1500.0
+    #'                          ** min : 0.0
+    #'                          ** default : 0.0
+    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/percent
+    #'            * name: Albedo
+    #'                          ** description : Albedo
+    #'                          ** inputtype : parameter
+    #'                          ** parametercategory : constant
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 1.0
+    #'                          ** min : 0.0
+    #'                          ** default : 
+    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
+    #'            * name: pInternalAlbedo
+    #'                          ** description : Albedo privat
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : state
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 1.0
+    #'                          ** min : 0.0
+    #'                          ** default : 
+    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
+    #'            * name: cSnowIsolationFactorA
+    #'                          ** description : Static part of the snow isolation index calculation
+    #'                          ** inputtype : parameter
+    #'                          ** parametercategory : constant
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 10.0
+    #'                          ** min : 0.0
+    #'                          ** default : 2.3
+    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
+    #'            * name: cSnowIsolationFactorB
+    #'                          ** description : Dynamic part of the snow isolation index calculation
+    #'                          ** inputtype : parameter
+    #'                          ** parametercategory : constant
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 1.0
+    #'                          ** min : 0.0
+    #'                          ** default : 0.22
+    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
     #'            * name: iTempMax
     #'                          ** description : Daily maximum air temperature
     #'                          ** inputtype : variable
@@ -86,7 +159,7 @@ model_snowcovercalculator <- function (cCarbonContent,
     #'                          ** datatype : DOUBLE
     #'                          ** max : 60.0
     #'                          ** min : 0.0
-    #'                          ** default : 
+    #'                          ** default : 0.0
     #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/millimetre
     #'            * name: iCropResidues
     #'                          ** description : Crop residues plus above ground biomass
@@ -104,7 +177,7 @@ model_snowcovercalculator <- function (cCarbonContent,
     #'                          ** datatype : DOUBLE
     #'                          ** max : 12.0
     #'                          ** min : 0.0
-    #'                          ** default : 
+    #'                          ** default : 0.0
     #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/millimetre
     #'            * name: iLeafAreaIndex
     #'                          ** description : Leaf area index
@@ -125,15 +198,6 @@ model_snowcovercalculator <- function (cCarbonContent,
     #'                          ** min : -15.0
     #'                          ** default : 
     #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
-    #'            * name: Albedo
-    #'                          ** description : Albedo
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : state
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 1.0
-    #'                          ** min : 0.0
-    #'                          ** default : 
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
     #'            * name: SnowWaterContent
     #'                          ** description : Snow water content
     #'                          ** inputtype : variable
@@ -160,7 +224,7 @@ model_snowcovercalculator <- function (cCarbonContent,
     #'                          ** max : 
     #'                          ** min : 0
     #'                          ** default : 0
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
+    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/day
     #'- outputs:
     #'            * name: SnowWaterContent
     #'                          ** description : Snow water content
@@ -182,6 +246,27 @@ model_snowcovercalculator <- function (cCarbonContent,
     #'                          ** variablecategory : state
     #'                          ** max : 
     #'                          ** min : 0
+    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/day
+    #'            * name: rSnowWaterContentRate
+    #'                          ** description : daily snow water content change rate
+    #'                          ** datatype : DOUBLE
+    #'                          ** variablecategory : rate
+    #'                          ** max : 1500.0
+    #'                          ** min : -1500.0
+    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/millimetre_per_day
+    #'            * name: rSoilSurfaceTemperatureRate
+    #'                          ** description : daily soil surface temperature change rate
+    #'                          ** datatype : DOUBLE
+    #'                          ** variablecategory : rate
+    #'                          ** max : 70.0
+    #'                          ** min : -40.0
+    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
+    #'            * name: rAgeOfSnowRate
+    #'                          ** description : daily age of snow change rate
+    #'                          ** datatype : INT
+    #'                          ** variablecategory : rate
+    #'                          ** max : 
+    #'                          ** min : 
     #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
     #'            * name: SnowIsolationIndex
     #'                          ** description : Snow isolation index
@@ -194,7 +279,7 @@ model_snowcovercalculator <- function (cCarbonContent,
     tiSoilTempArray <- iSoilTempArray[1]
     TMEAN <- 0.5 * (iTempMax + iTempMin)
     TAMPL <- 0.5 * (iTempMax - iTempMin)
-    DST <- TMEAN + (TAMPL * (iRadiation * (1 - Albedo) - 14) / 20)
+    DST <- TMEAN + (TAMPL * (iRadiation * (1 - pInternalAlbedo) - 14) / 20)
     if (iRAIN > as.double(0) && (tiSoilTempArray < as.double(1) || (SnowWaterContent > as.double(3) || SoilSurfaceTemperature < as.double(0))))
     {
         SnowWaterContent <- SnowWaterContent + iRAIN
@@ -211,7 +296,7 @@ model_snowcovercalculator <- function (cCarbonContent,
     }
     else
     {
-        tSnowIsolationIndex <- max(SnowWaterContent / (SnowWaterContent + exp(0.47 - (0.62 * SnowWaterContent))), tSnowIsolationIndex)
+        tSnowIsolationIndex <- max(SnowWaterContent / (SnowWaterContent + exp(cSnowIsolationFactorA - (cSnowIsolationFactorB * SnowWaterContent))), tSnowIsolationIndex)
         tSoilSurfaceTemperature <- (1 - tSnowIsolationIndex) * DST + (tSnowIsolationIndex * tiSoilTempArray)
     }
     if (SnowWaterContent == as.double(0) && not (iRAIN > as.double(0) && tiSoilTempArray < as.double(1)))
@@ -255,7 +340,10 @@ model_snowcovercalculator <- function (cCarbonContent,
             AgeOfSnow <- AgeOfSnow + 1
         }
     }
-    SnowIsolationIndex <- tSnowIsolationIndex
+    rSnowWaterContentRate <- SnowWaterContent - SnowWaterContent
+    rSoilSurfaceTemperatureRate <- tSoilSurfaceTemperature - SoilSurfaceTemperature
+    rAgeOfSnowRate <- AgeOfSnow - AgeOfSnow
     SoilSurfaceTemperature <- tSoilSurfaceTemperature
-    return (list ("SnowWaterContent" = SnowWaterContent,"SoilSurfaceTemperature" = SoilSurfaceTemperature,"AgeOfSnow" = AgeOfSnow,"SnowIsolationIndex" = SnowIsolationIndex))
+    SnowIsolationIndex <- tSnowIsolationIndex
+    return (list ("SnowWaterContent" = SnowWaterContent,"SoilSurfaceTemperature" = SoilSurfaceTemperature,"AgeOfSnow" = AgeOfSnow,"rSnowWaterContentRate" = rSnowWaterContentRate,"rSoilSurfaceTemperatureRate" = rSoilSurfaceTemperatureRate,"rAgeOfSnowRate" = rAgeOfSnowRate,"SnowIsolationIndex" = SnowIsolationIndex))
 }

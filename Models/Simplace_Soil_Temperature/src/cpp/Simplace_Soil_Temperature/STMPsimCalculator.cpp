@@ -1,4 +1,3 @@
-#ifndef _STMPSIMCALCULATOR_
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
@@ -10,34 +9,30 @@
 #include <map>
 #include <tuple>
 #include "STMPsimCalculator.h"
-using namespace std;
-
-void STMPsimCalculator::Init(SoilTemperatureState& s, SoilTemperatureState& s1, SoilTemperatureRate& r, SoilTemperatureAuxiliary& a, SoilTemperatureExogenous& ex)
+using namespace Simplace_Soil_Temperature;
+void STMPsimCalculator::Init(SoilTemperatureState &s, SoilTemperatureState &s1, SoilTemperatureRate &r, SoilTemperatureAuxiliary &a, SoilTemperatureExogenous &ex)
 {
     double iSoilWaterContent = ex.getiSoilWaterContent();
     double iSoilSurfaceTemperature = ex.getiSoilSurfaceTemperature();
-    vector<double> SoilTempArray;
-    vector<double> rSoilTempArrayRate;
-    vector<double> pSoilLayerDepth;
+    std::vector<double> SoilTempArray;
+    std::vector<double> rSoilTempArrayRate;
+    std::vector<double> pSoilLayerDepth;
     double tProfileDepth;
     double additionalDepth;
     double firstAdditionalLayerHight;
     int layers;
-    vector<double> tStmp;
-    vector<double> tStmpRate;
-    vector<double> tz;
+    std::vector<double> tStmp;
+    std::vector<double> tStmpRate;
+    std::vector<double> tz;
     int i;
     double depth;
     tProfileDepth = cSoilLayerDepth[cSoilLayerDepth.size() - 1];
     additionalDepth = cDampingDepth - tProfileDepth;
-    firstAdditionalLayerHight = additionalDepth - float(floor(additionalDepth));
-    layers = int(abs(float((int) ceil(additionalDepth)))) + cSoilLayerDepth.size();
-    tStmp = vector<double> (layers);
-    ;
-    tStmpRate = vector<double> (layers);
-    ;
-    tz = vector<double> (layers);
-    ;
+    firstAdditionalLayerHight = additionalDepth - float(std::floor(additionalDepth));
+    layers = int(std::abs(float((int) std::ceil(additionalDepth)))) + cSoilLayerDepth.size();
+    tStmp = std::vector<double> (layers);
+    tStmpRate = std::vector<double> (layers);
+    tz = std::vector<double> (layers);
     for (i=0 ; i!=tStmp.size() ; i+=1)
     {
         if (i < cSoilLayerDepth.size())
@@ -49,7 +44,6 @@ void STMPsimCalculator::Init(SoilTemperatureState& s, SoilTemperatureState& s1, 
             depth = tProfileDepth + firstAdditionalLayerHight + i - cSoilLayerDepth.size();
         }
         tz[i] = depth;
-        tStmpRate[i] = 0.0;
         tStmp[i] = (cFirstDayMeanTemp * (cDampingDepth - depth) + (cAVT * depth)) / cDampingDepth;
     }
     rSoilTempArrayRate = tStmpRate;
@@ -59,20 +53,20 @@ void STMPsimCalculator::Init(SoilTemperatureState& s, SoilTemperatureState& s1, 
     s.setrSoilTempArrayRate(rSoilTempArrayRate);
     s.setpSoilLayerDepth(pSoilLayerDepth);
 }
-STMPsimCalculator::STMPsimCalculator() { }
-vector<double> & STMPsimCalculator::getcSoilLayerDepth() {return this-> cSoilLayerDepth; }
-double STMPsimCalculator::getcFirstDayMeanTemp() {return this-> cFirstDayMeanTemp; }
-double STMPsimCalculator::getcAVT() {return this-> cAVT; }
-double STMPsimCalculator::getcABD() {return this-> cABD; }
-double STMPsimCalculator::getcDampingDepth() {return this-> cDampingDepth; }
-void STMPsimCalculator::setcSoilLayerDepth(vector<double> const & _cSoilLayerDepth){
+STMPsimCalculator::STMPsimCalculator() {}
+std::vector<double> & STMPsimCalculator::getcSoilLayerDepth() { return this->cSoilLayerDepth; }
+double STMPsimCalculator::getcFirstDayMeanTemp() { return this->cFirstDayMeanTemp; }
+double STMPsimCalculator::getcAVT() { return this->cAVT; }
+double STMPsimCalculator::getcABD() { return this->cABD; }
+double STMPsimCalculator::getcDampingDepth() { return this->cDampingDepth; }
+void STMPsimCalculator::setcSoilLayerDepth(std::vector<double> const &_cSoilLayerDepth){
     this->cSoilLayerDepth = _cSoilLayerDepth;
 }
 void STMPsimCalculator::setcFirstDayMeanTemp(double _cFirstDayMeanTemp) { this->cFirstDayMeanTemp = _cFirstDayMeanTemp; }
 void STMPsimCalculator::setcAVT(double _cAVT) { this->cAVT = _cAVT; }
 void STMPsimCalculator::setcABD(double _cABD) { this->cABD = _cABD; }
 void STMPsimCalculator::setcDampingDepth(double _cDampingDepth) { this->cDampingDepth = _cDampingDepth; }
-void STMPsimCalculator::Calculate_Model(SoilTemperatureState& s, SoilTemperatureState& s1, SoilTemperatureRate& r, SoilTemperatureAuxiliary& a, SoilTemperatureExogenous& ex)
+void STMPsimCalculator::Calculate_Model(SoilTemperatureState &s, SoilTemperatureState &s1, SoilTemperatureRate &r, SoilTemperatureAuxiliary &a, SoilTemperatureExogenous &ex)
 {
     //- Name: STMPsimCalculator -Version: 001, -Time step: 1
     //- Description:
@@ -153,8 +147,8 @@ void STMPsimCalculator::Calculate_Model(SoilTemperatureState& s, SoilTemperature
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
-    //                          ** max : 40
-    //                          ** min : -20
+    //                          ** max : 50.0
+    //                          ** min : -40.0
     //                          ** default : 
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
     //            * name: rSoilTempArrayRate
@@ -163,7 +157,7 @@ void STMPsimCalculator::Calculate_Model(SoilTemperatureState& s, SoilTemperature
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
-    //                          ** max : 40
+    //                          ** max : 20
     //                          ** min : -20
     //                          ** default : 
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
@@ -183,22 +177,22 @@ void STMPsimCalculator::Calculate_Model(SoilTemperatureState& s, SoilTemperature
     //                          ** datatype : DOUBLEARRAY
     //                          ** variablecategory : state
     //                          ** len : 
-    //                          ** max : 40
-    //                          ** min : -20
+    //                          ** max : 50.0
+    //                          ** min : -40.0
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
     //            * name: rSoilTempArrayRate
     //                          ** description : Array of daily temperature change
     //                          ** datatype : DOUBLEARRAY
     //                          ** variablecategory : state
     //                          ** len : 
-    //                          ** max : 40
+    //                          ** max : 20
     //                          ** min : -20
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
     double iSoilWaterContent = ex.getiSoilWaterContent();
     double iSoilSurfaceTemperature = ex.getiSoilSurfaceTemperature();
-    vector<double>  SoilTempArray = s.getSoilTempArray();
-    vector<double>  rSoilTempArrayRate = s.getrSoilTempArrayRate();
-    vector<double>  pSoilLayerDepth = s.getpSoilLayerDepth();
+    std::vector<double> & SoilTempArray = s.getSoilTempArray();
+    std::vector<double> & rSoilTempArrayRate = s.getrSoilTempArrayRate();
+    std::vector<double> & pSoilLayerDepth = s.getpSoilLayerDepth();
     double XLAG;
     double XLG1;
     double DP;
@@ -210,14 +204,14 @@ void STMPsimCalculator::Calculate_Model(SoilTemperatureState& s, SoilTemperature
     double RATE;
     XLAG = .8;
     XLG1 = 1 - XLAG;
-    DP = 1 + (2.5 * cABD / (cABD + exp(6.53 - (5.63 * cABD))));
+    DP = 1 + (2.5 * cABD / (cABD + std::exp(6.53 - (5.63 * cABD))));
     WC = 0.001 * iSoilWaterContent / ((.356 - (.144 * cABD)) * cSoilLayerDepth[(cSoilLayerDepth.size() - 1)]);
-    DD = exp(log(0.5 / DP) * ((1 - WC) / (1 + WC)) * 2) * DP;
+    DD = std::exp(std::log(0.5 / DP) * ((1 - WC) / (1 + WC)) * 2) * DP;
     Z1 = float(0);
     for (i=0 ; i!=SoilTempArray.size() ; i+=1)
     {
         ZD = 0.5 * (Z1 + pSoilLayerDepth[i]) / DD;
-        RATE = ZD / (ZD + exp(-.8669 - (2.0775 * ZD))) * (cAVT - iSoilSurfaceTemperature);
+        RATE = ZD / (ZD + std::exp(-.8669 - (2.0775 * ZD))) * (cAVT - iSoilSurfaceTemperature);
         RATE = XLG1 * (RATE + iSoilSurfaceTemperature - SoilTempArray[i]);
         Z1 = pSoilLayerDepth[i];
         rSoilTempArrayRate[i] = RATE;
@@ -226,4 +220,3 @@ void STMPsimCalculator::Calculate_Model(SoilTemperatureState& s, SoilTemperature
     s.setSoilTempArray(SoilTempArray);
     s.setrSoilTempArrayRate(rSoilTempArrayRate);
 }
-#endif

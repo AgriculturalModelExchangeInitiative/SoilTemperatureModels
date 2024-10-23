@@ -2,5 +2,6 @@
 
 from stemp_epic import *
 from math import *
-import numpy 
-
+import numpy
+ 
+ 

@@ -11,6 +11,7 @@ namespace SoilTemperature.DomainClass
     {
         private double _meanTAir;
         private double _minTAir;
+        private double _meanAnnualAirTemp;
         private double _maxTAir;
         private double _dayLength;
         private ParametersIO _parametersIO;
@@ -24,10 +25,11 @@ namespace SoilTemperature.DomainClass
         {
             if (copyAll)
             {
-                _meanTAir = toCopy._meanTAir;
-                _minTAir = toCopy._minTAir;
-                _maxTAir = toCopy._maxTAir;
-                _dayLength = toCopy._dayLength;
+                meanTAir = toCopy.meanTAir;
+                minTAir = toCopy.minTAir;
+                meanAnnualAirTemp = toCopy.meanAnnualAirTemp;
+                maxTAir = toCopy.maxTAir;
+                dayLength = toCopy.dayLength;
             }
         }
 
@@ -40,6 +42,11 @@ namespace SoilTemperature.DomainClass
         {
             get { return this._minTAir; }
             set { this._minTAir= value; } 
+        }
+        public double meanAnnualAirTemp
+        {
+            get { return this._meanAnnualAirTemp; }
+            set { this._meanAnnualAirTemp= value; } 
         }
         public double maxTAir
         {
@@ -71,6 +78,7 @@ namespace SoilTemperature.DomainClass
         {
              _meanTAir = default(double);
              _minTAir = default(double);
+             _meanAnnualAirTemp = default(double);
              _maxTAir = default(double);
              _dayLength = default(double);
             return true;

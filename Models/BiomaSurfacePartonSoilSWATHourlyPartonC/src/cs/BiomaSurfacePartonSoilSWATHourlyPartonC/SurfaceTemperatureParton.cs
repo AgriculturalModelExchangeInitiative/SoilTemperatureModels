@@ -11,11 +11,11 @@ public class SurfaceTemperatureParton
         //- Name: SurfaceTemperatureParton -Version: 001, -Time step: 1
         //- Description:
     //            * Title: SurfaceTemperatureParton model
-    //            * Authors: simone.bregaglio@unimi.it
-    //            * Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
+    //            * Authors: simone.bregaglio
+    //            * Reference: http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl
     //            * Institution: University Of Milan
     //            * ExtendedDescription: Strategy for the calculation of soil surface temperature with Parton's method. Reference: Parton, W. J. 1984. Predicting soil temperatures in a shortgrass steppe. Soil Science 138:93-101.
-    //            * ShortDescription: None
+    //            * ShortDescription: Strategy for the calculation of soil surface temperature with Parton's method
         //- inputs:
     //            * name: GlobalSolarRadiation
     //                          ** description : Daily global solar radiation
@@ -38,7 +38,7 @@ public class SurfaceTemperatureParton
     //            * name: AboveGroundBiomass
     //                          ** description : Above ground biomass
     //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** datatype : DOUBLE
     //                          ** max : 60
     //                          ** min : 0
@@ -52,7 +52,7 @@ public class SurfaceTemperatureParton
     //                          ** max : 50
     //                          ** min : -60
     //                          ** default : 5
-    //                          ** unit : Â°C
+    //                          ** unit : degC
     //            * name: AirTemperatureMaximum
     //                          ** description : Maximum daily air temperature
     //                          ** inputtype : variable
@@ -61,32 +61,32 @@ public class SurfaceTemperatureParton
     //                          ** max : 60
     //                          ** min : -40
     //                          ** default : 15
-    //                          ** unit : Â°C
+    //                          ** unit : degC
         //- outputs:
     //            * name: SurfaceSoilTemperature
     //                          ** description : Average surface soil temperature
     //                          ** datatype : DOUBLE
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** max : 60
     //                          ** min : -60
-    //                          ** unit : Â°C
+    //                          ** unit : degC
     //            * name: SurfaceTemperatureMinimum
     //                          ** description : Minimum surface soil temperature
     //                          ** datatype : DOUBLE
     //                          ** variablecategory : auxiliary
     //                          ** max : 60
     //                          ** min : -60
-    //                          ** unit : Â°C
+    //                          ** unit : 
     //            * name: SurfaceTemperatureMaximum
     //                          ** description : Maximum surface soil temperature
     //                          ** datatype : DOUBLE
     //                          ** variablecategory : auxiliary
     //                          ** max : 60
     //                          ** min : -60
-    //                          ** unit : Â°C
+    //                          ** unit : degC             */
         double GlobalSolarRadiation = ex.GlobalSolarRadiation;
         double DayLength = ex.DayLength;
-        double AboveGroundBiomass = s.AboveGroundBiomass;
+        double AboveGroundBiomass = a.AboveGroundBiomass;
         double AirTemperatureMinimum = ex.AirTemperatureMinimum;
         double AirTemperatureMaximum = ex.AirTemperatureMaximum;
         double SurfaceSoilTemperature;
@@ -115,7 +115,7 @@ public class SurfaceTemperatureParton
         {
             SurfaceSoilTemperature = DayLength / 24 * _AirTMax + ((1 - (DayLength / 24)) * _AirTmin);
         }
-        s.SurfaceSoilTemperature= SurfaceSoilTemperature;
+        a.SurfaceSoilTemperature= SurfaceSoilTemperature;
         a.SurfaceTemperatureMinimum= SurfaceTemperatureMinimum;
         a.SurfaceTemperatureMaximum= SurfaceTemperatureMaximum;
     }

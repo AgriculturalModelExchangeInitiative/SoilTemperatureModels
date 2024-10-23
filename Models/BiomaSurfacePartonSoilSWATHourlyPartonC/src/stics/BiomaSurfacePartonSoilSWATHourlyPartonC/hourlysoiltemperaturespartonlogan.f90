@@ -22,11 +22,11 @@ CONTAINS
         !- Name: HourlySoilTemperaturesPartonLogan -Version: 001, -Time step: 1
         !- Description:
     !            * Title: HourlySoilTemperaturesPartonLogan model
-    !            * Authors: simone.bregaglio@unimi.it
-    !            * Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
+    !            * Authors: simone.bregaglio
+    !            * Reference: http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl
     !            * Institution: University Of Milan
     !            * ExtendedDescription: Strategy for the calculation of hourly soil temperature. Reference: Parton, W.J.  and  Logan, J.A.,  1981. A model for diurnal variation  in soil  and  air temperature. Agric. Meteorol., 23: 205-216.
-    !            * ShortDescription: None
+    !            * ShortDescription: Strategy for the calculation of hourly soil temperature
         !- inputs:
     !            * name: SoilTemperatureByLayersHourly
     !                          ** description : Hourly soil temperature by layers
@@ -37,7 +37,7 @@ CONTAINS
     !                          ** max : 50
     !                          ** min : -50
     !                          ** default : 15
-    !                          ** unit : Â°C
+    !                          ** unit : degC
     !            * name: HourOfSunrise
     !                          ** description : Hour of sunrise
     !                          ** inputtype : variable
@@ -68,23 +68,23 @@ CONTAINS
     !            * name: SoilTemperatureMinimum
     !                          ** description : Minimum soil temperature by layers
     !                          ** inputtype : variable
-    !                          ** variablecategory : state
+    !                          ** variablecategory : auxiliary
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
     !                          ** max : 60
     !                          ** min : -60
     !                          ** default : 15
-    !                          ** unit : Â°C
+    !                          ** unit : degC
     !            * name: SoilTemperatureMaximum
     !                          ** description : Maximum soil temperature by layers
     !                          ** inputtype : variable
-    !                          ** variablecategory : state
+    !                          ** variablecategory : auxiliary
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
     !                          ** max : 60
     !                          ** min : -60
     !                          ** default : 15
-    !                          ** unit : Â°C
+    !                          ** unit : degC
         !- outputs:
     !            * name: SoilTemperatureByLayersHourly
     !                          ** description : Hourly soil temperature by layers
@@ -93,7 +93,7 @@ CONTAINS
     !                          ** len : 
     !                          ** max : 50
     !                          ** min : -50
-    !                          ** unit : Â°C
+    !                          ** unit : degC
         DO i = 0 , SIZE(SoilTemperatureMinimum)-1, 1
             DO h = 0 , 24-1, 1
                 IF(h .GE. INT(HourOfSunrise) .AND. h .LE. INT(HourOfSunset)) THEN

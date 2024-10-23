@@ -23,11 +23,14 @@ public class STEMP
         Double[] ST =  new Double [NL];
         Double HDAY;
         CUMDPT = 0.0d;
+        DSMID= new Double[NL];
         Arrays.fill(DSMID, 0.0d);
         TDL = 0.0d;
+        TMA= new Double[5];
         Arrays.fill(TMA, 0.0d);
         ATOT = 0.0d;
         SRFTEMP = 0.0d;
+        ST= new Double[NL];
         Arrays.fill(ST, 0.0d);
         HDAY = 0.0d;
         Integer I;
@@ -195,7 +198,7 @@ public class STEMP
     { this.XLAT= _XLAT; } 
     
     public STEMP() { }
-    public void  Calculate_stemp(STEMP_State s, STEMP_State s1, STEMP_Rate r, STEMP_Auxiliary a,  STEMP_Exogenous ex)
+    public void  Calculate_Model(STEMP_State s, STEMP_State s1, STEMP_Rate r, STEMP_Auxiliary a,  STEMP_Exogenous ex)
     {
         //- Name: STEMP -Version:  1.0, -Time step:  1
         //- Description:
@@ -575,7 +578,7 @@ public class STEMP
         {
             TMA[K - 1] = TMA[K - 1 - 1];
         }
-        TMA[1 - 1] = (1.0d - ALBEDO) * (TAVG + ((TMAX - TAVG) * Math.sqrt(SRAD * 0.03d))) + (ALBEDO * TMA[(1 - 1)]);
+        TMA[1 - 1] = TAVG;
         TMA[1 - 1] = (int)(TMA[(1 - 1)] * 10000.d) / 10000.d;
         ATOT = ATOT + TMA[1 - 1];
         WC = Math.max(0.01d, PESW) / (WW * CUMDPT) * 10.0d;

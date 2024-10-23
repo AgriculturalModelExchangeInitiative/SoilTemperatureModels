@@ -5,16 +5,16 @@ source('Surfacetemperatureparton.r')
 source('Soiltemperatureswat.r')
 
 model_surfacepartonsoilswatc <- function (DayLength,
-         AirTemperatureMaximum,
-         AirTemperatureMinimum,
-         AboveGroundBiomass,
          GlobalSolarRadiation,
-         VolumetricWaterContent,
+         AboveGroundBiomass,
+         AirTemperatureMinimum,
+         AirTemperatureMaximum,
          LayerThickness,
-         LagCoefficient,
-         AirTemperatureAnnualAverage,
          BulkDensity,
-         SoilProfileDepth){
+         SoilProfileDepth,
+         AirTemperatureAnnualAverage,
+         VolumetricWaterContent,
+         LagCoefficient){
     #'- Name: SurfacePartonSoilSWATC -Version: 001, -Time step: 1
     #'- Description:
     #'            * Title: SurfacePartonSoilSWATC model
@@ -33,33 +33,6 @@ model_surfacepartonsoilswatc <- function (DayLength,
     #'                          ** min : 0
     #'                          ** default : 10
     #'                          ** unit : h
-    #'            * name: AirTemperatureMaximum
-    #'                          ** description : Maximum daily air temperature
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 60
-    #'                          ** min : -40
-    #'                          ** default : 15
-    #'                          ** unit : Â°C
-    #'            * name: AirTemperatureMinimum
-    #'                          ** description : Minimum daily air temperature
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 50
-    #'                          ** min : -60
-    #'                          ** default : 5
-    #'                          ** unit : Â°C
-    #'            * name: AboveGroundBiomass
-    #'                          ** description : Above ground biomass
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : state
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 60
-    #'                          ** min : 0
-    #'                          ** default : 3
-    #'                          ** unit : Kg ha-1
     #'            * name: GlobalSolarRadiation
     #'                          ** description : Daily global solar radiation
     #'                          ** inputtype : variable
@@ -69,26 +42,81 @@ model_surfacepartonsoilswatc <- function (DayLength,
     #'                          ** min : 0
     #'                          ** default : 15
     #'                          ** unit : Mj m-2 d-1
-    #'            * name: VolumetricWaterContent
-    #'                          ** description : Volumetric soil water content
+    #'            * name: AboveGroundBiomass
+    #'                          ** description : Above ground biomass
     #'                          ** inputtype : variable
-    #'                          ** variablecategory : state
-    #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 
-    #'                          ** max : 0.8
+    #'                          ** variablecategory : exogenous
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 60
     #'                          ** min : 0
-    #'                          ** default : 0.25
-    #'                          ** unit : m3 m-3
+    #'                          ** default : 3
+    #'                          ** unit : Kg ha-1
+    #'            * name: AirTemperatureMinimum
+    #'                          ** description : Minimum daily air temperature
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : exogenous
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 50
+    #'                          ** min : -60
+    #'                          ** default : 5
+    #'                          ** unit : 
+    #'            * name: AirTemperatureMaximum
+    #'                          ** description : Maximum daily air temperature
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : exogenous
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 60
+    #'                          ** min : -40
+    #'                          ** default : 15
+    #'                          ** unit : 
     #'            * name: LayerThickness
     #'                          ** description : Soil layer thickness
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : state
+    #'                          ** inputtype : parameter
+    #'                          ** parametercategory : constant
     #'                          ** datatype : DOUBLEARRAY
     #'                          ** len : 
     #'                          ** max : 3
     #'                          ** min : 0.005
     #'                          ** default : 0.05
     #'                          ** unit : m
+    #'            * name: BulkDensity
+    #'                          ** description : Bulk density
+    #'                          ** inputtype : parameter
+    #'                          ** parametercategory : constant
+    #'                          ** datatype : DOUBLEARRAY
+    #'                          ** len : 
+    #'                          ** max : 1.8
+    #'                          ** min : 0.9
+    #'                          ** default : 1.3
+    #'                          ** unit : t m-3
+    #'            * name: SoilProfileDepth
+    #'                          ** description : Soil profile depth
+    #'                          ** inputtype : parameter
+    #'                          ** parametercategory : constant
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 50
+    #'                          ** min : 0
+    #'                          ** default : 3
+    #'                          ** unit : m
+    #'            * name: AirTemperatureAnnualAverage
+    #'                          ** description : Annual average air temperature
+    #'                          ** inputtype : parameter
+    #'                          ** parametercategory : constant
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 50
+    #'                          ** min : -40
+    #'                          ** default : 15
+    #'                          ** unit : degC
+    #'            * name: VolumetricWaterContent
+    #'                          ** description : Volumetric soil water content
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : exogenous
+    #'                          ** datatype : DOUBLEARRAY
+    #'                          ** len : 
+    #'                          ** max : 0.8
+    #'                          ** min : 0
+    #'                          ** default : 0.25
+    #'                          ** unit : m3 m-3
     #'            * name: LagCoefficient
     #'                          ** description : Lag coefficient that controls the influence of the previous day's temperature on the current day's temperature
     #'                          ** inputtype : parameter
@@ -98,34 +126,6 @@ model_surfacepartonsoilswatc <- function (DayLength,
     #'                          ** min : 0
     #'                          ** default : 0.8
     #'                          ** unit : dimensionless
-    #'            * name: AirTemperatureAnnualAverage
-    #'                          ** description : Annual average air temperature
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 50
-    #'                          ** min : -40
-    #'                          ** default : 15
-    #'                          ** unit : Â°C
-    #'            * name: BulkDensity
-    #'                          ** description : Bulk density
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : state
-    #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 
-    #'                          ** max : 1.8
-    #'                          ** min : 0.9
-    #'                          ** default : 1.3
-    #'                          ** unit : t m-3
-    #'            * name: SoilProfileDepth
-    #'                          ** description : Soil profile depth
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : state
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 50
-    #'                          ** min : 0
-    #'                          ** default : 3
-    #'                          ** unit : m
     #'- outputs:
     #'            * name: SurfaceTemperatureMinimum
     #'                          ** description : Minimum surface soil temperature
@@ -133,21 +133,21 @@ model_surfacepartonsoilswatc <- function (DayLength,
     #'                          ** variablecategory : auxiliary
     #'                          ** max : 60
     #'                          ** min : -60
-    #'                          ** unit : Â°C
+    #'                          ** unit : degC
     #'            * name: SurfaceTemperatureMaximum
     #'                          ** description : Maximum surface soil temperature
     #'                          ** datatype : DOUBLE
     #'                          ** variablecategory : auxiliary
     #'                          ** max : 60
     #'                          ** min : -60
-    #'                          ** unit : Â°C
+    #'                          ** unit : degC
     #'            * name: SurfaceSoilTemperature
     #'                          ** description : Average surface soil temperature
     #'                          ** datatype : DOUBLE
-    #'                          ** variablecategory : state
+    #'                          ** variablecategory : auxiliary
     #'                          ** max : 60
     #'                          ** min : -60
-    #'                          ** unit : Â°C
+    #'                          ** unit : degC
     #'            * name: SoilTemperatureByLayers
     #'                          ** description : Soil temperature of each layer
     #'                          ** datatype : DOUBLEARRAY
@@ -155,7 +155,7 @@ model_surfacepartonsoilswatc <- function (DayLength,
     #'                          ** len : 
     #'                          ** max : 60
     #'                          ** min : -60
-    #'                          ** unit : Â°C
+    #'                          ** unit : degC
     SoilTemperatureByLayers<- vector()
     list[SurfaceTemperatureMinimum, SurfaceTemperatureMaximum, SurfaceSoilTemperature] <- model_surfacetemperatureparton(DayLength, AirTemperatureMaximum, AirTemperatureMinimum, AboveGroundBiomass, GlobalSolarRadiation)
     SoilTemperatureByLayers <- model_soiltemperatureswat(VolumetricWaterContent, SurfaceSoilTemperature, LayerThickness, LagCoefficient, SoilTemperatureByLayers, AirTemperatureAnnualAverage, BulkDensity, SoilProfileDepth)

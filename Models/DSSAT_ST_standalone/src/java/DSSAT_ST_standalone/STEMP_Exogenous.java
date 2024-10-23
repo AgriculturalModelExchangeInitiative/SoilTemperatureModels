@@ -4,11 +4,11 @@ import java.time.LocalDateTime;
 
 public class STEMP_Exogenous
 {
-    private Double TAMP;
-    private Double SRAD;
-    private Double TAV;
     private Double TMAX;
+    private Double SRAD;
+    private Double TAMP;
     private Double TAVG;
+    private Double TAV;
     private Integer DOY;
     
     public STEMP_Exogenous() { }
@@ -17,19 +17,19 @@ public class STEMP_Exogenous
     {
         if (copyAll)
         {
-            this.TAMP = toCopy.getTAMP();
-            this.SRAD = toCopy.getSRAD();
-            this.TAV = toCopy.getTAV();
             this.TMAX = toCopy.getTMAX();
+            this.SRAD = toCopy.getSRAD();
+            this.TAMP = toCopy.getTAMP();
             this.TAVG = toCopy.getTAVG();
+            this.TAV = toCopy.getTAV();
             this.DOY = toCopy.getDOY();
         }
     }
-    public Double getTAMP()
-    { return TAMP; }
+    public Double getTMAX()
+    { return TMAX; }
 
-    public void setTAMP(Double _TAMP)
-    { this.TAMP= _TAMP; } 
+    public void setTMAX(Double _TMAX)
+    { this.TMAX= _TMAX; } 
     
     public Double getSRAD()
     { return SRAD; }
@@ -37,23 +37,23 @@ public class STEMP_Exogenous
     public void setSRAD(Double _SRAD)
     { this.SRAD= _SRAD; } 
     
-    public Double getTAV()
-    { return TAV; }
+    public Double getTAMP()
+    { return TAMP; }
 
-    public void setTAV(Double _TAV)
-    { this.TAV= _TAV; } 
-    
-    public Double getTMAX()
-    { return TMAX; }
-
-    public void setTMAX(Double _TMAX)
-    { this.TMAX= _TMAX; } 
+    public void setTAMP(Double _TAMP)
+    { this.TAMP= _TAMP; } 
     
     public Double getTAVG()
     { return TAVG; }
 
     public void setTAVG(Double _TAVG)
     { this.TAVG= _TAVG; } 
+    
+    public Double getTAV()
+    { return TAV; }
+
+    public void setTAV(Double _TAV)
+    { this.TAV= _TAV; } 
     
     public Integer getDOY()
     { return DOY; }

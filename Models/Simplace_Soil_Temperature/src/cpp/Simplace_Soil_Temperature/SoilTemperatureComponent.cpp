@@ -1,23 +1,28 @@
 #include "SoilTemperatureComponent.h"
+using namespace Simplace_Soil_Temperature;
+SoilTemperatureComponent::SoilTemperatureComponent()
+{
+       
+}
 
-    SoilTemperatureComponent::SoilTemperatureComponent()
-    {
-           
-    }
-    
 
-double SoilTemperatureComponent::getcCarbonContent() {return this-> cCarbonContent; }
-vector<double> & SoilTemperatureComponent::getcSoilLayerDepth() {return this-> cSoilLayerDepth; }
-double SoilTemperatureComponent::getcFirstDayMeanTemp() {return this-> cFirstDayMeanTemp; }
-double SoilTemperatureComponent::getcAverageGroundTemperature() {return this-> cAverageGroundTemperature; }
-double SoilTemperatureComponent::getcAverageBulkDensity() {return this-> cAverageBulkDensity; }
-double SoilTemperatureComponent::getcDampingDepth() {return this-> cDampingDepth; }
+double SoilTemperatureComponent::getcCarbonContent(){ return this->cCarbonContent; }
+double SoilTemperatureComponent::getcAlbedo(){ return this->cAlbedo; }
+std::vector<double> & SoilTemperatureComponent::getcSoilLayerDepth(){ return this->cSoilLayerDepth; }
+double SoilTemperatureComponent::getcFirstDayMeanTemp(){ return this->cFirstDayMeanTemp; }
+double SoilTemperatureComponent::getcAverageGroundTemperature(){ return this->cAverageGroundTemperature; }
+double SoilTemperatureComponent::getcAverageBulkDensity(){ return this->cAverageBulkDensity; }
+double SoilTemperatureComponent::getcDampingDepth(){ return this->cDampingDepth; }
 
 void SoilTemperatureComponent::setcCarbonContent(double _cCarbonContent)
 {
     _SnowCoverCalculator.setcCarbonContent(_cCarbonContent);
 }
-void SoilTemperatureComponent::setcSoilLayerDepth(const vector<double> & _cSoilLayerDepth)
+void SoilTemperatureComponent::setcAlbedo(double _cAlbedo)
+{
+    _SnowCoverCalculator.setAlbedo(_cAlbedo);
+}
+void SoilTemperatureComponent::setcSoilLayerDepth(const std::vector<double> & _cSoilLayerDepth)
 {
     _STMPsimCalculator.setcSoilLayerDepth(_cSoilLayerDepth);
 }
@@ -37,7 +42,7 @@ void SoilTemperatureComponent::setcDampingDepth(double _cDampingDepth)
 {
     _STMPsimCalculator.setcDampingDepth(_cDampingDepth);
 }
-void SoilTemperatureComponent::Calculate_Model(SoilTemperatureState& s, SoilTemperatureState& s1, SoilTemperatureRate& r, SoilTemperatureAuxiliary& a, SoilTemperatureExogenous& ex)
+void SoilTemperatureComponent::Calculate_Model(SoilTemperatureState &s, SoilTemperatureState &s1, SoilTemperatureRate &r, SoilTemperatureAuxiliary &a, SoilTemperatureExogenous &ex)
 {
     ex.setiTempMax(ex.getiAirTemperatureMax());
     ex.setiTempMin(ex.getiAirTemperatureMin());
@@ -50,12 +55,12 @@ void SoilTemperatureComponent::Calculate_Model(SoilTemperatureState& s, SoilTemp
 SoilTemperatureComponent::SoilTemperatureComponent(SoilTemperatureComponent& toCopy)
 {
     cCarbonContent = toCopy.getcCarbonContent();
-    
-        for (int i = 0; i < toCopy.getcSoilLayerDepth().size(); i++)
-        {
-            cSoilLayerDepth[i] = toCopy.getcSoilLayerDepth()[i];
-        }
-    
+    cAlbedo = toCopy.getcAlbedo();
+    for (int i = 0; i < toCopy.getcSoilLayerDepth().size(); i++)
+{
+    cSoilLayerDepth[i] = toCopy.getcSoilLayerDepth()[i];
+}
+
     cFirstDayMeanTemp = toCopy.getcFirstDayMeanTemp();
     cAverageGroundTemperature = toCopy.getcAverageGroundTemperature();
     cAverageBulkDensity = toCopy.getcAverageBulkDensity();

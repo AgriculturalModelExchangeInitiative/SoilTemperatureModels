@@ -18,7 +18,7 @@ TMEAN=0.5 * (iTempMax + iTempMin)
 #b'/TAMPL = Amplitude of daily air temperature at 2 m (\xc3\x82\xc2\xb0C)'
 TAMPL=0.5 * (iTempMax - iTempMin)
 #b'/DST = Bare soil surface temperature (\xc3\x82\xc2\xb0C)'
-DST=TMEAN + (TAMPL * (iRadiation * (1 - Albedo) - 14) / 20)
+DST=TMEAN + (TAMPL * (iRadiation * (1 - pInternalAlbedo) - 14) / 20)
 #b'/adding new precipitation to snow cover'
 if iRAIN > float(0) and (tiSoilTempArray < float(1) or SnowWaterContent > float(3) or SoilSurfaceTemperature < float(0)):
     SnowWaterContent=SnowWaterContent + iRAIN
@@ -31,8 +31,7 @@ if SnowWaterContent < 1E-10:
     #b"/SoilSurfaceTemperature = Actual soil surface temperature (\xc3\x82\xc2\xb0C), iSoilTempArray = Yesterday's temperature in the first layer (\xc3\x82\xc2\xb0C)"
     tSoilSurfaceTemperature=0.5 * (DST + ((1 - tSnowIsolationIndex) * DST) + (tSnowIsolationIndex * tiSoilTempArray))
 else:
-    #b'/coefficients based on EPIC SCRP(17) values from PARM0509.file'
-    tSnowIsolationIndex=max(SnowWaterContent / (SnowWaterContent + exp(0.47 - (0.62 * SnowWaterContent))), tSnowIsolationIndex)
+    tSnowIsolationIndex=max(SnowWaterContent / (SnowWaterContent + exp(cSnowIsolationFactorA - (cSnowIsolationFactorB * SnowWaterContent))), tSnowIsolationIndex)
     #b"/SoilSurfaceTemperature = Actual soil surface temperature (\xc3\x82\xc2\xb0C), iSoilTempArray = Yesterday's temperature in the first layer (\xc3\x82\xc2\xb0C)"
     tSoilSurfaceTemperature=(1 - tSnowIsolationIndex) * DST + (tSnowIsolationIndex * tiSoilTempArray)
 if SnowWaterContent == float(0) and not (iRAIN > float(0) and tiSoilTempArray < float(1)):
@@ -63,5 +62,8 @@ else:
         AgeOfSnow=0
     else:
         AgeOfSnow=AgeOfSnow + 1
-SnowIsolationIndex=tSnowIsolationIndex
+rSnowWaterContentRate=SnowWaterContent - SnowWaterContent
+rSoilSurfaceTemperatureRate=tSoilSurfaceTemperature - SoilSurfaceTemperature
+rAgeOfSnowRate=AgeOfSnow - AgeOfSnow
 SoilSurfaceTemperature=tSoilSurfaceTemperature
+SnowIsolationIndex=tSnowIsolationIndex

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE configuration PUBLIC "-//SIMPLACE/DTD GRP 1.0//EN" "http://simplace.net/dtd/GroupComponent.dtd">
+<!DOCTYPE configuration PUBLIC "-//SIMPLACE/DTD GRP 1.0//EN" "https://simplace.net/dtd/GroupComponent.dtd">
 <configuration class="soil.temperature.SoilTemperature">
 	<simgroup>
 		<simcomponent id="SnowCoverCalculator" class="net.simplace.sim.components.soil.temperature.SnowCoverCalculator">
 			<input id="cCarbonContent" source="SoilTemperature.cCarbonContent" />
+			<input id="Albedo" source="SoilTemperature.cAlbedo" />
 			<input id="iTempMax" source="SoilTemperature.iAirTemperatureMax" />
 			<input id="iTempMin" source="SoilTemperature.iAirTemperatureMin" />
 			<input id="iRadiation" source="SoilTemperature.iGlobalSolarRadiation" />
@@ -15,6 +16,12 @@
 			<output id="SoilSurfaceTemperature" destination="SoilTemperature.SoilSurfaceTemperature" />
 			<output id="SnowIsolationIndex" destination="SoilTemperature.SnowIsolationIndex" />
 			<output id="SnowWaterContent" destination="SoilTemperature.SnowWaterContent" />
+			<output id="rSnowWaterContentRate" destination="SoilTemperature.rSnowWaterContentRate" />
+		    <output id="rSoilSurfaceTemperatureRate" destination="SoilTemperature.rSoilSurfaceTemperatureRate" />
+		    <output id="rAgeOfSnowRate" destination="SoilTemperature.rAgeOfSnowRate" />
+			<output id="AgeOfSnow" destination="SoilTemperature.AgeOfSnow" />
+		
+		
 		</simcomponent>
 		<simcomponent id="STMPsimCalculator" class="net.simplace.sim.components.soil.temperature.STMPsimCalculator">
 			<input id="cSoilLayerDepth" source="SoilTemperature.cSoilLayerDepth" />
@@ -25,6 +32,7 @@
 			<input id="iSoilSurfaceTemperature" source="SnowCoverCalculator.SoilSurfaceTemperature" />
 			<input id="iSoilWaterContent" source="SoilTemperature.iSoilWaterContent" />
 			<output id="SoilTempArray" destination="SoilTemperature.SoilTempArray" />
+			<output id="rSoilTempArrayRate" destination="SoilTemperature.rSoilTempArrayRate" />
 		</simcomponent>
 	</simgroup>
 	<testdefs>

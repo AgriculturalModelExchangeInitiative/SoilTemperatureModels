@@ -3,7 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 public class RangeOfSoilTemperaturesDAYCENT
 {
-    
+    public void Init(SurfacePartonSoilSWATHourlyPartonCState s, SurfacePartonSoilSWATHourlyPartonCState s1, SurfacePartonSoilSWATHourlyPartonCRate r, SurfacePartonSoilSWATHourlyPartonCAuxiliary a, SurfacePartonSoilSWATHourlyPartonCExogenous ex)
+    {
+        double[] SoilTemperatureRangeByLayers ;
+        double[] SoilTemperatureMinimum ;
+        double[] SoilTemperatureMaximum ;
+        SoilTemperatureRangeByLayers = new double[LayerThickness.Length];
+        SoilTemperatureMaximum = new double[LayerThickness.Length];
+        SoilTemperatureMinimum = new double[LayerThickness.Length];
+        s.SoilTemperatureRangeByLayers= SoilTemperatureRangeByLayers;
+        s.SoilTemperatureMinimum= SoilTemperatureMinimum;
+        s.SoilTemperatureMaximum= SoilTemperatureMaximum;
+    }
+    private double[] _LayerThickness;
+    public double[] LayerThickness
+        {
+            get { return this._LayerThickness; }
+            set { this._LayerThickness= value; } 
+        }
         public RangeOfSoilTemperaturesDAYCENT() { }
     
     public void  CalculateModel(SurfacePartonSoilSWATHourlyPartonCState s, SurfacePartonSoilSWATHourlyPartonCState s1, SurfacePartonSoilSWATHourlyPartonCRate r, SurfacePartonSoilSWATHourlyPartonCAuxiliary a, SurfacePartonSoilSWATHourlyPartonCExogenous ex)
@@ -11,16 +28,16 @@ public class RangeOfSoilTemperaturesDAYCENT
         //- Name: RangeOfSoilTemperaturesDAYCENT -Version: 001, -Time step: 1
         //- Description:
     //            * Title: RangeOfSoilTemperaturesDAYCENT model
-    //            * Authors: simone.bregaglio@unimi.it
-    //            * Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
+    //            * Authors: simone.bregaglio
+    //            * Reference: http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl
     //            * Institution: University Of Milan
-    //            * ExtendedDescription: Strategy for the calculation of soil thermal conductivity.Reference: DAYCENT model written in C code 
-    //            * ShortDescription: None
+    //            * ExtendedDescription: Strategy for the calculation of soil thermal conductivity.Reference: DAYCENT model written in C code
+    //            * ShortDescription: Strategy for the calculation of soil thermal conductivity
         //- inputs:
     //            * name: LayerThickness
     //                          ** description : Soil layer thickness
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 3
@@ -35,11 +52,11 @@ public class RangeOfSoilTemperaturesDAYCENT
     //                          ** max : 60
     //                          ** min : -60
     //                          ** default : 10
-    //                          ** unit : Â°C
+    //                          ** unit : degC
     //            * name: ThermalDiffusivity
     //                          ** description : Thermal diffusivity of soil layer
     //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 1
@@ -49,13 +66,13 @@ public class RangeOfSoilTemperaturesDAYCENT
     //            * name: SoilTemperatureByLayers
     //                          ** description : Soil temperature of each layer
     //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 60
     //                          ** min : -60
     //                          ** default : 15
-    //                          ** unit : Â°C
+    //                          ** unit : degC
     //            * name: SurfaceTemperatureMaximum
     //                          ** description : Maximum surface soil temperature
     //                          ** inputtype : variable
@@ -64,7 +81,37 @@ public class RangeOfSoilTemperaturesDAYCENT
     //                          ** max : 60
     //                          ** min : -60
     //                          ** default : 25
-    //                          ** unit : Â°C
+    //                          ** unit : degC
+    //            * name: SoilTemperatureRangeByLayers
+    //                          ** description : Soil temperature range by layers
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
+    //                          ** max : 50
+    //                          ** min : 0
+    //                          ** default : 
+    //                          ** unit : degC
+    //            * name: SoilTemperatureMinimum
+    //                          ** description : Minimum soil temperature by layers
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
+    //                          ** max : 60
+    //                          ** min : -60
+    //                          ** default : 
+    //                          ** unit : degC
+    //            * name: SoilTemperatureMaximum
+    //                          ** description : Maximum soil temperature by layers
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
+    //                          ** max : 60
+    //                          ** min : -60
+    //                          ** default : 
+    //                          ** unit : degC
         //- outputs:
     //            * name: SoilTemperatureRangeByLayers
     //                          ** description : Soil temperature range by layers
@@ -73,7 +120,7 @@ public class RangeOfSoilTemperaturesDAYCENT
     //                          ** len : 
     //                          ** max : 50
     //                          ** min : 0
-    //                          ** unit : Â°C
+    //                          ** unit : degC
     //            * name: SoilTemperatureMinimum
     //                          ** description : Minimum soil temperature by layers
     //                          ** datatype : DOUBLEARRAY
@@ -81,7 +128,7 @@ public class RangeOfSoilTemperaturesDAYCENT
     //                          ** len : 
     //                          ** max : 60
     //                          ** min : -60
-    //                          ** unit : Â°C
+    //                          ** unit : degC
     //            * name: SoilTemperatureMaximum
     //                          ** description : Maximum soil temperature by layers
     //                          ** datatype : DOUBLEARRAY
@@ -89,15 +136,14 @@ public class RangeOfSoilTemperaturesDAYCENT
     //                          ** len : 
     //                          ** max : 60
     //                          ** min : -60
-    //                          ** unit : Â°C
-        double[] LayerThickness = s.LayerThickness;
+    //                          ** unit : degC
         double SurfaceTemperatureMinimum = a.SurfaceTemperatureMinimum;
-        double[] ThermalDiffusivity = s.ThermalDiffusivity;
-        double[] SoilTemperatureByLayers = s.SoilTemperatureByLayers;
+        double[] ThermalDiffusivity = a.ThermalDiffusivity;
+        double[] SoilTemperatureByLayers = a.SoilTemperatureByLayers;
         double SurfaceTemperatureMaximum = a.SurfaceTemperatureMaximum;
-        double[] SoilTemperatureRangeByLayers ;
-        double[] SoilTemperatureMinimum ;
-        double[] SoilTemperatureMaximum ;
+        double[] SoilTemperatureRangeByLayers = s.SoilTemperatureRangeByLayers;
+        double[] SoilTemperatureMinimum = s.SoilTemperatureMinimum;
+        double[] SoilTemperatureMaximum = s.SoilTemperatureMaximum;
         int i;
         double _DepthBottom;
         double _DepthCenterLayer;

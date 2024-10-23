@@ -13,6 +13,7 @@
         <Model name="STMPsimCalculator" id="SoilTemperature.STMPsimCalculator" filename="unit.STMPsimCalculator.xml"/>
         <Links>
             <InputLink target="SnowCoverCalculator.cCarbonContent" source="cCarbonContent"/>
+            <InputLink target="SnowCoverCalculator.Albedo" source="cAlbedo"/>
             <InputLink target="SnowCoverCalculator.iTempMax" source="iAirTemperatureMax"/>
             <InputLink target="SnowCoverCalculator.iTempMin" source="iAirTemperatureMin"/>
             <InputLink target="SnowCoverCalculator.iRadiation" source="iGlobalSolarRadiation"/>
@@ -27,7 +28,7 @@
             <InputLink target="STMPsimCalculator.cABD" source="cAverageBulkDensity"/>
             <InputLink target="STMPsimCalculator.cDampingDepth" source="cDampingDepth"/>
             <InputLink target="STMPsimCalculator.iSoilWaterContent" source="iSoilWaterContent"/>
-            <InputLink target="SnowCoverCalculator.Albedo" source="Albedo"/>
+            <InputLink target="SnowCoverCalculator.pInternalAlbedo" source="pInternalAlbedo"/>
             <InputLink target="SnowCoverCalculator.SnowWaterContent" source="SnowWaterContent"/>
             <InputLink target="SnowCoverCalculator.SoilSurfaceTemperature" source="SoilSurfaceTemperature"/>
             <InputLink target="SnowCoverCalculator.AgeOfSnow" source="AgeOfSnow"/>
@@ -37,6 +38,9 @@
             <OutputLink target="SoilSurfaceTemperature" source="SnowCoverCalculator.SoilSurfaceTemperature"/>
             <OutputLink target="SnowIsolationIndex" source="SnowCoverCalculator.SnowIsolationIndex"/>
             <OutputLink target="SnowWaterContent" source="SnowCoverCalculator.SnowWaterContent"/>
-            <OutputLink target="SoilTempArray" source="STMPsimCalculator.SoilTempArray"/>
+            <OutputLink target="rSnowWaterContentRate" source="SnowCoverCalculator.rSnowWaterContentRate"/>
+            <OutputLink target="rSoilSurfaceTemperatureRate" source="SnowCoverCalculator.rSoilSurfaceTemperatureRate"/>
+            <OutputLink target="rAgeOfSnowRate" source="SnowCoverCalculator.rAgeOfSnowRate"/>
             <OutputLink target="AgeOfSnow" source="SnowCoverCalculator.AgeOfSnow"/>
+            <OutputLink target="SoilTempArray" source="STMPsimCalculator.SoilTempArray"/>
             <OutputLink target="rSoilTempArrayRate" source="STMPsimCalculator.rSoilTempArrayRate"/></Links></Composition></ModelComposition>

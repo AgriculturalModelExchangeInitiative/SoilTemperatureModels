@@ -17,7 +17,7 @@ def simulation(datafile, vardata, params, init):
     t_iLeafAreaIndex = df[vardata.loc[vardata["Variables"]=="iLeafAreaIndex","Data columns"].iloc[0]].to_list()
     t_SoilTempArray = df[vardata.loc[vardata["Variables"]=="SoilTempArray","Data columns"].iloc[0]].to_list()
     t_iSoilWaterContent = df[vardata.loc[vardata["Variables"]=="iSoilWaterContent","Data columns"].iloc[0]].to_list()
-    t_Albedo = df[vardata.loc[vardata["Variables"]=="Albedo","Data columns"].iloc[0]].to_list()
+    t_pInternalAlbedo = df[vardata.loc[vardata["Variables"]=="pInternalAlbedo","Data columns"].iloc[0]].to_list()
     t_SnowWaterContent = df[vardata.loc[vardata["Variables"]=="SnowWaterContent","Data columns"].iloc[0]].to_list()
     t_SoilSurfaceTemperature = df[vardata.loc[vardata["Variables"]=="SoilSurfaceTemperature","Data columns"].iloc[0]].to_list()
     t_AgeOfSnow = df[vardata.loc[vardata["Variables"]=="AgeOfSnow","Data columns"].iloc[0]].to_list()
@@ -26,6 +26,7 @@ def simulation(datafile, vardata, params, init):
 
     #parameters
     cCarbonContent = params.loc[params["name"]=="cCarbonContent", "value"].iloc[0]
+    cAlbedo = params.loc[params["name"]=="cAlbedo", "value"].iloc[0]
     cSoilLayerDepth = params.loc[params["name"]=="cSoilLayerDepth", "value"].iloc[0]
     cFirstDayMeanTemp = params.loc[params["name"]=="cFirstDayMeanTemp", "value"].iloc[0]
     cAverageGroundTemperature = params.loc[params["name"]=="cAverageGroundTemperature", "value"].iloc[0]
@@ -35,7 +36,7 @@ def simulation(datafile, vardata, params, init):
     #initialization
 
     #outputs
-    output_names = ["SoilSurfaceTemperature","SnowIsolationIndex","SnowWaterContent","SoilTempArray","AgeOfSnow","rSoilTempArrayRate"]
+    output_names = ["SoilSurfaceTemperature","SnowIsolationIndex","SnowWaterContent","rSnowWaterContentRate","rSoilSurfaceTemperatureRate","rAgeOfSnowRate","AgeOfSnow","SoilTempArray","rSoilTempArrayRate"]
 
     df_out = pd.DataFrame(columns = output_names)
     for i in range(0,len(df.index)-1):
@@ -48,15 +49,15 @@ def simulation(datafile, vardata, params, init):
         iLeafAreaIndex = t_iLeafAreaIndex[i]
         SoilTempArray = t_SoilTempArray[i]
         iSoilWaterContent = t_iSoilWaterContent[i]
-        Albedo = t_Albedo[i]
+        pInternalAlbedo = t_pInternalAlbedo[i]
         SnowWaterContent = t_SnowWaterContent[i]
         SoilSurfaceTemperature = t_SoilSurfaceTemperature[i]
         AgeOfSnow = t_AgeOfSnow[i]
         rSoilTempArrayRate = t_rSoilTempArrayRate[i]
         pSoilLayerDepth = t_pSoilLayerDepth[i]
-        SoilSurfaceTemperature,SnowIsolationIndex,SnowWaterContent,SoilTempArray,AgeOfSnow,rSoilTempArrayRate= SoilTemperatureComponent.model_soiltemperature(cCarbonContent,iAirTemperatureMax,iAirTemperatureMin,iGlobalSolarRadiation,iRAIN,iCropResidues,iPotentialSoilEvaporation,iLeafAreaIndex,SoilTempArray,cSoilLayerDepth,cFirstDayMeanTemp,cAverageGroundTemperature,cAverageBulkDensity,cDampingDepth,iSoilWaterContent,Albedo,SnowWaterContent,SoilSurfaceTemperature,AgeOfSnow,rSoilTempArrayRate,pSoilLayerDepth)
+        SoilSurfaceTemperature,SnowIsolationIndex,SnowWaterContent,rSnowWaterContentRate,rSoilSurfaceTemperatureRate,rAgeOfSnowRate,AgeOfSnow,SoilTempArray,rSoilTempArrayRate= SoilTemperatureComponent.model_soiltemperature(cCarbonContent,cAlbedo,iAirTemperatureMax,iAirTemperatureMin,iGlobalSolarRadiation,iRAIN,iCropResidues,iPotentialSoilEvaporation,iLeafAreaIndex,SoilTempArray,cSoilLayerDepth,cFirstDayMeanTemp,cAverageGroundTemperature,cAverageBulkDensity,cDampingDepth,iSoilWaterContent,pInternalAlbedo,SnowWaterContent,SoilSurfaceTemperature,AgeOfSnow,rSoilTempArrayRate,pSoilLayerDepth)
 
-        df_out.loc[i] = [SoilSurfaceTemperature,SnowIsolationIndex,SnowWaterContent,SoilTempArray,AgeOfSnow,rSoilTempArrayRate]
+        df_out.loc[i] = [SoilSurfaceTemperature,SnowIsolationIndex,SnowWaterContent,rSnowWaterContentRate,rSoilSurfaceTemperatureRate,rAgeOfSnowRate,AgeOfSnow,SoilTempArray,rSoilTempArrayRate]
     df_out.insert(0, 'date', pd.to_datetime(df.year*10000 + df.month*100 + df.day, format='%Y%m%d'), True)
     df_out.set_index("date", inplace=True)
     df_out.to_csv(out, sep=";")

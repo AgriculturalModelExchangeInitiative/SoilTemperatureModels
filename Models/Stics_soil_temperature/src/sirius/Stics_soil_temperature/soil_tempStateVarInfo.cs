@@ -74,7 +74,7 @@ namespace SiriusQualitysoil_temp.DomainClass
             _prev_temp_profile.MinValue = -1D;
             _prev_temp_profile.DefaultValue = -1D;
             _prev_temp_profile.Units = "degC";
-            _prev_temp_profile.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+            _prev_temp_profile.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
             _prev_canopy_temp.Name = "prev_canopy_temp";
             _prev_canopy_temp.Description = "previous crop temperature";
@@ -98,7 +98,7 @@ namespace SiriusQualitysoil_temp.DomainClass
             _temp_profile.MinValue = -1D;
             _temp_profile.DefaultValue = -1D;
             _temp_profile.Units = "degC";
-            _temp_profile.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+            _temp_profile.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
             _layer_temp.Name = "layer_temp";
             _layer_temp.Description = "soil layers temperature";
@@ -106,7 +106,7 @@ namespace SiriusQualitysoil_temp.DomainClass
             _layer_temp.MinValue = -1D;
             _layer_temp.DefaultValue = -1D;
             _layer_temp.Units = "degC";
-            _layer_temp.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+            _layer_temp.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
             _canopy_temp_avg.Name = "canopy_temp_avg";
             _canopy_temp_avg.Description = "current temperature amplitude";

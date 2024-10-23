@@ -7,20 +7,20 @@ public class STMPsimCalculator
 {
     public void Init(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a,  SoilTemperatureExogenous ex)
     {
-        Double iSoilWaterContent = ex.getiSoilWaterContent();
-        Double iSoilSurfaceTemperature = ex.getiSoilSurfaceTemperature();
+        double iSoilWaterContent = ex.getiSoilWaterContent();
+        double iSoilSurfaceTemperature = ex.getiSoilSurfaceTemperature();
         Double[] SoilTempArray ;
         Double[] rSoilTempArrayRate ;
         Double[] pSoilLayerDepth ;
-        Double tProfileDepth;
-        Double additionalDepth;
-        Double firstAdditionalLayerHight;
+        double tProfileDepth;
+        double additionalDepth;
+        double firstAdditionalLayerHight;
         Integer layers;
         Double[] tStmp ;
         Double[] tStmpRate ;
         Double[] tz ;
         Integer i;
-        Double depth;
+        double depth;
         tProfileDepth = cSoilLayerDepth[cSoilLayerDepth.length - 1];
         additionalDepth = cDampingDepth - tProfileDepth;
         firstAdditionalLayerHight = additionalDepth - (double)(Math.floor(additionalDepth));
@@ -39,7 +39,6 @@ public class STMPsimCalculator
                 depth = tProfileDepth + firstAdditionalLayerHight + i - cSoilLayerDepth.length;
             }
             tz[i] = depth;
-            tStmpRate[i] = 0.0d;
             tStmp[i] = (cFirstDayMeanTemp * (cDampingDepth - depth) + (cAVT * depth)) / cDampingDepth;
         }
         rSoilTempArrayRate = tStmpRate;
@@ -56,32 +55,32 @@ public class STMPsimCalculator
     public void setcSoilLayerDepth(Double [] _cSoilLayerDepth)
     { this.cSoilLayerDepth= _cSoilLayerDepth; } 
     
-    private Double cFirstDayMeanTemp;
-    public Double getcFirstDayMeanTemp()
+    private double cFirstDayMeanTemp;
+    public double getcFirstDayMeanTemp()
     { return cFirstDayMeanTemp; }
 
-    public void setcFirstDayMeanTemp(Double _cFirstDayMeanTemp)
+    public void setcFirstDayMeanTemp(double _cFirstDayMeanTemp)
     { this.cFirstDayMeanTemp= _cFirstDayMeanTemp; } 
     
-    private Double cAVT;
-    public Double getcAVT()
+    private double cAVT;
+    public double getcAVT()
     { return cAVT; }
 
-    public void setcAVT(Double _cAVT)
+    public void setcAVT(double _cAVT)
     { this.cAVT= _cAVT; } 
     
-    private Double cABD;
-    public Double getcABD()
+    private double cABD;
+    public double getcABD()
     { return cABD; }
 
-    public void setcABD(Double _cABD)
+    public void setcABD(double _cABD)
     { this.cABD= _cABD; } 
     
-    private Double cDampingDepth;
-    public Double getcDampingDepth()
+    private double cDampingDepth;
+    public double getcDampingDepth()
     { return cDampingDepth; }
 
-    public void setcDampingDepth(Double _cDampingDepth)
+    public void setcDampingDepth(double _cDampingDepth)
     { this.cDampingDepth= _cDampingDepth; } 
     
     public STMPsimCalculator() { }
@@ -166,8 +165,8 @@ public class STMPsimCalculator
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
-    //                          ** max : 40
-    //                          ** min : -20
+    //                          ** max : 50.0
+    //                          ** min : -40.0
     //                          ** default : 
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
     //            * name: rSoilTempArrayRate
@@ -176,7 +175,7 @@ public class STMPsimCalculator
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
-    //                          ** max : 40
+    //                          ** max : 20
     //                          ** min : -20
     //                          ** default : 
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
@@ -196,31 +195,31 @@ public class STMPsimCalculator
     //                          ** datatype : DOUBLEARRAY
     //                          ** variablecategory : state
     //                          ** len : 
-    //                          ** max : 40
-    //                          ** min : -20
+    //                          ** max : 50.0
+    //                          ** min : -40.0
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
     //            * name: rSoilTempArrayRate
     //                          ** description : Array of daily temperature change
     //                          ** datatype : DOUBLEARRAY
     //                          ** variablecategory : state
     //                          ** len : 
-    //                          ** max : 40
+    //                          ** max : 20
     //                          ** min : -20
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
-        Double iSoilWaterContent = ex.getiSoilWaterContent();
-        Double iSoilSurfaceTemperature = ex.getiSoilSurfaceTemperature();
+        double iSoilWaterContent = ex.getiSoilWaterContent();
+        double iSoilSurfaceTemperature = ex.getiSoilSurfaceTemperature();
         Double [] SoilTempArray = s.getSoilTempArray();
         Double [] rSoilTempArrayRate = s.getrSoilTempArrayRate();
         Double [] pSoilLayerDepth = s.getpSoilLayerDepth();
-        Double XLAG;
-        Double XLG1;
-        Double DP;
-        Double WC;
-        Double DD;
-        Double Z1;
+        double XLAG;
+        double XLG1;
+        double DP;
+        double WC;
+        double DD;
+        double Z1;
         Integer i;
-        Double ZD;
-        Double RATE;
+        double ZD;
+        double RATE;
         XLAG = .8d;
         XLG1 = 1 - XLAG;
         DP = 1 + (2.5d * cABD / (cABD + Math.exp(6.53d - (5.63d * cABD))));

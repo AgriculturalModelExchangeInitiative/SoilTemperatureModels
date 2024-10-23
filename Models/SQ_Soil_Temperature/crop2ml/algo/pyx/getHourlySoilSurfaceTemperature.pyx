@@ -1,9 +1,11 @@
+from math import pi
+
 def getHourlySoilSurfaceTemperature(float TMax,
          float TMin,
          float ady,
          float b,
-         float c,
-         float a):
+         float a,
+         float c):
     cdef int i 
     cdef float result[24]
     cdef float ahou 

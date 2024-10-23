@@ -4,7 +4,10 @@ using System.Linq;
 public class canopy_temp_avg
 {
     
-        public canopy_temp_avg() { }
+    /// <summary>
+    /// Constructor of the canopy_temp_avg component")
+    /// </summary>  
+    public canopy_temp_avg() { }
     
     public void  CalculateModel(soil_tempState s, soil_tempState s1, soil_tempRate r, soil_tempAuxiliary a, soil_tempExogenous ex)
     {

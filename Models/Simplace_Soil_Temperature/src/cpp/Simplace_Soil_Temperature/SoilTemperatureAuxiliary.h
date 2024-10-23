@@ -1,11 +1,10 @@
-#ifndef _SoilTemperatureAuxiliary_
-#define _SoilTemperatureAuxiliary_
+#pragma once
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
-# include<vector>
-# include<string>
-using namespace std;
+#include <vector>
+#include <string>
+namespace Simplace_Soil_Temperature {
 class SoilTemperatureAuxiliary
 {
     private:
@@ -16,4 +15,4 @@ class SoilTemperatureAuxiliary
         void setSnowIsolationIndex(double _SnowIsolationIndex);
 
 };
-#endif
+}

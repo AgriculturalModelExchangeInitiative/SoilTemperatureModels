@@ -1,3 +1,5 @@
+
+#pragma once
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
@@ -7,21 +9,21 @@
 #include "SoilTemperatureRate.h"
 #include "SoilTemperatureAuxiliary.h"
 #include "SoilTemperatureExogenous.h"
-using namespace std;
+namespace Simplace_Soil_Temperature {
 class STMPsimCalculator
 {
     private:
-        vector<double> cSoilLayerDepth ;
+        std::vector<double> cSoilLayerDepth ;
         double cFirstDayMeanTemp ;
         double cAVT ;
-        double cABD ;
-        double cDampingDepth ;
+        double cABD {2.0} ;
+        double cDampingDepth {6.0};
     public:
         STMPsimCalculator();
-        void  Calculate_Model(SoilTemperatureState& s, SoilTemperatureState& s1, SoilTemperatureRate& r, SoilTemperatureAuxiliary& a, SoilTemperatureExogenous& ex);
-        void  Init(SoilTemperatureState& s,SoilTemperatureState& s1, SoilTemperatureRate& r, SoilTemperatureAuxiliary& a, SoilTemperatureExogenous& ex);
-        vector<double> & getcSoilLayerDepth();
-        void setcSoilLayerDepth(const vector<double> &  _cSoilLayerDepth);
+        void Calculate_Model(SoilTemperatureState &s, SoilTemperatureState &s1, SoilTemperatureRate &r, SoilTemperatureAuxiliary &a, SoilTemperatureExogenous &ex);
+        void Init(SoilTemperatureState &s, SoilTemperatureState &s1, SoilTemperatureRate &r, SoilTemperatureAuxiliary &a, SoilTemperatureExogenous &ex);
+        std::vector<double> & getcSoilLayerDepth();
+        void setcSoilLayerDepth(const std::vector<double> &  _cSoilLayerDepth);
         double getcFirstDayMeanTemp();
         void setcFirstDayMeanTemp(double _cFirstDayMeanTemp);
         double getcAVT();
@@ -32,3 +34,4 @@ class STMPsimCalculator
         void setcDampingDepth(double _cDampingDepth);
 
 };
+}

@@ -452,7 +452,6 @@ namespace SoilTemperature.Strategies
                     depth = tProfileDepth + firstAdditionalLayerHight + i - cSoilLayerDepth.Length;
                 }
                 tz[i] = depth;
-                tStmpRate[i] = 0.00d;
                 tStmp[i] = (cFirstDayMeanTemp * (cDampingDepth - depth) + (cAVT * depth)) / cDampingDepth;
             }
             rSoilTempArrayRate = tStmpRate;

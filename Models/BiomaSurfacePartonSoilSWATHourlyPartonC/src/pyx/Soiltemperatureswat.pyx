@@ -1,23 +1,36 @@
-import numpy 
+import numpy
 from math import *
+
+def init_soiltemperatureswat(float VolumetricWaterContent[],
+                             float LayerThickness[],
+                             float LagCoefficient,
+                             float AirTemperatureAnnualAverage,
+                             float BulkDensity[],
+                             float SoilProfileDepth):
+    cdef floatarray SoilTemperatureByLayers
+    cdef int i 
+    SoilTemperatureByLayers=array('f', [0.0]*len(LayerThickness))
+    for i in range(0 , len(LayerThickness) , 1):
+        SoilTemperatureByLayers[i]=float(15)
+    return  SoilTemperatureByLayers
+
 def model_soiltemperatureswat(float VolumetricWaterContent[],
                               float SurfaceSoilTemperature,
-                              float BulkDensity[],
                               float LayerThickness[],
                               float LagCoefficient,
                               float SoilTemperatureByLayers[],
                               float AirTemperatureAnnualAverage,
+                              float BulkDensity[],
                               float SoilProfileDepth):
     """
-
     SoilTemperatureSWAT model
-    Author: simone.bregaglio@unimi.it
-    Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
+    Author: simone.bregaglio
+    Reference: http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl
     Institution: University Of Milan
     ExtendedDescription: Strategy for the calculation of soil temperature with SWAT method. Reference: Neitsch,S.L., Arnold, J.G., Kiniry, J.R., Williams, J.R., King, K.W. Soil and Water Assessment Tool. Theoretical documentation. Version 2000. http://swatmodel.tamu.edu/media/1290/swat2000theory.pdf
-    ShortDescription: None
-
+    ShortDescription: Strategy for the calculation of soil temperature with SWAT method
     """
+
     cdef int i 
     cdef float _SoilProfileDepthmm 
     cdef float _TotalWaterContentmm 
@@ -56,5 +69,6 @@ def model_soiltemperatureswat(float VolumetricWaterContent[],
         _DepthFactor=_RatioCenter / (_RatioCenter + exp(-0.867 - (2.078 * _RatioCenter)))
         SoilTemperatureByLayers[i]=LagCoefficient * SoilTemperatureByLayers[i] + ((1 - LagCoefficient) * (_DepthFactor * (AirTemperatureAnnualAverage - SurfaceSoilTemperature) + SurfaceSoilTemperature))
     return  SoilTemperatureByLayers
+
 
 

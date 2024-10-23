@@ -3,9 +3,9 @@ import  java.util.*;
 import java.time.LocalDateTime;
 public class SoilTemperatureState
 {
-    private Double Albedo;
-    private Double SnowWaterContent;
-    private Double SoilSurfaceTemperature;
+    private double pInternalAlbedo;
+    private double SnowWaterContent;
+    private double SoilSurfaceTemperature;
     private Integer AgeOfSnow;
     private Double [] rSoilTempArrayRate;
     private Double [] pSoilLayerDepth;
@@ -17,7 +17,7 @@ public class SoilTemperatureState
     {
         if (copyAll)
         {
-            this.Albedo = toCopy.getAlbedo();
+            this.pInternalAlbedo = toCopy.getpInternalAlbedo();
             this.SnowWaterContent = toCopy.getSnowWaterContent();
             this.SoilSurfaceTemperature = toCopy.getSoilSurfaceTemperature();
             this.AgeOfSnow = toCopy.getAgeOfSnow();
@@ -38,22 +38,22 @@ public class SoilTemperatureState
         }
         }
     }
-    public Double getAlbedo()
-    { return Albedo; }
+    public double getpInternalAlbedo()
+    { return pInternalAlbedo; }
 
-    public void setAlbedo(Double _Albedo)
-    { this.Albedo= _Albedo; } 
+    public void setpInternalAlbedo(double _pInternalAlbedo)
+    { this.pInternalAlbedo= _pInternalAlbedo; } 
     
-    public Double getSnowWaterContent()
+    public double getSnowWaterContent()
     { return SnowWaterContent; }
 
-    public void setSnowWaterContent(Double _SnowWaterContent)
+    public void setSnowWaterContent(double _SnowWaterContent)
     { this.SnowWaterContent= _SnowWaterContent; } 
     
-    public Double getSoilSurfaceTemperature()
+    public double getSoilSurfaceTemperature()
     { return SoilSurfaceTemperature; }
 
-    public void setSoilSurfaceTemperature(Double _SoilSurfaceTemperature)
+    public void setSoilSurfaceTemperature(double _SoilSurfaceTemperature)
     { this.SoilSurfaceTemperature= _SoilSurfaceTemperature; } 
     
     public Integer getAgeOfSnow()

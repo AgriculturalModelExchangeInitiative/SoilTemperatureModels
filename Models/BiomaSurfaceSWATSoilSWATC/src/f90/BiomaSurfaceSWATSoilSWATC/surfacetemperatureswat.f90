@@ -29,11 +29,11 @@ CONTAINS
         !- Name: SurfaceTemperatureSWAT -Version: 001, -Time step: 1
         !- Description:
     !            * Title: SurfaceTemperatureSWAT model
-    !            * Authors: simone.bregaglio@unimi.it
-    !            * Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
+    !            * Authors: simone.bregaglio
+    !            * Reference: http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl
     !            * Institution: University Of Milan
     !            * ExtendedDescription: Strategy for the calculation of surface soil temperature with SWAT method. Reference: Neitsch,S.L., Arnold, J.G., Kiniry, J.R., Williams, J.R., King, K.W. Soil and Water Assessment Tool. Theoretical documentation. Version 2000. http://swatmodel.tamu.edu/media/1290/swat2000theory.pdf
-    !            * ShortDescription: None
+    !            * ShortDescription: Strategy for the calculation of surface soil temperature with SWAT method
         !- inputs:
     !            * name: GlobalSolarRadiation
     !                          ** description : Daily global solar radiation
@@ -47,13 +47,13 @@ CONTAINS
     !            * name: SoilTemperatureByLayers
     !                          ** description : Soil temperature of each layer
     !                          ** inputtype : variable
-    !                          ** variablecategory : state
+    !                          ** variablecategory : auxiliary
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
     !                          ** max : 60
     !                          ** min : -60
     !                          ** default : 15
-    !                          ** unit : Â°C
+    !                          ** unit : 
     !            * name: AirTemperatureMaximum
     !                          ** description : Maximum daily air temperature
     !                          ** inputtype : variable
@@ -62,7 +62,7 @@ CONTAINS
     !                          ** max : 60
     !                          ** min : -40
     !                          ** default : 15
-    !                          ** unit : Â°C
+    !                          ** unit : 
     !            * name: AirTemperatureMinimum
     !                          ** description : Minimum daily air temperature
     !                          ** inputtype : variable
@@ -71,7 +71,7 @@ CONTAINS
     !                          ** max : 50
     !                          ** min : -60
     !                          ** default : 5
-    !                          ** unit : Â°C
+    !                          ** unit : 
     !            * name: Albedo
     !                          ** description : Albedo of soil
     !                          ** inputtype : variable
@@ -84,7 +84,7 @@ CONTAINS
     !            * name: AboveGroundBiomass
     !                          ** description : Above ground biomass
     !                          ** inputtype : variable
-    !                          ** variablecategory : state
+    !                          ** variablecategory : auxiliary
     !                          ** datatype : DOUBLE
     !                          ** max : 60
     !                          ** min : 0
@@ -103,10 +103,10 @@ CONTAINS
     !            * name: SurfaceSoilTemperature
     !                          ** description : Average surface soil temperature
     !                          ** datatype : DOUBLE
-    !                          ** variablecategory : state
+    !                          ** variablecategory : auxiliary
     !                          ** max : 60
     !                          ** min : -60
-    !                          ** unit : Â°C
+    !                          ** unit : degC
         _Tavg = (AirTemperatureMaximum + AirTemperatureMinimum) / 2
         _Hterm = (GlobalSolarRadiation * (1 - Albedo) - 14) / 20
         _Tbare = _Tavg + (_Hterm * (AirTemperatureMaximum -  &
