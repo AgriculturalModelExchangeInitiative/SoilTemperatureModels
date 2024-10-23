@@ -310,7 +310,7 @@ def model_campbell(NLAYR: int,
                ** len : NLAYR
                ** max :
                ** min : 1
-               ** default : 50
+               ** default :
                ** unit : mm
                ** uri :
         * name: THICKApsim
@@ -321,7 +321,7 @@ def model_campbell(NLAYR: int,
                ** len : NLAYR
                ** max :
                ** min : 1
-               ** default : 50
+               ** default :
                ** unit : mm
                ** uri :
         * name: DEPTH
@@ -354,7 +354,7 @@ def model_campbell(NLAYR: int,
                ** len : NLAYR
                ** max :
                ** min : 
-               ** default : 1.4
+               ** default :
                ** unit : g/cm3
                uri :
         * name: BDApsim
@@ -441,7 +441,7 @@ def model_campbell(NLAYR: int,
                ** len : NLAYR
                ** max : 100
                ** min : 0
-               ** default : 50
+               ** default :
                ** unit : %
                ** uri :
         * name: SW
@@ -463,7 +463,7 @@ def model_campbell(NLAYR: int,
                ** len : NLAYR
                ** max : 1
                ** min : 0
-               ** default : 0.5
+               ** default :
                ** unit : cc water / cc soil
                ** uri :
         * name: DOY
