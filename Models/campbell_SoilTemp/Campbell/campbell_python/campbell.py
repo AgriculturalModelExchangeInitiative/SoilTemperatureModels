@@ -1125,8 +1125,8 @@ def model_campbell(NLAYR: int,
 
     cva = 0.0
     cloudFr = 0.0
-    solarRadn = [0.0] * 49   # Total incoming short wave solar radiation per timestep
-    solarRadn, cloudFr, cva = doNetRadiation(solarRadn, cloudFr, cva, ITERATIONSperDAY, DOY, SRAD, TMIN, XLAT)
+    #solarRadn = [0.0] * 49   # Total incoming short wave solar radiation per timestep
+    solarRadn, cloudFr, cva = doNetRadiation(cloudFr, cva, ITERATIONSperDAY, DOY, SRAD, TMIN, XLAT)
 
     # zero the temperature profiles
     minSoilTemp = Zero(minSoilTemp)
@@ -1311,7 +1311,6 @@ def CalcSoilTemp(THICKApsim: 'Array[float]',
 
 
 def doNetRadiation(
-        solarRadn: 'Array[float]',
         cloudFr: float,
         cva: float,
         ITERATIONSperDAY: int,
@@ -1321,6 +1320,8 @@ def doNetRadiation(
         latitude: float
         ):
 
+    solarRadn: 'Array[float]'
+    solarRadn = [0.0]*(ITERATIONSperDAY + 1)
     piVal: float = 3.141592653589793
     TSTEPS2RAD:float = 1.0
     SOLARconst:float = 1.0
