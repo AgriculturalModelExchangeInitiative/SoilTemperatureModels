@@ -69,7 +69,7 @@ def init_campbell(NLAYR: int,
     BelowProfileDepth:float
     thicknessForPhantomNodes:float
     ave_temp:float
-    i:int
+    I:int
     numNodes:int
     firstPhantomNode:int
     layer:int
@@ -89,13 +89,13 @@ def init_campbell(NLAYR: int,
     for layer in range(1, NLAYR + 1):
        THICKApsim[layer] = THICK[layer - 1]
     sumThickness = 0.0
-    for i in range(1, NLAYR + 1):
-        sumThickness = sumThickness + THICKApsim[i]
+    for I in range(1, NLAYR + 1):
+        sumThickness = sumThickness + THICKApsim[I]
     BelowProfileDepth = max(CONSTANT_TEMPdepth - sumThickness, 1000.0)
     thicknessForPhantomNodes = BelowProfileDepth * 2.0 / NUM_PHANTOM_NODES
     firstPhantomNode = NLAYR
-    for i in range(firstPhantomNode, firstPhantomNode + NUM_PHANTOM_NODES):
-        THICKApsim[i] = thicknessForPhantomNodes
+    for I in range(firstPhantomNode, firstPhantomNode + NUM_PHANTOM_NODES):
+        THICKApsim[I] = thicknessForPhantomNodes
 
     DEPTHApsim = [0.0]*(numNodes + 1 + 1)
     DEPTHApsim[AIRnode] = 0.0
@@ -104,8 +104,8 @@ def init_campbell(NLAYR: int,
 
     for node in range(TOPSOILnode, numNodes + 1):
         sumThickness = 0.0
-        for i in range(1, node):
-            sumThickness = sumThickness + THICKApsim[i]
+        for I in range(1, node):
+            sumThickness = sumThickness + THICKApsim[I]
         DEPTHApsim[node + 1] = (sumThickness + 0.5 * THICKApsim[node]) / 1000.0
 
     # Bulk Density
@@ -181,11 +181,11 @@ def init_campbell(NLAYR: int,
     surfaceT = (1.0 - SALB) * (T2M + (TMAX - T2M) * sqrt(max(SRAD, 0.1) * 23.8846 / 800.0)) + SALB * T2M
     soilTemp[SURFACEnode] = surfaceT
 
-    for i in range(numNodes + 1, len(soilTemp)):
-        soilTemp[i] = TAV
+    for I in range(numNodes + 1, len(soilTemp)):
+        soilTemp[I] = TAV
 
-    for i in range(len(soilTemp)):
-        newTemperature[i] = soilTemp[i]
+    for I in range(len(soilTemp)):
+        newTemperature[I] = soilTemp[I]
     maxTempYesterday = TMAX
     minTempYesterday = TMIN
 
@@ -273,7 +273,7 @@ def model_campbell(NLAYR: int,
     _boundaryLayerConductance:float
     ):
     """
-    - Name: campbell
+    - Name: Campbell
     - Version: 1.0
     - Time step: 1
     - Description:
@@ -1371,9 +1371,9 @@ def kelvinT(celciusT: float) -> float:
 
 def Zero(arr: 'Array[float]') -> 'Array[float]':
     "Zero the specified array."
-    i: int = 0
-    for i in range(len(arr)):
-        arr[i] = 0.
+    I: int = 0
+    for I in range(len(arr)):
+        arr[I] = 0.
     return arr
 
 def mapLayer2Node(layerArray: 'Array[float]', nodeArray: 'Array[float]', THICKApsim: 'Array[float]', DEPTHApsim: 'Array[float]', numNodes: int):
@@ -1392,7 +1392,7 @@ def mapLayer2Node(layerArray: 'Array[float]', nodeArray: 'Array[float]', THICKAp
     depthLayerAbove: float
 
     node: int = 0
-    i: int = 0
+    I: int = 0
     layer: int
     d1:float
     d2:float
@@ -1403,8 +1403,8 @@ def mapLayer2Node(layerArray: 'Array[float]', nodeArray: 'Array[float]', THICKAp
         depthLayerAbove = 0.0
 
         if layer >= 1:
-            for i in range(1, layer + 1):
-                depthLayerAbove = depthLayerAbove + THICKApsim[i]
+            for I in range(1, layer + 1):
+                depthLayerAbove = depthLayerAbove + THICKApsim[I]
 
         d1 = depthLayerAbove - (DEPTHApsim[node] * 1000.0)
         d2 = DEPTHApsim[node + 1] * 1000.0 - depthLayerAbove
