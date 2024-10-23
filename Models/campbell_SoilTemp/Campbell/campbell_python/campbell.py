@@ -1238,10 +1238,10 @@ def doThermalConductivityCoeffs(nbLayers:int,
     layer:int
     element:int
 
-    thermalCondPar1 = [0.0]*(numNodes + 1)
-    thermalCondPar2 = [0.0]*(numNodes + 1)
-    thermalCondPar3 = [0.0]*(numNodes + 1)
-    thermalCondPar4 = [0.0]*(numNodes + 1)
+    thermalCondPar1 = [0.0] * (numNodes + 1)
+    thermalCondPar2 = [0.0] * (numNodes + 1)
+    thermalCondPar3 = [0.0] * (numNodes + 1)
+    thermalCondPar4 = [0.0] * (numNodes + 1)
 
     for layer in range(1, nbLayers + 2):
          element = layer
