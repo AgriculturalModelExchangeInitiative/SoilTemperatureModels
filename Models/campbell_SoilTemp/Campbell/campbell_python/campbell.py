@@ -85,28 +85,28 @@ def init_campbell(NLAYR: int,
 
     numNodes = NLAYR + NUM_PHANTOM_NODES
 
-    THICKNESSApsim = [0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
+    THICKApsim = [0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
     for layer in range(1, NLAYR + 1):
-       THICKNESSApsim[layer] = THICK[layer - 1]
+       THICKApsim[layer] = THICK[layer - 1]
     sumThickness = 0.0
     for i in range(1, NLAYR + 1):
-        sumThickness = sumThickness + THICKNESSApsim[i]
+        sumThickness = sumThickness + THICKApsim[i]
     BelowProfileDepth = max(CONSTANT_TEMPdepth - sumThickness, 1000.0)
     thicknessForPhantomNodes = BelowProfileDepth * 2.0 / NUM_PHANTOM_NODES
     firstPhantomNode = NLAYR
     for i in range(firstPhantomNode, firstPhantomNode + NUM_PHANTOM_NODES):
-        THICKNESSApsim[i] = thicknessForPhantomNodes
+        THICKApsim[i] = thicknessForPhantomNodes
 
     DEPTHApsim = [0.0]*(numNodes + 1 + 1)
     DEPTHApsim[AIRnode] = 0.0
     DEPTHApsim[SURFACEnode] = 0.0
-    DEPTHApsim[TOPSOILnode] = 0.5 * THICKNESSApsim[1] / 1000.0
+    DEPTHApsim[TOPSOILnode] = 0.5 * THICKApsim[1] / 1000.0
 
     for node in range(TOPSOILnode, numNodes + 1):
         sumThickness = 0.0
         for i in range(1, node):
-            sumThickness = sumThickness + THICKNESSApsim[i]
-        DEPTHApsim[node + 1] = (sumThickness + 0.5 * THICKNESSApsim[node]) / 1000.0
+            sumThickness = sumThickness + THICKApsim[i]
+        DEPTHApsim[node + 1] = (sumThickness + 0.5 * THICKApsim[node]) / 1000.0
 
     # Bulk Density
     BDApsim = [0.0]*(NLAYR + 1 + NUM_PHANTOM_NODES)
@@ -121,7 +121,7 @@ def init_campbell(NLAYR: int,
     for layer in range(1, NLAYR + 1):
        SWApsim[layer] = SW[layer - 1]
     for layer in range(NLAYR + 1, NLAYR + NUM_PHANTOM_NODES + 1):
-        SWApsim[layer] = (SWApsim[NLAYR-1] * THICKNESSApsim[NLAYR-1]) / THICKNESSApsim[NLAYR]
+        SWApsim[layer] = (SWApsim[NLAYR-1] * THICKApsim[NLAYR-1]) / THICKApsim[NLAYR]
 
 
     #Carbon
@@ -171,11 +171,11 @@ def init_campbell(NLAYR: int,
     thermalConductance = [0.0]*(numNodes + 1 + 1)
 
     thermalCondPar1,thermalCondPar2,thermalCondPar3,thermalCondPar4 = doThermalConductivityCoeffs(NLAYR, numNodes, BDApsim, CLAYApsim)
-    newTemperature = CalcSoilTemp(THICKNESSApsim, TAV, TAMP, DOY, XLAT,numNodes)
+    newTemperature = CalcSoilTemp(THICKApsim, TAV, TAMP, DOY, XLAT,numNodes)
 
     instrumentHeight = max(instrumentHeight, canopyHeight + 0.5)
 
-    soilTemp = CalcSoilTemp(THICKNESSApsim, TAV, TAMP, DOY, XLAT,numNodes)
+    soilTemp = CalcSoilTemp(THICKApsim, TAV, TAMP, DOY, XLAT,numNodes)
 
     soilTemp[AIRnode] = T2M
     surfaceT = (1.0 - SALB) * (T2M + (TMAX - T2M) * sqrt(max(SRAD, 0.1) * 23.8846 / 800.0)) + SALB * T2M
@@ -205,7 +205,7 @@ def init_campbell(NLAYR: int,
             thermalConductance,
             heatStorage,
             volSpecHeatSoil, 
-            THICKNESSApsim, 
+            THICKApsim, 
             DEPTHApsim, 
             BDApsim, 
             SWApsim, 
@@ -218,6 +218,14 @@ def init_campbell(NLAYR: int,
 
 #%%CyML Model Begin%%
 def model_campbell(NLAYR: int,
+    THICK:'Array[float]',
+    BD: 'Array[float]',
+    SLCARB:'Array[float]',
+    CLAY: 'Array[float]',
+    SLROCK:'Array[float]',
+    SLSILT:'Array[float]',
+    SLSAND:'Array[float]',
+    SW: 'Array[float]',
     THICKApsim: 'Array[float]',
     DEPTHApsim: 'Array[float]',
     CONSTANT_TEMPdepth:float,
@@ -295,7 +303,7 @@ def model_campbell(NLAYR: int,
                ** default : 1000.0
                ** unit : mm
          * name: THICK
-               ** description : Soil layer depths as THICKNESSApsim of layers
+               ** description : Soil layer depths as THICKApsim of layers
                ** inputtype : variable
                ** variablecategory : exogenous
                ** datatype : DOUBLEARRAY
@@ -306,7 +314,7 @@ def model_campbell(NLAYR: int,
                ** unit : mm
                ** uri :
         * name: THICKApsim
-               ** description : APSIM soil layer depths as THICKNESSApsim of layers
+               ** description : APSIM soil layer depths as THICKApsim of layers
                ** inputtype : variable
                ** variablecategory : state
                ** datatype : DOUBLEARRAY
@@ -1027,7 +1035,7 @@ def model_campbell(NLAYR: int,
                 ** unit : %
                 ** uri : 
          * name: THICKApsim
-               ** description : APSIM soil layer depths as THICKNESSApsim of layers
+               ** description : APSIM soil layer depths as THICKApsim of layers
                ** variablecategory : state
                ** datatype : DOUBLEARRAY
                ** len : NLAYR
@@ -1134,9 +1142,6 @@ def model_campbell(NLAYR: int,
     # The results would vary if soil water content were to vary, so if future versions
     # to more communication within subday time steps, these may need to be moved
     # back into the loop. EZJ March 2014
-    #SWApsim: 'Array[float]' = [0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
-    #copyLength: int = min(NLAYR + 1 + NUM_PHANTOM_NODES, len(SWApsim)+1)
-    #SWApsim[:copyLength] = SWApsim[:copyLength]     # SW dimensioned for layers 1 to gNumlayers + extra for zone below bottom layer
 
     volSpecHeatSoil = doVolumetricSpecificHeat(volSpecHeatSoil, SWApsim, numNodes, soilConstituentNames, THICKApsim, DEPTHApsim)      # RETURNS volSpecHeatSoil() (volumetric heat capacity of nodes)
     thermalConductivity = doThermConductivity(SWApsim, SLCARBApsim, SLROCKApsim,
@@ -1260,7 +1265,7 @@ def Divide(val1:float,
     return returnValue
 
 
-def CalcSoilTemp(THICKNESSApsim: 'Array[float]',
+def CalcSoilTemp(THICKApsim: 'Array[float]',
                 tav:float,
                 tamp:float, 
                 doy:int, 
@@ -1280,11 +1285,11 @@ def CalcSoilTemp(THICKNESSApsim: 'Array[float]',
     SURFACEnode:int = 1
     piVal: float = 3.141592653589793
 
-    cumulativeDepth = [0.0]*len(THICKNESSApsim)
-    if len(THICKNESSApsim) > 0:
-        cumulativeDepth[0] = THICKNESSApsim[0]
-        for Layer in range(1, len(THICKNESSApsim)):
-            cumulativeDepth[Layer] = THICKNESSApsim[Layer] + cumulativeDepth[Layer - 1]
+    cumulativeDepth = [0.0]*len(THICKApsim)
+    if len(THICKApsim) > 0:
+        cumulativeDepth[0] = THICKApsim[0]
+        for Layer in range(1, len(THICKApsim)):
+            cumulativeDepth[Layer] = THICKApsim[Layer] + cumulativeDepth[Layer - 1]
 
     w = piVal
     w = 2.0 * w
@@ -1321,7 +1326,7 @@ def doNetRadiation(
     SOLARconst:float = 1.0
     solarDeclination:float = 1.0
     m1:'Array[float]' 
-    m1 = [0.]*(ITERATIONSperDAY + 1)
+    m1 = [0.0]*(ITERATIONSperDAY + 1)
 
     TSTEPS2RAD = Divide(2.0 * piVal, float(ITERATIONSperDAY), 0.0)          # convert timestep of day to radians
     SOLARconst = 1360.0     # W/M^2
@@ -1332,6 +1337,7 @@ def doNetRadiation(
     psr: float
     timestepNumber: int =1
     fr: float 
+    scalar: float
 
     for timestepNumber in range(1, ITERATIONSperDAY+1):
         m1[timestepNumber] = (solarDeclination * sin(latitude * piVal / 180.0) + cD * cos(latitude * piVal / 180.0) *
@@ -1346,7 +1352,7 @@ def doNetRadiation(
     cloudFr = 2.33 - 3.33 * fr    # fractional cloud cover (0-1)
     cloudFr = min(max(cloudFr,0.0),1.0)
 
-    scalar: float= max(rad, 0.1)
+    scalar = max(rad, 0.1)
     for timestepNumber in range(1, ITERATIONSperDAY+1):
         solarRadn[timestepNumber] = scalar * Divide(m1[timestepNumber], m1Tot, 0.0)
 
@@ -1370,14 +1376,14 @@ def Zero(arr: 'Array[float]') -> 'Array[float]':
         arr[i] = 0.
     return arr
 
-def mapLayer2Node(layerArray: 'Array[float]', nodeArray: 'Array[float]', THICKNESSApsim: 'Array[float]', DEPTHApsim: 'Array[float]', numNodes: int):
+def mapLayer2Node(layerArray: 'Array[float]', nodeArray: 'Array[float]', THICKApsim: 'Array[float]', DEPTHApsim: 'Array[float]', numNodes: int):
     """
     Map layer properties to nodes by averaging properties between layers and nodes.
 
     Parameters:
     layerArray (list[float]): Array containing layer properties.
     nodeArray (list[float]): Array to store node properties.
-    THICKNESSApsim (list[float]): Thickness of each soil layer (mm).
+    THICKApsim (list[float]): Thickness of each soil layer (mm).
     DEPTHApsim (list[float]): Depth of nodes (m).
     numNodes (int): Number of nodes.
     """
@@ -1398,7 +1404,7 @@ def mapLayer2Node(layerArray: 'Array[float]', nodeArray: 'Array[float]', THICKNE
 
         if layer >= 1:
             for i in range(1, layer + 1):
-                depthLayerAbove = depthLayerAbove + THICKNESSApsim[i]
+                depthLayerAbove = depthLayerAbove + THICKApsim[i]
 
         d1 = depthLayerAbove - (DEPTHApsim[node] * 1000.0)
         d2 = DEPTHApsim[node + 1] * 1000.0 - depthLayerAbove
@@ -1440,7 +1446,7 @@ def volumetricSpecificHeat(name:str) -> float:
 
     
 def doVolumetricSpecificHeat(volSpecLayer: 'Array[float]', soilW: 'Array[float]',  numNodes:int, 
-                             constituents:'Array[str]', THICKNESSApsim: 'Array[float]', DEPTHApsim: 'Array[float]') -> 'Array[float]':
+                             constituents:'Array[str]', THICKApsim: 'Array[float]', DEPTHApsim: 'Array[float]') -> 'Array[float]':
     """
     Calculate the volumetric specific heat (volumetric heat capacity Cv) of the soil layer.
     Based on Campbell, G.S. (1985) "Soil physics with BASIC: Transport models for soil-plant systems".
@@ -1462,7 +1468,7 @@ def doVolumetricSpecificHeat(volSpecLayer: 'Array[float]', soilW: 'Array[float]'
         for constituent in range(0, len(constituents)):
             volSpecHeatSoil[node] = volSpecHeatSoil[node] + (volumetricSpecificHeat(constituents[constituent]) * 1000000.0 * soilW[node])
 
-    volSpecLayer = mapLayer2Node(volSpecHeatSoil, volSpecLayer, THICKNESSApsim, DEPTHApsim, numNodes)
+    volSpecLayer = mapLayer2Node(volSpecHeatSoil, volSpecLayer, THICKApsim, DEPTHApsim, numNodes)
     return volSpecLayer
 
 def volumetricFractionRocks(SLROCKApsim:'Array[float]', layer: int) -> float:
@@ -1593,7 +1599,7 @@ def ThermalConductance(name: str) -> float:
 
 def doThermConductivity(soilW: 'Array[float]', SLCARBApsim: 'Array[float]', SLROCKApsim: 'Array[float]', SLSANDApsim: 'Array[float]', 
                         SLSILTApsim: 'Array[float]', CLAYApsim: 'Array[float]', BDApsim: 'Array[float]',
-                                thermalConductivity: 'Array[float]', THICKNESSApsim: 'Array[float]', DEPTHApsim: 'Array[float]',
+                                thermalConductivity: 'Array[float]', THICKApsim: 'Array[float]', DEPTHApsim: 'Array[float]',
                                 numNodes: int, constituents:'Array[str]') -> 'Array[float]':
     """
     Calculate the thermal conductivity of the soil layer based on Campbell's model.
@@ -1635,7 +1641,7 @@ def doThermConductivity(soilW: 'Array[float]', SLCARBApsim: 'Array[float]', SLRO
         thermCondLayers[node] = numerator / denominator
 
     # now get weighted average for soil elements between the nodes. i.e. map layers to nodes
-    thermalConductivity = mapLayer2Node(thermCondLayers, thermalConductivity, THICKNESSApsim, DEPTHApsim, numNodes)
+    thermalConductivity = mapLayer2Node(thermCondLayers, thermalConductivity, THICKApsim, DEPTHApsim, numNodes)
     return thermalConductivity
 
 def InterpTemp(time_hours: float, tmax: float, tmin: float, t2m:float, max_temp_yesterday: float, min_temp_yesterday: float) -> float:
@@ -1971,7 +1977,7 @@ def doUpdate(tempNew: 'Array[float]',
             minSoilTemp[node] = soilTemp[node]
         elif soilTemp[node] > maxSoilTemp[node]:
             maxSoilTemp[node] = soilTemp[node]
-        aveSoilTemp[node] = aveSoilTemp[node] + (Divide(soilTemp[node], float(IterationsPerDay), 0.0))
+        aveSoilTemp[node] = aveSoilTemp[node] + Divide(soilTemp[node], float(IterationsPerDay), 0.0)
 
-    boundaryLayerConductance = boundaryLayerConductance + (Divide(thermalConductivity[AIRnode], float(IterationsPerDay), 0.0))
+    boundaryLayerConductance = boundaryLayerConductance + Divide(thermalConductivity[AIRnode], float(IterationsPerDay), 0.0)
     return soilTemp, boundaryLayerConductance

@@ -11,10 +11,19 @@
         <ShortDescription>TODO</ShortDescription></Description>
     <Inputs>
         <Input name="NLAYR" description="number of soil layers in profile" inputtype="parameter" parametercategory="constant" datatype="INT" max="" min="1" default="10" unit="dimensionless"/>
-        <Input name="THICK" description="APSIM soil layer depths as thickness of layers" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="NLAYR" max="" min="1" default="50" unit="mm"/>
-        <Input name="DEPTH" description="APSIM node depths" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="NLAYR" max="" min="" default="" unit="m"/>
+        <Input name="THICK" description="Soil layer depths as THICKApsim of layers" inputtype="variable" variablecategory="exogenous" datatype="DOUBLEARRAY" len="NLAYR" max="" min="1" default="50" unit="mm"/>
+        <Input name="BD" description="bd (soil bulk density)" inputtype="variable" variablecategory="exogenous" datatype="DOUBLEARRAY" len="NLAYR" max="" min="" default="1.4" unit="g/cm3
+            uri :"/>
+        <Input name="SLCARB" description="Volumetric fraction of organic matter in the soil" inputtype="variable" variablecategory="exogenous" datatype="DOUBLEARRAY" len="NLAYR" max="" min="" default="" unit=""/>
+        <Input name="CLAY" description="Proportion of CLAYApsim in each layer of profile" inputtype="variable" variablecategory="exogenous" datatype="DOUBLEARRAY" len="NLAYR" max="100" min="0" default="50" unit=""/>
+        <Input name="SLROCK" description="Volumetric fraction of SLROCKApsim in the soil" inputtype="variable" variablecategory="exogenous" datatype="DOUBLEARRAY" len="NLAYR" max="" min="" default="" unit=""/>
+        <Input name="SLSILT" description="Volumetric fraction of SLSILTApsim in the soil" inputtype="variable" variablecategory="exogenous" datatype="DOUBLEARRAY" len="NLAYR" max="" min="" default="" unit=""/>
+        <Input name="SLSAND" description="Volumetric fraction of SLSANDApsim in the soil" inputtype="variable" variablecategory="exogenous" datatype="DOUBLEARRAY" len="NLAYR" max="" min="" default="" unit=""/>
+        <Input name="SW" description="volumetric water content" inputtype="variable" variablecategory="exogenous" datatype="DOUBLEARRAY" len="NLAYR" max="1" min="0" default="0.5" unit="cc water / cc soil"/>
+        <Input name="THICKApsim" description="APSIM soil layer depths as THICKApsim of layers" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="NLAYR" max="" min="1" default="50" unit="mm"/>
+        <Input name="DEPTHApsim" description="Apsim node depths" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="NLAYR" max="" min="" default="" unit="m"/>
         <Input name="CONSTANT_TEMPdepth" description="Depth of constant temperature" inputtype="parameter" parametercategory="constant" datatype="DOUBLE" max="" min="" default="1000.0" unit="mm"/>
-        <Input name="BD" description="bd (soil bulk density) is name of the APSIM var for bulk density so set bulkDensity" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="NLAYR" max="" min="" default="1.4" unit="g/cm3
+        <Input name="BDApsim" description="Apsim bd (soil bulk density)" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="NLAYR" max="" min="" default="1.4" unit="g/cm3
             uri :"/>
         <Input name="T2M" description="Mean daily Air temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="60" min="-60" default="" unit=""/>
         <Input name="TMAX" description="Max daily Air temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="60" min="-60" default="" unit=""/>
@@ -22,8 +31,8 @@
         <Input name="TAV" description="Average daily Air temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="60" min="-60" default="" unit=""/>
         <Input name="TAMP" description="Amplitude air temperature" inputtype="parameter" parametercategory="constant" datatype="DOUBLE" max="100" min="-100" default="" unit=""/>
         <Input name="XLAT" description="Latitude" inputtype="parameter" parametercategory="constant" datatype="DOUBLE" max="" min="" default="" unit=""/>
-        <Input name="CLAY" description="Proportion of clay in each layer of profile" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="NLAYR" max="100" min="0" default="50" unit=""/>
-        <Input name="SW" description="volumetric water content" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="NLAYR" max="1" min="0" default="0.5" unit="cc water / cc soil"/>
+        <Input name="CLAYApsim" description="Apsim proportion of CLAYApsim in each layer of profile" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="NLAYR" max="100" min="0" default="50" unit=""/>
+        <Input name="SWApsim" description="Apsim volumetric water content" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="NLAYR" max="1" min="0" default="0.5" unit="cc water / cc soil"/>
         <Input name="DOY" description="Day of year" inputtype="variable" variablecategory="exogenous" datatype="INT" max="366" min="1" default="1" unit="dimensionless"/>
         <Input name="airPressure" description="Air pressure" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="1010" unit="hPA"/>
         <Input name="canopyHeight" description="height of canopy above ground" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="0" default="0.057" unit="m"/>
@@ -52,10 +61,10 @@
         <Input name="boundaryLayerConductanceSource" description="Flag whether boundary layer conductance is calculated or gotten from input" inputtype="parameter" parametercategory="constant" datatype="STRING" max="" min="" default="calc" unit="dimensionless"/>
         <Input name="netRadiationSource" description="Flag whether net radiation is calculated or gotten from input" inputtype="parameter" parametercategory="constant" datatype="STRING" max="" min="" default="calc" unit="dimensionless"/>
         <Input name="windSpeed" description="Speed of wind" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="0.0" default="3.0" unit="m/s"/>
-        <Input name="SLCARB" description="Volumetric fraction of organic matter in the soil" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="NLAYR" max="" min="" default="" unit=""/>
-        <Input name="SLROCK" description="Volumetric fraction of rocks in the soil" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="NLAYR" max="" min="" default="" unit=""/>
-        <Input name="SLSILT" description="Volumetric fraction of silt in the soil" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="NLAYR" max="" min="" default="" unit=""/>
-        <Input name="SLSAND" description="Volumetric fraction of sand in the soil" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="NLAYR" max="" min="" default="" unit=""/>
+        <Input name="SLCARBApsim" description="Volumetric fraction of organic matter in the soil" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="NLAYR" max="" min="" default="" unit=""/>
+        <Input name="SLROCKApsim" description="Volumetric fraction of SLROCKApsim in the soil" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="NLAYR" max="" min="" default="" unit=""/>
+        <Input name="SLSILTApsim" description="Volumetric fraction of SLSILTApsim in the soil" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="NLAYR" max="" min="" default="" unit=""/>
+        <Input name="SLSANDApsim" description="Apsim volumetric fraction of SLSANDApsim in the soil" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY" len="NLAYR" max="" min="" default="" unit=""/>
         <Input name="_boundaryLayerConductance" description="Boundary layer conductance" inputtype="variable" variablecategory="state" datatype="DOUBLE" max="" min="" default="" unit="K/W"/></Inputs>
     <Outputs>
         <Output name="soilTemp" description="Temperature at end of last time-step within a day - midnight in layers" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="60." min="-60." unit="degC"/>
@@ -75,15 +84,16 @@
         <Output name="heatStorage" description="Heat storage between layers (internal)" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit="J/s/K"/>
         <Output name="volSpecHeatSoil" description="Volumetric specific heat over the soil profile" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit="J/K/m3"/>
         <Output name="_boundaryLayerConductance" description="Boundary layer conductance" datatype="DOUBLE" variablecategory="state" max="" min="" unit="K/W"/>
-        <Output name="THICK" description="APSIM soil layer depths as thickness of layers" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="1" unit="mm"/>
-        <Output name="DEPTH" description="APSIM node depths" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit="m"/>
-        <Output name="BD" description="bd (soil bulk density) is name of the APSIM var for bulk density so set bulkDensity" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit="g/cm3
+        <Output name="THICKApsim" description="APSIM soil layer depths as THICKApsim of layers" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="1" unit="mm"/>
+        <Output name="DEPTHApsim" description="APSIM node depths" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit="m"/>
+        <Output name="BDApsim" description="bd (soil bulk density) is name of the APSIM var for bulk density so set BDApsim" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit="g/cm3
             uri :"/>
-        <Output name="CLAY" description="Proportion of clay in each layer of profile" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="100" min="0" unit=""/>
-        <Output name="SLROCK" description="Volumetric fraction of rocks in the soil" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit=""/>
-        <Output name="SLCARB" description="Volumetric fraction of organic matter in the soil" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit=""/>
-        <Output name="SLSAND" description="Volumetric fraction of sand in the soil" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit=""/>
-        <Output name="SLSILT" description="Volumetric fraction of silt in the soil" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit=""/></Outputs>
+        <Output name="SWApsim" description="volumetric water content" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="1" min="0" unit="cc water / cc soil"/>
+        <Output name="CLAYApsim" description="Proportion of CLAYApsim in each layer of profile" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="100" min="0" unit=""/>
+        <Output name="SLROCKApsim" description="Volumetric fraction of SLROCKApsim in the soil" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit=""/>
+        <Output name="SLCARBApsim" description="Volumetric fraction of organic matter in the soil" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit=""/>
+        <Output name="SLSANDApsim" description="Volumetric fraction of SLSANDApsim in the soil" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit=""/>
+        <Output name="SLSILTApsim" description="Volumetric fraction of SLSILTApsim in the soil" datatype="DOUBLEARRAY" variablecategory="state" len="NLAYR" max="" min="" unit=""/></Outputs>
     <Initialization name="init_campbell" language="cyml" filename="algo/pyx/init.campbell.pyx"/>
     <Function name="doNetRadiation" description="" language="cyml" type="external" filename="algo/pyx/doNetRadiation.pyx"/>
     <Function name="Zero" description="" language="cyml" type="external" filename="algo/pyx/Zero.pyx"/>

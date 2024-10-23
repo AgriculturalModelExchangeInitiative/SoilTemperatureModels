@@ -1,4 +1,4 @@
-def CalcSoilTemp(floatarray thickness,
+def CalcSoilTemp(floatarray THICKApsim,
          float tav,
          float tamp,
          int doy,
@@ -16,11 +16,11 @@ def CalcSoilTemp(floatarray thickness,
     cdef float offset 
     cdef int SURFACEnode = 1
     cdef float piVal = 3.141592653589793
-    cumulativeDepth=[0.0] * len(thickness)
-    if len(thickness) > 0:
-        cumulativeDepth[0]=thickness[0]
-        for Layer in range(1 , len(thickness) , 1):
-            cumulativeDepth[Layer]=thickness[Layer] + cumulativeDepth[Layer - 1]
+    cumulativeDepth=[0.0] * len(THICKApsim)
+    if len(THICKApsim) > 0:
+        cumulativeDepth[0]=THICKApsim[0]
+        for Layer in range(1 , len(THICKApsim) , 1):
+            cumulativeDepth[Layer]=THICKApsim[Layer] + cumulativeDepth[Layer - 1]
     w=piVal
     w=2.0 * w
     w=w / (365.25 * 24.0 * 3600.0)

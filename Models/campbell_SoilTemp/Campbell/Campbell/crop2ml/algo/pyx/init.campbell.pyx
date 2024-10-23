@@ -1,13 +1,4 @@
 cdef float heatCapacity[]
-cdef float thickness[]
-cdef float depth[]
-cdef float bulkDensity[]
-cdef float soilWater[]
-cdef float clay[]
-cdef float carbon[]
-cdef float rocks[]
-cdef float sand[]
-cdef float silt[]
 cdef float soilRoughnessHeight 
 cdef float defaultInstrumentHeight 
 cdef float AltitudeMetres 
@@ -37,62 +28,62 @@ if instrumentHeight > 0.00001:
 else:
     instrumentHeight=defaultInstrumentHeight
 numNodes=NLAYR + NUM_PHANTOM_NODES
-thickness=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
+THICKApsim=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
 for layer in range(1 , NLAYR + 1 , 1):
-    thickness[layer]=THICK[layer - 1]
+    THICKApsim[layer]=THICK[layer - 1]
 sumThickness=0.0
 for i in range(1 , NLAYR + 1 , 1):
-    sumThickness=sumThickness + thickness[i]
+    sumThickness=sumThickness + THICKApsim[i]
 BelowProfileDepth=max(CONSTANT_TEMPdepth - sumThickness, 1000.0)
 thicknessForPhantomNodes=BelowProfileDepth * 2.0 / NUM_PHANTOM_NODES
 firstPhantomNode=NLAYR
 for i in range(firstPhantomNode , firstPhantomNode + NUM_PHANTOM_NODES , 1):
-    thickness[i]=thicknessForPhantomNodes
-depth=[0.0] * (numNodes + 1 + 1)
-depth[AIRnode]=0.0
-depth[SURFACEnode]=0.0
-depth[TOPSOILnode]=0.5 * thickness[1] / 1000.0
+    THICKApsim[i]=thicknessForPhantomNodes
+DEPTHApsim=[0.0] * (numNodes + 1 + 1)
+DEPTHApsim[AIRnode]=0.0
+DEPTHApsim[SURFACEnode]=0.0
+DEPTHApsim[TOPSOILnode]=0.5 * THICKApsim[1] / 1000.0
 for node in range(TOPSOILnode , numNodes + 1 , 1):
     sumThickness=0.0
     for i in range(1 , node , 1):
-        sumThickness=sumThickness + thickness[i]
-    depth[node + 1]=(sumThickness + (0.5 * thickness[node])) / 1000.0
-bulkDensity=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
+        sumThickness=sumThickness + THICKApsim[i]
+    DEPTHApsim[node + 1]=(sumThickness + (0.5 * THICKApsim[node])) / 1000.0
+BDApsim=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
 for layer in range(1 , NLAYR + 1 , 1):
-    bulkDensity[layer]=BD[layer - 1]
-bulkDensity[numNodes]=bulkDensity[NLAYR]
+    BDApsim[layer]=BD[layer - 1]
+BDApsim[numNodes]=BDApsim[NLAYR]
 for layer in range(NLAYR + 1 , NLAYR + NUM_PHANTOM_NODES + 1 , 1):
-    bulkDensity[layer]=bulkDensity[NLAYR]
-soilWater=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
+    BDApsim[layer]=BDApsim[NLAYR]
+SWApsim=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
 for layer in range(1 , NLAYR + 1 , 1):
-    soilWater[layer]=SW[layer - 1]
+    SWApsim[layer]=SW[layer - 1]
 for layer in range(NLAYR + 1 , NLAYR + NUM_PHANTOM_NODES + 1 , 1):
-    soilWater[layer]=soilWater[(NLAYR - 1)] * thickness[(NLAYR - 1)] / thickness[NLAYR]
-carbon=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
+    SWApsim[layer]=SWApsim[(NLAYR - 1)] * THICKApsim[(NLAYR - 1)] / THICKApsim[NLAYR]
+SLCARBApsim=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
 for layer in range(1 , NLAYR + 1 , 1):
-    carbon[layer]=SLCARB[layer - 1]
+    SLCARBApsim[layer]=SLCARB[layer - 1]
 for layer in range(NLAYR + 1 , NLAYR + NUM_PHANTOM_NODES + 1 , 1):
-    carbon[layer]=carbon[NLAYR]
-rocks=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
+    SLCARBApsim[layer]=SLCARBApsim[NLAYR]
+SLROCKApsim=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
 for layer in range(1 , NLAYR + 1 , 1):
-    rocks[layer]=SLROCK[layer - 1]
+    SLROCKApsim[layer]=SLROCK[layer - 1]
 for layer in range(NLAYR + 1 , NLAYR + NUM_PHANTOM_NODES + 1 , 1):
-    rocks[layer]=rocks[NLAYR]
-sand=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
+    SLROCKApsim[layer]=SLROCKApsim[NLAYR]
+SLSANDApsim=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
 for layer in range(1 , NLAYR + 1 , 1):
-    sand[layer]=SLSAND[layer - 1]
+    SLSANDApsim[layer]=SLSAND[layer - 1]
 for layer in range(NLAYR + 1 , NLAYR + NUM_PHANTOM_NODES + 1 , 1):
-    sand[layer]=sand[NLAYR]
-silt=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
+    SLSANDApsim[layer]=SLSANDApsim[NLAYR]
+SLSILTApsim=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
 for layer in range(1 , NLAYR + 1 , 1):
-    silt[layer]=SLSILT[layer - 1]
+    SLSILTApsim[layer]=SLSILT[layer - 1]
 for layer in range(NLAYR + 1 , NLAYR + NUM_PHANTOM_NODES + 1 , 1):
-    silt[layer]=silt[NLAYR]
-clay=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
+    SLSILTApsim[layer]=SLSILTApsim[NLAYR]
+CLAYApsim=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
 for layer in range(1 , NLAYR + 1 , 1):
-    clay[layer]=CLAY[layer - 1]
+    CLAYApsim[layer]=CLAY[layer - 1]
 for layer in range(NLAYR + 1 , NLAYR + NUM_PHANTOM_NODES + 1 , 1):
-    clay[layer]=clay[NLAYR]
+    CLAYApsim[layer]=CLAYApsim[NLAYR]
 maxSoilTemp=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
 minSoilTemp=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
 aveSoilTemp=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
@@ -103,10 +94,10 @@ newTemperature=[0.0] * (numNodes + 1 + 1)
 thermalConductivity=[0.0] * (numNodes + 1)
 heatStorage=[0.0] * (numNodes + 1)
 thermalConductance=[0.0] * (numNodes + 1 + 1)
-(thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4)=doThermalConductivityCoeffs(NLAYR, numNodes, bulkDensity, clay)
-newTemperature=CalcSoilTemp(thickness, TAV, TAMP, DOY, XLAT, numNodes)
+(thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4)=doThermalConductivityCoeffs(NLAYR, numNodes, BDApsim, CLAYApsim)
+newTemperature=CalcSoilTemp(THICKApsim, TAV, TAMP, DOY, XLAT, numNodes)
 instrumentHeight=max(instrumentHeight, canopyHeight + 0.5)
-soilTemp=CalcSoilTemp(thickness, TAV, TAMP, DOY, XLAT, numNodes)
+soilTemp=CalcSoilTemp(THICKApsim, TAV, TAMP, DOY, XLAT, numNodes)
 soilTemp[AIRnode]=T2M
 surfaceT=(1.0 - SALB) * (T2M + ((TMAX - T2M) * sqrt(max(SRAD, 0.1) * 23.8846 / 800.0))) + (SALB * T2M)
 soilTemp[SURFACEnode]=surfaceT

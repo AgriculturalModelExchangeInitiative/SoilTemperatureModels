@@ -2,7 +2,7 @@ def doThomas(floatarray newTemps,
          floatarray soilTemp,
          floatarray thermalConductivity,
          floatarray thermalConductance,
-         floatarray depth,
+         floatarray DEPTHApsim,
          floatarray volSpecHeatSoil,
          float gDt,
          float netRadiation,
@@ -37,9 +37,9 @@ def doThomas(floatarray newTemps,
     thermalConductance[AIRnode]=thermalConductivity[AIRnode]
     cdef int node = SURFACEnode
     for node in range(SURFACEnode , numNodes + 1 , 1):
-        VolSoilAtNode=0.5 * (depth[node + 1] - depth[node - 1])
+        VolSoilAtNode=0.5 * (DEPTHApsim[node + 1] - DEPTHApsim[node - 1])
         heatStorage[node]=Divide(volSpecHeatSoil[node] * VolSoilAtNode, gDt, 0.0)
-        elementLength=depth[node + 1] - depth[node]
+        elementLength=DEPTHApsim[node + 1] - DEPTHApsim[node]
         thermalConductance[node]=Divide(thermalConductivity[node], elementLength, 0.0)
     for node in range(SURFACEnode , numNodes + 1 , 1):
         c[node]=-nu * thermalConductance[node]

@@ -29,8 +29,6 @@ cdef float airTemperature
 cdef int iteration 
 cdef float tMean 
 cdef float internalTimeStep 
-cdef float soilWater[]
-cdef int copyLength 
 AIRnode=0
 SURFACEnode=1
 TOPSOILnode=2
@@ -61,11 +59,8 @@ maxSoilTemp=Zero(maxSoilTemp)
 aveSoilTemp=Zero(aveSoilTemp)
 _boundaryLayerConductance=0.0
 internalTimeStep=tempStepSec / float(ITERATIONSperDAY)
-soilWater=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
-copyLength=min(NLAYR + 1 + NUM_PHANTOM_NODES, len(SW) + 1)
-soilWater[:copyLength]=SW[:copyLength]
-volSpecHeatSoil=doVolumetricSpecificHeat(volSpecHeatSoil, soilWater, numNodes, soilConstituentNames, THICK, DEPTH)
-thermalConductivity=doThermConductivity(soilWater, SLCARB, SLROCK, SLSAND, SLSILT, CLAY, BD, thermalConductivity, THICK, DEPTH, numNodes, soilConstituentNames)
+volSpecHeatSoil=doVolumetricSpecificHeat(volSpecHeatSoil, SWApsim, numNodes, soilConstituentNames, THICKApsim, DEPTHApsim)
+thermalConductivity=doThermConductivity(SWApsim, SLCARBApsim, SLROCKApsim, SLSANDApsim, SLSILTApsim, CLAYApsim, BDApsim, thermalConductivity, THICKApsim, DEPTHApsim, numNodes, soilConstituentNames)
 for timeStepIteration in range(1 , ITERATIONSperDAY + 1 , 1):
     timeOfDaySecs=internalTimeStep * float(timeStepIteration)
     if tempStepSec < (24.0 * 60.0 * 60.0):
@@ -79,9 +74,9 @@ for timeStepIteration in range(1 , ITERATIONSperDAY + 1 , 1):
     elif boundaryLayerConductanceSource == "calc":
         thermalConductivity[AIRnode]=boundaryLayerConductanceF(newTemperature, tMean, ESP, EOAD, airPressure, canopyHeight, windSpeed, instrumentHeight)
         for iteration in range(1 , BoundaryLayerConductanceIterations + 1 , 1):
-            newTemperature=doThomas(newTemperature, soilTemp, thermalConductivity, thermalConductance, DEPTH, volSpecHeatSoil, internalTimeStep, netRadiation, ESP, ES, numNodes, netRadiationSource)
+            newTemperature=doThomas(newTemperature, soilTemp, thermalConductivity, thermalConductance, DEPTHApsim, volSpecHeatSoil, internalTimeStep, netRadiation, ESP, ES, numNodes, netRadiationSource)
             thermalConductivity[AIRnode]=boundaryLayerConductanceF(newTemperature, tMean, ESP, EOAD, airPressure, canopyHeight, windSpeed, instrumentHeight)
-    newTemperature=doThomas(newTemperature, soilTemp, thermalConductivity, thermalConductance, DEPTH, volSpecHeatSoil, internalTimeStep, netRadiation, ESP, ES, numNodes, netRadiationSource)
+    newTemperature=doThomas(newTemperature, soilTemp, thermalConductivity, thermalConductance, DEPTHApsim, volSpecHeatSoil, internalTimeStep, netRadiation, ESP, ES, numNodes, netRadiationSource)
     (soilTemp, _boundaryLayerConductance)=doUpdate(newTemperature, soilTemp, minSoilTemp, maxSoilTemp, aveSoilTemp, thermalConductivity, _boundaryLayerConductance, ITERATIONSperDAY, timeOfDaySecs, internalTimeStep, numNodes)
     precision=min(timeOfDaySecs, 5.0 * 3600.0) * 0.0001
     if abs(timeOfDaySecs - (5.0 * 3600.0)) <= precision:

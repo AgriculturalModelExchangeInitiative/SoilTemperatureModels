@@ -9,18 +9,26 @@ from datetime import datetime
 from Campbell.campbell import model_campbell
 
 def model_SoilTempCampbell(NLAYR: int,
-    THICK: 'Array[float]',
-    DEPTH: 'Array[float]',
+                               THICK:'Array[float]',
+                               BD: 'Array[float]',
+    SLCARB:'Array[float]',
+    CLAY: 'Array[float]',
+    SLROCK:'Array[float]',
+    SLSILT:'Array[float]',
+    SLSAND:'Array[float]',
+    SW: 'Array[float]',
+    THICKApsim: 'Array[float]',
+    DEPTHApsim: 'Array[float]',
     CONSTANT_TEMPdepth:float,
-    BD: 'Array[float]',
+    BDApsim: 'Array[float]',
     T2M: float,
     TMAX: float,
     TMIN: float,
     TAV: float,
     TAMP: float,
     XLAT: float,
-    CLAY: 'Array[float]',
-    SW: 'Array[float]',
+    CLAYApsim: 'Array[float]',
+    SWApsim: 'Array[float]',
     DOY: int,
     airPressure: float,
     canopyHeight: float,
@@ -49,10 +57,10 @@ def model_SoilTempCampbell(NLAYR: int,
     boundaryLayerConductanceSource:str,
     netRadiationSource:str,
     windSpeed:float,
-    SLCARB:'Array[float]',
-    SLROCK:'Array[float]',
-    SLSILT:'Array[float]',
-    SLSAND:'Array[float]',
+    SLCARBApsim:'Array[float]',
+    SLROCKApsim:'Array[float]',
+    SLSILTApsim:'Array[float]',
+    SLSANDApsim:'Array[float]',
     _boundaryLayerConductance:float
     ):
     """
@@ -86,7 +94,7 @@ def model_SoilTempCampbell(NLAYR: int,
                ** default : 1000.0
                ** unit : mm
          * name: THICK
-               ** description : Soil layer depths as THICKNESSApsim of layers
+               ** description : Soil layer depths as THICKApsim of layers
                ** inputtype : variable
                ** variablecategory : exogenous
                ** datatype : DOUBLEARRAY
@@ -97,7 +105,7 @@ def model_SoilTempCampbell(NLAYR: int,
                ** unit : mm
                ** uri :
         * name: THICKApsim
-               ** description : APSIM soil layer depths as THICKNESSApsim of layers
+               ** description : APSIM soil layer depths as THICKApsim of layers
                ** inputtype : variable
                ** variablecategory : state
                ** datatype : DOUBLEARRAY
@@ -818,7 +826,7 @@ def model_SoilTempCampbell(NLAYR: int,
                 ** unit : %
                 ** uri : 
          * name: THICKApsim
-               ** description : APSIM soil layer depths as THICKNESSApsim of layers
+               ** description : APSIM soil layer depths as THICKApsim of layers
                ** variablecategory : state
                ** datatype : DOUBLEARRAY
                ** len : NLAYR
@@ -872,53 +880,30 @@ def model_SoilTempCampbell(NLAYR: int,
                 ** uri : 
     """
     #%%CyML Compute Begin%%
-    # soilTemp: 'Array[float]' = []
-    # minSoilTemp: 'Array[float]' = []
-    # maxSoilTemp: 'Array[float]' = []
-    # aveSoilTemp: 'Array[float]' = []
-    # morningSoilTemp: 'Array[float]' = []
-    # newTemperature: 'Array[float]' = []
-    # maxTempYesterday: float
-    # minTempYesterday: float
-    # thermalCondPar1: 'Array[float]' = []
-    # thermalCondPar2: 'Array[float]' = []
-    # thermalCondPar3: 'Array[float]' = []
-    # thermalCondPar4: 'Array[float]' = []
-    # thermalConductivity: 'Array[float]' = []
-    # thermalConductance: 'Array[float]' = []
-    # heatStorage: 'Array[float]' = []
-    # volSpecHeatSoil: 'Array[float]' = []
-    # boundaryLayerConductance:float
-    # THICKNESSApsim: 'Array[float]' = []
-    # DEPTHApsim: 'Array[float]' = []
-    # BDApsim: 'Array[float]' = []
-    # soilW: 'Array[float]' = []
-    # CLAYApsim: 'Array[float]' = []
-    # SLROCKApsim: 'Array[float]' = []
-    # SLCARBApsim: 'Array[float]' = []
-    # SLSILTApsim: 'Array[float]' = []
-    # SLSANDApsim: 'Array[float]' = []
-    # airPressure:float
 
     (soilTemp, minSoilTemp, maxSoilTemp, aveSoilTemp,
         morningSoilTemp, newTemperature, maxTempYesterday, minTempYesterday, thermalCondPar1, thermalCondPar2, 
         thermalCondPar3, thermalCondPar4, thermalConductivity, thermalConductance, 
-        heatStorage, volSpecHeatSoil, _boundaryLayerConductance, THICK, DEPTH, BD, SW, CLAY,
-        SLROCK, SLCARB, SLSAND, SLSILT) = model_campbell(NLAYR, THICK, DEPTH, CONSTANT_TEMPdepth, BD, 
+        heatStorage, volSpecHeatSoil, _boundaryLayerConductance, THICKApsim, DEPTHApsim, BDApsim, SWApsim, 
+            CLAYApsim, SLROCKApsim, SLCARBApsim, SLSANDApsim, SLSILTApsim) = model_campbell(NLAYR, THICK, BD,
+                                                                                            SLCARB,CLAY,SLROCK,
+                                                                                            SLSILT,SLSAND,SW
+                                                                                            ,THICKApsim, DEPTHApsim, CONSTANT_TEMPdepth, BDApsim, 
                                                 T2M, TMAX, TMIN, TAV, TAMP, XLAT, 
-                                                CLAY, SW, DOY, airPressure, 
+                                                CLAYApsim, SWApsim, DOY, airPressure, 
                                                 canopyHeight, SALB, SRAD, ESP, ES, 
                                                 EOAD, soilTemp, newTemperature, minSoilTemp, maxSoilTemp, aveSoilTemp,
                                                 morningSoilTemp,thermalCondPar1, thermalCondPar2, thermalCondPar3, 
                                                 thermalCondPar4, thermalConductivity, thermalConductance, 
                                                 heatStorage, volSpecHeatSoil, maxTempYesterday, minTempYesterday, 
                                                 instrumentHeight, boundaryLayerConductanceSource, 
-                                                netRadiationSource, windSpeed, SLCARB, SLROCK, SLSILT, SLSAND, _boundaryLayerConductance)
+                                                netRadiationSource, windSpeed, SLCARBApsim, SLROCKApsim, 
+                                                SLSILTApsim, SLSANDApsim, _boundaryLayerConductance)
 
     #%%CyML Compute End%%
     return (soilTemp, minSoilTemp, maxSoilTemp, aveSoilTemp,
         morningSoilTemp, newTemperature, maxTempYesterday, minTempYesterday, thermalCondPar1, thermalCondPar2, 
         thermalCondPar3, thermalCondPar4, thermalConductivity, thermalConductance, 
-        heatStorage, volSpecHeatSoil, _boundaryLayerConductance, THICK, DEPTH, BD, SW, CLAY,
-        SLROCK, SLCARB, SLSAND, SLSILT)
+        heatStorage, volSpecHeatSoil, _boundaryLayerConductance, THICKApsim, DEPTHApsim, BDApsim, SWApsim, 
+            CLAYApsim, SLROCKApsim, SLCARBApsim, SLSANDApsim, SLSILTApsim)
 #%%CyML Model End%%

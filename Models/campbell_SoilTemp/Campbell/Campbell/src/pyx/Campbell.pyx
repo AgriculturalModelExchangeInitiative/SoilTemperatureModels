@@ -2,6 +2,14 @@ import numpy
 from math import *
 
 def init_campbell(int NLAYR,
+                  float THICK[NLAYR],
+                  float BD[NLAYR],
+                  float SLCARB[NLAYR],
+                  float CLAY[NLAYR],
+                  float SLROCK[NLAYR],
+                  float SLSILT[NLAYR],
+                  float SLSAND[NLAYR],
+                  float SW[NLAYR],
                   float CONSTANT_TEMPdepth,
                   float T2M,
                   float TMAX,
@@ -21,11 +29,11 @@ def init_campbell(int NLAYR,
                   str boundaryLayerConductanceSource,
                   str netRadiationSource,
                   float windSpeed):
-    cdef floatarray THICK
-    cdef float DEPTH[NLAYR]
-    cdef floatarray BD
-    cdef floatarray CLAY
-    cdef floatarray SW
+    cdef floatarray THICKApsim
+    cdef float DEPTHApsim[NLAYR]
+    cdef floatarray BDApsim
+    cdef floatarray CLAYApsim
+    cdef floatarray SWApsim
     cdef float soilTemp[NLAYR]
     cdef float newTemperature[NLAYR]
     cdef float minSoilTemp[NLAYR]
@@ -42,12 +50,12 @@ def init_campbell(int NLAYR,
     cdef float volSpecHeatSoil[NLAYR]
     cdef float maxTempYesterday
     cdef float minTempYesterday
-    cdef float SLCARB[NLAYR]
-    cdef float SLROCK[NLAYR]
-    cdef float SLSILT[NLAYR]
-    cdef float SLSAND[NLAYR]
+    cdef float SLCARBApsim[NLAYR]
+    cdef float SLROCKApsim[NLAYR]
+    cdef float SLSILTApsim[NLAYR]
+    cdef float SLSANDApsim[NLAYR]
     cdef float _boundaryLayerConductance
-    DEPTH = array('f', [0.0]*NLAYR)
+    DEPTHApsim = array('f', [0.0]*NLAYR)
     soilTemp = array('f', [0.0]*NLAYR)
     newTemperature = array('f', [0.0]*NLAYR)
     minSoilTemp = array('f', [0.0]*NLAYR)
@@ -64,21 +72,12 @@ def init_campbell(int NLAYR,
     volSpecHeatSoil = array('f', [0.0]*NLAYR)
     maxTempYesterday = 0.0
     minTempYesterday = 0.0
-    SLCARB = array('f', [0.0]*NLAYR)
-    SLROCK = array('f', [0.0]*NLAYR)
-    SLSILT = array('f', [0.0]*NLAYR)
-    SLSAND = array('f', [0.0]*NLAYR)
+    SLCARBApsim = array('f', [0.0]*NLAYR)
+    SLROCKApsim = array('f', [0.0]*NLAYR)
+    SLSILTApsim = array('f', [0.0]*NLAYR)
+    SLSANDApsim = array('f', [0.0]*NLAYR)
     _boundaryLayerConductance = 0.0
     cdef float heatCapacity[]
-    cdef float thickness[]
-    cdef float depth[]
-    cdef float bulkDensity[]
-    cdef float soilWater[]
-    cdef float clay[]
-    cdef float carbon[]
-    cdef float rocks[]
-    cdef float sand[]
-    cdef float silt[]
     cdef float soilRoughnessHeight 
     cdef float defaultInstrumentHeight 
     cdef float AltitudeMetres 
@@ -108,62 +107,62 @@ def init_campbell(int NLAYR,
     else:
         instrumentHeight=defaultInstrumentHeight
     numNodes=NLAYR + NUM_PHANTOM_NODES
-    thickness=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
+    THICKApsim=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
     for layer in range(1 , NLAYR + 1 , 1):
-        thickness[layer]=THICK[layer - 1]
+        THICKApsim[layer]=THICK[layer - 1]
     sumThickness=0.0
     for i in range(1 , NLAYR + 1 , 1):
-        sumThickness=sumThickness + thickness[i]
+        sumThickness=sumThickness + THICKApsim[i]
     BelowProfileDepth=max(CONSTANT_TEMPdepth - sumThickness, 1000.0)
     thicknessForPhantomNodes=BelowProfileDepth * 2.0 / NUM_PHANTOM_NODES
     firstPhantomNode=NLAYR
     for i in range(firstPhantomNode , firstPhantomNode + NUM_PHANTOM_NODES , 1):
-        thickness[i]=thicknessForPhantomNodes
-    depth=[0.0] * (numNodes + 1 + 1)
-    depth[AIRnode]=0.0
-    depth[SURFACEnode]=0.0
-    depth[TOPSOILnode]=0.5 * thickness[1] / 1000.0
+        THICKApsim[i]=thicknessForPhantomNodes
+    DEPTHApsim=[0.0] * (numNodes + 1 + 1)
+    DEPTHApsim[AIRnode]=0.0
+    DEPTHApsim[SURFACEnode]=0.0
+    DEPTHApsim[TOPSOILnode]=0.5 * THICKApsim[1] / 1000.0
     for node in range(TOPSOILnode , numNodes + 1 , 1):
         sumThickness=0.0
         for i in range(1 , node , 1):
-            sumThickness=sumThickness + thickness[i]
-        depth[node + 1]=(sumThickness + (0.5 * thickness[node])) / 1000.0
-    bulkDensity=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
+            sumThickness=sumThickness + THICKApsim[i]
+        DEPTHApsim[node + 1]=(sumThickness + (0.5 * THICKApsim[node])) / 1000.0
+    BDApsim=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
     for layer in range(1 , NLAYR + 1 , 1):
-        bulkDensity[layer]=BD[layer - 1]
-    bulkDensity[numNodes]=bulkDensity[NLAYR]
+        BDApsim[layer]=BD[layer - 1]
+    BDApsim[numNodes]=BDApsim[NLAYR]
     for layer in range(NLAYR + 1 , NLAYR + NUM_PHANTOM_NODES + 1 , 1):
-        bulkDensity[layer]=bulkDensity[NLAYR]
-    soilWater=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
+        BDApsim[layer]=BDApsim[NLAYR]
+    SWApsim=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
     for layer in range(1 , NLAYR + 1 , 1):
-        soilWater[layer]=SW[layer - 1]
+        SWApsim[layer]=SW[layer - 1]
     for layer in range(NLAYR + 1 , NLAYR + NUM_PHANTOM_NODES + 1 , 1):
-        soilWater[layer]=soilWater[(NLAYR - 1)] * thickness[(NLAYR - 1)] / thickness[NLAYR]
-    carbon=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
+        SWApsim[layer]=SWApsim[(NLAYR - 1)] * THICKApsim[(NLAYR - 1)] / THICKApsim[NLAYR]
+    SLCARBApsim=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
     for layer in range(1 , NLAYR + 1 , 1):
-        carbon[layer]=SLCARB[layer - 1]
+        SLCARBApsim[layer]=SLCARB[layer - 1]
     for layer in range(NLAYR + 1 , NLAYR + NUM_PHANTOM_NODES + 1 , 1):
-        carbon[layer]=carbon[NLAYR]
-    rocks=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
+        SLCARBApsim[layer]=SLCARBApsim[NLAYR]
+    SLROCKApsim=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
     for layer in range(1 , NLAYR + 1 , 1):
-        rocks[layer]=SLROCK[layer - 1]
+        SLROCKApsim[layer]=SLROCK[layer - 1]
     for layer in range(NLAYR + 1 , NLAYR + NUM_PHANTOM_NODES + 1 , 1):
-        rocks[layer]=rocks[NLAYR]
-    sand=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
+        SLROCKApsim[layer]=SLROCKApsim[NLAYR]
+    SLSANDApsim=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
     for layer in range(1 , NLAYR + 1 , 1):
-        sand[layer]=SLSAND[layer - 1]
+        SLSANDApsim[layer]=SLSAND[layer - 1]
     for layer in range(NLAYR + 1 , NLAYR + NUM_PHANTOM_NODES + 1 , 1):
-        sand[layer]=sand[NLAYR]
-    silt=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
+        SLSANDApsim[layer]=SLSANDApsim[NLAYR]
+    SLSILTApsim=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
     for layer in range(1 , NLAYR + 1 , 1):
-        silt[layer]=SLSILT[layer - 1]
+        SLSILTApsim[layer]=SLSILT[layer - 1]
     for layer in range(NLAYR + 1 , NLAYR + NUM_PHANTOM_NODES + 1 , 1):
-        silt[layer]=silt[NLAYR]
-    clay=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
+        SLSILTApsim[layer]=SLSILTApsim[NLAYR]
+    CLAYApsim=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
     for layer in range(1 , NLAYR + 1 , 1):
-        clay[layer]=CLAY[layer - 1]
+        CLAYApsim[layer]=CLAY[layer - 1]
     for layer in range(NLAYR + 1 , NLAYR + NUM_PHANTOM_NODES + 1 , 1):
-        clay[layer]=clay[NLAYR]
+        CLAYApsim[layer]=CLAYApsim[NLAYR]
     maxSoilTemp=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
     minSoilTemp=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
     aveSoilTemp=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
@@ -174,10 +173,10 @@ def init_campbell(int NLAYR,
     thermalConductivity=[0.0] * (numNodes + 1)
     heatStorage=[0.0] * (numNodes + 1)
     thermalConductance=[0.0] * (numNodes + 1 + 1)
-    (thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4)=doThermalConductivityCoeffs(NLAYR, numNodes, bulkDensity, clay)
-    newTemperature=CalcSoilTemp(thickness, TAV, TAMP, DOY, XLAT, numNodes)
+    (thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4)=doThermalConductivityCoeffs(NLAYR, numNodes, BDApsim, CLAYApsim)
+    newTemperature=CalcSoilTemp(THICKApsim, TAV, TAMP, DOY, XLAT, numNodes)
     instrumentHeight=max(instrumentHeight, canopyHeight + 0.5)
-    soilTemp=CalcSoilTemp(thickness, TAV, TAMP, DOY, XLAT, numNodes)
+    soilTemp=CalcSoilTemp(THICKApsim, TAV, TAMP, DOY, XLAT, numNodes)
     soilTemp[AIRnode]=T2M
     surfaceT=(1.0 - SALB) * (T2M + ((TMAX - T2M) * sqrt(max(SRAD, 0.1) * 23.8846 / 800.0))) + (SALB * T2M)
     soilTemp[SURFACEnode]=surfaceT
@@ -187,21 +186,29 @@ def init_campbell(int NLAYR,
         newTemperature[i]=soilTemp[i]
     maxTempYesterday=TMAX
     minTempYesterday=TMIN
-    return  THICK, DEPTH, BD, CLAY, SW, soilTemp, newTemperature, minSoilTemp, maxSoilTemp, aveSoilTemp, morningSoilTemp, thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4, thermalConductivity, thermalConductance, heatStorage, volSpecHeatSoil, maxTempYesterday, minTempYesterday, SLCARB, SLROCK, SLSILT, SLSAND, _boundaryLayerConductance
+    return  THICKApsim, DEPTHApsim, BDApsim, CLAYApsim, SWApsim, soilTemp, newTemperature, minSoilTemp, maxSoilTemp, aveSoilTemp, morningSoilTemp, thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4, thermalConductivity, thermalConductance, heatStorage, volSpecHeatSoil, maxTempYesterday, minTempYesterday, SLCARBApsim, SLROCKApsim, SLSILTApsim, SLSANDApsim, _boundaryLayerConductance
 
 def model_campbell(int NLAYR,
                    float THICK[NLAYR],
-                   float DEPTH[NLAYR],
-                   float CONSTANT_TEMPdepth,
                    float BD[NLAYR],
+                   float SLCARB[NLAYR],
+                   float CLAY[NLAYR],
+                   float SLROCK[NLAYR],
+                   float SLSILT[NLAYR],
+                   float SLSAND[NLAYR],
+                   float SW[NLAYR],
+                   float THICKApsim[NLAYR],
+                   float DEPTHApsim[NLAYR],
+                   float CONSTANT_TEMPdepth,
+                   float BDApsim[NLAYR],
                    float T2M,
                    float TMAX,
                    float TMIN,
                    float TAV,
                    float TAMP,
                    float XLAT,
-                   float CLAY[NLAYR],
-                   float SW[NLAYR],
+                   float CLAYApsim[NLAYR],
+                   float SWApsim[NLAYR],
                    int DOY,
                    float airPressure,
                    float canopyHeight,
@@ -230,10 +237,10 @@ def model_campbell(int NLAYR,
                    str boundaryLayerConductanceSource,
                    str netRadiationSource,
                    float windSpeed,
-                   float SLCARB[NLAYR],
-                   float SLROCK[NLAYR],
-                   float SLSILT[NLAYR],
-                   float SLSAND[NLAYR],
+                   float SLCARBApsim[NLAYR],
+                   float SLROCKApsim[NLAYR],
+                   float SLSILTApsim[NLAYR],
+                   float SLSANDApsim[NLAYR],
                    float _boundaryLayerConductance):
     """
     SoilTemperature model from Campbell implemented in APSIM
@@ -275,8 +282,6 @@ def model_campbell(int NLAYR,
     cdef int iteration 
     cdef float tMean 
     cdef float internalTimeStep 
-    cdef float soilWater[]
-    cdef int copyLength 
     AIRnode=0
     SURFACEnode=1
     TOPSOILnode=2
@@ -307,11 +312,8 @@ def model_campbell(int NLAYR,
     aveSoilTemp=Zero(aveSoilTemp)
     _boundaryLayerConductance=0.0
     internalTimeStep=tempStepSec / float(ITERATIONSperDAY)
-    soilWater=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
-    copyLength=min(NLAYR + 1 + NUM_PHANTOM_NODES, len(SW) + 1)
-    soilWater[:copyLength]=SW[:copyLength]
-    volSpecHeatSoil=doVolumetricSpecificHeat(volSpecHeatSoil, soilWater, numNodes, soilConstituentNames, THICK, DEPTH)
-    thermalConductivity=doThermConductivity(soilWater, SLCARB, SLROCK, SLSAND, SLSILT, CLAY, BD, thermalConductivity, THICK, DEPTH, numNodes, soilConstituentNames)
+    volSpecHeatSoil=doVolumetricSpecificHeat(volSpecHeatSoil, SWApsim, numNodes, soilConstituentNames, THICKApsim, DEPTHApsim)
+    thermalConductivity=doThermConductivity(SWApsim, SLCARBApsim, SLROCKApsim, SLSANDApsim, SLSILTApsim, CLAYApsim, BDApsim, thermalConductivity, THICKApsim, DEPTHApsim, numNodes, soilConstituentNames)
     for timeStepIteration in range(1 , ITERATIONSperDAY + 1 , 1):
         timeOfDaySecs=internalTimeStep * float(timeStepIteration)
         if tempStepSec < (24.0 * 60.0 * 60.0):
@@ -325,9 +327,9 @@ def model_campbell(int NLAYR,
         elif boundaryLayerConductanceSource == "calc":
             thermalConductivity[AIRnode]=boundaryLayerConductanceF(newTemperature, tMean, ESP, EOAD, airPressure, canopyHeight, windSpeed, instrumentHeight)
             for iteration in range(1 , BoundaryLayerConductanceIterations + 1 , 1):
-                newTemperature=doThomas(newTemperature, soilTemp, thermalConductivity, thermalConductance, DEPTH, volSpecHeatSoil, internalTimeStep, netRadiation, ESP, ES, numNodes, netRadiationSource)
+                newTemperature=doThomas(newTemperature, soilTemp, thermalConductivity, thermalConductance, DEPTHApsim, volSpecHeatSoil, internalTimeStep, netRadiation, ESP, ES, numNodes, netRadiationSource)
                 thermalConductivity[AIRnode]=boundaryLayerConductanceF(newTemperature, tMean, ESP, EOAD, airPressure, canopyHeight, windSpeed, instrumentHeight)
-        newTemperature=doThomas(newTemperature, soilTemp, thermalConductivity, thermalConductance, DEPTH, volSpecHeatSoil, internalTimeStep, netRadiation, ESP, ES, numNodes, netRadiationSource)
+        newTemperature=doThomas(newTemperature, soilTemp, thermalConductivity, thermalConductance, DEPTHApsim, volSpecHeatSoil, internalTimeStep, netRadiation, ESP, ES, numNodes, netRadiationSource)
         (soilTemp, _boundaryLayerConductance)=doUpdate(newTemperature, soilTemp, minSoilTemp, maxSoilTemp, aveSoilTemp, thermalConductivity, _boundaryLayerConductance, ITERATIONSperDAY, timeOfDaySecs, internalTimeStep, numNodes)
         precision=min(timeOfDaySecs, 5.0 * 3600.0) * 0.0001
         if abs(timeOfDaySecs - (5.0 * 3600.0)) <= precision:
@@ -335,7 +337,7 @@ def model_campbell(int NLAYR,
                 morningSoilTemp[layer]=soilTemp[layer]
     minTempYesterday=TMIN
     maxTempYesterday=TMAX
-    return  soilTemp, minSoilTemp, maxSoilTemp, aveSoilTemp, morningSoilTemp, newTemperature, maxTempYesterday, minTempYesterday, thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4, thermalConductivity, thermalConductance, heatStorage, volSpecHeatSoil, _boundaryLayerConductance, THICK, DEPTH, BD, CLAY, SLROCK, SLCARB, SLSAND, SLSILT
+    return  soilTemp, minSoilTemp, maxSoilTemp, aveSoilTemp, morningSoilTemp, newTemperature, maxTempYesterday, minTempYesterday, thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4, thermalConductivity, thermalConductance, heatStorage, volSpecHeatSoil, _boundaryLayerConductance, THICKApsim, DEPTHApsim, BDApsim, SWApsim, CLAYApsim, SLROCKApsim, SLCARBApsim, SLSANDApsim, SLSILTApsim
 
 
 
@@ -352,7 +354,7 @@ def doNetRadiation(floatarray solarRadn,
     cdef float SOLARconst = 1.0
     cdef float solarDeclination = 1.0
     cdef float m1[]
-    m1=[0.] * (ITERATIONSperDAY + 1)
+    m1=[0.0] * (ITERATIONSperDAY + 1)
     TSTEPS2RAD=Divide(2.0 * piVal, float(ITERATIONSperDAY), 0.0)
     SOLARconst=1360.0
     solarDeclination=0.3985 * sin((4.869 + (doy * 2.0 * piVal / 365.25) + (0.03345 * sin((6.224 + (doy * 2.0 * piVal / 365.25))))))
@@ -361,6 +363,7 @@ def doNetRadiation(floatarray solarRadn,
     cdef float psr 
     cdef int timestepNumber = 1
     cdef float fr 
+    cdef float scalar 
     for timestepNumber in range(1 , ITERATIONSperDAY + 1 , 1):
         m1[timestepNumber]=(solarDeclination * sin(latitude * piVal / 180.0) + (cD * cos(latitude * piVal / 180.0) * cos(TSTEPS2RAD * (float(timestepNumber) - (float(ITERATIONSperDAY) / 2.0))))) * 24.0 / float(ITERATIONSperDAY)
         if m1[timestepNumber] > 0.0:
@@ -371,7 +374,7 @@ def doNetRadiation(floatarray solarRadn,
     fr=Divide(max(rad, 0.1), psr, 0.0)
     cloudFr=2.33 - (3.33 * fr)
     cloudFr=min(max(cloudFr, 0.0), 1.0)
-    cdef float scalar = max(rad, 0.1)
+    scalar=max(rad, 0.1)
     for timestepNumber in range(1 , ITERATIONSperDAY + 1 , 1):
         solarRadn[timestepNumber]=scalar * Divide(m1[timestepNumber], m1Tot, 0.0)
     cdef float kelvinTemp = kelvinT(tmin)
@@ -405,8 +408,8 @@ def doVolumetricSpecificHeat(floatarray volSpecLayer,
          floatarray soilW,
          int numNodes,
          strarray constituents,
-         floatarray thickness,
-         floatarray depth):
+         floatarray THICKApsim,
+         floatarray DEPTHApsim):
     cdef float volSpecHeatSoil[]
     volSpecHeatSoil=[0.0] * (numNodes + 1)
     cdef int node 
@@ -415,7 +418,7 @@ def doVolumetricSpecificHeat(floatarray volSpecLayer,
         volSpecHeatSoil[node]=0.0
         for constituent in range(0 , len(constituents) , 1):
             volSpecHeatSoil[node]=volSpecHeatSoil[node] + (volumetricSpecificHeat(constituents[constituent]) * 1000000.0 * soilW[node])
-    volSpecLayer=mapLayer2Node(volSpecHeatSoil, volSpecLayer, thickness, depth, numNodes)
+    volSpecLayer=mapLayer2Node(volSpecHeatSoil, volSpecLayer, THICKApsim, DEPTHApsim, numNodes)
     return volSpecLayer
 
 def volumetricSpecificHeat(str name):
@@ -448,8 +451,8 @@ def volumetricSpecificHeat(str name):
 
 def mapLayer2Node(floatarray layerArray,
          floatarray nodeArray,
-         floatarray thickness,
-         floatarray depth,
+         floatarray THICKApsim,
+         floatarray DEPTHApsim,
          int numNodes):
     cdef int SURFACEnode = 1
     cdef float depthLayerAbove 
@@ -464,9 +467,9 @@ def mapLayer2Node(floatarray layerArray,
         depthLayerAbove=0.0
         if layer >= 1:
             for i in range(1 , layer + 1 , 1):
-                depthLayerAbove=depthLayerAbove + thickness[i]
-        d1=depthLayerAbove - (depth[node] * 1000.0)
-        d2=depth[(node + 1)] * 1000.0 - depthLayerAbove
+                depthLayerAbove=depthLayerAbove + THICKApsim[i]
+        d1=depthLayerAbove - (DEPTHApsim[node] * 1000.0)
+        d2=DEPTHApsim[(node + 1)] * 1000.0 - depthLayerAbove
         dSum=d1 + d2
         nodeArray[node]=Divide(layerArray[layer] * d1, dSum, 0.0) + Divide(layerArray[(layer + 1)] * d2, dSum, 0.0)
     return nodeArray
@@ -474,15 +477,15 @@ def mapLayer2Node(floatarray layerArray,
 
 
 def doThermConductivity(floatarray soilW,
-         floatarray carbon,
-         floatarray rocks,
-         floatarray sand,
-         floatarray silt,
-         floatarray clay,
-         floatarray bulkDensity,
+         floatarray SLCARBApsim,
+         floatarray SLROCKApsim,
+         floatarray SLSANDApsim,
+         floatarray SLSILTApsim,
+         floatarray CLAYApsim,
+         floatarray BDApsim,
          floatarray thermalConductivity,
-         floatarray thickness,
-         floatarray depth,
+         floatarray THICKApsim,
+         floatarray DEPTHApsim,
          int numNodes,
          strarray constituents):
     cdef float thermCondLayers[]
@@ -500,24 +503,24 @@ def doThermConductivity(floatarray soilW,
         numerator=0.0
         denominator=0.0
         for constituent in range(0 , len(constituents) , 1):
-            shapeFactorConstituent=shapeFactor(constituents[constituent], rocks, carbon, sand, silt, clay, soilW, bulkDensity, node)
+            shapeFactorConstituent=shapeFactor(constituents[constituent], SLROCKApsim, SLCARBApsim, SLSANDApsim, SLSILTApsim, CLAYApsim, soilW, BDApsim, node)
             thermalConductanceConstituent=ThermalConductance(constituents[constituent])
             thermalConductanceWater=ThermalConductance("Water")
             k=2.0 / 3.0 * pow((1 + (shapeFactorConstituent * (thermalConductanceConstituent / thermalConductanceWater - 1.0))), -1) + (1.0 / 3.0 * pow((1 + (shapeFactorConstituent * (thermalConductanceConstituent / thermalConductanceWater - 1.0) * (1.0 - (2.0 * shapeFactorConstituent)))), -1))
             numerator=numerator + (thermalConductanceConstituent * soilW[node] * k)
             denominator=denominator + (soilW[node] * k)
         thermCondLayers[node]=numerator / denominator
-    thermalConductivity=mapLayer2Node(thermCondLayers, thermalConductivity, thickness, depth, numNodes)
+    thermalConductivity=mapLayer2Node(thermCondLayers, thermalConductivity, THICKApsim, DEPTHApsim, numNodes)
     return thermalConductivity
 
 def shapeFactor(str name,
-         floatarray rocks,
-         floatarray carbon,
-         floatarray sand,
-         floatarray silt,
-         floatarray clay,
-         floatarray soilWater,
-         floatarray bulkDensity,
+         floatarray SLROCKApsim,
+         floatarray SLCARBApsim,
+         floatarray SLSANDApsim,
+         floatarray SLSILTApsim,
+         floatarray CLAYApsim,
+         floatarray SWApsim,
+         floatarray BDApsim,
          int layer):
     cdef float shapeFactorRocks = 0.182
     cdef float shapeFactorOM = 0.5
@@ -539,13 +542,13 @@ def shapeFactor(str name,
     elif name == "Water":
         result=shapeFactorWater
     elif name == "Ice":
-        result=0.333 - (0.333 * 0.0 / (volumetricFractionWater(soilWater, carbon, bulkDensity, layer) + 0.0 + volumetricFractionAir(rocks, carbon, sand, silt, clay, soilWater, bulkDensity, layer)))
+        result=0.333 - (0.333 * 0.0 / (volumetricFractionWater(SWApsim, SLCARBApsim, BDApsim, layer) + 0.0 + volumetricFractionAir(SLROCKApsim, SLCARBApsim, SLSANDApsim, SLSILTApsim, CLAYApsim, SWApsim, BDApsim, layer)))
         return result
     elif name == "Air":
-        result=0.333 - (0.333 * volumetricFractionAir(rocks, carbon, sand, silt, clay, soilWater, bulkDensity, layer) / (volumetricFractionWater(soilWater, carbon, bulkDensity, layer) + 0.0 + volumetricFractionAir(rocks, carbon, sand, silt, clay, soilWater, bulkDensity, layer)))
+        result=0.333 - (0.333 * volumetricFractionAir(SLROCKApsim, SLCARBApsim, SLSANDApsim, SLSILTApsim, CLAYApsim, SWApsim, BDApsim, layer) / (volumetricFractionWater(SWApsim, SLCARBApsim, BDApsim, layer) + 0.0 + volumetricFractionAir(SLROCKApsim, SLCARBApsim, SLSANDApsim, SLSILTApsim, CLAYApsim, SWApsim, BDApsim, layer)))
         return result
     elif name == "Minerals":
-        result=shapeFactorRocks * volumetricFractionRocks(rocks, layer) + (shapeFactorSand * volumetricFractionSand(sand, rocks, carbon, bulkDensity, layer)) + (shapeFactorSilt * volumetricFractionSilt(silt, rocks, carbon, bulkDensity, layer)) + (shapeFactorClay * volumetricFractionClay(clay, rocks, carbon, bulkDensity, layer))
+        result=shapeFactorRocks * volumetricFractionRocks(SLROCKApsim, layer) + (shapeFactorSand * volumetricFractionSand(SLSANDApsim, SLROCKApsim, SLCARBApsim, BDApsim, layer)) + (shapeFactorSilt * volumetricFractionSilt(SLSILTApsim, SLROCKApsim, SLCARBApsim, BDApsim, layer)) + (shapeFactorClay * volumetricFractionClay(CLAYApsim, SLROCKApsim, SLCARBApsim, BDApsim, layer))
     result=volumetricSpecificHeat(name)
     return result
 
@@ -580,8 +583,8 @@ def ThermalConductance(str name):
 
 def mapLayer2Node(floatarray layerArray,
          floatarray nodeArray,
-         floatarray thickness,
-         floatarray depth,
+         floatarray THICKApsim,
+         floatarray DEPTHApsim,
          int numNodes):
     cdef int SURFACEnode = 1
     cdef float depthLayerAbove 
@@ -596,61 +599,61 @@ def mapLayer2Node(floatarray layerArray,
         depthLayerAbove=0.0
         if layer >= 1:
             for i in range(1 , layer + 1 , 1):
-                depthLayerAbove=depthLayerAbove + thickness[i]
-        d1=depthLayerAbove - (depth[node] * 1000.0)
-        d2=depth[(node + 1)] * 1000.0 - depthLayerAbove
+                depthLayerAbove=depthLayerAbove + THICKApsim[i]
+        d1=depthLayerAbove - (DEPTHApsim[node] * 1000.0)
+        d2=DEPTHApsim[(node + 1)] * 1000.0 - depthLayerAbove
         dSum=d1 + d2
         nodeArray[node]=Divide(layerArray[layer] * d1, dSum, 0.0) + Divide(layerArray[(layer + 1)] * d2, dSum, 0.0)
     return nodeArray
 
-def volumetricFractionWater(floatarray soilWater,
-         floatarray carbon,
-         floatarray bulkDensity,
+def volumetricFractionWater(floatarray SWApsim,
+         floatarray SLCARBApsim,
+         floatarray BDApsim,
          int layer):
-    cdef float res = (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer)) * soilWater[layer]
+    cdef float res = (1.0 - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer)) * SWApsim[layer]
     return res
 
-def volumetricFractionAir(floatarray rocks,
-         floatarray carbon,
-         floatarray sand,
-         floatarray silt,
-         floatarray clay,
-         floatarray soilWater,
-         floatarray bulkDensity,
+def volumetricFractionAir(floatarray SLROCKApsim,
+         floatarray SLCARBApsim,
+         floatarray SLSANDApsim,
+         floatarray SLSILTApsim,
+         floatarray CLAYApsim,
+         floatarray SWApsim,
+         floatarray BDApsim,
          int layer):
-    cdef float res = 1.0 - volumetricFractionRocks(rocks, layer) - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - volumetricFractionSand(sand, rocks, carbon, bulkDensity, layer) - volumetricFractionSilt(silt, rocks, carbon, bulkDensity, layer) - volumetricFractionClay(clay, rocks, carbon, bulkDensity, layer) - volumetricFractionWater(soilWater, carbon, bulkDensity, layer) - 0.0
+    cdef float res = 1.0 - volumetricFractionRocks(SLROCKApsim, layer) - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer) - volumetricFractionSand(SLSANDApsim, SLROCKApsim, SLCARBApsim, BDApsim, layer) - volumetricFractionSilt(SLSILTApsim, SLROCKApsim, SLCARBApsim, BDApsim, layer) - volumetricFractionClay(CLAYApsim, SLROCKApsim, SLCARBApsim, BDApsim, layer) - volumetricFractionWater(SWApsim, SLCARBApsim, BDApsim, layer) - 0.0
     return res
 
-def volumetricFractionRocks(floatarray rocks,
+def volumetricFractionRocks(floatarray SLROCKApsim,
          int layer):
-    cdef float res = rocks[layer] / 100.0
+    cdef float res = SLROCKApsim[layer] / 100.0
     return res
 
-def volumetricFractionSand(floatarray sand,
-         floatarray rocks,
-         floatarray carbon,
-         floatarray bulkDensity,
+def volumetricFractionSand(floatarray SLSANDApsim,
+         floatarray SLROCKApsim,
+         floatarray SLCARBApsim,
+         floatarray BDApsim,
          int layer):
     cdef float ps = 2.63
-    cdef float res = (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - volumetricFractionRocks(rocks, layer)) * sand[layer] / 100.0 * bulkDensity[layer] / ps
+    cdef float res = (1.0 - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer) - volumetricFractionRocks(SLROCKApsim, layer)) * SLSANDApsim[layer] / 100.0 * BDApsim[layer] / ps
     return res
 
-def volumetricFractionSilt(floatarray silt,
-         floatarray rocks,
-         floatarray carbon,
-         floatarray bulkDensity,
+def volumetricFractionSilt(floatarray SLSILTApsim,
+         floatarray SLROCKApsim,
+         floatarray SLCARBApsim,
+         floatarray BDApsim,
          int layer):
     cdef float ps = 2.63
-    cdef float res = (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - volumetricFractionRocks(rocks, layer)) * silt[layer] / 100.0 * bulkDensity[layer] / ps
+    cdef float res = (1.0 - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer) - volumetricFractionRocks(SLROCKApsim, layer)) * SLSILTApsim[layer] / 100.0 * BDApsim[layer] / ps
     return res
 
-def volumetricFractionClay(floatarray clay,
-         floatarray rocks,
-         floatarray carbon,
-         floatarray bulkDensity,
+def volumetricFractionClay(floatarray CLAYApsim,
+         floatarray SLROCKApsim,
+         floatarray SLCARBApsim,
+         floatarray BDApsim,
          int layer):
     cdef float ps = 2.63
-    cdef float res = (1.0 - volumetricFractionOrganicMatter(carbon, bulkDensity, layer) - volumetricFractionRocks(rocks, layer)) * clay[layer] / 100.0 * bulkDensity[layer] / ps
+    cdef float res = (1.0 - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer) - volumetricFractionRocks(SLROCKApsim, layer)) * CLAYApsim[layer] / 100.0 * BDApsim[layer] / ps
     return res
 
 def volumetricSpecificHeat(str name):
@@ -681,11 +684,11 @@ def volumetricSpecificHeat(str name):
         res=specificHeatAir
     return res
 
-def volumetricFractionOrganicMatter(floatarray carbon,
-         floatarray bulkDensity,
+def volumetricFractionOrganicMatter(floatarray SLCARBApsim,
+         floatarray BDApsim,
          int layer):
     cdef float pom = 1.3
-    cdef float res = carbon[layer] / 100.0 * 2.5 * bulkDensity[layer] / pom
+    cdef float res = SLCARBApsim[layer] / 100.0 * 2.5 * BDApsim[layer] / pom
     return res
 
 
@@ -844,7 +847,7 @@ def doThomas(floatarray newTemps,
          floatarray soilTemp,
          floatarray thermalConductivity,
          floatarray thermalConductance,
-         floatarray depth,
+         floatarray DEPTHApsim,
          floatarray volSpecHeatSoil,
          float gDt,
          float netRadiation,
@@ -879,9 +882,9 @@ def doThomas(floatarray newTemps,
     thermalConductance[AIRnode]=thermalConductivity[AIRnode]
     cdef int node = SURFACEnode
     for node in range(SURFACEnode , numNodes + 1 , 1):
-        VolSoilAtNode=0.5 * (depth[node + 1] - depth[node - 1])
+        VolSoilAtNode=0.5 * (DEPTHApsim[node + 1] - DEPTHApsim[node - 1])
         heatStorage[node]=Divide(volSpecHeatSoil[node] * VolSoilAtNode, gDt, 0.0)
-        elementLength=depth[node + 1] - depth[node]
+        elementLength=DEPTHApsim[node + 1] - DEPTHApsim[node]
         thermalConductance[node]=Divide(thermalConductivity[node], elementLength, 0.0)
     for node in range(SURFACEnode , numNodes + 1 , 1):
         c[node]=-nu * thermalConductance[node]
@@ -960,8 +963,8 @@ def Divide(float val1,
 
 def doThermalConductivityCoeffs(int nbLayers,
          int numNodes,
-         floatarray bulkDensity,
-         floatarray clay):
+         floatarray BDApsim,
+         floatarray CLAYApsim):
     cdef float thermalCondPar1[]
     cdef float thermalCondPar2[]
     cdef float thermalCondPar3[]
@@ -974,11 +977,11 @@ def doThermalConductivityCoeffs(int nbLayers,
     thermalCondPar4=[0.0] * (numNodes + 1)
     for layer in range(1 , nbLayers + 2 , 1):
         element=layer
-        thermalCondPar1[element]=0.65 - (0.78 * bulkDensity[layer]) + (0.6 * pow(bulkDensity[layer], 2))
-        thermalCondPar2[element]=1.06 * bulkDensity[layer]
-        thermalCondPar3[element]=Divide(2.6, sqrt(clay[layer]), 0.0)
+        thermalCondPar1[element]=0.65 - (0.78 * BDApsim[layer]) + (0.6 * pow(BDApsim[layer], 2))
+        thermalCondPar2[element]=1.06 * BDApsim[layer]
+        thermalCondPar3[element]=Divide(2.6, sqrt(CLAYApsim[layer]), 0.0)
         thermalCondPar3[element]=1.0 + thermalCondPar3[element]
-        thermalCondPar4[element]=0.03 + (0.1 * pow(bulkDensity[layer], 2))
+        thermalCondPar4[element]=0.03 + (0.1 * pow(BDApsim[layer], 2))
     return (thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4)
 
 def Divide(float val1,
@@ -991,7 +994,7 @@ def Divide(float val1,
 
 
 
-def CalcSoilTemp(floatarray thickness,
+def CalcSoilTemp(floatarray THICKApsim,
          float tav,
          float tamp,
          int doy,
@@ -1009,11 +1012,11 @@ def CalcSoilTemp(floatarray thickness,
     cdef float offset 
     cdef int SURFACEnode = 1
     cdef float piVal = 3.141592653589793
-    cumulativeDepth=[0.0] * len(thickness)
-    if len(thickness) > 0:
-        cumulativeDepth[0]=thickness[0]
-        for Layer in range(1 , len(thickness) , 1):
-            cumulativeDepth[Layer]=thickness[Layer] + cumulativeDepth[Layer - 1]
+    cumulativeDepth=[0.0] * len(THICKApsim)
+    if len(THICKApsim) > 0:
+        cumulativeDepth[0]=THICKApsim[0]
+        for Layer in range(1 , len(THICKApsim) , 1):
+            cumulativeDepth[Layer]=THICKApsim[Layer] + cumulativeDepth[Layer - 1]
     w=piVal
     w=2.0 * w
     w=w / (365.25 * 24.0 * 3600.0)

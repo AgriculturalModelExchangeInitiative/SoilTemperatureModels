@@ -13,17 +13,25 @@
         <Links>
             <InputLink target="campbell.NLAYR" source="NLAYR"/>
             <InputLink target="campbell.THICK" source="THICK"/>
-            <InputLink target="campbell.DEPTH" source="DEPTH"/>
-            <InputLink target="campbell.CONSTANT_TEMPdepth" source="CONSTANT_TEMPdepth"/>
             <InputLink target="campbell.BD" source="BD"/>
+            <InputLink target="campbell.SLCARB" source="SLCARB"/>
+            <InputLink target="campbell.CLAY" source="CLAY"/>
+            <InputLink target="campbell.SLROCK" source="SLROCK"/>
+            <InputLink target="campbell.SLSILT" source="SLSILT"/>
+            <InputLink target="campbell.SLSAND" source="SLSAND"/>
+            <InputLink target="campbell.SW" source="SW"/>
+            <InputLink target="campbell.THICKApsim" source="THICKApsim"/>
+            <InputLink target="campbell.DEPTHApsim" source="DEPTHApsim"/>
+            <InputLink target="campbell.CONSTANT_TEMPdepth" source="CONSTANT_TEMPdepth"/>
+            <InputLink target="campbell.BDApsim" source="BDApsim"/>
             <InputLink target="campbell.T2M" source="T2M"/>
             <InputLink target="campbell.TMAX" source="TMAX"/>
             <InputLink target="campbell.TMIN" source="TMIN"/>
             <InputLink target="campbell.TAV" source="TAV"/>
             <InputLink target="campbell.TAMP" source="TAMP"/>
             <InputLink target="campbell.XLAT" source="XLAT"/>
-            <InputLink target="campbell.CLAY" source="CLAY"/>
-            <InputLink target="campbell.SW" source="SW"/>
+            <InputLink target="campbell.CLAYApsim" source="CLAYApsim"/>
+            <InputLink target="campbell.SWApsim" source="SWApsim"/>
             <InputLink target="campbell.DOY" source="DOY"/>
             <InputLink target="campbell.airPressure" source="airPressure"/>
             <InputLink target="campbell.canopyHeight" source="canopyHeight"/>
@@ -52,10 +60,10 @@
             <InputLink target="campbell.boundaryLayerConductanceSource" source="boundaryLayerConductanceSource"/>
             <InputLink target="campbell.netRadiationSource" source="netRadiationSource"/>
             <InputLink target="campbell.windSpeed" source="windSpeed"/>
-            <InputLink target="campbell.SLCARB" source="SLCARB"/>
-            <InputLink target="campbell.SLROCK" source="SLROCK"/>
-            <InputLink target="campbell.SLSILT" source="SLSILT"/>
-            <InputLink target="campbell.SLSAND" source="SLSAND"/>
+            <InputLink target="campbell.SLCARBApsim" source="SLCARBApsim"/>
+            <InputLink target="campbell.SLROCKApsim" source="SLROCKApsim"/>
+            <InputLink target="campbell.SLSILTApsim" source="SLSILTApsim"/>
+            <InputLink target="campbell.SLSANDApsim" source="SLSANDApsim"/>
             <InputLink target="campbell._boundaryLayerConductance" source="_boundaryLayerConductance"/>
             <OutputLink target="soilTemp" source="campbell.soilTemp"/>
             <OutputLink target="minSoilTemp" source="campbell.minSoilTemp"/>
@@ -74,11 +82,12 @@
             <OutputLink target="heatStorage" source="campbell.heatStorage"/>
             <OutputLink target="volSpecHeatSoil" source="campbell.volSpecHeatSoil"/>
             <OutputLink target="_boundaryLayerConductance" source="campbell._boundaryLayerConductance"/>
-            <OutputLink target="THICK" source="campbell.THICK"/>
-            <OutputLink target="DEPTH" source="campbell.DEPTH"/>
-            <OutputLink target="BD" source="campbell.BD"/>
-            <OutputLink target="CLAY" source="campbell.CLAY"/>
-            <OutputLink target="SLROCK" source="campbell.SLROCK"/>
-            <OutputLink target="SLCARB" source="campbell.SLCARB"/>
-            <OutputLink target="SLSAND" source="campbell.SLSAND"/>
-            <OutputLink target="SLSILT" source="campbell.SLSILT"/></Links></Composition></ModelComposition>
+            <OutputLink target="THICKApsim" source="campbell.THICKApsim"/>
+            <OutputLink target="DEPTHApsim" source="campbell.DEPTHApsim"/>
+            <OutputLink target="BDApsim" source="campbell.BDApsim"/>
+            <OutputLink target="SWApsim" source="campbell.SWApsim"/>
+            <OutputLink target="CLAYApsim" source="campbell.CLAYApsim"/>
+            <OutputLink target="SLROCKApsim" source="campbell.SLROCKApsim"/>
+            <OutputLink target="SLCARBApsim" source="campbell.SLCARBApsim"/>
+            <OutputLink target="SLSANDApsim" source="campbell.SLSANDApsim"/>
+            <OutputLink target="SLSILTApsim" source="campbell.SLSILTApsim"/></Links></Composition></ModelComposition>
