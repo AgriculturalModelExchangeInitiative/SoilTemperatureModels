@@ -1,12 +1,13 @@
 #include "SnowCoverCalculator.h"
 #include "STMPsimCalculator.h"
-using namespace std;
 
+namespace Simplace_Soil_Temperature {
 class SoilTemperatureComponent
 {
     private:
         double cCarbonContent ;
-        vector<double> cSoilLayerDepth ;
+        double cAlbedo ;
+        std::vector<double> cSoilLayerDepth ;
         double cFirstDayMeanTemp ;
         double cAverageGroundTemperature ;
         double cAverageBulkDensity ;
@@ -14,12 +15,14 @@ class SoilTemperatureComponent
     public:
         SoilTemperatureComponent();
         SoilTemperatureComponent(SoilTemperatureComponent& copy);
-        void  Calculate_Model(SoilTemperatureState& s, SoilTemperatureState& s1, SoilTemperatureRate& r, SoilTemperatureAuxiliary& a, SoilTemperatureExogenous& ex);
-        void  Init(SoilTemperatureState& s,SoilTemperatureState& s1, SoilTemperatureRate& r, SoilTemperatureAuxiliary& a, SoilTemperatureExogenous& ex);
+        void Calculate_Model(SoilTemperatureState &s, SoilTemperatureState &s1, SoilTemperatureRate &r, SoilTemperatureAuxiliary &a, SoilTemperatureExogenous &ex);
+        void Init(SoilTemperatureState &s, SoilTemperatureState &s1, SoilTemperatureRate &r, SoilTemperatureAuxiliary &a, SoilTemperatureExogenous &ex);
         double getcCarbonContent();
         void setcCarbonContent(double _cCarbonContent);
-        vector<double> & getcSoilLayerDepth();
-        void setcSoilLayerDepth(const vector<double> &  _cSoilLayerDepth);
+        double getcAlbedo();
+        void setcAlbedo(double _cAlbedo);
+        std::vector<double> & getcSoilLayerDepth();
+        void setcSoilLayerDepth(const std::vector<double> &  _cSoilLayerDepth);
         double getcFirstDayMeanTemp();
         void setcFirstDayMeanTemp(double _cFirstDayMeanTemp);
         double getcAverageGroundTemperature();
@@ -33,3 +36,4 @@ class SoilTemperatureComponent
         STMPsimCalculator _STMPsimCalculator;
 
 };
+}

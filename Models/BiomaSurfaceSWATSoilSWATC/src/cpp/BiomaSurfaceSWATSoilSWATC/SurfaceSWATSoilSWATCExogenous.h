@@ -1,34 +1,33 @@
-#ifndef _SurfaceSWATSoilSWATCExogenous_
-#define _SurfaceSWATSoilSWATCExogenous_
+#pragma once
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
-# include<vector>
-# include<string>
-using namespace std;
+#include <vector>
+#include <string>
+namespace BiomaSurfaceSWATSoilSWATC {
 class SurfaceSWATSoilSWATCExogenous
 {
     private:
-        double GlobalSolarRadiation ;
         double AirTemperatureMaximum ;
         double AirTemperatureMinimum ;
-        double Albedo ;
+        double GlobalSolarRadiation ;
         double WaterEquivalentOfSnowPack ;
-        double AirTemperatureAnnualAverage ;
+        double Albedo ;
+        std::vector<double> VolumetricWaterContent ;
     public:
         SurfaceSWATSoilSWATCExogenous();
-        double getGlobalSolarRadiation();
-        void setGlobalSolarRadiation(double _GlobalSolarRadiation);
         double getAirTemperatureMaximum();
         void setAirTemperatureMaximum(double _AirTemperatureMaximum);
         double getAirTemperatureMinimum();
         void setAirTemperatureMinimum(double _AirTemperatureMinimum);
-        double getAlbedo();
-        void setAlbedo(double _Albedo);
+        double getGlobalSolarRadiation();
+        void setGlobalSolarRadiation(double _GlobalSolarRadiation);
         double getWaterEquivalentOfSnowPack();
         void setWaterEquivalentOfSnowPack(double _WaterEquivalentOfSnowPack);
-        double getAirTemperatureAnnualAverage();
-        void setAirTemperatureAnnualAverage(double _AirTemperatureAnnualAverage);
+        double getAlbedo();
+        void setAlbedo(double _Albedo);
+        std::vector<double> & getVolumetricWaterContent();
+        void setVolumetricWaterContent(const std::vector<double> &  _VolumetricWaterContent);
 
 };
-#endif
+}

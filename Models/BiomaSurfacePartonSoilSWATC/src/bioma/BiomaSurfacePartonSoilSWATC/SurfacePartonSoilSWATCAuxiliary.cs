@@ -11,6 +11,7 @@ namespace SurfacePartonSoilSWATC.DomainClass
     {
         private double _SurfaceTemperatureMinimum;
         private double _SurfaceTemperatureMaximum;
+        private double _SurfaceSoilTemperature;
         private ParametersIO _parametersIO;
 
         public SurfacePartonSoilSWATCAuxiliary()
@@ -22,8 +23,9 @@ namespace SurfacePartonSoilSWATC.DomainClass
         {
             if (copyAll)
             {
-                _SurfaceTemperatureMinimum = toCopy._SurfaceTemperatureMinimum;
-                _SurfaceTemperatureMaximum = toCopy._SurfaceTemperatureMaximum;
+                SurfaceTemperatureMinimum = toCopy.SurfaceTemperatureMinimum;
+                SurfaceTemperatureMaximum = toCopy.SurfaceTemperatureMaximum;
+                SurfaceSoilTemperature = toCopy.SurfaceSoilTemperature;
             }
         }
 
@@ -36,6 +38,11 @@ namespace SurfacePartonSoilSWATC.DomainClass
         {
             get { return this._SurfaceTemperatureMaximum; }
             set { this._SurfaceTemperatureMaximum= value; } 
+        }
+        public double SurfaceSoilTemperature
+        {
+            get { return this._SurfaceSoilTemperature; }
+            set { this._SurfaceSoilTemperature= value; } 
         }
 
         public string Description
@@ -57,6 +64,7 @@ namespace SurfacePartonSoilSWATC.DomainClass
         {
              _SurfaceTemperatureMinimum = default(double);
              _SurfaceTemperatureMaximum = default(double);
+             _SurfaceSoilTemperature = default(double);
             return true;
         }
 

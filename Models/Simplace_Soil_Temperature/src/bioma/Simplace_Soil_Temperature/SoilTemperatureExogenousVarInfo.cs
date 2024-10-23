@@ -168,7 +168,7 @@ namespace SoilTemperature.DomainClass
             _iRAIN.Description = "Rain amount";
             _iRAIN.MaxValue = 60.0;
             _iRAIN.MinValue = 0.0;
-            _iRAIN.DefaultValue = -1D;
+            _iRAIN.DefaultValue = 0.0;
             _iRAIN.Units = "http://www.wurvoc.org/vocabularies/om-1.8/millimetre";
             _iRAIN.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
@@ -184,7 +184,7 @@ namespace SoilTemperature.DomainClass
             _iPotentialSoilEvaporation.Description = "Potenial Evaporation";
             _iPotentialSoilEvaporation.MaxValue = 12.0;
             _iPotentialSoilEvaporation.MinValue = 0.0;
-            _iPotentialSoilEvaporation.DefaultValue = -1D;
+            _iPotentialSoilEvaporation.DefaultValue = 0.0;
             _iPotentialSoilEvaporation.Units = "http://www.wurvoc.org/vocabularies/om-1.8/millimetre";
             _iPotentialSoilEvaporation.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 

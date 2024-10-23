@@ -9,13 +9,13 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
 {
     public class SurfacePartonSoilSWATHourlyPartonCExogenous : ICloneable, IDomainClass
     {
-        private double _GlobalSolarRadiation;
-        private double _DayLength;
         private double _AirTemperatureMinimum;
+        private double _DayLength;
+        private double _GlobalSolarRadiation;
         private double _AirTemperatureMaximum;
-        private double _AirTemperatureAnnualAverage;
-        private double _HourOfSunrise;
+        private double[] _VolumetricWaterContent;
         private double _HourOfSunset;
+        private double _HourOfSunrise;
         private ParametersIO _parametersIO;
 
         public SurfacePartonSoilSWATHourlyPartonCExogenous()
@@ -27,50 +27,53 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
         {
             if (copyAll)
             {
-                _GlobalSolarRadiation = toCopy._GlobalSolarRadiation;
-                _DayLength = toCopy._DayLength;
-                _AirTemperatureMinimum = toCopy._AirTemperatureMinimum;
-                _AirTemperatureMaximum = toCopy._AirTemperatureMaximum;
-                _AirTemperatureAnnualAverage = toCopy._AirTemperatureAnnualAverage;
-                _HourOfSunrise = toCopy._HourOfSunrise;
-                _HourOfSunset = toCopy._HourOfSunset;
+                AirTemperatureMinimum = toCopy.AirTemperatureMinimum;
+                DayLength = toCopy.DayLength;
+                GlobalSolarRadiation = toCopy.GlobalSolarRadiation;
+                AirTemperatureMaximum = toCopy.AirTemperatureMaximum;
+                VolumetricWaterContent = new double[toCopy.VolumetricWaterContent.Length];
+            for (int i = 0; i < toCopy.VolumetricWaterContent.Length; i++)
+            { VolumetricWaterContent[i] = toCopy.VolumetricWaterContent[i]; }
+    
+                HourOfSunset = toCopy.HourOfSunset;
+                HourOfSunrise = toCopy.HourOfSunrise;
             }
         }
 
-        public double GlobalSolarRadiation
+        public double AirTemperatureMinimum
         {
-            get { return this._GlobalSolarRadiation; }
-            set { this._GlobalSolarRadiation= value; } 
+            get { return this._AirTemperatureMinimum; }
+            set { this._AirTemperatureMinimum= value; } 
         }
         public double DayLength
         {
             get { return this._DayLength; }
             set { this._DayLength= value; } 
         }
-        public double AirTemperatureMinimum
+        public double GlobalSolarRadiation
         {
-            get { return this._AirTemperatureMinimum; }
-            set { this._AirTemperatureMinimum= value; } 
+            get { return this._GlobalSolarRadiation; }
+            set { this._GlobalSolarRadiation= value; } 
         }
         public double AirTemperatureMaximum
         {
             get { return this._AirTemperatureMaximum; }
             set { this._AirTemperatureMaximum= value; } 
         }
-        public double AirTemperatureAnnualAverage
+        public double[] VolumetricWaterContent
         {
-            get { return this._AirTemperatureAnnualAverage; }
-            set { this._AirTemperatureAnnualAverage= value; } 
-        }
-        public double HourOfSunrise
-        {
-            get { return this._HourOfSunrise; }
-            set { this._HourOfSunrise= value; } 
+            get { return this._VolumetricWaterContent; }
+            set { this._VolumetricWaterContent= value; } 
         }
         public double HourOfSunset
         {
             get { return this._HourOfSunset; }
             set { this._HourOfSunset= value; } 
+        }
+        public double HourOfSunrise
+        {
+            get { return this._HourOfSunrise; }
+            set { this._HourOfSunrise= value; } 
         }
 
         public string Description
@@ -90,13 +93,13 @@ namespace SurfacePartonSoilSWATHourlyPartonC.DomainClass
 
         public virtual Boolean ClearValues()
         {
-             _GlobalSolarRadiation = default(double);
-             _DayLength = default(double);
              _AirTemperatureMinimum = default(double);
+             _DayLength = default(double);
+             _GlobalSolarRadiation = default(double);
              _AirTemperatureMaximum = default(double);
-             _AirTemperatureAnnualAverage = default(double);
-             _HourOfSunrise = default(double);
+             _VolumetricWaterContent = default(double[]);
              _HourOfSunset = default(double);
+             _HourOfSunrise = default(double);
             return true;
         }
 

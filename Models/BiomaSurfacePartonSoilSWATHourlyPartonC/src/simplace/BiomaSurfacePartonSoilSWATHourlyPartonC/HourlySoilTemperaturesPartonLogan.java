@@ -33,12 +33,12 @@ public class HourlySoilTemperaturesPartonLogan extends FWSimComponent
     @Override
     public HashMap<String, FWSimVariable<?>> createVariables()
     {
-        addVariable(FWSimVariable.createSimVariable("SoilTemperatureByLayersHourly", "Hourly soil temperature by layers", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"Â°C", -50, 50, 15, this));
+        addVariable(FWSimVariable.createSimVariable("SoilTemperatureByLayersHourly", "Hourly soil temperature by layers", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"degC", -50, 50, 15, this));
         addVariable(FWSimVariable.createSimVariable("HourOfSunrise", "Hour of sunrise", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"h", 0, 24, 6, this));
         addVariable(FWSimVariable.createSimVariable("HourOfSunset", "Hour of sunset", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"h", 0, 24, 17, this));
         addVariable(FWSimVariable.createSimVariable("DayLength", "Length of the day", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"h", 0, 24, 10, this));
-        addVariable(FWSimVariable.createSimVariable("SoilTemperatureMinimum", "Minimum soil temperature by layers", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"Â°C", -60, 60, 15, this));
-        addVariable(FWSimVariable.createSimVariable("SoilTemperatureMaximum", "Maximum soil temperature by layers", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.state,"Â°C", -60, 60, 15, this));
+        addVariable(FWSimVariable.createSimVariable("SoilTemperatureMinimum", "Minimum soil temperature by layers", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.input,"degC", -60, 60, 15, this));
+        addVariable(FWSimVariable.createSimVariable("SoilTemperatureMaximum", "Maximum soil temperature by layers", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.input,"degC", -60, 60, 15, this));
 
         return iFieldMap;
     }
@@ -46,14 +46,14 @@ public class HourlySoilTemperaturesPartonLogan extends FWSimComponent
     protected void process()
     {
         Double [] t_SoilTemperatureByLayersHourly = SoilTemperatureByLayersHourly.getValue();
-        Double t_HourOfSunrise = HourOfSunrise.getValue();
-        Double t_HourOfSunset = HourOfSunset.getValue();
-        Double t_DayLength = DayLength.getValue();
+        double t_HourOfSunrise = HourOfSunrise.getValue();
+        double t_HourOfSunset = HourOfSunset.getValue();
+        double t_DayLength = DayLength.getValue();
         Double [] t_SoilTemperatureMinimum = SoilTemperatureMinimum.getValue();
         Double [] t_SoilTemperatureMaximum = SoilTemperatureMaximum.getValue();
         Integer h;
         Integer i;
-        Double TemperatureAtSunset;
+        double TemperatureAtSunset;
         for (i=0 ; i!=t_SoilTemperatureMinimum.length ; i+=1)
         {
             for (h=0 ; h!=24 ; h+=1)

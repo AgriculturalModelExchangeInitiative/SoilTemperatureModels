@@ -1,15 +1,13 @@
-package net.simplace.sim.components.Stics_soil_temperature;
-import  java.io.*;
-import  java.util.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+package net.simplace.usermodules.amei.Stics_soil_temperature;
+import java.util.HashMap;
+
+import org.jdom2.Element;
+
 import net.simplace.sim.model.FWSimComponent;
 import net.simplace.sim.util.FWSimVarMap;
 import net.simplace.sim.util.FWSimVariable;
 import net.simplace.sim.util.FWSimVariable.CONTENT_TYPE;
 import net.simplace.sim.util.FWSimVariable.DATA_TYPE;
-import org.jdom2.Element;
 
 
 public class Canopy_temp_avg extends FWSimComponent
@@ -32,7 +30,7 @@ public class Canopy_temp_avg extends FWSimComponent
     {
         addVariable(FWSimVariable.createSimVariable("min_canopy_temp", "current minimum temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"degC", -50.0, 50.0, 0.0, this));
         addVariable(FWSimVariable.createSimVariable("max_canopy_temp", "current maximum temperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.input,"degC", -50.0, 50.0, 0.0, this));
-        addVariable(FWSimVariable.createSimVariable("canopy_temp_avg", "current temperature amplitude", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"degC", 0.0, 100.0, null, this));
+        addVariable(FWSimVariable.createSimVariable("canopy_temp_avg", "current temperature amplitude", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"degC", -50.0, 50.0, null, this));
 
         return iFieldMap;
     }

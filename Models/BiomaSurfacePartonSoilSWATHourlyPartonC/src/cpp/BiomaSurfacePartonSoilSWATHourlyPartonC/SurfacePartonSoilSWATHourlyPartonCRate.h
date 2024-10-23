@@ -1,11 +1,10 @@
-#ifndef _SurfacePartonSoilSWATHourlyPartonCRate_
-#define _SurfacePartonSoilSWATHourlyPartonCRate_
+#pragma once
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
-# include<vector>
-# include<string>
-using namespace std;
+#include <vector>
+#include <string>
+namespace BiomaSurfacePartonSoilSWATHourlyPartonC {
 class SurfacePartonSoilSWATHourlyPartonCRate
 {
     private:
@@ -13,4 +12,4 @@ class SurfacePartonSoilSWATHourlyPartonCRate
         SurfacePartonSoilSWATHourlyPartonCRate();
 
 };
-#endif
+}

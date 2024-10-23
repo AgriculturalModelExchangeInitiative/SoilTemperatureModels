@@ -21,11 +21,11 @@ namespace soil_temp.Strategies
             ModellingOptions mo0_0 = new ModellingOptions();
             //Parameters
             List<VarInfo> _parameters0_0 = new List<VarInfo>();
-            VarInfo v1 = new CompositeStrategyVarInfo(_temp_profile, "air_temp_day1");
+            VarInfo v1 = new CompositeStrategyVarInfo(_{'modu': 'temp_profile', 'var': 'air_temp_day1'}, "air_temp_day1");
             _parameters0_0.Add(v1);
-            VarInfo v2 = new CompositeStrategyVarInfo(_temp_profile, "layer_thick");
+            VarInfo v2 = new CompositeStrategyVarInfo(_{'modu': 'temp_profile', 'var': 'layer_thick'}, "layer_thick");
             _parameters0_0.Add(v2);
-            VarInfo v3 = new CompositeStrategyVarInfo(_layers_temp, "layer_thick");
+            VarInfo v3 = new CompositeStrategyVarInfo(_{'modu': 'layers_temp', 'var': 'layer_thick'}, "layer_thick");
             _parameters0_0.Add(v3);
             List<PropertyDescription> _inputs0_0 = new List<PropertyDescription>();
             PropertyDescription pd1 = new PropertyDescription();
@@ -236,12 +236,12 @@ namespace soil_temp.Strategies
 
         public static VarInfo air_temp_day1VarInfo
         {
-            get { return soil_temp.Strategies.temp_profile.air_temp_day1VarInfo;} 
+            get { return soil_temp.Strategies.{'modu': 'temp_profile', 'var': 'air_temp_day1'}.air_temp_day1VarInfo;} 
         }
 
         public static VarInfo layer_thickVarInfo
         {
-            get { return soil_temp.Strategies.temp_profile.layer_thickVarInfo;} 
+            get { return soil_temp.Strategies.{'modu': 'temp_profile', 'var': 'layer_thick'}.layer_thickVarInfo;} 
         }
 
         public string TestPostConditions(soil_temp.DomainClass.soil_tempState s,soil_temp.DomainClass.soil_tempState s1,soil_temp.DomainClass.soil_tempRate r,soil_temp.DomainClass.soil_tempAuxiliary a,soil_temp.DomainClass.soil_tempExogenous ex,string callID)
@@ -373,10 +373,10 @@ namespace soil_temp.Strategies
 
         public soil_tempComponent(soil_tempComponent toCopy): this() // copy constructor 
         {
-                air_temp_day1 = toCopy.air_temp_day1;
-                
-            for (int i = 0; i < toCopy._layer_thick.Length; i++)
-            { layer_thick[i] = toCopy.layer_thick[i]; }
+            air_temp_day1 = toCopy.air_temp_day1;
+            
+        for (int i = 0; i < toCopy.layer_thick.Length; i++)
+        { layer_thick[i] = toCopy.layer_thick[i]; }
     
         }
     }

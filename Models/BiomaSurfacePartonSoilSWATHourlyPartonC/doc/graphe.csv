@@ -1,0 +1,8 @@
+Source,Target,Weight
+SurfaceTemperatureParton,SoilTemperatureSWAT,1
+SurfaceTemperatureParton,RangeOfSoilTemperaturesDAYCENT,2
+SoilTemperatureSWAT,RangeOfSoilTemperaturesDAYCENT,1
+RangeOfSoilTemperaturesDAYCENT,HourlySoilTemperaturesPartonLogan,2
+VolumetricHeatCapacityKluitenberg,ThermalDiffu,1
+ThermalDiffu,RangeOfSoilTemperaturesDAYCENT,1
+ThermalConductivitySIMULAT,ThermalDiffu,1

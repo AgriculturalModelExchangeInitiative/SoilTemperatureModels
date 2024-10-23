@@ -1,40 +1,39 @@
-#ifndef _STEMP_State_
-#define _STEMP_State_
+#pragma once
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
-# include<vector>
-# include<string>
-using namespace std;
+#include<vector>
+#include<string>
+namespace DSSAT_ST_standalone {
 class STEMP_State
 {
     private:
-        double SRFTEMP ;
         double HDAY ;
-        vector<double> TMA ;
+        double SRFTEMP ;
+        std::vector<double> ST ;
+        std::vector<double> TMA ;
+        double TDL ;
         double CUMDPT ;
         double ATOT ;
-        double TDL ;
-        vector<double> DSMID ;
-        vector<double> ST ;
+        std::vector<double> DSMID ;
     public:
         STEMP_State();
-        double getSRFTEMP();
-        void setSRFTEMP(double _SRFTEMP);
         double getHDAY();
         void setHDAY(double _HDAY);
-        vector<double> & getTMA();
-        void setTMA(const vector<double> &  _TMA);
+        double getSRFTEMP();
+        void setSRFTEMP(double _SRFTEMP);
+        std::vector<double> & getST();
+        void setST(const std::vector<double> &  _ST);
+        std::vector<double> & getTMA();
+        void setTMA(const std::vector<double> &  _TMA);
+        double getTDL();
+        void setTDL(double _TDL);
         double getCUMDPT();
         void setCUMDPT(double _CUMDPT);
         double getATOT();
         void setATOT(double _ATOT);
-        double getTDL();
-        void setTDL(double _TDL);
-        vector<double> & getDSMID();
-        void setDSMID(const vector<double> &  _DSMID);
-        vector<double> & getST();
-        void setST(const vector<double> &  _ST);
+        std::vector<double> & getDSMID();
+        void setDSMID(const std::vector<double> &  _DSMID);
 
 };
-#endif
+}

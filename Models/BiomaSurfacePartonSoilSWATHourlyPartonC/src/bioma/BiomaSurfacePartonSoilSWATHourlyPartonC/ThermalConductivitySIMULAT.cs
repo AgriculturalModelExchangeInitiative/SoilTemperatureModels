@@ -20,38 +20,58 @@ namespace SurfacePartonSoilSWATHourlyPartonC.Strategies
             ModellingOptions mo0_0 = new ModellingOptions();
             //Parameters
             List<VarInfo> _parameters0_0 = new List<VarInfo>();
+            VarInfo v1 = new VarInfo();
+            v1.DefaultValue = -1D;
+            v1.Description = "Bulk density";
+            v1.Id = 0;
+            v1.MaxValue = -1D;
+            v1.MinValue = -1D;
+            v1.Name = "BulkDensity";
+            v1.Size = 1;
+            v1.Units = "t m-3";
+            v1.URL = "";
+            v1.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
+            v1.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+            _parameters0_0.Add(v1);
+            VarInfo v2 = new VarInfo();
+            v2.DefaultValue = -1D;
+            v2.Description = "Clay content of soil layer";
+            v2.Id = 0;
+            v2.MaxValue = -1D;
+            v2.MinValue = -1D;
+            v2.Name = "Clay";
+            v2.Size = 1;
+            v2.Units = "";
+            v2.URL = "";
+            v2.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
+            v2.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+            _parameters0_0.Add(v2);
             mo0_0.Parameters=_parameters0_0;
 
             //Inputs
             List<PropertyDescription> _inputs0_0 = new List<PropertyDescription>();
             PropertyDescription pd1 = new PropertyDescription();
-            pd1.DomainClassType = typeof(SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCState);
+            pd1.DomainClassType = typeof(SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenous);
             pd1.PropertyName = "VolumetricWaterContent";
-            pd1.PropertyType = (SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.VolumetricWaterContent).ValueType.TypeForCurrentValue;
-            pd1.PropertyVarInfo =(SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.VolumetricWaterContent);
+            pd1.PropertyType = (SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.VolumetricWaterContent).ValueType.TypeForCurrentValue;
+            pd1.PropertyVarInfo =(SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.VolumetricWaterContent);
             _inputs0_0.Add(pd1);
             PropertyDescription pd2 = new PropertyDescription();
             pd2.DomainClassType = typeof(SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCState);
-            pd2.PropertyName = "BulkDensity";
-            pd2.PropertyType = (SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.BulkDensity).ValueType.TypeForCurrentValue;
-            pd2.PropertyVarInfo =(SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.BulkDensity);
+            pd2.PropertyName = "ThermalConductivity";
+            pd2.PropertyType = (SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.ThermalConductivity).ValueType.TypeForCurrentValue;
+            pd2.PropertyVarInfo =(SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.ThermalConductivity);
             _inputs0_0.Add(pd2);
-            PropertyDescription pd3 = new PropertyDescription();
-            pd3.DomainClassType = typeof(SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCState);
-            pd3.PropertyName = "Clay";
-            pd3.PropertyType = (SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.Clay).ValueType.TypeForCurrentValue;
-            pd3.PropertyVarInfo =(SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.Clay);
-            _inputs0_0.Add(pd3);
             mo0_0.Inputs=_inputs0_0;
 
             //Outputs
             List<PropertyDescription> _outputs0_0 = new List<PropertyDescription>();
-            PropertyDescription pd4 = new PropertyDescription();
-            pd4.DomainClassType = typeof(SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCState);
-            pd4.PropertyName = "ThermalConductivity";
-            pd4.PropertyType = (SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.ThermalConductivity).ValueType.TypeForCurrentValue;
-            pd4.PropertyVarInfo =(SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.ThermalConductivity);
-            _outputs0_0.Add(pd4);
+            PropertyDescription pd3 = new PropertyDescription();
+            pd3.DomainClassType = typeof(SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCState);
+            pd3.PropertyName = "ThermalConductivity";
+            pd3.PropertyType = (SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.ThermalConductivity).ValueType.TypeForCurrentValue;
+            pd3.PropertyVarInfo =(SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.ThermalConductivity);
+            _outputs0_0.Add(pd3);
             mo0_0.Outputs=_outputs0_0;
             //Associated strategies
             List<string> lAssStrat0_0 = new List<string>();
@@ -65,7 +85,7 @@ namespace SurfacePartonSoilSWATHourlyPartonC.Strategies
 
         public string Description
         {
-            get { return "Strategy for the calculation of thermal conductivity. Bristow, K.L., Thermal conductivity, in Methods of Soil Analysis. Part 4. Physical Methods, J.H. Dane and G.C. Topp, Editors. 2002, Soil Science Society of America Book Series #5: Madison, Wisconsin. p. 1209-1226. Diekkruger, B. (1996) SIMULAT - Ein Modellsystem zur Berechnung der Wasser- und Stoffdynamik landwirtschaftlich genutzter Standorte (SIMULAT - a model system for the calculation of water and matter dynamics on agricultural sites, in German). In: Wasser- und Stoffdynamik in AgrarÃ´kosystemen, Sonderf." ;}
+            get { return "Strategy for the calculation of thermal conductivity. Bristow, K.L., Thermal conductivity, in Methods of Soil Analysis. Part 4. Physical Methods, J.H. Dane and G.C. Topp, Editors. 2002, Soil Science Society of America Book Series" ;}
         }
 
         public string URL
@@ -106,7 +126,7 @@ namespace SurfacePartonSoilSWATHourlyPartonC.Strategies
         private  void SetPublisherData()
         {
             _pd = new CRA.ModelLayer.MetadataTypes.PublisherData();
-            _pd.Add("Creator", "simone.bregaglio@unimi.it");
+            _pd.Add("Creator", "simone.bregaglio");
             _pd.Add("Date", "");
             _pd.Add("Publisher", "University Of Milan "); 
         }
@@ -124,6 +144,30 @@ namespace SurfacePartonSoilSWATHourlyPartonC.Strategies
 
         // Getter and setters for the value of the parameters of the strategy. The actual parameters are stored into the ModelingOptionsManager of the strategy.
 
+        public double[] BulkDensity
+        {
+            get { 
+                VarInfo vi= _modellingOptionsManager.GetParameterByName("BulkDensity");
+                if (vi != null && vi.CurrentValue!=null) return (double[])vi.CurrentValue ;
+                else throw new Exception("Parameter 'BulkDensity' not found (or found null) in strategy 'ThermalConductivitySIMULAT'");
+            } set {
+                VarInfo vi = _modellingOptionsManager.GetParameterByName("BulkDensity");
+                if (vi != null)  vi.CurrentValue=value;
+                else throw new Exception("Parameter 'BulkDensity' not found in strategy 'ThermalConductivitySIMULAT'");
+            }
+        }
+        public double[] Clay
+        {
+            get { 
+                VarInfo vi= _modellingOptionsManager.GetParameterByName("Clay");
+                if (vi != null && vi.CurrentValue!=null) return (double[])vi.CurrentValue ;
+                else throw new Exception("Parameter 'Clay' not found (or found null) in strategy 'ThermalConductivitySIMULAT'");
+            } set {
+                VarInfo vi = _modellingOptionsManager.GetParameterByName("Clay");
+                if (vi != null)  vi.CurrentValue=value;
+                else throw new Exception("Parameter 'Clay' not found in strategy 'ThermalConductivitySIMULAT'");
+            }
+        }
 
         public void SetParametersDefaultValue()
         {
@@ -132,6 +176,34 @@ namespace SurfacePartonSoilSWATHourlyPartonC.Strategies
 
         private static void SetStaticParametersVarInfoDefinitions()
         {
+
+            BulkDensityVarInfo.Name = "BulkDensity";
+            BulkDensityVarInfo.Description = "Bulk density";
+            BulkDensityVarInfo.MaxValue = -1D;
+            BulkDensityVarInfo.MinValue = -1D;
+            BulkDensityVarInfo.DefaultValue = -1D;
+            BulkDensityVarInfo.Units = "t m-3";
+            BulkDensityVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+
+            ClayVarInfo.Name = "Clay";
+            ClayVarInfo.Description = "Clay content of soil layer";
+            ClayVarInfo.MaxValue = -1D;
+            ClayVarInfo.MinValue = -1D;
+            ClayVarInfo.DefaultValue = -1D;
+            ClayVarInfo.Units = "";
+            ClayVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+        }
+
+        private static VarInfo _BulkDensityVarInfo = new VarInfo();
+        public static VarInfo BulkDensityVarInfo
+        {
+            get { return _BulkDensityVarInfo;} 
+        }
+
+        private static VarInfo _ClayVarInfo = new VarInfo();
+        public static VarInfo ClayVarInfo
+        {
+            get { return _ClayVarInfo;} 
         }
 
         public string TestPostConditions(SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCState s,SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCState s1,SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCRate r,SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliary a,SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenous ex,string callID)
@@ -142,8 +214,8 @@ namespace SurfacePartonSoilSWATHourlyPartonC.Strategies
                 SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.ThermalConductivity.CurrentValue=s.ThermalConductivity;
                 ConditionsCollection prc = new ConditionsCollection();
                 Preconditions pre = new Preconditions(); 
-                RangeBasedCondition r4 = new RangeBasedCondition(SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.ThermalConductivity);
-                if(r4.ApplicableVarInfoValueTypes.Contains( SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.ThermalConductivity.ValueType)){prc.AddCondition(r4);}
+                RangeBasedCondition r5 = new RangeBasedCondition(SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.ThermalConductivity);
+                if(r5.ApplicableVarInfoValueTypes.Contains( SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.ThermalConductivity.ValueType)){prc.AddCondition(r5);}
                 string postConditionsResult = pre.VerifyPostconditions(prc, callID); if (!string.IsNullOrEmpty(postConditionsResult)) { pre.TestsOut(postConditionsResult, true, "PostConditions errors in strategy " + this.GetType().Name); } return postConditionsResult;
             }
             catch (Exception exception)
@@ -158,17 +230,16 @@ namespace SurfacePartonSoilSWATHourlyPartonC.Strategies
             try
             {
                 //Set current values of the inputs to the static VarInfo representing the inputs properties of the domain classes
-                SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.VolumetricWaterContent.CurrentValue=s.VolumetricWaterContent;
-                SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.BulkDensity.CurrentValue=s.BulkDensity;
-                SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.Clay.CurrentValue=s.Clay;
+                SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.VolumetricWaterContent.CurrentValue=ex.VolumetricWaterContent;
+                SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.ThermalConductivity.CurrentValue=s.ThermalConductivity;
                 ConditionsCollection prc = new ConditionsCollection();
                 Preconditions pre = new Preconditions(); 
-                RangeBasedCondition r1 = new RangeBasedCondition(SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.VolumetricWaterContent);
-                if(r1.ApplicableVarInfoValueTypes.Contains( SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.VolumetricWaterContent.ValueType)){prc.AddCondition(r1);}
-                RangeBasedCondition r2 = new RangeBasedCondition(SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.BulkDensity);
-                if(r2.ApplicableVarInfoValueTypes.Contains( SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.BulkDensity.ValueType)){prc.AddCondition(r2);}
-                RangeBasedCondition r3 = new RangeBasedCondition(SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.Clay);
-                if(r3.ApplicableVarInfoValueTypes.Contains( SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.Clay.ValueType)){prc.AddCondition(r3);}
+                RangeBasedCondition r1 = new RangeBasedCondition(SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.VolumetricWaterContent);
+                if(r1.ApplicableVarInfoValueTypes.Contains( SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenousVarInfo.VolumetricWaterContent.ValueType)){prc.AddCondition(r1);}
+                RangeBasedCondition r2 = new RangeBasedCondition(SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.ThermalConductivity);
+                if(r2.ApplicableVarInfoValueTypes.Contains( SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCStateVarInfo.ThermalConductivity.ValueType)){prc.AddCondition(r2);}
+                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("BulkDensity")));
+                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("Clay")));
                 string preConditionsResult = pre.VerifyPreconditions(prc, callID); if (!string.IsNullOrEmpty(preConditionsResult)) { pre.TestsOut(preConditionsResult, true, "PreConditions errors in strategy " + this.GetType().Name); } return preConditionsResult;
             }
             catch (Exception exception)
@@ -191,12 +262,18 @@ namespace SurfacePartonSoilSWATHourlyPartonC.Strategies
             }
         }
 
+        public void Init(SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCState s, SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCState s1, SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCRate r, SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliary a, SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenous ex)
+        {
+            double[] VolumetricWaterContent = ex.VolumetricWaterContent;
+            double[] ThermalConductivity ;
+            ThermalConductivity = new double[VolumetricWaterContent.Length];
+            s.ThermalConductivity= ThermalConductivity;
+        }
+
         private void CalculateModel(SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCState s, SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCState s1, SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCRate r, SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCAuxiliary a, SurfacePartonSoilSWATHourlyPartonC.DomainClass.SurfacePartonSoilSWATHourlyPartonCExogenous ex)
         {
-            double[] VolumetricWaterContent = s.VolumetricWaterContent;
-            double[] BulkDensity = s.BulkDensity;
-            double[] Clay = s.Clay;
-            double[] ThermalConductivity ;
+            double[] VolumetricWaterContent = ex.VolumetricWaterContent;
+            double[] ThermalConductivity = s.ThermalConductivity;
             int i;
             double Aterm;
             double Bterm;

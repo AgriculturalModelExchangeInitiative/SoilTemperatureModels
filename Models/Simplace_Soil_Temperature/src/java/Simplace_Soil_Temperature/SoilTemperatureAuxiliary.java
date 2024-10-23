@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class SoilTemperatureAuxiliary
 {
-    private Double SnowIsolationIndex;
+    private double SnowIsolationIndex;
     
     public SoilTemperatureAuxiliary() { }
     
@@ -15,10 +15,10 @@ public class SoilTemperatureAuxiliary
             this.SnowIsolationIndex = toCopy.getSnowIsolationIndex();
         }
     }
-    public Double getSnowIsolationIndex()
+    public double getSnowIsolationIndex()
     { return SnowIsolationIndex; }
 
-    public void setSnowIsolationIndex(Double _SnowIsolationIndex)
+    public void setSnowIsolationIndex(double _SnowIsolationIndex)
     { this.SnowIsolationIndex= _SnowIsolationIndex; } 
     
 }

@@ -145,6 +145,11 @@ public class SnowCoverCalculator extends FWSimComponent
 	 * ALB = AB(1) = Albedo index of radiation reflection of the first soil layer
 	 */
 
+	private FWSimVariable<Integer> cInitialAgeOfSnow;
+	private FWSimVariable<Double> cInitialSnowWaterContent;
+	private FWSimVariable<Double> cSnowIsolationFactorA;
+	private FWSimVariable<Double> cSnowIsolationFactorB;
+	
 	private FWSimVariable<Boolean> iDoInitialize;
 	private FWSimVariable<Double> iTempMax;
 	private FWSimVariable<Double> iTempMin;
@@ -157,12 +162,17 @@ public class SnowCoverCalculator extends FWSimComponent
 	private FWSimVariable<Double> cCarbonContent;
 
 	private FWSimVariable<Double> SnowWaterContent;
-	private FWSimVariable<Double> SnowIsolationIndex;
 	private FWSimVariable<Double> SoilSurfaceTemperature;
-
 	private FWSimVariable<Integer> AgeOfSnow;
 
+	private FWSimVariable<Double> rSnowWaterContentRate;
+	private FWSimVariable<Double> rSoilSurfaceTemperatureRate;
+	private FWSimVariable<Integer> rAgeOfSnowRate;
+	
+	private FWSimVariable<Double> SnowIsolationIndex;
+
 	private FWSimVariable<Double> Albedo;
+	private FWSimVariable<Double> pInternalAlbedo;
 
 	/**
 	 * called by clone method only
@@ -197,7 +207,25 @@ public class SnowCoverCalculator extends FWSimComponent
 	{
 		addVariable(FWSimVariable.createSimVariable("cCarbonContent", "Carbon content of upper soil layer",
 				DATA_TYPE.DOUBLE,
-				CONTENT_TYPE.constant, "http://www.wurvoc.org/vocabularies/om-1.8/percent", 0d, 20d, 0.5, this));
+				CONTENT_TYPE.constant, "http://www.wurvoc.org/vocabularies/om-1.8/percent", 0.5, 20d, 0.5, this));
+		addVariable(FWSimVariable.createSimVariable("cInitialAgeOfSnow", "Initial age of snow",
+				DATA_TYPE.INT,
+				CONTENT_TYPE.constant, "http://www.wurvoc.org/vocabularies/om-1.8/percent", 0, null, 0, this));
+		addVariable(FWSimVariable.createSimVariable("cInitialSnowWaterContent", "Initial snow water content",
+				DATA_TYPE.DOUBLE,
+				CONTENT_TYPE.constant, "http://www.wurvoc.org/vocabularies/om-1.8/percent", 0d, 1500d, 0d, this));
+		addVariable(FWSimVariable.createSimVariable("Albedo", "Albedo", DATA_TYPE.DOUBLE,
+				CONTENT_TYPE.constant, "http://www.wurvoc.org/vocabularies/om-1.8/one", 0d, 1d, null, this));
+
+		addVariable(FWSimVariable.createSimVariable("pInternalAlbedo", "Albedo privat", DATA_TYPE.DOUBLE,
+				CONTENT_TYPE.privat, "http://www.wurvoc.org/vocabularies/om-1.8/one", 0d, 1d, null, this));
+
+		addVariable(FWSimVariable.createSimVariable("cSnowIsolationFactorA", "Static part of the snow isolation index calculation", DATA_TYPE.DOUBLE,
+				CONTENT_TYPE.constant, "http://www.wurvoc.org/vocabularies/om-1.8/one", 0d, 10d, 2.3, this));
+		addVariable(FWSimVariable.createSimVariable("cSnowIsolationFactorB", "Dynamic part of the snow isolation index calculation", DATA_TYPE.DOUBLE,
+				CONTENT_TYPE.constant, "http://www.wurvoc.org/vocabularies/om-1.8/one", 0d, 1d, 0.22, this));
+		//default coefficients now based Script of APEX, before 02/2024 based on EPIC SCRP(17) values from PARM0509.file: 0.47, 0.62
+
 		
 		//%%CyML Ignore Begin%%
 		addVariable(FWSimVariable.createSimVariable("iDoInitialize", "Switch to re-initialize the model with initial values.",
@@ -211,25 +239,29 @@ public class SnowCoverCalculator extends FWSimComponent
 		addVariable(FWSimVariable.createSimVariable("iRadiation", "Global Solar radiation", DATA_TYPE.DOUBLE,
 				CONTENT_TYPE.input, "http://www.wurvoc.org/vocabularies/om-1.8/megajoule_per_square_metre", 0d, 2000d, null, this));
 		addVariable(FWSimVariable.createSimVariable("iRAIN", "Rain amount", DATA_TYPE.DOUBLE,
-				CONTENT_TYPE.input, "http://www.wurvoc.org/vocabularies/om-1.8/millimetre", 0d, 60d, null, this));
+				CONTENT_TYPE.input, "http://www.wurvoc.org/vocabularies/om-1.8/millimetre", 0d, 60d, 0d, this));
 		addVariable(FWSimVariable.createSimVariable("iCropResidues", "Crop residues plus above ground biomass", DATA_TYPE.DOUBLE,
 				CONTENT_TYPE.input, "http://www.wurvoc.org/vocabularies/om-1.8/gram_per_square_metre", 0d, 20000d, null, this));
 		addVariable(FWSimVariable.createSimVariable("iPotentialSoilEvaporation", "Potenial Evaporation", DATA_TYPE.DOUBLE,
-				CONTENT_TYPE.input, "http://www.wurvoc.org/vocabularies/om-1.8/millimetre", 0d, 12d, null, this));
+				CONTENT_TYPE.input, "http://www.wurvoc.org/vocabularies/om-1.8/millimetre", 0d, 12d, 0d, this));
 		addVariable(FWSimVariable.createSimVariable("iLeafAreaIndex", "Leaf area index", DATA_TYPE.DOUBLE,
 				CONTENT_TYPE.input, "http://www.wurvoc.org/vocabularies/om-1.8/square_metre_per_square_metre", 0d, 10d, null, this));
 		addVariable(FWSimVariable.createSimVariable("iSoilTempArray", "Soil Temp array of last day", DATA_TYPE.DOUBLEARRAY,
 				CONTENT_TYPE.input, "http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius", -15d, 35d, null, this));
-
-		addVariable(FWSimVariable.createSimVariable("Albedo", "Albedo", DATA_TYPE.DOUBLE,
-				CONTENT_TYPE.privat, "http://www.wurvoc.org/vocabularies/om-1.8/one", 0d, 1d, null, this));
 
 		addVariable(FWSimVariable.createSimVariable("SnowWaterContent", "Snow water content", DATA_TYPE.DOUBLE,
 				CONTENT_TYPE.state, "http://www.wurvoc.org/vocabularies/om-1.8/millimetre", 0d, 1500d, 0d, this));
 		addVariable(FWSimVariable.createSimVariable("SoilSurfaceTemperature", "Soil surface temperature", DATA_TYPE.DOUBLE,
 				CONTENT_TYPE.state, "http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius", -40d, 70d, 0d, this));
 		addVariable(FWSimVariable.createSimVariable("AgeOfSnow", "Age of snow", DATA_TYPE.INT,
-				CONTENT_TYPE.state, "http://www.wurvoc.org/vocabularies/om-1.8/one", 0, null, 0, this));
+				CONTENT_TYPE.state, "http://www.wurvoc.org/vocabularies/om-1.8/day", 0, null, 0, this));
+
+		addVariable(FWSimVariable.createSimVariable("rSnowWaterContentRate", "daily snow water content change rate", DATA_TYPE.DOUBLE,
+				CONTENT_TYPE.rate, "http://www.wurvoc.org/vocabularies/om-1.8/millimetre_per_day", -1500d, 1500d, 0d, this));
+		addVariable(FWSimVariable.createSimVariable("rSoilSurfaceTemperatureRate", "daily soil surface temperature change rate", DATA_TYPE.DOUBLE,
+				CONTENT_TYPE.rate, "http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day", -40d, 70d, 0d, this));
+		addVariable(FWSimVariable.createSimVariable("rAgeOfSnowRate", "daily age of snow change rate", DATA_TYPE.INT,
+				CONTENT_TYPE.rate, "http://www.wurvoc.org/vocabularies/om-1.8/one", null, null, 0, this));
 
 		addVariable(FWSimVariable.createSimVariable("SnowIsolationIndex", "Snow isolation index", DATA_TYPE.DOUBLE,
 				CONTENT_TYPE.out, "http://www.wurvoc.org/vocabularies/om-1.8/one", 0d, 1d, 0d, this));
@@ -244,11 +276,17 @@ public class SnowCoverCalculator extends FWSimComponent
 	@Override
 	protected void init()
 	{
-		Albedo.setValue( 0.0226 * log10(cCarbonContent.getValue()) + 0.1502, this); //taken from experimental fit from Thomas Gaiser, 2000, n=35, R2=0.97
+		if (Albedo.getValue() == 0)
+			pInternalAlbedo.setValue( 0.0226 * log10(cCarbonContent.getValue()) + 0.1502, this); //taken from experimental fit from Thomas Gaiser, 2000, n=35, R2=0.97
+		else
+			pInternalAlbedo.setValue(Albedo.getValue(), this);
 		double TMEAN = 0.5 * (iTempMax.getValue() + iTempMin.getValue()); //TMEAN = Mean daily air temperature at 2 m (°C)
 		double TAMPL = 0.5 * (iTempMax.getValue() - iTempMin.getValue()); //TAMPL = Amplitude of daily air temperature at 2 m (°C)
-		double DST = TMEAN + TAMPL * (iRadiation.getValue() * (1 - Albedo.getValue()) - 14) / 20; //DST = Bare soil surface temperature (°C)
-		SoilSurfaceTemperature.setValue(DST, this);		
+		double DST = TMEAN + TAMPL * (iRadiation.getValue() * (1 - pInternalAlbedo.getValue()) - 14) / 20; //DST = Bare soil surface temperature (°C)
+		
+		SoilSurfaceTemperature.setValue(DST, this);	
+		AgeOfSnow.setValue(cInitialAgeOfSnow.getValue(), this);
+		SnowWaterContent.setValue(cInitialSnowWaterContent.getValue(), this);
 	}
 
 
@@ -298,7 +336,7 @@ public class SnowCoverCalculator extends FWSimComponent
 
 		double TMEAN = 0.5 * (tiTempMax + tiTempMin); //TMEAN = Mean daily air temperature at 2 m (°C)
 		double TAMPL = 0.5 * (tiTempMax - tiTempMin); //TAMPL = Amplitude of daily air temperature at 2 m (°C)
-		double DST = TMEAN + TAMPL * (tiRadiation * (1 - Albedo.getValue()) - 14) / 20; //DST = Bare soil surface temperature (°C)
+		double DST = TMEAN + TAMPL * (tiRadiation * (1 - pInternalAlbedo.getValue()) - 14) / 20; //DST = Bare soil surface temperature (°C)
 
 		double tSoilSurfaceTemperature;
 		double tSnowIsolationIndex;
@@ -324,7 +362,7 @@ public class SnowCoverCalculator extends FWSimComponent
 		}
 		else
 		{
-			tSnowIsolationIndex = max(tSnowWaterContent/(tSnowWaterContent + exp(0.47 - 0.62*tSnowWaterContent)), tSnowIsolationIndex); //coefficients based on EPIC SCRP(17) values from PARM0509.file
+			tSnowIsolationIndex = max(tSnowWaterContent / (tSnowWaterContent + exp(cSnowIsolationFactorA.getValue() - cSnowIsolationFactorB.getValue() * tSnowWaterContent)), tSnowIsolationIndex); 
 			tSoilSurfaceTemperature = (1 - tSnowIsolationIndex) * DST + tSnowIsolationIndex * tiSoilTempArray; //SoilSurfaceTemperature = Actual soil surface temperature (°C), iSoilTempArray = Yesterday's temperature in the first layer (°C)
 		}
 
@@ -373,10 +411,18 @@ public class SnowCoverCalculator extends FWSimComponent
 				tAgeOfSnow++;
 			}
 		}
+		
+		
+		rSnowWaterContentRate.setValue(tSnowWaterContent - SnowWaterContent.getValue(),this);
+		rSoilSurfaceTemperatureRate.setValue(tSoilSurfaceTemperature - SoilSurfaceTemperature.getValue(), this);
+		rAgeOfSnowRate.setValue(tAgeOfSnow-AgeOfSnow.getValue(), this);
+		
 		SnowWaterContent.setValue(tSnowWaterContent,this);
-		SnowIsolationIndex.setValue(tSnowIsolationIndex, this);
 		SoilSurfaceTemperature.setValue(tSoilSurfaceTemperature, this);
 		AgeOfSnow.setValue(tAgeOfSnow, this);
+
+		SnowIsolationIndex.setValue(tSnowIsolationIndex, this);
+
 	}
 
 	/**
@@ -398,6 +444,7 @@ public class SnowCoverCalculator extends FWSimComponent
         FWSimVariable.setValue(30.0, iFieldMap.get("SnowCoverCalculator.iCropResidues"), this);
         FWSimVariable.setValue(0.6, iFieldMap.get("SnowCoverCalculator.iPotentialSoilEvaporation"), this);
         FWSimVariable.setValue(0.1, iFieldMap.get("SnowCoverCalculator.iLeafAreaIndex"), this);
+		FWSimVariable.setValue(0, iFieldMap.get("SnowCoverCalculator.Albedo"), this);
         FWSimVariable.setValue(new Double[] {2.6,5.4,8.6,12.2,11.4,10.6,9.8,9.0}, iFieldMap.get("SnowCoverCalculator.iSoilTempArray"), this);
     }
     else if(aParamIndex == 0 && aDefineOrCheck == TEST_STATE.STATE) //after init

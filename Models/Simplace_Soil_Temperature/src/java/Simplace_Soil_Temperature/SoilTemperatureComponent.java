@@ -6,10 +6,16 @@ public class SoilTemperatureComponent
     SnowCoverCalculator _SnowCoverCalculator = new SnowCoverCalculator();
     STMPsimCalculator _STMPsimCalculator = new STMPsimCalculator();
 
-    public Double getcCarbonContent()
+    public double getcCarbonContent()
     { return _SnowCoverCalculator.getcCarbonContent(); }
-    public void setcCarbonContent(Double _cCarbonContent){
+    public void setcCarbonContent(double _cCarbonContent){
     _SnowCoverCalculator.setcCarbonContent(_cCarbonContent);
+    }
+
+    public double getcAlbedo()
+    { return _SnowCoverCalculator.getAlbedo(); }
+    public void setcAlbedo(double _cAlbedo){
+    _SnowCoverCalculator.setAlbedo(_cAlbedo);
     }
 
     public Double [] getcSoilLayerDepth()
@@ -18,27 +24,27 @@ public class SoilTemperatureComponent
     _STMPsimCalculator.setcSoilLayerDepth(_cSoilLayerDepth);
     }
 
-    public Double getcFirstDayMeanTemp()
+    public double getcFirstDayMeanTemp()
     { return _STMPsimCalculator.getcFirstDayMeanTemp(); }
-    public void setcFirstDayMeanTemp(Double _cFirstDayMeanTemp){
+    public void setcFirstDayMeanTemp(double _cFirstDayMeanTemp){
     _STMPsimCalculator.setcFirstDayMeanTemp(_cFirstDayMeanTemp);
     }
 
-    public Double getcAverageGroundTemperature()
+    public double getcAverageGroundTemperature()
     { return _STMPsimCalculator.getcAVT(); }
-    public void setcAverageGroundTemperature(Double _cAverageGroundTemperature){
+    public void setcAverageGroundTemperature(double _cAverageGroundTemperature){
     _STMPsimCalculator.setcAVT(_cAverageGroundTemperature);
     }
 
-    public Double getcAverageBulkDensity()
+    public double getcAverageBulkDensity()
     { return _STMPsimCalculator.getcABD(); }
-    public void setcAverageBulkDensity(Double _cAverageBulkDensity){
+    public void setcAverageBulkDensity(double _cAverageBulkDensity){
     _STMPsimCalculator.setcABD(_cAverageBulkDensity);
     }
 
-    public Double getcDampingDepth()
+    public double getcDampingDepth()
     { return _STMPsimCalculator.getcDampingDepth(); }
-    public void setcDampingDepth(Double _cDampingDepth){
+    public void setcDampingDepth(double _cDampingDepth){
     _STMPsimCalculator.setcDampingDepth(_cDampingDepth);
     }
     public void  Calculate_Model(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a, SoilTemperatureExogenous ex)
@@ -51,17 +57,20 @@ public class SoilTemperatureComponent
         ex.setiSoilSurfaceTemperature(s.getSoilSurfaceTemperature());
         _STMPsimCalculator.Calculate_Model(s, s1, r, a, ex);
     }
-    private Double cCarbonContent;
+    private double cCarbonContent;
+    private double cAlbedo;
+    private double Albedo;
     private Double [] cSoilLayerDepth;
-    private Double cFirstDayMeanTemp;
-    private Double cAverageGroundTemperature;
-    private Double cAVT;
-    private Double cAverageBulkDensity;
-    private Double cABD;
-    private Double cDampingDepth;
+    private double cFirstDayMeanTemp;
+    private double cAverageGroundTemperature;
+    private double cAVT;
+    private double cAverageBulkDensity;
+    private double cABD;
+    private double cDampingDepth;
     public SoilTemperatureComponent(SoilTemperatureComponent toCopy) // copy constructor 
     {
         this.cCarbonContent = toCopy.getcCarbonContent();
+        this.cAlbedo = toCopy.getcAlbedo();
         
         for (int i = 0; i < toCopy.getcSoilLayerDepth().length; i++)
         {

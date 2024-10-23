@@ -215,15 +215,15 @@ namespace soil_temp.Strategies
 
         private void CalculateModel(soil_temp.DomainClass.soil_tempState s, soil_temp.DomainClass.soil_tempState s1, soil_temp.DomainClass.soil_tempRate r, soil_temp.DomainClass.soil_tempAuxiliary a, soil_temp.DomainClass.soil_tempExogenous ex)
         {
-            double[] temp_profile = s.temp_profile;
-            double[] layer_temp ;
+            List<double> temp_profile = s.temp_profile;
+            List<double> layer_temp = new List<double>();
             int z;
             int layers_nb;
             List<int> up_depth = new List<int>();
             List<int> layer_depth = new List<int>();
             int depth_value;
             layers_nb = get_layers_number(layer_thick);
-            layer_temp = new double[ layers_nb];
+            layer_temp = new List<double>(layers_nb);
             up_depth = new List<int>(layers_nb + 1);
             layer_depth = new List<int>(layers_nb);
             for (var i = 0; i < layers_nb + 1; i++){up_depth.Add(0);}
@@ -235,7 +235,7 @@ namespace soil_temp.Strategies
             }
             for (z=1 ; z!=layers_nb + 1 ; z+=1)
             {
-                layer_temp[z - 1] = temp_profile.ToList().GetRange((up_depth[z - 1] + 1 - 1),up_depth[(z + 1 - 1)]).Sum() / layer_thick[(z - 1)];
+                layer_temp[z - 1] = temp_profile.GetRange((up_depth[z - 1] + 1 - 1),up_depth[(z + 1 - 1)] - (up_depth[z - 1] + 1 - 1)).Sum() / layer_thick[(z - 1)];
             }
             s.layer_temp= layer_temp;
         }
@@ -267,7 +267,7 @@ namespace soil_temp.Strategies
             {
                 if (layer_thick[z - 1] != 0)
                 {
-                    layer_depth[z - 1] = layer_thick.ToList().GetRange(1 - 1,z).Sum();
+                    layer_depth[z - 1] = layer_thick.ToList().GetRange(1 - 1,z - 1 - 1).Sum();
                 }
             }
             return layer_depth;

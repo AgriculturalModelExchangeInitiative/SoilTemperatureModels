@@ -3,22 +3,23 @@
 <ModelUnit modelid="Crop2ML.BiomaSurfacePartonSoilSWATHourlyPartonC.SurfaceTemperatureParton" name="SurfaceTemperatureParton" timestep="1" version="001">
     <Description>
         <Title>SurfaceTemperatureParton model</Title>
-        <Authors>simone.bregaglio@unimi.it</Authors>
+        <Authors>simone.bregaglio</Authors>
         <Institution>University Of Milan</Institution>
-        <URI>http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl</URI>
-        <Reference>(&apos;http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl&apos;,)</Reference>
+        <URI></URI>
+        <Reference>http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl</Reference>
         <ExtendedDescription>Strategy for the calculation of soil surface temperature with Parton&apos;s method. Reference: Parton, W. J. 1984. Predicting soil temperatures in a shortgrass steppe. Soil Science 138:93-101.</ExtendedDescription>
-        <ShortDescription></ShortDescription></Description>
+        <ShortDescription>Strategy for the calculation of soil surface temperature with Parton&apos;s method</ShortDescription></Description>
     <Inputs>
         <Input name="GlobalSolarRadiation" description="Daily global solar radiation" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="50" min="0" default="15" unit="Mj m-2 d-1"/>
         <Input name="DayLength" description="Length of the day" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="24" min="0" default="10" unit="h"/>
-        <Input name="AboveGroundBiomass" description="Above ground biomass" inputtype="variable" variablecategory="state" datatype="DOUBLE" max="60" min="0" default="3" unit="Kg ha-1"/>
-        <Input name="AirTemperatureMinimum" description="Minimum daily air temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="50" min="-60" default="5" unit="Â°C"/>
-        <Input name="AirTemperatureMaximum" description="Maximum daily air temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="60" min="-40" default="15" unit="Â°C"/></Inputs>
+        <Input name="AboveGroundBiomass" description="Above ground biomass" inputtype="variable" variablecategory="auxiliary" datatype="DOUBLE" max="60" min="0" default="3" unit="Kg ha-1"/>
+        <Input name="AirTemperatureMinimum" description="Minimum daily air temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="50" min="-60" default="5" unit="degC"/>
+        <Input name="AirTemperatureMaximum" description="Maximum daily air temperature" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="60" min="-40" default="15" unit="degC"/></Inputs>
     <Outputs>
-        <Output name="SurfaceSoilTemperature" description="Average surface soil temperature" datatype="DOUBLE" variablecategory="state" max="60" min="-60" unit="Â°C"/>
-        <Output name="SurfaceTemperatureMinimum" description="Minimum surface soil temperature" datatype="DOUBLE" variablecategory="auxiliary" max="60" min="-60" unit="Â°C"/>
-        <Output name="SurfaceTemperatureMaximum" description="Maximum surface soil temperature" datatype="DOUBLE" variablecategory="auxiliary" max="60" min="-60" unit="Â°C"/></Outputs>
+        <Output name="SurfaceSoilTemperature" description="Average surface soil temperature" datatype="DOUBLE" variablecategory="auxiliary" max="60" min="-60" unit="degC"/>
+        <Output name="SurfaceTemperatureMinimum" description="Minimum surface soil temperature" datatype="DOUBLE" variablecategory="auxiliary" max="60" min="-60" unit=""/>
+        <Output name="SurfaceTemperatureMaximum" description="Maximum surface soil temperature" datatype="DOUBLE" variablecategory="auxiliary" max="60" min="-60" unit="degC
+            */"/></Outputs>
     <Algorithm language="cyml" platform="" filename="algo/pyx/SurfaceTemperatureParton.pyx"/>
     <Parametersets/>
     <Testsets/></ModelUnit>

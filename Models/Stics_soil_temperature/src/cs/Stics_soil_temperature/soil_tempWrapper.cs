@@ -23,15 +23,15 @@ class soil_tempWrapper
         double air_temp_day1;
     int[] layer_thick =  new int [100];
 
-    public double[] prev_temp_profile{ get { return s.prev_temp_profile;}} 
+    public List<double> prev_temp_profile{ get { return s.prev_temp_profile;}} 
      
     public double prev_canopy_temp{ get { return s.prev_canopy_temp;}} 
      
     public double temp_amp{ get { return s.temp_amp;}} 
      
-    public double[] temp_profile{ get { return s.temp_profile;}} 
+    public List<double> temp_profile{ get { return s.temp_profile;}} 
      
-    public double[] layer_temp{ get { return s.layer_temp;}} 
+    public List<double> layer_temp{ get { return s.layer_temp;}} 
      
     public double canopy_temp_avg{ get { return s.canopy_temp_avg;}} 
      
@@ -49,14 +49,24 @@ class soil_tempWrapper
     }
 
     public void Init(){
-        soil_tempComponent.Init(s, r, a);
+        setExogenous();
         loadParameters();
+        soil_tempComponent.Init(s, s1, r, a, ex);
     }
 
     private void loadParameters()
     {
-        soil_tempComponent.air_temp_day1 = air_temp_day1;
-        soil_tempComponent.layer_thick = layer_thick;
+        soil_tempComponent.air_temp_day1 = null; // To be modified
+        soil_tempComponent.layer_thick = null; // To be modified
+    }
+
+    private void setExogenous()
+    {
+        ex.min_temp = null; // To be modified
+        ex.max_temp = null; // To be modified
+        ex.min_air_temp = null; // To be modified
+        ex.min_canopy_temp = null; // To be modified
+        ex.max_canopy_temp = null; // To be modified
     }
 
     public void Estimatesoil_temp(double min_temp, double max_temp, double min_air_temp, double min_canopy_temp, double max_canopy_temp)

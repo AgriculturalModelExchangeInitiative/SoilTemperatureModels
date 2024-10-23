@@ -11,11 +11,11 @@ public class SurfaceTemperatureSWAT
         //- Name: SurfaceTemperatureSWAT -Version: 001, -Time step: 1
         //- Description:
     //            * Title: SurfaceTemperatureSWAT model
-    //            * Authors: simone.bregaglio@unimi.it
-    //            * Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
+    //            * Authors: simone.bregaglio
+    //            * Reference: http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl
     //            * Institution: University Of Milan
     //            * ExtendedDescription: Strategy for the calculation of surface soil temperature with SWAT method. Reference: Neitsch,S.L., Arnold, J.G., Kiniry, J.R., Williams, J.R., King, K.W. Soil and Water Assessment Tool. Theoretical documentation. Version 2000. http://swatmodel.tamu.edu/media/1290/swat2000theory.pdf
-    //            * ShortDescription: None
+    //            * ShortDescription: Strategy for the calculation of surface soil temperature with SWAT method
         //- inputs:
     //            * name: GlobalSolarRadiation
     //                          ** description : Daily global solar radiation
@@ -29,13 +29,13 @@ public class SurfaceTemperatureSWAT
     //            * name: SoilTemperatureByLayers
     //                          ** description : Soil temperature of each layer
     //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 60
     //                          ** min : -60
     //                          ** default : 15
-    //                          ** unit : Â°C
+    //                          ** unit : 
     //            * name: AirTemperatureMaximum
     //                          ** description : Maximum daily air temperature
     //                          ** inputtype : variable
@@ -44,7 +44,7 @@ public class SurfaceTemperatureSWAT
     //                          ** max : 60
     //                          ** min : -40
     //                          ** default : 15
-    //                          ** unit : Â°C
+    //                          ** unit : 
     //            * name: AirTemperatureMinimum
     //                          ** description : Minimum daily air temperature
     //                          ** inputtype : variable
@@ -53,7 +53,7 @@ public class SurfaceTemperatureSWAT
     //                          ** max : 50
     //                          ** min : -60
     //                          ** default : 5
-    //                          ** unit : Â°C
+    //                          ** unit : 
     //            * name: Albedo
     //                          ** description : Albedo of soil
     //                          ** inputtype : variable
@@ -66,7 +66,7 @@ public class SurfaceTemperatureSWAT
     //            * name: AboveGroundBiomass
     //                          ** description : Above ground biomass
     //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** datatype : DOUBLE
     //                          ** max : 60
     //                          ** min : 0
@@ -85,16 +85,16 @@ public class SurfaceTemperatureSWAT
     //            * name: SurfaceSoilTemperature
     //                          ** description : Average surface soil temperature
     //                          ** datatype : DOUBLE
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** max : 60
     //                          ** min : -60
-    //                          ** unit : Â°C
+    //                          ** unit : degC
         double GlobalSolarRadiation = ex.GlobalSolarRadiation;
-        double[] SoilTemperatureByLayers = s.SoilTemperatureByLayers;
+        double[] SoilTemperatureByLayers = a.SoilTemperatureByLayers;
         double AirTemperatureMaximum = ex.AirTemperatureMaximum;
         double AirTemperatureMinimum = ex.AirTemperatureMinimum;
         double Albedo = ex.Albedo;
-        double AboveGroundBiomass = s.AboveGroundBiomass;
+        double AboveGroundBiomass = a.AboveGroundBiomass;
         double WaterEquivalentOfSnowPack = ex.WaterEquivalentOfSnowPack;
         double SurfaceSoilTemperature;
         double _Tavg;
@@ -110,6 +110,6 @@ public class SurfaceTemperatureSWAT
         _WeightingSnow = WaterEquivalentOfSnowPack / (WaterEquivalentOfSnowPack + Math.Exp(6.0550d - (0.30020d * WaterEquivalentOfSnowPack)));
         _WeightingActual = Math.Max(_WeightingCover, _WeightingSnow);
         SurfaceSoilTemperature = _WeightingActual * SoilTemperatureByLayers[0] + ((1 - _WeightingActual) * _Tbare);
-        s.SurfaceSoilTemperature= SurfaceSoilTemperature;
+        a.SurfaceSoilTemperature= SurfaceSoilTemperature;
     }
 }

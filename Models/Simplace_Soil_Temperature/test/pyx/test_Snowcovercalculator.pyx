@@ -2,13 +2,14 @@
 
 from snowcovercalculator import *
 from math import *
-import numpy 
-
-
+import numpy
+ 
+ 
 
 def test_test1():
-    params= snowcovercalculator(
+    params = snowcovercalculator(
     cCarbonContent = 10.0,
+    Albedo = 0,
     iTempMax = 3.0,
     iTempMin = -9.0,
     iRadiation = 1.4,
@@ -30,6 +31,6 @@ def test_test1():
     AgeOfSnow_estimated = params[2]
     AgeOfSnow_computed = 6
     assert (AgeOfSnow_estimated == AgeOfSnow_computed)
-    SnowIsolationIndex_estimated = round(params[3], 5)
+    SnowIsolationIndex_estimated = round(params[6], 5)
     SnowIsolationIndex_computed = 1.0
     assert (SnowIsolationIndex_estimated == SnowIsolationIndex_computed)

@@ -7,12 +7,12 @@ public class SurfaceTemperatureParton
 {
     
     public SurfaceTemperatureParton() { }
-    public void  Calculate_surfacetemperatureparton(SurfacePartonSoilSWATCState s, SurfacePartonSoilSWATCState s1, SurfacePartonSoilSWATCRate r, SurfacePartonSoilSWATCAuxiliary a,  SurfacePartonSoilSWATCExogenous ex)
+    public void  Calculate_Model(SurfacePartonSoilSWATCState s, SurfacePartonSoilSWATCState s1, SurfacePartonSoilSWATCRate r, SurfacePartonSoilSWATCAuxiliary a,  SurfacePartonSoilSWATCExogenous ex)
     {
         //- Name: SurfaceTemperatureParton -Version: 001, -Time step: 1
         //- Description:
     //            * Title: SurfaceTemperatureParton model
-    //            * Authors: simone.bregaglio@unimi.it
+    //            * Authors: simone.bregaglio
     //            * Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
     //            * Institution: University Of Milan
     //            * ExtendedDescription: Strategy for the calculation of soil surface temperature with Parton's method. Reference: Parton, W. J. 1984. Predicting soil temperatures in a shortgrass steppe. Soil Science 138:93-101.
@@ -35,7 +35,7 @@ public class SurfaceTemperatureParton
     //                          ** max : 60
     //                          ** min : -40
     //                          ** default : 15
-    //                          ** unit : Â°C
+    //                          ** unit : 
     //            * name: AirTemperatureMinimum
     //                          ** description : Minimum daily air temperature
     //                          ** inputtype : variable
@@ -44,11 +44,11 @@ public class SurfaceTemperatureParton
     //                          ** max : 50
     //                          ** min : -60
     //                          ** default : 5
-    //                          ** unit : Â°C
+    //                          ** unit : 
     //            * name: AboveGroundBiomass
     //                          ** description : Above ground biomass
     //                          ** inputtype : variable
-    //                          ** variablecategory : state
+    //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLE
     //                          ** max : 60
     //                          ** min : 0
@@ -70,33 +70,33 @@ public class SurfaceTemperatureParton
     //                          ** variablecategory : auxiliary
     //                          ** max : 60
     //                          ** min : -60
-    //                          ** unit : Â°C
+    //                          ** unit : degC
     //            * name: SurfaceTemperatureMaximum
     //                          ** description : Maximum surface soil temperature
     //                          ** datatype : DOUBLE
     //                          ** variablecategory : auxiliary
     //                          ** max : 60
     //                          ** min : -60
-    //                          ** unit : Â°C
+    //                          ** unit : degC
     //            * name: SurfaceSoilTemperature
     //                          ** description : Average surface soil temperature
     //                          ** datatype : DOUBLE
-    //                          ** variablecategory : state
+    //                          ** variablecategory : auxiliary
     //                          ** max : 60
     //                          ** min : -60
-    //                          ** unit : Â°C
-        Double DayLength = ex.getDayLength();
-        Double AirTemperatureMaximum = ex.getAirTemperatureMaximum();
-        Double AirTemperatureMinimum = ex.getAirTemperatureMinimum();
-        Double AboveGroundBiomass = s.getAboveGroundBiomass();
-        Double GlobalSolarRadiation = ex.getGlobalSolarRadiation();
-        Double SurfaceTemperatureMinimum;
-        Double SurfaceTemperatureMaximum;
-        Double SurfaceSoilTemperature;
-        Double _AGB;
-        Double _AirTMax;
-        Double _AirTmin;
-        Double _SolarRad;
+    //                          ** unit : degC
+        double DayLength = ex.getDayLength();
+        double AirTemperatureMaximum = ex.getAirTemperatureMaximum();
+        double AirTemperatureMinimum = ex.getAirTemperatureMinimum();
+        double AboveGroundBiomass = ex.getAboveGroundBiomass();
+        double GlobalSolarRadiation = ex.getGlobalSolarRadiation();
+        double SurfaceTemperatureMinimum;
+        double SurfaceTemperatureMaximum;
+        double SurfaceSoilTemperature;
+        double _AGB;
+        double _AirTMax;
+        double _AirTmin;
+        double _SolarRad;
         _AGB = AboveGroundBiomass / 10000;
         _AirTMax = AirTemperatureMaximum;
         _AirTmin = AirTemperatureMinimum;
@@ -118,6 +118,6 @@ public class SurfaceTemperatureParton
         }
         a.setSurfaceTemperatureMinimum(SurfaceTemperatureMinimum);
         a.setSurfaceTemperatureMaximum(SurfaceTemperatureMaximum);
-        s.setSurfaceSoilTemperature(SurfaceSoilTemperature);
+        a.setSurfaceSoilTemperature(SurfaceSoilTemperature);
     }
 }

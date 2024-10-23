@@ -37,6 +37,8 @@ namespace INRA.SiriusQualitySoilT.Interfaces
         static VarInfo _meanTAir = new VarInfo();
         
         static VarInfo _dayLength = new VarInfo();
+
+        static VarInfo _meanAnnualAirTemp = new VarInfo();
         #endregion
         
         /// <summary>Constructor</summary>
@@ -110,8 +112,17 @@ namespace INRA.SiriusQualitySoilT.Interfaces
                 return  _dayLength;
             }
         }
+
+        /// <summary>Annual Mean Air Temperature</summary>
+        public static VarInfo meanAnnualAirTemp
+        {
+            get
+            {
+                return _meanAnnualAirTemp;
+            }
+        }
         #endregion
-        
+
         #region VarInfo values
         /// <summary>Set VarInfo values</summary>
         static void DescribeVariables()
@@ -152,6 +163,15 @@ namespace INRA.SiriusQualitySoilT.Interfaces
             _dayLength.Units = "hour";
             _dayLength.URL = "http://";
             _dayLength.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+            //   
+            _meanAnnualAirTemp.Name = "meanAnnualAirTemp";
+            _meanAnnualAirTemp.Description = "Annual Mean Air Temperature";
+            _meanAnnualAirTemp.MaxValue = 80D;
+            _meanAnnualAirTemp.MinValue = -30D;
+            _meanAnnualAirTemp.DefaultValue = 22D;
+            _meanAnnualAirTemp.Units = "°C";
+            _meanAnnualAirTemp.URL = "http://";
+            _meanAnnualAirTemp.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
         }
         #endregion
     }

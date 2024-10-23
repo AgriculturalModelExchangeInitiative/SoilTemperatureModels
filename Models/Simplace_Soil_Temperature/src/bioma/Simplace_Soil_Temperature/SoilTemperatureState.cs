@@ -9,7 +9,7 @@ namespace SoilTemperature.DomainClass
 {
     public class SoilTemperatureState : ICloneable, IDomainClass
     {
-        private double _Albedo;
+        private double _pInternalAlbedo;
         private double _SnowWaterContent;
         private double _SoilSurfaceTemperature;
         private int _AgeOfSnow;
@@ -27,7 +27,7 @@ namespace SoilTemperature.DomainClass
         {
             if (copyAll)
             {
-                Albedo = toCopy.Albedo;
+                pInternalAlbedo = toCopy.pInternalAlbedo;
                 SnowWaterContent = toCopy.SnowWaterContent;
                 SoilSurfaceTemperature = toCopy.SoilSurfaceTemperature;
                 AgeOfSnow = toCopy.AgeOfSnow;
@@ -46,10 +46,10 @@ namespace SoilTemperature.DomainClass
             }
         }
 
-        public double Albedo
+        public double pInternalAlbedo
         {
-            get { return this._Albedo; }
-            set { this._Albedo= value; } 
+            get { return this._pInternalAlbedo; }
+            set { this._pInternalAlbedo= value; } 
         }
         public double SnowWaterContent
         {
@@ -99,7 +99,7 @@ namespace SoilTemperature.DomainClass
 
         public virtual Boolean ClearValues()
         {
-             _Albedo = default(double);
+             _pInternalAlbedo = default(double);
              _SnowWaterContent = default(double);
              _SoilSurfaceTemperature = default(double);
              _AgeOfSnow = default(int);

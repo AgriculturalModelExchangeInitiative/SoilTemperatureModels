@@ -9,12 +9,12 @@ namespace SurfaceSWATSoilSWATC.DomainClass
 {
     public class SurfaceSWATSoilSWATCExogenousVarInfo : IVarInfoClass
     {
-        static VarInfo _GlobalSolarRadiation = new VarInfo();
         static VarInfo _AirTemperatureMaximum = new VarInfo();
         static VarInfo _AirTemperatureMinimum = new VarInfo();
-        static VarInfo _Albedo = new VarInfo();
+        static VarInfo _GlobalSolarRadiation = new VarInfo();
         static VarInfo _WaterEquivalentOfSnowPack = new VarInfo();
-        static VarInfo _AirTemperatureAnnualAverage = new VarInfo();
+        static VarInfo _Albedo = new VarInfo();
+        static VarInfo _VolumetricWaterContent = new VarInfo();
 
         static SurfaceSWATSoilSWATCExogenousVarInfo()
         {
@@ -36,11 +36,6 @@ namespace SurfaceSWATSoilSWATC.DomainClass
             get { return "SurfaceSWATSoilSWATCExogenous";}
         }
 
-        public static  VarInfo GlobalSolarRadiation
-        {
-            get { return _GlobalSolarRadiation;}
-        }
-
         public static  VarInfo AirTemperatureMaximum
         {
             get { return _AirTemperatureMaximum;}
@@ -51,9 +46,9 @@ namespace SurfaceSWATSoilSWATC.DomainClass
             get { return _AirTemperatureMinimum;}
         }
 
-        public static  VarInfo Albedo
+        public static  VarInfo GlobalSolarRadiation
         {
-            get { return _Albedo;}
+            get { return _GlobalSolarRadiation;}
         }
 
         public static  VarInfo WaterEquivalentOfSnowPack
@@ -61,27 +56,24 @@ namespace SurfaceSWATSoilSWATC.DomainClass
             get { return _WaterEquivalentOfSnowPack;}
         }
 
-        public static  VarInfo AirTemperatureAnnualAverage
+        public static  VarInfo Albedo
         {
-            get { return _AirTemperatureAnnualAverage;}
+            get { return _Albedo;}
+        }
+
+        public static  VarInfo VolumetricWaterContent
+        {
+            get { return _VolumetricWaterContent;}
         }
 
         static void DescribeVariables()
         {
-            _GlobalSolarRadiation.Name = "GlobalSolarRadiation";
-            _GlobalSolarRadiation.Description = "Daily global solar radiation";
-            _GlobalSolarRadiation.MaxValue = 50;
-            _GlobalSolarRadiation.MinValue = 0;
-            _GlobalSolarRadiation.DefaultValue = 15;
-            _GlobalSolarRadiation.Units = "Mj m-2 d-1";
-            _GlobalSolarRadiation.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
-
             _AirTemperatureMaximum.Name = "AirTemperatureMaximum";
             _AirTemperatureMaximum.Description = "Maximum daily air temperature";
             _AirTemperatureMaximum.MaxValue = 60;
             _AirTemperatureMaximum.MinValue = -40;
             _AirTemperatureMaximum.DefaultValue = 15;
-            _AirTemperatureMaximum.Units = "Â°C";
+            _AirTemperatureMaximum.Units = "";
             _AirTemperatureMaximum.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _AirTemperatureMinimum.Name = "AirTemperatureMinimum";
@@ -89,16 +81,16 @@ namespace SurfaceSWATSoilSWATC.DomainClass
             _AirTemperatureMinimum.MaxValue = 50;
             _AirTemperatureMinimum.MinValue = -60;
             _AirTemperatureMinimum.DefaultValue = 5;
-            _AirTemperatureMinimum.Units = "Â°C";
+            _AirTemperatureMinimum.Units = "";
             _AirTemperatureMinimum.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
-            _Albedo.Name = "Albedo";
-            _Albedo.Description = "Albedo of soil";
-            _Albedo.MaxValue = 1;
-            _Albedo.MinValue = 0;
-            _Albedo.DefaultValue = 0.2;
-            _Albedo.Units = "unitless";
-            _Albedo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+            _GlobalSolarRadiation.Name = "GlobalSolarRadiation";
+            _GlobalSolarRadiation.Description = "Daily global solar radiation";
+            _GlobalSolarRadiation.MaxValue = 50;
+            _GlobalSolarRadiation.MinValue = 0;
+            _GlobalSolarRadiation.DefaultValue = 15;
+            _GlobalSolarRadiation.Units = "Mj m-2 d-1";
+            _GlobalSolarRadiation.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _WaterEquivalentOfSnowPack.Name = "WaterEquivalentOfSnowPack";
             _WaterEquivalentOfSnowPack.Description = "Water equivalent of snow pack";
@@ -108,13 +100,21 @@ namespace SurfaceSWATSoilSWATC.DomainClass
             _WaterEquivalentOfSnowPack.Units = "mm";
             _WaterEquivalentOfSnowPack.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
-            _AirTemperatureAnnualAverage.Name = "AirTemperatureAnnualAverage";
-            _AirTemperatureAnnualAverage.Description = "Annual average air temperature";
-            _AirTemperatureAnnualAverage.MaxValue = 50;
-            _AirTemperatureAnnualAverage.MinValue = -40;
-            _AirTemperatureAnnualAverage.DefaultValue = 15;
-            _AirTemperatureAnnualAverage.Units = "Â°C";
-            _AirTemperatureAnnualAverage.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+            _Albedo.Name = "Albedo";
+            _Albedo.Description = "Albedo of soil";
+            _Albedo.MaxValue = 1;
+            _Albedo.MinValue = 0;
+            _Albedo.DefaultValue = 0.2;
+            _Albedo.Units = "unitless";
+            _Albedo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+
+            _VolumetricWaterContent.Name = "VolumetricWaterContent";
+            _VolumetricWaterContent.Description = "Volumetric soil water content";
+            _VolumetricWaterContent.MaxValue = -1D;
+            _VolumetricWaterContent.MinValue = -1D;
+            _VolumetricWaterContent.DefaultValue = -1D;
+            _VolumetricWaterContent.Units = "m3 m-3";
+            _VolumetricWaterContent.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
 
         }
 

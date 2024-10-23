@@ -7,23 +7,24 @@ from BiomaSurfacePartonSoilSWATHourlyPartonC.thermalconductivitysimulat import m
 from BiomaSurfacePartonSoilSWATHourlyPartonC.thermaldiffu import model_thermaldiffu
 from BiomaSurfacePartonSoilSWATHourlyPartonC.rangeofsoiltemperaturesdaycent import model_rangeofsoiltemperaturesdaycent
 from BiomaSurfacePartonSoilSWATHourlyPartonC.hourlysoiltemperaturespartonlogan import model_hourlysoiltemperaturespartonlogan
-def model_surfacepartonsoilswathourlypartonc(float GlobalSolarRadiation,
-      float DayLength,
-      float AboveGroundBiomass,
+def model_surfacepartonsoilswathourlypartonc(float AboveGroundBiomass,
       float AirTemperatureMinimum,
+      float DayLength,
+      float GlobalSolarRadiation,
       float AirTemperatureMaximum,
       float VolumetricWaterContent[],
-      float BulkDensity[],
-      float LayerThickness[],
+      float SoilProfileDepth,
       float LagCoefficient,
       float AirTemperatureAnnualAverage,
-      float SoilProfileDepth,
+      float LayerThickness[],
+      float BulkDensity[],
       float Sand[],
-      float OrganicMatter[],
-      float Clay[],
       float Silt[],
-      float HourOfSunrise,
-      float HourOfSunset):
+      float Clay[],
+      float OrganicMatter[],
+      int layersNumber,
+      float HourOfSunset,
+      float HourOfSunrise):
     cdef float SurfaceSoilTemperature
     cdef float SurfaceTemperatureMinimum
     cdef float SurfaceTemperatureMaximum
@@ -35,11 +36,12 @@ def model_surfacepartonsoilswathourlypartonc(float GlobalSolarRadiation,
     cdef float SoilTemperatureMinimum[]
     cdef float SoilTemperatureMaximum[]
     cdef float SoilTemperatureByLayersHourly[]
-    SurfaceSoilTemperature, SurfaceTemperatureMinimum, SurfaceTemperatureMaximum = model_surfacetemperatureparton( GlobalSolarRadiation,DayLength,AboveGroundBiomass,AirTemperatureMinimum,AirTemperatureMaximum)
-    HeatCapacity = model_volumetricheatcapacitykluitenberg( VolumetricWaterContent,Sand,BulkDensity,OrganicMatter,HeatCapacity,Clay,Silt)
-    ThermalConductivity = model_thermalconductivitysimulat( VolumetricWaterContent,BulkDensity,Clay)
-    SoilTemperatureByLayers = model_soiltemperatureswat( VolumetricWaterContent,SurfaceSoilTemperature,BulkDensity,LayerThickness,LagCoefficient,SoilTemperatureByLayers,AirTemperatureAnnualAverage,SoilProfileDepth)
-    ThermalDiffusivity = model_thermaldiffu( ThermalDiffusivity,ThermalConductivity,HeatCapacity)
-    SoilTemperatureRangeByLayers, SoilTemperatureMinimum, SoilTemperatureMaximum = model_rangeofsoiltemperaturesdaycent( LayerThickness,SurfaceTemperatureMinimum,ThermalDiffusivity,SoilTemperatureByLayers,SurfaceTemperatureMaximum)
-    SoilTemperatureByLayersHourly = model_hourlysoiltemperaturespartonlogan( SoilTemperatureByLayersHourly,HourOfSunrise,HourOfSunset,DayLength,SoilTemperatureMinimum,SoilTemperatureMaximum)
+    SurfaceSoilTemperature, SurfaceTemperatureMinimum, SurfaceTemperatureMaximum = model_surfacetemperatureparton(GlobalSolarRadiation,DayLength,AboveGroundBiomass,AirTemperatureMinimum,AirTemperatureMaximum)
+    HeatCapacity = model_volumetricheatcapacitykluitenberg(VolumetricWaterContent,Sand,BulkDensity,OrganicMatter,HeatCapacity,Clay,Silt)
+    ThermalConductivity = model_thermalconductivitysimulat(VolumetricWaterContent,BulkDensity,Clay,ThermalConductivity)
+    SoilTemperatureByLayers = model_soiltemperatureswat(VolumetricWaterContent,SurfaceSoilTemperature,LayerThickness,LagCoefficient,SoilTemperatureByLayers,AirTemperatureAnnualAverage,BulkDensity,SoilProfileDepth)
+    ThermalDiffusivity = model_thermaldiffu(ThermalDiffusivity,ThermalConductivity,HeatCapacity,layersNumber)
+    SoilTemperatureRangeByLayers, SoilTemperatureMinimum, SoilTemperatureMaximum = model_rangeofsoiltemperaturesdaycent(LayerThickness,SurfaceTemperatureMinimum,ThermalDiffusivity,SoilTemperatureByLayers,SurfaceTemperatureMaximum,SoilTemperatureRangeByLayers,SoilTemperatureMinimum,SoilTemperatureMaximum)
+    SoilTemperatureByLayersHourly = model_hourlysoiltemperaturespartonlogan(SoilTemperatureByLayersHourly,HourOfSunrise,HourOfSunset,DayLength,SoilTemperatureMinimum,SoilTemperatureMaximum)
+
     return SurfaceSoilTemperature, SurfaceTemperatureMinimum, SurfaceTemperatureMaximum, SoilTemperatureByLayers, HeatCapacity, ThermalConductivity, ThermalDiffusivity, SoilTemperatureRangeByLayers, SoilTemperatureMinimum, SoilTemperatureMaximum, SoilTemperatureByLayersHourly

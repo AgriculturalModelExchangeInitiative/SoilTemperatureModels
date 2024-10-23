@@ -35,6 +35,12 @@ namespace Model.Model.SoilTemperature
      
         public double[] SoilTempArray{ get { return s.SoilTempArray;}} 
      
+        public double rSnowWaterContentRate{ get { return r.rSnowWaterContentRate;}} 
+     
+        public double rSoilSurfaceTemperatureRate{ get { return r.rSoilSurfaceTemperatureRate;}} 
+     
+        public int rAgeOfSnowRate{ get { return r.rAgeOfSnowRate;}} 
+     
         public double SnowIsolationIndex{ get { return a.SnowIsolationIndex;}} 
      
 
@@ -58,6 +64,8 @@ namespace Model.Model.SoilTemperature
         private void loadParameters()
         {
             soiltemperatureComponent.cCarbonContent = cCarbonContent;
+            soiltemperatureComponent.cAlbedo = cAlbedo;
+            soiltemperatureComponent.Albedo = Albedo;
             soiltemperatureComponent.cSoilLayerDepth = cSoilLayerDepth;
             soiltemperatureComponent.cFirstDayMeanTemp = cFirstDayMeanTemp;
             soiltemperatureComponent.cAverageGroundTemperature = cAverageGroundTemperature;

@@ -7,13 +7,24 @@ from datetime import datetime
 
 import numpy
 
-#%%CyML Model Begin%%
-def model_calculatesoiltemperature(deepLayerT:float,
-         lambda_:float,
-         heatFlux:float,
-         meanTAir:float,
+#%%CyML Init Begin%%
+def init_calculatesoiltemperature(meanTAir:float,
          minTAir:float,
-         deepLayerT_t1:float,
+         lambda_:float,
+         meanAnnualAirTemp:float,
+         maxTAir:float):
+    deepLayerT:float = 20.0
+    deepLayerT = meanAnnualAirTemp
+    return deepLayerT
+#%%CyML Init End%%
+
+#%%CyML Model Begin%%
+def model_calculatesoiltemperature(meanTAir:float,
+         minTAir:float,
+         lambda_:float,
+         deepLayerT:float,
+         meanAnnualAirTemp:float,
+         heatFlux:float,
          maxTAir:float):
     """
      - Name: CalculateSoilTemperature -Version: 001, -Time step: 1
@@ -25,6 +36,33 @@ def model_calculatesoiltemperature(deepLayerT:float,
                  * ExtendedDescription: Calculation of minimum and maximum Soil temperature, Further used in shoot temperature estimate.
                  * ShortDescription: None
      - inputs:
+                 * name: meanTAir
+                               ** description : Mean Air Temperature
+                               ** inputtype : variable
+                               ** variablecategory : exogenous
+                               ** datatype : DOUBLE
+                               ** max : 80
+                               ** min : -30
+                               ** default : 22
+                               ** unit : Â°C
+                 * name: minTAir
+                               ** description : Minimum Air Temperature from Weather files
+                               ** inputtype : variable
+                               ** variablecategory : exogenous
+                               ** datatype : DOUBLE
+                               ** max : 80
+                               ** min : -30
+                               ** default : 20
+                               ** unit : Â°C
+                 * name: lambda_
+                               ** description : Latente heat of water vaporization at 20Â°C
+                               ** inputtype : parameter
+                               ** parametercategory : constant
+                               ** datatype : DOUBLE
+                               ** max : 10
+                               ** min : 0
+                               ** default : 2.454
+                               ** unit : MJ.kg-1
                  * name: deepLayerT
                                ** description : Temperature of the last soil layer
                                ** inputtype : variable
@@ -33,16 +71,16 @@ def model_calculatesoiltemperature(deepLayerT:float,
                                ** max : 80
                                ** min : -30
                                ** default : 20
-                               ** unit : °C
-                 * name: lambda_
-                               ** description : Latente heat of water vaporization at 20°C
-                               ** inputtype : parameter
-                               ** parametercategory : constant
+                               ** unit : Â°C
+                 * name: meanAnnualAirTemp
+                               ** description : Annual Mean Air Temperature
+                               ** inputtype : variable
+                               ** variablecategory : exogenous
                                ** datatype : DOUBLE
-                               ** max : 10
-                               ** min : 0
-                               ** default : 2.454
-                               ** unit : MJ.kg-1
+                               ** max : 80
+                               ** min : -30
+                               ** default : 22
+                               ** unit : Â°C
                  * name: heatFlux
                                ** description : Soil Heat Flux from Energy Balance Component
                                ** inputtype : variable
@@ -52,33 +90,6 @@ def model_calculatesoiltemperature(deepLayerT:float,
                                ** min : 0
                                ** default : 50
                                ** unit : g m-2 d-1
-                 * name: meanTAir
-                               ** description : Mean Air Temperature
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
-                               ** datatype : DOUBLE
-                               ** max : 80
-                               ** min : -30
-                               ** default : 22
-                               ** unit : °C
-                 * name: minTAir
-                               ** description : Minimum Air Temperature from Weather files
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
-                               ** datatype : DOUBLE
-                               ** max : 80
-                               ** min : -30
-                               ** default : 20
-                               ** unit : °C
-                 * name: deepLayerT_t1
-                               ** description : Temperature of the last soil layer
-                               ** inputtype : variable
-                               ** variablecategory : state
-                               ** datatype : DOUBLE
-                               ** max : 80
-                               ** min : -30
-                               ** default : 20
-                               ** unit : °C
                  * name: maxTAir
                                ** description : Maximum Air Temperature from Weather Files
                                ** inputtype : variable
@@ -87,42 +98,44 @@ def model_calculatesoiltemperature(deepLayerT:float,
                                ** max : 80
                                ** min : -30
                                ** default : 25
-                               ** unit : °C
+                               ** unit : Â°C
      - outputs:
-                 * name: deepLayerT_t1
-                               ** description : Temperature of the last soil layer
-                               ** datatype : DOUBLE
-                               ** variablecategory : state
-                               ** max : 80
-                               ** min : -30
-                               ** unit : °C
-                 * name: maxTSoil
-                               ** description : Maximum Soil Temperature
-                               ** datatype : DOUBLE
-                               ** variablecategory : state
-                               ** max : 80
-                               ** min : -30
-                               ** unit : °C
                  * name: minTSoil
                                ** description : Minimum Soil Temperature
                                ** datatype : DOUBLE
                                ** variablecategory : state
                                ** max : 80
                                ** min : -30
-                               ** unit : °C
+                               ** unit : Â°C
+                 * name: deepLayerT
+                               ** description : Temperature of the last soil layer
+                               ** datatype : DOUBLE
+                               ** variablecategory : state
+                               ** max : 80
+                               ** min : -30
+                               ** unit : Â°C
+                 * name: maxTSoil
+                               ** description : Maximum Soil Temperature
+                               ** datatype : DOUBLE
+                               ** variablecategory : state
+                               ** max : 80
+                               ** min : -30
+                               ** unit : Â°C
     """
 
-    maxTSoil:float
     minTSoil:float
+    maxTSoil:float
+    tmp:float
+    tmp = meanAnnualAirTemp
     if maxTAir == float(-999) and minTAir == float(999):
         minTSoil = float(999)
         maxTSoil = float(-999)
-        deepLayerT_t1 = 0.0
+        deepLayerT = 0.0
     else:
         minTSoil = SoilMinimumTemperature(maxTAir, meanTAir, minTAir, heatFlux, lambda_, deepLayerT)
-        maxTSoil = SoilMaximumTemperature(maxTAir, meanTAir, minTAir, heatFlux, lambda_, deepLayerT_t1)
-        deepLayerT_t1 = UpdateTemperature(minTSoil, maxTSoil, deepLayerT)
-    return (deepLayerT_t1, maxTSoil, minTSoil)
+        maxTSoil = SoilMaximumTemperature(maxTAir, meanTAir, minTAir, heatFlux, lambda_, deepLayerT)
+        deepLayerT = UpdateTemperature(minTSoil, maxTSoil, deepLayerT)
+    return (minTSoil, deepLayerT, maxTSoil)
 #%%CyML Model End%%
 
 def SoilTempB(weatherMinTemp:float,

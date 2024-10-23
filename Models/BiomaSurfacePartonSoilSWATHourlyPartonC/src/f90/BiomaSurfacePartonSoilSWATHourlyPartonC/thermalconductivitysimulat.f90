@@ -1,6 +1,20 @@
 MODULE Thermalconductivitysimulatmod
+    USE list_sub
     IMPLICIT NONE
 CONTAINS
+
+    SUBROUTINE init_thermalconductivitysimulat(VolumetricWaterContent, &
+        BulkDensity, &
+        Clay, &
+        ThermalConductivity)
+        IMPLICIT NONE
+        INTEGER:: i_cyml_r
+        REAL , DIMENSION(: ), INTENT(IN) :: VolumetricWaterContent
+        REAL , DIMENSION(: ), INTENT(IN) :: BulkDensity
+        REAL , DIMENSION(: ), INTENT(IN) :: Clay
+        REAL , DIMENSION(: ), INTENT(OUT) :: ThermalConductivity
+        ThermalConductivity = 0.0
+    END SUBROUTINE init_thermalconductivitysimulat
 
     SUBROUTINE model_thermalconductivitysimulat(VolumetricWaterContent, &
         BulkDensity, &
@@ -11,7 +25,7 @@ CONTAINS
         REAL , DIMENSION(: ), INTENT(IN) :: VolumetricWaterContent
         REAL , DIMENSION(: ), INTENT(IN) :: BulkDensity
         REAL , DIMENSION(: ), INTENT(IN) :: Clay
-        REAL , DIMENSION(: ), INTENT(OUT) :: ThermalConductivity
+        REAL , DIMENSION(: ), INTENT(INOUT) :: ThermalConductivity
         INTEGER:: i
         REAL:: Aterm
         REAL:: Bterm
@@ -21,16 +35,16 @@ CONTAINS
         !- Name: ThermalConductivitySIMULAT -Version: 001, -Time step: 1
         !- Description:
     !            * Title: ThermalConductivitySIMULAT model
-    !            * Authors: simone.bregaglio@unimi.it
-    !            * Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
+    !            * Authors: simone.bregaglio
+    !            * Reference: http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl
     !            * Institution: University Of Milan
-    !            * ExtendedDescription: Strategy for the calculation of thermal conductivity. Bristow, K.L., Thermal conductivity, in Methods of Soil Analysis. Part 4. Physical Methods, J.H. Dane and G.C. Topp, Editors. 2002, Soil Science Society of America Book Series #5: Madison, Wisconsin. p. 1209-1226. Diekkruger, B. (1996) SIMULAT - Ein Modellsystem zur Berechnung der Wasser- und Stoffdynamik landwirtschaftlich genutzter Standorte (SIMULAT - a model system for the calculation of water and matter dynamics on agricultural sites, in German). In: Wasser- und Stoffdynamik in AgrarÃ´kosystemen, Sonderf.
-    !            * ShortDescription: None
+    !            * ExtendedDescription: Strategy for the calculation of thermal conductivity. Bristow, K.L., Thermal conductivity, in Methods of Soil Analysis. Part 4. Physical Methods, J.H. Dane and G.C. Topp, Editors. 2002, Soil Science Society of America Book Series
+    !            * ShortDescription: Strategy for the calculation of thermal conductivity
         !- inputs:
     !            * name: VolumetricWaterContent
     !                          ** description : Volumetric soil water content
     !                          ** inputtype : variable
-    !                          ** variablecategory : state
+    !                          ** variablecategory : exogenous
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
     !                          ** max : 0.8
@@ -39,8 +53,8 @@ CONTAINS
     !                          ** unit : m3 m-3
     !            * name: BulkDensity
     !                          ** description : Bulk density
-    !                          ** inputtype : variable
-    !                          ** variablecategory : state
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
     !                          ** max : 1.8
@@ -49,14 +63,24 @@ CONTAINS
     !                          ** unit : t m-3
     !            * name: Clay
     !                          ** description : Clay content of soil layer
-    !                          ** inputtype : variable
-    !                          ** variablecategory : state
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
     !                          ** max : 100
     !                          ** min : 0
     !                          ** default : 0
-    !                          ** unit : %
+    !                          ** unit : 
+    !            * name: ThermalConductivity
+    !                          ** description : Thermal conductivity of soil layer
+    !                          ** inputtype : variable
+    !                          ** variablecategory : state
+    !                          ** datatype : DOUBLEARRAY
+    !                          ** len : 
+    !                          ** max : 8
+    !                          ** min : 0.025
+    !                          ** default : 
+    !                          ** unit : W m-1 K-1
         !- outputs:
     !            * name: ThermalConductivity
     !                          ** description : Thermal conductivity of soil layer

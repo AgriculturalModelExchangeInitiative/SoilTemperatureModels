@@ -11,6 +11,7 @@ namespace SoilTemperature.DomainClass
     {
         static VarInfo _meanTAir = new VarInfo();
         static VarInfo _minTAir = new VarInfo();
+        static VarInfo _meanAnnualAirTemp = new VarInfo();
         static VarInfo _maxTAir = new VarInfo();
         static VarInfo _dayLength = new VarInfo();
 
@@ -44,6 +45,11 @@ namespace SoilTemperature.DomainClass
             get { return _minTAir;}
         }
 
+        public static  VarInfo meanAnnualAirTemp
+        {
+            get { return _meanAnnualAirTemp;}
+        }
+
         public static  VarInfo maxTAir
         {
             get { return _maxTAir;}
@@ -61,7 +67,7 @@ namespace SoilTemperature.DomainClass
             _meanTAir.MaxValue = 80;
             _meanTAir.MinValue = -30;
             _meanTAir.DefaultValue = 22;
-            _meanTAir.Units = "°C";
+            _meanTAir.Units = "Â°C";
             _meanTAir.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _minTAir.Name = "minTAir";
@@ -69,15 +75,23 @@ namespace SoilTemperature.DomainClass
             _minTAir.MaxValue = 80;
             _minTAir.MinValue = -30;
             _minTAir.DefaultValue = 20;
-            _minTAir.Units = "°C";
+            _minTAir.Units = "Â°C";
             _minTAir.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+
+            _meanAnnualAirTemp.Name = "meanAnnualAirTemp";
+            _meanAnnualAirTemp.Description = "Annual Mean Air Temperature";
+            _meanAnnualAirTemp.MaxValue = 80;
+            _meanAnnualAirTemp.MinValue = -30;
+            _meanAnnualAirTemp.DefaultValue = 22;
+            _meanAnnualAirTemp.Units = "Â°C";
+            _meanAnnualAirTemp.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _maxTAir.Name = "maxTAir";
             _maxTAir.Description = "Maximum Air Temperature from Weather Files";
             _maxTAir.MaxValue = 80;
             _maxTAir.MinValue = -30;
             _maxTAir.DefaultValue = 25;
-            _maxTAir.Units = "°C";
+            _maxTAir.Units = "Â°C";
             _maxTAir.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _dayLength.Name = "dayLength";

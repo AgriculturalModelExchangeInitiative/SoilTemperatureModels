@@ -1,5 +1,6 @@
-import numpy 
+import numpy
 from math import *
+
 def init_stmpsimcalculator(float cSoilLayerDepth[],
                            float cFirstDayMeanTemp,
                            float cAVT,
@@ -36,13 +37,13 @@ def init_stmpsimcalculator(float cSoilLayerDepth[],
             #b'/first additional layer might be smaller than 1 m'
             depth=tProfileDepth + firstAdditionalLayerHight + i - len(cSoilLayerDepth)
         tz[i]=depth
-        tStmpRate[i]=0.0
         #b'/set linear aproximation to the soil temperature as initial value'
         tStmp[i]=(cFirstDayMeanTemp * (cDampingDepth - depth) + (cAVT * depth)) / cDampingDepth
     rSoilTempArrayRate=tStmpRate
     SoilTempArray=tStmp
     pSoilLayerDepth=tz
     return  SoilTempArray, rSoilTempArrayRate, pSoilLayerDepth
+
 def model_stmpsimcalculator(float cSoilLayerDepth[],
                             float cFirstDayMeanTemp,
                             float cAVT,
@@ -54,15 +55,14 @@ def model_stmpsimcalculator(float cSoilLayerDepth[],
                             float rSoilTempArrayRate[],
                             float pSoilLayerDepth[]):
     """
-
     STMPsimCalculator model
     Author: Gunther Krauss
     Reference: ('http://www.simplace.net/doc/simplace_modules/',)
     Institution: INRES Pflanzenbau, Uni Bonn
     ExtendedDescription: as given in the documentation
     ShortDescription: None
-
     """
+
     cdef float XLAG 
     cdef float XLG1 
     cdef float DP 
@@ -90,11 +90,12 @@ def model_stmpsimcalculator(float cSoilLayerDepth[],
         #b'/Factor of the depth in soil: Middle of depth of layer divided by damping depth'
         ZD=0.5 * (Z1 + pSoilLayerDepth[i]) / DD
         RATE=ZD / (ZD + exp(-.8669 - (2.0775 * ZD))) * (cAVT - iSoilSurfaceTemperature)
-        #b'/RATE = Rate of change of STMP(ISL) (\xc3\x83\xe2\x80\x9a\xc3\x82\xc2\xb0C)'
+        #b'/RATE = Rate of change of STMP(ISL) (\xc3\x82\xc2\xb0C)'
         RATE=XLG1 * (RATE + iSoilSurfaceTemperature - SoilTempArray[i])
         Z1=pSoilLayerDepth[i]
         rSoilTempArrayRate[i]=RATE
         SoilTempArray[i]=SoilTempArray[i] + rSoilTempArrayRate[i]
     return  SoilTempArray, rSoilTempArrayRate
+
 
 

@@ -9,6 +9,8 @@ namespace SurfaceSWATSoilSWATC.DomainClass
 {
     public class SurfaceSWATSoilSWATCAuxiliary : ICloneable, IDomainClass
     {
+        private double _AboveGroundBiomass;
+        private double _SurfaceSoilTemperature;
         private ParametersIO _parametersIO;
 
         public SurfaceSWATSoilSWATCAuxiliary()
@@ -20,7 +22,20 @@ namespace SurfaceSWATSoilSWATC.DomainClass
         {
             if (copyAll)
             {
+                AboveGroundBiomass = toCopy.AboveGroundBiomass;
+                SurfaceSoilTemperature = toCopy.SurfaceSoilTemperature;
             }
+        }
+
+        public double AboveGroundBiomass
+        {
+            get { return this._AboveGroundBiomass; }
+            set { this._AboveGroundBiomass= value; } 
+        }
+        public double SurfaceSoilTemperature
+        {
+            get { return this._SurfaceSoilTemperature; }
+            set { this._SurfaceSoilTemperature= value; } 
         }
 
         public string Description
@@ -40,6 +55,8 @@ namespace SurfaceSWATSoilSWATC.DomainClass
 
         public virtual Boolean ClearValues()
         {
+             _AboveGroundBiomass = default(double);
+             _SurfaceSoilTemperature = default(double);
             return true;
         }
 

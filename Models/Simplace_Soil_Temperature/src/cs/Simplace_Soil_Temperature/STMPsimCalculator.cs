@@ -37,7 +37,6 @@ public class STMPsimCalculator
                 depth = tProfileDepth + firstAdditionalLayerHight + i - cSoilLayerDepth.Length;
             }
             tz[i] = depth;
-            tStmpRate[i] = 0.00d;
             tStmp[i] = (cFirstDayMeanTemp * (cDampingDepth - depth) + (cAVT * depth)) / cDampingDepth;
         }
         rSoilTempArrayRate = tStmpRate;
@@ -160,8 +159,8 @@ public class STMPsimCalculator
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
-    //                          ** max : 40
-    //                          ** min : -20
+    //                          ** max : 50.0
+    //                          ** min : -40.0
     //                          ** default : 
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
     //            * name: rSoilTempArrayRate
@@ -170,7 +169,7 @@ public class STMPsimCalculator
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
-    //                          ** max : 40
+    //                          ** max : 20
     //                          ** min : -20
     //                          ** default : 
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
@@ -190,15 +189,15 @@ public class STMPsimCalculator
     //                          ** datatype : DOUBLEARRAY
     //                          ** variablecategory : state
     //                          ** len : 
-    //                          ** max : 40
-    //                          ** min : -20
+    //                          ** max : 50.0
+    //                          ** min : -40.0
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
     //            * name: rSoilTempArrayRate
     //                          ** description : Array of daily temperature change
     //                          ** datatype : DOUBLEARRAY
     //                          ** variablecategory : state
     //                          ** len : 
-    //                          ** max : 40
+    //                          ** max : 20
     //                          ** min : -20
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
         double iSoilWaterContent = ex.iSoilWaterContent;

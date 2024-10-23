@@ -20,10 +20,15 @@ class SurfacePartonSoilSWATHourlyPartonCWrapper
         loadParameters();
     }
 
-        double LagCoefficient;
+        double SoilProfileDepth;
+    double LagCoefficient;
+    double AirTemperatureAnnualAverage;
+    double[] LayerThickness =  new double [100];
+    double[] BulkDensity =  new double [100];
+    double[] Silt =  new double [100];
+    double[] Clay =  new double [100];
+    int layersNumber;
 
-    public double SurfaceSoilTemperature{ get { return s.SurfaceSoilTemperature;}} 
-     
     public double[] SoilTemperatureByLayers{ get { return s.SoilTemperatureByLayers;}} 
      
     public double[] HeatCapacity{ get { return s.HeatCapacity;}} 
@@ -39,6 +44,8 @@ class SurfacePartonSoilSWATHourlyPartonCWrapper
     public double[] SoilTemperatureMaximum{ get { return s.SoilTemperatureMaximum;}} 
      
     public double[] SoilTemperatureByLayersHourly{ get { return s.SoilTemperatureByLayersHourly;}} 
+     
+    public double SurfaceSoilTemperature{ get { return a.SurfaceSoilTemperature;}} 
      
     public double SurfaceTemperatureMinimum{ get { return a.SurfaceTemperatureMinimum;}} 
      
@@ -64,18 +71,28 @@ class SurfacePartonSoilSWATHourlyPartonCWrapper
 
     private void loadParameters()
     {
+        surfacepartonsoilswathourlypartoncComponent.SoilProfileDepth = SoilProfileDepth;
         surfacepartonsoilswathourlypartoncComponent.LagCoefficient = LagCoefficient;
+        surfacepartonsoilswathourlypartoncComponent.AirTemperatureAnnualAverage = AirTemperatureAnnualAverage;
+        surfacepartonsoilswathourlypartoncComponent.LayerThickness = LayerThickness;
+        surfacepartonsoilswathourlypartoncComponent.BulkDensity = BulkDensity;
+        surfacepartonsoilswathourlypartoncComponent.Silt = Silt;
+        surfacepartonsoilswathourlypartoncComponent.Clay = Clay;
+        surfacepartonsoilswathourlypartoncComponent.layersNumber = layersNumber;
     }
 
-    public void EstimateSurfacePartonSoilSWATHourlyPartonC(double GlobalSolarRadiation, double DayLength, double AirTemperatureMinimum, double AirTemperatureMaximum, double AirTemperatureAnnualAverage, double HourOfSunrise, double HourOfSunset)
+    public void EstimateSurfacePartonSoilSWATHourlyPartonC(double AboveGroundBiomass, double[] Sand, double[] OrganicMatter, double AirTemperatureMinimum, double DayLength, double GlobalSolarRadiation, double AirTemperatureMaximum, double[] VolumetricWaterContent, double HourOfSunset, double HourOfSunrise)
     {
-        a.GlobalSolarRadiation = GlobalSolarRadiation;
-        a.DayLength = DayLength;
+        a.AboveGroundBiomass = AboveGroundBiomass;
+        a.Sand = Sand;
+        a.OrganicMatter = OrganicMatter;
         a.AirTemperatureMinimum = AirTemperatureMinimum;
+        a.DayLength = DayLength;
+        a.GlobalSolarRadiation = GlobalSolarRadiation;
         a.AirTemperatureMaximum = AirTemperatureMaximum;
-        a.AirTemperatureAnnualAverage = AirTemperatureAnnualAverage;
-        a.HourOfSunrise = HourOfSunrise;
+        a.VolumetricWaterContent = VolumetricWaterContent;
         a.HourOfSunset = HourOfSunset;
+        a.HourOfSunrise = HourOfSunrise;
         surfacepartonsoilswathourlypartoncComponent.CalculateModel(s,s1, r, a, ex);
     }
 

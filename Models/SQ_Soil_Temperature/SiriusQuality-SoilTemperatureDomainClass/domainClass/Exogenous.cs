@@ -41,6 +41,8 @@ namespace INRA.SiriusQualitySoilT.Interfaces
         private double _meanTAir;
         
         private double _dayLength;
+
+        private double _meanAnnualAirTemp;
         #endregion
         
         #region Private field for properties
@@ -61,6 +63,7 @@ namespace INRA.SiriusQualitySoilT.Interfaces
             _maxTAir = toCopy._maxTAir;
             _meanTAir = toCopy._meanTAir;
             _dayLength = toCopy._dayLength;
+            _meanAnnualAirTemp = toCopy._meanAnnualAirTemp;
 
         }
 
@@ -118,8 +121,21 @@ namespace INRA.SiriusQualitySoilT.Interfaces
                 this._dayLength = value;
             }
         }
+
+        /// <summary>Annual Mean Air Temperature</summary>
+        public double meanAnnualAirTemp
+        {
+            get
+            {
+                return this._meanAnnualAirTemp;
+            }
+            set
+            {
+                this._meanAnnualAirTemp = value;
+            }
+        }
         #endregion
-        
+
         #region IDomainClass members
         /// <summary>Domain Class description</summary>
         public virtual  string Description
@@ -156,6 +172,7 @@ namespace INRA.SiriusQualitySoilT.Interfaces
             _maxTAir = default(System.Double);
             _meanTAir = default(System.Double);
             _dayLength = default(System.Double);
+            _meanAnnualAirTemp = default(System.Double);
             // Returns true if everything is ok
             return true;
         }

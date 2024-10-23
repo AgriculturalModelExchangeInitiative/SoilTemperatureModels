@@ -7,38 +7,82 @@ public class SnowCoverCalculator
 {
     public void Init(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a,  SoilTemperatureExogenous ex)
     {
-        Double iTempMax = ex.getiTempMax();
-        Double iTempMin = ex.getiTempMin();
-        Double iRadiation = ex.getiRadiation();
-        Double iRAIN = ex.getiRAIN();
-        Double iCropResidues = ex.getiCropResidues();
-        Double iPotentialSoilEvaporation = ex.getiPotentialSoilEvaporation();
-        Double iLeafAreaIndex = ex.getiLeafAreaIndex();
+        double iTempMax = ex.getiTempMax();
+        double iTempMin = ex.getiTempMin();
+        double iRadiation = ex.getiRadiation();
+        double iRAIN = ex.getiRAIN();
+        double iCropResidues = ex.getiCropResidues();
+        double iPotentialSoilEvaporation = ex.getiPotentialSoilEvaporation();
+        double iLeafAreaIndex = ex.getiLeafAreaIndex();
         Double [] iSoilTempArray = ex.getiSoilTempArray();
-        Double Albedo;
-        Double SnowWaterContent = 0.0;
-        Double SoilSurfaceTemperature = 0.0;
+        double pInternalAlbedo;
+        double SnowWaterContent = 0.0;
+        double SoilSurfaceTemperature = 0.0;
         Integer AgeOfSnow = 0;
-        Albedo = 0.0d;
-        Double TMEAN;
-        Double TAMPL;
-        Double DST;
-        Albedo = 0.0226d * Math.log10(cCarbonContent) + 0.1502d;
+        pInternalAlbedo = 0.0d;
+        double TMEAN;
+        double TAMPL;
+        double DST;
+        if (Albedo == (double)(0))
+        {
+            pInternalAlbedo = 0.0226d * Math.log10(cCarbonContent) + 0.1502d;
+        }
+        else
+        {
+            pInternalAlbedo = Albedo;
+        }
         TMEAN = 0.5d * (iTempMax + iTempMin);
         TAMPL = 0.5d * (iTempMax - iTempMin);
-        DST = TMEAN + (TAMPL * (iRadiation * (1 - Albedo) - 14) / 20);
+        DST = TMEAN + (TAMPL * (iRadiation * (1 - pInternalAlbedo) - 14) / 20);
         SoilSurfaceTemperature = DST;
-        s.setAlbedo(Albedo);
+        AgeOfSnow = cInitialAgeOfSnow;
+        SnowWaterContent = cInitialSnowWaterContent;
+        s.setpInternalAlbedo(pInternalAlbedo);
         s.setSnowWaterContent(SnowWaterContent);
         s.setSoilSurfaceTemperature(SoilSurfaceTemperature);
         s.setAgeOfSnow(AgeOfSnow);
     }
-    private Double cCarbonContent;
-    public Double getcCarbonContent()
+    private double cCarbonContent;
+    public double getcCarbonContent()
     { return cCarbonContent; }
 
-    public void setcCarbonContent(Double _cCarbonContent)
+    public void setcCarbonContent(double _cCarbonContent)
     { this.cCarbonContent= _cCarbonContent; } 
+    
+    private Integer cInitialAgeOfSnow;
+    public Integer getcInitialAgeOfSnow()
+    { return cInitialAgeOfSnow; }
+
+    public void setcInitialAgeOfSnow(Integer _cInitialAgeOfSnow)
+    { this.cInitialAgeOfSnow= _cInitialAgeOfSnow; } 
+    
+    private double cInitialSnowWaterContent;
+    public double getcInitialSnowWaterContent()
+    { return cInitialSnowWaterContent; }
+
+    public void setcInitialSnowWaterContent(double _cInitialSnowWaterContent)
+    { this.cInitialSnowWaterContent= _cInitialSnowWaterContent; } 
+    
+    private double Albedo;
+    public double getAlbedo()
+    { return Albedo; }
+
+    public void setAlbedo(double _Albedo)
+    { this.Albedo= _Albedo; } 
+    
+    private double cSnowIsolationFactorA;
+    public double getcSnowIsolationFactorA()
+    { return cSnowIsolationFactorA; }
+
+    public void setcSnowIsolationFactorA(double _cSnowIsolationFactorA)
+    { this.cSnowIsolationFactorA= _cSnowIsolationFactorA; } 
+    
+    private double cSnowIsolationFactorB;
+    public double getcSnowIsolationFactorB()
+    { return cSnowIsolationFactorB; }
+
+    public void setcSnowIsolationFactorB(double _cSnowIsolationFactorB)
+    { this.cSnowIsolationFactorB= _cSnowIsolationFactorB; } 
     
     public SnowCoverCalculator() { }
     public void  Calculate_Model(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a,  SoilTemperatureExogenous ex)
@@ -58,9 +102,63 @@ public class SnowCoverCalculator
     //                          ** parametercategory : constant
     //                          ** datatype : DOUBLE
     //                          ** max : 20.0
-    //                          ** min : 0.0
+    //                          ** min : 0.5
     //                          ** default : 0.5
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/percent
+    //            * name: cInitialAgeOfSnow
+    //                          ** description : Initial age of snow
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
+    //                          ** datatype : INT
+    //                          ** max : 
+    //                          ** min : 0
+    //                          ** default : 0
+    //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/percent
+    //            * name: cInitialSnowWaterContent
+    //                          ** description : Initial snow water content
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
+    //                          ** datatype : DOUBLE
+    //                          ** max : 1500.0
+    //                          ** min : 0.0
+    //                          ** default : 0.0
+    //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/percent
+    //            * name: Albedo
+    //                          ** description : Albedo
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
+    //                          ** datatype : DOUBLE
+    //                          ** max : 1.0
+    //                          ** min : 0.0
+    //                          ** default : 
+    //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
+    //            * name: pInternalAlbedo
+    //                          ** description : Albedo privat
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
+    //                          ** datatype : DOUBLE
+    //                          ** max : 1.0
+    //                          ** min : 0.0
+    //                          ** default : 
+    //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
+    //            * name: cSnowIsolationFactorA
+    //                          ** description : Static part of the snow isolation index calculation
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
+    //                          ** datatype : DOUBLE
+    //                          ** max : 10.0
+    //                          ** min : 0.0
+    //                          ** default : 2.3
+    //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
+    //            * name: cSnowIsolationFactorB
+    //                          ** description : Dynamic part of the snow isolation index calculation
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
+    //                          ** datatype : DOUBLE
+    //                          ** max : 1.0
+    //                          ** min : 0.0
+    //                          ** default : 0.22
+    //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
     //            * name: iTempMax
     //                          ** description : Daily maximum air temperature
     //                          ** inputtype : variable
@@ -95,7 +193,7 @@ public class SnowCoverCalculator
     //                          ** datatype : DOUBLE
     //                          ** max : 60.0
     //                          ** min : 0.0
-    //                          ** default : 
+    //                          ** default : 0.0
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/millimetre
     //            * name: iCropResidues
     //                          ** description : Crop residues plus above ground biomass
@@ -113,7 +211,7 @@ public class SnowCoverCalculator
     //                          ** datatype : DOUBLE
     //                          ** max : 12.0
     //                          ** min : 0.0
-    //                          ** default : 
+    //                          ** default : 0.0
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/millimetre
     //            * name: iLeafAreaIndex
     //                          ** description : Leaf area index
@@ -134,15 +232,6 @@ public class SnowCoverCalculator
     //                          ** min : -15.0
     //                          ** default : 
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
-    //            * name: Albedo
-    //                          ** description : Albedo
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 1.0
-    //                          ** min : 0.0
-    //                          ** default : 
-    //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
     //            * name: SnowWaterContent
     //                          ** description : Snow water content
     //                          ** inputtype : variable
@@ -169,7 +258,7 @@ public class SnowCoverCalculator
     //                          ** max : 
     //                          ** min : 0
     //                          ** default : 0
-    //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
+    //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/day
         //- outputs:
     //            * name: SnowWaterContent
     //                          ** description : Snow water content
@@ -191,6 +280,27 @@ public class SnowCoverCalculator
     //                          ** variablecategory : state
     //                          ** max : 
     //                          ** min : 0
+    //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/day
+    //            * name: rSnowWaterContentRate
+    //                          ** description : daily snow water content change rate
+    //                          ** datatype : DOUBLE
+    //                          ** variablecategory : rate
+    //                          ** max : 1500.0
+    //                          ** min : -1500.0
+    //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/millimetre_per_day
+    //            * name: rSoilSurfaceTemperatureRate
+    //                          ** description : daily soil surface temperature change rate
+    //                          ** datatype : DOUBLE
+    //                          ** variablecategory : rate
+    //                          ** max : 70.0
+    //                          ** min : -40.0
+    //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
+    //            * name: rAgeOfSnowRate
+    //                          ** description : daily age of snow change rate
+    //                          ** datatype : INT
+    //                          ** variablecategory : rate
+    //                          ** max : 
+    //                          ** min : 
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
     //            * name: SnowIsolationIndex
     //                          ** description : Snow isolation index
@@ -199,36 +309,39 @@ public class SnowCoverCalculator
     //                          ** max : 1.0
     //                          ** min : 0.0
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
-        Double iTempMax = ex.getiTempMax();
-        Double iTempMin = ex.getiTempMin();
-        Double iRadiation = ex.getiRadiation();
-        Double iRAIN = ex.getiRAIN();
-        Double iCropResidues = ex.getiCropResidues();
-        Double iPotentialSoilEvaporation = ex.getiPotentialSoilEvaporation();
-        Double iLeafAreaIndex = ex.getiLeafAreaIndex();
+        double pInternalAlbedo = s.getpInternalAlbedo();
+        double iTempMax = ex.getiTempMax();
+        double iTempMin = ex.getiTempMin();
+        double iRadiation = ex.getiRadiation();
+        double iRAIN = ex.getiRAIN();
+        double iCropResidues = ex.getiCropResidues();
+        double iPotentialSoilEvaporation = ex.getiPotentialSoilEvaporation();
+        double iLeafAreaIndex = ex.getiLeafAreaIndex();
         Double [] iSoilTempArray = ex.getiSoilTempArray();
-        Double Albedo = s.getAlbedo();
-        Double SnowWaterContent = s.getSnowWaterContent();
-        Double SoilSurfaceTemperature = s.getSoilSurfaceTemperature();
+        double SnowWaterContent = s.getSnowWaterContent();
+        double SoilSurfaceTemperature = s.getSoilSurfaceTemperature();
         Integer AgeOfSnow = s.getAgeOfSnow();
-        Double SnowIsolationIndex;
-        Double tiCropResidues;
-        Double tiSoilTempArray;
-        Double TMEAN;
-        Double TAMPL;
-        Double DST;
-        Double tSoilSurfaceTemperature;
-        Double tSnowIsolationIndex;
-        Double SNOWEVAPORATION;
-        Double SNOWMELT;
-        Double EAJ;
-        Double ageOfSnowFactor;
-        Double SNPKT;
+        double rSnowWaterContentRate;
+        double rSoilSurfaceTemperatureRate;
+        Integer rAgeOfSnowRate;
+        double SnowIsolationIndex;
+        double tiCropResidues;
+        double tiSoilTempArray;
+        double TMEAN;
+        double TAMPL;
+        double DST;
+        double tSoilSurfaceTemperature;
+        double tSnowIsolationIndex;
+        double SNOWEVAPORATION;
+        double SNOWMELT;
+        double EAJ;
+        double ageOfSnowFactor;
+        double SNPKT;
         tiCropResidues = iCropResidues * 10.0d;
         tiSoilTempArray = iSoilTempArray[0];
         TMEAN = 0.5d * (iTempMax + iTempMin);
         TAMPL = 0.5d * (iTempMax - iTempMin);
-        DST = TMEAN + (TAMPL * (iRadiation * (1 - Albedo) - 14) / 20);
+        DST = TMEAN + (TAMPL * (iRadiation * (1 - pInternalAlbedo) - 14) / 20);
         if (iRAIN > (double)(0) && (tiSoilTempArray < (double)(1) || (SnowWaterContent > (double)(3) || SoilSurfaceTemperature < (double)(0))))
         {
             SnowWaterContent = SnowWaterContent + iRAIN;
@@ -245,7 +358,7 @@ public class SnowCoverCalculator
         }
         else
         {
-            tSnowIsolationIndex = Math.max(SnowWaterContent / (SnowWaterContent + Math.exp(0.47d - (0.62d * SnowWaterContent))), tSnowIsolationIndex);
+            tSnowIsolationIndex = Math.max(SnowWaterContent / (SnowWaterContent + Math.exp(cSnowIsolationFactorA - (cSnowIsolationFactorB * SnowWaterContent))), tSnowIsolationIndex);
             tSoilSurfaceTemperature = (1 - tSnowIsolationIndex) * DST + (tSnowIsolationIndex * tiSoilTempArray);
         }
         if (SnowWaterContent == (double)(0) && !(iRAIN > (double)(0) && tiSoilTempArray < (double)(1)))
@@ -289,11 +402,17 @@ public class SnowCoverCalculator
                 AgeOfSnow = AgeOfSnow + 1;
             }
         }
-        SnowIsolationIndex = tSnowIsolationIndex;
+        rSnowWaterContentRate = SnowWaterContent - SnowWaterContent;
+        rSoilSurfaceTemperatureRate = tSoilSurfaceTemperature - SoilSurfaceTemperature;
+        rAgeOfSnowRate = AgeOfSnow - AgeOfSnow;
         SoilSurfaceTemperature = tSoilSurfaceTemperature;
+        SnowIsolationIndex = tSnowIsolationIndex;
         s.setSnowWaterContent(SnowWaterContent);
         s.setSoilSurfaceTemperature(SoilSurfaceTemperature);
         s.setAgeOfSnow(AgeOfSnow);
+        r.setrSnowWaterContentRate(rSnowWaterContentRate);
+        r.setrSoilSurfaceTemperatureRate(rSoilSurfaceTemperatureRate);
+        r.setrAgeOfSnowRate(rAgeOfSnowRate);
         a.setSnowIsolationIndex(SnowIsolationIndex);
     }
 }

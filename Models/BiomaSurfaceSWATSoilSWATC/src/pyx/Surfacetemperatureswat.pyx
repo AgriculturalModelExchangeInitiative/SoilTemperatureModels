@@ -1,5 +1,6 @@
-import numpy 
+import numpy
 from math import *
+
 def model_surfacetemperatureswat(float GlobalSolarRadiation,
                                  float SoilTemperatureByLayers[],
                                  float AirTemperatureMaximum,
@@ -8,15 +9,14 @@ def model_surfacetemperatureswat(float GlobalSolarRadiation,
                                  float AboveGroundBiomass,
                                  float WaterEquivalentOfSnowPack):
     """
-
     SurfaceTemperatureSWAT model
-    Author: simone.bregaglio@unimi.it
-    Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
+    Author: simone.bregaglio
+    Reference: http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl
     Institution: University Of Milan
     ExtendedDescription: Strategy for the calculation of surface soil temperature with SWAT method. Reference: Neitsch,S.L., Arnold, J.G., Kiniry, J.R., Williams, J.R., King, K.W. Soil and Water Assessment Tool. Theoretical documentation. Version 2000. http://swatmodel.tamu.edu/media/1290/swat2000theory.pdf
-    ShortDescription: None
-
+    ShortDescription: Strategy for the calculation of surface soil temperature with SWAT method
     """
+
     cdef float SurfaceSoilTemperature
     cdef float _Tavg 
     cdef float _Hterm 
@@ -32,5 +32,6 @@ def model_surfacetemperatureswat(float GlobalSolarRadiation,
     _WeightingActual=max(_WeightingCover, _WeightingSnow)
     SurfaceSoilTemperature=_WeightingActual * SoilTemperatureByLayers[0] + ((1 - _WeightingActual) * _Tbare)
     return  SurfaceSoilTemperature
+
 
 

@@ -11,6 +11,7 @@ namespace SurfacePartonSoilSWATC.DomainClass
     {
         static VarInfo _SurfaceTemperatureMinimum = new VarInfo();
         static VarInfo _SurfaceTemperatureMaximum = new VarInfo();
+        static VarInfo _SurfaceSoilTemperature = new VarInfo();
 
         static SurfacePartonSoilSWATCAuxiliaryVarInfo()
         {
@@ -42,6 +43,11 @@ namespace SurfacePartonSoilSWATC.DomainClass
             get { return _SurfaceTemperatureMaximum;}
         }
 
+        public static  VarInfo SurfaceSoilTemperature
+        {
+            get { return _SurfaceSoilTemperature;}
+        }
+
         static void DescribeVariables()
         {
             _SurfaceTemperatureMinimum.Name = "SurfaceTemperatureMinimum";
@@ -49,7 +55,7 @@ namespace SurfacePartonSoilSWATC.DomainClass
             _SurfaceTemperatureMinimum.MaxValue = 60;
             _SurfaceTemperatureMinimum.MinValue = -60;
             _SurfaceTemperatureMinimum.DefaultValue = -1D;
-            _SurfaceTemperatureMinimum.Units = "Â°C";
+            _SurfaceTemperatureMinimum.Units = "degC";
             _SurfaceTemperatureMinimum.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _SurfaceTemperatureMaximum.Name = "SurfaceTemperatureMaximum";
@@ -57,8 +63,16 @@ namespace SurfacePartonSoilSWATC.DomainClass
             _SurfaceTemperatureMaximum.MaxValue = 60;
             _SurfaceTemperatureMaximum.MinValue = -60;
             _SurfaceTemperatureMaximum.DefaultValue = -1D;
-            _SurfaceTemperatureMaximum.Units = "Â°C";
+            _SurfaceTemperatureMaximum.Units = "degC";
             _SurfaceTemperatureMaximum.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+
+            _SurfaceSoilTemperature.Name = "SurfaceSoilTemperature";
+            _SurfaceSoilTemperature.Description = "Average surface soil temperature";
+            _SurfaceSoilTemperature.MaxValue = 60;
+            _SurfaceSoilTemperature.MinValue = -60;
+            _SurfaceSoilTemperature.DefaultValue = -1D;
+            _SurfaceSoilTemperature.Units = "degC";
+            _SurfaceSoilTemperature.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
         }
 

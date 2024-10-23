@@ -566,8 +566,7 @@ CONTAINS
         DO K = 5 , 2 - 1+1, -1
             TMA(K - 1+1) = TMA(K - 1 - 1+1)
         END DO
-        TMA(1 - 1+1) = (1.0 - ALBEDO) * (TAVG + ((TMAX - TAVG) * SQRT(SRAD *  &
-                0.03))) + (ALBEDO * TMA((1 - 1)+1))
+        TMA(1 - 1+1) = TAVG
         TMA(1 - 1+1) = INT(TMA((1 - 1)+1) * 10000.) / 10000.
         ATOT = ATOT + TMA(1 - 1+1)
         WC = MAX(0.01, PESW) / (WW * CUMDPT) * 10.0

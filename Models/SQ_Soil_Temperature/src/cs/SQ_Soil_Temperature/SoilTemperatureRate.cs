@@ -13,7 +13,7 @@ public class SoilTemperatureRate
     if (copyAll)
     {
     
-    _heatFlux = toCopy._heatFlux;
+    heatFlux = toCopy.heatFlux;
     }
     }
     public double heatFlux

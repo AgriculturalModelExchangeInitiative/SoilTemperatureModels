@@ -17,29 +17,30 @@
         <Model name="RangeOfSoilTemperaturesDAYCENT" id="Crop2ML.BiomaSurfacePartonSoilSWATHourlyPartonC.RangeOfSoilTemperaturesDAYCENT" filename="unit.RangeOfSoilTemperaturesDAYCENT.xml"/>
         <Model name="HourlySoilTemperaturesPartonLogan" id="Crop2ML.BiomaSurfacePartonSoilSWATHourlyPartonC.HourlySoilTemperaturesPartonLogan" filename="unit.HourlySoilTemperaturesPartonLogan.xml"/>
         <Links>
-            <InputLink target="SurfaceTemperatureParton.GlobalSolarRadiation" source="GlobalSolarRadiation"/>
-            <InputLink target="SurfaceTemperatureParton.DayLength" source="DayLength"/>
             <InputLink target="SurfaceTemperatureParton.AboveGroundBiomass" source="AboveGroundBiomass"/>
             <InputLink target="SurfaceTemperatureParton.AirTemperatureMinimum" source="AirTemperatureMinimum"/>
+            <InputLink target="SurfaceTemperatureParton.DayLength" source="DayLength"/>
+            <InputLink target="SurfaceTemperatureParton.GlobalSolarRadiation" source="GlobalSolarRadiation"/>
             <InputLink target="SurfaceTemperatureParton.AirTemperatureMaximum" source="AirTemperatureMaximum"/>
             <InputLink target="SoilTemperatureSWAT.VolumetricWaterContent" source="VolumetricWaterContent"/>
-            <InputLink target="SoilTemperatureSWAT.BulkDensity" source="BulkDensity"/>
-            <InputLink target="SoilTemperatureSWAT.LayerThickness" source="LayerThickness"/>
+            <InputLink target="SoilTemperatureSWAT.SoilProfileDepth" source="SoilProfileDepth"/>
             <InputLink target="SoilTemperatureSWAT.LagCoefficient" source="LagCoefficient"/>
             <InputLink target="SoilTemperatureSWAT.AirTemperatureAnnualAverage" source="AirTemperatureAnnualAverage"/>
-            <InputLink target="SoilTemperatureSWAT.SoilProfileDepth" source="SoilProfileDepth"/>
-            <InputLink target="VolumetricHeatCapacityKluitenberg.VolumetricWaterContent" source="VolumetricWaterContent"/>
+            <InputLink target="SoilTemperatureSWAT.LayerThickness" source="LayerThickness"/>
+            <InputLink target="SoilTemperatureSWAT.BulkDensity" source="BulkDensity"/>
             <InputLink target="VolumetricHeatCapacityKluitenberg.Sand" source="Sand"/>
+            <InputLink target="VolumetricHeatCapacityKluitenberg.VolumetricWaterContent" source="VolumetricWaterContent"/>
+            <InputLink target="VolumetricHeatCapacityKluitenberg.Silt" source="Silt"/>
+            <InputLink target="VolumetricHeatCapacityKluitenberg.Clay" source="Clay"/>
             <InputLink target="VolumetricHeatCapacityKluitenberg.BulkDensity" source="BulkDensity"/>
             <InputLink target="VolumetricHeatCapacityKluitenberg.OrganicMatter" source="OrganicMatter"/>
-            <InputLink target="VolumetricHeatCapacityKluitenberg.Clay" source="Clay"/>
-            <InputLink target="VolumetricHeatCapacityKluitenberg.Silt" source="Silt"/>
-            <InputLink target="ThermalConductivitySIMULAT.VolumetricWaterContent" source="VolumetricWaterContent"/>
             <InputLink target="ThermalConductivitySIMULAT.Clay" source="Clay"/>
+            <InputLink target="ThermalConductivitySIMULAT.VolumetricWaterContent" source="VolumetricWaterContent"/>
             <InputLink target="ThermalConductivitySIMULAT.BulkDensity" source="BulkDensity"/>
+            <InputLink target="ThermalDiffu.layersNumber" source="layersNumber"/>
             <InputLink target="RangeOfSoilTemperaturesDAYCENT.LayerThickness" source="LayerThickness"/>
-            <InputLink target="HourlySoilTemperaturesPartonLogan.HourOfSunrise" source="HourOfSunrise"/>
             <InputLink target="HourlySoilTemperaturesPartonLogan.HourOfSunset" source="HourOfSunset"/>
+            <InputLink target="HourlySoilTemperaturesPartonLogan.HourOfSunrise" source="HourOfSunrise"/>
             <InputLink target="HourlySoilTemperaturesPartonLogan.DayLength" source="DayLength"/>
             <InternalLink target="SoilTemperatureSWAT.SurfaceSoilTemperature" source="SurfaceTemperatureParton.SurfaceSoilTemperature"/>
             <InternalLink target="RangeOfSoilTemperaturesDAYCENT.SurfaceTemperatureMaximum" source="SurfaceTemperatureParton.SurfaceTemperatureMaximum"/>

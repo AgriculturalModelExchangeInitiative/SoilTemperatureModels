@@ -1,43 +1,42 @@
-#ifndef _STEMP_EPIC_State_
-#define _STEMP_EPIC_State_
+#pragma once
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
-# include<vector>
-# include<string>
-using namespace std;
+#include<vector>
+#include<string>
+namespace DSSAT_EPICST_standalone {
 class STEMP_EPIC_State
 {
     private:
+        std::vector<int> WetDay ;
+        double SRFTEMP ;
         int NDays ;
-        vector<int> WetDay ;
+        std::vector<double> ST ;
+        std::vector<double> TMA ;
         double TDL ;
         double X2_PREV ;
-        vector<double> DSMID ;
-        vector<double> TMA ;
-        double SRFTEMP ;
-        vector<double> ST ;
+        std::vector<double> DSMID ;
         double CUMDPT ;
     public:
         STEMP_EPIC_State();
+        std::vector<int> & getWetDay();
+        void setWetDay(const std::vector<int> &  _WetDay);
+        double getSRFTEMP();
+        void setSRFTEMP(double _SRFTEMP);
         int getNDays();
         void setNDays(int _NDays);
-        vector<int> & getWetDay();
-        void setWetDay(const vector<int> &  _WetDay);
+        std::vector<double> & getST();
+        void setST(const std::vector<double> &  _ST);
+        std::vector<double> & getTMA();
+        void setTMA(const std::vector<double> &  _TMA);
         double getTDL();
         void setTDL(double _TDL);
         double getX2_PREV();
         void setX2_PREV(double _X2_PREV);
-        vector<double> & getDSMID();
-        void setDSMID(const vector<double> &  _DSMID);
-        vector<double> & getTMA();
-        void setTMA(const vector<double> &  _TMA);
-        double getSRFTEMP();
-        void setSRFTEMP(double _SRFTEMP);
-        vector<double> & getST();
-        void setST(const vector<double> &  _ST);
+        std::vector<double> & getDSMID();
+        void setDSMID(const std::vector<double> &  _DSMID);
         double getCUMDPT();
         void setCUMDPT(double _CUMDPT);
 
 };
-#endif
+}

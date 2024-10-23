@@ -2,12 +2,12 @@
 
 from stmpsimcalculator import *
 from math import *
-import numpy 
-
-
+import numpy
+ 
+ 
 
 def test_test1():
-    params= stmpsimcalculator(
+    params = stmpsimcalculator(
     cSoilLayerDepth = [0.1, 0.5, 1.5],
     cFirstDayMeanTemp = 15.0,
     cAVT = 9.0,

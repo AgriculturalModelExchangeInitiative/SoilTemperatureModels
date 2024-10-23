@@ -1,11 +1,21 @@
 library(gsubfn)
 
-model_calculatesoiltemperature <- function (deepLayerT,
-         lambda_,
-         heatFlux,
-         meanTAir,
+init_calculatesoiltemperature <- function (meanTAir,
          minTAir,
-         deepLayerT_t1,
+         lambda_,
+         meanAnnualAirTemp,
+         maxTAir){
+    deepLayerT <- 20.0
+    deepLayerT <- meanAnnualAirTemp
+    return( deepLayerT)
+}
+
+model_calculatesoiltemperature <- function (meanTAir,
+         minTAir,
+         lambda_,
+         deepLayerT,
+         meanAnnualAirTemp,
+         heatFlux,
          maxTAir){
     #'- Name: CalculateSoilTemperature -Version: 001, -Time step: 1
     #'- Description:
@@ -16,6 +26,33 @@ model_calculatesoiltemperature <- function (deepLayerT,
     #'            * ExtendedDescription: Calculation of minimum and maximum Soil temperature, Further used in shoot temperature estimate.
     #'            * ShortDescription: None
     #'- inputs:
+    #'            * name: meanTAir
+    #'                          ** description : Mean Air Temperature
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : exogenous
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 80
+    #'                          ** min : -30
+    #'                          ** default : 22
+    #'                          ** unit : Â°C
+    #'            * name: minTAir
+    #'                          ** description : Minimum Air Temperature from Weather files
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : exogenous
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 80
+    #'                          ** min : -30
+    #'                          ** default : 20
+    #'                          ** unit : Â°C
+    #'            * name: lambda_
+    #'                          ** description : Latente heat of water vaporization at 20Â°C
+    #'                          ** inputtype : parameter
+    #'                          ** parametercategory : constant
+    #'                          ** datatype : DOUBLE
+    #'                          ** max : 10
+    #'                          ** min : 0
+    #'                          ** default : 2.454
+    #'                          ** unit : MJ.kg-1
     #'            * name: deepLayerT
     #'                          ** description : Temperature of the last soil layer
     #'                          ** inputtype : variable
@@ -24,16 +61,16 @@ model_calculatesoiltemperature <- function (deepLayerT,
     #'                          ** max : 80
     #'                          ** min : -30
     #'                          ** default : 20
-    #'                          ** unit : °C
-    #'            * name: lambda_
-    #'                          ** description : Latente heat of water vaporization at 20°C
-    #'                          ** inputtype : parameter
-    #'                          ** parametercategory : constant
+    #'                          ** unit : Â°C
+    #'            * name: meanAnnualAirTemp
+    #'                          ** description : Annual Mean Air Temperature
+    #'                          ** inputtype : variable
+    #'                          ** variablecategory : exogenous
     #'                          ** datatype : DOUBLE
-    #'                          ** max : 10
-    #'                          ** min : 0
-    #'                          ** default : 2.454
-    #'                          ** unit : MJ.kg-1
+    #'                          ** max : 80
+    #'                          ** min : -30
+    #'                          ** default : 22
+    #'                          ** unit : Â°C
     #'            * name: heatFlux
     #'                          ** description : Soil Heat Flux from Energy Balance Component
     #'                          ** inputtype : variable
@@ -43,33 +80,6 @@ model_calculatesoiltemperature <- function (deepLayerT,
     #'                          ** min : 0
     #'                          ** default : 50
     #'                          ** unit : g m-2 d-1
-    #'            * name: meanTAir
-    #'                          ** description : Mean Air Temperature
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 80
-    #'                          ** min : -30
-    #'                          ** default : 22
-    #'                          ** unit : °C
-    #'            * name: minTAir
-    #'                          ** description : Minimum Air Temperature from Weather files
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 80
-    #'                          ** min : -30
-    #'                          ** default : 20
-    #'                          ** unit : °C
-    #'            * name: deepLayerT_t1
-    #'                          ** description : Temperature of the last soil layer
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : state
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 80
-    #'                          ** min : -30
-    #'                          ** default : 20
-    #'                          ** unit : °C
     #'            * name: maxTAir
     #'                          ** description : Maximum Air Temperature from Weather Files
     #'                          ** inputtype : variable
@@ -78,42 +88,43 @@ model_calculatesoiltemperature <- function (deepLayerT,
     #'                          ** max : 80
     #'                          ** min : -30
     #'                          ** default : 25
-    #'                          ** unit : °C
+    #'                          ** unit : Â°C
     #'- outputs:
-    #'            * name: deepLayerT_t1
-    #'                          ** description : Temperature of the last soil layer
-    #'                          ** datatype : DOUBLE
-    #'                          ** variablecategory : state
-    #'                          ** max : 80
-    #'                          ** min : -30
-    #'                          ** unit : °C
-    #'            * name: maxTSoil
-    #'                          ** description : Maximum Soil Temperature
-    #'                          ** datatype : DOUBLE
-    #'                          ** variablecategory : state
-    #'                          ** max : 80
-    #'                          ** min : -30
-    #'                          ** unit : °C
     #'            * name: minTSoil
     #'                          ** description : Minimum Soil Temperature
     #'                          ** datatype : DOUBLE
     #'                          ** variablecategory : state
     #'                          ** max : 80
     #'                          ** min : -30
-    #'                          ** unit : °C
+    #'                          ** unit : Â°C
+    #'            * name: deepLayerT
+    #'                          ** description : Temperature of the last soil layer
+    #'                          ** datatype : DOUBLE
+    #'                          ** variablecategory : state
+    #'                          ** max : 80
+    #'                          ** min : -30
+    #'                          ** unit : Â°C
+    #'            * name: maxTSoil
+    #'                          ** description : Maximum Soil Temperature
+    #'                          ** datatype : DOUBLE
+    #'                          ** variablecategory : state
+    #'                          ** max : 80
+    #'                          ** min : -30
+    #'                          ** unit : Â°C
+    tmp <- meanAnnualAirTemp
     if (maxTAir == as.double(-999) && minTAir == as.double(999))
     {
         minTSoil <- as.double(999)
         maxTSoil <- as.double(-999)
-        deepLayerT_t1 <- 0.0
+        deepLayerT <- 0.0
     }
     else
     {
         minTSoil <- SoilMinimumTemperature(maxTAir, meanTAir, minTAir, heatFlux, lambda_, deepLayerT)
-        maxTSoil <- SoilMaximumTemperature(maxTAir, meanTAir, minTAir, heatFlux, lambda_, deepLayerT_t1)
-        deepLayerT_t1 <- UpdateTemperature(minTSoil, maxTSoil, deepLayerT)
+        maxTSoil <- SoilMaximumTemperature(maxTAir, meanTAir, minTAir, heatFlux, lambda_, deepLayerT)
+        deepLayerT <- UpdateTemperature(minTSoil, maxTSoil, deepLayerT)
     }
-    return (list ("deepLayerT_t1" = deepLayerT_t1,"maxTSoil" = maxTSoil,"minTSoil" = minTSoil))
+    return (list ("minTSoil" = minTSoil,"deepLayerT" = deepLayerT,"maxTSoil" = maxTSoil))
 }
 
 SoilTempB <- function (weatherMinTemp,

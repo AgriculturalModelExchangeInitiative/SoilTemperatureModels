@@ -19,6 +19,28 @@ public class SoilTemperatureComponent
             _SnowCoverCalculator.cCarbonContent = value;
         }
     }
+    public double cAlbedo
+    {
+        get
+        {
+             return _SnowCoverCalculator.cAlbedo; 
+        }
+        set
+        {
+            _SnowCoverCalculator.cAlbedo = value;
+        }
+    }
+    public double Albedo
+    {
+        get
+        {
+             return _SnowCoverCalculator.Albedo; 
+        }
+        set
+        {
+            _SnowCoverCalculator.Albedo = value;
+        }
+    }
     public double[] cSoilLayerDepth
     {
         get
@@ -99,6 +121,7 @@ public class SoilTemperatureComponent
 
     public void  CalculateModel(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a, SoilTemperatureExogenous ex)
     {
+        Albedo = cAlbedo;
         ex.iTempMax = ex.iAirTemperatureMax;
         ex.iTempMin = ex.iAirTemperatureMin;
         ex.iRadiation = ex.iGlobalSolarRadiation;
@@ -114,6 +137,8 @@ public class SoilTemperatureComponent
     {
 
         cCarbonContent = toCopy.cCarbonContent;
+        cAlbedo = toCopy.cAlbedo;
+        Albedo = toCopy.Albedo;
         
             for (int i = 0; i < 100; i++)
             { cSoilLayerDepth[i] = toCopy.cSoilLayerDepth[i]; }

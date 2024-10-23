@@ -8,11 +8,11 @@ model_surfacetemperatureparton <- function (GlobalSolarRadiation,
     #'- Name: SurfaceTemperatureParton -Version: 001, -Time step: 1
     #'- Description:
     #'            * Title: SurfaceTemperatureParton model
-    #'            * Authors: simone.bregaglio@unimi.it
-    #'            * Reference: ('http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl',)
+    #'            * Authors: simone.bregaglio
+    #'            * Reference: http://bioma.jrc.ec.europa.eu/ontology/JRC_MARS_biophysical_domain.owl
     #'            * Institution: University Of Milan
     #'            * ExtendedDescription: Strategy for the calculation of soil surface temperature with Parton's method. Reference: Parton, W. J. 1984. Predicting soil temperatures in a shortgrass steppe. Soil Science 138:93-101.
-    #'            * ShortDescription: None
+    #'            * ShortDescription: Strategy for the calculation of soil surface temperature with Parton's method
     #'- inputs:
     #'            * name: GlobalSolarRadiation
     #'                          ** description : Daily global solar radiation
@@ -35,7 +35,7 @@ model_surfacetemperatureparton <- function (GlobalSolarRadiation,
     #'            * name: AboveGroundBiomass
     #'                          ** description : Above ground biomass
     #'                          ** inputtype : variable
-    #'                          ** variablecategory : state
+    #'                          ** variablecategory : auxiliary
     #'                          ** datatype : DOUBLE
     #'                          ** max : 60
     #'                          ** min : 0
@@ -49,7 +49,7 @@ model_surfacetemperatureparton <- function (GlobalSolarRadiation,
     #'                          ** max : 50
     #'                          ** min : -60
     #'                          ** default : 5
-    #'                          ** unit : Â°C
+    #'                          ** unit : degC
     #'            * name: AirTemperatureMaximum
     #'                          ** description : Maximum daily air temperature
     #'                          ** inputtype : variable
@@ -58,29 +58,29 @@ model_surfacetemperatureparton <- function (GlobalSolarRadiation,
     #'                          ** max : 60
     #'                          ** min : -40
     #'                          ** default : 15
-    #'                          ** unit : Â°C
+    #'                          ** unit : degC
     #'- outputs:
     #'            * name: SurfaceSoilTemperature
     #'                          ** description : Average surface soil temperature
     #'                          ** datatype : DOUBLE
-    #'                          ** variablecategory : state
+    #'                          ** variablecategory : auxiliary
     #'                          ** max : 60
     #'                          ** min : -60
-    #'                          ** unit : Â°C
+    #'                          ** unit : degC
     #'            * name: SurfaceTemperatureMinimum
     #'                          ** description : Minimum surface soil temperature
     #'                          ** datatype : DOUBLE
     #'                          ** variablecategory : auxiliary
     #'                          ** max : 60
     #'                          ** min : -60
-    #'                          ** unit : Â°C
+    #'                          ** unit : 
     #'            * name: SurfaceTemperatureMaximum
     #'                          ** description : Maximum surface soil temperature
     #'                          ** datatype : DOUBLE
     #'                          ** variablecategory : auxiliary
     #'                          ** max : 60
     #'                          ** min : -60
-    #'                          ** unit : Â°C
+    #'                          ** unit : degC             */
     _AGB <- AboveGroundBiomass / 10000
     _AirTMax <- AirTemperatureMaximum
     _AirTmin <- AirTemperatureMinimum

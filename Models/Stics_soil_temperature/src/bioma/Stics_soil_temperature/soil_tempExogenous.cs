@@ -34,30 +34,30 @@ namespace soil_temp.DomainClass
         }
 
         public double min_temp
-        {
-            get { return this._min_temp; }
-            set { this._min_temp= value; } 
-        }
+    {
+        get { return this._min_temp; }
+        set { this._min_temp= value; } 
+    }
         public double max_temp
-        {
-            get { return this._max_temp; }
-            set { this._max_temp= value; } 
-        }
+    {
+        get { return this._max_temp; }
+        set { this._max_temp= value; } 
+    }
         public double min_air_temp
-        {
-            get { return this._min_air_temp; }
-            set { this._min_air_temp= value; } 
-        }
+    {
+        get { return this._min_air_temp; }
+        set { this._min_air_temp= value; } 
+    }
         public double min_canopy_temp
-        {
-            get { return this._min_canopy_temp; }
-            set { this._min_canopy_temp= value; } 
-        }
+    {
+        get { return this._min_canopy_temp; }
+        set { this._min_canopy_temp= value; } 
+    }
         public double max_canopy_temp
-        {
-            get { return this._max_canopy_temp; }
-            set { this._max_canopy_temp= value; } 
-        }
+    {
+        get { return this._max_canopy_temp; }
+        set { this._max_canopy_temp= value; } 
+    }
 
         public string Description
         {

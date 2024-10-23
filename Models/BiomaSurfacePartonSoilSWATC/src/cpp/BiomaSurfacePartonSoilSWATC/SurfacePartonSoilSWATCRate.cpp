@@ -1,2 +1,4 @@
 #include "SurfacePartonSoilSWATCRate.h"
-SurfacePartonSoilSWATCRate::SurfacePartonSoilSWATCRate() { }
+using namespace BiomaSurfacePartonSoilSWATC;
+
+SurfacePartonSoilSWATCRate::SurfacePartonSoilSWATCRate() {}

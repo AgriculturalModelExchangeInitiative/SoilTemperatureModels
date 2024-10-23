@@ -4,7 +4,10 @@ using System.Linq;
 public class update
 {
     
-        public update() { }
+    /// <summary>
+    /// Constructor of the update component")
+    /// </summary>  
+    public update() { }
     
     public void  CalculateModel(soil_tempState s, soil_tempState s1, soil_tempRate r, soil_tempAuxiliary a, soil_tempExogenous ex)
     {
@@ -46,20 +49,19 @@ public class update
     //                          ** unit : degC
     //            * name: prev_temp_profile
     //                          ** description : previous soil temperature profile (for 1 cm layers)
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : 1
     //                          ** max : 50.0
     //                          ** min : -50.0
     //                          ** unit : degC
         double canopy_temp_avg = s.canopy_temp_avg;
-        double[] temp_profile = s.temp_profile;
+        List<double> temp_profile = s.temp_profile;
         double prev_canopy_temp;
-        double[] prev_temp_profile =  new double [1];
+        List<double> prev_temp_profile = new List<double>();
         int n;
         prev_canopy_temp = canopy_temp_avg;
-        n = temp_profile.Length;
-        prev_temp_profile = new double[ n];
+        n = temp_profile.Count;
+        prev_temp_profile = new List<double>(n);
         prev_temp_profile = temp_profile;
         s.prev_canopy_temp= prev_canopy_temp;
         s.prev_temp_profile= prev_temp_profile;

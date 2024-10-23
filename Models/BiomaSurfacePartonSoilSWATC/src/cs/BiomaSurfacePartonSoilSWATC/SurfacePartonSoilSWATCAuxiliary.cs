@@ -5,6 +5,7 @@ public class SurfacePartonSoilSWATCAuxiliary
 {
     private double _SurfaceTemperatureMinimum;
     private double _SurfaceTemperatureMaximum;
+    private double _SurfaceSoilTemperature;
     
         public SurfacePartonSoilSWATCAuxiliary() { }
     
@@ -14,8 +15,9 @@ public class SurfacePartonSoilSWATCAuxiliary
     if (copyAll)
     {
     
-    _SurfaceTemperatureMinimum = toCopy._SurfaceTemperatureMinimum;
-    _SurfaceTemperatureMaximum = toCopy._SurfaceTemperatureMaximum;
+    SurfaceTemperatureMinimum = toCopy.SurfaceTemperatureMinimum;
+    SurfaceTemperatureMaximum = toCopy.SurfaceTemperatureMaximum;
+    SurfaceSoilTemperature = toCopy.SurfaceSoilTemperature;
     }
     }
     public double SurfaceTemperatureMinimum
@@ -27,5 +29,10 @@ public class SurfacePartonSoilSWATCAuxiliary
         {
             get { return this._SurfaceTemperatureMaximum; }
             set { this._SurfaceTemperatureMaximum= value; } 
+        }
+    public double SurfaceSoilTemperature
+        {
+            get { return this._SurfaceSoilTemperature; }
+            set { this._SurfaceSoilTemperature= value; } 
         }
 }

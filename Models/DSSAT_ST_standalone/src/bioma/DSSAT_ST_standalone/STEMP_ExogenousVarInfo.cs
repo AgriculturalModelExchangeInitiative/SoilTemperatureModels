@@ -9,11 +9,11 @@ namespace STEMP_.DomainClass
 {
     public class STEMP_ExogenousVarInfo : IVarInfoClass
     {
-        static VarInfo _TAMP = new VarInfo();
-        static VarInfo _SRAD = new VarInfo();
-        static VarInfo _TAV = new VarInfo();
         static VarInfo _TMAX = new VarInfo();
+        static VarInfo _SRAD = new VarInfo();
+        static VarInfo _TAMP = new VarInfo();
         static VarInfo _TAVG = new VarInfo();
+        static VarInfo _TAV = new VarInfo();
         static VarInfo _DOY = new VarInfo();
 
         static STEMP_ExogenousVarInfo()
@@ -36,9 +36,9 @@ namespace STEMP_.DomainClass
             get { return "STEMP_Exogenous";}
         }
 
-        public static  VarInfo TAMP
+        public static  VarInfo TMAX
         {
-            get { return _TAMP;}
+            get { return _TMAX;}
         }
 
         public static  VarInfo SRAD
@@ -46,19 +46,19 @@ namespace STEMP_.DomainClass
             get { return _SRAD;}
         }
 
-        public static  VarInfo TAV
+        public static  VarInfo TAMP
         {
-            get { return _TAV;}
-        }
-
-        public static  VarInfo TMAX
-        {
-            get { return _TMAX;}
+            get { return _TAMP;}
         }
 
         public static  VarInfo TAVG
         {
             get { return _TAVG;}
+        }
+
+        public static  VarInfo TAV
+        {
+            get { return _TAV;}
         }
 
         public static  VarInfo DOY
@@ -68,13 +68,13 @@ namespace STEMP_.DomainClass
 
         static void DescribeVariables()
         {
-            _TAMP.Name = "TAMP";
-            _TAMP.Description = "Amplitude of temperature function used to calculate soil temperatures";
-            _TAMP.MaxValue = -1D;
-            _TAMP.MinValue = -1D;
-            _TAMP.DefaultValue = -1D;
-            _TAMP.Units = "degC";
-            _TAMP.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+            _TMAX.Name = "TMAX";
+            _TMAX.Description = "Maximum daily temperature";
+            _TMAX.MaxValue = -1D;
+            _TMAX.MinValue = -1D;
+            _TMAX.DefaultValue = -1D;
+            _TMAX.Units = "degC";
+            _TMAX.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _SRAD.Name = "SRAD";
             _SRAD.Description = "Solar radiation";
@@ -84,21 +84,13 @@ namespace STEMP_.DomainClass
             _SRAD.Units = "MJ/m2-d";
             _SRAD.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
-            _TAV.Name = "TAV";
-            _TAV.Description = "Average annual soil temperature, used with TAMP to calculate soil temperature.";
-            _TAV.MaxValue = -1D;
-            _TAV.MinValue = -1D;
-            _TAV.DefaultValue = -1D;
-            _TAV.Units = "degC";
-            _TAV.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
-
-            _TMAX.Name = "TMAX";
-            _TMAX.Description = "Maximum daily temperature";
-            _TMAX.MaxValue = -1D;
-            _TMAX.MinValue = -1D;
-            _TMAX.DefaultValue = -1D;
-            _TMAX.Units = "degC";
-            _TMAX.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+            _TAMP.Name = "TAMP";
+            _TAMP.Description = "Amplitude of temperature function used to calculate soil temperatures";
+            _TAMP.MaxValue = -1D;
+            _TAMP.MinValue = -1D;
+            _TAMP.DefaultValue = -1D;
+            _TAMP.Units = "degC";
+            _TAMP.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _TAVG.Name = "TAVG";
             _TAVG.Description = "Average daily temperature";
@@ -107,6 +99,14 @@ namespace STEMP_.DomainClass
             _TAVG.DefaultValue = -1D;
             _TAVG.Units = "degC";
             _TAVG.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+
+            _TAV.Name = "TAV";
+            _TAV.Description = "Average annual soil temperature, used with TAMP to calculate soil temperature.";
+            _TAV.MaxValue = -1D;
+            _TAV.MinValue = -1D;
+            _TAV.DefaultValue = -1D;
+            _TAV.Units = "degC";
+            _TAV.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _DOY.Name = "DOY";
             _DOY.Description = "Current day of simulation";

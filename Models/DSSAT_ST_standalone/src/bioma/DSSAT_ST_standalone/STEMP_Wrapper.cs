@@ -27,17 +27,17 @@ namespace Model.Model.STEMP_
 
         public double SRFTEMP{ get { return s.SRFTEMP;}} 
      
+        public double[] ST{ get { return s.ST;}} 
+     
         public double[] TMA{ get { return s.TMA;}} 
+     
+        public double TDL{ get { return s.TDL;}} 
      
         public double CUMDPT{ get { return s.CUMDPT;}} 
      
         public double ATOT{ get { return s.ATOT;}} 
      
-        public double TDL{ get { return s.TDL;}} 
-     
         public double[] DSMID{ get { return s.DSMID;}} 
-     
-        public double[] ST{ get { return s.ST;}} 
      
 
         public STEMP_Wrapper(Universe universe, STEMP_Wrapper toCopy, bool copyAll) : base(universe)
@@ -59,26 +59,26 @@ namespace Model.Model.STEMP_
 
         private void loadParameters()
         {
-            stemp_Component.XLAT = XLAT;
-            stemp_Component.ISWWAT = ISWWAT;
-            stemp_Component.NLAYR = NLAYR;
-            stemp_Component.DUL = DUL;
-            stemp_Component.DS = DS;
-            stemp_Component.LL = LL;
-            stemp_Component.BD = BD;
             stemp_Component.MSALB = MSALB;
             stemp_Component.NL = NL;
+            stemp_Component.LL = LL;
+            stemp_Component.NLAYR = NLAYR;
+            stemp_Component.DS = DS;
             stemp_Component.DLAYR = DLAYR;
+            stemp_Component.ISWWAT = ISWWAT;
+            stemp_Component.BD = BD;
             stemp_Component.SW = SW;
+            stemp_Component.XLAT = XLAT;
+            stemp_Component.DUL = DUL;
         }
 
-        public void EstimateSTEMP_(double TAMP, double SRAD, double TAV, double TMAX, double TAVG, int DOY)
+        public void EstimateSTEMP_(double TMAX, double SRAD, double TAMP, double TAVG, double TAV, int DOY)
         {
-            a.TAMP = TAMP;
-            a.SRAD = SRAD;
-            a.TAV = TAV;
             a.TMAX = TMAX;
+            a.SRAD = SRAD;
+            a.TAMP = TAMP;
             a.TAVG = TAVG;
+            a.TAV = TAV;
             a.DOY = DOY;
             stemp_Component.CalculateModel(s,s1, r, a, ex);
         }

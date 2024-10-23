@@ -165,3 +165,6 @@ c:\Users\midingoy\Documents\SQ_Bioma_Components\SiriusQuality-SoilTemperatureStr
 c:\Users\midingoy\Documents\SQ_Bioma_Components\SiriusQuality-SoilTemperatureStrategies\obj\Debug\SiriusQuality-SoilTemperatureStrategies.csproj.CopyComplete
 c:\Users\midingoy\Documents\SQ_Bioma_Components\SiriusQuality-SoilTemperatureStrategies\obj\Debug\SiriusQuality-SoilTemperatureStrategies.dll
 c:\Users\midingoy\Documents\SQ_Bioma_Components\SiriusQuality-SoilTemperatureStrategies\obj\Debug\SiriusQuality-SoilTemperatureStrategies.pdb
+C:\Users\raihauti\Documents\SQ_Soil_Temperature\SiriusQuality-SoilTemperatureStrategies\obj\Debug\SiriusQuality-SoilTemperatureStrategies.csproj.AssemblyReference.cache
+C:\Users\raihauti\Documents\SQ_Soil_Temperature\SiriusQuality-SoilTemperatureStrategies\obj\Debug\SiriusQuality-SoilTemperatureStrategies.csproj.CoreCompileInputs.cache
+C:\Users\raihauti\Documents\SQ_Soil_Temperature\SiriusQuality-SoilTemperatureStrategies\obj\Debug\SiriusQuality-SoilTemperatureStrategies.pdb

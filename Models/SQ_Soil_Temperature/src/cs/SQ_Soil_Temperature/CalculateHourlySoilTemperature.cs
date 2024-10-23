@@ -3,12 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 public class CalculateHourlySoilTemperature
 {
-    private double _c;
-    public double c
-        {
-            get { return this._c; }
-            set { this._c= value; } 
-        }
     private double _b;
     public double b
         {
@@ -20,6 +14,12 @@ public class CalculateHourlySoilTemperature
         {
             get { return this._a; }
             set { this._a= value; } 
+        }
+    private double _c;
+    public double c
+        {
+            get { return this._c; }
+            set { this._c= value; } 
         }
         public CalculateHourlySoilTemperature() { }
     
@@ -34,15 +34,15 @@ public class CalculateHourlySoilTemperature
     //            * ExtendedDescription: Calculate Soil temperature on a hourly basis.Parton, W.J. and Logan, J.A., 1981. A model for diurnal variation in soil and air temperature. Agric. Meteorol., 23: 205-216
     //            * ShortDescription: None
         //- inputs:
-    //            * name: c
-    //                          ** description : Nighttime temperature coefficient
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
+    //            * name: minTSoil
+    //                          ** description : Minimum Soil Temperature
+    //                          ** inputtype : variable
+    //                          ** variablecategory : state
     //                          ** datatype : DOUBLE
-    //                          ** max : 10
-    //                          ** min : 0
-    //                          ** default : 0.49
-    //                          ** unit : Dpmensionless
+    //                          ** max : 80
+    //                          ** min : -30
+    //                          ** default : 20
+    //                          ** unit : Â°C
     //            * name: dayLength
     //                          ** description : Length of the day
     //                          ** inputtype : variable
@@ -52,15 +52,6 @@ public class CalculateHourlySoilTemperature
     //                          ** min : 0
     //                          ** default : 12
     //                          ** unit : hour
-    //            * name: maxTSoil
-    //                          ** description : Maximum Soil Temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 80
-    //                          ** min : -30
-    //                          ** default : 20
-    //                          ** unit : °C
     //            * name: b
     //                          ** description : Delay between sunrise and time when minimum temperature is reached
     //                          ** inputtype : parameter
@@ -79,15 +70,24 @@ public class CalculateHourlySoilTemperature
     //                          ** min : 0
     //                          ** default : 0.5
     //                          ** unit : Hour
-    //            * name: minTSoil
-    //                          ** description : Minimum Soil Temperature
+    //            * name: maxTSoil
+    //                          ** description : Maximum Soil Temperature
     //                          ** inputtype : variable
     //                          ** variablecategory : state
     //                          ** datatype : DOUBLE
     //                          ** max : 80
     //                          ** min : -30
     //                          ** default : 20
-    //                          ** unit : °C
+    //                          ** unit : Â°C
+    //            * name: c
+    //                          ** description : Nighttime temperature coefficient
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
+    //                          ** datatype : DOUBLE
+    //                          ** max : 10
+    //                          ** min : 0
+    //                          ** default : 0.49
+    //                          ** unit : Dpmensionless
         //- outputs:
     //            * name: hourlySoilT
     //                          ** description : Hourly Soil Temperature
@@ -96,10 +96,10 @@ public class CalculateHourlySoilTemperature
     //                          ** len : 24
     //                          ** max : 80
     //                          ** min : -30
-    //                          ** unit : °C
+    //                          ** unit : Â°C
+        double minTSoil = s.minTSoil;
         double dayLength = ex.dayLength;
         double maxTSoil = s.maxTSoil;
-        double minTSoil = s.minTSoil;
         double[] hourlySoilT =  new double [24];
         int i;
         if (maxTSoil == (double)(-999) && minTSoil == (double)(999))
@@ -119,11 +119,11 @@ public class CalculateHourlySoilTemperature
             {
                 hourlySoilT[i] = 0.00d;
             }
-            hourlySoilT = getHourlySoilSurfaceTemperature(maxTSoil, minTSoil, dayLength, b, c, a);
+            hourlySoilT = getHourlySoilSurfaceTemperature(maxTSoil, minTSoil, dayLength, b, a, c);
         }
         s.hourlySoilT= hourlySoilT;
     }
-    public static double[] getHourlySoilSurfaceTemperature(double TMax, double TMin, double ady, double b, double c, double a)
+    public static double[] getHourlySoilSurfaceTemperature(double TMax, double TMin, double ady, double b, double a, double c)
     {
         int i;
         double[] result =  new double [24];
