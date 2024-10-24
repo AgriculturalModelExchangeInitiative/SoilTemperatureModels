@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE ModelComposition PUBLIC " " "https://raw.githubusercontent.com/AgriculturalModelExchangeInitiative/crop2ml/master/ModelComposition.dtd">
-<ModelComposition name="model_SoilTempCampbell" id="Campbell..model_SoilTempCampbell" version="1.0" timestep="1">
+<ModelComposition name="model_SoilTempCampbell" id="Campbell.model_SoilTempCampbell" version="1.0" timestep="1">
     <Description>
         <Title>SoilTemperature model from Campbell implemented in APSIM</Title>
         <Authors></Authors>
@@ -9,7 +9,7 @@
         <ExtendedDescription>TODO</ExtendedDescription>
         <ShortDescription>TODO</ShortDescription></Description>
     <Composition>
-        <Model name="campbell" id="Campbell..campbell" filename="unit.campbell.xml"/>
+        <Model name="campbell" id="Campbell.campbell" filename="unit.campbell.xml"/>
         <Links>
             <InputLink target="campbell.NLAYR" source="NLAYR"/>
             <InputLink target="campbell.THICK" source="THICK"/>
