@@ -17,18 +17,18 @@ def model_SoilTempCampbell(NLAYR: int,
     SLSILT:'Array[float]',
     SLSAND:'Array[float]',
     SW: 'Array[float]',
-    THICKApsim: 'Array[float]',
-    DEPTHApsim: 'Array[float]',
+    THICKApsim: 'List[float]',
+    DEPTHApsim: 'List[float]',
     CONSTANT_TEMPdepth:float,
-    BDApsim: 'Array[float]',
+    BDApsim: 'List[float]',
     T2M: float,
     TMAX: float,
     TMIN: float,
     TAV: float,
     TAMP: float,
     XLAT: float,
-    CLAYApsim: 'Array[float]',
-    SWApsim: 'Array[float]',
+    CLAYApsim: 'List[float]',
+    SWApsim: 'List[float]',
     DOY: int,
     airPressure: float,
     canopyHeight: float,
@@ -37,34 +37,34 @@ def model_SoilTempCampbell(NLAYR: int,
     ESP: float,
     ES: float,
     EOAD: float,  
-    soilTemp: 'Array[float]',
-    newTemperature: 'Array[float]',
-    minSoilTemp: 'Array[float]',
-    maxSoilTemp: 'Array[float]',
-    aveSoilTemp: 'Array[float]',
-    morningSoilTemp: 'Array[float]',
-    thermalCondPar1: 'Array[float]',
-    thermalCondPar2: 'Array[float]',
-    thermalCondPar3: 'Array[float]',
-    thermalCondPar4: 'Array[float]',
-    thermalConductivity: 'Array[float]',
-    thermalConductance: 'Array[float]',
-    heatStorage: 'Array[float]',
-    volSpecHeatSoil: 'Array[float]',
+    soilTemp: 'List[float]',
+    newTemperature: 'List[float]',
+    minSoilTemp: 'List[float]',
+    maxSoilTemp: 'List[float]',
+    aveSoilTemp: 'List[float]',
+    morningSoilTemp: 'List[float]',
+    thermalCondPar1: 'List[float]',
+    thermalCondPar2: 'List[float]',
+    thermalCondPar3: 'List[float]',
+    thermalCondPar4: 'List[float]',
+    thermalConductivity: 'List[float]',
+    thermalConductance: 'List[float]',
+    heatStorage: 'List[float]',
+    volSpecHeatSoil: 'List[float]',
     maxTempYesterday: float,
     minTempYesterday: float,
     instrumentHeight:float,
     boundaryLayerConductanceSource:str,
     netRadiationSource:str,
     windSpeed:float,
-    SLCARBApsim:'Array[float]',
-    SLROCKApsim:'Array[float]',
-    SLSILTApsim:'Array[float]',
-    SLSANDApsim:'Array[float]',
+    SLCARBApsim:'List[float]',
+    SLROCKApsim:'List[float]',
+    SLSILTApsim:'List[float]',
+    SLSANDApsim:'List[float]',
     _boundaryLayerConductance:float
     ):
     """
-    - Name: model_SoilTempCampbell
+    - Name: Model_SoilTempCampbell
     - Version: 1.0
     - Time step: 1
     - Description:
@@ -74,7 +74,7 @@ def model_SoilTempCampbell(NLAYR: int,
                 * Institution: CIRAD and INRAE
                 * ExtendedDescription: TODO
                 * ShortDescription: TODO
-    - inputs: 
+        - inputs: 
          * name: NLAYR
                ** description : number of soil layers in profile
                ** inputtype : parameter
@@ -94,31 +94,31 @@ def model_SoilTempCampbell(NLAYR: int,
                ** default : 1000.0
                ** unit : mm
          * name: THICK
-               ** description : Soil layer depths as THICKApsim of layers
-               ** inputtype : variable
-               ** variablecategory : exogenous
+               ** description : Soil layer thickness of layers
+               ** inputtype : parameter
+               ** parametercategory : constant
                ** datatype : DOUBLEARRAY
                ** len : NLAYR
                ** max :
                ** min : 1
-               ** default : 50
+               ** default :
                ** unit : mm
                ** uri :
         * name: THICKApsim
-               ** description : APSIM soil layer depths as THICKApsim of layers
+               ** description : APSIM soil layer depths of layers
                ** inputtype : variable
                ** variablecategory : state
-               ** datatype : DOUBLEARRAY
-               ** len : NLAYR
+               ** datatype : DOUBLELIST
+               ** len :
                ** max :
                ** min : 1
-               ** default : 50
+               ** default :
                ** unit : mm
                ** uri :
         * name: DEPTH
                ** description : node depths
-               ** inputtype : variable
-               ** variablecategory : exogenous
+               ** inputtype : parameter
+               ** parametercategory : constant
                ** datatype : DOUBLEARRAY
                ** len : NLAYR
                ** max :
@@ -130,8 +130,8 @@ def model_SoilTempCampbell(NLAYR: int,
                ** description : Apsim node depths
                ** inputtype : variable
                ** variablecategory : state
-               ** datatype : DOUBLEARRAY
-               ** len : NLAYR
+               ** datatype : DOUBLELIST
+               ** len :
                ** max :
                ** min : 
                ** default : 
@@ -139,24 +139,24 @@ def model_SoilTempCampbell(NLAYR: int,
                ** uri :
         * name: BD
                ** description : bd (soil bulk density) 
-               ** inputtype : variable
-               ** variablecategory : exogenous
+               ** inputtype : parameter
+               ** parametercategory : constant
                ** datatype : DOUBLEARRAY
                ** len : NLAYR
                ** max :
                ** min : 
-               ** default : 1.4
+               ** default :
                ** unit : g/cm3
                uri :
         * name: BDApsim
                ** description : Apsim bd (soil bulk density) 
                ** inputtype : variable
                ** variablecategory : state
-               ** datatype : DOUBLEARRAY
-               ** len : NLAYR
+               ** datatype : DOUBLELIST
+               ** len :
                ** max :
                ** min : 
-               ** default : 1.4
+               ** default :
                ** unit : g/cm3
                uri :
         * name: T2M
@@ -187,9 +187,9 @@ def model_SoilTempCampbell(NLAYR: int,
                ** default :
                ** unit : °C
         * name: TAV
-               ** description : Average daily Air temperature
-               ** inputtype : variable
-               ** variablecategory : exogenous
+               ** description : Average annual air temperature
+               ** inputtype : parameter
+               ** parametercategory : constant
                ** datatype : DOUBLE
                ** max : 60
                ** min : -60
@@ -214,9 +214,9 @@ def model_SoilTempCampbell(NLAYR: int,
                ** default :
                ** unit : °C
         * name: CLAY
-               ** description : Proportion of CLAYApsim in each layer of profile
-               ** inputtype : variable
-               ** variablecategory : exogenous
+               ** description : Proportion of CLAY in each layer of profile
+               ** inputtype : parameter
+               ** parametercategory : constant
                ** datatype : DOUBLEARRAY
                ** len : NLAYR
                ** max : 100
@@ -225,20 +225,20 @@ def model_SoilTempCampbell(NLAYR: int,
                ** unit : %
                ** uri :
         * name: CLAYApsim
-               ** description : Apsim proportion of CLAYApsim in each layer of profile
+               ** description : Apsim proportion of CLAY in each layer of profile
                ** inputtype : variable
                ** variablecategory : state
-               ** datatype : DOUBLEARRAY
+               ** datatype : DOUBLELIST
                ** len : NLAYR
                ** max : 100
                ** min : 0
-               ** default : 50
+               ** default :
                ** unit : %
                ** uri :
         * name: SW
                ** description : volumetric water content
-               ** inputtype : variable
-               ** variablecategory : exogenous
+               ** inputtype : parameter
+               ** parametercategory : constant
                ** datatype : DOUBLEARRAY
                ** len : NLAYR
                ** max : 1
@@ -250,11 +250,11 @@ def model_SoilTempCampbell(NLAYR: int,
                ** description : Apsim volumetric water content
                ** inputtype : variable
                ** variablecategory : state
-               ** datatype : DOUBLEARRAY
+               ** datatype : DOUBLELIST
                ** len : NLAYR
                ** max : 1
                ** min : 0
-               ** default : 0.5
+               ** default :
                ** unit : cc water / cc soil
                ** uri :
         * name: DOY
@@ -333,7 +333,7 @@ def model_SoilTempCampbell(NLAYR: int,
                ** description :  Temperature at end of last time-step within a day - midnight in layers
                ** inputtype : variable
                ** variablecategory : state
-               ** datatype : DOUBLEARRAY
+               ** datatype : DOUBLELIST
                ** len : NLAYR
                ** default :
                ** min : -60.
@@ -344,7 +344,7 @@ def model_SoilTempCampbell(NLAYR: int,
                 ** description : Soil temperature at the end of one iteration
                 ** inputtype : variable
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** default :
                 ** min : -60.
@@ -355,7 +355,7 @@ def model_SoilTempCampbell(NLAYR: int,
                 ** description : Minimum soil temperature in layers
                 ** inputtype : variable
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** default :
                 ** min : -60.
@@ -366,7 +366,7 @@ def model_SoilTempCampbell(NLAYR: int,
                 ** description :  Maximum soil temperature in layers
                 ** inputtype : variable
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** default :
                 ** min : -60.
@@ -377,7 +377,7 @@ def model_SoilTempCampbell(NLAYR: int,
                 ** description : Temperature averaged over all time-steps within a day in layers.
                 ** inputtype : variable
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** default :
                 ** min : -60.
@@ -388,7 +388,7 @@ def model_SoilTempCampbell(NLAYR: int,
                 ** description : Temperature  in the morning in layers.
                 ** inputtype : variable
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** default :
                 ** min : -60.
@@ -399,7 +399,7 @@ def model_SoilTempCampbell(NLAYR: int,
                ** description : thermal conductivity coeff in layers
                ** inputtype : variable
                ** variablecategory : state
-               ** datatype : DOUBLEARRAY
+               ** datatype : DOUBLELIST
                ** len : NLAYR
                ** default : 
                ** min : 
@@ -410,7 +410,7 @@ def model_SoilTempCampbell(NLAYR: int,
                ** description : thermal conductivity coeff in layers
                ** inputtype : variable
                ** variablecategory : state
-               ** datatype : DOUBLEARRAY
+               ** datatype : DOUBLELIST
                ** len : NLAYR
                ** default : 
                ** min : 
@@ -421,7 +421,7 @@ def model_SoilTempCampbell(NLAYR: int,
                ** description : thermal conductivity coeff in layers
                ** inputtype : variable
                ** variablecategory : state
-               ** datatype : DOUBLEARRAY
+               ** datatype : DOUBLELIST
                ** len : NLAYR
                ** default : 
                ** min : 
@@ -432,7 +432,7 @@ def model_SoilTempCampbell(NLAYR: int,
                ** description : thermal conductivity coeff in layers
                ** inputtype : variable
                ** variablecategory : state
-               ** datatype : DOUBLEARRAY
+               ** datatype : DOUBLELIST
                ** len : NLAYR
                ** default : 
                ** min : 
@@ -443,7 +443,7 @@ def model_SoilTempCampbell(NLAYR: int,
                 ** description : thermal conductivity in layers
                 ** inputtype : variable
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** default :
                 ** min : 
@@ -454,7 +454,7 @@ def model_SoilTempCampbell(NLAYR: int,
                 ** description : Thermal conductance between layers 
                 ** inputtype : variable
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** default :
                 ** min : 
@@ -465,7 +465,7 @@ def model_SoilTempCampbell(NLAYR: int,
                 ** description : Heat storage between layers (internal)
                 ** inputtype : variable
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** default :
                 ** min : 
@@ -476,7 +476,7 @@ def model_SoilTempCampbell(NLAYR: int,
                 ** description : Volumetric specific heat over the soil profile
                 ** inputtype : variable
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** default :
                 ** min : 
@@ -543,8 +543,8 @@ def model_SoilTempCampbell(NLAYR: int,
                ** uri :
         * name: SLCARB
                 ** description : Volumetric fraction of organic matter in the soil
-                ** inputtype : variable
-                ** variablecategory : exogenous
+                ** inputtype : parameter
+                ** parametercategory : constant
                 ** datatype : DOUBLEARRAY
                 ** len : NLAYR
                 ** default :
@@ -553,10 +553,10 @@ def model_SoilTempCampbell(NLAYR: int,
                 ** unit : %
                 ** uri : 
         * name: SLCARBApsim
-                ** description : Volumetric fraction of organic matter in the soil
+                ** description : Apsim volumetric fraction of organic matter in the soil
                 ** inputtype : variable
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** default :
                 ** min : 
@@ -564,9 +564,9 @@ def model_SoilTempCampbell(NLAYR: int,
                 ** unit : %
                 ** uri : 
         * name: SLROCK
-                ** description : Volumetric fraction of SLROCKApsim in the soil
-                ** inputtype : variable
-                ** variablecategory : exogenous
+                ** description : Volumetric fraction of rocks in the soil
+                ** inputtype : parameter
+                ** parametercategory : constant
                 ** datatype : DOUBLEARRAY
                 ** len : NLAYR
                 ** default :
@@ -575,10 +575,10 @@ def model_SoilTempCampbell(NLAYR: int,
                 ** unit : %
                 ** uri : 
         * name: SLROCKApsim
-                ** description : Volumetric fraction of SLROCKApsim in the soil
+                ** description : Apsim volumetric fraction of rocks in the soil
                 ** inputtype : variable
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** default :
                 ** min : 
@@ -586,9 +586,9 @@ def model_SoilTempCampbell(NLAYR: int,
                 ** unit : %
                 ** uri : 
         * name: SLSILT
-                ** description : Volumetric fraction of SLSILTApsim in the soil
-                ** inputtype : variable
-                ** variablecategory : exogenous
+                ** description : Volumetric fraction of silt in the soil
+                ** inputtype : parameter
+                ** parametercategory : constant
                 ** datatype : DOUBLEARRAY
                 ** len : NLAYR
                 ** default :
@@ -597,10 +597,10 @@ def model_SoilTempCampbell(NLAYR: int,
                 ** unit : %
                 ** uri : 
         * name: SLSILTApsim
-                ** description : Volumetric fraction of SLSILTApsim in the soil
+                ** description : Apsim volumetric fraction of silt in the soil
                 ** inputtype : variable
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** default :
                 ** min : 
@@ -608,9 +608,9 @@ def model_SoilTempCampbell(NLAYR: int,
                 ** unit : %
                 ** uri :
         * name: SLSAND
-                ** description : Volumetric fraction of SLSANDApsim in the soil
-                ** inputtype : variable
-                ** variablecategory : exogenous
+                ** description : Volumetric fraction of sand in the soil
+                ** inputtype : parameter
+                ** parametercategory : constant
                 ** datatype : DOUBLEARRAY
                 ** len : NLAYR
                 ** default :
@@ -619,10 +619,10 @@ def model_SoilTempCampbell(NLAYR: int,
                 ** unit : %
                 ** uri : 
         * name: SLSANDApsim
-                ** description : Apsim volumetric fraction of SLSANDApsim in the soil
+                ** description : Apsim volumetric fraction of sand in the soil
                 ** inputtype : variable
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** default :
                 ** min : 
@@ -643,7 +643,7 @@ def model_SoilTempCampbell(NLAYR: int,
         * name: soilTemp
                ** description :  Temperature at end of last time-step within a day - midnight in layers
                ** variablecategory : state
-               ** datatype : DOUBLEARRAY
+               ** datatype : DOUBLELIST
                ** len : NLAYR
                ** min : -60.
                ** max : 60.
@@ -652,7 +652,7 @@ def model_SoilTempCampbell(NLAYR: int,
         * name: newTemperature
                 ** description : Soil temperature at the end of one iteration
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** min : -60.
                 ** max : 60.
@@ -661,7 +661,7 @@ def model_SoilTempCampbell(NLAYR: int,
         * name: minSoilTemp
                 ** description : Minimum soil temperature in layers
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** min : -60.
                 ** max : 60.
@@ -670,7 +670,7 @@ def model_SoilTempCampbell(NLAYR: int,
         * name: maxSoilTemp
                 ** description :  Maximum soil temperature in layers
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** min : -60.
                 ** max : 60.
@@ -679,7 +679,7 @@ def model_SoilTempCampbell(NLAYR: int,
         * name: aveSoilTemp
                 ** description : Temperature averaged over all time-steps within a day in layers.
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** min : -60.
                 ** max : 60.
@@ -688,23 +688,16 @@ def model_SoilTempCampbell(NLAYR: int,
         * name: morningSoilTemp
                 ** description : Temperature  in the morning in layers.
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** min : -60.
                 ** max : 60.
                 ** unit : degC
                 ** uri : 
-        * name: airPressure
-               ** description : Air pressure
-               ** variablecategory : state
-               ** datatype : DOUBLE
-               ** max : 
-               ** min : 
-               ** unit : hPA
         * name: thermalCondPar1
                ** description : thermal conductivity coeff in layers
                ** variablecategory : state
-               ** datatype : DOUBLEARRAY
+               ** datatype : DOUBLELIST
                ** len : NLAYR
                ** min : 
                ** max : 
@@ -713,7 +706,7 @@ def model_SoilTempCampbell(NLAYR: int,
         * name: thermalCondPar2
                ** description : thermal conductivity coeff in layers
                ** variablecategory : state
-               ** datatype : DOUBLEARRAY
+               ** datatype : DOUBLELIST
                ** len : NLAYR
                ** min : 
                ** max : 
@@ -722,7 +715,7 @@ def model_SoilTempCampbell(NLAYR: int,
         * name: thermalCondPar3
                ** description : thermal conductivity coeff in layers
                ** variablecategory : state
-               ** datatype : DOUBLEARRAY
+               ** datatype : DOUBLELIST
                ** len : NLAYR
                ** min : 
                ** max : 
@@ -731,7 +724,7 @@ def model_SoilTempCampbell(NLAYR: int,
         * name: thermalCondPar4
                ** description : thermal conductivity coeff in layers
                ** variablecategory : state
-               ** datatype : DOUBLEARRAY
+               ** datatype : DOUBLELIST
                ** len : NLAYR
                ** min : 
                ** max : 
@@ -740,7 +733,7 @@ def model_SoilTempCampbell(NLAYR: int,
         * name: thermalConductivity
                 ** description : thermal conductivity in layers
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** min : 
                 ** max : 
@@ -749,7 +742,7 @@ def model_SoilTempCampbell(NLAYR: int,
         * name: thermalConductance
                 ** description : Thermal conductance between layers 
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** min : 
                 ** max : 
@@ -758,7 +751,7 @@ def model_SoilTempCampbell(NLAYR: int,
         * name: heatStorage
                 ** description : Heat storage between layers (internal)
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** min : 
                 ** max : 
@@ -767,7 +760,7 @@ def model_SoilTempCampbell(NLAYR: int,
         * name: volSpecHeatSoil
                 ** description : Volumetric specific heat over the soil profile
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** min : 
                 ** max : 
@@ -792,43 +785,43 @@ def model_SoilTempCampbell(NLAYR: int,
         * name: SLCARBApsim
                 ** description : Volumetric fraction of organic matter in the soil
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** min : 
                 ** max : 
                 ** unit : %
                 ** uri : 
         * name: SLROCKApsim
-                ** description : Volumetric fraction of SLROCKApsim in the soil
+                ** description : Volumetric fraction of rocks in the soil
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** min : 
                 ** max : 
                 ** unit : %
                 ** uri : 
         * name: SLSILTApsim
-                ** description : Volumetric fraction of SLSILTApsim in the soil
+                ** description : Volumetric fraction of silt in the soil
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** min : 
                 ** max : 
                 ** unit : %
                 ** uri : 
         * name: SLSANDApsim
-                ** description : Volumetric fraction of SLSANDApsim in the soil
+                ** description : Volumetric fraction of sand in the soil
                 ** variablecategory : state
-                ** datatype : DOUBLEARRAY
+                ** datatype : DOUBLELIST
                 ** len : NLAYR
                 ** min : 
                 ** max : 
                 ** unit : %
                 ** uri : 
          * name: THICKApsim
-               ** description : APSIM soil layer depths as THICKApsim of layers
+               ** description : APSIM soil layer thickness of layers
                ** variablecategory : state
-               ** datatype : DOUBLEARRAY
+               ** datatype : DOUBLELIST
                ** len : NLAYR
                ** max :
                ** min : 1
@@ -837,34 +830,34 @@ def model_SoilTempCampbell(NLAYR: int,
         * name: DEPTHApsim
                ** description : APSIM node depths
                ** variablecategory : state
-               ** datatype : DOUBLEARRAY
+               ** datatype : DOUBLELIST
                ** len : NLAYR
                ** max :
                ** min : 
                ** unit : m
                ** uri :
         * name: BDApsim
-               ** description : bd (soil bulk density) is name of the APSIM var for bulk density so set BDApsim = bd later
+               ** description : soil bulk density of APSIM
                ** variablecategory : state
-               ** datatype : DOUBLEARRAY
+               ** datatype : DOUBLELIST
                ** len : NLAYR
                ** max :
                ** min : 
                ** unit : g/cm3
                uri :
         * name: CLAYApsim
-               ** description : Proportion of CLAYApsim in each layer of profile
+               ** description : Proportion of clay in each layer of profile
                ** variablecategory : state
-               ** datatype : DOUBLEARRAY
+               ** datatype : DOUBLELIST
                ** len : NLAYR
                ** max : 100
                ** min : 0
                ** unit : %
                ** uri :
         * name: SWApsim
-               ** description : volumetric water content
+               ** description : Apsim volumetric water content
                ** variablecategory : state
-               ** datatype : DOUBLEARRAY
+               ** datatype : DOUBLELIST
                ** len : NLAYR
                ** max : 1
                ** min : 0
