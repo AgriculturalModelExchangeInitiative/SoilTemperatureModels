@@ -1,9 +1,9 @@
 # Soil Temperature from ApSimX
 
 The Soil Temperature model is from ApSimX.
-The C# code can be retrieve on github (https://github.com/APSIMInitiative/ApsimX/tree/master/Models/Soils/SoilTemp).
+The C# code can be retrieve on [github](https://github.com/APSIMInitiative/ApsimX/tree/master/Models/Soils/SoilTemp).
 
-A detailled description of the model can be found on the ApSim website (https://www.apsim.info/documentation/model-documentation/soil-modules-documentation/soiltemp/).
+A detailled description of the model can be found on the [ApSim website](https://www.apsim.info/documentation/model-documentation/soil-modules-documentation/soiltemp/).
 
 ## Layout
 - campbell_apsim : contains the original C# code from Apsim implementing the campbell model
@@ -30,3 +30,35 @@ A detailled description of the model can be found on the ApSim website (https://
      - [x] stics
      - [x] sirius
      - [ ] **cpp / monica**
+
+
+
+### Generating crop2ml repository from python models
+```bash
+cyml -c campbell_python Campbell py 
+```
+
+### Convert the result to various paltforms
+```bash
+cyml -p Campbell py apsim simplace 
+```
+
+### For developpers
+
+In a ipython shell 
+```python
+%pdb on # debug
+from pycropml.cyml import transpile_file, transpile_package, transpile_component
+from pycropml.transpiler.main import languages
+
+print(languages)
+
+# cyml -p
+transpile_component('campbell_python', 'Campbell','py')
+
+# cyml -c 
+transpile_package('Campbell', 'py')
+```
+
+This is really usefull to debug when something went wrong.
+
