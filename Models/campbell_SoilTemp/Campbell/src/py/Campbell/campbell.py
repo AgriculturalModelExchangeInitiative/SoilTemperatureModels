@@ -106,7 +106,7 @@ def init_campbell(NLAYR:int,
     layer:int
     node:int
     surfaceT:float
-    soilRoughnessHeight = 57.0
+    soilRoughnessHeight = 0.057
     defaultInstrumentHeight = 1.2
     AltitudeMetres = 18.0
     NUM_PHANTOM_NODES = 5
@@ -186,6 +186,7 @@ def init_campbell(NLAYR:int,
     thermalConductance = [0.0] * (numNodes + 1 + 1)
     (thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4) = doThermalConductivityCoeffs(NLAYR, numNodes, BDApsim, CLAYApsim)
     newTemperature = CalcSoilTemp(THICKApsim, TAV, TAMP, DOY, XLAT, numNodes)
+    canopyHeight = max(canopyHeight, soilRoughnessHeight)
     instrumentHeight = max(instrumentHeight, canopyHeight + 0.5)
     soilTemp = CalcSoilTemp(THICKApsim, TAV, TAMP, DOY, XLAT, numNodes)
     soilTemp[AIRnode] = T2M
@@ -959,6 +960,7 @@ def model_campbell(NLAYR:int,
     MJ2J:float
     J2MJ:float
     tempStepSec:float
+    soilRoughnessHeight:float
     BoundaryLayerConductanceIterations:int
     numNodes:int
     soilConstituentNames:'array[str]'
@@ -990,12 +992,14 @@ def model_campbell(NLAYR:int,
     MJ2J = 1000000.0
     J2MJ = 1.0 / MJ2J
     tempStepSec = 24.0 * 60.0 * 60.0
+    soilRoughnessHeight = 0.057
     BoundaryLayerConductanceIterations = 1
     numNodes = NLAYR + NUM_PHANTOM_NODES
     soilConstituentNames = ["Rocks", "OrganicMatter", "Sand", "Silt", "Clay", "Water", "Ice", "Air"]
     timeStepIteration = 1
     constantBoundaryLayerConductance = 20.0
     layer = 0
+    canopyHeight = max(canopyHeight, soilRoughnessHeight)
     cva = 0.0
     cloudFr = 0.0
     solarRadn = [0.0]

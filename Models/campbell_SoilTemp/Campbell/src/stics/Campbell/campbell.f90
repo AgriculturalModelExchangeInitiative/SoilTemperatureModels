@@ -181,7 +181,7 @@ CONTAINS
         deallocate(SLSANDApsim)
 
         cy_boundaryLayerConductance = 0.0
-        soilRoughnessHeight = 57.0
+        soilRoughnessHeight = 0.057
         defaultInstrumentHeight = 1.2
         AltitudeMetres = 18.0
         NUM_PHANTOM_NODES = 5
@@ -285,6 +285,7 @@ CONTAINS
                 CLAYApsim,thermalCondPar1,thermalCondPar2,thermalCondPar3,thermalCondPar4)
         newTemperature = CalcSoilTemp(THICKApsim, TAV, TAMP, DOY, XLAT,  &
                 numNodes)
+        canopyHeight = MAX(canopyHeight, soilRoughnessHeight)
         instrumentHeight = MAX(instrumentHeight, canopyHeight + 0.5)
         soilTemp = CalcSoilTemp(THICKApsim, TAV, TAMP, DOY, XLAT, numNodes)
         soilTemp(AIRnode+1) = T2M
@@ -426,6 +427,7 @@ CONTAINS
         REAL:: MJ2J
         REAL:: J2MJ
         REAL:: tempStepSec
+        REAL:: soilRoughnessHeight
         INTEGER:: BoundaryLayerConductanceIterations
         INTEGER:: numNodes
         CHARACTER(65) , DIMENSION(: ), ALLOCATABLE :: soilConstituentNames
@@ -1143,6 +1145,7 @@ CONTAINS
         MJ2J = 1000000.0
         J2MJ = 1.0 / MJ2J
         tempStepSec = 24.0 * 60.0 * 60.0
+        soilRoughnessHeight = 0.057
         BoundaryLayerConductanceIterations = 1
         numNodes = NLAYR + NUM_PHANTOM_NODES
         soilConstituentNames = (/'Rocks', 'OrganicMatter', 'Sand', 'Silt',  &
@@ -1150,6 +1153,7 @@ CONTAINS
         timeStepIteration = 1
         constantBoundaryLayerConductance = 20.0
         layer = 0
+        canopyHeight = MAX(canopyHeight, soilRoughnessHeight)
         cva = 0.0
         cloudFr = 0.0
         solarRadn = (/0.0/)

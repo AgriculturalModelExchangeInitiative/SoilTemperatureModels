@@ -241,7 +241,7 @@ public class Campbell extends FWSimComponent
         Integer layer;
         Integer node;
         double surfaceT;
-        soilRoughnessHeight = 57.0d;
+        soilRoughnessHeight = 0.057d;
         defaultInstrumentHeight = 1.2d;
         AltitudeMetres = 18.0d;
         NUM_PHANTOM_NODES = 5;
@@ -367,6 +367,7 @@ public class Campbell extends FWSimComponent
         t_thermalCondPar3 = zz_doThermalConductivityCoeffs.getthermalCondPar3();
         t_thermalCondPar4 = zz_doThermalConductivityCoeffs.getthermalCondPar4();
         t_newTemperature = CalcSoilTemp(t_THICKApsim, t_TAV, t_TAMP, t_DOY, t_XLAT, numNodes);
+        t_canopyHeight = Math.max(t_canopyHeight, soilRoughnessHeight);
         t_instrumentHeight = Math.max(t_instrumentHeight, t_canopyHeight + 0.5d);
         t_soilTemp = CalcSoilTemp(t_THICKApsim, t_TAV, t_TAMP, t_DOY, t_XLAT, numNodes);
         soilTemp.set(AIRnode,t_T2M);
@@ -490,6 +491,7 @@ public class Campbell extends FWSimComponent
         double MJ2J;
         double J2MJ;
         double tempStepSec;
+        double soilRoughnessHeight;
         Integer BoundaryLayerConductanceIterations;
         Integer numNodes;
         String[] soilConstituentNames;
@@ -521,12 +523,14 @@ public class Campbell extends FWSimComponent
         MJ2J = 1000000.0d;
         J2MJ = 1.0d / MJ2J;
         tempStepSec = 24.0d * 60.0d * 60.0d;
+        soilRoughnessHeight = 0.057d;
         BoundaryLayerConductanceIterations = 1;
         numNodes = t_NLAYR + NUM_PHANTOM_NODES;
         soilConstituentNames = new ArrayList<>(Arrays.asList("Rocks", "OrganicMatter", "Sand", "Silt", "Clay", "Water", "Ice", "Air"));
         timeStepIteration = 1;
         constantBoundaryLayerConductance = 20.0d;
         layer = 0;
+        t_canopyHeight = Math.max(t_canopyHeight, soilRoughnessHeight);
         cva = 0.0d;
         cloudFr = 0.0d;
         solarRadn = new ArrayList<>(Arrays.asList(0.0d));

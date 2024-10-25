@@ -16,7 +16,7 @@ cdef int firstPhantomNode
 cdef int layer 
 cdef int node 
 cdef float surfaceT 
-soilRoughnessHeight=57.0
+soilRoughnessHeight=0.057
 defaultInstrumentHeight=1.2
 AltitudeMetres=18.0
 NUM_PHANTOM_NODES=5
@@ -96,6 +96,7 @@ heatStorage=[0.0] * (numNodes + 1)
 thermalConductance=[0.0] * (numNodes + 1 + 1)
 (thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4)=doThermalConductivityCoeffs(NLAYR, numNodes, BDApsim, CLAYApsim)
 newTemperature=CalcSoilTemp(THICKApsim, TAV, TAMP, DOY, XLAT, numNodes)
+canopyHeight=max(canopyHeight, soilRoughnessHeight)
 instrumentHeight=max(instrumentHeight, canopyHeight + 0.5)
 soilTemp=CalcSoilTemp(THICKApsim, TAV, TAMP, DOY, XLAT, numNodes)
 soilTemp[AIRnode]=T2M

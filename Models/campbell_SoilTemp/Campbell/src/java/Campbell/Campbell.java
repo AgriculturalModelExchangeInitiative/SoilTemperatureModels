@@ -90,7 +90,7 @@ public class Campbell
         Integer layer;
         Integer node;
         double surfaceT;
-        soilRoughnessHeight = 57.0d;
+        soilRoughnessHeight = 0.057d;
         defaultInstrumentHeight = 1.2d;
         AltitudeMetres = 18.0d;
         NUM_PHANTOM_NODES = 5;
@@ -198,6 +198,7 @@ public class Campbell
         thermalCondPar3 = zz_doThermalConductivityCoeffs.getthermalCondPar3();
         thermalCondPar4 = zz_doThermalConductivityCoeffs.getthermalCondPar4();
         newTemperature = CalcSoilTemp(THICKApsim, TAV, TAMP, DOY, XLAT, numNodes);
+        canopyHeight = Math.max(canopyHeight, soilRoughnessHeight);
         instrumentHeight = Math.max(instrumentHeight, canopyHeight + 0.5d);
         soilTemp = CalcSoilTemp(THICKApsim, TAV, TAMP, DOY, XLAT, numNodes);
         soilTemp.set(AIRnode,T2M);
@@ -1109,6 +1110,7 @@ public class Campbell
         double MJ2J;
         double J2MJ;
         double tempStepSec;
+        double soilRoughnessHeight;
         Integer BoundaryLayerConductanceIterations;
         Integer numNodes;
         String[] soilConstituentNames ;
@@ -1140,12 +1142,14 @@ public class Campbell
         MJ2J = 1000000.0d;
         J2MJ = 1.0d / MJ2J;
         tempStepSec = 24.0d * 60.0d * 60.0d;
+        soilRoughnessHeight = 0.057d;
         BoundaryLayerConductanceIterations = 1;
         numNodes = NLAYR + NUM_PHANTOM_NODES;
         soilConstituentNames = new ArrayList<>(Arrays.asList("Rocks", "OrganicMatter", "Sand", "Silt", "Clay", "Water", "Ice", "Air"));
         timeStepIteration = 1;
         constantBoundaryLayerConductance = 20.0d;
         layer = 0;
+        canopyHeight = Math.max(canopyHeight, soilRoughnessHeight);
         cva = 0.0d;
         cloudFr = 0.0d;
         solarRadn = new ArrayList<>(Arrays.asList(0.0d));

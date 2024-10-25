@@ -1485,7 +1485,7 @@ namespace Model_SoilTempCampbell.Strategies
             int layer;
             int node;
             double surfaceT;
-            soilRoughnessHeight = 57.0;
+            soilRoughnessHeight = 0.057;
             defaultInstrumentHeight = 1.2;
             AltitudeMetres = 18.0;
             NUM_PHANTOM_NODES = 5;
@@ -1607,6 +1607,7 @@ namespace Model_SoilTempCampbell.Strategies
             for (var i = 0; i < numNodes + 1 + 1; i++){thermalConductance.Add(0.0);}
             doThermalConductivityCoeffs(NLAYR, numNodes, BDApsim, CLAYApsim, out thermalCondPar1, out thermalCondPar2, out thermalCondPar3, out thermalCondPar4);
             newTemperature = CalcSoilTemp(THICKApsim, TAV, TAMP, DOY, XLAT, numNodes);
+            canopyHeight = Math.Max(canopyHeight, soilRoughnessHeight);
             instrumentHeight = Math.Max(instrumentHeight, canopyHeight + 0.5);
             soilTemp = CalcSoilTemp(THICKApsim, TAV, TAMP, DOY, XLAT, numNodes);
             soilTemp[AIRnode]=T2M;
@@ -1704,6 +1705,7 @@ namespace Model_SoilTempCampbell.Strategies
             double MJ2J;
             double J2MJ;
             double tempStepSec;
+            double soilRoughnessHeight;
             int BoundaryLayerConductanceIterations;
             int numNodes;
             string[] soilConstituentNames ;
@@ -1735,12 +1737,14 @@ namespace Model_SoilTempCampbell.Strategies
             MJ2J = 1000000.0;
             J2MJ = 1.0 / MJ2J;
             tempStepSec = 24.0 * 60.0 * 60.0;
+            soilRoughnessHeight = 0.057;
             BoundaryLayerConductanceIterations = 1;
             numNodes = NLAYR + NUM_PHANTOM_NODES;
             soilConstituentNames = new string[]{"Rocks", "OrganicMatter", "Sand", "Silt", "Clay", "Water", "Ice", "Air"};
             timeStepIteration = 1;
             constantBoundaryLayerConductance = 20.0;
             layer = 0;
+            canopyHeight = Math.Max(canopyHeight, soilRoughnessHeight);
             cva = 0.0;
             cloudFr = 0.0;
             solarRadn = new List<double>{0.0};

@@ -13,6 +13,7 @@ cdef float PA2HPA
 cdef float MJ2J 
 cdef float J2MJ 
 cdef float tempStepSec 
+cdef float soilRoughnessHeight 
 cdef int BoundaryLayerConductanceIterations 
 cdef int numNodes 
 cdef str soilConstituentNames[]
@@ -44,12 +45,14 @@ PA2HPA=1.0 / 100.0
 MJ2J=1000000.0
 J2MJ=1.0 / MJ2J
 tempStepSec=24.0 * 60.0 * 60.0
+soilRoughnessHeight=0.057
 BoundaryLayerConductanceIterations=1
 numNodes=NLAYR + NUM_PHANTOM_NODES
 soilConstituentNames=["Rocks", "OrganicMatter", "Sand", "Silt", "Clay", "Water", "Ice", "Air"]
 timeStepIteration=1
 constantBoundaryLayerConductance=20.0
 layer=0
+canopyHeight=max(canopyHeight, soilRoughnessHeight)
 cva=0.0
 cloudFr=0.0
 solarRadn=[0.0]
