@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ModelComposition PUBLIC " " "https://raw.githubusercontent.com/AgriculturalModelExchangeInitiative/crop2ml/master/ModelComposition.dtd">
+<ModelComposition name="Model_SoilTempCampbell" id="Campbell..Model_SoilTempCampbell" version="1.0" timestep="1">
+    <Description>
+        <Title>SoilTemperature model from Campbell implemented in APSIM</Title>
+        <Authors></Authors>
+        <Institution>CIRAD and INRAE</Institution>
+        <Reference>Campbell model (TODO)</Reference>
+        <ExtendedDescription>TODO</ExtendedDescription>
+        <ShortDescription>TODO</ShortDescription></Description>
+    <Composition>
+        <Model name="Campbell" id="Campbell..Campbell" filename="unit.Campbell.xml"/>
+        <Links>
+            <InputLink target="Campbell.NLAYR" source="NLAYR"/>
+            <InputLink target="Campbell.THICK" source="THICK"/>
+            <InputLink target="Campbell.BD" source="BD"/>
+            <InputLink target="Campbell.SLCARB" source="SLCARB"/>
+            <InputLink target="Campbell.CLAY" source="CLAY"/>
+            <InputLink target="Campbell.SLROCK" source="SLROCK"/>
+            <InputLink target="Campbell.SLSILT" source="SLSILT"/>
+            <InputLink target="Campbell.SLSAND" source="SLSAND"/>
+            <InputLink target="Campbell.SW" source="SW"/>
+            <InputLink target="Campbell.THICKApsim" source="THICKApsim"/>
+            <InputLink target="Campbell.DEPTHApsim" source="DEPTHApsim"/>
+            <InputLink target="Campbell.CONSTANT_TEMPdepth" source="CONSTANT_TEMPdepth"/>
+            <InputLink target="Campbell.BDApsim" source="BDApsim"/>
+            <InputLink target="Campbell.T2M" source="T2M"/>
+            <InputLink target="Campbell.TMAX" source="TMAX"/>
+            <InputLink target="Campbell.TMIN" source="TMIN"/>
+            <InputLink target="Campbell.TAV" source="TAV"/>
+            <InputLink target="Campbell.TAMP" source="TAMP"/>
+            <InputLink target="Campbell.XLAT" source="XLAT"/>
+            <InputLink target="Campbell.CLAYApsim" source="CLAYApsim"/>
+            <InputLink target="Campbell.SWApsim" source="SWApsim"/>
+            <InputLink target="Campbell.DOY" source="DOY"/>
+            <InputLink target="Campbell.airPressure" source="airPressure"/>
+            <InputLink target="Campbell.canopyHeight" source="canopyHeight"/>
+            <InputLink target="Campbell.SALB" source="SALB"/>
+            <InputLink target="Campbell.SRAD" source="SRAD"/>
+            <InputLink target="Campbell.ESP" source="ESP"/>
+            <InputLink target="Campbell.ES" source="ES"/>
+            <InputLink target="Campbell.EOAD" source="EOAD"/>
+            <InputLink target="Campbell.soilTemp" source="soilTemp"/>
+            <InputLink target="Campbell.newTemperature" source="newTemperature"/>
+            <InputLink target="Campbell.minSoilTemp" source="minSoilTemp"/>
+            <InputLink target="Campbell.maxSoilTemp" source="maxSoilTemp"/>
+            <InputLink target="Campbell.aveSoilTemp" source="aveSoilTemp"/>
+            <InputLink target="Campbell.morningSoilTemp" source="morningSoilTemp"/>
+            <InputLink target="Campbell.thermalCondPar1" source="thermalCondPar1"/>
+            <InputLink target="Campbell.thermalCondPar2" source="thermalCondPar2"/>
+            <InputLink target="Campbell.thermalCondPar3" source="thermalCondPar3"/>
+            <InputLink target="Campbell.thermalCondPar4" source="thermalCondPar4"/>
+            <InputLink target="Campbell.thermalConductivity" source="thermalConductivity"/>
+            <InputLink target="Campbell.thermalConductance" source="thermalConductance"/>
+            <InputLink target="Campbell.heatStorage" source="heatStorage"/>
+            <InputLink target="Campbell.volSpecHeatSoil" source="volSpecHeatSoil"/>
+            <InputLink target="Campbell.maxTempYesterday" source="maxTempYesterday"/>
+            <InputLink target="Campbell.minTempYesterday" source="minTempYesterday"/>
+            <InputLink target="Campbell.instrumentHeight" source="instrumentHeight"/>
+            <InputLink target="Campbell.boundaryLayerConductanceSource" source="boundaryLayerConductanceSource"/>
+            <InputLink target="Campbell.netRadiationSource" source="netRadiationSource"/>
+            <InputLink target="Campbell.windSpeed" source="windSpeed"/>
+            <InputLink target="Campbell.SLCARBApsim" source="SLCARBApsim"/>
+            <InputLink target="Campbell.SLROCKApsim" source="SLROCKApsim"/>
+            <InputLink target="Campbell.SLSILTApsim" source="SLSILTApsim"/>
+            <InputLink target="Campbell.SLSANDApsim" source="SLSANDApsim"/>
+            <InputLink target="Campbell._boundaryLayerConductance" source="_boundaryLayerConductance"/>
+            <OutputLink target="soilTemp" source="Campbell.soilTemp"/>
+            <OutputLink target="minSoilTemp" source="Campbell.minSoilTemp"/>
+            <OutputLink target="maxSoilTemp" source="Campbell.maxSoilTemp"/>
+            <OutputLink target="aveSoilTemp" source="Campbell.aveSoilTemp"/>
+            <OutputLink target="morningSoilTemp" source="Campbell.morningSoilTemp"/>
+            <OutputLink target="newTemperature" source="Campbell.newTemperature"/>
+            <OutputLink target="maxTempYesterday" source="Campbell.maxTempYesterday"/>
+            <OutputLink target="minTempYesterday" source="Campbell.minTempYesterday"/>
+            <OutputLink target="thermalCondPar1" source="Campbell.thermalCondPar1"/>
+            <OutputLink target="thermalCondPar2" source="Campbell.thermalCondPar2"/>
+            <OutputLink target="thermalCondPar3" source="Campbell.thermalCondPar3"/>
+            <OutputLink target="thermalCondPar4" source="Campbell.thermalCondPar4"/>
+            <OutputLink target="thermalConductivity" source="Campbell.thermalConductivity"/>
+            <OutputLink target="thermalConductance" source="Campbell.thermalConductance"/>
+            <OutputLink target="heatStorage" source="Campbell.heatStorage"/>
+            <OutputLink target="volSpecHeatSoil" source="Campbell.volSpecHeatSoil"/>
+            <OutputLink target="_boundaryLayerConductance" source="Campbell._boundaryLayerConductance"/>
+            <OutputLink target="THICKApsim" source="Campbell.THICKApsim"/>
+            <OutputLink target="DEPTHApsim" source="Campbell.DEPTHApsim"/>
+            <OutputLink target="BDApsim" source="Campbell.BDApsim"/>
+            <OutputLink target="SWApsim" source="Campbell.SWApsim"/>
+            <OutputLink target="CLAYApsim" source="Campbell.CLAYApsim"/>
+            <OutputLink target="SLROCKApsim" source="Campbell.SLROCKApsim"/>
+            <OutputLink target="SLCARBApsim" source="Campbell.SLCARBApsim"/>
+            <OutputLink target="SLSANDApsim" source="Campbell.SLSANDApsim"/>
+            <OutputLink target="SLSILTApsim" source="Campbell.SLSILTApsim"/></Links></Composition></ModelComposition>

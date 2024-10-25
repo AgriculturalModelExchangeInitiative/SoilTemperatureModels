@@ -67,3 +67,13 @@ nosetests.xml
 
 # Mac dirs
 .DS_Store
+
+# VS projects
+*.sln
+*.pyproj
+.vs
+.vscode
+*.code-workspace
+
+# Data
+InputData
