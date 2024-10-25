@@ -1,17 +1,22 @@
 def doThermalConductivityCoeffs(int nbLayers,
          int numNodes,
-         floatarray BDApsim,
-         floatarray CLAYApsim):
-    cdef float thermalCondPar1[]
-    cdef float thermalCondPar2[]
-    cdef float thermalCondPar3[]
-    cdef float thermalCondPar4[]
+         floatlist BDApsim,
+         floatlist CLAYApsim):
+    cdef floatlist  thermalCondPar1
+    cdef floatlist  thermalCondPar2
+    cdef floatlist  thermalCondPar3
+    cdef floatlist  thermalCondPar4
     cdef int layer 
     cdef int element 
-    thermalCondPar1=[0.0] * (numNodes + 1)
-    thermalCondPar2=[0.0] * (numNodes + 1)
-    thermalCondPar3=[0.0] * (numNodes + 1)
-    thermalCondPar4=[0.0] * (numNodes + 1)
+    thermalCondPar1=[0.0]
+    thermalCondPar2=[0.0]
+    thermalCondPar3=[0.0]
+    thermalCondPar4=[0.0]
+    for layer in range(0 , numNodes + 1 , 1):
+        thermalCondPar1.append(0.0)
+        thermalCondPar2.append(0.0)
+        thermalCondPar3.append(0.0)
+        thermalCondPar4.append(0.0)
     for layer in range(1 , nbLayers + 2 , 1):
         element=layer
         thermalCondPar1[element]=0.65 - (0.78 * BDApsim[layer]) + (0.6 * pow(BDApsim[layer], 2))

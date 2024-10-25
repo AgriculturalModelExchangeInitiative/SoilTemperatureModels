@@ -1,4 +1,4 @@
-cdef float heatCapacity[]
+cdef floatlist  heatCapacity
 cdef float soilRoughnessHeight 
 cdef float defaultInstrumentHeight 
 cdef float AltitudeMetres 
@@ -10,7 +10,7 @@ cdef float sumThickness
 cdef float BelowProfileDepth 
 cdef float thicknessForPhantomNodes 
 cdef float ave_temp 
-cdef int i 
+cdef int I 
 cdef int numNodes 
 cdef int firstPhantomNode 
 cdef int layer 
@@ -32,21 +32,21 @@ THICKApsim=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
 for layer in range(1 , NLAYR + 1 , 1):
     THICKApsim[layer]=THICK[layer - 1]
 sumThickness=0.0
-for i in range(1 , NLAYR + 1 , 1):
-    sumThickness=sumThickness + THICKApsim[i]
+for I in range(1 , NLAYR + 1 , 1):
+    sumThickness=sumThickness + THICKApsim[I]
 BelowProfileDepth=max(CONSTANT_TEMPdepth - sumThickness, 1000.0)
 thicknessForPhantomNodes=BelowProfileDepth * 2.0 / NUM_PHANTOM_NODES
 firstPhantomNode=NLAYR
-for i in range(firstPhantomNode , firstPhantomNode + NUM_PHANTOM_NODES , 1):
-    THICKApsim[i]=thicknessForPhantomNodes
+for I in range(firstPhantomNode , firstPhantomNode + NUM_PHANTOM_NODES , 1):
+    THICKApsim[I]=thicknessForPhantomNodes
 DEPTHApsim=[0.0] * (numNodes + 1 + 1)
 DEPTHApsim[AIRnode]=0.0
 DEPTHApsim[SURFACEnode]=0.0
 DEPTHApsim[TOPSOILnode]=0.5 * THICKApsim[1] / 1000.0
 for node in range(TOPSOILnode , numNodes + 1 , 1):
     sumThickness=0.0
-    for i in range(1 , node , 1):
-        sumThickness=sumThickness + THICKApsim[i]
+    for I in range(1 , node , 1):
+        sumThickness=sumThickness + THICKApsim[I]
     DEPTHApsim[node + 1]=(sumThickness + (0.5 * THICKApsim[node])) / 1000.0
 BDApsim=[0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
 for layer in range(1 , NLAYR + 1 , 1):
@@ -101,9 +101,9 @@ soilTemp=CalcSoilTemp(THICKApsim, TAV, TAMP, DOY, XLAT, numNodes)
 soilTemp[AIRnode]=T2M
 surfaceT=(1.0 - SALB) * (T2M + ((TMAX - T2M) * sqrt(max(SRAD, 0.1) * 23.8846 / 800.0))) + (SALB * T2M)
 soilTemp[SURFACEnode]=surfaceT
-for i in range(numNodes + 1 , len(soilTemp) , 1):
-    soilTemp[i]=TAV
-for i in range(0 , len(soilTemp) , 1):
-    newTemperature[i]=soilTemp[i]
+for I in range(numNodes + 1 , len(soilTemp) , 1):
+    soilTemp[I]=TAV
+for I in range(0 , len(soilTemp) , 1):
+    newTemperature[I]=soilTemp[I]
 maxTempYesterday=TMAX
 minTempYesterday=TMIN

@@ -1,9 +1,9 @@
-def doThomas(floatarray newTemps,
-         floatarray soilTemp,
-         floatarray thermalConductivity,
-         floatarray thermalConductance,
-         floatarray DEPTHApsim,
-         floatarray volSpecHeatSoil,
+def doThomas(floatlist newTemps,
+         floatlist soilTemp,
+         floatlist thermalConductivity,
+         floatlist thermalConductance,
+         floatlist DEPTHApsim,
+         floatlist volSpecHeatSoil,
          float gDt,
          float netRadiation,
          float potE,
@@ -16,8 +16,9 @@ def doThomas(floatarray newTemps,
     cdef float MJ2J = 1000000.0
     cdef float latentHeatOfVapourisation = 2465000.0
     cdef float tempStepSec = 24.0 * 60.0 * 60.0
-    cdef float heatStorage[]
-    heatStorage=[0.] * (numNodes + 1)
+    cdef int I 
+    cdef floatlist  heatStorage
+    heatStorage=[0.]
     cdef float VolSoilAtNode 
     cdef float elementLength 
     cdef float g = 1 - nu
@@ -25,14 +26,21 @@ def doThomas(floatarray newTemps,
     cdef float RadnNet 
     cdef float LatentHeatFlux 
     cdef float SoilSurfaceHeatFlux 
-    cdef float a[]
-    cdef float b[]
-    cdef float c[]
-    cdef float d[]
-    a=[0.0] * (numNodes + 2)
-    b=[0.0] * (numNodes + 1)
-    c=[0.0] * (numNodes + 1)
-    d=[0.0] * (numNodes + 1)
+    cdef floatlist  a
+    cdef floatlist  b
+    cdef floatlist  c
+    cdef floatlist  d
+    a=[0.0]
+    b=[0.0]
+    c=[0.0]
+    d=[0.0]
+    for I in range(0 , numNodes + 1 , 1):
+        a.append(0.0)
+        b.append(0.0)
+        c.append(0.0)
+        d.append(0.0)
+        heatStorage.append(0.0)
+    a.append(0.0)
     thermalConductance=[0.] * (numNodes + 1)
     thermalConductance[AIRnode]=thermalConductivity[AIRnode]
     cdef int node = SURFACEnode

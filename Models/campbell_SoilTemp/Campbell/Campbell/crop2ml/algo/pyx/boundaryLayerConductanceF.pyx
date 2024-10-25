@@ -1,4 +1,4 @@
-def boundaryLayerConductanceF(floatarray TNew_zb,
+def boundaryLayerConductanceF(floatlist TNew_zb,
          float tMean,
          float potE,
          float potET,

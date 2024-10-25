@@ -1,273 +1,296 @@
 import  java.io.*;
 import  java.util.*;
 import java.time.LocalDateTime;
-public class model_SoilTempCampbellState
+public class Model_SoilTempCampbellState
 {
-    private Double [] THICKApsim;
-    private Double [] DEPTHApsim;
-    private Double [] BDApsim;
-    private Double [] CLAYApsim;
-    private Double [] SWApsim;
-    private Double [] soilTemp;
-    private Double [] newTemperature;
-    private Double [] minSoilTemp;
-    private Double [] maxSoilTemp;
-    private Double [] aveSoilTemp;
-    private Double [] morningSoilTemp;
-    private Double [] thermalCondPar1;
-    private Double [] thermalCondPar2;
-    private Double [] thermalCondPar3;
-    private Double [] thermalCondPar4;
-    private Double [] thermalConductivity;
-    private Double [] thermalConductance;
-    private Double [] heatStorage;
-    private Double [] volSpecHeatSoil;
+    private List<Double> THICKApsim;
+    private List<Double> DEPTHApsim;
+    private List<Double> BDApsim;
+    private List<Double> CLAYApsim;
+    private List<Double> SWApsim;
+    private List<Double> soilTemp;
+    private List<Double> newTemperature;
+    private List<Double> minSoilTemp;
+    private List<Double> maxSoilTemp;
+    private List<Double> aveSoilTemp;
+    private List<Double> morningSoilTemp;
+    private List<Double> thermalCondPar1;
+    private List<Double> thermalCondPar2;
+    private List<Double> thermalCondPar3;
+    private List<Double> thermalCondPar4;
+    private List<Double> thermalConductivity;
+    private List<Double> thermalConductance;
+    private List<Double> heatStorage;
+    private List<Double> volSpecHeatSoil;
     private double maxTempYesterday;
     private double minTempYesterday;
-    private Double [] SLCARBApsim;
-    private Double [] SLROCKApsim;
-    private Double [] SLSILTApsim;
-    private Double [] SLSANDApsim;
+    private List<Double> SLCARBApsim;
+    private List<Double> SLROCKApsim;
+    private List<Double> SLSILTApsim;
+    private List<Double> SLSANDApsim;
     private double _boundaryLayerConductance;
     
-    public model_SoilTempCampbellState() { }
+    public Model_SoilTempCampbellState() { }
     
-    public model_SoilTempCampbellState(model_SoilTempCampbellState toCopy, boolean copyAll) // copy constructor 
+    public Model_SoilTempCampbellState(Model_SoilTempCampbellState toCopy, boolean copyAll) // copy constructor 
     {
         if (copyAll)
         {
-            THICKApsim = new Double[toCopy.getTHICKApsim().length];
-        for (int i = 0; i < toCopy.getTHICKApsim().length; i++)
-        {
-            THICKApsim[i] = toCopy.getTHICKApsim()[i];
-        }
-            DEPTHApsim = new Double[toCopy.getDEPTHApsim().length];
-        for (int i = 0; i < toCopy.getDEPTHApsim().length; i++)
-        {
-            DEPTHApsim[i] = toCopy.getDEPTHApsim()[i];
-        }
-            BDApsim = new Double[toCopy.getBDApsim().length];
-        for (int i = 0; i < toCopy.getBDApsim().length; i++)
-        {
-            BDApsim[i] = toCopy.getBDApsim()[i];
-        }
-            CLAYApsim = new Double[toCopy.getCLAYApsim().length];
-        for (int i = 0; i < toCopy.getCLAYApsim().length; i++)
-        {
-            CLAYApsim[i] = toCopy.getCLAYApsim()[i];
-        }
-            SWApsim = new Double[toCopy.getSWApsim().length];
-        for (int i = 0; i < toCopy.getSWApsim().length; i++)
-        {
-            SWApsim[i] = toCopy.getSWApsim()[i];
-        }
-            soilTemp = new Double[toCopy.getsoilTemp().length];
-        for (int i = 0; i < toCopy.getsoilTemp().length; i++)
-        {
-            soilTemp[i] = toCopy.getsoilTemp()[i];
-        }
-            newTemperature = new Double[toCopy.getnewTemperature().length];
-        for (int i = 0; i < toCopy.getnewTemperature().length; i++)
-        {
-            newTemperature[i] = toCopy.getnewTemperature()[i];
-        }
-            minSoilTemp = new Double[toCopy.getminSoilTemp().length];
-        for (int i = 0; i < toCopy.getminSoilTemp().length; i++)
-        {
-            minSoilTemp[i] = toCopy.getminSoilTemp()[i];
-        }
-            maxSoilTemp = new Double[toCopy.getmaxSoilTemp().length];
-        for (int i = 0; i < toCopy.getmaxSoilTemp().length; i++)
-        {
-            maxSoilTemp[i] = toCopy.getmaxSoilTemp()[i];
-        }
-            aveSoilTemp = new Double[toCopy.getaveSoilTemp().length];
-        for (int i = 0; i < toCopy.getaveSoilTemp().length; i++)
-        {
-            aveSoilTemp[i] = toCopy.getaveSoilTemp()[i];
-        }
-            morningSoilTemp = new Double[toCopy.getmorningSoilTemp().length];
-        for (int i = 0; i < toCopy.getmorningSoilTemp().length; i++)
-        {
-            morningSoilTemp[i] = toCopy.getmorningSoilTemp()[i];
-        }
-            thermalCondPar1 = new Double[toCopy.getthermalCondPar1().length];
-        for (int i = 0; i < toCopy.getthermalCondPar1().length; i++)
-        {
-            thermalCondPar1[i] = toCopy.getthermalCondPar1()[i];
-        }
-            thermalCondPar2 = new Double[toCopy.getthermalCondPar2().length];
-        for (int i = 0; i < toCopy.getthermalCondPar2().length; i++)
-        {
-            thermalCondPar2[i] = toCopy.getthermalCondPar2()[i];
-        }
-            thermalCondPar3 = new Double[toCopy.getthermalCondPar3().length];
-        for (int i = 0; i < toCopy.getthermalCondPar3().length; i++)
-        {
-            thermalCondPar3[i] = toCopy.getthermalCondPar3()[i];
-        }
-            thermalCondPar4 = new Double[toCopy.getthermalCondPar4().length];
-        for (int i = 0; i < toCopy.getthermalCondPar4().length; i++)
-        {
-            thermalCondPar4[i] = toCopy.getthermalCondPar4()[i];
-        }
-            thermalConductivity = new Double[toCopy.getthermalConductivity().length];
-        for (int i = 0; i < toCopy.getthermalConductivity().length; i++)
-        {
-            thermalConductivity[i] = toCopy.getthermalConductivity()[i];
-        }
-            thermalConductance = new Double[toCopy.getthermalConductance().length];
-        for (int i = 0; i < toCopy.getthermalConductance().length; i++)
-        {
-            thermalConductance[i] = toCopy.getthermalConductance()[i];
-        }
-            heatStorage = new Double[toCopy.getheatStorage().length];
-        for (int i = 0; i < toCopy.getheatStorage().length; i++)
-        {
-            heatStorage[i] = toCopy.getheatStorage()[i];
-        }
-            volSpecHeatSoil = new Double[toCopy.getvolSpecHeatSoil().length];
-        for (int i = 0; i < toCopy.getvolSpecHeatSoil().length; i++)
-        {
-            volSpecHeatSoil[i] = toCopy.getvolSpecHeatSoil()[i];
-        }
+            List <Double> _THICKApsim = new ArrayList<>();
+            for (Double c : toCopy.getTHICKApsim())
+            {
+                _THICKApsim.add(c);
+            }
+            this.THICKApsim = _THICKApsim;
+            List <Double> _DEPTHApsim = new ArrayList<>();
+            for (Double c : toCopy.getDEPTHApsim())
+            {
+                _DEPTHApsim.add(c);
+            }
+            this.DEPTHApsim = _DEPTHApsim;
+            List <Double> _BDApsim = new ArrayList<>();
+            for (Double c : toCopy.getBDApsim())
+            {
+                _BDApsim.add(c);
+            }
+            this.BDApsim = _BDApsim;
+            List <Double> _CLAYApsim = new ArrayList<>();
+            for (Double c : toCopy.getCLAYApsim())
+            {
+                _CLAYApsim.add(c);
+            }
+            this.CLAYApsim = _CLAYApsim;
+            List <Double> _SWApsim = new ArrayList<>();
+            for (Double c : toCopy.getSWApsim())
+            {
+                _SWApsim.add(c);
+            }
+            this.SWApsim = _SWApsim;
+            List <Double> _soilTemp = new ArrayList<>();
+            for (Double c : toCopy.getsoilTemp())
+            {
+                _soilTemp.add(c);
+            }
+            this.soilTemp = _soilTemp;
+            List <Double> _newTemperature = new ArrayList<>();
+            for (Double c : toCopy.getnewTemperature())
+            {
+                _newTemperature.add(c);
+            }
+            this.newTemperature = _newTemperature;
+            List <Double> _minSoilTemp = new ArrayList<>();
+            for (Double c : toCopy.getminSoilTemp())
+            {
+                _minSoilTemp.add(c);
+            }
+            this.minSoilTemp = _minSoilTemp;
+            List <Double> _maxSoilTemp = new ArrayList<>();
+            for (Double c : toCopy.getmaxSoilTemp())
+            {
+                _maxSoilTemp.add(c);
+            }
+            this.maxSoilTemp = _maxSoilTemp;
+            List <Double> _aveSoilTemp = new ArrayList<>();
+            for (Double c : toCopy.getaveSoilTemp())
+            {
+                _aveSoilTemp.add(c);
+            }
+            this.aveSoilTemp = _aveSoilTemp;
+            List <Double> _morningSoilTemp = new ArrayList<>();
+            for (Double c : toCopy.getmorningSoilTemp())
+            {
+                _morningSoilTemp.add(c);
+            }
+            this.morningSoilTemp = _morningSoilTemp;
+            List <Double> _thermalCondPar1 = new ArrayList<>();
+            for (Double c : toCopy.getthermalCondPar1())
+            {
+                _thermalCondPar1.add(c);
+            }
+            this.thermalCondPar1 = _thermalCondPar1;
+            List <Double> _thermalCondPar2 = new ArrayList<>();
+            for (Double c : toCopy.getthermalCondPar2())
+            {
+                _thermalCondPar2.add(c);
+            }
+            this.thermalCondPar2 = _thermalCondPar2;
+            List <Double> _thermalCondPar3 = new ArrayList<>();
+            for (Double c : toCopy.getthermalCondPar3())
+            {
+                _thermalCondPar3.add(c);
+            }
+            this.thermalCondPar3 = _thermalCondPar3;
+            List <Double> _thermalCondPar4 = new ArrayList<>();
+            for (Double c : toCopy.getthermalCondPar4())
+            {
+                _thermalCondPar4.add(c);
+            }
+            this.thermalCondPar4 = _thermalCondPar4;
+            List <Double> _thermalConductivity = new ArrayList<>();
+            for (Double c : toCopy.getthermalConductivity())
+            {
+                _thermalConductivity.add(c);
+            }
+            this.thermalConductivity = _thermalConductivity;
+            List <Double> _thermalConductance = new ArrayList<>();
+            for (Double c : toCopy.getthermalConductance())
+            {
+                _thermalConductance.add(c);
+            }
+            this.thermalConductance = _thermalConductance;
+            List <Double> _heatStorage = new ArrayList<>();
+            for (Double c : toCopy.getheatStorage())
+            {
+                _heatStorage.add(c);
+            }
+            this.heatStorage = _heatStorage;
+            List <Double> _volSpecHeatSoil = new ArrayList<>();
+            for (Double c : toCopy.getvolSpecHeatSoil())
+            {
+                _volSpecHeatSoil.add(c);
+            }
+            this.volSpecHeatSoil = _volSpecHeatSoil;
             this.maxTempYesterday = toCopy.getmaxTempYesterday();
             this.minTempYesterday = toCopy.getminTempYesterday();
-            SLCARBApsim = new Double[toCopy.getSLCARBApsim().length];
-        for (int i = 0; i < toCopy.getSLCARBApsim().length; i++)
-        {
-            SLCARBApsim[i] = toCopy.getSLCARBApsim()[i];
-        }
-            SLROCKApsim = new Double[toCopy.getSLROCKApsim().length];
-        for (int i = 0; i < toCopy.getSLROCKApsim().length; i++)
-        {
-            SLROCKApsim[i] = toCopy.getSLROCKApsim()[i];
-        }
-            SLSILTApsim = new Double[toCopy.getSLSILTApsim().length];
-        for (int i = 0; i < toCopy.getSLSILTApsim().length; i++)
-        {
-            SLSILTApsim[i] = toCopy.getSLSILTApsim()[i];
-        }
-            SLSANDApsim = new Double[toCopy.getSLSANDApsim().length];
-        for (int i = 0; i < toCopy.getSLSANDApsim().length; i++)
-        {
-            SLSANDApsim[i] = toCopy.getSLSANDApsim()[i];
-        }
+            List <Double> _SLCARBApsim = new ArrayList<>();
+            for (Double c : toCopy.getSLCARBApsim())
+            {
+                _SLCARBApsim.add(c);
+            }
+            this.SLCARBApsim = _SLCARBApsim;
+            List <Double> _SLROCKApsim = new ArrayList<>();
+            for (Double c : toCopy.getSLROCKApsim())
+            {
+                _SLROCKApsim.add(c);
+            }
+            this.SLROCKApsim = _SLROCKApsim;
+            List <Double> _SLSILTApsim = new ArrayList<>();
+            for (Double c : toCopy.getSLSILTApsim())
+            {
+                _SLSILTApsim.add(c);
+            }
+            this.SLSILTApsim = _SLSILTApsim;
+            List <Double> _SLSANDApsim = new ArrayList<>();
+            for (Double c : toCopy.getSLSANDApsim())
+            {
+                _SLSANDApsim.add(c);
+            }
+            this.SLSANDApsim = _SLSANDApsim;
             this._boundaryLayerConductance = toCopy.get_boundaryLayerConductance();
         }
     }
-    public Double [] getTHICKApsim()
+    public List<Double> getTHICKApsim()
     { return THICKApsim; }
 
-    public void setTHICKApsim(Double [] _THICKApsim)
+    public void setTHICKApsim(List<Double> _THICKApsim)
     { this.THICKApsim= _THICKApsim; } 
     
-    public Double [] getDEPTHApsim()
+    public List<Double> getDEPTHApsim()
     { return DEPTHApsim; }
 
-    public void setDEPTHApsim(Double [] _DEPTHApsim)
+    public void setDEPTHApsim(List<Double> _DEPTHApsim)
     { this.DEPTHApsim= _DEPTHApsim; } 
     
-    public Double [] getBDApsim()
+    public List<Double> getBDApsim()
     { return BDApsim; }
 
-    public void setBDApsim(Double [] _BDApsim)
+    public void setBDApsim(List<Double> _BDApsim)
     { this.BDApsim= _BDApsim; } 
     
-    public Double [] getCLAYApsim()
+    public List<Double> getCLAYApsim()
     { return CLAYApsim; }
 
-    public void setCLAYApsim(Double [] _CLAYApsim)
+    public void setCLAYApsim(List<Double> _CLAYApsim)
     { this.CLAYApsim= _CLAYApsim; } 
     
-    public Double [] getSWApsim()
+    public List<Double> getSWApsim()
     { return SWApsim; }
 
-    public void setSWApsim(Double [] _SWApsim)
+    public void setSWApsim(List<Double> _SWApsim)
     { this.SWApsim= _SWApsim; } 
     
-    public Double [] getsoilTemp()
+    public List<Double> getsoilTemp()
     { return soilTemp; }
 
-    public void setsoilTemp(Double [] _soilTemp)
+    public void setsoilTemp(List<Double> _soilTemp)
     { this.soilTemp= _soilTemp; } 
     
-    public Double [] getnewTemperature()
+    public List<Double> getnewTemperature()
     { return newTemperature; }
 
-    public void setnewTemperature(Double [] _newTemperature)
+    public void setnewTemperature(List<Double> _newTemperature)
     { this.newTemperature= _newTemperature; } 
     
-    public Double [] getminSoilTemp()
+    public List<Double> getminSoilTemp()
     { return minSoilTemp; }
 
-    public void setminSoilTemp(Double [] _minSoilTemp)
+    public void setminSoilTemp(List<Double> _minSoilTemp)
     { this.minSoilTemp= _minSoilTemp; } 
     
-    public Double [] getmaxSoilTemp()
+    public List<Double> getmaxSoilTemp()
     { return maxSoilTemp; }
 
-    public void setmaxSoilTemp(Double [] _maxSoilTemp)
+    public void setmaxSoilTemp(List<Double> _maxSoilTemp)
     { this.maxSoilTemp= _maxSoilTemp; } 
     
-    public Double [] getaveSoilTemp()
+    public List<Double> getaveSoilTemp()
     { return aveSoilTemp; }
 
-    public void setaveSoilTemp(Double [] _aveSoilTemp)
+    public void setaveSoilTemp(List<Double> _aveSoilTemp)
     { this.aveSoilTemp= _aveSoilTemp; } 
     
-    public Double [] getmorningSoilTemp()
+    public List<Double> getmorningSoilTemp()
     { return morningSoilTemp; }
 
-    public void setmorningSoilTemp(Double [] _morningSoilTemp)
+    public void setmorningSoilTemp(List<Double> _morningSoilTemp)
     { this.morningSoilTemp= _morningSoilTemp; } 
     
-    public Double [] getthermalCondPar1()
+    public List<Double> getthermalCondPar1()
     { return thermalCondPar1; }
 
-    public void setthermalCondPar1(Double [] _thermalCondPar1)
+    public void setthermalCondPar1(List<Double> _thermalCondPar1)
     { this.thermalCondPar1= _thermalCondPar1; } 
     
-    public Double [] getthermalCondPar2()
+    public List<Double> getthermalCondPar2()
     { return thermalCondPar2; }
 
-    public void setthermalCondPar2(Double [] _thermalCondPar2)
+    public void setthermalCondPar2(List<Double> _thermalCondPar2)
     { this.thermalCondPar2= _thermalCondPar2; } 
     
-    public Double [] getthermalCondPar3()
+    public List<Double> getthermalCondPar3()
     { return thermalCondPar3; }
 
-    public void setthermalCondPar3(Double [] _thermalCondPar3)
+    public void setthermalCondPar3(List<Double> _thermalCondPar3)
     { this.thermalCondPar3= _thermalCondPar3; } 
     
-    public Double [] getthermalCondPar4()
+    public List<Double> getthermalCondPar4()
     { return thermalCondPar4; }
 
-    public void setthermalCondPar4(Double [] _thermalCondPar4)
+    public void setthermalCondPar4(List<Double> _thermalCondPar4)
     { this.thermalCondPar4= _thermalCondPar4; } 
     
-    public Double [] getthermalConductivity()
+    public List<Double> getthermalConductivity()
     { return thermalConductivity; }
 
-    public void setthermalConductivity(Double [] _thermalConductivity)
+    public void setthermalConductivity(List<Double> _thermalConductivity)
     { this.thermalConductivity= _thermalConductivity; } 
     
-    public Double [] getthermalConductance()
+    public List<Double> getthermalConductance()
     { return thermalConductance; }
 
-    public void setthermalConductance(Double [] _thermalConductance)
+    public void setthermalConductance(List<Double> _thermalConductance)
     { this.thermalConductance= _thermalConductance; } 
     
-    public Double [] getheatStorage()
+    public List<Double> getheatStorage()
     { return heatStorage; }
 
-    public void setheatStorage(Double [] _heatStorage)
+    public void setheatStorage(List<Double> _heatStorage)
     { this.heatStorage= _heatStorage; } 
     
-    public Double [] getvolSpecHeatSoil()
+    public List<Double> getvolSpecHeatSoil()
     { return volSpecHeatSoil; }
 
-    public void setvolSpecHeatSoil(Double [] _volSpecHeatSoil)
+    public void setvolSpecHeatSoil(List<Double> _volSpecHeatSoil)
     { this.volSpecHeatSoil= _volSpecHeatSoil; } 
     
     public double getmaxTempYesterday()
@@ -282,28 +305,28 @@ public class model_SoilTempCampbellState
     public void setminTempYesterday(double _minTempYesterday)
     { this.minTempYesterday= _minTempYesterday; } 
     
-    public Double [] getSLCARBApsim()
+    public List<Double> getSLCARBApsim()
     { return SLCARBApsim; }
 
-    public void setSLCARBApsim(Double [] _SLCARBApsim)
+    public void setSLCARBApsim(List<Double> _SLCARBApsim)
     { this.SLCARBApsim= _SLCARBApsim; } 
     
-    public Double [] getSLROCKApsim()
+    public List<Double> getSLROCKApsim()
     { return SLROCKApsim; }
 
-    public void setSLROCKApsim(Double [] _SLROCKApsim)
+    public void setSLROCKApsim(List<Double> _SLROCKApsim)
     { this.SLROCKApsim= _SLROCKApsim; } 
     
-    public Double [] getSLSILTApsim()
+    public List<Double> getSLSILTApsim()
     { return SLSILTApsim; }
 
-    public void setSLSILTApsim(Double [] _SLSILTApsim)
+    public void setSLSILTApsim(List<Double> _SLSILTApsim)
     { this.SLSILTApsim= _SLSILTApsim; } 
     
-    public Double [] getSLSANDApsim()
+    public List<Double> getSLSANDApsim()
     { return SLSANDApsim; }
 
-    public void setSLSANDApsim(Double [] _SLSANDApsim)
+    public void setSLSANDApsim(List<Double> _SLSANDApsim)
     { this.SLSANDApsim= _SLSANDApsim; } 
     
     public double get_boundaryLayerConductance()

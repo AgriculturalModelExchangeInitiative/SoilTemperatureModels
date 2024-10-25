@@ -1,4 +1,4 @@
-from . import model_SoilTempCampbellComponent
+from . import Model_SoilTempCampbellComponent
 import pandas as pd
 import os
 
@@ -8,21 +8,12 @@ def simulation(datafile, vardata, params, init):
     df = pd.read_csv(datafile, sep = ";")
 
     # inputs values
-    t_THICK = df[vardata.loc[vardata["Variables"]=="THICK","Data columns"].iloc[0]].to_list()
-    t_BD = df[vardata.loc[vardata["Variables"]=="BD","Data columns"].iloc[0]].to_list()
-    t_SLCARB = df[vardata.loc[vardata["Variables"]=="SLCARB","Data columns"].iloc[0]].to_list()
-    t_CLAY = df[vardata.loc[vardata["Variables"]=="CLAY","Data columns"].iloc[0]].to_list()
-    t_SLROCK = df[vardata.loc[vardata["Variables"]=="SLROCK","Data columns"].iloc[0]].to_list()
-    t_SLSILT = df[vardata.loc[vardata["Variables"]=="SLSILT","Data columns"].iloc[0]].to_list()
-    t_SLSAND = df[vardata.loc[vardata["Variables"]=="SLSAND","Data columns"].iloc[0]].to_list()
-    t_SW = df[vardata.loc[vardata["Variables"]=="SW","Data columns"].iloc[0]].to_list()
     t_THICKApsim = df[vardata.loc[vardata["Variables"]=="THICKApsim","Data columns"].iloc[0]].to_list()
     t_DEPTHApsim = df[vardata.loc[vardata["Variables"]=="DEPTHApsim","Data columns"].iloc[0]].to_list()
     t_BDApsim = df[vardata.loc[vardata["Variables"]=="BDApsim","Data columns"].iloc[0]].to_list()
     t_T2M = df[vardata.loc[vardata["Variables"]=="T2M","Data columns"].iloc[0]].to_list()
     t_TMAX = df[vardata.loc[vardata["Variables"]=="TMAX","Data columns"].iloc[0]].to_list()
     t_TMIN = df[vardata.loc[vardata["Variables"]=="TMIN","Data columns"].iloc[0]].to_list()
-    t_TAV = df[vardata.loc[vardata["Variables"]=="TAV","Data columns"].iloc[0]].to_list()
     t_CLAYApsim = df[vardata.loc[vardata["Variables"]=="CLAYApsim","Data columns"].iloc[0]].to_list()
     t_SWApsim = df[vardata.loc[vardata["Variables"]=="SWApsim","Data columns"].iloc[0]].to_list()
     t_DOY = df[vardata.loc[vardata["Variables"]=="DOY","Data columns"].iloc[0]].to_list()
@@ -57,7 +48,16 @@ def simulation(datafile, vardata, params, init):
 
     #parameters
     NLAYR = params.loc[params["name"]=="NLAYR", "value"].iloc[0]
+    THICK = params.loc[params["name"]=="THICK", "value"].iloc[0]
+    BD = params.loc[params["name"]=="BD", "value"].iloc[0]
+    SLCARB = params.loc[params["name"]=="SLCARB", "value"].iloc[0]
+    CLAY = params.loc[params["name"]=="CLAY", "value"].iloc[0]
+    SLROCK = params.loc[params["name"]=="SLROCK", "value"].iloc[0]
+    SLSILT = params.loc[params["name"]=="SLSILT", "value"].iloc[0]
+    SLSAND = params.loc[params["name"]=="SLSAND", "value"].iloc[0]
+    SW = params.loc[params["name"]=="SW", "value"].iloc[0]
     CONSTANT_TEMPdepth = params.loc[params["name"]=="CONSTANT_TEMPdepth", "value"].iloc[0]
+    TAV = params.loc[params["name"]=="TAV", "value"].iloc[0]
     TAMP = params.loc[params["name"]=="TAMP", "value"].iloc[0]
     XLAT = params.loc[params["name"]=="XLAT", "value"].iloc[0]
     SALB = params.loc[params["name"]=="SALB", "value"].iloc[0]
@@ -72,21 +72,12 @@ def simulation(datafile, vardata, params, init):
 
     df_out = pd.DataFrame(columns = output_names)
     for i in range(0,len(df.index)-1):
-        THICK = t_THICK[i]
-        BD = t_BD[i]
-        SLCARB = t_SLCARB[i]
-        CLAY = t_CLAY[i]
-        SLROCK = t_SLROCK[i]
-        SLSILT = t_SLSILT[i]
-        SLSAND = t_SLSAND[i]
-        SW = t_SW[i]
         THICKApsim = t_THICKApsim[i]
         DEPTHApsim = t_DEPTHApsim[i]
         BDApsim = t_BDApsim[i]
         T2M = t_T2M[i]
         TMAX = t_TMAX[i]
         TMIN = t_TMIN[i]
-        TAV = t_TAV[i]
         CLAYApsim = t_CLAYApsim[i]
         SWApsim = t_SWApsim[i]
         DOY = t_DOY[i]
@@ -118,7 +109,7 @@ def simulation(datafile, vardata, params, init):
         SLSILTApsim = t_SLSILTApsim[i]
         SLSANDApsim = t_SLSANDApsim[i]
         _boundaryLayerConductance = t__boundaryLayerConductance[i]
-        soilTemp,minSoilTemp,maxSoilTemp,aveSoilTemp,morningSoilTemp,newTemperature,maxTempYesterday,minTempYesterday,thermalCondPar1,thermalCondPar2,thermalCondPar3,thermalCondPar4,thermalConductivity,thermalConductance,heatStorage,volSpecHeatSoil,_boundaryLayerConductance,THICKApsim,DEPTHApsim,BDApsim,SWApsim,CLAYApsim,SLROCKApsim,SLCARBApsim,SLSANDApsim,SLSILTApsim= model_SoilTempCampbellComponent.model_model_soiltempcampbell(NLAYR,THICK,BD,SLCARB,CLAY,SLROCK,SLSILT,SLSAND,SW,THICKApsim,DEPTHApsim,CONSTANT_TEMPdepth,BDApsim,T2M,TMAX,TMIN,TAV,TAMP,XLAT,CLAYApsim,SWApsim,DOY,airPressure,canopyHeight,SALB,SRAD,ESP,ES,EOAD,soilTemp,newTemperature,minSoilTemp,maxSoilTemp,aveSoilTemp,morningSoilTemp,thermalCondPar1,thermalCondPar2,thermalCondPar3,thermalCondPar4,thermalConductivity,thermalConductance,heatStorage,volSpecHeatSoil,maxTempYesterday,minTempYesterday,instrumentHeight,boundaryLayerConductanceSource,netRadiationSource,windSpeed,SLCARBApsim,SLROCKApsim,SLSILTApsim,SLSANDApsim,_boundaryLayerConductance)
+        soilTemp,minSoilTemp,maxSoilTemp,aveSoilTemp,morningSoilTemp,newTemperature,maxTempYesterday,minTempYesterday,thermalCondPar1,thermalCondPar2,thermalCondPar3,thermalCondPar4,thermalConductivity,thermalConductance,heatStorage,volSpecHeatSoil,_boundaryLayerConductance,THICKApsim,DEPTHApsim,BDApsim,SWApsim,CLAYApsim,SLROCKApsim,SLCARBApsim,SLSANDApsim,SLSILTApsim= Model_SoilTempCampbellComponent.model_model_soiltempcampbell(NLAYR,THICK,BD,SLCARB,CLAY,SLROCK,SLSILT,SLSAND,SW,THICKApsim,DEPTHApsim,CONSTANT_TEMPdepth,BDApsim,T2M,TMAX,TMIN,TAV,TAMP,XLAT,CLAYApsim,SWApsim,DOY,airPressure,canopyHeight,SALB,SRAD,ESP,ES,EOAD,soilTemp,newTemperature,minSoilTemp,maxSoilTemp,aveSoilTemp,morningSoilTemp,thermalCondPar1,thermalCondPar2,thermalCondPar3,thermalCondPar4,thermalConductivity,thermalConductance,heatStorage,volSpecHeatSoil,maxTempYesterday,minTempYesterday,instrumentHeight,boundaryLayerConductanceSource,netRadiationSource,windSpeed,SLCARBApsim,SLROCKApsim,SLSILTApsim,SLSANDApsim,_boundaryLayerConductance)
 
         df_out.loc[i] = [soilTemp,minSoilTemp,maxSoilTemp,aveSoilTemp,morningSoilTemp,newTemperature,maxTempYesterday,minTempYesterday,thermalCondPar1,thermalCondPar2,thermalCondPar3,thermalCondPar4,thermalConductivity,thermalConductance,heatStorage,volSpecHeatSoil,_boundaryLayerConductance,THICKApsim,DEPTHApsim,BDApsim,SWApsim,CLAYApsim,SLROCKApsim,SLCARBApsim,SLSANDApsim,SLSILTApsim]
     df_out.insert(0, 'date', pd.to_datetime(df.year*10000 + df.month*100 + df.day, format='%Y%m%d'), True)

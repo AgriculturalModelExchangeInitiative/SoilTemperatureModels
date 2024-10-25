@@ -5,12 +5,12 @@ public class Model_SoilTempCampbellAuxiliary
 {
     
     /// <summary>
-    /// Constructor of the model_SoilTempCampbellAuxiliary component")
+    /// Constructor of the Model_SoilTempCampbellAuxiliary component")
     /// </summary>  
-    public model_SoilTempCampbellAuxiliary() { }
+    public Model_SoilTempCampbellAuxiliary() { }
     
     
-    public model_SoilTempCampbellAuxiliary(model_SoilTempCampbellAuxiliary toCopy, bool copyAll) // copy constructor 
+    public Model_SoilTempCampbellAuxiliary(Model_SoilTempCampbellAuxiliary toCopy, bool copyAll) // copy constructor 
     {
         if (copyAll)
         {

@@ -2,9 +2,9 @@ public class Model_SoilTempCampbellComponent
 {
     
     /// <summary>
-    /// Constructor of the model_SoilTempCampbellComponent component")
+    /// Constructor of the Model_SoilTempCampbellComponent component")
     /// </summary>  
-    public model_SoilTempCampbellComponent() { }
+    public Model_SoilTempCampbellComponent() { }
     
 
     //Declaration of the associated strategies
@@ -21,6 +21,94 @@ public class Model_SoilTempCampbellComponent
             _Campbell.NLAYR = value;
         }
     }
+    public double[] THICK
+    {
+        get
+        {
+             return _Campbell.THICK; 
+        }
+        set
+        {
+            _Campbell.THICK = value;
+        }
+    }
+    public double[] BD
+    {
+        get
+        {
+             return _Campbell.BD; 
+        }
+        set
+        {
+            _Campbell.BD = value;
+        }
+    }
+    public double[] SLCARB
+    {
+        get
+        {
+             return _Campbell.SLCARB; 
+        }
+        set
+        {
+            _Campbell.SLCARB = value;
+        }
+    }
+    public double[] CLAY
+    {
+        get
+        {
+             return _Campbell.CLAY; 
+        }
+        set
+        {
+            _Campbell.CLAY = value;
+        }
+    }
+    public double[] SLROCK
+    {
+        get
+        {
+             return _Campbell.SLROCK; 
+        }
+        set
+        {
+            _Campbell.SLROCK = value;
+        }
+    }
+    public double[] SLSILT
+    {
+        get
+        {
+             return _Campbell.SLSILT; 
+        }
+        set
+        {
+            _Campbell.SLSILT = value;
+        }
+    }
+    public double[] SLSAND
+    {
+        get
+        {
+             return _Campbell.SLSAND; 
+        }
+        set
+        {
+            _Campbell.SLSAND = value;
+        }
+    }
+    public double[] SW
+    {
+        get
+        {
+             return _Campbell.SW; 
+        }
+        set
+        {
+            _Campbell.SW = value;
+        }
+    }
     public double CONSTANT_TEMPdepth
     {
         get
@@ -30,6 +118,17 @@ public class Model_SoilTempCampbellComponent
         set
         {
             _Campbell.CONSTANT_TEMPdepth = value;
+        }
+    }
+    public double TAV
+    {
+        get
+        {
+             return _Campbell.TAV; 
+        }
+        set
+        {
+            _Campbell.TAV = value;
         }
     }
     public double TAMP
@@ -99,16 +198,49 @@ public class Model_SoilTempCampbellComponent
         }
     }
 
-    public void  CalculateModel(model_SoilTempCampbellState s, model_SoilTempCampbellState s1, model_SoilTempCampbellRate r, model_SoilTempCampbellAuxiliary a, model_SoilTempCampbellExogenous ex)
+    public void  CalculateModel(Model_SoilTempCampbellState s, Model_SoilTempCampbellState s1, Model_SoilTempCampbellRate r, Model_SoilTempCampbellAuxiliary a, Model_SoilTempCampbellExogenous ex)
     {
         _Campbell.CalculateModel(s,s1, r, a, ex);
     }
     
-    public model_SoilTempCampbellComponent(model_SoilTempCampbellComponent toCopy): this() // copy constructor 
+    public Model_SoilTempCampbellComponent(Model_SoilTempCampbellComponent toCopy): this() // copy constructor 
     {
 
             NLAYR = toCopy.NLAYR;
+            
+            for (int i = 0; i < 100; i++)
+                { THICK[i] = toCopy.THICK[i]; }
+    
+            
+            for (int i = 0; i < 100; i++)
+                { BD[i] = toCopy.BD[i]; }
+    
+            
+            for (int i = 0; i < 100; i++)
+                { SLCARB[i] = toCopy.SLCARB[i]; }
+    
+            
+            for (int i = 0; i < 100; i++)
+                { CLAY[i] = toCopy.CLAY[i]; }
+    
+            
+            for (int i = 0; i < 100; i++)
+                { SLROCK[i] = toCopy.SLROCK[i]; }
+    
+            
+            for (int i = 0; i < 100; i++)
+                { SLSILT[i] = toCopy.SLSILT[i]; }
+    
+            
+            for (int i = 0; i < 100; i++)
+                { SLSAND[i] = toCopy.SLSAND[i]; }
+    
+            
+            for (int i = 0; i < 100; i++)
+                { SW[i] = toCopy.SW[i]; }
+    
             CONSTANT_TEMPdepth = toCopy.CONSTANT_TEMPdepth;
+            TAV = toCopy.TAV;
             TAMP = toCopy.TAMP;
             XLAT = toCopy.XLAT;
             SALB = toCopy.SALB;

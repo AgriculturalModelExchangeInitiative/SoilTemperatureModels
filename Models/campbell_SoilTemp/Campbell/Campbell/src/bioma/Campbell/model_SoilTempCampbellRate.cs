@@ -5,18 +5,18 @@ using CRA.ModelLayer.Core;
 using System.Reflection;
 using CRA.ModelLayer.ParametersManagement;   
 
-namespace model_SoilTempCampbell.DomainClass
+namespace Model_SoilTempCampbell.DomainClass
         {
-            public class model_SoilTempCampbellRate : ICloneable, IDomainClass
+            public class Model_SoilTempCampbellRate : ICloneable, IDomainClass
             {
                 private ParametersIO _parametersIO;
 
-                public model_SoilTempCampbellRate()
+                public Model_SoilTempCampbellRate()
                 {
                     _parametersIO = new ParametersIO(this);
                 }
 
-                public model_SoilTempCampbellRate(model_SoilTempCampbellRate toCopy, bool copyAll) // copy constructor 
+                public Model_SoilTempCampbellRate(Model_SoilTempCampbellRate toCopy, bool copyAll) // copy constructor 
                 {
                     if (copyAll)
                     {
@@ -25,7 +25,7 @@ namespace model_SoilTempCampbell.DomainClass
 
                         public string Description
                         {
-                            get { return "model_SoilTempCampbellRate of the component";}
+                            get { return "Model_SoilTempCampbellRate of the component";}
                         }
 
                         public string URL

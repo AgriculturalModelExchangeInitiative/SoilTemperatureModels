@@ -5,236 +5,236 @@ using CRA.ModelLayer.Core;
 using System.Reflection;
 using CRA.ModelLayer.ParametersManagement;   
 
-namespace model_SoilTempCampbell.DomainClass
+namespace Model_SoilTempCampbell.DomainClass
 {
-    public class model_SoilTempCampbellState : ICloneable, IDomainClass
+    public class Model_SoilTempCampbellState : ICloneable, IDomainClass
     {
-        private double[] _THICKApsim;
-        private double[] _DEPTHApsim;
-        private double[] _BDApsim;
-        private double[] _CLAYApsim;
-        private double[] _SWApsim;
-        private double[] _soilTemp;
-        private double[] _newTemperature;
-        private double[] _minSoilTemp;
-        private double[] _maxSoilTemp;
-        private double[] _aveSoilTemp;
-        private double[] _morningSoilTemp;
-        private double[] _thermalCondPar1;
-        private double[] _thermalCondPar2;
-        private double[] _thermalCondPar3;
-        private double[] _thermalCondPar4;
-        private double[] _thermalConductivity;
-        private double[] _thermalConductance;
-        private double[] _heatStorage;
-        private double[] _volSpecHeatSoil;
+        private List<double> _THICKApsim = new List<double>();
+        private List<double> _DEPTHApsim = new List<double>();
+        private List<double> _BDApsim = new List<double>();
+        private List<double> _CLAYApsim = new List<double>();
+        private List<double> _SWApsim = new List<double>();
+        private List<double> _soilTemp = new List<double>();
+        private List<double> _newTemperature = new List<double>();
+        private List<double> _minSoilTemp = new List<double>();
+        private List<double> _maxSoilTemp = new List<double>();
+        private List<double> _aveSoilTemp = new List<double>();
+        private List<double> _morningSoilTemp = new List<double>();
+        private List<double> _thermalCondPar1 = new List<double>();
+        private List<double> _thermalCondPar2 = new List<double>();
+        private List<double> _thermalCondPar3 = new List<double>();
+        private List<double> _thermalCondPar4 = new List<double>();
+        private List<double> _thermalConductivity = new List<double>();
+        private List<double> _thermalConductance = new List<double>();
+        private List<double> _heatStorage = new List<double>();
+        private List<double> _volSpecHeatSoil = new List<double>();
         private double _maxTempYesterday;
         private double _minTempYesterday;
-        private double[] _SLCARBApsim;
-        private double[] _SLROCKApsim;
-        private double[] _SLSILTApsim;
-        private double[] _SLSANDApsim;
+        private List<double> _SLCARBApsim = new List<double>();
+        private List<double> _SLROCKApsim = new List<double>();
+        private List<double> _SLSILTApsim = new List<double>();
+        private List<double> _SLSANDApsim = new List<double>();
         private double __boundaryLayerConductance;
         private ParametersIO _parametersIO;
 
-        public model_SoilTempCampbellState()
+        public Model_SoilTempCampbellState()
         {
             _parametersIO = new ParametersIO(this);
         }
 
-        public model_SoilTempCampbellState(model_SoilTempCampbellState toCopy, bool copyAll) // copy constructor 
+        public Model_SoilTempCampbellState(Model_SoilTempCampbellState toCopy, bool copyAll) // copy constructor 
         {
             if (copyAll)
             {
-                        THICKApsim = new double[toCopy.THICKApsim.Length];
-            for (int i = 0; i < toCopy.THICKApsim.Length; i++)
-                { THICKApsim[i] = toCopy.THICKApsim[i]; }
+                        THICKApsim = new List<double>();
+            for (int i = 0; i < toCopy.THICKApsim.Count; i++)
+                { THICKApsim.Add(toCopy.THICKApsim[i]); }
     
-                        DEPTHApsim = new double[toCopy.DEPTHApsim.Length];
-            for (int i = 0; i < toCopy.DEPTHApsim.Length; i++)
-                { DEPTHApsim[i] = toCopy.DEPTHApsim[i]; }
+                        DEPTHApsim = new List<double>();
+            for (int i = 0; i < toCopy.DEPTHApsim.Count; i++)
+                { DEPTHApsim.Add(toCopy.DEPTHApsim[i]); }
     
-                        BDApsim = new double[toCopy.BDApsim.Length];
-            for (int i = 0; i < toCopy.BDApsim.Length; i++)
-                { BDApsim[i] = toCopy.BDApsim[i]; }
+                        BDApsim = new List<double>();
+            for (int i = 0; i < toCopy.BDApsim.Count; i++)
+                { BDApsim.Add(toCopy.BDApsim[i]); }
     
-                        CLAYApsim = new double[toCopy.CLAYApsim.Length];
-            for (int i = 0; i < toCopy.CLAYApsim.Length; i++)
-                { CLAYApsim[i] = toCopy.CLAYApsim[i]; }
+                        CLAYApsim = new List<double>();
+            for (int i = 0; i < toCopy.CLAYApsim.Count; i++)
+                { CLAYApsim.Add(toCopy.CLAYApsim[i]); }
     
-                        SWApsim = new double[toCopy.SWApsim.Length];
-            for (int i = 0; i < toCopy.SWApsim.Length; i++)
-                { SWApsim[i] = toCopy.SWApsim[i]; }
+                        SWApsim = new List<double>();
+            for (int i = 0; i < toCopy.SWApsim.Count; i++)
+                { SWApsim.Add(toCopy.SWApsim[i]); }
     
-                        soilTemp = new double[toCopy.soilTemp.Length];
-            for (int i = 0; i < toCopy.soilTemp.Length; i++)
-                { soilTemp[i] = toCopy.soilTemp[i]; }
+                        soilTemp = new List<double>();
+            for (int i = 0; i < toCopy.soilTemp.Count; i++)
+                { soilTemp.Add(toCopy.soilTemp[i]); }
     
-                        newTemperature = new double[toCopy.newTemperature.Length];
-            for (int i = 0; i < toCopy.newTemperature.Length; i++)
-                { newTemperature[i] = toCopy.newTemperature[i]; }
+                        newTemperature = new List<double>();
+            for (int i = 0; i < toCopy.newTemperature.Count; i++)
+                { newTemperature.Add(toCopy.newTemperature[i]); }
     
-                        minSoilTemp = new double[toCopy.minSoilTemp.Length];
-            for (int i = 0; i < toCopy.minSoilTemp.Length; i++)
-                { minSoilTemp[i] = toCopy.minSoilTemp[i]; }
+                        minSoilTemp = new List<double>();
+            for (int i = 0; i < toCopy.minSoilTemp.Count; i++)
+                { minSoilTemp.Add(toCopy.minSoilTemp[i]); }
     
-                        maxSoilTemp = new double[toCopy.maxSoilTemp.Length];
-            for (int i = 0; i < toCopy.maxSoilTemp.Length; i++)
-                { maxSoilTemp[i] = toCopy.maxSoilTemp[i]; }
+                        maxSoilTemp = new List<double>();
+            for (int i = 0; i < toCopy.maxSoilTemp.Count; i++)
+                { maxSoilTemp.Add(toCopy.maxSoilTemp[i]); }
     
-                        aveSoilTemp = new double[toCopy.aveSoilTemp.Length];
-            for (int i = 0; i < toCopy.aveSoilTemp.Length; i++)
-                { aveSoilTemp[i] = toCopy.aveSoilTemp[i]; }
+                        aveSoilTemp = new List<double>();
+            for (int i = 0; i < toCopy.aveSoilTemp.Count; i++)
+                { aveSoilTemp.Add(toCopy.aveSoilTemp[i]); }
     
-                        morningSoilTemp = new double[toCopy.morningSoilTemp.Length];
-            for (int i = 0; i < toCopy.morningSoilTemp.Length; i++)
-                { morningSoilTemp[i] = toCopy.morningSoilTemp[i]; }
+                        morningSoilTemp = new List<double>();
+            for (int i = 0; i < toCopy.morningSoilTemp.Count; i++)
+                { morningSoilTemp.Add(toCopy.morningSoilTemp[i]); }
     
-                        thermalCondPar1 = new double[toCopy.thermalCondPar1.Length];
-            for (int i = 0; i < toCopy.thermalCondPar1.Length; i++)
-                { thermalCondPar1[i] = toCopy.thermalCondPar1[i]; }
+                        thermalCondPar1 = new List<double>();
+            for (int i = 0; i < toCopy.thermalCondPar1.Count; i++)
+                { thermalCondPar1.Add(toCopy.thermalCondPar1[i]); }
     
-                        thermalCondPar2 = new double[toCopy.thermalCondPar2.Length];
-            for (int i = 0; i < toCopy.thermalCondPar2.Length; i++)
-                { thermalCondPar2[i] = toCopy.thermalCondPar2[i]; }
+                        thermalCondPar2 = new List<double>();
+            for (int i = 0; i < toCopy.thermalCondPar2.Count; i++)
+                { thermalCondPar2.Add(toCopy.thermalCondPar2[i]); }
     
-                        thermalCondPar3 = new double[toCopy.thermalCondPar3.Length];
-            for (int i = 0; i < toCopy.thermalCondPar3.Length; i++)
-                { thermalCondPar3[i] = toCopy.thermalCondPar3[i]; }
+                        thermalCondPar3 = new List<double>();
+            for (int i = 0; i < toCopy.thermalCondPar3.Count; i++)
+                { thermalCondPar3.Add(toCopy.thermalCondPar3[i]); }
     
-                        thermalCondPar4 = new double[toCopy.thermalCondPar4.Length];
-            for (int i = 0; i < toCopy.thermalCondPar4.Length; i++)
-                { thermalCondPar4[i] = toCopy.thermalCondPar4[i]; }
+                        thermalCondPar4 = new List<double>();
+            for (int i = 0; i < toCopy.thermalCondPar4.Count; i++)
+                { thermalCondPar4.Add(toCopy.thermalCondPar4[i]); }
     
-                        thermalConductivity = new double[toCopy.thermalConductivity.Length];
-            for (int i = 0; i < toCopy.thermalConductivity.Length; i++)
-                { thermalConductivity[i] = toCopy.thermalConductivity[i]; }
+                        thermalConductivity = new List<double>();
+            for (int i = 0; i < toCopy.thermalConductivity.Count; i++)
+                { thermalConductivity.Add(toCopy.thermalConductivity[i]); }
     
-                        thermalConductance = new double[toCopy.thermalConductance.Length];
-            for (int i = 0; i < toCopy.thermalConductance.Length; i++)
-                { thermalConductance[i] = toCopy.thermalConductance[i]; }
+                        thermalConductance = new List<double>();
+            for (int i = 0; i < toCopy.thermalConductance.Count; i++)
+                { thermalConductance.Add(toCopy.thermalConductance[i]); }
     
-                        heatStorage = new double[toCopy.heatStorage.Length];
-            for (int i = 0; i < toCopy.heatStorage.Length; i++)
-                { heatStorage[i] = toCopy.heatStorage[i]; }
+                        heatStorage = new List<double>();
+            for (int i = 0; i < toCopy.heatStorage.Count; i++)
+                { heatStorage.Add(toCopy.heatStorage[i]); }
     
-                        volSpecHeatSoil = new double[toCopy.volSpecHeatSoil.Length];
-            for (int i = 0; i < toCopy.volSpecHeatSoil.Length; i++)
-                { volSpecHeatSoil[i] = toCopy.volSpecHeatSoil[i]; }
+                        volSpecHeatSoil = new List<double>();
+            for (int i = 0; i < toCopy.volSpecHeatSoil.Count; i++)
+                { volSpecHeatSoil.Add(toCopy.volSpecHeatSoil[i]); }
     
                         maxTempYesterday = toCopy.maxTempYesterday;
                         minTempYesterday = toCopy.minTempYesterday;
-                        SLCARBApsim = new double[toCopy.SLCARBApsim.Length];
-            for (int i = 0; i < toCopy.SLCARBApsim.Length; i++)
-                { SLCARBApsim[i] = toCopy.SLCARBApsim[i]; }
+                        SLCARBApsim = new List<double>();
+            for (int i = 0; i < toCopy.SLCARBApsim.Count; i++)
+                { SLCARBApsim.Add(toCopy.SLCARBApsim[i]); }
     
-                        SLROCKApsim = new double[toCopy.SLROCKApsim.Length];
-            for (int i = 0; i < toCopy.SLROCKApsim.Length; i++)
-                { SLROCKApsim[i] = toCopy.SLROCKApsim[i]; }
+                        SLROCKApsim = new List<double>();
+            for (int i = 0; i < toCopy.SLROCKApsim.Count; i++)
+                { SLROCKApsim.Add(toCopy.SLROCKApsim[i]); }
     
-                        SLSILTApsim = new double[toCopy.SLSILTApsim.Length];
-            for (int i = 0; i < toCopy.SLSILTApsim.Length; i++)
-                { SLSILTApsim[i] = toCopy.SLSILTApsim[i]; }
+                        SLSILTApsim = new List<double>();
+            for (int i = 0; i < toCopy.SLSILTApsim.Count; i++)
+                { SLSILTApsim.Add(toCopy.SLSILTApsim[i]); }
     
-                        SLSANDApsim = new double[toCopy.SLSANDApsim.Length];
-            for (int i = 0; i < toCopy.SLSANDApsim.Length; i++)
-                { SLSANDApsim[i] = toCopy.SLSANDApsim[i]; }
+                        SLSANDApsim = new List<double>();
+            for (int i = 0; i < toCopy.SLSANDApsim.Count; i++)
+                { SLSANDApsim.Add(toCopy.SLSANDApsim[i]); }
     
                         _boundaryLayerConductance = toCopy._boundaryLayerConductance;
                     }
                 }
 
-                public double[] THICKApsim
+                public List<double> THICKApsim
     {
         get { return this._THICKApsim; }
         set { this._THICKApsim= value; } 
     }
-                public double[] DEPTHApsim
+                public List<double> DEPTHApsim
     {
         get { return this._DEPTHApsim; }
         set { this._DEPTHApsim= value; } 
     }
-                public double[] BDApsim
+                public List<double> BDApsim
     {
         get { return this._BDApsim; }
         set { this._BDApsim= value; } 
     }
-                public double[] CLAYApsim
+                public List<double> CLAYApsim
     {
         get { return this._CLAYApsim; }
         set { this._CLAYApsim= value; } 
     }
-                public double[] SWApsim
+                public List<double> SWApsim
     {
         get { return this._SWApsim; }
         set { this._SWApsim= value; } 
     }
-                public double[] soilTemp
+                public List<double> soilTemp
     {
         get { return this._soilTemp; }
         set { this._soilTemp= value; } 
     }
-                public double[] newTemperature
+                public List<double> newTemperature
     {
         get { return this._newTemperature; }
         set { this._newTemperature= value; } 
     }
-                public double[] minSoilTemp
+                public List<double> minSoilTemp
     {
         get { return this._minSoilTemp; }
         set { this._minSoilTemp= value; } 
     }
-                public double[] maxSoilTemp
+                public List<double> maxSoilTemp
     {
         get { return this._maxSoilTemp; }
         set { this._maxSoilTemp= value; } 
     }
-                public double[] aveSoilTemp
+                public List<double> aveSoilTemp
     {
         get { return this._aveSoilTemp; }
         set { this._aveSoilTemp= value; } 
     }
-                public double[] morningSoilTemp
+                public List<double> morningSoilTemp
     {
         get { return this._morningSoilTemp; }
         set { this._morningSoilTemp= value; } 
     }
-                public double[] thermalCondPar1
+                public List<double> thermalCondPar1
     {
         get { return this._thermalCondPar1; }
         set { this._thermalCondPar1= value; } 
     }
-                public double[] thermalCondPar2
+                public List<double> thermalCondPar2
     {
         get { return this._thermalCondPar2; }
         set { this._thermalCondPar2= value; } 
     }
-                public double[] thermalCondPar3
+                public List<double> thermalCondPar3
     {
         get { return this._thermalCondPar3; }
         set { this._thermalCondPar3= value; } 
     }
-                public double[] thermalCondPar4
+                public List<double> thermalCondPar4
     {
         get { return this._thermalCondPar4; }
         set { this._thermalCondPar4= value; } 
     }
-                public double[] thermalConductivity
+                public List<double> thermalConductivity
     {
         get { return this._thermalConductivity; }
         set { this._thermalConductivity= value; } 
     }
-                public double[] thermalConductance
+                public List<double> thermalConductance
     {
         get { return this._thermalConductance; }
         set { this._thermalConductance= value; } 
     }
-                public double[] heatStorage
+                public List<double> heatStorage
     {
         get { return this._heatStorage; }
         set { this._heatStorage= value; } 
     }
-                public double[] volSpecHeatSoil
+                public List<double> volSpecHeatSoil
     {
         get { return this._volSpecHeatSoil; }
         set { this._volSpecHeatSoil= value; } 
@@ -249,22 +249,22 @@ namespace model_SoilTempCampbell.DomainClass
         get { return this._minTempYesterday; }
         set { this._minTempYesterday= value; } 
     }
-                public double[] SLCARBApsim
+                public List<double> SLCARBApsim
     {
         get { return this._SLCARBApsim; }
         set { this._SLCARBApsim= value; } 
     }
-                public double[] SLROCKApsim
+                public List<double> SLROCKApsim
     {
         get { return this._SLROCKApsim; }
         set { this._SLROCKApsim= value; } 
     }
-                public double[] SLSILTApsim
+                public List<double> SLSILTApsim
     {
         get { return this._SLSILTApsim; }
         set { this._SLSILTApsim= value; } 
     }
-                public double[] SLSANDApsim
+                public List<double> SLSANDApsim
     {
         get { return this._SLSANDApsim; }
         set { this._SLSANDApsim= value; } 
@@ -277,7 +277,7 @@ namespace model_SoilTempCampbell.DomainClass
 
                 public string Description
                 {
-                    get { return "model_SoilTempCampbellState of the component";}
+                    get { return "Model_SoilTempCampbellState of the component";}
                 }
 
                 public string URL
@@ -292,31 +292,31 @@ namespace model_SoilTempCampbell.DomainClass
 
                 public virtual Boolean ClearValues()
                 {
-                     _THICKApsim = new double[NLAYR];
-                     _DEPTHApsim = new double[NLAYR];
-                     _BDApsim = new double[NLAYR];
-                     _CLAYApsim = new double[NLAYR];
-                     _SWApsim = new double[NLAYR];
-                     _soilTemp = new double[NLAYR];
-                     _newTemperature = new double[NLAYR];
-                     _minSoilTemp = new double[NLAYR];
-                     _maxSoilTemp = new double[NLAYR];
-                     _aveSoilTemp = new double[NLAYR];
-                     _morningSoilTemp = new double[NLAYR];
-                     _thermalCondPar1 = new double[NLAYR];
-                     _thermalCondPar2 = new double[NLAYR];
-                     _thermalCondPar3 = new double[NLAYR];
-                     _thermalCondPar4 = new double[NLAYR];
-                     _thermalConductivity = new double[NLAYR];
-                     _thermalConductance = new double[NLAYR];
-                     _heatStorage = new double[NLAYR];
-                     _volSpecHeatSoil = new double[NLAYR];
+                     _THICKApsim = new List<double>();
+                     _DEPTHApsim = new List<double>();
+                     _BDApsim = new List<double>();
+                     _CLAYApsim = new List<double>();
+                     _SWApsim = new List<double>();
+                     _soilTemp = new List<double>();
+                     _newTemperature = new List<double>();
+                     _minSoilTemp = new List<double>();
+                     _maxSoilTemp = new List<double>();
+                     _aveSoilTemp = new List<double>();
+                     _morningSoilTemp = new List<double>();
+                     _thermalCondPar1 = new List<double>();
+                     _thermalCondPar2 = new List<double>();
+                     _thermalCondPar3 = new List<double>();
+                     _thermalCondPar4 = new List<double>();
+                     _thermalConductivity = new List<double>();
+                     _thermalConductance = new List<double>();
+                     _heatStorage = new List<double>();
+                     _volSpecHeatSoil = new List<double>();
                      _maxTempYesterday = default(double);
                      _minTempYesterday = default(double);
-                     _SLCARBApsim = new double[NLAYR];
-                     _SLROCKApsim = new double[NLAYR];
-                     _SLSILTApsim = new double[NLAYR];
-                     _SLSANDApsim = new double[NLAYR];
+                     _SLCARBApsim = new List<double>();
+                     _SLROCKApsim = new List<double>();
+                     _SLSILTApsim = new List<double>();
+                     _SLSANDApsim = new List<double>();
                      __boundaryLayerConductance = default(double);
                     return true;
                 }

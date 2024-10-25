@@ -21,7 +21,16 @@ class Model_SoilTempCampbellWrapper
     }
 
         int NLAYR;
+    double[] THICK =  new double [100];
+    double[] BD =  new double [100];
+    double[] SLCARB =  new double [100];
+    double[] CLAY =  new double [100];
+    double[] SLROCK =  new double [100];
+    double[] SLSILT =  new double [100];
+    double[] SLSAND =  new double [100];
+    double[] SW =  new double [100];
     double CONSTANT_TEMPdepth;
+    double TAV;
     double TAMP;
     double XLAT;
     double SALB;
@@ -29,55 +38,55 @@ class Model_SoilTempCampbellWrapper
     string boundaryLayerConductanceSource;
     string netRadiationSource;
 
-    public double[] THICKApsim{ get { return s.THICKApsim;}} 
+    public List<double> THICKApsim{ get { return s.THICKApsim;}} 
      
-    public double[] DEPTHApsim{ get { return s.DEPTHApsim;}} 
+    public List<double> DEPTHApsim{ get { return s.DEPTHApsim;}} 
      
-    public double[] BDApsim{ get { return s.BDApsim;}} 
+    public List<double> BDApsim{ get { return s.BDApsim;}} 
      
-    public double[] CLAYApsim{ get { return s.CLAYApsim;}} 
+    public List<double> CLAYApsim{ get { return s.CLAYApsim;}} 
      
-    public double[] SWApsim{ get { return s.SWApsim;}} 
+    public List<double> SWApsim{ get { return s.SWApsim;}} 
      
-    public double[] soilTemp{ get { return s.soilTemp;}} 
+    public List<double> soilTemp{ get { return s.soilTemp;}} 
      
-    public double[] newTemperature{ get { return s.newTemperature;}} 
+    public List<double> newTemperature{ get { return s.newTemperature;}} 
      
-    public double[] minSoilTemp{ get { return s.minSoilTemp;}} 
+    public List<double> minSoilTemp{ get { return s.minSoilTemp;}} 
      
-    public double[] maxSoilTemp{ get { return s.maxSoilTemp;}} 
+    public List<double> maxSoilTemp{ get { return s.maxSoilTemp;}} 
      
-    public double[] aveSoilTemp{ get { return s.aveSoilTemp;}} 
+    public List<double> aveSoilTemp{ get { return s.aveSoilTemp;}} 
      
-    public double[] morningSoilTemp{ get { return s.morningSoilTemp;}} 
+    public List<double> morningSoilTemp{ get { return s.morningSoilTemp;}} 
      
-    public double[] thermalCondPar1{ get { return s.thermalCondPar1;}} 
+    public List<double> thermalCondPar1{ get { return s.thermalCondPar1;}} 
      
-    public double[] thermalCondPar2{ get { return s.thermalCondPar2;}} 
+    public List<double> thermalCondPar2{ get { return s.thermalCondPar2;}} 
      
-    public double[] thermalCondPar3{ get { return s.thermalCondPar3;}} 
+    public List<double> thermalCondPar3{ get { return s.thermalCondPar3;}} 
      
-    public double[] thermalCondPar4{ get { return s.thermalCondPar4;}} 
+    public List<double> thermalCondPar4{ get { return s.thermalCondPar4;}} 
      
-    public double[] thermalConductivity{ get { return s.thermalConductivity;}} 
+    public List<double> thermalConductivity{ get { return s.thermalConductivity;}} 
      
-    public double[] thermalConductance{ get { return s.thermalConductance;}} 
+    public List<double> thermalConductance{ get { return s.thermalConductance;}} 
      
-    public double[] heatStorage{ get { return s.heatStorage;}} 
+    public List<double> heatStorage{ get { return s.heatStorage;}} 
      
-    public double[] volSpecHeatSoil{ get { return s.volSpecHeatSoil;}} 
+    public List<double> volSpecHeatSoil{ get { return s.volSpecHeatSoil;}} 
      
     public double maxTempYesterday{ get { return s.maxTempYesterday;}} 
      
     public double minTempYesterday{ get { return s.minTempYesterday;}} 
      
-    public double[] SLCARBApsim{ get { return s.SLCARBApsim;}} 
+    public List<double> SLCARBApsim{ get { return s.SLCARBApsim;}} 
      
-    public double[] SLROCKApsim{ get { return s.SLROCKApsim;}} 
+    public List<double> SLROCKApsim{ get { return s.SLROCKApsim;}} 
      
-    public double[] SLSILTApsim{ get { return s.SLSILTApsim;}} 
+    public List<double> SLSILTApsim{ get { return s.SLSILTApsim;}} 
      
-    public double[] SLSANDApsim{ get { return s.SLSANDApsim;}} 
+    public List<double> SLSANDApsim{ get { return s.SLSANDApsim;}} 
      
     public double _boundaryLayerConductance{ get { return s._boundaryLayerConductance;}} 
      
@@ -103,7 +112,16 @@ class Model_SoilTempCampbellWrapper
     private void loadParameters()
     {
         model_soiltempcampbellComponent.NLAYR = null; // To be modified
+        model_soiltempcampbellComponent.THICK = null; // To be modified
+        model_soiltempcampbellComponent.BD = null; // To be modified
+        model_soiltempcampbellComponent.SLCARB = null; // To be modified
+        model_soiltempcampbellComponent.CLAY = null; // To be modified
+        model_soiltempcampbellComponent.SLROCK = null; // To be modified
+        model_soiltempcampbellComponent.SLSILT = null; // To be modified
+        model_soiltempcampbellComponent.SLSAND = null; // To be modified
+        model_soiltempcampbellComponent.SW = null; // To be modified
         model_soiltempcampbellComponent.CONSTANT_TEMPdepth = null; // To be modified
+        model_soiltempcampbellComponent.TAV = null; // To be modified
         model_soiltempcampbellComponent.TAMP = null; // To be modified
         model_soiltempcampbellComponent.XLAT = null; // To be modified
         model_soiltempcampbellComponent.SALB = null; // To be modified
@@ -114,18 +132,9 @@ class Model_SoilTempCampbellWrapper
 
     private void setExogenous()
     {
-        ex.THICK = null; // To be modified
-        ex.BD = null; // To be modified
-        ex.SLCARB = null; // To be modified
-        ex.CLAY = null; // To be modified
-        ex.SLROCK = null; // To be modified
-        ex.SLSILT = null; // To be modified
-        ex.SLSAND = null; // To be modified
-        ex.SW = null; // To be modified
         ex.T2M = null; // To be modified
         ex.TMAX = null; // To be modified
         ex.TMIN = null; // To be modified
-        ex.TAV = null; // To be modified
         ex.DOY = null; // To be modified
         ex.airPressure = null; // To be modified
         ex.canopyHeight = null; // To be modified
@@ -136,20 +145,11 @@ class Model_SoilTempCampbellWrapper
         ex.windSpeed = null; // To be modified
     }
 
-    public void EstimateModel_SoilTempCampbell(double[] THICK, double[] BD, double[] SLCARB, double[] CLAY, double[] SLROCK, double[] SLSILT, double[] SLSAND, double[] SW, double T2M, double TMAX, double TMIN, double TAV, int DOY, double airPressure, double canopyHeight, double SRAD, double ESP, double ES, double EOAD, double windSpeed)
+    public void EstimateModel_SoilTempCampbell(double T2M, double TMAX, double TMIN, int DOY, double airPressure, double canopyHeight, double SRAD, double ESP, double ES, double EOAD, double windSpeed)
     {
-        a.THICK = THICK;
-        a.BD = BD;
-        a.SLCARB = SLCARB;
-        a.CLAY = CLAY;
-        a.SLROCK = SLROCK;
-        a.SLSILT = SLSILT;
-        a.SLSAND = SLSAND;
-        a.SW = SW;
         a.T2M = T2M;
         a.TMAX = TMAX;
         a.TMIN = TMIN;
-        a.TAV = TAV;
         a.DOY = DOY;
         a.airPressure = airPressure;
         a.canopyHeight = canopyHeight;

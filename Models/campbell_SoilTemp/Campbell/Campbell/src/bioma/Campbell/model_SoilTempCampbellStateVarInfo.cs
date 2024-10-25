@@ -5,9 +5,9 @@ using CRA.ModelLayer.Core;
 using System.Reflection;
 using CRA.ModelLayer.ParametersManagement;   
 
-namespace model_SoilTempCampbell.DomainClass
+namespace Model_SoilTempCampbell.DomainClass
                                 {
-                                    public class model_SoilTempCampbellStateVarInfo : IVarInfoClass
+                                    public class Model_SoilTempCampbellStateVarInfo : IVarInfoClass
                                     {
                                         static VarInfo _THICKApsim = new VarInfo();
                                         static VarInfo _DEPTHApsim = new VarInfo();
@@ -36,14 +36,14 @@ namespace model_SoilTempCampbell.DomainClass
                                         static VarInfo _SLSANDApsim = new VarInfo();
                                         static VarInfo __boundaryLayerConductance = new VarInfo();
 
-                                        static model_SoilTempCampbellStateVarInfo()
+                                        static Model_SoilTempCampbellStateVarInfo()
                                         {
-                                            model_SoilTempCampbellStateVarInfo.DescribeVariables();
+                                            Model_SoilTempCampbellStateVarInfo.DescribeVariables();
                                         }
 
                                         public virtual string Description
                                         {
-                                            get { return "model_SoilTempCampbellState Domain class of the component";}
+                                            get { return "Model_SoilTempCampbellState Domain class of the component";}
                                         }
 
                                         public string URL
@@ -53,7 +53,7 @@ namespace model_SoilTempCampbell.DomainClass
 
                                         public string DomainClassOfReference
                                         {
-                                            get { return "model_SoilTempCampbellState";}
+                                            get { return "Model_SoilTempCampbellState";}
                                         }
 
                                         public static  VarInfo THICKApsim
@@ -189,12 +189,12 @@ namespace model_SoilTempCampbell.DomainClass
                                         static void DescribeVariables()
                                         {
                                             _THICKApsim.Name = "THICKApsim";
-                                            _THICKApsim.Description = "APSIM soil layer depths as THICKApsim of layers";
+                                            _THICKApsim.Description = "APSIM soil layer depths of layers";
                                             _THICKApsim.MaxValue = -1D;
                                             _THICKApsim.MinValue = -1D;
                                             _THICKApsim.DefaultValue = -1D;
                                             _THICKApsim.Units = "mm";
-                                            _THICKApsim.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+                                            _THICKApsim.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
                                             _DEPTHApsim.Name = "DEPTHApsim";
                                             _DEPTHApsim.Description = "Apsim node depths";
@@ -202,7 +202,7 @@ namespace model_SoilTempCampbell.DomainClass
                                             _DEPTHApsim.MinValue = -1D;
                                             _DEPTHApsim.DefaultValue = -1D;
                                             _DEPTHApsim.Units = "m";
-                                            _DEPTHApsim.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+                                            _DEPTHApsim.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
                                             _BDApsim.Name = "BDApsim";
                                             _BDApsim.Description = "Apsim bd (soil bulk density)";
@@ -210,15 +210,15 @@ namespace model_SoilTempCampbell.DomainClass
                                             _BDApsim.MinValue = -1D;
                                             _BDApsim.DefaultValue = -1D;
                                             _BDApsim.Units = "g/cm3             uri :";
-                                            _BDApsim.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+                                            _BDApsim.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
                                             _CLAYApsim.Name = "CLAYApsim";
-                                            _CLAYApsim.Description = "Apsim proportion of CLAYApsim in each layer of profile";
+                                            _CLAYApsim.Description = "Apsim proportion of CLAY in each layer of profile";
                                             _CLAYApsim.MaxValue = -1D;
                                             _CLAYApsim.MinValue = -1D;
                                             _CLAYApsim.DefaultValue = -1D;
                                             _CLAYApsim.Units = "";
-                                            _CLAYApsim.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+                                            _CLAYApsim.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
                                             _SWApsim.Name = "SWApsim";
                                             _SWApsim.Description = "Apsim volumetric water content";
@@ -226,7 +226,7 @@ namespace model_SoilTempCampbell.DomainClass
                                             _SWApsim.MinValue = -1D;
                                             _SWApsim.DefaultValue = -1D;
                                             _SWApsim.Units = "cc water / cc soil";
-                                            _SWApsim.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+                                            _SWApsim.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
                                             _soilTemp.Name = "soilTemp";
                                             _soilTemp.Description = "Temperature at end of last time-step within a day - midnight in layers";
@@ -234,7 +234,7 @@ namespace model_SoilTempCampbell.DomainClass
                                             _soilTemp.MinValue = -1D;
                                             _soilTemp.DefaultValue = -1D;
                                             _soilTemp.Units = "degC";
-                                            _soilTemp.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+                                            _soilTemp.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
                                             _newTemperature.Name = "newTemperature";
                                             _newTemperature.Description = "Soil temperature at the end of one iteration";
@@ -242,7 +242,7 @@ namespace model_SoilTempCampbell.DomainClass
                                             _newTemperature.MinValue = -1D;
                                             _newTemperature.DefaultValue = -1D;
                                             _newTemperature.Units = "degC";
-                                            _newTemperature.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+                                            _newTemperature.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
                                             _minSoilTemp.Name = "minSoilTemp";
                                             _minSoilTemp.Description = "Minimum soil temperature in layers";
@@ -250,7 +250,7 @@ namespace model_SoilTempCampbell.DomainClass
                                             _minSoilTemp.MinValue = -1D;
                                             _minSoilTemp.DefaultValue = -1D;
                                             _minSoilTemp.Units = "degC";
-                                            _minSoilTemp.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+                                            _minSoilTemp.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
                                             _maxSoilTemp.Name = "maxSoilTemp";
                                             _maxSoilTemp.Description = "Maximum soil temperature in layers";
@@ -258,7 +258,7 @@ namespace model_SoilTempCampbell.DomainClass
                                             _maxSoilTemp.MinValue = -1D;
                                             _maxSoilTemp.DefaultValue = -1D;
                                             _maxSoilTemp.Units = "degC";
-                                            _maxSoilTemp.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+                                            _maxSoilTemp.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
                                             _aveSoilTemp.Name = "aveSoilTemp";
                                             _aveSoilTemp.Description = "Temperature averaged over all time-steps within a day in layers.";
@@ -266,7 +266,7 @@ namespace model_SoilTempCampbell.DomainClass
                                             _aveSoilTemp.MinValue = -1D;
                                             _aveSoilTemp.DefaultValue = -1D;
                                             _aveSoilTemp.Units = "degC";
-                                            _aveSoilTemp.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+                                            _aveSoilTemp.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
                                             _morningSoilTemp.Name = "morningSoilTemp";
                                             _morningSoilTemp.Description = "Temperature  in the morning in layers.";
@@ -274,7 +274,7 @@ namespace model_SoilTempCampbell.DomainClass
                                             _morningSoilTemp.MinValue = -1D;
                                             _morningSoilTemp.DefaultValue = -1D;
                                             _morningSoilTemp.Units = "degC";
-                                            _morningSoilTemp.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+                                            _morningSoilTemp.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
                                             _thermalCondPar1.Name = "thermalCondPar1";
                                             _thermalCondPar1.Description = "thermal conductivity coeff in layers";
@@ -282,7 +282,7 @@ namespace model_SoilTempCampbell.DomainClass
                                             _thermalCondPar1.MinValue = -1D;
                                             _thermalCondPar1.DefaultValue = -1D;
                                             _thermalCondPar1.Units = "(W/m2/K)";
-                                            _thermalCondPar1.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+                                            _thermalCondPar1.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
                                             _thermalCondPar2.Name = "thermalCondPar2";
                                             _thermalCondPar2.Description = "thermal conductivity coeff in layers";
@@ -290,7 +290,7 @@ namespace model_SoilTempCampbell.DomainClass
                                             _thermalCondPar2.MinValue = -1D;
                                             _thermalCondPar2.DefaultValue = -1D;
                                             _thermalCondPar2.Units = "(W/m2/K)";
-                                            _thermalCondPar2.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+                                            _thermalCondPar2.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
                                             _thermalCondPar3.Name = "thermalCondPar3";
                                             _thermalCondPar3.Description = "thermal conductivity coeff in layers";
@@ -298,7 +298,7 @@ namespace model_SoilTempCampbell.DomainClass
                                             _thermalCondPar3.MinValue = -1D;
                                             _thermalCondPar3.DefaultValue = -1D;
                                             _thermalCondPar3.Units = "(W/m2/K)";
-                                            _thermalCondPar3.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+                                            _thermalCondPar3.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
                                             _thermalCondPar4.Name = "thermalCondPar4";
                                             _thermalCondPar4.Description = "thermal conductivity coeff in layers";
@@ -306,7 +306,7 @@ namespace model_SoilTempCampbell.DomainClass
                                             _thermalCondPar4.MinValue = -1D;
                                             _thermalCondPar4.DefaultValue = -1D;
                                             _thermalCondPar4.Units = "(W/m2/K)";
-                                            _thermalCondPar4.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+                                            _thermalCondPar4.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
                                             _thermalConductivity.Name = "thermalConductivity";
                                             _thermalConductivity.Description = "thermal conductivity in layers";
@@ -314,7 +314,7 @@ namespace model_SoilTempCampbell.DomainClass
                                             _thermalConductivity.MinValue = -1D;
                                             _thermalConductivity.DefaultValue = -1D;
                                             _thermalConductivity.Units = "(W/m2/K)";
-                                            _thermalConductivity.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+                                            _thermalConductivity.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
                                             _thermalConductance.Name = "thermalConductance";
                                             _thermalConductance.Description = "Thermal conductance between layers";
@@ -322,7 +322,7 @@ namespace model_SoilTempCampbell.DomainClass
                                             _thermalConductance.MinValue = -1D;
                                             _thermalConductance.DefaultValue = -1D;
                                             _thermalConductance.Units = "(W/m2/K)";
-                                            _thermalConductance.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+                                            _thermalConductance.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
                                             _heatStorage.Name = "heatStorage";
                                             _heatStorage.Description = "Heat storage between layers (internal)";
@@ -330,7 +330,7 @@ namespace model_SoilTempCampbell.DomainClass
                                             _heatStorage.MinValue = -1D;
                                             _heatStorage.DefaultValue = -1D;
                                             _heatStorage.Units = "J/s/K";
-                                            _heatStorage.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+                                            _heatStorage.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
                                             _volSpecHeatSoil.Name = "volSpecHeatSoil";
                                             _volSpecHeatSoil.Description = "Volumetric specific heat over the soil profile";
@@ -338,7 +338,7 @@ namespace model_SoilTempCampbell.DomainClass
                                             _volSpecHeatSoil.MinValue = -1D;
                                             _volSpecHeatSoil.DefaultValue = -1D;
                                             _volSpecHeatSoil.Units = "J/K/m3";
-                                            _volSpecHeatSoil.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+                                            _volSpecHeatSoil.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
                                             _maxTempYesterday.Name = "maxTempYesterday";
                                             _maxTempYesterday.Description = "Air max temperature from previous day";
@@ -357,36 +357,36 @@ namespace model_SoilTempCampbell.DomainClass
                                             _minTempYesterday.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
                                             _SLCARBApsim.Name = "SLCARBApsim";
-                                            _SLCARBApsim.Description = "Volumetric fraction of organic matter in the soil";
+                                            _SLCARBApsim.Description = "Apsim volumetric fraction of organic matter in the soil";
                                             _SLCARBApsim.MaxValue = -1D;
                                             _SLCARBApsim.MinValue = -1D;
                                             _SLCARBApsim.DefaultValue = -1D;
                                             _SLCARBApsim.Units = "";
-                                            _SLCARBApsim.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+                                            _SLCARBApsim.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
                                             _SLROCKApsim.Name = "SLROCKApsim";
-                                            _SLROCKApsim.Description = "Volumetric fraction of SLROCKApsim in the soil";
+                                            _SLROCKApsim.Description = "Apsim volumetric fraction of rocks in the soil";
                                             _SLROCKApsim.MaxValue = -1D;
                                             _SLROCKApsim.MinValue = -1D;
                                             _SLROCKApsim.DefaultValue = -1D;
                                             _SLROCKApsim.Units = "";
-                                            _SLROCKApsim.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+                                            _SLROCKApsim.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
                                             _SLSILTApsim.Name = "SLSILTApsim";
-                                            _SLSILTApsim.Description = "Volumetric fraction of SLSILTApsim in the soil";
+                                            _SLSILTApsim.Description = "Apsim volumetric fraction of silt in the soil";
                                             _SLSILTApsim.MaxValue = -1D;
                                             _SLSILTApsim.MinValue = -1D;
                                             _SLSILTApsim.DefaultValue = -1D;
                                             _SLSILTApsim.Units = "";
-                                            _SLSILTApsim.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+                                            _SLSILTApsim.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
                                             _SLSANDApsim.Name = "SLSANDApsim";
-                                            _SLSANDApsim.Description = "Apsim volumetric fraction of SLSANDApsim in the soil";
+                                            _SLSANDApsim.Description = "Apsim volumetric fraction of sand in the soil";
                                             _SLSANDApsim.MaxValue = -1D;
                                             _SLSANDApsim.MinValue = -1D;
                                             _SLSANDApsim.DefaultValue = -1D;
                                             _SLSANDApsim.Units = "";
-                                            _SLSANDApsim.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+                                            _SLSANDApsim.ValueType = VarInfoValueTypes.GetInstanceForName("ListDouble");
 
                                             __boundaryLayerConductance.Name = "_boundaryLayerConductance";
                                             __boundaryLayerConductance.Description = "Boundary layer conductance";

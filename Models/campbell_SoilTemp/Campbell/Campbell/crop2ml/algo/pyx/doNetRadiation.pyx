@@ -1,4 +1,4 @@
-def doNetRadiation(floatarray solarRadn,
+def doNetRadiation(floatlist solarRadn,
          float cloudFr,
          float cva,
          int ITERATIONSperDAY,
@@ -6,12 +6,16 @@ def doNetRadiation(floatarray solarRadn,
          float rad,
          float tmin,
          float latitude):
+    cdef floatlist  m1
+    cdef int lay 
+    solarRadn=[0.0] * (ITERATIONSperDAY + 1)
     cdef float piVal = 3.141592653589793
     cdef float TSTEPS2RAD = 1.0
     cdef float SOLARconst = 1.0
     cdef float solarDeclination = 1.0
-    cdef float m1[]
-    m1=[0.0] * (ITERATIONSperDAY + 1)
+    m1=[0.0]
+    for lay in range(0 , ITERATIONSperDAY + 1 , 1):
+        m1.append(0.0)
     TSTEPS2RAD=Divide(2.0 * piVal, float(ITERATIONSperDAY), 0.0)
     SOLARconst=1360.0
     solarDeclination=0.3985 * sin((4.869 + (doy * 2.0 * piVal / 365.25) + (0.03345 * sin((6.224 + (doy * 2.0 * piVal / 365.25))))))

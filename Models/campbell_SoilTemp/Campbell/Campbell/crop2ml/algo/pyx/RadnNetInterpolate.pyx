@@ -6,7 +6,7 @@ def RadnNetInterpolate(float internalTimeStep,
          float potET,
          float tMean,
          float albedo,
-         floatarray soilTemp):
+         floatlist soilTemp):
     cdef float EMISSIVITYsurface = 0.96
     cdef float w2MJ = internalTimeStep / 1000000.0
     cdef int SURFACEnode = 1

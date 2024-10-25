@@ -36,55 +36,59 @@ def init_campbell(NLAYR:int,
          boundaryLayerConductanceSource:str,
          netRadiationSource:str,
          windSpeed:float):
-    THICKApsim:'array[float]'
-    DEPTHApsim:'array[float]' = array('f',[0.0]*NLAYR)
-    BDApsim:'array[float]'
-    CLAYApsim:'array[float]'
-    SWApsim:'array[float]'
-    soilTemp:'array[float]' = array('f',[0.0]*NLAYR)
-    newTemperature:'array[float]' = array('f',[0.0]*NLAYR)
-    minSoilTemp:'array[float]' = array('f',[0.0]*NLAYR)
-    maxSoilTemp:'array[float]' = array('f',[0.0]*NLAYR)
-    aveSoilTemp:'array[float]' = array('f',[0.0]*NLAYR)
-    morningSoilTemp:'array[float]' = array('f',[0.0]*NLAYR)
-    thermalCondPar1:'array[float]' = array('f',[0.0]*NLAYR)
-    thermalCondPar2:'array[float]' = array('f',[0.0]*NLAYR)
-    thermalCondPar3:'array[float]' = array('f',[0.0]*NLAYR)
-    thermalCondPar4:'array[float]' = array('f',[0.0]*NLAYR)
-    thermalConductivity:'array[float]' = array('f',[0.0]*NLAYR)
-    thermalConductance:'array[float]' = array('f',[0.0]*NLAYR)
-    heatStorage:'array[float]' = array('f',[0.0]*NLAYR)
-    volSpecHeatSoil:'array[float]' = array('f',[0.0]*NLAYR)
+    THICKApsim:List[float] = []
+    DEPTHApsim:List[float] = []
+    BDApsim:List[float] = []
+    CLAYApsim:List[float] = []
+    SWApsim:List[float] = []
+    soilTemp:List[float] = []
+    newTemperature:List[float] = []
+    minSoilTemp:List[float] = []
+    maxSoilTemp:List[float] = []
+    aveSoilTemp:List[float] = []
+    morningSoilTemp:List[float] = []
+    thermalCondPar1:List[float] = []
+    thermalCondPar2:List[float] = []
+    thermalCondPar3:List[float] = []
+    thermalCondPar4:List[float] = []
+    thermalConductivity:List[float] = []
+    thermalConductance:List[float] = []
+    heatStorage:List[float] = []
+    volSpecHeatSoil:List[float] = []
     maxTempYesterday:float
     minTempYesterday:float
-    SLCARBApsim:'array[float]' = array('f',[0.0]*NLAYR)
-    SLROCKApsim:'array[float]' = array('f',[0.0]*NLAYR)
-    SLSILTApsim:'array[float]' = array('f',[0.0]*NLAYR)
-    SLSANDApsim:'array[float]' = array('f',[0.0]*NLAYR)
+    SLCARBApsim:List[float] = []
+    SLROCKApsim:List[float] = []
+    SLSILTApsim:List[float] = []
+    SLSANDApsim:List[float] = []
     _boundaryLayerConductance:float
-    DEPTHApsim = array('f', [0.0]*NLAYR)
-    soilTemp = array('f', [0.0]*NLAYR)
-    newTemperature = array('f', [0.0]*NLAYR)
-    minSoilTemp = array('f', [0.0]*NLAYR)
-    maxSoilTemp = array('f', [0.0]*NLAYR)
-    aveSoilTemp = array('f', [0.0]*NLAYR)
-    morningSoilTemp = array('f', [0.0]*NLAYR)
-    thermalCondPar1 = array('f', [0.0]*NLAYR)
-    thermalCondPar2 = array('f', [0.0]*NLAYR)
-    thermalCondPar3 = array('f', [0.0]*NLAYR)
-    thermalCondPar4 = array('f', [0.0]*NLAYR)
-    thermalConductivity = array('f', [0.0]*NLAYR)
-    thermalConductance = array('f', [0.0]*NLAYR)
-    heatStorage = array('f', [0.0]*NLAYR)
-    volSpecHeatSoil = array('f', [0.0]*NLAYR)
+    THICKApsim = []
+    DEPTHApsim = []
+    BDApsim = []
+    CLAYApsim = []
+    SWApsim = []
+    soilTemp = []
+    newTemperature = []
+    minSoilTemp = []
+    maxSoilTemp = []
+    aveSoilTemp = []
+    morningSoilTemp = []
+    thermalCondPar1 = []
+    thermalCondPar2 = []
+    thermalCondPar3 = []
+    thermalCondPar4 = []
+    thermalConductivity = []
+    thermalConductance = []
+    heatStorage = []
+    volSpecHeatSoil = []
     maxTempYesterday = 0.0
     minTempYesterday = 0.0
-    SLCARBApsim = array('f', [0.0]*NLAYR)
-    SLROCKApsim = array('f', [0.0]*NLAYR)
-    SLSILTApsim = array('f', [0.0]*NLAYR)
-    SLSANDApsim = array('f', [0.0]*NLAYR)
+    SLCARBApsim = []
+    SLROCKApsim = []
+    SLSILTApsim = []
+    SLSANDApsim = []
     _boundaryLayerConductance = 0.0
-    heatCapacity:'array[float]'
+    heatCapacity:List[float] = []
     soilRoughnessHeight:float
     defaultInstrumentHeight:float
     AltitudeMetres:float
@@ -96,7 +100,7 @@ def init_campbell(NLAYR:int,
     BelowProfileDepth:float
     thicknessForPhantomNodes:float
     ave_temp:float
-    i:int
+    I:int
     numNodes:int
     firstPhantomNode:int
     layer:int
@@ -118,21 +122,21 @@ def init_campbell(NLAYR:int,
     for layer in range(1 , NLAYR + 1 , 1):
         THICKApsim[layer] = THICK[layer - 1]
     sumThickness = 0.0
-    for i in range(1 , NLAYR + 1 , 1):
-        sumThickness = sumThickness + THICKApsim[i]
+    for I in range(1 , NLAYR + 1 , 1):
+        sumThickness = sumThickness + THICKApsim[I]
     BelowProfileDepth = max(CONSTANT_TEMPdepth - sumThickness, 1000.0)
     thicknessForPhantomNodes = BelowProfileDepth * 2.0 / NUM_PHANTOM_NODES
     firstPhantomNode = NLAYR
-    for i in range(firstPhantomNode , firstPhantomNode + NUM_PHANTOM_NODES , 1):
-        THICKApsim[i] = thicknessForPhantomNodes
+    for I in range(firstPhantomNode , firstPhantomNode + NUM_PHANTOM_NODES , 1):
+        THICKApsim[I] = thicknessForPhantomNodes
     DEPTHApsim = [0.0] * (numNodes + 1 + 1)
     DEPTHApsim[AIRnode] = 0.0
     DEPTHApsim[SURFACEnode] = 0.0
     DEPTHApsim[TOPSOILnode] = 0.5 * THICKApsim[1] / 1000.0
     for node in range(TOPSOILnode , numNodes + 1 , 1):
         sumThickness = 0.0
-        for i in range(1 , node , 1):
-            sumThickness = sumThickness + THICKApsim[i]
+        for I in range(1 , node , 1):
+            sumThickness = sumThickness + THICKApsim[I]
         DEPTHApsim[node + 1] = (sumThickness + (0.5 * THICKApsim[node])) / 1000.0
     BDApsim = [0.0] * (NLAYR + 1 + NUM_PHANTOM_NODES)
     for layer in range(1 , NLAYR + 1 , 1):
@@ -187,10 +191,10 @@ def init_campbell(NLAYR:int,
     soilTemp[AIRnode] = T2M
     surfaceT = (1.0 - SALB) * (T2M + ((TMAX - T2M) * sqrt(max(SRAD, 0.1) * 23.8846 / 800.0))) + (SALB * T2M)
     soilTemp[SURFACEnode] = surfaceT
-    for i in range(numNodes + 1 , len(soilTemp) , 1):
-        soilTemp[i] = TAV
-    for i in range(0 , len(soilTemp) , 1):
-        newTemperature[i] = soilTemp[i]
+    for I in range(numNodes + 1 , len(soilTemp) , 1):
+        soilTemp[I] = TAV
+    for I in range(0 , len(soilTemp) , 1):
+        newTemperature[I] = soilTemp[I]
     maxTempYesterday = TMAX
     minTempYesterday = TMIN
     return (THICKApsim, DEPTHApsim, BDApsim, CLAYApsim, SWApsim, soilTemp, newTemperature, minSoilTemp, maxSoilTemp, aveSoilTemp, morningSoilTemp, thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4, thermalConductivity, thermalConductance, heatStorage, volSpecHeatSoil, maxTempYesterday, minTempYesterday, SLCARBApsim, SLROCKApsim, SLSILTApsim, SLSANDApsim, _boundaryLayerConductance)
@@ -206,18 +210,18 @@ def model_campbell(NLAYR:int,
          SLSILT:'Array[float]',
          SLSAND:'Array[float]',
          SW:'Array[float]',
-         THICKApsim:'Array[float]',
-         DEPTHApsim:'Array[float]',
+         THICKApsim:List[float],
+         DEPTHApsim:List[float],
          CONSTANT_TEMPdepth:float,
-         BDApsim:'Array[float]',
+         BDApsim:List[float],
          T2M:float,
          TMAX:float,
          TMIN:float,
          TAV:float,
          TAMP:float,
          XLAT:float,
-         CLAYApsim:'Array[float]',
-         SWApsim:'Array[float]',
+         CLAYApsim:List[float],
+         SWApsim:List[float],
          DOY:int,
          airPressure:float,
          canopyHeight:float,
@@ -226,33 +230,33 @@ def model_campbell(NLAYR:int,
          ESP:float,
          ES:float,
          EOAD:float,
-         soilTemp:'Array[float]',
-         newTemperature:'Array[float]',
-         minSoilTemp:'Array[float]',
-         maxSoilTemp:'Array[float]',
-         aveSoilTemp:'Array[float]',
-         morningSoilTemp:'Array[float]',
-         thermalCondPar1:'Array[float]',
-         thermalCondPar2:'Array[float]',
-         thermalCondPar3:'Array[float]',
-         thermalCondPar4:'Array[float]',
-         thermalConductivity:'Array[float]',
-         thermalConductance:'Array[float]',
-         heatStorage:'Array[float]',
-         volSpecHeatSoil:'Array[float]',
+         soilTemp:List[float],
+         newTemperature:List[float],
+         minSoilTemp:List[float],
+         maxSoilTemp:List[float],
+         aveSoilTemp:List[float],
+         morningSoilTemp:List[float],
+         thermalCondPar1:List[float],
+         thermalCondPar2:List[float],
+         thermalCondPar3:List[float],
+         thermalCondPar4:List[float],
+         thermalConductivity:List[float],
+         thermalConductance:List[float],
+         heatStorage:List[float],
+         volSpecHeatSoil:List[float],
          maxTempYesterday:float,
          minTempYesterday:float,
          instrumentHeight:float,
          boundaryLayerConductanceSource:str,
          netRadiationSource:str,
          windSpeed:float,
-         SLCARBApsim:'Array[float]',
-         SLROCKApsim:'Array[float]',
-         SLSILTApsim:'Array[float]',
-         SLSANDApsim:'Array[float]',
+         SLCARBApsim:List[float],
+         SLROCKApsim:List[float],
+         SLSILTApsim:List[float],
+         SLSANDApsim:List[float],
          _boundaryLayerConductance:float):
     """
-     - Name: campbell -Version: 1.0, -Time step: 1
+     - Name: Campbell -Version: 1.0, -Time step: 1
      - Description:
                  * Title: SoilTemperature model from Campbell implemented in APSIM
                  * Authors: None
@@ -271,29 +275,29 @@ def model_campbell(NLAYR:int,
                                ** default : 10
                                ** unit : dimensionless
                  * name: THICK
-                               ** description : Soil layer depths as THICKApsim of layers
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
+                               ** description : Soil layer thickness of layers
+                               ** inputtype : parameter
+                               ** parametercategory : constant
                                ** datatype : DOUBLEARRAY
                                ** len : NLAYR
                                ** max : 
                                ** min : 1
-                               ** default : 50
+                               ** default : 
                                ** unit : mm
                  * name: BD
                                ** description : bd (soil bulk density)
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
+                               ** inputtype : parameter
+                               ** parametercategory : constant
                                ** datatype : DOUBLEARRAY
                                ** len : NLAYR
                                ** max : 
                                ** min : 
-                               ** default : 1.4
+                               ** default : 
                                ** unit : g/cm3             uri :
                  * name: SLCARB
                                ** description : Volumetric fraction of organic matter in the soil
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
+                               ** inputtype : parameter
+                               ** parametercategory : constant
                                ** datatype : DOUBLEARRAY
                                ** len : NLAYR
                                ** max : 
@@ -301,9 +305,9 @@ def model_campbell(NLAYR:int,
                                ** default : 
                                ** unit : 
                  * name: CLAY
-                               ** description : Proportion of CLAYApsim in each layer of profile
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
+                               ** description : Proportion of CLAY in each layer of profile
+                               ** inputtype : parameter
+                               ** parametercategory : constant
                                ** datatype : DOUBLEARRAY
                                ** len : NLAYR
                                ** max : 100
@@ -311,9 +315,9 @@ def model_campbell(NLAYR:int,
                                ** default : 50
                                ** unit : 
                  * name: SLROCK
-                               ** description : Volumetric fraction of SLROCKApsim in the soil
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
+                               ** description : Volumetric fraction of rocks in the soil
+                               ** inputtype : parameter
+                               ** parametercategory : constant
                                ** datatype : DOUBLEARRAY
                                ** len : NLAYR
                                ** max : 
@@ -321,9 +325,9 @@ def model_campbell(NLAYR:int,
                                ** default : 
                                ** unit : 
                  * name: SLSILT
-                               ** description : Volumetric fraction of SLSILTApsim in the soil
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
+                               ** description : Volumetric fraction of silt in the soil
+                               ** inputtype : parameter
+                               ** parametercategory : constant
                                ** datatype : DOUBLEARRAY
                                ** len : NLAYR
                                ** max : 
@@ -331,9 +335,9 @@ def model_campbell(NLAYR:int,
                                ** default : 
                                ** unit : 
                  * name: SLSAND
-                               ** description : Volumetric fraction of SLSANDApsim in the soil
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
+                               ** description : Volumetric fraction of sand in the soil
+                               ** inputtype : parameter
+                               ** parametercategory : constant
                                ** datatype : DOUBLEARRAY
                                ** len : NLAYR
                                ** max : 
@@ -342,8 +346,8 @@ def model_campbell(NLAYR:int,
                                ** unit : 
                  * name: SW
                                ** description : volumetric water content
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
+                               ** inputtype : parameter
+                               ** parametercategory : constant
                                ** datatype : DOUBLEARRAY
                                ** len : NLAYR
                                ** max : 1
@@ -351,21 +355,19 @@ def model_campbell(NLAYR:int,
                                ** default : 0.5
                                ** unit : cc water / cc soil
                  * name: THICKApsim
-                               ** description : APSIM soil layer depths as THICKApsim of layers
+                               ** description : APSIM soil layer depths of layers
                                ** inputtype : variable
                                ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NLAYR
+                               ** datatype : DOUBLELIST
                                ** max : 
                                ** min : 1
-                               ** default : 50
+                               ** default : 
                                ** unit : mm
                  * name: DEPTHApsim
                                ** description : Apsim node depths
                                ** inputtype : variable
                                ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NLAYR
+                               ** datatype : DOUBLELIST
                                ** max : 
                                ** min : 
                                ** default : 
@@ -383,11 +385,10 @@ def model_campbell(NLAYR:int,
                                ** description : Apsim bd (soil bulk density)
                                ** inputtype : variable
                                ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NLAYR
+                               ** datatype : DOUBLELIST
                                ** max : 
                                ** min : 
-                               ** default : 1.4
+                               ** default : 
                                ** unit : g/cm3             uri :
                  * name: T2M
                                ** description : Mean daily Air temperature
@@ -417,9 +418,9 @@ def model_campbell(NLAYR:int,
                                ** default : 
                                ** unit : 
                  * name: TAV
-                               ** description : Average daily Air temperature
-                               ** inputtype : variable
-                               ** variablecategory : exogenous
+                               ** description : Average annual air temperature
+                               ** inputtype : parameter
+                               ** parametercategory : constant
                                ** datatype : DOUBLE
                                ** max : 60
                                ** min : -60
@@ -444,24 +445,22 @@ def model_campbell(NLAYR:int,
                                ** default : 
                                ** unit : 
                  * name: CLAYApsim
-                               ** description : Apsim proportion of CLAYApsim in each layer of profile
+                               ** description : Apsim proportion of CLAY in each layer of profile
                                ** inputtype : variable
                                ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NLAYR
+                               ** datatype : DOUBLELIST
                                ** max : 100
                                ** min : 0
-                               ** default : 50
+                               ** default : 
                                ** unit : 
                  * name: SWApsim
                                ** description : Apsim volumetric water content
                                ** inputtype : variable
                                ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NLAYR
+                               ** datatype : DOUBLELIST
                                ** max : 1
                                ** min : 0
-                               ** default : 0.5
+                               ** default : 
                                ** unit : cc water / cc soil
                  * name: DOY
                                ** description : Day of year
@@ -539,8 +538,7 @@ def model_campbell(NLAYR:int,
                                ** description : Temperature at end of last time-step within a day - midnight in layers
                                ** inputtype : variable
                                ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NLAYR
+                               ** datatype : DOUBLELIST
                                ** max : 60.
                                ** min : -60.
                                ** default : 
@@ -549,8 +547,7 @@ def model_campbell(NLAYR:int,
                                ** description : Soil temperature at the end of one iteration
                                ** inputtype : variable
                                ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NLAYR
+                               ** datatype : DOUBLELIST
                                ** max : 60.
                                ** min : -60.
                                ** default : 
@@ -559,8 +556,7 @@ def model_campbell(NLAYR:int,
                                ** description : Minimum soil temperature in layers
                                ** inputtype : variable
                                ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NLAYR
+                               ** datatype : DOUBLELIST
                                ** max : 60.
                                ** min : -60.
                                ** default : 
@@ -569,8 +565,7 @@ def model_campbell(NLAYR:int,
                                ** description : Maximum soil temperature in layers
                                ** inputtype : variable
                                ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NLAYR
+                               ** datatype : DOUBLELIST
                                ** max : 60.
                                ** min : -60.
                                ** default : 
@@ -579,8 +574,7 @@ def model_campbell(NLAYR:int,
                                ** description : Temperature averaged over all time-steps within a day in layers.
                                ** inputtype : variable
                                ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NLAYR
+                               ** datatype : DOUBLELIST
                                ** max : 60.
                                ** min : -60.
                                ** default : 
@@ -589,8 +583,7 @@ def model_campbell(NLAYR:int,
                                ** description : Temperature  in the morning in layers.
                                ** inputtype : variable
                                ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NLAYR
+                               ** datatype : DOUBLELIST
                                ** max : 60.
                                ** min : -60.
                                ** default : 
@@ -599,8 +592,7 @@ def model_campbell(NLAYR:int,
                                ** description : thermal conductivity coeff in layers
                                ** inputtype : variable
                                ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NLAYR
+                               ** datatype : DOUBLELIST
                                ** max : 
                                ** min : 
                                ** default : 
@@ -609,8 +601,7 @@ def model_campbell(NLAYR:int,
                                ** description : thermal conductivity coeff in layers
                                ** inputtype : variable
                                ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NLAYR
+                               ** datatype : DOUBLELIST
                                ** max : 
                                ** min : 
                                ** default : 
@@ -619,8 +610,7 @@ def model_campbell(NLAYR:int,
                                ** description : thermal conductivity coeff in layers
                                ** inputtype : variable
                                ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NLAYR
+                               ** datatype : DOUBLELIST
                                ** max : 
                                ** min : 
                                ** default : 
@@ -629,8 +619,7 @@ def model_campbell(NLAYR:int,
                                ** description : thermal conductivity coeff in layers
                                ** inputtype : variable
                                ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NLAYR
+                               ** datatype : DOUBLELIST
                                ** max : 
                                ** min : 
                                ** default : 
@@ -639,8 +628,7 @@ def model_campbell(NLAYR:int,
                                ** description : thermal conductivity in layers
                                ** inputtype : variable
                                ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NLAYR
+                               ** datatype : DOUBLELIST
                                ** max : 
                                ** min : 
                                ** default : 
@@ -649,8 +637,7 @@ def model_campbell(NLAYR:int,
                                ** description : Thermal conductance between layers
                                ** inputtype : variable
                                ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NLAYR
+                               ** datatype : DOUBLELIST
                                ** max : 
                                ** min : 
                                ** default : 
@@ -659,8 +646,7 @@ def model_campbell(NLAYR:int,
                                ** description : Heat storage between layers (internal)
                                ** inputtype : variable
                                ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NLAYR
+                               ** datatype : DOUBLELIST
                                ** max : 
                                ** min : 
                                ** default : 
@@ -669,8 +655,7 @@ def model_campbell(NLAYR:int,
                                ** description : Volumetric specific heat over the soil profile
                                ** inputtype : variable
                                ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NLAYR
+                               ** datatype : DOUBLELIST
                                ** max : 
                                ** min : 
                                ** default : 
@@ -730,41 +715,37 @@ def model_campbell(NLAYR:int,
                                ** default : 3.0
                                ** unit : m/s
                  * name: SLCARBApsim
-                               ** description : Volumetric fraction of organic matter in the soil
+                               ** description : Apsim volumetric fraction of organic matter in the soil
                                ** inputtype : variable
                                ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NLAYR
+                               ** datatype : DOUBLELIST
                                ** max : 
                                ** min : 
                                ** default : 
                                ** unit : 
                  * name: SLROCKApsim
-                               ** description : Volumetric fraction of SLROCKApsim in the soil
+                               ** description : Apsim volumetric fraction of rocks in the soil
                                ** inputtype : variable
                                ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NLAYR
+                               ** datatype : DOUBLELIST
                                ** max : 
                                ** min : 
                                ** default : 
                                ** unit : 
                  * name: SLSILTApsim
-                               ** description : Volumetric fraction of SLSILTApsim in the soil
+                               ** description : Apsim volumetric fraction of silt in the soil
                                ** inputtype : variable
                                ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NLAYR
+                               ** datatype : DOUBLELIST
                                ** max : 
                                ** min : 
                                ** default : 
                                ** unit : 
                  * name: SLSANDApsim
-                               ** description : Apsim volumetric fraction of SLSANDApsim in the soil
+                               ** description : Apsim volumetric fraction of sand in the soil
                                ** inputtype : variable
                                ** variablecategory : state
-                               ** datatype : DOUBLEARRAY
-                               ** len : NLAYR
+                               ** datatype : DOUBLELIST
                                ** max : 
                                ** min : 
                                ** default : 
@@ -781,49 +762,43 @@ def model_campbell(NLAYR:int,
      - outputs:
                  * name: soilTemp
                                ** description : Temperature at end of last time-step within a day - midnight in layers
-                               ** datatype : DOUBLEARRAY
+                               ** datatype : DOUBLELIST
                                ** variablecategory : state
-                               ** len : NLAYR
                                ** max : 60.
                                ** min : -60.
                                ** unit : degC
                  * name: minSoilTemp
                                ** description : Minimum soil temperature in layers
-                               ** datatype : DOUBLEARRAY
+                               ** datatype : DOUBLELIST
                                ** variablecategory : state
-                               ** len : NLAYR
                                ** max : 60.
                                ** min : -60.
                                ** unit : degC
                  * name: maxSoilTemp
                                ** description : Maximum soil temperature in layers
-                               ** datatype : DOUBLEARRAY
+                               ** datatype : DOUBLELIST
                                ** variablecategory : state
-                               ** len : NLAYR
                                ** max : 60.
                                ** min : -60.
                                ** unit : degC
                  * name: aveSoilTemp
                                ** description : Temperature averaged over all time-steps within a day in layers.
-                               ** datatype : DOUBLEARRAY
+                               ** datatype : DOUBLELIST
                                ** variablecategory : state
-                               ** len : NLAYR
                                ** max : 60.
                                ** min : -60.
                                ** unit : degC
                  * name: morningSoilTemp
                                ** description : Temperature  in the morning in layers.
-                               ** datatype : DOUBLEARRAY
+                               ** datatype : DOUBLELIST
                                ** variablecategory : state
-                               ** len : NLAYR
                                ** max : 60.
                                ** min : -60.
                                ** unit : degC
                  * name: newTemperature
                                ** description : Soil temperature at the end of one iteration
-                               ** datatype : DOUBLEARRAY
+                               ** datatype : DOUBLELIST
                                ** variablecategory : state
-                               ** len : NLAYR
                                ** max : 60.
                                ** min : -60.
                                ** unit : degC
@@ -843,65 +818,57 @@ def model_campbell(NLAYR:int,
                                ** unit : 
                  * name: thermalCondPar1
                                ** description : thermal conductivity coeff in layers
-                               ** datatype : DOUBLEARRAY
+                               ** datatype : DOUBLELIST
                                ** variablecategory : state
-                               ** len : NLAYR
                                ** max : 
                                ** min : 
                                ** unit : (W/m2/K)
                  * name: thermalCondPar2
                                ** description : thermal conductivity coeff in layers
-                               ** datatype : DOUBLEARRAY
+                               ** datatype : DOUBLELIST
                                ** variablecategory : state
-                               ** len : NLAYR
                                ** max : 
                                ** min : 
                                ** unit : (W/m2/K)
                  * name: thermalCondPar3
                                ** description : thermal conductivity coeff in layers
-                               ** datatype : DOUBLEARRAY
+                               ** datatype : DOUBLELIST
                                ** variablecategory : state
-                               ** len : NLAYR
                                ** max : 
                                ** min : 
                                ** unit : (W/m2/K)
                  * name: thermalCondPar4
                                ** description : thermal conductivity coeff in layers
-                               ** datatype : DOUBLEARRAY
+                               ** datatype : DOUBLELIST
                                ** variablecategory : state
-                               ** len : NLAYR
                                ** max : 
                                ** min : 
                                ** unit : (W/m2/K)
                  * name: thermalConductivity
                                ** description : thermal conductivity in layers
-                               ** datatype : DOUBLEARRAY
+                               ** datatype : DOUBLELIST
                                ** variablecategory : state
-                               ** len : NLAYR
                                ** max : 
                                ** min : 
                                ** unit : (W/m2/K)
                  * name: thermalConductance
                                ** description : Thermal conductance between layers
-                               ** datatype : DOUBLEARRAY
+                               ** datatype : DOUBLELIST
                                ** variablecategory : state
-                               ** len : NLAYR
                                ** max : 
                                ** min : 
                                ** unit : (W/m2/K)
                  * name: heatStorage
                                ** description : Heat storage between layers (internal)
-                               ** datatype : DOUBLEARRAY
+                               ** datatype : DOUBLELIST
                                ** variablecategory : state
-                               ** len : NLAYR
                                ** max : 
                                ** min : 
                                ** unit : J/s/K
                  * name: volSpecHeatSoil
                                ** description : Volumetric specific heat over the soil profile
-                               ** datatype : DOUBLEARRAY
+                               ** datatype : DOUBLELIST
                                ** variablecategory : state
-                               ** len : NLAYR
                                ** max : 
                                ** min : 
                                ** unit : J/K/m3
@@ -913,74 +880,65 @@ def model_campbell(NLAYR:int,
                                ** min : 
                                ** unit : K/W
                  * name: THICKApsim
-                               ** description : APSIM soil layer depths as THICKApsim of layers
-                               ** datatype : DOUBLEARRAY
+                               ** description : APSIM soil layer thickness of layers
+                               ** datatype : DOUBLELIST
                                ** variablecategory : state
-                               ** len : NLAYR
                                ** max : 
                                ** min : 1
                                ** unit : mm
                  * name: DEPTHApsim
                                ** description : APSIM node depths
-                               ** datatype : DOUBLEARRAY
+                               ** datatype : DOUBLELIST
                                ** variablecategory : state
-                               ** len : NLAYR
                                ** max : 
                                ** min : 
                                ** unit : m
                  * name: BDApsim
-                               ** description : bd (soil bulk density) is name of the APSIM var for bulk density so set BDApsim
-                               ** datatype : DOUBLEARRAY
+                               ** description : soil bulk density of APSIM
+                               ** datatype : DOUBLELIST
                                ** variablecategory : state
-                               ** len : NLAYR
                                ** max : 
                                ** min : 
                                ** unit : g/cm3             uri :
                  * name: SWApsim
-                               ** description : volumetric water content
-                               ** datatype : DOUBLEARRAY
+                               ** description : Apsim volumetric water content
+                               ** datatype : DOUBLELIST
                                ** variablecategory : state
-                               ** len : NLAYR
                                ** max : 1
                                ** min : 0
                                ** unit : cc water / cc soil
                  * name: CLAYApsim
-                               ** description : Proportion of CLAYApsim in each layer of profile
-                               ** datatype : DOUBLEARRAY
+                               ** description : Proportion of clay in each layer of profile
+                               ** datatype : DOUBLELIST
                                ** variablecategory : state
-                               ** len : NLAYR
                                ** max : 100
                                ** min : 0
                                ** unit : 
                  * name: SLROCKApsim
-                               ** description : Volumetric fraction of SLROCKApsim in the soil
-                               ** datatype : DOUBLEARRAY
+                               ** description : Volumetric fraction of rocks in the soil
+                               ** datatype : DOUBLELIST
                                ** variablecategory : state
-                               ** len : NLAYR
                                ** max : 
                                ** min : 
                                ** unit : 
                  * name: SLCARBApsim
                                ** description : Volumetric fraction of organic matter in the soil
-                               ** datatype : DOUBLEARRAY
+                               ** datatype : DOUBLELIST
                                ** variablecategory : state
-                               ** len : NLAYR
                                ** max : 
                                ** min : 
                                ** unit : 
                  * name: SLSANDApsim
-                               ** description : Volumetric fraction of SLSANDApsim in the soil
-                               ** datatype : DOUBLEARRAY
+                               ** description : Volumetric fraction of sand in the soil
+                               ** datatype : DOUBLELIST
                                ** variablecategory : state
-                               ** len : NLAYR
                                ** max : 
                                ** min : 
                                ** unit : 
                  * name: SLSILTApsim
-                               ** description : Volumetric fraction of SLSILTApsim in the soil
-                               ** datatype : DOUBLEARRAY
+                               ** description : Volumetric fraction of silt in the soil
+                               ** datatype : DOUBLELIST
                                ** variablecategory : state
-                               ** len : NLAYR
                                ** max : 
                                ** min : 
                                ** unit : 
@@ -1010,7 +968,7 @@ def model_campbell(NLAYR:int,
     precision:float
     cva:float
     cloudFr:float
-    solarRadn:'array[float]'
+    solarRadn:List[float] = []
     layer:int
     timeOfDaySecs:float
     airTemperature:float
@@ -1040,7 +998,9 @@ def model_campbell(NLAYR:int,
     layer = 0
     cva = 0.0
     cloudFr = 0.0
-    solarRadn = [0.0] * 49
+    solarRadn = [0.0]
+    for layer in range(0 , 50 , 1):
+        solarRadn.append(0.0)
     (solarRadn, cloudFr, cva) = doNetRadiation(solarRadn, cloudFr, cva, ITERATIONSperDAY, DOY, SRAD, TMIN, XLAT)
     minSoilTemp = Zero(minSoilTemp)
     maxSoilTemp = Zero(maxSoilTemp)
@@ -1075,7 +1035,7 @@ def model_campbell(NLAYR:int,
     return (soilTemp, minSoilTemp, maxSoilTemp, aveSoilTemp, morningSoilTemp, newTemperature, maxTempYesterday, minTempYesterday, thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4, thermalConductivity, thermalConductance, heatStorage, volSpecHeatSoil, _boundaryLayerConductance, THICKApsim, DEPTHApsim, BDApsim, SWApsim, CLAYApsim, SLROCKApsim, SLCARBApsim, SLSANDApsim, SLSILTApsim)
 #%%CyML Model End%%
 
-def doNetRadiation(solarRadn:'Array[float]',
+def doNetRadiation(solarRadn:List[float],
          cloudFr:float,
          cva:float,
          ITERATIONSperDAY:int,
@@ -1083,12 +1043,16 @@ def doNetRadiation(solarRadn:'Array[float]',
          rad:float,
          tmin:float,
          latitude:float):
+    m1:List[float] = []
+    lay:int
+    solarRadn = [0.0] * (ITERATIONSperDAY + 1)
     piVal:float = 3.141592653589793
     TSTEPS2RAD:float = 1.0
     SOLARconst:float = 1.0
     solarDeclination:float = 1.0
-    m1:'array[float]'
-    m1 = [0.0] * (ITERATIONSperDAY + 1)
+    m1 = [0.0]
+    for lay in range(0 , ITERATIONSperDAY + 1 , 1):
+        m1.append(0.0)
     TSTEPS2RAD = Divide(2.0 * piVal, float(ITERATIONSperDAY), 0.0)
     SOLARconst = 1360.0
     solarDeclination = 0.3985 * sin((4.869 + (doy * 2.0 * piVal / 365.25) + (0.03345 * sin((6.224 + (doy * 2.0 * piVal / 365.25))))))
@@ -1128,21 +1092,23 @@ def kelvinT(celciusT:float):
     res:float = celciusT + ZEROTkelvin
     return res
 
-def Zero(arr:'Array[float]'):
-    i:int = 0
-    for i in range(0 , len(arr) , 1):
-        arr[i] = 0.
+def Zero(arr:List[float]):
+    I:int = 0
+    for I in range(0 , len(arr) , 1):
+        arr[I] = 0.
     return arr
 
-def doVolumetricSpecificHeat(volSpecLayer:'Array[float]',
-         soilW:'Array[float]',
+def doVolumetricSpecificHeat(volSpecLayer:List[float],
+         soilW:List[float],
          numNodes:int,
          constituents:'Array[str]',
-         THICKApsim:'Array[float]',
-         DEPTHApsim:'Array[float]'):
-    volSpecHeatSoil:'array[float]'
-    volSpecHeatSoil = [0.0] * (numNodes + 1)
+         THICKApsim:List[float],
+         DEPTHApsim:List[float]):
+    volSpecHeatSoil:List[float] = []
+    volSpecHeatSoil = [0.0]
     node:int
+    for node in range(0 , numNodes + 1 , 1):
+        volSpecHeatSoil.append(0.0)
     constituent:int
     for node in range(1 , numNodes + 1 , 1):
         volSpecHeatSoil[node] = 0.0
@@ -1179,15 +1145,15 @@ def volumetricSpecificHeat(name:str):
         res = specificHeatAir
     return res
 
-def mapLayer2Node(layerArray:'Array[float]',
-         nodeArray:'Array[float]',
-         THICKApsim:'Array[float]',
-         DEPTHApsim:'Array[float]',
+def mapLayer2Node(layerArray:List[float],
+         nodeArray:List[float],
+         THICKApsim:List[float],
+         DEPTHApsim:List[float],
          numNodes:int):
     SURFACEnode:int = 1
     depthLayerAbove:float
     node:int = 0
-    i:int = 0
+    I:int = 0
     layer:int
     d1:float
     d2:float
@@ -1196,28 +1162,31 @@ def mapLayer2Node(layerArray:'Array[float]',
         layer = node - 1
         depthLayerAbove = 0.0
         if layer >= 1:
-            for i in range(1 , layer + 1 , 1):
-                depthLayerAbove = depthLayerAbove + THICKApsim[i]
+            for I in range(1 , layer + 1 , 1):
+                depthLayerAbove = depthLayerAbove + THICKApsim[I]
         d1 = depthLayerAbove - (DEPTHApsim[node] * 1000.0)
         d2 = DEPTHApsim[(node + 1)] * 1000.0 - depthLayerAbove
         dSum = d1 + d2
         nodeArray[node] = Divide(layerArray[layer] * d1, dSum, 0.0) + Divide(layerArray[(layer + 1)] * d2, dSum, 0.0)
     return nodeArray
 
-def doThermConductivity(soilW:'Array[float]',
-         SLCARBApsim:'Array[float]',
-         SLROCKApsim:'Array[float]',
-         SLSANDApsim:'Array[float]',
-         SLSILTApsim:'Array[float]',
-         CLAYApsim:'Array[float]',
-         BDApsim:'Array[float]',
-         thermalConductivity:'Array[float]',
-         THICKApsim:'Array[float]',
-         DEPTHApsim:'Array[float]',
+def doThermConductivity(soilW:List[float],
+         SLCARBApsim:List[float],
+         SLROCKApsim:List[float],
+         SLSANDApsim:List[float],
+         SLSILTApsim:List[float],
+         CLAYApsim:List[float],
+         BDApsim:List[float],
+         thermalConductivity:List[float],
+         THICKApsim:List[float],
+         DEPTHApsim:List[float],
          numNodes:int,
          constituents:'Array[str]'):
-    thermCondLayers:'array[float]'
-    thermCondLayers = [0.0] * (numNodes + 1)
+    thermCondLayers:List[float] = []
+    thermCondLayers = [0.0]
+    I:int
+    for I in range(0 , numNodes + 1 , 1):
+        thermCondLayers.append(0.0)
     node:int = 1
     constituent:int = 1
     temp:float
@@ -1242,13 +1211,13 @@ def doThermConductivity(soilW:'Array[float]',
     return thermalConductivity
 
 def shapeFactor(name:str,
-         SLROCKApsim:'Array[float]',
-         SLCARBApsim:'Array[float]',
-         SLSANDApsim:'Array[float]',
-         SLSILTApsim:'Array[float]',
-         CLAYApsim:'Array[float]',
-         SWApsim:'Array[float]',
-         BDApsim:'Array[float]',
+         SLROCKApsim:List[float],
+         SLCARBApsim:List[float],
+         SLSANDApsim:List[float],
+         SLSILTApsim:List[float],
+         CLAYApsim:List[float],
+         SWApsim:List[float],
+         BDApsim:List[float],
          layer:int):
     shapeFactorRocks:float = 0.182
     shapeFactorOM:float = 0.5
@@ -1309,111 +1278,58 @@ def ThermalConductance(name:str):
     result = volumetricSpecificHeat(name)
     return result
 
-def mapLayer2Node(layerArray:'Array[float]',
-         nodeArray:'Array[float]',
-         THICKApsim:'Array[float]',
-         DEPTHApsim:'Array[float]',
-         numNodes:int):
-    SURFACEnode:int = 1
-    depthLayerAbove:float
-    node:int = 0
-    i:int = 0
-    layer:int
-    d1:float
-    d2:float
-    dSum:float
-    for node in range(SURFACEnode , numNodes + 1 , 1):
-        layer = node - 1
-        depthLayerAbove = 0.0
-        if layer >= 1:
-            for i in range(1 , layer + 1 , 1):
-                depthLayerAbove = depthLayerAbove + THICKApsim[i]
-        d1 = depthLayerAbove - (DEPTHApsim[node] * 1000.0)
-        d2 = DEPTHApsim[(node + 1)] * 1000.0 - depthLayerAbove
-        dSum = d1 + d2
-        nodeArray[node] = Divide(layerArray[layer] * d1, dSum, 0.0) + Divide(layerArray[(layer + 1)] * d2, dSum, 0.0)
-    return nodeArray
-
-def volumetricFractionWater(SWApsim:'Array[float]',
-         SLCARBApsim:'Array[float]',
-         BDApsim:'Array[float]',
+def volumetricFractionWater(SWApsim:List[float],
+         SLCARBApsim:List[float],
+         BDApsim:List[float],
          layer:int):
     res:float = (1.0 - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer)) * SWApsim[layer]
     return res
 
-def volumetricFractionAir(SLROCKApsim:'Array[float]',
-         SLCARBApsim:'Array[float]',
-         SLSANDApsim:'Array[float]',
-         SLSILTApsim:'Array[float]',
-         CLAYApsim:'Array[float]',
-         SWApsim:'Array[float]',
-         BDApsim:'Array[float]',
+def volumetricFractionAir(SLROCKApsim:List[float],
+         SLCARBApsim:List[float],
+         SLSANDApsim:List[float],
+         SLSILTApsim:List[float],
+         CLAYApsim:List[float],
+         SWApsim:List[float],
+         BDApsim:List[float],
          layer:int):
     res:float = 1.0 - volumetricFractionRocks(SLROCKApsim, layer) - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer) - volumetricFractionSand(SLSANDApsim, SLROCKApsim, SLCARBApsim, BDApsim, layer) - volumetricFractionSilt(SLSILTApsim, SLROCKApsim, SLCARBApsim, BDApsim, layer) - volumetricFractionClay(CLAYApsim, SLROCKApsim, SLCARBApsim, BDApsim, layer) - volumetricFractionWater(SWApsim, SLCARBApsim, BDApsim, layer) - 0.0
     return res
 
-def volumetricFractionRocks(SLROCKApsim:'Array[float]',
+def volumetricFractionRocks(SLROCKApsim:List[float],
          layer:int):
     res:float = SLROCKApsim[layer] / 100.0
     return res
 
-def volumetricFractionSand(SLSANDApsim:'Array[float]',
-         SLROCKApsim:'Array[float]',
-         SLCARBApsim:'Array[float]',
-         BDApsim:'Array[float]',
+def volumetricFractionSand(SLSANDApsim:List[float],
+         SLROCKApsim:List[float],
+         SLCARBApsim:List[float],
+         BDApsim:List[float],
          layer:int):
     ps:float = 2.63
     res:float = (1.0 - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer) - volumetricFractionRocks(SLROCKApsim, layer)) * SLSANDApsim[layer] / 100.0 * BDApsim[layer] / ps
     return res
 
-def volumetricFractionSilt(SLSILTApsim:'Array[float]',
-         SLROCKApsim:'Array[float]',
-         SLCARBApsim:'Array[float]',
-         BDApsim:'Array[float]',
+def volumetricFractionSilt(SLSILTApsim:List[float],
+         SLROCKApsim:List[float],
+         SLCARBApsim:List[float],
+         BDApsim:List[float],
          layer:int):
     ps:float = 2.63
     res:float = (1.0 - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer) - volumetricFractionRocks(SLROCKApsim, layer)) * SLSILTApsim[layer] / 100.0 * BDApsim[layer] / ps
     return res
 
-def volumetricFractionClay(CLAYApsim:'Array[float]',
-         SLROCKApsim:'Array[float]',
-         SLCARBApsim:'Array[float]',
-         BDApsim:'Array[float]',
+def volumetricFractionClay(CLAYApsim:List[float],
+         SLROCKApsim:List[float],
+         SLCARBApsim:List[float],
+         BDApsim:List[float],
          layer:int):
     ps:float = 2.63
     res:float = (1.0 - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer) - volumetricFractionRocks(SLROCKApsim, layer)) * CLAYApsim[layer] / 100.0 * BDApsim[layer] / ps
     return res
 
-def volumetricSpecificHeat(name:str):
-    specificHeatRocks:float = 7.7
-    specificHeatOM:float = 0.25
-    specificHeatSand:float = 7.7
-    specificHeatSilt:float = 2.74
-    specificHeatClay:float = 2.92
-    specificHeatWater:float = 0.57
-    specificHeatIce:float = 2.18
-    specificHeatAir:float = 0.025
-    res:float = 0.0
-    if name == "Rocks":
-        res = specificHeatRocks
-    elif name == "OrganicMatter":
-        res = specificHeatOM
-    elif name == "Sand":
-        res = specificHeatSand
-    elif name == "Silt":
-        res = specificHeatSilt
-    elif name == "Clay":
-        res = specificHeatClay
-    elif name == "Water":
-        res = specificHeatWater
-    elif name == "Ice":
-        res = specificHeatIce
-    elif name == "Air":
-        res = specificHeatAir
-    return res
-
-def volumetricFractionOrganicMatter(SLCARBApsim:'Array[float]',
-         BDApsim:'Array[float]',
+def volumetricFractionOrganicMatter(SLCARBApsim:List[float],
+         BDApsim:List[float],
          layer:int):
     pom:float = 1.3
     res:float = SLCARBApsim[layer] / 100.0 * 2.5 * BDApsim[layer] / pom
@@ -1455,7 +1371,7 @@ def RadnNetInterpolate(internalTimeStep:float,
          potET:float,
          tMean:float,
          albedo:float,
-         soilTemp:'Array[float]'):
+         soilTemp:List[float]):
     EMISSIVITYsurface:float = 0.96
     w2MJ:float = internalTimeStep / 1000000.0
     SURFACEnode:int = 1
@@ -1470,14 +1386,6 @@ def RadnNetInterpolate(internalTimeStep:float,
     total:float = swRnetSoil + lwRnetSoil
     return total
 
-def Divide(val1:float,
-         val2:float,
-         errVal:float):
-    returnValue:float = errVal
-    if val2 != 0.0:
-        returnValue = val1 / val2
-    return returnValue
-
 def longWaveRadn(emissivity:float,
          tDegC:float):
     STEFAN_BOLTZMANNconst:float = 0.0000000567
@@ -1485,7 +1393,7 @@ def longWaveRadn(emissivity:float,
     res:float = STEFAN_BOLTZMANNconst * emissivity * pow(kelvinTemp, 4)
     return res
 
-def boundaryLayerConductanceF(TNew_zb:'Array[float]',
+def boundaryLayerConductanceF(TNew_zb:List[float],
          tMean:float,
          potE:float,
          potET:float,
@@ -1537,38 +1445,12 @@ def airDensity(temperature:float,
     res:float = Divide(MWair * AirPressure * HPA2PA, kelvinTemp * RGAS, 0.0)
     return res
 
-def kelvinT(celciusT:float):
-    ZEROTkelvin:float = 273.18
-    res:float = celciusT + ZEROTkelvin
-    return res
-
-def Divide(val1:float,
-         val2:float,
-         errVal:float):
-    returnValue:float = errVal
-    if val2 != 0.0:
-        returnValue = val1 / val2
-    return returnValue
-
-def kelvinT(celciusT:float):
-    ZEROTkelvin:float = 273.18
-    res:float = celciusT + ZEROTkelvin
-    return res
-
-def Divide(val1:float,
-         val2:float,
-         errVal:float):
-    returnValue:float = errVal
-    if val2 != 0.0:
-        returnValue = val1 / val2
-    return returnValue
-
-def doThomas(newTemps:'Array[float]',
-         soilTemp:'Array[float]',
-         thermalConductivity:'Array[float]',
-         thermalConductance:'Array[float]',
-         DEPTHApsim:'Array[float]',
-         volSpecHeatSoil:'Array[float]',
+def doThomas(newTemps:List[float],
+         soilTemp:List[float],
+         thermalConductivity:List[float],
+         thermalConductance:List[float],
+         DEPTHApsim:List[float],
+         volSpecHeatSoil:List[float],
          gDt:float,
          netRadiation:float,
          potE:float,
@@ -1581,8 +1463,9 @@ def doThomas(newTemps:'Array[float]',
     MJ2J:float = 1000000.0
     latentHeatOfVapourisation:float = 2465000.0
     tempStepSec:float = 24.0 * 60.0 * 60.0
-    heatStorage:'array[float]'
-    heatStorage = [0.] * (numNodes + 1)
+    I:int
+    heatStorage:List[float] = []
+    heatStorage = [0.]
     VolSoilAtNode:float
     elementLength:float
     g:float = 1 - nu
@@ -1590,14 +1473,21 @@ def doThomas(newTemps:'Array[float]',
     RadnNet:float
     LatentHeatFlux:float
     SoilSurfaceHeatFlux:float
-    a:'array[float]'
-    b:'array[float]'
-    c:'array[float]'
-    d:'array[float]'
-    a = [0.0] * (numNodes + 2)
-    b = [0.0] * (numNodes + 1)
-    c = [0.0] * (numNodes + 1)
-    d = [0.0] * (numNodes + 1)
+    a:List[float] = []
+    b:List[float] = []
+    c:List[float] = []
+    d:List[float] = []
+    a = [0.0]
+    b = [0.0]
+    c = [0.0]
+    d = [0.0]
+    for I in range(0 , numNodes + 1 , 1):
+        a.append(0.0)
+        b.append(0.0)
+        c.append(0.0)
+        d.append(0.0)
+        heatStorage.append(0.0)
+    a.append(0.0)
     thermalConductance = [0.] * (numNodes + 1)
     thermalConductance[AIRnode] = thermalConductivity[AIRnode]
     node:int = SURFACEnode
@@ -1632,20 +1522,12 @@ def doThomas(newTemps:'Array[float]',
         newTemps[node] = d[node] - (c[node] * newTemps[(node + 1)])
     return newTemps
 
-def Divide(val1:float,
-         val2:float,
-         errVal:float):
-    returnValue:float = errVal
-    if val2 != 0.0:
-        returnValue = val1 / val2
-    return returnValue
-
-def doUpdate(tempNew:'Array[float]',
-         soilTemp:'Array[float]',
-         minSoilTemp:'Array[float]',
-         maxSoilTemp:'Array[float]',
-         aveSoilTemp:'Array[float]',
-         thermalConductivity:'Array[float]',
+def doUpdate(tempNew:List[float],
+         soilTemp:List[float],
+         minSoilTemp:List[float],
+         maxSoilTemp:List[float],
+         aveSoilTemp:List[float],
+         thermalConductivity:List[float],
          boundaryLayerConductance:float,
          IterationsPerDay:int,
          timeOfDaySecs:float,
@@ -1669,28 +1551,25 @@ def doUpdate(tempNew:'Array[float]',
     boundaryLayerConductance = boundaryLayerConductance + Divide(thermalConductivity[AIRnode], float(IterationsPerDay), 0.0)
     return (soilTemp, boundaryLayerConductance)
 
-def Divide(val1:float,
-         val2:float,
-         errVal:float):
-    returnValue:float = errVal
-    if val2 != 0.0:
-        returnValue = val1 / val2
-    return returnValue
-
 def doThermalConductivityCoeffs(nbLayers:int,
          numNodes:int,
-         BDApsim:'Array[float]',
-         CLAYApsim:'Array[float]'):
-    thermalCondPar1:'array[float]'
-    thermalCondPar2:'array[float]'
-    thermalCondPar3:'array[float]'
-    thermalCondPar4:'array[float]'
+         BDApsim:List[float],
+         CLAYApsim:List[float]):
+    thermalCondPar1:List[float] = []
+    thermalCondPar2:List[float] = []
+    thermalCondPar3:List[float] = []
+    thermalCondPar4:List[float] = []
     layer:int
     element:int
-    thermalCondPar1 = [0.0] * (numNodes + 1)
-    thermalCondPar2 = [0.0] * (numNodes + 1)
-    thermalCondPar3 = [0.0] * (numNodes + 1)
-    thermalCondPar4 = [0.0] * (numNodes + 1)
+    thermalCondPar1 = [0.0]
+    thermalCondPar2 = [0.0]
+    thermalCondPar3 = [0.0]
+    thermalCondPar4 = [0.0]
+    for layer in range(0 , numNodes + 1 , 1):
+        thermalCondPar1.append(0.0)
+        thermalCondPar2.append(0.0)
+        thermalCondPar3.append(0.0)
+        thermalCondPar4.append(0.0)
     for layer in range(1 , nbLayers + 2 , 1):
         element = layer
         thermalCondPar1[element] = 0.65 - (0.78 * BDApsim[layer]) + (0.6 * pow(BDApsim[layer], 2))
@@ -1700,23 +1579,15 @@ def doThermalConductivityCoeffs(nbLayers:int,
         thermalCondPar4[element] = 0.03 + (0.1 * pow(BDApsim[layer], 2))
     return (thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4)
 
-def Divide(val1:float,
-         val2:float,
-         errVal:float):
-    returnValue:float = errVal
-    if val2 != 0.0:
-        returnValue = val1 / val2
-    return returnValue
-
-def CalcSoilTemp(THICKApsim:'Array[float]',
+def CalcSoilTemp(THICKApsim:List[float],
          tav:float,
          tamp:float,
          doy:int,
          latitude:float,
          numNodes:int):
-    cumulativeDepth:'array[float]'
-    soilTempIO:'array[float]'
-    soilTemperat:'array[float]'
+    cumulativeDepth:List[float] = []
+    soilTempIO:List[float] = []
+    soilTemperat:List[float] = []
     Layer:int
     nodes:int
     tempValue:float
@@ -1726,7 +1597,9 @@ def CalcSoilTemp(THICKApsim:'Array[float]',
     offset:float
     SURFACEnode:int = 1
     piVal:float = 3.141592653589793
-    cumulativeDepth = [0.0] * len(THICKApsim)
+    cumulativeDepth = [0.0]
+    for Layer in range(0 , len(THICKApsim) , 1):
+        cumulativeDepth.append(0.0)
     if len(THICKApsim) > 0:
         cumulativeDepth[0] = THICKApsim[0]
         for Layer in range(1 , len(THICKApsim) , 1):
@@ -1739,8 +1612,11 @@ def CalcSoilTemp(THICKApsim:'Array[float]',
     offset = 0.25
     if latitude > 0.0:
         offset = -0.25
-    soilTemperat = [0.0] * (numNodes + 2)
-    soilTempIO = [0.0] * (numNodes + 1 + 1)
+    soilTemperat = [0.0]
+    soilTempIO = [0.0]
+    for Layer in range(0 , numNodes + 1 , 1):
+        soilTemperat.append(0.0)
+        soilTempIO.append(0.0)
     for nodes in range(1 , numNodes + 1 , 1):
         soilTemperat[nodes] = tav + (tamp * exp(-1.0 * cumulativeDepth[nodes] / zd) * sin(((doy / 365.0 + offset) * 2.0 * piVal - (cumulativeDepth[nodes] / zd))))
     for Layer in range(SURFACEnode , numNodes + 1 , 1):

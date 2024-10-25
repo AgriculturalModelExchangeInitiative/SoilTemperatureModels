@@ -5,19 +5,19 @@ using CRA.ModelLayer.Core;
 using System.Reflection;
 using CRA.ModelLayer.ParametersManagement;   
 
-namespace model_SoilTempCampbell.DomainClass
+namespace Model_SoilTempCampbell.DomainClass
                                 {
-                                    public class model_SoilTempCampbellRateVarInfo : IVarInfoClass
+                                    public class Model_SoilTempCampbellRateVarInfo : IVarInfoClass
                                     {
 
-                                        static model_SoilTempCampbellRateVarInfo()
+                                        static Model_SoilTempCampbellRateVarInfo()
                                         {
-                                            model_SoilTempCampbellRateVarInfo.DescribeVariables();
+                                            Model_SoilTempCampbellRateVarInfo.DescribeVariables();
                                         }
 
                                         public virtual string Description
                                         {
-                                            get { return "model_SoilTempCampbellRate Domain class of the component";}
+                                            get { return "Model_SoilTempCampbellRate Domain class of the component";}
                                         }
 
                                         public string URL
@@ -27,7 +27,7 @@ namespace model_SoilTempCampbell.DomainClass
 
                                         public string DomainClassOfReference
                                         {
-                                            get { return "model_SoilTempCampbellRate";}
+                                            get { return "Model_SoilTempCampbellRate";}
                                         }
 
                                         static void DescribeVariables()

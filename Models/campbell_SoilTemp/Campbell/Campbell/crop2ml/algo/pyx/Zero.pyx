@@ -1,5 +1,5 @@
-def Zero(floatarray arr):
-    cdef int i = 0
-    for i in range(0 , len(arr) , 1):
-        arr[i]=0.
+def Zero(floatlist arr):
+    cdef int I = 0
+    for I in range(0 , len(arr) , 1):
+        arr[I]=0.
     return arr

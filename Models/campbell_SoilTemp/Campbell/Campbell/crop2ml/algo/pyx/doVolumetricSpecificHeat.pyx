@@ -1,12 +1,14 @@
-def doVolumetricSpecificHeat(floatarray volSpecLayer,
-         floatarray soilW,
+def doVolumetricSpecificHeat(floatlist volSpecLayer,
+         floatlist soilW,
          int numNodes,
          strarray constituents,
-         floatarray THICKApsim,
-         floatarray DEPTHApsim):
-    cdef float volSpecHeatSoil[]
-    volSpecHeatSoil=[0.0] * (numNodes + 1)
+         floatlist THICKApsim,
+         floatlist DEPTHApsim):
+    cdef floatlist  volSpecHeatSoil
+    volSpecHeatSoil=[0.0]
     cdef int node 
+    for node in range(0 , numNodes + 1 , 1):
+        volSpecHeatSoil.append(0.0)
     cdef int constituent 
     for node in range(1 , numNodes + 1 , 1):
         volSpecHeatSoil[node]=0.0
@@ -43,15 +45,15 @@ def volumetricSpecificHeat(str name):
         res=specificHeatAir
     return res
 
-def mapLayer2Node(floatarray layerArray,
-         floatarray nodeArray,
-         floatarray THICKApsim,
-         floatarray DEPTHApsim,
+def mapLayer2Node(floatlist layerArray,
+         floatlist nodeArray,
+         floatlist THICKApsim,
+         floatlist DEPTHApsim,
          int numNodes):
     cdef int SURFACEnode = 1
     cdef float depthLayerAbove 
     cdef int node = 0
-    cdef int i = 0
+    cdef int I = 0
     cdef int layer 
     cdef float d1 
     cdef float d2 
@@ -60,8 +62,8 @@ def mapLayer2Node(floatarray layerArray,
         layer=node - 1
         depthLayerAbove=0.0
         if layer >= 1:
-            for i in range(1 , layer + 1 , 1):
-                depthLayerAbove=depthLayerAbove + THICKApsim[i]
+            for I in range(1 , layer + 1 , 1):
+                depthLayerAbove=depthLayerAbove + THICKApsim[I]
         d1=depthLayerAbove - (DEPTHApsim[node] * 1000.0)
         d2=DEPTHApsim[(node + 1)] * 1000.0 - depthLayerAbove
         dSum=d1 + d2

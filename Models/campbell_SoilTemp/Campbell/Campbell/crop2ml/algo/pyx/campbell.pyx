@@ -22,7 +22,7 @@ cdef float constantBoundaryLayerConductance
 cdef float precision 
 cdef float cva 
 cdef float cloudFr 
-cdef float solarRadn[]
+cdef floatlist  solarRadn
 cdef int layer 
 cdef float timeOfDaySecs 
 cdef float airTemperature 
@@ -52,7 +52,9 @@ constantBoundaryLayerConductance=20.0
 layer=0
 cva=0.0
 cloudFr=0.0
-solarRadn=[0.0] * 49
+solarRadn=[0.0]
+for layer in range(0 , 50 , 1):
+    solarRadn.append(0.0)
 (solarRadn, cloudFr, cva)=doNetRadiation(solarRadn, cloudFr, cva, ITERATIONSperDAY, DOY, SRAD, TMIN, XLAT)
 minSoilTemp=Zero(minSoilTemp)
 maxSoilTemp=Zero(maxSoilTemp)

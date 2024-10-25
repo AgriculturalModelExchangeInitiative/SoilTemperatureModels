@@ -87,33 +87,33 @@ CONTAINS
         CHARACTER(65), INTENT(IN) :: boundaryLayerConductanceSource
         CHARACTER(65), INTENT(IN) :: netRadiationSource
         REAL, INTENT(IN) :: windSpeed
-        REAL , DIMENSION(: ), INTENT(OUT) :: THICKApsim
-        REAL , DIMENSION(NLAYR ), INTENT(OUT) :: DEPTHApsim
-        REAL , DIMENSION(: ), INTENT(OUT) :: BDApsim
-        REAL , DIMENSION(: ), INTENT(OUT) :: CLAYApsim
-        REAL , DIMENSION(: ), INTENT(OUT) :: SWApsim
-        REAL , DIMENSION(NLAYR ), INTENT(OUT) :: soilTemp
-        REAL , DIMENSION(NLAYR ), INTENT(OUT) :: newTemperature
-        REAL , DIMENSION(NLAYR ), INTENT(OUT) :: minSoilTemp
-        REAL , DIMENSION(NLAYR ), INTENT(OUT) :: maxSoilTemp
-        REAL , DIMENSION(NLAYR ), INTENT(OUT) :: aveSoilTemp
-        REAL , DIMENSION(NLAYR ), INTENT(OUT) :: morningSoilTemp
-        REAL , DIMENSION(NLAYR ), INTENT(OUT) :: thermalCondPar1
-        REAL , DIMENSION(NLAYR ), INTENT(OUT) :: thermalCondPar2
-        REAL , DIMENSION(NLAYR ), INTENT(OUT) :: thermalCondPar3
-        REAL , DIMENSION(NLAYR ), INTENT(OUT) :: thermalCondPar4
-        REAL , DIMENSION(NLAYR ), INTENT(OUT) :: thermalConductivity
-        REAL , DIMENSION(NLAYR ), INTENT(OUT) :: thermalConductance
-        REAL , DIMENSION(NLAYR ), INTENT(OUT) :: heatStorage
-        REAL , DIMENSION(NLAYR ), INTENT(OUT) :: volSpecHeatSoil
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: THICKApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: DEPTHApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: BDApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: CLAYApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: SWApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: soilTemp
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: newTemperature
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: minSoilTemp
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: maxSoilTemp
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: aveSoilTemp
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: morningSoilTemp
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: thermalCondPar1
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: thermalCondPar2
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: thermalCondPar3
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: thermalCondPar4
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: thermalConductivity
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: thermalConductance
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: heatStorage
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: volSpecHeatSoil
         REAL, INTENT(OUT) :: maxTempYesterday
         REAL, INTENT(OUT) :: minTempYesterday
-        REAL , DIMENSION(NLAYR ), INTENT(OUT) :: SLCARBApsim
-        REAL , DIMENSION(NLAYR ), INTENT(OUT) :: SLROCKApsim
-        REAL , DIMENSION(NLAYR ), INTENT(OUT) :: SLSILTApsim
-        REAL , DIMENSION(NLAYR ), INTENT(OUT) :: SLSANDApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: SLCARBApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: SLROCKApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: SLSILTApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: SLSANDApsim
         REAL, INTENT(OUT) :: cy_boundaryLayerConductance
-        REAL , DIMENSION(: ), ALLOCATABLE :: heatCapacity
+        REAL, ALLOCATABLE , DIMENSION(:):: heatCapacity
         REAL:: soilRoughnessHeight
         REAL:: defaultInstrumentHeight
         REAL:: AltitudeMetres
@@ -125,33 +125,61 @@ CONTAINS
         REAL:: BelowProfileDepth
         REAL:: thicknessForPhantomNodes
         REAL:: ave_temp
-        INTEGER:: i
+        INTEGER:: I
         INTEGER:: numNodes
         INTEGER:: firstPhantomNode
         INTEGER:: layer
         INTEGER:: node
         REAL:: surfaceT
-        DEPTHApsim = 0.0
-        soilTemp = 0.0
-        newTemperature = 0.0
-        minSoilTemp = 0.0
-        maxSoilTemp = 0.0
-        aveSoilTemp = 0.0
-        morningSoilTemp = 0.0
-        thermalCondPar1 = 0.0
-        thermalCondPar2 = 0.0
-        thermalCondPar3 = 0.0
-        thermalCondPar4 = 0.0
-        thermalConductivity = 0.0
-        thermalConductance = 0.0
-        heatStorage = 0.0
-        volSpecHeatSoil = 0.0
+        
+        deallocate(THICKApsim)
+
+        deallocate(DEPTHApsim)
+
+        deallocate(BDApsim)
+
+        deallocate(CLAYApsim)
+
+        deallocate(SWApsim)
+
+        deallocate(soilTemp)
+
+        deallocate(newTemperature)
+
+        deallocate(minSoilTemp)
+
+        deallocate(maxSoilTemp)
+
+        deallocate(aveSoilTemp)
+
+        deallocate(morningSoilTemp)
+
+        deallocate(thermalCondPar1)
+
+        deallocate(thermalCondPar2)
+
+        deallocate(thermalCondPar3)
+
+        deallocate(thermalCondPar4)
+
+        deallocate(thermalConductivity)
+
+        deallocate(thermalConductance)
+
+        deallocate(heatStorage)
+
+        deallocate(volSpecHeatSoil)
+
         maxTempYesterday = 0.0
         minTempYesterday = 0.0
-        SLCARBApsim = 0.0
-        SLROCKApsim = 0.0
-        SLSILTApsim = 0.0
-        SLSANDApsim = 0.0
+        deallocate(SLCARBApsim)
+
+        deallocate(SLROCKApsim)
+
+        deallocate(SLSILTApsim)
+
+        deallocate(SLSANDApsim)
+
         cy_boundaryLayerConductance = 0.0
         soilRoughnessHeight = 57.0
         defaultInstrumentHeight = 1.2
@@ -171,14 +199,14 @@ CONTAINS
             THICKApsim(layer+1) = THICK(layer - 1+1)
         END DO
         sumThickness = 0.0
-        DO i = 1 , NLAYR + 1-1, 1
-            sumThickness = sumThickness + THICKApsim(i+1)
+        DO I = 1 , NLAYR + 1-1, 1
+            sumThickness = sumThickness + THICKApsim(I+1)
         END DO
         BelowProfileDepth = MAX(CONSTANT_TEMPdepth - sumThickness, 1000.0)
         thicknessForPhantomNodes = BelowProfileDepth * 2.0 / NUM_PHANTOM_NODES
         firstPhantomNode = NLAYR
-        DO i = firstPhantomNode , firstPhantomNode + NUM_PHANTOM_NODES-1, 1
-            THICKApsim(i+1) = thicknessForPhantomNodes
+        DO I = firstPhantomNode , firstPhantomNode + NUM_PHANTOM_NODES-1, 1
+            THICKApsim(I+1) = thicknessForPhantomNodes
         END DO
         DEPTHApsim = 0.0
         DEPTHApsim(AIRnode+1) = 0.0
@@ -186,8 +214,8 @@ CONTAINS
         DEPTHApsim(TOPSOILnode+1) = 0.5 * THICKApsim(2) / 1000.0
         DO node = TOPSOILnode , numNodes + 1-1, 1
             sumThickness = 0.0
-            DO i = 1 , node-1, 1
-                sumThickness = sumThickness + THICKApsim(i+1)
+            DO I = 1 , node-1, 1
+                sumThickness = sumThickness + THICKApsim(I+1)
             END DO
             DEPTHApsim(node + 1+1) = (sumThickness + (0.5 * THICKApsim(node+1)))  &
                     / 1000.0
@@ -263,11 +291,11 @@ CONTAINS
         surfaceT = (1.0 - SALB) * (T2M + ((TMAX - T2M) * SQRT(MAX(SRAD, 0.1)  &
                 * 23.8846 / 800.0))) + (SALB * T2M)
         soilTemp(SURFACEnode+1) = surfaceT
-        DO i = numNodes + 1 , SIZE(soilTemp)-1, 1
-            soilTemp(i+1) = TAV
+        DO I = numNodes + 1 , SIZE(soilTemp)-1, 1
+            soilTemp(I+1) = TAV
         END DO
-        DO i = 0 , SIZE(soilTemp)-1, 1
-            newTemperature(i+1) = soilTemp(i+1)
+        DO I = 0 , SIZE(soilTemp)-1, 1
+            newTemperature(I+1) = soilTemp(I+1)
         END DO
         maxTempYesterday = TMAX
         minTempYesterday = TMIN
@@ -338,18 +366,18 @@ CONTAINS
         REAL , DIMENSION(NLAYR ), INTENT(IN) :: SLSILT
         REAL , DIMENSION(NLAYR ), INTENT(IN) :: SLSAND
         REAL , DIMENSION(NLAYR ), INTENT(IN) :: SW
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: THICKApsim
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: DEPTHApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: THICKApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: DEPTHApsim
         REAL, INTENT(IN) :: CONSTANT_TEMPdepth
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: BDApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: BDApsim
         REAL, INTENT(IN) :: T2M
         REAL, INTENT(IN) :: TMAX
         REAL, INTENT(IN) :: TMIN
         REAL, INTENT(IN) :: TAV
         REAL, INTENT(IN) :: TAMP
         REAL, INTENT(IN) :: XLAT
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: CLAYApsim
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: SWApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: CLAYApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: SWApsim
         INTEGER, INTENT(IN) :: DOY
         REAL, INTENT(IN) :: airPressure
         REAL, INTENT(IN) :: canopyHeight
@@ -358,30 +386,30 @@ CONTAINS
         REAL, INTENT(IN) :: ESP
         REAL, INTENT(IN) :: ES
         REAL, INTENT(IN) :: EOAD
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: soilTemp
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: newTemperature
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: minSoilTemp
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: maxSoilTemp
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: aveSoilTemp
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: morningSoilTemp
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: thermalCondPar1
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: thermalCondPar2
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: thermalCondPar3
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: thermalCondPar4
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: thermalConductivity
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: thermalConductance
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: heatStorage
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: volSpecHeatSoil
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: soilTemp
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: newTemperature
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: minSoilTemp
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: maxSoilTemp
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: aveSoilTemp
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: morningSoilTemp
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: thermalCondPar1
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: thermalCondPar2
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: thermalCondPar3
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: thermalCondPar4
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: thermalConductivity
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: thermalConductance
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: heatStorage
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: volSpecHeatSoil
         REAL, INTENT(INOUT) :: maxTempYesterday
         REAL, INTENT(INOUT) :: minTempYesterday
         REAL, INTENT(IN) :: instrumentHeight
         CHARACTER(65), INTENT(IN) :: boundaryLayerConductanceSource
         CHARACTER(65), INTENT(IN) :: netRadiationSource
         REAL, INTENT(IN) :: windSpeed
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: SLCARBApsim
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: SLROCKApsim
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: SLSILTApsim
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: SLSANDApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: SLCARBApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: SLROCKApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: SLSILTApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: SLSANDApsim
         REAL, INTENT(INOUT) :: cy_boundaryLayerConductance
         INTEGER:: AIRnode
         INTEGER:: SURFACEnode
@@ -407,14 +435,14 @@ CONTAINS
         REAL:: precision
         REAL:: cva
         REAL:: cloudFr
-        REAL , DIMENSION(: ), ALLOCATABLE :: solarRadn
+        REAL, ALLOCATABLE , DIMENSION(:):: solarRadn
         INTEGER:: layer
         REAL:: timeOfDaySecs
         REAL:: airTemperature
         INTEGER:: iteration
         REAL:: tMean
         REAL:: internalTimeStep
-        !- Name: campbell -Version: 1.0, -Time step: 1
+        !- Name: Campbell -Version: 1.0, -Time step: 1
         !- Description:
     !            * Title: SoilTemperature model from Campbell implemented in APSIM
     !            * Authors: None
@@ -433,29 +461,29 @@ CONTAINS
     !                          ** default : 10
     !                          ** unit : dimensionless
     !            * name: THICK
-    !                          ** description : Soil layer depths as THICKApsim of layers
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
+    !                          ** description : Soil layer thickness of layers
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 1
-    !                          ** default : 50
+    !                          ** default : 
     !                          ** unit : mm
     !            * name: BD
     !                          ** description : bd (soil bulk density)
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
-    !                          ** default : 1.4
+    !                          ** default : 
     !                          ** unit : g/cm3             uri :
     !            * name: SLCARB
     !                          ** description : Volumetric fraction of organic matter in the soil
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : NLAYR
     !                          ** max : 
@@ -463,9 +491,9 @@ CONTAINS
     !                          ** default : 
     !                          ** unit : 
     !            * name: CLAY
-    !                          ** description : Proportion of CLAYApsim in each layer of profile
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
+    !                          ** description : Proportion of CLAY in each layer of profile
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : NLAYR
     !                          ** max : 100
@@ -473,9 +501,9 @@ CONTAINS
     !                          ** default : 50
     !                          ** unit : 
     !            * name: SLROCK
-    !                          ** description : Volumetric fraction of SLROCKApsim in the soil
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
+    !                          ** description : Volumetric fraction of rocks in the soil
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : NLAYR
     !                          ** max : 
@@ -483,9 +511,9 @@ CONTAINS
     !                          ** default : 
     !                          ** unit : 
     !            * name: SLSILT
-    !                          ** description : Volumetric fraction of SLSILTApsim in the soil
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
+    !                          ** description : Volumetric fraction of silt in the soil
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : NLAYR
     !                          ** max : 
@@ -493,9 +521,9 @@ CONTAINS
     !                          ** default : 
     !                          ** unit : 
     !            * name: SLSAND
-    !                          ** description : Volumetric fraction of SLSANDApsim in the soil
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
+    !                          ** description : Volumetric fraction of sand in the soil
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : NLAYR
     !                          ** max : 
@@ -504,8 +532,8 @@ CONTAINS
     !                          ** unit : 
     !            * name: SW
     !                          ** description : volumetric water content
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : NLAYR
     !                          ** max : 1
@@ -513,21 +541,19 @@ CONTAINS
     !                          ** default : 0.5
     !                          ** unit : cc water / cc soil
     !            * name: THICKApsim
-    !                          ** description : APSIM soil layer depths as THICKApsim of layers
+    !                          ** description : APSIM soil layer depths of layers
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 1
-    !                          ** default : 50
+    !                          ** default : 
     !                          ** unit : mm
     !            * name: DEPTHApsim
     !                          ** description : Apsim node depths
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -545,11 +571,10 @@ CONTAINS
     !                          ** description : Apsim bd (soil bulk density)
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
-    !                          ** default : 1.4
+    !                          ** default : 
     !                          ** unit : g/cm3             uri :
     !            * name: T2M
     !                          ** description : Mean daily Air temperature
@@ -579,9 +604,9 @@ CONTAINS
     !                          ** default : 
     !                          ** unit : 
     !            * name: TAV
-    !                          ** description : Average daily Air temperature
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
+    !                          ** description : Average annual air temperature
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLE
     !                          ** max : 60
     !                          ** min : -60
@@ -606,24 +631,22 @@ CONTAINS
     !                          ** default : 
     !                          ** unit : 
     !            * name: CLAYApsim
-    !                          ** description : Apsim proportion of CLAYApsim in each layer of profile
+    !                          ** description : Apsim proportion of CLAY in each layer of profile
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 100
     !                          ** min : 0
-    !                          ** default : 50
+    !                          ** default : 
     !                          ** unit : 
     !            * name: SWApsim
     !                          ** description : Apsim volumetric water content
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 1
     !                          ** min : 0
-    !                          ** default : 0.5
+    !                          ** default : 
     !                          ** unit : cc water / cc soil
     !            * name: DOY
     !                          ** description : Day of year
@@ -701,8 +724,7 @@ CONTAINS
     !                          ** description : Temperature at end of last time-step within a day - midnight in layers
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** default : 
@@ -711,8 +733,7 @@ CONTAINS
     !                          ** description : Soil temperature at the end of one iteration
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** default : 
@@ -721,8 +742,7 @@ CONTAINS
     !                          ** description : Minimum soil temperature in layers
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** default : 
@@ -731,8 +751,7 @@ CONTAINS
     !                          ** description : Maximum soil temperature in layers
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** default : 
@@ -741,8 +760,7 @@ CONTAINS
     !                          ** description : Temperature averaged over all time-steps within a day in layers.
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** default : 
@@ -751,8 +769,7 @@ CONTAINS
     !                          ** description : Temperature  in the morning in layers.
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** default : 
@@ -761,8 +778,7 @@ CONTAINS
     !                          ** description : thermal conductivity coeff in layers
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -771,8 +787,7 @@ CONTAINS
     !                          ** description : thermal conductivity coeff in layers
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -781,8 +796,7 @@ CONTAINS
     !                          ** description : thermal conductivity coeff in layers
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -791,8 +805,7 @@ CONTAINS
     !                          ** description : thermal conductivity coeff in layers
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -801,8 +814,7 @@ CONTAINS
     !                          ** description : thermal conductivity in layers
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -811,8 +823,7 @@ CONTAINS
     !                          ** description : Thermal conductance between layers
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -821,8 +832,7 @@ CONTAINS
     !                          ** description : Heat storage between layers (internal)
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -831,8 +841,7 @@ CONTAINS
     !                          ** description : Volumetric specific heat over the soil profile
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -892,41 +901,37 @@ CONTAINS
     !                          ** default : 3.0
     !                          ** unit : m/s
     !            * name: SLCARBApsim
-    !                          ** description : Volumetric fraction of organic matter in the soil
+    !                          ** description : Apsim volumetric fraction of organic matter in the soil
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
     !                          ** unit : 
     !            * name: SLROCKApsim
-    !                          ** description : Volumetric fraction of SLROCKApsim in the soil
+    !                          ** description : Apsim volumetric fraction of rocks in the soil
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
     !                          ** unit : 
     !            * name: SLSILTApsim
-    !                          ** description : Volumetric fraction of SLSILTApsim in the soil
+    !                          ** description : Apsim volumetric fraction of silt in the soil
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
     !                          ** unit : 
     !            * name: SLSANDApsim
-    !                          ** description : Apsim volumetric fraction of SLSANDApsim in the soil
+    !                          ** description : Apsim volumetric fraction of sand in the soil
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -943,49 +948,43 @@ CONTAINS
         !- outputs:
     !            * name: soilTemp
     !                          ** description : Temperature at end of last time-step within a day - midnight in layers
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** unit : degC
     !            * name: minSoilTemp
     !                          ** description : Minimum soil temperature in layers
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** unit : degC
     !            * name: maxSoilTemp
     !                          ** description : Maximum soil temperature in layers
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** unit : degC
     !            * name: aveSoilTemp
     !                          ** description : Temperature averaged over all time-steps within a day in layers.
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** unit : degC
     !            * name: morningSoilTemp
     !                          ** description : Temperature  in the morning in layers.
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** unit : degC
     !            * name: newTemperature
     !                          ** description : Soil temperature at the end of one iteration
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** unit : degC
@@ -1005,65 +1004,57 @@ CONTAINS
     !                          ** unit : 
     !            * name: thermalCondPar1
     !                          ** description : thermal conductivity coeff in layers
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : (W/m2/K)
     !            * name: thermalCondPar2
     !                          ** description : thermal conductivity coeff in layers
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : (W/m2/K)
     !            * name: thermalCondPar3
     !                          ** description : thermal conductivity coeff in layers
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : (W/m2/K)
     !            * name: thermalCondPar4
     !                          ** description : thermal conductivity coeff in layers
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : (W/m2/K)
     !            * name: thermalConductivity
     !                          ** description : thermal conductivity in layers
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : (W/m2/K)
     !            * name: thermalConductance
     !                          ** description : Thermal conductance between layers
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : (W/m2/K)
     !            * name: heatStorage
     !                          ** description : Heat storage between layers (internal)
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : J/s/K
     !            * name: volSpecHeatSoil
     !                          ** description : Volumetric specific heat over the soil profile
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : J/K/m3
@@ -1075,74 +1066,65 @@ CONTAINS
     !                          ** min : 
     !                          ** unit : K/W
     !            * name: THICKApsim
-    !                          ** description : APSIM soil layer depths as THICKApsim of layers
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** description : APSIM soil layer thickness of layers
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 1
     !                          ** unit : mm
     !            * name: DEPTHApsim
     !                          ** description : APSIM node depths
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : m
     !            * name: BDApsim
-    !                          ** description : bd (soil bulk density) is name of the APSIM var for bulk density so set BDApsim
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** description : soil bulk density of APSIM
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : g/cm3             uri :
     !            * name: SWApsim
-    !                          ** description : volumetric water content
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** description : Apsim volumetric water content
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 1
     !                          ** min : 0
     !                          ** unit : cc water / cc soil
     !            * name: CLAYApsim
-    !                          ** description : Proportion of CLAYApsim in each layer of profile
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** description : Proportion of clay in each layer of profile
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 100
     !                          ** min : 0
     !                          ** unit : 
     !            * name: SLROCKApsim
-    !                          ** description : Volumetric fraction of SLROCKApsim in the soil
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** description : Volumetric fraction of rocks in the soil
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : 
     !            * name: SLCARBApsim
     !                          ** description : Volumetric fraction of organic matter in the soil
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : 
     !            * name: SLSANDApsim
-    !                          ** description : Volumetric fraction of SLSANDApsim in the soil
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** description : Volumetric fraction of sand in the soil
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : 
     !            * name: SLSILTApsim
-    !                          ** description : Volumetric fraction of SLSILTApsim in the soil
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** description : Volumetric fraction of silt in the soil
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : 
@@ -1170,7 +1152,10 @@ CONTAINS
         layer = 0
         cva = 0.0
         cloudFr = 0.0
-        solarRadn = 0.0
+        solarRadn = (/0.0/)
+        DO layer = 0 , 50-1, 1
+            call Add(solarRadn, 0.0)
+        END DO
         call doNetRadiation(solarRadn, cloudFr, cva, ITERATIONSperDAY, DOY,  &
                 SRAD, TMIN, XLAT)
         minSoilTemp = Zero(minSoilTemp)
@@ -1238,7 +1223,7 @@ CONTAINS
         latitude)
         IMPLICIT NONE
         INTEGER:: i_cyml_r
-        REAL , DIMENSION(: ), INTENT(INOUT) :: solarRadn
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: solarRadn
         REAL, INTENT(INOUT) :: cloudFr
         REAL, INTENT(INOUT) :: cva
         INTEGER, INTENT(IN) :: ITERATIONSperDAY
@@ -1246,11 +1231,12 @@ CONTAINS
         REAL, INTENT(IN) :: rad
         REAL, INTENT(IN) :: tmin
         REAL, INTENT(IN) :: latitude
+        REAL, ALLOCATABLE , DIMENSION(:):: m1
+        INTEGER:: lay
         REAL:: piVal
         REAL:: TSTEPS2RAD
         REAL:: SOLARconst
         REAL:: solarDeclination
-        REAL , DIMENSION(: ), ALLOCATABLE :: m1
         REAL:: cD
         REAL:: m1Tot
         REAL:: psr
@@ -1266,7 +1252,11 @@ CONTAINS
         m1Tot = 0.0
         timestepNumber = 1
         kelvinTemp = kelvinT(tmin)
-        m1 = 0.0
+        solarRadn = 0.0
+        m1 = (/0.0/)
+        DO lay = 0 , ITERATIONSperDAY + 1-1, 1
+            call Add(m1, 0.0)
+        END DO
         TSTEPS2RAD = Divide(2.0 * piVal, REAL(ITERATIONSperDAY), 0.0)
         SOLARconst = 1360.0
         solarDeclination = 0.3985 * SIN((4.869 + (doy * 2.0 * piVal / 365.25)  &
@@ -1320,11 +1310,11 @@ CONTAINS
 
     FUNCTION Zero(arr) RESULT(arr)
         IMPLICIT NONE
-        REAL , DIMENSION(: ), INTENT(INOUT) :: arr
-        INTEGER:: i
-        i = 0
-        DO i = 0 , SIZE(arr)-1, 1
-            arr(i+1) = 0.
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: arr
+        INTEGER:: I
+        I = 0
+        DO I = 0 , SIZE(arr)-1, 1
+            arr(I+1) = 0.
         END DO
     END FUNCTION Zero
 
@@ -1335,16 +1325,19 @@ CONTAINS
         THICKApsim, &
         DEPTHApsim) RESULT(volSpecLayer)
         IMPLICIT NONE
-        REAL , DIMENSION(: ), INTENT(INOUT) :: volSpecLayer
-        REAL , DIMENSION(: ), INTENT(IN) :: soilW
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: volSpecLayer
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: soilW
         INTEGER, INTENT(IN) :: numNodes
         CHARACTER(65) , DIMENSION(: ), INTENT(IN) :: constituents
-        REAL , DIMENSION(: ), INTENT(IN) :: THICKApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: DEPTHApsim
-        REAL , DIMENSION(: ), ALLOCATABLE :: volSpecHeatSoil
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: THICKApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: DEPTHApsim
+        REAL, ALLOCATABLE , DIMENSION(:):: volSpecHeatSoil
         INTEGER:: node
         INTEGER:: constituent
-        volSpecHeatSoil = 0.0
+        volSpecHeatSoil = (/0.0/)
+        DO node = 0 , numNodes + 1-1, 1
+            call Add(volSpecHeatSoil, 0.0)
+        END DO
         DO node = 1 , numNodes + 1-1, 1
             volSpecHeatSoil(node+1) = 0.0
             DO constituent = 0 , SIZE(constituents)-1, 1
@@ -1403,28 +1396,28 @@ CONTAINS
         DEPTHApsim, &
         numNodes) RESULT(nodeArray)
         IMPLICIT NONE
-        REAL , DIMENSION(: ), INTENT(IN) :: layerArray
-        REAL , DIMENSION(: ), INTENT(INOUT) :: nodeArray
-        REAL , DIMENSION(: ), INTENT(IN) :: THICKApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: DEPTHApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: layerArray
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: nodeArray
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: THICKApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: DEPTHApsim
         INTEGER, INTENT(IN) :: numNodes
         INTEGER:: SURFACEnode
         REAL:: depthLayerAbove
         INTEGER:: node
-        INTEGER:: i
+        INTEGER:: I
         INTEGER:: layer
         REAL:: d1
         REAL:: d2
         REAL:: dSum
         SURFACEnode = 1
         node = 0
-        i = 0
+        I = 0
         DO node = SURFACEnode , numNodes + 1-1, 1
             layer = node - 1
             depthLayerAbove = 0.0
             IF(layer .GE. 1) THEN
-                DO i = 1 , layer + 1-1, 1
-                    depthLayerAbove = depthLayerAbove + THICKApsim(i+1)
+                DO I = 1 , layer + 1-1, 1
+                    depthLayerAbove = depthLayerAbove + THICKApsim(I+1)
                 END DO
             END IF
             d1 = depthLayerAbove - (DEPTHApsim(node+1) * 1000.0)
@@ -1448,19 +1441,20 @@ CONTAINS
         numNodes, &
         constituents) RESULT(thermalConductivity)
         IMPLICIT NONE
-        REAL , DIMENSION(: ), INTENT(IN) :: soilW
-        REAL , DIMENSION(: ), INTENT(IN) :: SLCARBApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: SLROCKApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: SLSANDApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: SLSILTApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: CLAYApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: BDApsim
-        REAL , DIMENSION(: ), INTENT(INOUT) :: thermalConductivity
-        REAL , DIMENSION(: ), INTENT(IN) :: THICKApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: DEPTHApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: soilW
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SLCARBApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SLROCKApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SLSANDApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SLSILTApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: CLAYApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: BDApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: thermalConductivity
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: THICKApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: DEPTHApsim
         INTEGER, INTENT(IN) :: numNodes
         CHARACTER(65) , DIMENSION(: ), INTENT(IN) :: constituents
-        REAL , DIMENSION(: ), ALLOCATABLE :: thermCondLayers
+        REAL, ALLOCATABLE , DIMENSION(:):: thermCondLayers
+        INTEGER:: I
         INTEGER:: node
         INTEGER:: constituent
         REAL:: temp
@@ -1472,7 +1466,10 @@ CONTAINS
         REAL:: k
         node = 1
         constituent = 1
-        thermCondLayers = 0.0
+        thermCondLayers = (/0.0/)
+        DO I = 0 , numNodes + 1-1, 1
+            call Add(thermCondLayers, 0.0)
+        END DO
         DO node = 1 , numNodes + 1-1, 1
             numerator = 0.0
             denominator = 0.0
@@ -1509,13 +1506,13 @@ CONTAINS
         layer) RESULT(res_cyml)
         IMPLICIT NONE
         CHARACTER(65), INTENT(IN) :: name
-        REAL , DIMENSION(: ), INTENT(IN) :: SLROCKApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: SLCARBApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: SLSANDApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: SLSILTApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: CLAYApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: SWApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: BDApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SLROCKApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SLCARBApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SLSANDApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SLSILTApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: CLAYApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SWApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: BDApsim
         INTEGER, INTENT(IN) :: layer
         REAL:: shapeFactorRocks
         REAL:: shapeFactorOM
@@ -1610,52 +1607,14 @@ CONTAINS
         result = volumetricSpecificHeat(name)
     END FUNCTION ThermalConductance
 
-    FUNCTION mapLayer2Node(layerArray, &
-        nodeArray, &
-        THICKApsim, &
-        DEPTHApsim, &
-        numNodes) RESULT(nodeArray)
-        IMPLICIT NONE
-        REAL , DIMENSION(: ), INTENT(IN) :: layerArray
-        REAL , DIMENSION(: ), INTENT(INOUT) :: nodeArray
-        REAL , DIMENSION(: ), INTENT(IN) :: THICKApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: DEPTHApsim
-        INTEGER, INTENT(IN) :: numNodes
-        INTEGER:: SURFACEnode
-        REAL:: depthLayerAbove
-        INTEGER:: node
-        INTEGER:: i
-        INTEGER:: layer
-        REAL:: d1
-        REAL:: d2
-        REAL:: dSum
-        SURFACEnode = 1
-        node = 0
-        i = 0
-        DO node = SURFACEnode , numNodes + 1-1, 1
-            layer = node - 1
-            depthLayerAbove = 0.0
-            IF(layer .GE. 1) THEN
-                DO i = 1 , layer + 1-1, 1
-                    depthLayerAbove = depthLayerAbove + THICKApsim(i+1)
-                END DO
-            END IF
-            d1 = depthLayerAbove - (DEPTHApsim(node+1) * 1000.0)
-            d2 = DEPTHApsim((node + 1)+1) * 1000.0 - depthLayerAbove
-            dSum = d1 + d2
-            nodeArray(node+1) = Divide(layerArray(layer+1) * d1, dSum, 0.0) +  &
-                    Divide(layerArray((layer + 1)+1) * d2, dSum, 0.0)
-        END DO
-    END FUNCTION mapLayer2Node
-
     FUNCTION volumetricFractionWater(SWApsim, &
         SLCARBApsim, &
         BDApsim, &
         layer) RESULT(res)
         IMPLICIT NONE
-        REAL , DIMENSION(: ), INTENT(IN) :: SWApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: SLCARBApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: BDApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SWApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SLCARBApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: BDApsim
         INTEGER, INTENT(IN) :: layer
         REAL:: res
         res = (1.0 - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim,  &
@@ -1671,13 +1630,13 @@ CONTAINS
         BDApsim, &
         layer) RESULT(res)
         IMPLICIT NONE
-        REAL , DIMENSION(: ), INTENT(IN) :: SLROCKApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: SLCARBApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: SLSANDApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: SLSILTApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: CLAYApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: SWApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: BDApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SLROCKApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SLCARBApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SLSANDApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SLSILTApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: CLAYApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SWApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: BDApsim
         INTEGER, INTENT(IN) :: layer
         REAL:: res
         res = 1.0 - volumetricFractionRocks(SLROCKApsim, layer) -  &
@@ -1692,7 +1651,7 @@ CONTAINS
     FUNCTION volumetricFractionRocks(SLROCKApsim, &
         layer) RESULT(res)
         IMPLICIT NONE
-        REAL , DIMENSION(: ), INTENT(IN) :: SLROCKApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SLROCKApsim
         INTEGER, INTENT(IN) :: layer
         REAL:: res
         res = SLROCKApsim(layer+1) / 100.0
@@ -1704,10 +1663,10 @@ CONTAINS
         BDApsim, &
         layer) RESULT(res)
         IMPLICIT NONE
-        REAL , DIMENSION(: ), INTENT(IN) :: SLSANDApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: SLROCKApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: SLCARBApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: BDApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SLSANDApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SLROCKApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SLCARBApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: BDApsim
         INTEGER, INTENT(IN) :: layer
         REAL:: res
         REAL:: ps
@@ -1723,10 +1682,10 @@ CONTAINS
         BDApsim, &
         layer) RESULT(res)
         IMPLICIT NONE
-        REAL , DIMENSION(: ), INTENT(IN) :: SLSILTApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: SLROCKApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: SLCARBApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: BDApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SLSILTApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SLROCKApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SLCARBApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: BDApsim
         INTEGER, INTENT(IN) :: layer
         REAL:: res
         REAL:: ps
@@ -1742,10 +1701,10 @@ CONTAINS
         BDApsim, &
         layer) RESULT(res)
         IMPLICIT NONE
-        REAL , DIMENSION(: ), INTENT(IN) :: CLAYApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: SLROCKApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: SLCARBApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: BDApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: CLAYApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SLROCKApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SLCARBApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: BDApsim
         INTEGER, INTENT(IN) :: layer
         REAL:: res
         REAL:: ps
@@ -1755,52 +1714,12 @@ CONTAINS
                 CLAYApsim(layer+1) / 100.0 * BDApsim(layer+1) / ps
     END FUNCTION volumetricFractionClay
 
-    FUNCTION volumetricSpecificHeat(name) RESULT(res)
-        IMPLICIT NONE
-        CHARACTER(65), INTENT(IN) :: name
-        REAL:: res
-        REAL:: specificHeatRocks
-        REAL:: specificHeatOM
-        REAL:: specificHeatSand
-        REAL:: specificHeatSilt
-        REAL:: specificHeatClay
-        REAL:: specificHeatWater
-        REAL:: specificHeatIce
-        REAL:: specificHeatAir
-        specificHeatRocks = 7.7
-        specificHeatOM = 0.25
-        specificHeatSand = 7.7
-        specificHeatSilt = 2.74
-        specificHeatClay = 2.92
-        specificHeatWater = 0.57
-        specificHeatIce = 2.18
-        specificHeatAir = 0.025
-        res = 0.0
-        IF(name .EQ. 'Rocks') THEN
-            res = specificHeatRocks
-        ELSE IF ( name .EQ. 'OrganicMatter') THEN
-            res = specificHeatOM
-        ELSE IF ( name .EQ. 'Sand') THEN
-            res = specificHeatSand
-        ELSE IF ( name .EQ. 'Silt') THEN
-            res = specificHeatSilt
-        ELSE IF ( name .EQ. 'Clay') THEN
-            res = specificHeatClay
-        ELSE IF ( name .EQ. 'Water') THEN
-            res = specificHeatWater
-        ELSE IF ( name .EQ. 'Ice') THEN
-            res = specificHeatIce
-        ELSE IF ( name .EQ. 'Air') THEN
-            res = specificHeatAir
-        END IF
-    END FUNCTION volumetricSpecificHeat
-
     FUNCTION volumetricFractionOrganicMatter(SLCARBApsim, &
         BDApsim, &
         layer) RESULT(res)
         IMPLICIT NONE
-        REAL , DIMENSION(: ), INTENT(IN) :: SLCARBApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: BDApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: SLCARBApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: BDApsim
         INTEGER, INTENT(IN) :: layer
         REAL:: res
         REAL:: pom
@@ -1873,7 +1792,7 @@ CONTAINS
         REAL, INTENT(IN) :: potET
         REAL, INTENT(IN) :: tMean
         REAL, INTENT(IN) :: albedo
-        REAL , DIMENSION(: ), INTENT(IN) :: soilTemp
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: soilTemp
         REAL:: total
         REAL:: EMISSIVITYsurface
         REAL:: w2MJ
@@ -1903,20 +1822,6 @@ CONTAINS
         total = swRnetSoil + lwRnetSoil
     END FUNCTION RadnNetInterpolate
 
-    FUNCTION Divide(val1, &
-        val2, &
-        errVal) RESULT(returnValue)
-        IMPLICIT NONE
-        REAL, INTENT(IN) :: val1
-        REAL, INTENT(IN) :: val2
-        REAL, INTENT(IN) :: errVal
-        REAL:: returnValue
-        returnValue = errVal
-        IF(val2 .NE. 0.0) THEN
-            returnValue = val1 / val2
-        END IF
-    END FUNCTION Divide
-
     FUNCTION longWaveRadn(emissivity, &
         tDegC) RESULT(res)
         IMPLICIT NONE
@@ -1939,7 +1844,7 @@ CONTAINS
         windSpeed, &
         instrumentHeight) RESULT(BoundaryLayerCond)
         IMPLICIT NONE
-        REAL , DIMENSION(: ), INTENT(IN) :: TNew_zb
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: TNew_zb
         REAL, INTENT(IN) :: tMean
         REAL, INTENT(IN) :: potE
         REAL, INTENT(IN) :: potET
@@ -2030,52 +1935,6 @@ CONTAINS
         res = Divide(MWair * AirPressure * HPA2PA, kelvinTemp * RGAS, 0.0)
     END FUNCTION airDensity
 
-    FUNCTION kelvinT(celciusT) RESULT(res)
-        IMPLICIT NONE
-        REAL, INTENT(IN) :: celciusT
-        REAL:: res
-        REAL:: ZEROTkelvin
-        ZEROTkelvin = 273.18
-        res = celciusT + ZEROTkelvin
-    END FUNCTION kelvinT
-
-    FUNCTION Divide(val1, &
-        val2, &
-        errVal) RESULT(returnValue)
-        IMPLICIT NONE
-        REAL, INTENT(IN) :: val1
-        REAL, INTENT(IN) :: val2
-        REAL, INTENT(IN) :: errVal
-        REAL:: returnValue
-        returnValue = errVal
-        IF(val2 .NE. 0.0) THEN
-            returnValue = val1 / val2
-        END IF
-    END FUNCTION Divide
-
-    FUNCTION kelvinT(celciusT) RESULT(res)
-        IMPLICIT NONE
-        REAL, INTENT(IN) :: celciusT
-        REAL:: res
-        REAL:: ZEROTkelvin
-        ZEROTkelvin = 273.18
-        res = celciusT + ZEROTkelvin
-    END FUNCTION kelvinT
-
-    FUNCTION Divide(val1, &
-        val2, &
-        errVal) RESULT(returnValue)
-        IMPLICIT NONE
-        REAL, INTENT(IN) :: val1
-        REAL, INTENT(IN) :: val2
-        REAL, INTENT(IN) :: errVal
-        REAL:: returnValue
-        returnValue = errVal
-        IF(val2 .NE. 0.0) THEN
-            returnValue = val1 / val2
-        END IF
-    END FUNCTION Divide
-
     FUNCTION doThomas(newTemps, &
         soilTemp, &
         thermalConductivity, &
@@ -2089,12 +1948,12 @@ CONTAINS
         numNodes, &
         netRadiationSource) RESULT(newTemps)
         IMPLICIT NONE
-        REAL , DIMENSION(: ), INTENT(INOUT) :: newTemps
-        REAL , DIMENSION(: ), INTENT(IN) :: soilTemp
-        REAL , DIMENSION(: ), INTENT(IN) :: thermalConductivity
-        REAL , DIMENSION(: ), INTENT(IN) :: thermalConductance
-        REAL , DIMENSION(: ), INTENT(IN) :: DEPTHApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: volSpecHeatSoil
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: newTemps
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: soilTemp
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: thermalConductivity
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: thermalConductance
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: DEPTHApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: volSpecHeatSoil
         REAL, INTENT(IN) :: gDt
         REAL, INTENT(IN) :: netRadiation
         REAL, INTENT(IN) :: potE
@@ -2107,7 +1966,8 @@ CONTAINS
         REAL:: MJ2J
         REAL:: latentHeatOfVapourisation
         REAL:: tempStepSec
-        REAL , DIMENSION(: ), ALLOCATABLE :: heatStorage
+        INTEGER:: I
+        REAL, ALLOCATABLE , DIMENSION(:):: heatStorage
         REAL:: VolSoilAtNode
         REAL:: elementLength
         REAL:: g
@@ -2115,10 +1975,10 @@ CONTAINS
         REAL:: RadnNet
         REAL:: LatentHeatFlux
         REAL:: SoilSurfaceHeatFlux
-        REAL , DIMENSION(: ), ALLOCATABLE :: a
-        REAL , DIMENSION(: ), ALLOCATABLE :: b
-        REAL , DIMENSION(: ), ALLOCATABLE :: c
-        REAL , DIMENSION(: ), ALLOCATABLE :: d
+        REAL, ALLOCATABLE , DIMENSION(:):: a
+        REAL, ALLOCATABLE , DIMENSION(:):: b
+        REAL, ALLOCATABLE , DIMENSION(:):: c
+        REAL, ALLOCATABLE , DIMENSION(:):: d
         INTEGER:: node
         nu = 0.6
         AIRnode = 0
@@ -2128,11 +1988,19 @@ CONTAINS
         tempStepSec = 24.0 * 60.0 * 60.0
         g = 1 - nu
         node = SURFACEnode
-        heatStorage = 0.
-        a = 0.0
-        b = 0.0
-        c = 0.0
-        d = 0.0
+        heatStorage = (/0./)
+        a = (/0.0/)
+        b = (/0.0/)
+        c = (/0.0/)
+        d = (/0.0/)
+        DO I = 0 , numNodes + 1-1, 1
+            call Add(a, 0.0)
+            call Add(b, 0.0)
+            call Add(c, 0.0)
+            call Add(d, 0.0)
+            call Add(heatStorage, 0.0)
+        END DO
+        call Add(a, 0.0)
         thermalConductance = 0.
         thermalConductance(AIRnode+1) = thermalConductivity(AIRnode+1)
         DO node = SURFACEnode , numNodes + 1-1, 1
@@ -2181,20 +2049,6 @@ CONTAINS
         END DO
     END FUNCTION doThomas
 
-    FUNCTION Divide(val1, &
-        val2, &
-        errVal) RESULT(returnValue)
-        IMPLICIT NONE
-        REAL, INTENT(IN) :: val1
-        REAL, INTENT(IN) :: val2
-        REAL, INTENT(IN) :: errVal
-        REAL:: returnValue
-        returnValue = errVal
-        IF(val2 .NE. 0.0) THEN
-            returnValue = val1 / val2
-        END IF
-    END FUNCTION Divide
-
     SUBROUTINE doUpdate(tempNew, &
         soilTemp, &
         minSoilTemp, &
@@ -2208,12 +2062,12 @@ CONTAINS
         numNodes)
         IMPLICIT NONE
         INTEGER:: i_cyml_r
-        REAL , DIMENSION(: ), INTENT(IN) :: tempNew
-        REAL , DIMENSION(: ), INTENT(INOUT) :: soilTemp
-        REAL , DIMENSION(: ), INTENT(IN) :: minSoilTemp
-        REAL , DIMENSION(: ), INTENT(IN) :: maxSoilTemp
-        REAL , DIMENSION(: ), INTENT(IN) :: aveSoilTemp
-        REAL , DIMENSION(: ), INTENT(IN) :: thermalConductivity
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: tempNew
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: soilTemp
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: minSoilTemp
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: maxSoilTemp
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: aveSoilTemp
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: thermalConductivity
         REAL, INTENT(INOUT) :: boundaryLayerConductance
         INTEGER, INTENT(IN) :: IterationsPerDay
         REAL, INTENT(IN) :: timeOfDaySecs
@@ -2247,20 +2101,6 @@ CONTAINS
                 Divide(thermalConductivity(AIRnode+1), REAL(IterationsPerDay), 0.0)
     END SUBROUTINE doUpdate
 
-    FUNCTION Divide(val1, &
-        val2, &
-        errVal) RESULT(returnValue)
-        IMPLICIT NONE
-        REAL, INTENT(IN) :: val1
-        REAL, INTENT(IN) :: val2
-        REAL, INTENT(IN) :: errVal
-        REAL:: returnValue
-        returnValue = errVal
-        IF(val2 .NE. 0.0) THEN
-            returnValue = val1 / val2
-        END IF
-    END FUNCTION Divide
-
     SUBROUTINE doThermalConductivityCoeffs(nbLayers, &
         numNodes, &
         BDApsim, &
@@ -2273,18 +2113,24 @@ CONTAINS
         INTEGER:: i_cyml_r
         INTEGER, INTENT(IN) :: nbLayers
         INTEGER, INTENT(IN) :: numNodes
-        REAL , DIMENSION(: ), INTENT(IN) :: BDApsim
-        REAL , DIMENSION(: ), INTENT(IN) :: CLAYApsim
-        REAL , DIMENSION(: ), ALLOCATABLE , INTENT(OUT) :: thermalCondPar1
-        REAL , DIMENSION(: ), ALLOCATABLE , INTENT(OUT) :: thermalCondPar2
-        REAL , DIMENSION(: ), ALLOCATABLE , INTENT(OUT) :: thermalCondPar3
-        REAL , DIMENSION(: ), ALLOCATABLE , INTENT(OUT) :: thermalCondPar4
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: BDApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: CLAYApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: thermalCondPar1
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: thermalCondPar2
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: thermalCondPar3
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(OUT) :: thermalCondPar4
         INTEGER:: layer
         INTEGER:: element
-        thermalCondPar1 = 0.0
-        thermalCondPar2 = 0.0
-        thermalCondPar3 = 0.0
-        thermalCondPar4 = 0.0
+        thermalCondPar1 = (/0.0/)
+        thermalCondPar2 = (/0.0/)
+        thermalCondPar3 = (/0.0/)
+        thermalCondPar4 = (/0.0/)
+        DO layer = 0 , numNodes + 1-1, 1
+            call Add(thermalCondPar1, 0.0)
+            call Add(thermalCondPar2, 0.0)
+            call Add(thermalCondPar3, 0.0)
+            call Add(thermalCondPar4, 0.0)
+        END DO
         DO layer = 1 , nbLayers + 2-1, 1
             element = layer
             thermalCondPar1(element+1) = 0.65 - (0.78 * BDApsim(layer+1)) + (0.6  &
@@ -2297,20 +2143,6 @@ CONTAINS
         END DO
     END SUBROUTINE doThermalConductivityCoeffs
 
-    FUNCTION Divide(val1, &
-        val2, &
-        errVal) RESULT(returnValue)
-        IMPLICIT NONE
-        REAL, INTENT(IN) :: val1
-        REAL, INTENT(IN) :: val2
-        REAL, INTENT(IN) :: errVal
-        REAL:: returnValue
-        returnValue = errVal
-        IF(val2 .NE. 0.0) THEN
-            returnValue = val1 / val2
-        END IF
-    END FUNCTION Divide
-
     FUNCTION CalcSoilTemp(THICKApsim, &
         tav, &
         tamp, &
@@ -2318,15 +2150,15 @@ CONTAINS
         latitude, &
         numNodes) RESULT(soilTempIO)
         IMPLICIT NONE
-        REAL , DIMENSION(: ), INTENT(IN) :: THICKApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(IN) :: THICKApsim
         REAL, INTENT(IN) :: tav
         REAL, INTENT(IN) :: tamp
         INTEGER, INTENT(IN) :: doy
         REAL, INTENT(IN) :: latitude
         INTEGER, INTENT(IN) :: numNodes
-        REAL , DIMENSION(: ), ALLOCATABLE :: soilTempIO
-        REAL , DIMENSION(: ), ALLOCATABLE :: cumulativeDepth
-        REAL , DIMENSION(: ), ALLOCATABLE :: soilTemperat
+        REAL, ALLOCATABLE , DIMENSION(:):: soilTempIO
+        REAL, ALLOCATABLE , DIMENSION(:):: cumulativeDepth
+        REAL, ALLOCATABLE , DIMENSION(:):: soilTemperat
         INTEGER:: Layer
         INTEGER:: nodes
         REAL:: tempValue
@@ -2338,7 +2170,10 @@ CONTAINS
         REAL:: piVal
         SURFACEnode = 1
         piVal = 3.141592653589793
-        cumulativeDepth = 0.0
+        cumulativeDepth = (/0.0/)
+        DO Layer = 0 , SIZE(THICKApsim)-1, 1
+            call Add(cumulativeDepth, 0.0)
+        END DO
         IF(SIZE(THICKApsim) .GT. 0) THEN
             cumulativeDepth(1) = THICKApsim(1)
             DO Layer = 1 , SIZE(THICKApsim)-1, 1
@@ -2355,8 +2190,12 @@ CONTAINS
         IF(latitude .GT. 0.0) THEN
             offset = -0.25
         END IF
-        soilTemperat = 0.0
-        soilTempIO = 0.0
+        soilTemperat = (/0.0/)
+        soilTempIO = (/0.0/)
+        DO Layer = 0 , numNodes + 1-1, 1
+            call Add(soilTemperat, 0.0)
+            call Add(soilTempIO, 0.0)
+        END DO
         DO nodes = 1 , numNodes + 1-1, 1
             soilTemperat(nodes+1) = tav + (tamp * EXP((-1.0) *  &
                     cumulativeDepth(nodes+1) / zd) * SIN(((doy / 365.0 + offset) * 2.0 *  &

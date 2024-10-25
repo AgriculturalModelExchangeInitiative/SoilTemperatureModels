@@ -1,17 +1,20 @@
-def doThermConductivity(floatarray soilW,
-         floatarray SLCARBApsim,
-         floatarray SLROCKApsim,
-         floatarray SLSANDApsim,
-         floatarray SLSILTApsim,
-         floatarray CLAYApsim,
-         floatarray BDApsim,
-         floatarray thermalConductivity,
-         floatarray THICKApsim,
-         floatarray DEPTHApsim,
+def doThermConductivity(floatlist soilW,
+         floatlist SLCARBApsim,
+         floatlist SLROCKApsim,
+         floatlist SLSANDApsim,
+         floatlist SLSILTApsim,
+         floatlist CLAYApsim,
+         floatlist BDApsim,
+         floatlist thermalConductivity,
+         floatlist THICKApsim,
+         floatlist DEPTHApsim,
          int numNodes,
          strarray constituents):
-    cdef float thermCondLayers[]
-    thermCondLayers=[0.0] * (numNodes + 1)
+    cdef floatlist  thermCondLayers
+    thermCondLayers=[0.0]
+    cdef int I 
+    for I in range(0 , numNodes + 1 , 1):
+        thermCondLayers.append(0.0)
     cdef int node = 1
     cdef int constituent = 1
     cdef float temp 
@@ -36,13 +39,13 @@ def doThermConductivity(floatarray soilW,
     return thermalConductivity
 
 def shapeFactor(str name,
-         floatarray SLROCKApsim,
-         floatarray SLCARBApsim,
-         floatarray SLSANDApsim,
-         floatarray SLSILTApsim,
-         floatarray CLAYApsim,
-         floatarray SWApsim,
-         floatarray BDApsim,
+         floatlist SLROCKApsim,
+         floatlist SLCARBApsim,
+         floatlist SLSANDApsim,
+         floatlist SLSILTApsim,
+         floatlist CLAYApsim,
+         floatlist SWApsim,
+         floatlist BDApsim,
          int layer):
     cdef float shapeFactorRocks = 0.182
     cdef float shapeFactorOM = 0.5
@@ -103,15 +106,15 @@ def ThermalConductance(str name):
     result=volumetricSpecificHeat(name)
     return result
 
-def mapLayer2Node(floatarray layerArray,
-         floatarray nodeArray,
-         floatarray THICKApsim,
-         floatarray DEPTHApsim,
+def mapLayer2Node(floatlist layerArray,
+         floatlist nodeArray,
+         floatlist THICKApsim,
+         floatlist DEPTHApsim,
          int numNodes):
     cdef int SURFACEnode = 1
     cdef float depthLayerAbove 
     cdef int node = 0
-    cdef int i = 0
+    cdef int I = 0
     cdef int layer 
     cdef float d1 
     cdef float d2 
@@ -120,59 +123,59 @@ def mapLayer2Node(floatarray layerArray,
         layer=node - 1
         depthLayerAbove=0.0
         if layer >= 1:
-            for i in range(1 , layer + 1 , 1):
-                depthLayerAbove=depthLayerAbove + THICKApsim[i]
+            for I in range(1 , layer + 1 , 1):
+                depthLayerAbove=depthLayerAbove + THICKApsim[I]
         d1=depthLayerAbove - (DEPTHApsim[node] * 1000.0)
         d2=DEPTHApsim[(node + 1)] * 1000.0 - depthLayerAbove
         dSum=d1 + d2
         nodeArray[node]=Divide(layerArray[layer] * d1, dSum, 0.0) + Divide(layerArray[(layer + 1)] * d2, dSum, 0.0)
     return nodeArray
 
-def volumetricFractionWater(floatarray SWApsim,
-         floatarray SLCARBApsim,
-         floatarray BDApsim,
+def volumetricFractionWater(floatlist SWApsim,
+         floatlist SLCARBApsim,
+         floatlist BDApsim,
          int layer):
     cdef float res = (1.0 - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer)) * SWApsim[layer]
     return res
 
-def volumetricFractionAir(floatarray SLROCKApsim,
-         floatarray SLCARBApsim,
-         floatarray SLSANDApsim,
-         floatarray SLSILTApsim,
-         floatarray CLAYApsim,
-         floatarray SWApsim,
-         floatarray BDApsim,
+def volumetricFractionAir(floatlist SLROCKApsim,
+         floatlist SLCARBApsim,
+         floatlist SLSANDApsim,
+         floatlist SLSILTApsim,
+         floatlist CLAYApsim,
+         floatlist SWApsim,
+         floatlist BDApsim,
          int layer):
     cdef float res = 1.0 - volumetricFractionRocks(SLROCKApsim, layer) - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer) - volumetricFractionSand(SLSANDApsim, SLROCKApsim, SLCARBApsim, BDApsim, layer) - volumetricFractionSilt(SLSILTApsim, SLROCKApsim, SLCARBApsim, BDApsim, layer) - volumetricFractionClay(CLAYApsim, SLROCKApsim, SLCARBApsim, BDApsim, layer) - volumetricFractionWater(SWApsim, SLCARBApsim, BDApsim, layer) - 0.0
     return res
 
-def volumetricFractionRocks(floatarray SLROCKApsim,
+def volumetricFractionRocks(floatlist SLROCKApsim,
          int layer):
     cdef float res = SLROCKApsim[layer] / 100.0
     return res
 
-def volumetricFractionSand(floatarray SLSANDApsim,
-         floatarray SLROCKApsim,
-         floatarray SLCARBApsim,
-         floatarray BDApsim,
+def volumetricFractionSand(floatlist SLSANDApsim,
+         floatlist SLROCKApsim,
+         floatlist SLCARBApsim,
+         floatlist BDApsim,
          int layer):
     cdef float ps = 2.63
     cdef float res = (1.0 - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer) - volumetricFractionRocks(SLROCKApsim, layer)) * SLSANDApsim[layer] / 100.0 * BDApsim[layer] / ps
     return res
 
-def volumetricFractionSilt(floatarray SLSILTApsim,
-         floatarray SLROCKApsim,
-         floatarray SLCARBApsim,
-         floatarray BDApsim,
+def volumetricFractionSilt(floatlist SLSILTApsim,
+         floatlist SLROCKApsim,
+         floatlist SLCARBApsim,
+         floatlist BDApsim,
          int layer):
     cdef float ps = 2.63
     cdef float res = (1.0 - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer) - volumetricFractionRocks(SLROCKApsim, layer)) * SLSILTApsim[layer] / 100.0 * BDApsim[layer] / ps
     return res
 
-def volumetricFractionClay(floatarray CLAYApsim,
-         floatarray SLROCKApsim,
-         floatarray SLCARBApsim,
-         floatarray BDApsim,
+def volumetricFractionClay(floatlist CLAYApsim,
+         floatlist SLROCKApsim,
+         floatlist SLCARBApsim,
+         floatlist BDApsim,
          int layer):
     cdef float ps = 2.63
     cdef float res = (1.0 - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer) - volumetricFractionRocks(SLROCKApsim, layer)) * CLAYApsim[layer] / 100.0 * BDApsim[layer] / ps
@@ -206,8 +209,8 @@ def volumetricSpecificHeat(str name):
         res=specificHeatAir
     return res
 
-def volumetricFractionOrganicMatter(floatarray SLCARBApsim,
-         floatarray BDApsim,
+def volumetricFractionOrganicMatter(floatlist SLCARBApsim,
+         floatlist BDApsim,
          int layer):
     cdef float pom = 1.3
     cdef float res = SLCARBApsim[layer] / 100.0 * 2.5 * BDApsim[layer] / pom

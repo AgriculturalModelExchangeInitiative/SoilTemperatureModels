@@ -1,4 +1,5 @@
 MODULE Model_soiltempcampbellmod
+    USE list_sub
     USE Campbellmod
     IMPLICIT NONE
 CONTAINS
@@ -68,18 +69,18 @@ CONTAINS
         REAL , DIMENSION(NLAYR ), INTENT(IN) :: SLSILT
         REAL , DIMENSION(NLAYR ), INTENT(IN) :: SLSAND
         REAL , DIMENSION(NLAYR ), INTENT(IN) :: SW
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: THICKApsim
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: DEPTHApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: THICKApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: DEPTHApsim
         REAL, INTENT(IN) :: CONSTANT_TEMPdepth
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: BDApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: BDApsim
         REAL, INTENT(IN) :: T2M
         REAL, INTENT(IN) :: TMAX
         REAL, INTENT(IN) :: TMIN
         REAL, INTENT(IN) :: TAV
         REAL, INTENT(IN) :: TAMP
         REAL, INTENT(IN) :: XLAT
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: CLAYApsim
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: SWApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: CLAYApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: SWApsim
         INTEGER, INTENT(IN) :: DOY
         REAL, INTENT(IN) :: airPressure
         REAL, INTENT(IN) :: canopyHeight
@@ -88,32 +89,32 @@ CONTAINS
         REAL, INTENT(IN) :: ESP
         REAL, INTENT(IN) :: ES
         REAL, INTENT(IN) :: EOAD
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: soilTemp
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: newTemperature
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: minSoilTemp
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: maxSoilTemp
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: aveSoilTemp
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: morningSoilTemp
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: thermalCondPar1
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: thermalCondPar2
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: thermalCondPar3
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: thermalCondPar4
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: thermalConductivity
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: thermalConductance
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: heatStorage
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: volSpecHeatSoil
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: soilTemp
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: newTemperature
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: minSoilTemp
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: maxSoilTemp
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: aveSoilTemp
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: morningSoilTemp
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: thermalCondPar1
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: thermalCondPar2
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: thermalCondPar3
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: thermalCondPar4
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: thermalConductivity
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: thermalConductance
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: heatStorage
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: volSpecHeatSoil
         REAL, INTENT(INOUT) :: maxTempYesterday
         REAL, INTENT(INOUT) :: minTempYesterday
         REAL, INTENT(IN) :: instrumentHeight
         CHARACTER(65), INTENT(IN) :: boundaryLayerConductanceSource
         CHARACTER(65), INTENT(IN) :: netRadiationSource
         REAL, INTENT(IN) :: windSpeed
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: SLCARBApsim
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: SLROCKApsim
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: SLSILTApsim
-        REAL , DIMENSION(NLAYR ), INTENT(INOUT) :: SLSANDApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: SLCARBApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: SLROCKApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: SLSILTApsim
+        REAL, ALLOCATABLE , DIMENSION(:), INTENT(INOUT) :: SLSANDApsim
         REAL, INTENT(INOUT) :: cy_boundaryLayerConductance
-        !- Name: model_SoilTempCampbell -Version: 1.0, -Time step: 1
+        !- Name: Model_SoilTempCampbell -Version: 1.0, -Time step: 1
         !- Description:
     !            * Title: SoilTemperature model from Campbell implemented in APSIM
     !            * Authors: None
@@ -132,29 +133,29 @@ CONTAINS
     !                          ** default : 10
     !                          ** unit : dimensionless
     !            * name: THICK
-    !                          ** description : Soil layer depths as THICKApsim of layers
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
+    !                          ** description : Soil layer thickness of layers
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 1
-    !                          ** default : 50
+    !                          ** default : 
     !                          ** unit : mm
     !            * name: BD
     !                          ** description : bd (soil bulk density)
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
-    !                          ** default : 1.4
+    !                          ** default : 
     !                          ** unit : g/cm3             uri :
     !            * name: SLCARB
     !                          ** description : Volumetric fraction of organic matter in the soil
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : NLAYR
     !                          ** max : 
@@ -162,9 +163,9 @@ CONTAINS
     !                          ** default : 
     !                          ** unit : 
     !            * name: CLAY
-    !                          ** description : Proportion of CLAYApsim in each layer of profile
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
+    !                          ** description : Proportion of CLAY in each layer of profile
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : NLAYR
     !                          ** max : 100
@@ -172,9 +173,9 @@ CONTAINS
     !                          ** default : 50
     !                          ** unit : 
     !            * name: SLROCK
-    !                          ** description : Volumetric fraction of SLROCKApsim in the soil
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
+    !                          ** description : Volumetric fraction of rocks in the soil
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : NLAYR
     !                          ** max : 
@@ -182,9 +183,9 @@ CONTAINS
     !                          ** default : 
     !                          ** unit : 
     !            * name: SLSILT
-    !                          ** description : Volumetric fraction of SLSILTApsim in the soil
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
+    !                          ** description : Volumetric fraction of silt in the soil
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : NLAYR
     !                          ** max : 
@@ -192,9 +193,9 @@ CONTAINS
     !                          ** default : 
     !                          ** unit : 
     !            * name: SLSAND
-    !                          ** description : Volumetric fraction of SLSANDApsim in the soil
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
+    !                          ** description : Volumetric fraction of sand in the soil
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : NLAYR
     !                          ** max : 
@@ -203,8 +204,8 @@ CONTAINS
     !                          ** unit : 
     !            * name: SW
     !                          ** description : volumetric water content
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : NLAYR
     !                          ** max : 1
@@ -212,21 +213,19 @@ CONTAINS
     !                          ** default : 0.5
     !                          ** unit : cc water / cc soil
     !            * name: THICKApsim
-    !                          ** description : APSIM soil layer depths as THICKApsim of layers
+    !                          ** description : APSIM soil layer depths of layers
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 1
-    !                          ** default : 50
+    !                          ** default : 
     !                          ** unit : mm
     !            * name: DEPTHApsim
     !                          ** description : Apsim node depths
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -244,11 +243,10 @@ CONTAINS
     !                          ** description : Apsim bd (soil bulk density)
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
-    !                          ** default : 1.4
+    !                          ** default : 
     !                          ** unit : g/cm3             uri :
     !            * name: T2M
     !                          ** description : Mean daily Air temperature
@@ -278,9 +276,9 @@ CONTAINS
     !                          ** default : 
     !                          ** unit : 
     !            * name: TAV
-    !                          ** description : Average daily Air temperature
-    !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
+    !                          ** description : Average annual air temperature
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
     !                          ** datatype : DOUBLE
     !                          ** max : 60
     !                          ** min : -60
@@ -305,24 +303,22 @@ CONTAINS
     !                          ** default : 
     !                          ** unit : 
     !            * name: CLAYApsim
-    !                          ** description : Apsim proportion of CLAYApsim in each layer of profile
+    !                          ** description : Apsim proportion of CLAY in each layer of profile
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 100
     !                          ** min : 0
-    !                          ** default : 50
+    !                          ** default : 
     !                          ** unit : 
     !            * name: SWApsim
     !                          ** description : Apsim volumetric water content
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 1
     !                          ** min : 0
-    !                          ** default : 0.5
+    !                          ** default : 
     !                          ** unit : cc water / cc soil
     !            * name: DOY
     !                          ** description : Day of year
@@ -400,8 +396,7 @@ CONTAINS
     !                          ** description : Temperature at end of last time-step within a day - midnight in layers
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** default : 
@@ -410,8 +405,7 @@ CONTAINS
     !                          ** description : Soil temperature at the end of one iteration
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** default : 
@@ -420,8 +414,7 @@ CONTAINS
     !                          ** description : Minimum soil temperature in layers
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** default : 
@@ -430,8 +423,7 @@ CONTAINS
     !                          ** description : Maximum soil temperature in layers
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** default : 
@@ -440,8 +432,7 @@ CONTAINS
     !                          ** description : Temperature averaged over all time-steps within a day in layers.
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** default : 
@@ -450,8 +441,7 @@ CONTAINS
     !                          ** description : Temperature  in the morning in layers.
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** default : 
@@ -460,8 +450,7 @@ CONTAINS
     !                          ** description : thermal conductivity coeff in layers
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -470,8 +459,7 @@ CONTAINS
     !                          ** description : thermal conductivity coeff in layers
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -480,8 +468,7 @@ CONTAINS
     !                          ** description : thermal conductivity coeff in layers
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -490,8 +477,7 @@ CONTAINS
     !                          ** description : thermal conductivity coeff in layers
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -500,8 +486,7 @@ CONTAINS
     !                          ** description : thermal conductivity in layers
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -510,8 +495,7 @@ CONTAINS
     !                          ** description : Thermal conductance between layers
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -520,8 +504,7 @@ CONTAINS
     !                          ** description : Heat storage between layers (internal)
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -530,8 +513,7 @@ CONTAINS
     !                          ** description : Volumetric specific heat over the soil profile
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -591,41 +573,37 @@ CONTAINS
     !                          ** default : 3.0
     !                          ** unit : m/s
     !            * name: SLCARBApsim
-    !                          ** description : Volumetric fraction of organic matter in the soil
+    !                          ** description : Apsim volumetric fraction of organic matter in the soil
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
     !                          ** unit : 
     !            * name: SLROCKApsim
-    !                          ** description : Volumetric fraction of SLROCKApsim in the soil
+    !                          ** description : Apsim volumetric fraction of rocks in the soil
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
     !                          ** unit : 
     !            * name: SLSILTApsim
-    !                          ** description : Volumetric fraction of SLSILTApsim in the soil
+    !                          ** description : Apsim volumetric fraction of silt in the soil
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
     !                          ** unit : 
     !            * name: SLSANDApsim
-    !                          ** description : Apsim volumetric fraction of SLSANDApsim in the soil
+    !                          ** description : Apsim volumetric fraction of sand in the soil
     !                          ** inputtype : variable
     !                          ** variablecategory : state
-    !                          ** datatype : DOUBLEARRAY
-    !                          ** len : NLAYR
+    !                          ** datatype : DOUBLELIST
     !                          ** max : 
     !                          ** min : 
     !                          ** default : 
@@ -642,49 +620,43 @@ CONTAINS
         !- outputs:
     !            * name: soilTemp
     !                          ** description : Temperature at end of last time-step within a day - midnight in layers
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** unit : degC
     !            * name: minSoilTemp
     !                          ** description : Minimum soil temperature in layers
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** unit : degC
     !            * name: maxSoilTemp
     !                          ** description : Maximum soil temperature in layers
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** unit : degC
     !            * name: aveSoilTemp
     !                          ** description : Temperature averaged over all time-steps within a day in layers.
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** unit : degC
     !            * name: morningSoilTemp
     !                          ** description : Temperature  in the morning in layers.
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** unit : degC
     !            * name: newTemperature
     !                          ** description : Soil temperature at the end of one iteration
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 60.
     !                          ** min : -60.
     !                          ** unit : degC
@@ -704,65 +676,57 @@ CONTAINS
     !                          ** unit : 
     !            * name: thermalCondPar1
     !                          ** description : thermal conductivity coeff in layers
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : (W/m2/K)
     !            * name: thermalCondPar2
     !                          ** description : thermal conductivity coeff in layers
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : (W/m2/K)
     !            * name: thermalCondPar3
     !                          ** description : thermal conductivity coeff in layers
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : (W/m2/K)
     !            * name: thermalCondPar4
     !                          ** description : thermal conductivity coeff in layers
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : (W/m2/K)
     !            * name: thermalConductivity
     !                          ** description : thermal conductivity in layers
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : (W/m2/K)
     !            * name: thermalConductance
     !                          ** description : Thermal conductance between layers
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : (W/m2/K)
     !            * name: heatStorage
     !                          ** description : Heat storage between layers (internal)
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : J/s/K
     !            * name: volSpecHeatSoil
     !                          ** description : Volumetric specific heat over the soil profile
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : J/K/m3
@@ -774,74 +738,65 @@ CONTAINS
     !                          ** min : 
     !                          ** unit : K/W
     !            * name: THICKApsim
-    !                          ** description : APSIM soil layer depths as THICKApsim of layers
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** description : APSIM soil layer thickness of layers
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 1
     !                          ** unit : mm
     !            * name: DEPTHApsim
     !                          ** description : APSIM node depths
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : m
     !            * name: BDApsim
-    !                          ** description : bd (soil bulk density) is name of the APSIM var for bulk density so set BDApsim
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** description : soil bulk density of APSIM
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : g/cm3             uri :
     !            * name: SWApsim
-    !                          ** description : volumetric water content
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** description : Apsim volumetric water content
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 1
     !                          ** min : 0
     !                          ** unit : cc water / cc soil
     !            * name: CLAYApsim
-    !                          ** description : Proportion of CLAYApsim in each layer of profile
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** description : Proportion of clay in each layer of profile
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 100
     !                          ** min : 0
     !                          ** unit : 
     !            * name: SLROCKApsim
-    !                          ** description : Volumetric fraction of SLROCKApsim in the soil
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** description : Volumetric fraction of rocks in the soil
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : 
     !            * name: SLCARBApsim
     !                          ** description : Volumetric fraction of organic matter in the soil
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : 
     !            * name: SLSANDApsim
-    !                          ** description : Volumetric fraction of SLSANDApsim in the soil
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** description : Volumetric fraction of sand in the soil
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : 
     !            * name: SLSILTApsim
-    !                          ** description : Volumetric fraction of SLSILTApsim in the soil
-    !                          ** datatype : DOUBLEARRAY
+    !                          ** description : Volumetric fraction of silt in the soil
+    !                          ** datatype : DOUBLELIST
     !                          ** variablecategory : state
-    !                          ** len : NLAYR
     !                          ** max : 
     !                          ** min : 
     !                          ** unit : 

@@ -5,22 +5,13 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 public class Campbell
 {
-    public void Init(model_SoilTempCampbellState s, model_SoilTempCampbellState s1, model_SoilTempCampbellRate r, model_SoilTempCampbellAuxiliary a,  model_SoilTempCampbellExogenous ex)
+    public void Init(Model_SoilTempCampbellState s, Model_SoilTempCampbellState s1, Model_SoilTempCampbellRate r, Model_SoilTempCampbellAuxiliary a,  Model_SoilTempCampbellExogenous ex)
     {
         doThermalConductivityCoeffs zz_doThermalConductivityCoeffs;
         CalcSoilTemp zz_CalcSoilTemp;
-        Double [] THICK = ex.getTHICK();
-        Double [] BD = ex.getBD();
-        Double [] SLCARB = ex.getSLCARB();
-        Double [] CLAY = ex.getCLAY();
-        Double [] SLROCK = ex.getSLROCK();
-        Double [] SLSILT = ex.getSLSILT();
-        Double [] SLSAND = ex.getSLSAND();
-        Double [] SW = ex.getSW();
         double T2M = ex.getT2M();
         double TMAX = ex.getTMAX();
         double TMIN = ex.getTMIN();
-        double TAV = ex.getTAV();
         Integer DOY = ex.getDOY();
         double airPressure = ex.getairPressure();
         double canopyHeight = ex.getcanopyHeight();
@@ -29,74 +20,59 @@ public class Campbell
         double ES = ex.getES();
         double EOAD = ex.getEOAD();
         double windSpeed = ex.getwindSpeed();
-        Double[] THICKApsim ;
-        Double[] DEPTHApsim =  new Double [NLAYR];
-        Double[] BDApsim ;
-        Double[] CLAYApsim ;
-        Double[] SWApsim ;
-        Double[] soilTemp =  new Double [NLAYR];
-        Double[] newTemperature =  new Double [NLAYR];
-        Double[] minSoilTemp =  new Double [NLAYR];
-        Double[] maxSoilTemp =  new Double [NLAYR];
-        Double[] aveSoilTemp =  new Double [NLAYR];
-        Double[] morningSoilTemp =  new Double [NLAYR];
-        Double[] thermalCondPar1 =  new Double [NLAYR];
-        Double[] thermalCondPar2 =  new Double [NLAYR];
-        Double[] thermalCondPar3 =  new Double [NLAYR];
-        Double[] thermalCondPar4 =  new Double [NLAYR];
-        Double[] thermalConductivity =  new Double [NLAYR];
-        Double[] thermalConductance =  new Double [NLAYR];
-        Double[] heatStorage =  new Double [NLAYR];
-        Double[] volSpecHeatSoil =  new Double [NLAYR];
+        List<Double> THICKApsim = new ArrayList<>(Arrays.asList());
+        List<Double> DEPTHApsim = new ArrayList<>(Arrays.asList());
+        List<Double> BDApsim = new ArrayList<>(Arrays.asList());
+        List<Double> CLAYApsim = new ArrayList<>(Arrays.asList());
+        List<Double> SWApsim = new ArrayList<>(Arrays.asList());
+        List<Double> soilTemp = new ArrayList<>(Arrays.asList());
+        List<Double> newTemperature = new ArrayList<>(Arrays.asList());
+        List<Double> minSoilTemp = new ArrayList<>(Arrays.asList());
+        List<Double> maxSoilTemp = new ArrayList<>(Arrays.asList());
+        List<Double> aveSoilTemp = new ArrayList<>(Arrays.asList());
+        List<Double> morningSoilTemp = new ArrayList<>(Arrays.asList());
+        List<Double> thermalCondPar1 = new ArrayList<>(Arrays.asList());
+        List<Double> thermalCondPar2 = new ArrayList<>(Arrays.asList());
+        List<Double> thermalCondPar3 = new ArrayList<>(Arrays.asList());
+        List<Double> thermalCondPar4 = new ArrayList<>(Arrays.asList());
+        List<Double> thermalConductivity = new ArrayList<>(Arrays.asList());
+        List<Double> thermalConductance = new ArrayList<>(Arrays.asList());
+        List<Double> heatStorage = new ArrayList<>(Arrays.asList());
+        List<Double> volSpecHeatSoil = new ArrayList<>(Arrays.asList());
         double maxTempYesterday;
         double minTempYesterday;
-        Double[] SLCARBApsim =  new Double [NLAYR];
-        Double[] SLROCKApsim =  new Double [NLAYR];
-        Double[] SLSILTApsim =  new Double [NLAYR];
-        Double[] SLSANDApsim =  new Double [NLAYR];
+        List<Double> SLCARBApsim = new ArrayList<>(Arrays.asList());
+        List<Double> SLROCKApsim = new ArrayList<>(Arrays.asList());
+        List<Double> SLSILTApsim = new ArrayList<>(Arrays.asList());
+        List<Double> SLSANDApsim = new ArrayList<>(Arrays.asList());
         double _boundaryLayerConductance;
-        DEPTHApsim= new Double[NLAYR];
-        Arrays.fill(DEPTHApsim, 0.0d);
-        soilTemp= new Double[NLAYR];
-        Arrays.fill(soilTemp, 0.0d);
-        newTemperature= new Double[NLAYR];
-        Arrays.fill(newTemperature, 0.0d);
-        minSoilTemp= new Double[NLAYR];
-        Arrays.fill(minSoilTemp, 0.0d);
-        maxSoilTemp= new Double[NLAYR];
-        Arrays.fill(maxSoilTemp, 0.0d);
-        aveSoilTemp= new Double[NLAYR];
-        Arrays.fill(aveSoilTemp, 0.0d);
-        morningSoilTemp= new Double[NLAYR];
-        Arrays.fill(morningSoilTemp, 0.0d);
-        thermalCondPar1= new Double[NLAYR];
-        Arrays.fill(thermalCondPar1, 0.0d);
-        thermalCondPar2= new Double[NLAYR];
-        Arrays.fill(thermalCondPar2, 0.0d);
-        thermalCondPar3= new Double[NLAYR];
-        Arrays.fill(thermalCondPar3, 0.0d);
-        thermalCondPar4= new Double[NLAYR];
-        Arrays.fill(thermalCondPar4, 0.0d);
-        thermalConductivity= new Double[NLAYR];
-        Arrays.fill(thermalConductivity, 0.0d);
-        thermalConductance= new Double[NLAYR];
-        Arrays.fill(thermalConductance, 0.0d);
-        heatStorage= new Double[NLAYR];
-        Arrays.fill(heatStorage, 0.0d);
-        volSpecHeatSoil= new Double[NLAYR];
-        Arrays.fill(volSpecHeatSoil, 0.0d);
+        THICKApsim = new ArrayList<>(Arrays.asList());
+        DEPTHApsim = new ArrayList<>(Arrays.asList());
+        BDApsim = new ArrayList<>(Arrays.asList());
+        CLAYApsim = new ArrayList<>(Arrays.asList());
+        SWApsim = new ArrayList<>(Arrays.asList());
+        soilTemp = new ArrayList<>(Arrays.asList());
+        newTemperature = new ArrayList<>(Arrays.asList());
+        minSoilTemp = new ArrayList<>(Arrays.asList());
+        maxSoilTemp = new ArrayList<>(Arrays.asList());
+        aveSoilTemp = new ArrayList<>(Arrays.asList());
+        morningSoilTemp = new ArrayList<>(Arrays.asList());
+        thermalCondPar1 = new ArrayList<>(Arrays.asList());
+        thermalCondPar2 = new ArrayList<>(Arrays.asList());
+        thermalCondPar3 = new ArrayList<>(Arrays.asList());
+        thermalCondPar4 = new ArrayList<>(Arrays.asList());
+        thermalConductivity = new ArrayList<>(Arrays.asList());
+        thermalConductance = new ArrayList<>(Arrays.asList());
+        heatStorage = new ArrayList<>(Arrays.asList());
+        volSpecHeatSoil = new ArrayList<>(Arrays.asList());
         maxTempYesterday = 0.0d;
         minTempYesterday = 0.0d;
-        SLCARBApsim= new Double[NLAYR];
-        Arrays.fill(SLCARBApsim, 0.0d);
-        SLROCKApsim= new Double[NLAYR];
-        Arrays.fill(SLROCKApsim, 0.0d);
-        SLSILTApsim= new Double[NLAYR];
-        Arrays.fill(SLSILTApsim, 0.0d);
-        SLSANDApsim= new Double[NLAYR];
-        Arrays.fill(SLSANDApsim, 0.0d);
+        SLCARBApsim = new ArrayList<>(Arrays.asList());
+        SLROCKApsim = new ArrayList<>(Arrays.asList());
+        SLSILTApsim = new ArrayList<>(Arrays.asList());
+        SLSANDApsim = new ArrayList<>(Arrays.asList());
         _boundaryLayerConductance = 0.0d;
-        Double[] heatCapacity ;
+        List<Double> heatCapacity = new ArrayList<>(Arrays.asList());
         double soilRoughnessHeight;
         double defaultInstrumentHeight;
         double AltitudeMetres;
@@ -108,7 +84,7 @@ public class Campbell
         double BelowProfileDepth;
         double thicknessForPhantomNodes;
         double ave_temp;
-        Integer i;
+        Integer I;
         Integer numNodes;
         Integer firstPhantomNode;
         Integer layer;
@@ -133,88 +109,88 @@ public class Campbell
         THICKApsim.fill(NLAYR + 1 + NUM_PHANTOM_NODES, 0.0d);
         for (layer=1 ; layer!=NLAYR + 1 ; layer+=1)
         {
-            THICKApsim[layer] = THICK[layer - 1];
+            THICKApsim.set(layer,THICK[layer - 1]);
         }
         sumThickness = 0.0d;
-        for (i=1 ; i!=NLAYR + 1 ; i+=1)
+        for (I=1 ; I!=NLAYR + 1 ; I+=1)
         {
-            sumThickness = sumThickness + THICKApsim[i];
+            sumThickness = sumThickness + THICKApsim.get(I);
         }
         BelowProfileDepth = Math.max(CONSTANT_TEMPdepth - sumThickness, 1000.0d);
         thicknessForPhantomNodes = BelowProfileDepth * 2.0d / NUM_PHANTOM_NODES;
         firstPhantomNode = NLAYR;
-        for (i=firstPhantomNode ; i!=firstPhantomNode + NUM_PHANTOM_NODES ; i+=1)
+        for (I=firstPhantomNode ; I!=firstPhantomNode + NUM_PHANTOM_NODES ; I+=1)
         {
-            THICKApsim[i] = thicknessForPhantomNodes;
+            THICKApsim.set(I,thicknessForPhantomNodes);
         }DEPTHApsim.fill(numNodes + 1 + 1, 0.0d);
-        DEPTHApsim[AIRnode] = 0.0d;
-        DEPTHApsim[SURFACEnode] = 0.0d;
-        DEPTHApsim[TOPSOILnode] = 0.5d * THICKApsim[1] / 1000.0d;
+        DEPTHApsim.set(AIRnode,0.0d);
+        DEPTHApsim.set(SURFACEnode,0.0d);
+        DEPTHApsim.set(TOPSOILnode,0.5d * THICKApsim.get(1) / 1000.0d);
         for (node=TOPSOILnode ; node!=numNodes + 1 ; node+=1)
         {
             sumThickness = 0.0d;
-            for (i=1 ; i!=node ; i+=1)
+            for (I=1 ; I!=node ; I+=1)
             {
-                sumThickness = sumThickness + THICKApsim[i];
+                sumThickness = sumThickness + THICKApsim.get(I);
             }
-            DEPTHApsim[node + 1] = (sumThickness + (0.5d * THICKApsim[node])) / 1000.0d;
+            DEPTHApsim.set(node + 1,(sumThickness + (0.5d * THICKApsim.get(node))) / 1000.0d);
         }BDApsim.fill(NLAYR + 1 + NUM_PHANTOM_NODES, 0.0d);
         for (layer=1 ; layer!=NLAYR + 1 ; layer+=1)
         {
-            BDApsim[layer] = BD[layer - 1];
+            BDApsim.set(layer,BD[layer - 1]);
         }
-        BDApsim[numNodes] = BDApsim[NLAYR];
+        BDApsim.set(numNodes,BDApsim.get(NLAYR));
         for (layer=NLAYR + 1 ; layer!=NLAYR + NUM_PHANTOM_NODES + 1 ; layer+=1)
         {
-            BDApsim[layer] = BDApsim[NLAYR];
+            BDApsim.set(layer,BDApsim.get(NLAYR));
         }SWApsim.fill(NLAYR + 1 + NUM_PHANTOM_NODES, 0.0d);
         for (layer=1 ; layer!=NLAYR + 1 ; layer+=1)
         {
-            SWApsim[layer] = SW[layer - 1];
+            SWApsim.set(layer,SW[layer - 1]);
         }
         for (layer=NLAYR + 1 ; layer!=NLAYR + NUM_PHANTOM_NODES + 1 ; layer+=1)
         {
-            SWApsim[layer] = SWApsim[(NLAYR - 1)] * THICKApsim[(NLAYR - 1)] / THICKApsim[NLAYR];
+            SWApsim.set(layer,SWApsim.get((NLAYR - 1)) * THICKApsim.get((NLAYR - 1)) / THICKApsim.get(NLAYR));
         }SLCARBApsim.fill(NLAYR + 1 + NUM_PHANTOM_NODES, 0.0d);
         for (layer=1 ; layer!=NLAYR + 1 ; layer+=1)
         {
-            SLCARBApsim[layer] = SLCARB[layer - 1];
+            SLCARBApsim.set(layer,SLCARB[layer - 1]);
         }
         for (layer=NLAYR + 1 ; layer!=NLAYR + NUM_PHANTOM_NODES + 1 ; layer+=1)
         {
-            SLCARBApsim[layer] = SLCARBApsim[NLAYR];
+            SLCARBApsim.set(layer,SLCARBApsim.get(NLAYR));
         }SLROCKApsim.fill(NLAYR + 1 + NUM_PHANTOM_NODES, 0.0d);
         for (layer=1 ; layer!=NLAYR + 1 ; layer+=1)
         {
-            SLROCKApsim[layer] = SLROCK[layer - 1];
+            SLROCKApsim.set(layer,SLROCK[layer - 1]);
         }
         for (layer=NLAYR + 1 ; layer!=NLAYR + NUM_PHANTOM_NODES + 1 ; layer+=1)
         {
-            SLROCKApsim[layer] = SLROCKApsim[NLAYR];
+            SLROCKApsim.set(layer,SLROCKApsim.get(NLAYR));
         }SLSANDApsim.fill(NLAYR + 1 + NUM_PHANTOM_NODES, 0.0d);
         for (layer=1 ; layer!=NLAYR + 1 ; layer+=1)
         {
-            SLSANDApsim[layer] = SLSAND[layer - 1];
+            SLSANDApsim.set(layer,SLSAND[layer - 1]);
         }
         for (layer=NLAYR + 1 ; layer!=NLAYR + NUM_PHANTOM_NODES + 1 ; layer+=1)
         {
-            SLSANDApsim[layer] = SLSANDApsim[NLAYR];
+            SLSANDApsim.set(layer,SLSANDApsim.get(NLAYR));
         }SLSILTApsim.fill(NLAYR + 1 + NUM_PHANTOM_NODES, 0.0d);
         for (layer=1 ; layer!=NLAYR + 1 ; layer+=1)
         {
-            SLSILTApsim[layer] = SLSILT[layer - 1];
+            SLSILTApsim.set(layer,SLSILT[layer - 1]);
         }
         for (layer=NLAYR + 1 ; layer!=NLAYR + NUM_PHANTOM_NODES + 1 ; layer+=1)
         {
-            SLSILTApsim[layer] = SLSILTApsim[NLAYR];
+            SLSILTApsim.set(layer,SLSILTApsim.get(NLAYR));
         }CLAYApsim.fill(NLAYR + 1 + NUM_PHANTOM_NODES, 0.0d);
         for (layer=1 ; layer!=NLAYR + 1 ; layer+=1)
         {
-            CLAYApsim[layer] = CLAY[layer - 1];
+            CLAYApsim.set(layer,CLAY[layer - 1]);
         }
         for (layer=NLAYR + 1 ; layer!=NLAYR + NUM_PHANTOM_NODES + 1 ; layer+=1)
         {
-            CLAYApsim[layer] = CLAYApsim[NLAYR];
+            CLAYApsim.set(layer,CLAYApsim.get(NLAYR));
         }maxSoilTemp.fill(NLAYR + 1 + NUM_PHANTOM_NODES, 0.0d);minSoilTemp.fill(NLAYR + 1 + NUM_PHANTOM_NODES, 0.0d);aveSoilTemp.fill(NLAYR + 1 + NUM_PHANTOM_NODES, 0.0d);volSpecHeatSoil.fill(numNodes + 1, 0.0d);soilTemp.fill(numNodes + 1 + 1, 0.0d);morningSoilTemp.fill(numNodes + 1 + 1, 0.0d);newTemperature.fill(numNodes + 1 + 1, 0.0d);thermalConductivity.fill(numNodes + 1, 0.0d);heatStorage.fill(numNodes + 1, 0.0d);thermalConductance.fill(numNodes + 1 + 1, 0.0d);
         zz_doThermalConductivityCoeffs = Calculate_doThermalConductivityCoeffs(NLAYR, numNodes, BDApsim, CLAYApsim);
         thermalCondPar1 = zz_doThermalConductivityCoeffs.getthermalCondPar1();
@@ -224,16 +200,16 @@ public class Campbell
         newTemperature = CalcSoilTemp(THICKApsim, TAV, TAMP, DOY, XLAT, numNodes);
         instrumentHeight = Math.max(instrumentHeight, canopyHeight + 0.5d);
         soilTemp = CalcSoilTemp(THICKApsim, TAV, TAMP, DOY, XLAT, numNodes);
-        soilTemp[AIRnode] = T2M;
+        soilTemp.set(AIRnode,T2M);
         surfaceT = (1.0d - SALB) * (T2M + ((TMAX - T2M) * Math.sqrt(Math.max(SRAD, 0.1d) * 23.8846d / 800.0d))) + (SALB * T2M);
-        soilTemp[SURFACEnode] = surfaceT;
-        for (i=numNodes + 1 ; i!=soilTemp.length ; i+=1)
+        soilTemp.set(SURFACEnode,surfaceT);
+        for (I=numNodes + 1 ; I!=soilTemp.size() ; I+=1)
         {
-            soilTemp[i] = TAV;
+            soilTemp.set(I,TAV);
         }
-        for (i=0 ; i!=soilTemp.length ; i+=1)
+        for (I=0 ; I!=soilTemp.size() ; I+=1)
         {
-            newTemperature[i] = soilTemp[i];
+            newTemperature.set(I,soilTemp.get(I));
         }
         maxTempYesterday = TMAX;
         minTempYesterday = TMIN;
@@ -271,12 +247,75 @@ public class Campbell
     public void setNLAYR(Integer _NLAYR)
     { this.NLAYR= _NLAYR; } 
     
+    private Double [] THICK;
+    public Double [] getTHICK()
+    { return THICK; }
+
+    public void setTHICK(Double [] _THICK)
+    { this.THICK= _THICK; } 
+    
+    private Double [] BD;
+    public Double [] getBD()
+    { return BD; }
+
+    public void setBD(Double [] _BD)
+    { this.BD= _BD; } 
+    
+    private Double [] SLCARB;
+    public Double [] getSLCARB()
+    { return SLCARB; }
+
+    public void setSLCARB(Double [] _SLCARB)
+    { this.SLCARB= _SLCARB; } 
+    
+    private Double [] CLAY;
+    public Double [] getCLAY()
+    { return CLAY; }
+
+    public void setCLAY(Double [] _CLAY)
+    { this.CLAY= _CLAY; } 
+    
+    private Double [] SLROCK;
+    public Double [] getSLROCK()
+    { return SLROCK; }
+
+    public void setSLROCK(Double [] _SLROCK)
+    { this.SLROCK= _SLROCK; } 
+    
+    private Double [] SLSILT;
+    public Double [] getSLSILT()
+    { return SLSILT; }
+
+    public void setSLSILT(Double [] _SLSILT)
+    { this.SLSILT= _SLSILT; } 
+    
+    private Double [] SLSAND;
+    public Double [] getSLSAND()
+    { return SLSAND; }
+
+    public void setSLSAND(Double [] _SLSAND)
+    { this.SLSAND= _SLSAND; } 
+    
+    private Double [] SW;
+    public Double [] getSW()
+    { return SW; }
+
+    public void setSW(Double [] _SW)
+    { this.SW= _SW; } 
+    
     private double CONSTANT_TEMPdepth;
     public double getCONSTANT_TEMPdepth()
     { return CONSTANT_TEMPdepth; }
 
     public void setCONSTANT_TEMPdepth(double _CONSTANT_TEMPdepth)
     { this.CONSTANT_TEMPdepth= _CONSTANT_TEMPdepth; } 
+    
+    private double TAV;
+    public double getTAV()
+    { return TAV; }
+
+    public void setTAV(double _TAV)
+    { this.TAV= _TAV; } 
     
     private double TAMP;
     public double getTAMP()
@@ -321,9 +360,9 @@ public class Campbell
     { this.netRadiationSource= _netRadiationSource; } 
     
     public Campbell() { }
-    public void  Calculate_Model(model_SoilTempCampbellState s, model_SoilTempCampbellState s1, model_SoilTempCampbellRate r, model_SoilTempCampbellAuxiliary a,  model_SoilTempCampbellExogenous ex)
+    public void  Calculate_Model(Model_SoilTempCampbellState s, Model_SoilTempCampbellState s1, Model_SoilTempCampbellRate r, Model_SoilTempCampbellAuxiliary a,  Model_SoilTempCampbellExogenous ex)
     {
-        //- Name: campbell -Version: 1.0, -Time step: 1
+        //- Name: Campbell -Version: 1.0, -Time step: 1
         //- Description:
     //            * Title: SoilTemperature model from Campbell implemented in APSIM
     //            * Authors: None
@@ -342,29 +381,29 @@ public class Campbell
     //                          ** default : 10
     //                          ** unit : dimensionless
     //            * name: THICK
-    //                          ** description : Soil layer depths as THICKApsim of layers
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
+    //                          ** description : Soil layer thickness of layers
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : NLAYR
     //                          ** max : 
     //                          ** min : 1
-    //                          ** default : 50
+    //                          ** default : 
     //                          ** unit : mm
     //            * name: BD
     //                          ** description : bd (soil bulk density)
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : NLAYR
     //                          ** max : 
     //                          ** min : 
-    //                          ** default : 1.4
+    //                          ** default : 
     //                          ** unit : g/cm3             uri :
     //            * name: SLCARB
     //                          ** description : Volumetric fraction of organic matter in the soil
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : NLAYR
     //                          ** max : 
@@ -372,9 +411,9 @@ public class Campbell
     //                          ** default : 
     //                          ** unit : 
     //            * name: CLAY
-    //                          ** description : Proportion of CLAYApsim in each layer of profile
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
+    //                          ** description : Proportion of CLAY in each layer of profile
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : NLAYR
     //                          ** max : 100
@@ -382,9 +421,9 @@ public class Campbell
     //                          ** default : 50
     //                          ** unit : 
     //            * name: SLROCK
-    //                          ** description : Volumetric fraction of SLROCKApsim in the soil
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
+    //                          ** description : Volumetric fraction of rocks in the soil
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : NLAYR
     //                          ** max : 
@@ -392,9 +431,9 @@ public class Campbell
     //                          ** default : 
     //                          ** unit : 
     //            * name: SLSILT
-    //                          ** description : Volumetric fraction of SLSILTApsim in the soil
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
+    //                          ** description : Volumetric fraction of silt in the soil
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : NLAYR
     //                          ** max : 
@@ -402,9 +441,9 @@ public class Campbell
     //                          ** default : 
     //                          ** unit : 
     //            * name: SLSAND
-    //                          ** description : Volumetric fraction of SLSANDApsim in the soil
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
+    //                          ** description : Volumetric fraction of sand in the soil
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : NLAYR
     //                          ** max : 
@@ -413,8 +452,8 @@ public class Campbell
     //                          ** unit : 
     //            * name: SW
     //                          ** description : volumetric water content
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : NLAYR
     //                          ** max : 1
@@ -422,21 +461,19 @@ public class Campbell
     //                          ** default : 0.5
     //                          ** unit : cc water / cc soil
     //            * name: THICKApsim
-    //                          ** description : APSIM soil layer depths as THICKApsim of layers
+    //                          ** description : APSIM soil layer depths of layers
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NLAYR
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 
     //                          ** min : 1
-    //                          ** default : 50
+    //                          ** default : 
     //                          ** unit : mm
     //            * name: DEPTHApsim
     //                          ** description : Apsim node depths
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NLAYR
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -454,11 +491,10 @@ public class Campbell
     //                          ** description : Apsim bd (soil bulk density)
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NLAYR
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 
     //                          ** min : 
-    //                          ** default : 1.4
+    //                          ** default : 
     //                          ** unit : g/cm3             uri :
     //            * name: T2M
     //                          ** description : Mean daily Air temperature
@@ -488,9 +524,9 @@ public class Campbell
     //                          ** default : 
     //                          ** unit : 
     //            * name: TAV
-    //                          ** description : Average daily Air temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
+    //                          ** description : Average annual air temperature
+    //                          ** inputtype : parameter
+    //                          ** parametercategory : constant
     //                          ** datatype : DOUBLE
     //                          ** max : 60
     //                          ** min : -60
@@ -515,24 +551,22 @@ public class Campbell
     //                          ** default : 
     //                          ** unit : 
     //            * name: CLAYApsim
-    //                          ** description : Apsim proportion of CLAYApsim in each layer of profile
+    //                          ** description : Apsim proportion of CLAY in each layer of profile
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NLAYR
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 100
     //                          ** min : 0
-    //                          ** default : 50
+    //                          ** default : 
     //                          ** unit : 
     //            * name: SWApsim
     //                          ** description : Apsim volumetric water content
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NLAYR
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 1
     //                          ** min : 0
-    //                          ** default : 0.5
+    //                          ** default : 
     //                          ** unit : cc water / cc soil
     //            * name: DOY
     //                          ** description : Day of year
@@ -610,8 +644,7 @@ public class Campbell
     //                          ** description : Temperature at end of last time-step within a day - midnight in layers
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NLAYR
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 60.
     //                          ** min : -60.
     //                          ** default : 
@@ -620,8 +653,7 @@ public class Campbell
     //                          ** description : Soil temperature at the end of one iteration
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NLAYR
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 60.
     //                          ** min : -60.
     //                          ** default : 
@@ -630,8 +662,7 @@ public class Campbell
     //                          ** description : Minimum soil temperature in layers
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NLAYR
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 60.
     //                          ** min : -60.
     //                          ** default : 
@@ -640,8 +671,7 @@ public class Campbell
     //                          ** description : Maximum soil temperature in layers
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NLAYR
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 60.
     //                          ** min : -60.
     //                          ** default : 
@@ -650,8 +680,7 @@ public class Campbell
     //                          ** description : Temperature averaged over all time-steps within a day in layers.
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NLAYR
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 60.
     //                          ** min : -60.
     //                          ** default : 
@@ -660,8 +689,7 @@ public class Campbell
     //                          ** description : Temperature  in the morning in layers.
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NLAYR
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 60.
     //                          ** min : -60.
     //                          ** default : 
@@ -670,8 +698,7 @@ public class Campbell
     //                          ** description : thermal conductivity coeff in layers
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NLAYR
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -680,8 +707,7 @@ public class Campbell
     //                          ** description : thermal conductivity coeff in layers
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NLAYR
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -690,8 +716,7 @@ public class Campbell
     //                          ** description : thermal conductivity coeff in layers
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NLAYR
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -700,8 +725,7 @@ public class Campbell
     //                          ** description : thermal conductivity coeff in layers
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NLAYR
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -710,8 +734,7 @@ public class Campbell
     //                          ** description : thermal conductivity in layers
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NLAYR
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -720,8 +743,7 @@ public class Campbell
     //                          ** description : Thermal conductance between layers
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NLAYR
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -730,8 +752,7 @@ public class Campbell
     //                          ** description : Heat storage between layers (internal)
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NLAYR
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -740,8 +761,7 @@ public class Campbell
     //                          ** description : Volumetric specific heat over the soil profile
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NLAYR
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -801,41 +821,37 @@ public class Campbell
     //                          ** default : 3.0
     //                          ** unit : m/s
     //            * name: SLCARBApsim
-    //                          ** description : Volumetric fraction of organic matter in the soil
+    //                          ** description : Apsim volumetric fraction of organic matter in the soil
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NLAYR
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
     //                          ** unit : 
     //            * name: SLROCKApsim
-    //                          ** description : Volumetric fraction of SLROCKApsim in the soil
+    //                          ** description : Apsim volumetric fraction of rocks in the soil
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NLAYR
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
     //                          ** unit : 
     //            * name: SLSILTApsim
-    //                          ** description : Volumetric fraction of SLSILTApsim in the soil
+    //                          ** description : Apsim volumetric fraction of silt in the soil
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NLAYR
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
     //                          ** unit : 
     //            * name: SLSANDApsim
-    //                          ** description : Apsim volumetric fraction of SLSANDApsim in the soil
+    //                          ** description : Apsim volumetric fraction of sand in the soil
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : NLAYR
+    //                          ** datatype : DOUBLELIST
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 
@@ -852,49 +868,43 @@ public class Campbell
         //- outputs:
     //            * name: soilTemp
     //                          ** description : Temperature at end of last time-step within a day - midnight in layers
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : NLAYR
     //                          ** max : 60.
     //                          ** min : -60.
     //                          ** unit : degC
     //            * name: minSoilTemp
     //                          ** description : Minimum soil temperature in layers
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : NLAYR
     //                          ** max : 60.
     //                          ** min : -60.
     //                          ** unit : degC
     //            * name: maxSoilTemp
     //                          ** description : Maximum soil temperature in layers
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : NLAYR
     //                          ** max : 60.
     //                          ** min : -60.
     //                          ** unit : degC
     //            * name: aveSoilTemp
     //                          ** description : Temperature averaged over all time-steps within a day in layers.
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : NLAYR
     //                          ** max : 60.
     //                          ** min : -60.
     //                          ** unit : degC
     //            * name: morningSoilTemp
     //                          ** description : Temperature  in the morning in layers.
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : NLAYR
     //                          ** max : 60.
     //                          ** min : -60.
     //                          ** unit : degC
     //            * name: newTemperature
     //                          ** description : Soil temperature at the end of one iteration
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : NLAYR
     //                          ** max : 60.
     //                          ** min : -60.
     //                          ** unit : degC
@@ -914,65 +924,57 @@ public class Campbell
     //                          ** unit : 
     //            * name: thermalCondPar1
     //                          ** description : thermal conductivity coeff in layers
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : NLAYR
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : (W/m2/K)
     //            * name: thermalCondPar2
     //                          ** description : thermal conductivity coeff in layers
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : NLAYR
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : (W/m2/K)
     //            * name: thermalCondPar3
     //                          ** description : thermal conductivity coeff in layers
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : NLAYR
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : (W/m2/K)
     //            * name: thermalCondPar4
     //                          ** description : thermal conductivity coeff in layers
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : NLAYR
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : (W/m2/K)
     //            * name: thermalConductivity
     //                          ** description : thermal conductivity in layers
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : NLAYR
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : (W/m2/K)
     //            * name: thermalConductance
     //                          ** description : Thermal conductance between layers
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : NLAYR
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : (W/m2/K)
     //            * name: heatStorage
     //                          ** description : Heat storage between layers (internal)
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : NLAYR
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : J/s/K
     //            * name: volSpecHeatSoil
     //                          ** description : Volumetric specific heat over the soil profile
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : NLAYR
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : J/K/m3
@@ -984,74 +986,65 @@ public class Campbell
     //                          ** min : 
     //                          ** unit : K/W
     //            * name: THICKApsim
-    //                          ** description : APSIM soil layer depths as THICKApsim of layers
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** description : APSIM soil layer thickness of layers
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : NLAYR
     //                          ** max : 
     //                          ** min : 1
     //                          ** unit : mm
     //            * name: DEPTHApsim
     //                          ** description : APSIM node depths
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : NLAYR
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : m
     //            * name: BDApsim
-    //                          ** description : bd (soil bulk density) is name of the APSIM var for bulk density so set BDApsim
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** description : soil bulk density of APSIM
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : NLAYR
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : g/cm3             uri :
     //            * name: SWApsim
-    //                          ** description : volumetric water content
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** description : Apsim volumetric water content
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : NLAYR
     //                          ** max : 1
     //                          ** min : 0
     //                          ** unit : cc water / cc soil
     //            * name: CLAYApsim
-    //                          ** description : Proportion of CLAYApsim in each layer of profile
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** description : Proportion of clay in each layer of profile
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : NLAYR
     //                          ** max : 100
     //                          ** min : 0
     //                          ** unit : 
     //            * name: SLROCKApsim
-    //                          ** description : Volumetric fraction of SLROCKApsim in the soil
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** description : Volumetric fraction of rocks in the soil
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : NLAYR
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : 
     //            * name: SLCARBApsim
     //                          ** description : Volumetric fraction of organic matter in the soil
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : NLAYR
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : 
     //            * name: SLSANDApsim
-    //                          ** description : Volumetric fraction of SLSANDApsim in the soil
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** description : Volumetric fraction of sand in the soil
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : NLAYR
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : 
     //            * name: SLSILTApsim
-    //                          ** description : Volumetric fraction of SLSILTApsim in the soil
-    //                          ** datatype : DOUBLEARRAY
+    //                          ** description : Volumetric fraction of silt in the soil
+    //                          ** datatype : DOUBLELIST
     //                          ** variablecategory : state
-    //                          ** len : NLAYR
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : 
@@ -1064,23 +1057,14 @@ public class Campbell
         boundaryLayerConductanceF zz_boundaryLayerConductanceF;
         doThomas zz_doThomas;
         doUpdate zz_doUpdate;
-        Double [] THICK = ex.getTHICK();
-        Double [] BD = ex.getBD();
-        Double [] SLCARB = ex.getSLCARB();
-        Double [] CLAY = ex.getCLAY();
-        Double [] SLROCK = ex.getSLROCK();
-        Double [] SLSILT = ex.getSLSILT();
-        Double [] SLSAND = ex.getSLSAND();
-        Double [] SW = ex.getSW();
-        Double [] THICKApsim = s.getTHICKApsim();
-        Double [] DEPTHApsim = s.getDEPTHApsim();
-        Double [] BDApsim = s.getBDApsim();
+        List<Double> THICKApsim = s.getTHICKApsim();
+        List<Double> DEPTHApsim = s.getDEPTHApsim();
+        List<Double> BDApsim = s.getBDApsim();
         double T2M = ex.getT2M();
         double TMAX = ex.getTMAX();
         double TMIN = ex.getTMIN();
-        double TAV = ex.getTAV();
-        Double [] CLAYApsim = s.getCLAYApsim();
-        Double [] SWApsim = s.getSWApsim();
+        List<Double> CLAYApsim = s.getCLAYApsim();
+        List<Double> SWApsim = s.getSWApsim();
         Integer DOY = ex.getDOY();
         double airPressure = ex.getairPressure();
         double canopyHeight = ex.getcanopyHeight();
@@ -1088,27 +1072,27 @@ public class Campbell
         double ESP = ex.getESP();
         double ES = ex.getES();
         double EOAD = ex.getEOAD();
-        Double [] soilTemp = s.getsoilTemp();
-        Double [] newTemperature = s.getnewTemperature();
-        Double [] minSoilTemp = s.getminSoilTemp();
-        Double [] maxSoilTemp = s.getmaxSoilTemp();
-        Double [] aveSoilTemp = s.getaveSoilTemp();
-        Double [] morningSoilTemp = s.getmorningSoilTemp();
-        Double [] thermalCondPar1 = s.getthermalCondPar1();
-        Double [] thermalCondPar2 = s.getthermalCondPar2();
-        Double [] thermalCondPar3 = s.getthermalCondPar3();
-        Double [] thermalCondPar4 = s.getthermalCondPar4();
-        Double [] thermalConductivity = s.getthermalConductivity();
-        Double [] thermalConductance = s.getthermalConductance();
-        Double [] heatStorage = s.getheatStorage();
-        Double [] volSpecHeatSoil = s.getvolSpecHeatSoil();
+        List<Double> soilTemp = s.getsoilTemp();
+        List<Double> newTemperature = s.getnewTemperature();
+        List<Double> minSoilTemp = s.getminSoilTemp();
+        List<Double> maxSoilTemp = s.getmaxSoilTemp();
+        List<Double> aveSoilTemp = s.getaveSoilTemp();
+        List<Double> morningSoilTemp = s.getmorningSoilTemp();
+        List<Double> thermalCondPar1 = s.getthermalCondPar1();
+        List<Double> thermalCondPar2 = s.getthermalCondPar2();
+        List<Double> thermalCondPar3 = s.getthermalCondPar3();
+        List<Double> thermalCondPar4 = s.getthermalCondPar4();
+        List<Double> thermalConductivity = s.getthermalConductivity();
+        List<Double> thermalConductance = s.getthermalConductance();
+        List<Double> heatStorage = s.getheatStorage();
+        List<Double> volSpecHeatSoil = s.getvolSpecHeatSoil();
         double maxTempYesterday = s.getmaxTempYesterday();
         double minTempYesterday = s.getminTempYesterday();
         double windSpeed = ex.getwindSpeed();
-        Double [] SLCARBApsim = s.getSLCARBApsim();
-        Double [] SLROCKApsim = s.getSLROCKApsim();
-        Double [] SLSILTApsim = s.getSLSILTApsim();
-        Double [] SLSANDApsim = s.getSLSANDApsim();
+        List<Double> SLCARBApsim = s.getSLCARBApsim();
+        List<Double> SLROCKApsim = s.getSLROCKApsim();
+        List<Double> SLSILTApsim = s.getSLSILTApsim();
+        List<Double> SLSANDApsim = s.getSLSANDApsim();
         double _boundaryLayerConductance = s.get_boundaryLayerConductance();
         Integer AIRnode;
         Integer SURFACEnode;
@@ -1134,7 +1118,7 @@ public class Campbell
         double precision;
         double cva;
         double cloudFr;
-        Double[] solarRadn ;
+        List<Double> solarRadn = new ArrayList<>(Arrays.asList());
         Integer layer;
         double timeOfDaySecs;
         double airTemperature;
@@ -1164,7 +1148,11 @@ public class Campbell
         layer = 0;
         cva = 0.0d;
         cloudFr = 0.0d;
-        solarRadn.fill(49, 0.0d);
+        solarRadn = new ArrayList<>(Arrays.asList(0.0d));
+        for (layer=0 ; layer!=50 ; layer+=1)
+        {
+            solarRadn.add(0.0d);
+        }
         zz_doNetRadiation = Calculate_doNetRadiation(solarRadn, cloudFr, cva, ITERATIONSperDAY, DOY, SRAD, TMIN, XLAT);
         solarRadn = zz_doNetRadiation.getsolarRadn();
         cloudFr = zz_doNetRadiation.getcloudFr();
@@ -1187,19 +1175,19 @@ public class Campbell
             {
                 tMean = InterpTemp(timeOfDaySecs * SEC2HR, TMAX, TMIN, T2M, maxTempYesterday, minTempYesterday);
             }
-            newTemperature[AIRnode] = tMean;
-            netRadiation = RadnNetInterpolate(internalTimeStep, solarRadn[timeStepIteration], cloudFr, cva, ESP, EOAD, tMean, SALB, soilTemp);
+            newTemperature.set(AIRnode,tMean);
+            netRadiation = RadnNetInterpolate(internalTimeStep, solarRadn.get(timeStepIteration), cloudFr, cva, ESP, EOAD, tMean, SALB, soilTemp);
             if (boundaryLayerConductanceSource == "constant")
             {
-                thermalConductivity[AIRnode] = constantBoundaryLayerConductance;
+                thermalConductivity.set(AIRnode,constantBoundaryLayerConductance);
             }
             else if ( boundaryLayerConductanceSource == "calc")
             {
-                thermalConductivity[AIRnode] = boundaryLayerConductanceF(newTemperature, tMean, ESP, EOAD, airPressure, canopyHeight, windSpeed, instrumentHeight);
+                thermalConductivity.set(AIRnode,boundaryLayerConductanceF(newTemperature, tMean, ESP, EOAD, airPressure, canopyHeight, windSpeed, instrumentHeight));
                 for (iteration=1 ; iteration!=BoundaryLayerConductanceIterations + 1 ; iteration+=1)
                 {
                     newTemperature = doThomas(newTemperature, soilTemp, thermalConductivity, thermalConductance, DEPTHApsim, volSpecHeatSoil, internalTimeStep, netRadiation, ESP, ES, numNodes, netRadiationSource);
-                    thermalConductivity[AIRnode] = boundaryLayerConductanceF(newTemperature, tMean, ESP, EOAD, airPressure, canopyHeight, windSpeed, instrumentHeight);
+                    thermalConductivity.set(AIRnode,boundaryLayerConductanceF(newTemperature, tMean, ESP, EOAD, airPressure, canopyHeight, windSpeed, instrumentHeight));
                 }
             }
             newTemperature = doThomas(newTemperature, soilTemp, thermalConductivity, thermalConductance, DEPTHApsim, volSpecHeatSoil, internalTimeStep, netRadiation, ESP, ES, numNodes, netRadiationSource);
@@ -1209,9 +1197,9 @@ public class Campbell
             precision = Math.min(timeOfDaySecs, 5.0d * 3600.0d) * 0.0001d;
             if (Math.abs(timeOfDaySecs - (5.0d * 3600.0d)) <= precision)
             {
-                for (layer=0 ; layer!=soilTemp.length ; layer+=1)
+                for (layer=0 ; layer!=soilTemp.size() ; layer+=1)
                 {
-                    morningSoilTemp[layer] = soilTemp[layer];
+                    morningSoilTemp.set(layer,soilTemp.get(layer));
                 }
             }
         }
@@ -1244,14 +1232,20 @@ public class Campbell
         s.setSLSANDApsim(SLSANDApsim);
         s.set_boundaryLayerConductance(_boundaryLayerConductance);
     }
-    public doNetRadiation Calculate_doNetRadiation (Double [] solarRadn, double cloudFr, double cva, Integer ITERATIONSperDAY, Integer doy, double rad, double tmin, double latitude)
+    public doNetRadiation Calculate_doNetRadiation (List<Double> solarRadn, double cloudFr, double cva, Integer ITERATIONSperDAY, Integer doy, double rad, double tmin, double latitude)
     {
+        List<Double> m1 = new ArrayList<>(Arrays.asList());
+        Integer lay;
+        solarRadn.fill(ITERATIONSperDAY + 1, 0.0d);
         double piVal = 3.141592653589793;
         double TSTEPS2RAD = 1.0;
         double SOLARconst = 1.0;
         double solarDeclination = 1.0;
-        Double[] m1 ;
-        m1.fill(ITERATIONSperDAY + 1, 0.0d);
+        m1 = new ArrayList<>(Arrays.asList(0.0d));
+        for (lay=0 ; lay!=ITERATIONSperDAY + 1 ; lay+=1)
+        {
+            m1.add(0.0d);
+        }
         TSTEPS2RAD = Divide(2.0d * piVal, (double)(ITERATIONSperDAY), 0.0d);
         SOLARconst = 1360.0d;
         solarDeclination = 0.3985d * Math.sin((4.869d + (doy * 2.0d * piVal / 365.25d) + (0.03345d * Math.sin((6.224d + (doy * 2.0d * piVal / 365.25d))))));
@@ -1263,14 +1257,14 @@ public class Campbell
         double scalar;
         for (timestepNumber=1 ; timestepNumber!=ITERATIONSperDAY + 1 ; timestepNumber+=1)
         {
-            m1[timestepNumber] = (solarDeclination * Math.sin(latitude * piVal / 180.0d) + (cD * Math.cos(latitude * piVal / 180.0d) * Math.cos(TSTEPS2RAD * ((double)(timestepNumber) - ((double)(ITERATIONSperDAY) / 2.0d))))) * 24.0d / (double)(ITERATIONSperDAY);
-            if (m1[timestepNumber] > 0.0d)
+            m1.set(timestepNumber,(solarDeclination * Math.sin(latitude * piVal / 180.0d) + (cD * Math.cos(latitude * piVal / 180.0d) * Math.cos(TSTEPS2RAD * ((double)(timestepNumber) - ((double)(ITERATIONSperDAY) / 2.0d))))) * 24.0d / (double)(ITERATIONSperDAY));
+            if (m1.get(timestepNumber) > 0.0d)
             {
-                m1Tot = m1Tot + m1[timestepNumber];
+                m1Tot = m1Tot + m1.get(timestepNumber);
             }
             else
             {
-                m1[timestepNumber] = 0.0d;
+                m1.set(timestepNumber,0.0d);
             }
         }
         psr = m1Tot * SOLARconst * 3600.0d / 1000000.0d;
@@ -1280,7 +1274,7 @@ public class Campbell
         scalar = Math.max(rad, 0.1d);
         for (timestepNumber=1 ; timestepNumber!=ITERATIONSperDAY + 1 ; timestepNumber+=1)
         {
-            solarRadn[timestepNumber] = scalar * Divide(m1[timestepNumber], m1Tot, 0.0d);
+            solarRadn.set(timestepNumber,scalar * Divide(m1.get(timestepNumber), m1Tot, 0.0d));
         }
         double kelvinTemp = kelvinT(tmin);
         cva = Math.exp((31.3716d - (6014.79d / kelvinTemp) - (0.00792495d * kelvinTemp))) / kelvinTemp;
@@ -1301,27 +1295,31 @@ public class Campbell
         double res = celciusT + ZEROTkelvin;
         return res;
     }
-    public static Double [] Zero(Double [] arr)
+    public static List<Double> Zero(List<Double> arr)
     {
-        Integer i = 0;
-        for (i=0 ; i!=arr.length ; i+=1)
+        Integer I = 0;
+        for (I=0 ; I!=arr.size() ; I+=1)
         {
-            arr[i] = 0.d;
+            arr.set(I,0.d);
         }
         return arr;
     }
-    public static Double [] doVolumetricSpecificHeat(Double [] volSpecLayer, Double [] soilW, Integer numNodes, String [] constituents, Double [] THICKApsim, Double [] DEPTHApsim)
+    public static List<Double> doVolumetricSpecificHeat(List<Double> volSpecLayer, List<Double> soilW, Integer numNodes, String [] constituents, List<Double> THICKApsim, List<Double> DEPTHApsim)
     {
-        Double[] volSpecHeatSoil ;
-        volSpecHeatSoil.fill(numNodes + 1, 0.0d);
+        List<Double> volSpecHeatSoil = new ArrayList<>(Arrays.asList());
+        volSpecHeatSoil = new ArrayList<>(Arrays.asList(0.0d));
         Integer node;
+        for (node=0 ; node!=numNodes + 1 ; node+=1)
+        {
+            volSpecHeatSoil.add(0.0d);
+        }
         Integer constituent;
         for (node=1 ; node!=numNodes + 1 ; node+=1)
         {
-            volSpecHeatSoil[node] = 0.0d;
+            volSpecHeatSoil.set(node,0.0d);
             for (constituent=0 ; constituent!=constituents.length ; constituent+=1)
             {
-                volSpecHeatSoil[node] = volSpecHeatSoil[node] + (volumetricSpecificHeat(constituents[constituent]) * 1000000.0d * soilW[node]);
+                volSpecHeatSoil.set(node,volSpecHeatSoil.get(node) + (volumetricSpecificHeat(constituents[constituent]) * 1000000.0d * soilW.get(node)));
             }
         }
         volSpecLayer = mapLayer2Node(volSpecHeatSoil, volSpecLayer, THICKApsim, DEPTHApsim, numNodes);
@@ -1372,12 +1370,12 @@ public class Campbell
         }
         return res;
     }
-    public static Double [] mapLayer2Node(Double [] layerArray, Double [] nodeArray, Double [] THICKApsim, Double [] DEPTHApsim, Integer numNodes)
+    public static List<Double> mapLayer2Node(List<Double> layerArray, List<Double> nodeArray, List<Double> THICKApsim, List<Double> DEPTHApsim, Integer numNodes)
     {
         Integer SURFACEnode = 1;
         double depthLayerAbove;
         Integer node = 0;
-        Integer i = 0;
+        Integer I = 0;
         Integer layer;
         double d1;
         double d2;
@@ -1388,22 +1386,27 @@ public class Campbell
             depthLayerAbove = 0.0d;
             if (layer >= 1)
             {
-                for (i=1 ; i!=layer + 1 ; i+=1)
+                for (I=1 ; I!=layer + 1 ; I+=1)
                 {
-                    depthLayerAbove = depthLayerAbove + THICKApsim[i];
+                    depthLayerAbove = depthLayerAbove + THICKApsim.get(I);
                 }
             }
-            d1 = depthLayerAbove - (DEPTHApsim[node] * 1000.0d);
-            d2 = DEPTHApsim[(node + 1)] * 1000.0d - depthLayerAbove;
+            d1 = depthLayerAbove - (DEPTHApsim.get(node) * 1000.0d);
+            d2 = DEPTHApsim.get((node + 1)) * 1000.0d - depthLayerAbove;
             dSum = d1 + d2;
-            nodeArray[node] = Divide(layerArray[layer] * d1, dSum, 0.0d) + Divide(layerArray[(layer + 1)] * d2, dSum, 0.0d);
+            nodeArray.set(node,Divide(layerArray.get(layer) * d1, dSum, 0.0d) + Divide(layerArray.get((layer + 1)) * d2, dSum, 0.0d));
         }
         return nodeArray;
     }
-    public static Double [] doThermConductivity(Double [] soilW, Double [] SLCARBApsim, Double [] SLROCKApsim, Double [] SLSANDApsim, Double [] SLSILTApsim, Double [] CLAYApsim, Double [] BDApsim, Double [] thermalConductivity, Double [] THICKApsim, Double [] DEPTHApsim, Integer numNodes, String [] constituents)
+    public static List<Double> doThermConductivity(List<Double> soilW, List<Double> SLCARBApsim, List<Double> SLROCKApsim, List<Double> SLSANDApsim, List<Double> SLSILTApsim, List<Double> CLAYApsim, List<Double> BDApsim, List<Double> thermalConductivity, List<Double> THICKApsim, List<Double> DEPTHApsim, Integer numNodes, String [] constituents)
     {
-        Double[] thermCondLayers ;
-        thermCondLayers.fill(numNodes + 1, 0.0d);
+        List<Double> thermCondLayers = new ArrayList<>(Arrays.asList());
+        thermCondLayers = new ArrayList<>(Arrays.asList(0.0d));
+        Integer I;
+        for (I=0 ; I!=numNodes + 1 ; I+=1)
+        {
+            thermCondLayers.add(0.0d);
+        }
         Integer node = 1;
         Integer constituent = 1;
         double temp;
@@ -1423,15 +1426,15 @@ public class Campbell
                 thermalConductanceConstituent = ThermalConductance(constituents[constituent]);
                 thermalConductanceWater = ThermalConductance("Water");
                 k = 2.0d / 3.0d * Math.pow((1 + (shapeFactorConstituent * (thermalConductanceConstituent / thermalConductanceWater - 1.0d))), -1) + (1.0d / 3.0d * Math.pow((1 + (shapeFactorConstituent * (thermalConductanceConstituent / thermalConductanceWater - 1.0d) * (1.0d - (2.0d * shapeFactorConstituent)))), -1));
-                numerator = numerator + (thermalConductanceConstituent * soilW[node] * k);
-                denominator = denominator + (soilW[node] * k);
+                numerator = numerator + (thermalConductanceConstituent * soilW.get(node) * k);
+                denominator = denominator + (soilW.get(node) * k);
             }
-            thermCondLayers[node] = numerator / denominator;
+            thermCondLayers.set(node,numerator / denominator);
         }
         thermalConductivity = mapLayer2Node(thermCondLayers, thermalConductivity, THICKApsim, DEPTHApsim, numNodes);
         return thermalConductivity;
     }
-    public static double shapeFactor(String name, Double [] SLROCKApsim, Double [] SLCARBApsim, Double [] SLSANDApsim, Double [] SLSILTApsim, Double [] CLAYApsim, Double [] SWApsim, Double [] BDApsim, Integer layer)
+    public static double shapeFactor(String name, List<Double> SLROCKApsim, List<Double> SLCARBApsim, List<Double> SLSANDApsim, List<Double> SLSILTApsim, List<Double> CLAYApsim, List<Double> SWApsim, List<Double> BDApsim, Integer layer)
     {
         double shapeFactorRocks = 0.182;
         double shapeFactorOM = 0.5;
@@ -1527,116 +1530,43 @@ public class Campbell
         result = volumetricSpecificHeat(name);
         return result;
     }
-    public static Double [] mapLayer2Node(Double [] layerArray, Double [] nodeArray, Double [] THICKApsim, Double [] DEPTHApsim, Integer numNodes)
+    public static double volumetricFractionWater(List<Double> SWApsim, List<Double> SLCARBApsim, List<Double> BDApsim, Integer layer)
     {
-        Integer SURFACEnode = 1;
-        double depthLayerAbove;
-        Integer node = 0;
-        Integer i = 0;
-        Integer layer;
-        double d1;
-        double d2;
-        double dSum;
-        for (node=SURFACEnode ; node!=numNodes + 1 ; node+=1)
-        {
-            layer = node - 1;
-            depthLayerAbove = 0.0d;
-            if (layer >= 1)
-            {
-                for (i=1 ; i!=layer + 1 ; i+=1)
-                {
-                    depthLayerAbove = depthLayerAbove + THICKApsim[i];
-                }
-            }
-            d1 = depthLayerAbove - (DEPTHApsim[node] * 1000.0d);
-            d2 = DEPTHApsim[(node + 1)] * 1000.0d - depthLayerAbove;
-            dSum = d1 + d2;
-            nodeArray[node] = Divide(layerArray[layer] * d1, dSum, 0.0d) + Divide(layerArray[(layer + 1)] * d2, dSum, 0.0d);
-        }
-        return nodeArray;
-    }
-    public static double volumetricFractionWater(Double [] SWApsim, Double [] SLCARBApsim, Double [] BDApsim, Integer layer)
-    {
-        double res = (1.0d - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer)) * SWApsim[layer];
+        double res = (1.0d - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer)) * SWApsim.get(layer);
         return res;
     }
-    public static double volumetricFractionAir(Double [] SLROCKApsim, Double [] SLCARBApsim, Double [] SLSANDApsim, Double [] SLSILTApsim, Double [] CLAYApsim, Double [] SWApsim, Double [] BDApsim, Integer layer)
+    public static double volumetricFractionAir(List<Double> SLROCKApsim, List<Double> SLCARBApsim, List<Double> SLSANDApsim, List<Double> SLSILTApsim, List<Double> CLAYApsim, List<Double> SWApsim, List<Double> BDApsim, Integer layer)
     {
         double res = 1.0d - volumetricFractionRocks(SLROCKApsim, layer) - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer) - volumetricFractionSand(SLSANDApsim, SLROCKApsim, SLCARBApsim, BDApsim, layer) - volumetricFractionSilt(SLSILTApsim, SLROCKApsim, SLCARBApsim, BDApsim, layer) - volumetricFractionClay(CLAYApsim, SLROCKApsim, SLCARBApsim, BDApsim, layer) - volumetricFractionWater(SWApsim, SLCARBApsim, BDApsim, layer) - 0.0d;
         return res;
     }
-    public static double volumetricFractionRocks(Double [] SLROCKApsim, Integer layer)
+    public static double volumetricFractionRocks(List<Double> SLROCKApsim, Integer layer)
     {
-        double res = SLROCKApsim[layer] / 100.0d;
+        double res = SLROCKApsim.get(layer) / 100.0d;
         return res;
     }
-    public static double volumetricFractionSand(Double [] SLSANDApsim, Double [] SLROCKApsim, Double [] SLCARBApsim, Double [] BDApsim, Integer layer)
-    {
-        double ps = 2.63;
-        double res = (1.0d - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer) - volumetricFractionRocks(SLROCKApsim, layer)) * SLSANDApsim[layer] / 100.0d * BDApsim[layer] / ps;
-        return res;
-    }
-    public static double volumetricFractionSilt(Double [] SLSILTApsim, Double [] SLROCKApsim, Double [] SLCARBApsim, Double [] BDApsim, Integer layer)
+    public static double volumetricFractionSand(List<Double> SLSANDApsim, List<Double> SLROCKApsim, List<Double> SLCARBApsim, List<Double> BDApsim, Integer layer)
     {
         double ps = 2.63;
-        double res = (1.0d - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer) - volumetricFractionRocks(SLROCKApsim, layer)) * SLSILTApsim[layer] / 100.0d * BDApsim[layer] / ps;
+        double res = (1.0d - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer) - volumetricFractionRocks(SLROCKApsim, layer)) * SLSANDApsim.get(layer) / 100.0d * BDApsim.get(layer) / ps;
         return res;
     }
-    public static double volumetricFractionClay(Double [] CLAYApsim, Double [] SLROCKApsim, Double [] SLCARBApsim, Double [] BDApsim, Integer layer)
+    public static double volumetricFractionSilt(List<Double> SLSILTApsim, List<Double> SLROCKApsim, List<Double> SLCARBApsim, List<Double> BDApsim, Integer layer)
     {
         double ps = 2.63;
-        double res = (1.0d - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer) - volumetricFractionRocks(SLROCKApsim, layer)) * CLAYApsim[layer] / 100.0d * BDApsim[layer] / ps;
+        double res = (1.0d - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer) - volumetricFractionRocks(SLROCKApsim, layer)) * SLSILTApsim.get(layer) / 100.0d * BDApsim.get(layer) / ps;
         return res;
     }
-    public static double volumetricSpecificHeat(String name)
+    public static double volumetricFractionClay(List<Double> CLAYApsim, List<Double> SLROCKApsim, List<Double> SLCARBApsim, List<Double> BDApsim, Integer layer)
     {
-        double specificHeatRocks = 7.7;
-        double specificHeatOM = 0.25;
-        double specificHeatSand = 7.7;
-        double specificHeatSilt = 2.74;
-        double specificHeatClay = 2.92;
-        double specificHeatWater = 0.57;
-        double specificHeatIce = 2.18;
-        double specificHeatAir = 0.025;
-        double res = 0.0;
-        if (name == "Rocks")
-        {
-            res = specificHeatRocks;
-        }
-        else if ( name == "OrganicMatter")
-        {
-            res = specificHeatOM;
-        }
-        else if ( name == "Sand")
-        {
-            res = specificHeatSand;
-        }
-        else if ( name == "Silt")
-        {
-            res = specificHeatSilt;
-        }
-        else if ( name == "Clay")
-        {
-            res = specificHeatClay;
-        }
-        else if ( name == "Water")
-        {
-            res = specificHeatWater;
-        }
-        else if ( name == "Ice")
-        {
-            res = specificHeatIce;
-        }
-        else if ( name == "Air")
-        {
-            res = specificHeatAir;
-        }
+        double ps = 2.63;
+        double res = (1.0d - volumetricFractionOrganicMatter(SLCARBApsim, BDApsim, layer) - volumetricFractionRocks(SLROCKApsim, layer)) * CLAYApsim.get(layer) / 100.0d * BDApsim.get(layer) / ps;
         return res;
     }
-    public static double volumetricFractionOrganicMatter(Double [] SLCARBApsim, Double [] BDApsim, Integer layer)
+    public static double volumetricFractionOrganicMatter(List<Double> SLCARBApsim, List<Double> BDApsim, Integer layer)
     {
         double pom = 1.3;
-        double res = SLCARBApsim[layer] / 100.0d * 2.5d * BDApsim[layer] / pom;
+        double res = SLCARBApsim.get(layer) / 100.0d * 2.5d * BDApsim.get(layer) / pom;
         return res;
     }
     public static double InterpTemp(double time_hours, double tmax, double tmin, double t2m, double max_temp_yesterday, double min_temp_yesterday)
@@ -1671,7 +1601,7 @@ public class Campbell
         }
         return current_temp;
     }
-    public static double RadnNetInterpolate(double internalTimeStep, double solarRadiation, double cloudFr, double cva, double potE, double potET, double tMean, double albedo, Double [] soilTemp)
+    public static double RadnNetInterpolate(double internalTimeStep, double solarRadiation, double cloudFr, double cva, double potE, double potET, double tMean, double albedo, List<Double> soilTemp)
     {
         double EMISSIVITYsurface = 0.96;
         double w2MJ = internalTimeStep / 1000000.0d;
@@ -1679,22 +1609,13 @@ public class Campbell
         double emissivityAtmos = (1 - (0.84d * cloudFr)) * 0.58d * Math.pow(cva, 1.0d / 7.0d) + (0.84d * cloudFr);
         double PenetrationConstant = Divide(Math.max(0.1d, potE), Math.max(0.1d, potET), 0.0d);
         double lwRinSoil = longWaveRadn(emissivityAtmos, tMean) * PenetrationConstant * w2MJ;
-        double lwRoutSoil = longWaveRadn(EMISSIVITYsurface, soilTemp[SURFACEnode]) * PenetrationConstant * w2MJ;
+        double lwRoutSoil = longWaveRadn(EMISSIVITYsurface, soilTemp.get(SURFACEnode)) * PenetrationConstant * w2MJ;
         double lwRnetSoil = lwRinSoil - lwRoutSoil;
         double swRin = solarRadiation;
         double swRout = albedo * solarRadiation;
         double swRnetSoil = (swRin - swRout) * PenetrationConstant;
         double total = swRnetSoil + lwRnetSoil;
         return total;
-    }
-    public static double Divide(double val1, double val2, double errVal)
-    {
-        double returnValue = errVal;
-        if (val2 != 0.0d)
-        {
-            returnValue = val1 / val2;
-        }
-        return returnValue;
     }
     public static double longWaveRadn(double emissivity, double tDegC)
     {
@@ -1703,7 +1624,7 @@ public class Campbell
         double res = STEFAN_BOLTZMANNconst * emissivity * Math.pow(kelvinTemp, 4);
         return res;
     }
-    public static double boundaryLayerConductanceF(Double [] TNew_zb, double tMean, double potE, double potET, double airPressure, double canopyHeight, double windSpeed, double instrumentHeight)
+    public static double boundaryLayerConductanceF(List<Double> TNew_zb, double tMean, double potE, double potET, double airPressure, double canopyHeight, double windSpeed, double instrumentHeight)
     {
         double VONK = 0.41;
         double GRAVITATIONALconst = 9.8;
@@ -1715,7 +1636,7 @@ public class Campbell
         double RoughnessFacMomentum = 0.13d * canopyHeight;
         double RoughnessFacHeat = 0.2d * RoughnessFacMomentum;
         double d = 0.77d * canopyHeight;
-        double SurfaceTemperature = TNew_zb[SURFACEnode];
+        double SurfaceTemperature = TNew_zb.get(SURFACEnode);
         double PenetrationConstant = Math.max(0.1d, potE) / Math.max(0.1d, potET);
         double kelvinTemp = kelvinT(tMean);
         double radiativeConductance = 4.0d * STEFAN_BOLTZMANNconst * EMISSIVITYsurface * PenetrationConstant * Math.pow(kelvinTemp, 3);
@@ -1755,37 +1676,7 @@ public class Campbell
         double res = Divide(MWair * AirPressure * HPA2PA, kelvinTemp * RGAS, 0.0d);
         return res;
     }
-    public static double kelvinT(double celciusT)
-    {
-        double ZEROTkelvin = 273.18;
-        double res = celciusT + ZEROTkelvin;
-        return res;
-    }
-    public static double Divide(double val1, double val2, double errVal)
-    {
-        double returnValue = errVal;
-        if (val2 != 0.0d)
-        {
-            returnValue = val1 / val2;
-        }
-        return returnValue;
-    }
-    public static double kelvinT(double celciusT)
-    {
-        double ZEROTkelvin = 273.18;
-        double res = celciusT + ZEROTkelvin;
-        return res;
-    }
-    public static double Divide(double val1, double val2, double errVal)
-    {
-        double returnValue = errVal;
-        if (val2 != 0.0d)
-        {
-            returnValue = val1 / val2;
-        }
-        return returnValue;
-    }
-    public static Double [] doThomas(Double [] newTemps, Double [] soilTemp, Double [] thermalConductivity, Double [] thermalConductance, Double [] DEPTHApsim, Double [] volSpecHeatSoil, double gDt, double netRadiation, double potE, double actE, Integer numNodes, String netRadiationSource)
+    public static List<Double> doThomas(List<Double> newTemps, List<Double> soilTemp, List<Double> thermalConductivity, List<Double> thermalConductance, List<Double> DEPTHApsim, List<Double> volSpecHeatSoil, double gDt, double netRadiation, double potE, double actE, Integer numNodes, String netRadiationSource)
     {
         double nu = 0.6;
         Integer AIRnode = 0;
@@ -1793,8 +1684,9 @@ public class Campbell
         double MJ2J = 1000000.0;
         double latentHeatOfVapourisation = 2465000.0;
         double tempStepSec = 24.0d * 60.0d * 60.0d;
-        Double[] heatStorage ;
-        heatStorage.fill(numNodes + 1, 0.d);
+        Integer I;
+        List<Double> heatStorage = new ArrayList<>(Arrays.asList());
+        heatStorage = new ArrayList<>(Arrays.asList(0.d));
         double VolSoilAtNode;
         double elementLength;
         double g = 1 - nu;
@@ -1802,29 +1694,41 @@ public class Campbell
         double RadnNet;
         double LatentHeatFlux;
         double SoilSurfaceHeatFlux;
-        Double[] a ;
-        Double[] b ;
-        Double[] c ;
-        Double[] d ;
-        a.fill(numNodes + 2, 0.0d);b.fill(numNodes + 1, 0.0d);c.fill(numNodes + 1, 0.0d);d.fill(numNodes + 1, 0.0d);thermalConductance.fill(numNodes + 1, 0.d);
-        thermalConductance[AIRnode] = thermalConductivity[AIRnode];
+        List<Double> a = new ArrayList<>(Arrays.asList());
+        List<Double> b = new ArrayList<>(Arrays.asList());
+        List<Double> c = new ArrayList<>(Arrays.asList());
+        List<Double> d = new ArrayList<>(Arrays.asList());
+        a = new ArrayList<>(Arrays.asList(0.0d));
+        b = new ArrayList<>(Arrays.asList(0.0d));
+        c = new ArrayList<>(Arrays.asList(0.0d));
+        d = new ArrayList<>(Arrays.asList(0.0d));
+        for (I=0 ; I!=numNodes + 1 ; I+=1)
+        {
+            a.add(0.0d);
+            b.add(0.0d);
+            c.add(0.0d);
+            d.add(0.0d);
+            heatStorage.add(0.0d);
+        }
+        a.add(0.0d);thermalConductance.fill(numNodes + 1, 0.d);
+        thermalConductance.set(AIRnode,thermalConductivity.get(AIRnode));
         Integer node = SURFACEnode;
         for (node=SURFACEnode ; node!=numNodes + 1 ; node+=1)
         {
-            VolSoilAtNode = 0.5d * (DEPTHApsim[node + 1] - DEPTHApsim[node - 1]);
-            heatStorage[node] = Divide(volSpecHeatSoil[node] * VolSoilAtNode, gDt, 0.0d);
-            elementLength = DEPTHApsim[node + 1] - DEPTHApsim[node];
-            thermalConductance[node] = Divide(thermalConductivity[node], elementLength, 0.0d);
+            VolSoilAtNode = 0.5d * (DEPTHApsim.get(node + 1) - DEPTHApsim.get(node - 1));
+            heatStorage.set(node,Divide(volSpecHeatSoil.get(node) * VolSoilAtNode, gDt, 0.0d));
+            elementLength = DEPTHApsim.get(node + 1) - DEPTHApsim.get(node);
+            thermalConductance.set(node,Divide(thermalConductivity.get(node), elementLength, 0.0d));
         }
         for (node=SURFACEnode ; node!=numNodes + 1 ; node+=1)
         {
-            c[node] = -nu * thermalConductance[node];
-            a[node + 1] = c[node];
-            b[node] = nu * (thermalConductance[node] + thermalConductance[node - 1]) + heatStorage[node];
-            d[node] = g * thermalConductance[(node - 1)] * soilTemp[(node - 1)] + ((heatStorage[node] - (g * (thermalConductance[node] + thermalConductance[node - 1]))) * soilTemp[node]) + (g * thermalConductance[node] * soilTemp[(node + 1)]);
+            c.set(node,-nu * thermalConductance.get(node));
+            a.set(node + 1,c.get(node));
+            b.set(node,nu * (thermalConductance.get(node) + thermalConductance.get(node - 1)) + heatStorage.get(node));
+            d.set(node,g * thermalConductance.get((node - 1)) * soilTemp.get((node - 1)) + ((heatStorage.get(node) - (g * (thermalConductance.get(node) + thermalConductance.get(node - 1)))) * soilTemp.get(node)) + (g * thermalConductance.get(node) * soilTemp.get((node + 1))));
         }
-        a[SURFACEnode] = 0.0d;
-        sensibleHeatFlux = nu * thermalConductance[AIRnode] * newTemps[AIRnode];
+        a.set(SURFACEnode,0.0d);
+        sensibleHeatFlux = nu * thermalConductance.get(AIRnode) * newTemps.get(AIRnode);
         RadnNet = 0.0d;
         if (netRadiationSource == "calc")
         {
@@ -1836,106 +1740,89 @@ public class Campbell
         }
         LatentHeatFlux = Divide(actE * latentHeatOfVapourisation, tempStepSec, 0.0d);
         SoilSurfaceHeatFlux = sensibleHeatFlux + RadnNet - LatentHeatFlux;
-        d[SURFACEnode] = d[SURFACEnode] + SoilSurfaceHeatFlux;
-        d[numNodes] = d[numNodes] + (nu * thermalConductance[numNodes] * newTemps[(numNodes + 1)]);
+        d.set(SURFACEnode,d.get(SURFACEnode) + SoilSurfaceHeatFlux);
+        d.set(numNodes,d.get(numNodes) + (nu * thermalConductance.get(numNodes) * newTemps.get((numNodes + 1))));
         for (node=SURFACEnode ; node!=numNodes ; node+=1)
         {
-            c[node] = Divide(c[node], b[node], 0.0d);
-            d[node] = Divide(d[node], b[node], 0.0d);
-            b[node + 1] = b[node + 1] - (a[(node + 1)] * c[node]);
-            d[node + 1] = d[node + 1] - (a[(node + 1)] * d[node]);
+            c.set(node,Divide(c.get(node), b.get(node), 0.0d));
+            d.set(node,Divide(d.get(node), b.get(node), 0.0d));
+            b.set(node + 1,b.get(node + 1) - (a.get((node + 1)) * c.get(node)));
+            d.set(node + 1,d.get(node + 1) - (a.get((node + 1)) * d.get(node)));
         }
-        newTemps[numNodes] = Divide(d[numNodes], b[numNodes], 0.0d);
+        newTemps.set(numNodes,Divide(d.get(numNodes), b.get(numNodes), 0.0d));
         for (node=numNodes - 1 ; node!=SURFACEnode - 1 ; node+=-1)
         {
-            newTemps[node] = d[node] - (c[node] * newTemps[(node + 1)]);
+            newTemps.set(node,d.get(node) - (c.get(node) * newTemps.get((node + 1))));
         }
         return newTemps;
     }
-    public static double Divide(double val1, double val2, double errVal)
-    {
-        double returnValue = errVal;
-        if (val2 != 0.0d)
-        {
-            returnValue = val1 / val2;
-        }
-        return returnValue;
-    }
-    public doUpdate Calculate_doUpdate (Double [] tempNew, Double [] soilTemp, Double [] minSoilTemp, Double [] maxSoilTemp, Double [] aveSoilTemp, Double [] thermalConductivity, double boundaryLayerConductance, Integer IterationsPerDay, double timeOfDaySecs, double gDt, Integer numNodes)
+    public doUpdate Calculate_doUpdate (List<Double> tempNew, List<Double> soilTemp, List<Double> minSoilTemp, List<Double> maxSoilTemp, List<Double> aveSoilTemp, List<Double> thermalConductivity, double boundaryLayerConductance, Integer IterationsPerDay, double timeOfDaySecs, double gDt, Integer numNodes)
     {
         Integer SURFACEnode = 1;
         Integer AIRnode = 0;
         Integer node = 1;
-        for (node=0 ; node!=tempNew.length ; node+=1)
+        for (node=0 ; node!=tempNew.size() ; node+=1)
         {
-            soilTemp[node] = tempNew[node];
+            soilTemp.set(node,tempNew.get(node));
         }
         if (timeOfDaySecs < (gDt * 1.2d))
         {
             for (node=SURFACEnode ; node!=numNodes + 1 ; node+=1)
             {
-                minSoilTemp[node] = soilTemp[node];
-                maxSoilTemp[node] = soilTemp[node];
+                minSoilTemp.set(node,soilTemp.get(node));
+                maxSoilTemp.set(node,soilTemp.get(node));
             }
         }
         for (node=SURFACEnode ; node!=numNodes + 1 ; node+=1)
         {
-            if (soilTemp[node] < minSoilTemp[node])
+            if (soilTemp.get(node) < minSoilTemp.get(node))
             {
-                minSoilTemp[node] = soilTemp[node];
+                minSoilTemp.set(node,soilTemp.get(node));
             }
-            else if ( soilTemp[node] > maxSoilTemp[node])
+            else if ( soilTemp.get(node) > maxSoilTemp.get(node))
             {
-                maxSoilTemp[node] = soilTemp[node];
+                maxSoilTemp.set(node,soilTemp.get(node));
             }
-            aveSoilTemp[node] = aveSoilTemp[node] + Divide(soilTemp[node], (double)(IterationsPerDay), 0.0d);
+            aveSoilTemp.set(node,aveSoilTemp.get(node) + Divide(soilTemp.get(node), (double)(IterationsPerDay), 0.0d));
         }
-        boundaryLayerConductance = boundaryLayerConductance + Divide(thermalConductivity[AIRnode], (double)(IterationsPerDay), 0.0d);
+        boundaryLayerConductance = boundaryLayerConductance + Divide(thermalConductivity.get(AIRnode), (double)(IterationsPerDay), 0.0d);
         return new doUpdate(soilTemp, boundaryLayerConductance);
     }
-    public static double Divide(double val1, double val2, double errVal)
+    public doThermalConductivityCoeffs Calculate_doThermalConductivityCoeffs (Integer nbLayers, Integer numNodes, List<Double> BDApsim, List<Double> CLAYApsim)
     {
-        double returnValue = errVal;
-        if (val2 != 0.0d)
-        {
-            returnValue = val1 / val2;
-        }
-        return returnValue;
-    }
-    public doThermalConductivityCoeffs Calculate_doThermalConductivityCoeffs (Integer nbLayers, Integer numNodes, Double [] BDApsim, Double [] CLAYApsim)
-    {
-        Double[] thermalCondPar1 ;
-        Double[] thermalCondPar2 ;
-        Double[] thermalCondPar3 ;
-        Double[] thermalCondPar4 ;
+        List<Double> thermalCondPar1 = new ArrayList<>(Arrays.asList());
+        List<Double> thermalCondPar2 = new ArrayList<>(Arrays.asList());
+        List<Double> thermalCondPar3 = new ArrayList<>(Arrays.asList());
+        List<Double> thermalCondPar4 = new ArrayList<>(Arrays.asList());
         Integer layer;
         Integer element;
-        thermalCondPar1.fill(numNodes + 1, 0.0d);thermalCondPar2.fill(numNodes + 1, 0.0d);thermalCondPar3.fill(numNodes + 1, 0.0d);thermalCondPar4.fill(numNodes + 1, 0.0d);
+        thermalCondPar1 = new ArrayList<>(Arrays.asList(0.0d));
+        thermalCondPar2 = new ArrayList<>(Arrays.asList(0.0d));
+        thermalCondPar3 = new ArrayList<>(Arrays.asList(0.0d));
+        thermalCondPar4 = new ArrayList<>(Arrays.asList(0.0d));
+        for (layer=0 ; layer!=numNodes + 1 ; layer+=1)
+        {
+            thermalCondPar1.add(0.0d);
+            thermalCondPar2.add(0.0d);
+            thermalCondPar3.add(0.0d);
+            thermalCondPar4.add(0.0d);
+        }
         for (layer=1 ; layer!=nbLayers + 2 ; layer+=1)
         {
             element = layer;
-            thermalCondPar1[element] = 0.65d - (0.78d * BDApsim[layer]) + (0.6d * Math.pow(BDApsim[layer], 2));
-            thermalCondPar2[element] = 1.06d * BDApsim[layer];
-            thermalCondPar3[element] = Divide(2.6d, Math.sqrt(CLAYApsim[layer]), 0.0d);
-            thermalCondPar3[element] = 1.0d + thermalCondPar3[element];
-            thermalCondPar4[element] = 0.03d + (0.1d * Math.pow(BDApsim[layer], 2));
+            thermalCondPar1.set(element,0.65d - (0.78d * BDApsim.get(layer)) + (0.6d * Math.pow(BDApsim.get(layer), 2)));
+            thermalCondPar2.set(element,1.06d * BDApsim.get(layer));
+            thermalCondPar3.set(element,Divide(2.6d, Math.sqrt(CLAYApsim.get(layer)), 0.0d));
+            thermalCondPar3.set(element,1.0d + thermalCondPar3.get(element));
+            thermalCondPar4.set(element,0.03d + (0.1d * Math.pow(BDApsim.get(layer), 2)));
         }
         return new doThermalConductivityCoeffs(thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4);
     }
-    public static double Divide(double val1, double val2, double errVal)
+    public static List<Double> CalcSoilTemp(List<Double> THICKApsim, double tav, double tamp, Integer doy, double latitude, Integer numNodes)
     {
-        double returnValue = errVal;
-        if (val2 != 0.0d)
-        {
-            returnValue = val1 / val2;
-        }
-        return returnValue;
-    }
-    public static Double [] CalcSoilTemp(Double [] THICKApsim, double tav, double tamp, Integer doy, double latitude, Integer numNodes)
-    {
-        Double[] cumulativeDepth ;
-        Double[] soilTempIO ;
-        Double[] soilTemperat ;
+        List<Double> cumulativeDepth = new ArrayList<>(Arrays.asList());
+        List<Double> soilTempIO = new ArrayList<>(Arrays.asList());
+        List<Double> soilTemperat = new ArrayList<>(Arrays.asList());
         Integer Layer;
         Integer nodes;
         double tempValue;
@@ -1945,13 +1832,17 @@ public class Campbell
         double offset;
         Integer SURFACEnode = 1;
         double piVal = 3.141592653589793;
-        cumulativeDepth.fill(THICKApsim.length, 0.0d);
-        if (THICKApsim.length > 0)
+        cumulativeDepth = new ArrayList<>(Arrays.asList(0.0d));
+        for (Layer=0 ; Layer!=THICKApsim.size() ; Layer+=1)
         {
-            cumulativeDepth[0] = THICKApsim[0];
-            for (Layer=1 ; Layer!=THICKApsim.length ; Layer+=1)
+            cumulativeDepth.add(0.0d);
+        }
+        if (THICKApsim.size() > 0)
+        {
+            cumulativeDepth.set(0,THICKApsim.get(0));
+            for (Layer=1 ; Layer!=THICKApsim.size() ; Layer+=1)
             {
-                cumulativeDepth[Layer] = THICKApsim[Layer] + cumulativeDepth[Layer - 1];
+                cumulativeDepth.set(Layer,THICKApsim.get(Layer) + cumulativeDepth.get(Layer - 1));
             }
         }
         w = piVal;
@@ -1963,24 +1854,31 @@ public class Campbell
         if (latitude > 0.0d)
         {
             offset = -0.25d;
-        }soilTemperat.fill(numNodes + 2, 0.0d);soilTempIO.fill(numNodes + 1 + 1, 0.0d);
+        }
+        soilTemperat = new ArrayList<>(Arrays.asList(0.0d));
+        soilTempIO = new ArrayList<>(Arrays.asList(0.0d));
+        for (Layer=0 ; Layer!=numNodes + 1 ; Layer+=1)
+        {
+            soilTemperat.add(0.0d);
+            soilTempIO.add(0.0d);
+        }
         for (nodes=1 ; nodes!=numNodes + 1 ; nodes+=1)
         {
-            soilTemperat[nodes] = tav + (tamp * Math.exp(-1.0d * cumulativeDepth[nodes] / zd) * Math.sin(((doy / 365.0d + offset) * 2.0d * piVal - (cumulativeDepth[nodes] / zd))));
+            soilTemperat.set(nodes,tav + (tamp * Math.exp(-1.0d * cumulativeDepth.get(nodes) / zd) * Math.sin(((doy / 365.0d + offset) * 2.0d * piVal - (cumulativeDepth.get(nodes) / zd)))));
         }
         for (Layer=SURFACEnode ; Layer!=numNodes + 1 ; Layer+=1)
         {
-            soilTempIO[Layer] = soilTemperat[Layer - 1];
+            soilTempIO.set(Layer,soilTemperat.get(Layer - 1));
         }
         return soilTempIO;
     }
 }
 final class doNetRadiation {
-    private Double [] solarRadn;
-    public Double [] getsolarRadn()
+    private List<Double> solarRadn;
+    public List<Double> getsolarRadn()
     { return solarRadn; }
 
-    public void setsolarRadn(Double [] _solarRadn)
+    public void setsolarRadn(List<Double> _solarRadn)
     { this.solarRadn= _solarRadn; } 
     
     private double cloudFr;
@@ -1997,18 +1895,18 @@ final class doNetRadiation {
     public void setcva(double _cva)
     { this.cva= _cva; } 
     
-    public doNetRadiation(Double [] solarRadn,double cloudFr,double cva)
+    public doNetRadiation(List<Double> solarRadn,double cloudFr,double cva)
     {
         this.solarRadn = solarRadn;
         this.cloudFr = cloudFr;
         this.cva = cva;
     }
 }final class doUpdate {
-    private Double [] soilTemp;
-    public Double [] getsoilTemp()
+    private List<Double> soilTemp;
+    public List<Double> getsoilTemp()
     { return soilTemp; }
 
-    public void setsoilTemp(Double [] _soilTemp)
+    public void setsoilTemp(List<Double> _soilTemp)
     { this.soilTemp= _soilTemp; } 
     
     private double boundaryLayerConductance;
@@ -2018,41 +1916,41 @@ final class doNetRadiation {
     public void setboundaryLayerConductance(double _boundaryLayerConductance)
     { this.boundaryLayerConductance= _boundaryLayerConductance; } 
     
-    public doUpdate(Double [] soilTemp,double boundaryLayerConductance)
+    public doUpdate(List<Double> soilTemp,double boundaryLayerConductance)
     {
         this.soilTemp = soilTemp;
         this.boundaryLayerConductance = boundaryLayerConductance;
     }
 }final class doThermalConductivityCoeffs {
-    private Double [] thermalCondPar1;
-    public Double [] getthermalCondPar1()
+    private List<Double> thermalCondPar1;
+    public List<Double> getthermalCondPar1()
     { return thermalCondPar1; }
 
-    public void setthermalCondPar1(Double [] _thermalCondPar1)
+    public void setthermalCondPar1(List<Double> _thermalCondPar1)
     { this.thermalCondPar1= _thermalCondPar1; } 
     
-    private Double [] thermalCondPar2;
-    public Double [] getthermalCondPar2()
+    private List<Double> thermalCondPar2;
+    public List<Double> getthermalCondPar2()
     { return thermalCondPar2; }
 
-    public void setthermalCondPar2(Double [] _thermalCondPar2)
+    public void setthermalCondPar2(List<Double> _thermalCondPar2)
     { this.thermalCondPar2= _thermalCondPar2; } 
     
-    private Double [] thermalCondPar3;
-    public Double [] getthermalCondPar3()
+    private List<Double> thermalCondPar3;
+    public List<Double> getthermalCondPar3()
     { return thermalCondPar3; }
 
-    public void setthermalCondPar3(Double [] _thermalCondPar3)
+    public void setthermalCondPar3(List<Double> _thermalCondPar3)
     { this.thermalCondPar3= _thermalCondPar3; } 
     
-    private Double [] thermalCondPar4;
-    public Double [] getthermalCondPar4()
+    private List<Double> thermalCondPar4;
+    public List<Double> getthermalCondPar4()
     { return thermalCondPar4; }
 
-    public void setthermalCondPar4(Double [] _thermalCondPar4)
+    public void setthermalCondPar4(List<Double> _thermalCondPar4)
     { this.thermalCondPar4= _thermalCondPar4; } 
     
-    public doThermalConductivityCoeffs(Double [] thermalCondPar1,Double [] thermalCondPar2,Double [] thermalCondPar3,Double [] thermalCondPar4)
+    public doThermalConductivityCoeffs(List<Double> thermalCondPar1,List<Double> thermalCondPar2,List<Double> thermalCondPar3,List<Double> thermalCondPar4)
     {
         this.thermalCondPar1 = thermalCondPar1;
         this.thermalCondPar2 = thermalCondPar2;

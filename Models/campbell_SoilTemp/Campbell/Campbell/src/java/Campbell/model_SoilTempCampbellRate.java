@@ -2,12 +2,12 @@ import  java.io.*;
 import  java.util.*;
 import java.time.LocalDateTime;
 
-public class model_SoilTempCampbellRate
+public class Model_SoilTempCampbellRate
 {
     
-    public model_SoilTempCampbellRate() { }
+    public Model_SoilTempCampbellRate() { }
     
-    public model_SoilTempCampbellRate(model_SoilTempCampbellRate toCopy, boolean copyAll) // copy constructor 
+    public Model_SoilTempCampbellRate(Model_SoilTempCampbellRate toCopy, boolean copyAll) // copy constructor 
     {
         if (copyAll)
         {

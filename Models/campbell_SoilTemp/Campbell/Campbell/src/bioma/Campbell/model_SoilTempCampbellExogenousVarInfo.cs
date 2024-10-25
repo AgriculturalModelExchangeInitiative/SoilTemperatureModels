@@ -5,22 +5,13 @@ using CRA.ModelLayer.Core;
 using System.Reflection;
 using CRA.ModelLayer.ParametersManagement;   
 
-namespace model_SoilTempCampbell.DomainClass
+namespace Model_SoilTempCampbell.DomainClass
                                 {
-                                    public class model_SoilTempCampbellExogenousVarInfo : IVarInfoClass
+                                    public class Model_SoilTempCampbellExogenousVarInfo : IVarInfoClass
                                     {
-                                        static VarInfo _THICK = new VarInfo();
-                                        static VarInfo _BD = new VarInfo();
-                                        static VarInfo _SLCARB = new VarInfo();
-                                        static VarInfo _CLAY = new VarInfo();
-                                        static VarInfo _SLROCK = new VarInfo();
-                                        static VarInfo _SLSILT = new VarInfo();
-                                        static VarInfo _SLSAND = new VarInfo();
-                                        static VarInfo _SW = new VarInfo();
                                         static VarInfo _T2M = new VarInfo();
                                         static VarInfo _TMAX = new VarInfo();
                                         static VarInfo _TMIN = new VarInfo();
-                                        static VarInfo _TAV = new VarInfo();
                                         static VarInfo _DOY = new VarInfo();
                                         static VarInfo _airPressure = new VarInfo();
                                         static VarInfo _canopyHeight = new VarInfo();
@@ -30,14 +21,14 @@ namespace model_SoilTempCampbell.DomainClass
                                         static VarInfo _EOAD = new VarInfo();
                                         static VarInfo _windSpeed = new VarInfo();
 
-                                        static model_SoilTempCampbellExogenousVarInfo()
+                                        static Model_SoilTempCampbellExogenousVarInfo()
                                         {
-                                            model_SoilTempCampbellExogenousVarInfo.DescribeVariables();
+                                            Model_SoilTempCampbellExogenousVarInfo.DescribeVariables();
                                         }
 
                                         public virtual string Description
                                         {
-                                            get { return "model_SoilTempCampbellExogenous Domain class of the component";}
+                                            get { return "Model_SoilTempCampbellExogenous Domain class of the component";}
                                         }
 
                                         public string URL
@@ -47,47 +38,7 @@ namespace model_SoilTempCampbell.DomainClass
 
                                         public string DomainClassOfReference
                                         {
-                                            get { return "model_SoilTempCampbellExogenous";}
-                                        }
-
-                                        public static  VarInfo THICK
-                                        {
-                                            get { return _THICK;}
-                                        }
-
-                                        public static  VarInfo BD
-                                        {
-                                            get { return _BD;}
-                                        }
-
-                                        public static  VarInfo SLCARB
-                                        {
-                                            get { return _SLCARB;}
-                                        }
-
-                                        public static  VarInfo CLAY
-                                        {
-                                            get { return _CLAY;}
-                                        }
-
-                                        public static  VarInfo SLROCK
-                                        {
-                                            get { return _SLROCK;}
-                                        }
-
-                                        public static  VarInfo SLSILT
-                                        {
-                                            get { return _SLSILT;}
-                                        }
-
-                                        public static  VarInfo SLSAND
-                                        {
-                                            get { return _SLSAND;}
-                                        }
-
-                                        public static  VarInfo SW
-                                        {
-                                            get { return _SW;}
+                                            get { return "Model_SoilTempCampbellExogenous";}
                                         }
 
                                         public static  VarInfo T2M
@@ -103,11 +54,6 @@ namespace model_SoilTempCampbell.DomainClass
                                         public static  VarInfo TMIN
                                         {
                                             get { return _TMIN;}
-                                        }
-
-                                        public static  VarInfo TAV
-                                        {
-                                            get { return _TAV;}
                                         }
 
                                         public static  VarInfo DOY
@@ -152,70 +98,6 @@ namespace model_SoilTempCampbell.DomainClass
 
                                         static void DescribeVariables()
                                         {
-                                            _THICK.Name = "THICK";
-                                            _THICK.Description = "Soil layer depths as THICKApsim of layers";
-                                            _THICK.MaxValue = -1D;
-                                            _THICK.MinValue = -1D;
-                                            _THICK.DefaultValue = -1D;
-                                            _THICK.Units = "mm";
-                                            _THICK.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
-
-                                            _BD.Name = "BD";
-                                            _BD.Description = "bd (soil bulk density)";
-                                            _BD.MaxValue = -1D;
-                                            _BD.MinValue = -1D;
-                                            _BD.DefaultValue = -1D;
-                                            _BD.Units = "g/cm3             uri :";
-                                            _BD.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
-
-                                            _SLCARB.Name = "SLCARB";
-                                            _SLCARB.Description = "Volumetric fraction of organic matter in the soil";
-                                            _SLCARB.MaxValue = -1D;
-                                            _SLCARB.MinValue = -1D;
-                                            _SLCARB.DefaultValue = -1D;
-                                            _SLCARB.Units = "";
-                                            _SLCARB.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
-
-                                            _CLAY.Name = "CLAY";
-                                            _CLAY.Description = "Proportion of CLAYApsim in each layer of profile";
-                                            _CLAY.MaxValue = -1D;
-                                            _CLAY.MinValue = -1D;
-                                            _CLAY.DefaultValue = -1D;
-                                            _CLAY.Units = "";
-                                            _CLAY.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
-
-                                            _SLROCK.Name = "SLROCK";
-                                            _SLROCK.Description = "Volumetric fraction of SLROCKApsim in the soil";
-                                            _SLROCK.MaxValue = -1D;
-                                            _SLROCK.MinValue = -1D;
-                                            _SLROCK.DefaultValue = -1D;
-                                            _SLROCK.Units = "";
-                                            _SLROCK.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
-
-                                            _SLSILT.Name = "SLSILT";
-                                            _SLSILT.Description = "Volumetric fraction of SLSILTApsim in the soil";
-                                            _SLSILT.MaxValue = -1D;
-                                            _SLSILT.MinValue = -1D;
-                                            _SLSILT.DefaultValue = -1D;
-                                            _SLSILT.Units = "";
-                                            _SLSILT.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
-
-                                            _SLSAND.Name = "SLSAND";
-                                            _SLSAND.Description = "Volumetric fraction of SLSANDApsim in the soil";
-                                            _SLSAND.MaxValue = -1D;
-                                            _SLSAND.MinValue = -1D;
-                                            _SLSAND.DefaultValue = -1D;
-                                            _SLSAND.Units = "";
-                                            _SLSAND.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
-
-                                            _SW.Name = "SW";
-                                            _SW.Description = "volumetric water content";
-                                            _SW.MaxValue = -1D;
-                                            _SW.MinValue = -1D;
-                                            _SW.DefaultValue = -1D;
-                                            _SW.Units = "cc water / cc soil";
-                                            _SW.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
-
                                             _T2M.Name = "T2M";
                                             _T2M.Description = "Mean daily Air temperature";
                                             _T2M.MaxValue = 60;
@@ -239,14 +121,6 @@ namespace model_SoilTempCampbell.DomainClass
                                             _TMIN.DefaultValue = -1D;
                                             _TMIN.Units = "";
                                             _TMIN.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
-
-                                            _TAV.Name = "TAV";
-                                            _TAV.Description = "Average daily Air temperature";
-                                            _TAV.MaxValue = 60;
-                                            _TAV.MinValue = -60;
-                                            _TAV.DefaultValue = -1D;
-                                            _TAV.Units = "";
-                                            _TAV.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
                                             _DOY.Name = "DOY";
                                             _DOY.Description = "Day of year";
