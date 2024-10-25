@@ -58,7 +58,7 @@ def init_campbell(NLAYR: int,
     SLSILTApsim:'List[float]'
 
     #Constants
-    soilRoughnessHeight:float = 57.0
+    soilRoughnessHeight:float = 0.057
     defaultInstrumentHeight:float = 1.2
     AltitudeMetres:float = 18.0
     NUM_PHANTOM_NODES:int = 5
@@ -173,6 +173,7 @@ def init_campbell(NLAYR: int,
     thermalCondPar1,thermalCondPar2,thermalCondPar3,thermalCondPar4 = doThermalConductivityCoeffs(NLAYR, numNodes, BDApsim, CLAYApsim)
     newTemperature = CalcSoilTemp(THICKApsim, TAV, TAMP, DOY, XLAT,numNodes)
 
+    canopyHeight = max(canopyHeight, soilRoughnessHeight)
     instrumentHeight = max(instrumentHeight, canopyHeight + 0.5)
 
     soilTemp = CalcSoilTemp(THICKApsim, TAV, TAMP, DOY, XLAT,numNodes)
@@ -1100,6 +1101,7 @@ def model_campbell(NLAYR: int,
     MJ2J: float = 1000000.0
     J2MJ: float = 1.0 / MJ2J
     tempStepSec: float = 24.0 * 60.0 * 60.0
+    soilRoughnessHeight: float = 0.057
     BoundaryLayerConductanceIterations: int = 1
     numNodes:int = NLAYR + NUM_PHANTOM_NODES
     soilConstituentNames : 'Array[str]' = ['Rocks', "OrganicMatter", "Sand", "Silt", "Clay", "Water", "Ice", "Air"]
@@ -1116,6 +1118,7 @@ def model_campbell(NLAYR: int,
     iteration:int
     tMean:float
 
+    canopyHeight = max(canopyHeight, soilRoughnessHeight)
     cva = 0.0
     cloudFr = 0.0
     solarRadn = [0.0]  # Total incoming short wave solar radiation per timestep
