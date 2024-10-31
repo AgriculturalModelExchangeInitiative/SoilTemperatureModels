@@ -13,8 +13,7 @@ def init_stmpsimcalculator(cSoilLayerDepth:'Array[float]',
          cAVT:float,
          cABD:float,
          cDampingDepth:float,
-         iSoilWaterContent:float,
-         iSoilSurfaceTemperature:float):
+         iSoilWaterContent:float):
     SoilTempArray:'array[float]'
     rSoilTempArrayRate:'array[float]'
     pSoilLayerDepth:'array[float]'
@@ -129,7 +128,7 @@ def model_stmpsimcalculator(cSoilLayerDepth:'Array[float]',
                  * name: iSoilSurfaceTemperature
                                ** description : Temperature at soil surface
                                ** inputtype : variable
-                               ** variablecategory : exogenous
+                               ** variablecategory : auxiliary
                                ** datatype : DOUBLE
                                ** max : 20.0
                                ** min : 1.5

@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE configuration PUBLIC "-//SIMPLACE/DTD GRP 1.0//EN" "https://simplace.net/dtd/GroupComponent.dtd">
+<!--DOCTYPE configuration PUBLIC "-//SIMPLACE/DTD GRP 1.0//EN" "https://simplace.net/dtd/GroupComponent.dtd"-->
 <configuration class="soil.temperature.SoilTemperature">
 	<simgroup>
 		<simcomponent id="SnowCoverCalculator" class="net.simplace.sim.components.soil.temperature.SnowCoverCalculator">
 			<input id="cCarbonContent" source="SoilTemperature.cCarbonContent" />
 			<input id="Albedo" source="SoilTemperature.cAlbedo" />
+			<input id="cInitialAgeOfSnow" source="SoilTemperature.cInitialAgeOfSnow" />
+			<input id="cInitialSnowWaterContent" source="SoilTemperature.cInitialSnowWaterContent" />
+			<input id="cSnowIsolationFactorA" source="SoilTemperature.cSnowIsolationFactorA" />
+			<input id="cSnowIsolationFactorB" source="SoilTemperature.cSnowIsolationFactorB" />
 			<input id="iTempMax" source="SoilTemperature.iAirTemperatureMax" />
 			<input id="iTempMin" source="SoilTemperature.iAirTemperatureMin" />
 			<input id="iRadiation" source="SoilTemperature.iGlobalSolarRadiation" />

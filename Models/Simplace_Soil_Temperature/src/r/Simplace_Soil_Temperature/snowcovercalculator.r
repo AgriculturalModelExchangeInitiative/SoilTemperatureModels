@@ -1,5 +1,26 @@
 library(gsubfn)
 
+#' @Title Initialization of the SnowCoverCalculator model
+#' @param cCarbonContent (http://www.wurvoc.org/vocabularies/om-1.8/percent) Carbon content of upper soil layer constant (0.5, 0.5-20.0) 
+#' @param cInitialAgeOfSnow (http://www.wurvoc.org/vocabularies/om-1.8/percent) Initial age of snow constant (0, 0-) 
+#' @param cInitialSnowWaterContent (http://www.wurvoc.org/vocabularies/om-1.8/percent) Initial snow water content constant (0.0, 0.0-1500.0) 
+#' @param Albedo (http://www.wurvoc.org/vocabularies/om-1.8/one) Albedo constant (, 0.0-1.0) 
+#' @param cSnowIsolationFactorA (http://www.wurvoc.org/vocabularies/om-1.8/one) Static part of the snow isolation index calculation constant (2.3, 0.0-10.0) 
+#' @param cSnowIsolationFactorB (http://www.wurvoc.org/vocabularies/om-1.8/one) Dynamic part of the snow isolation index calculation constant (0.22, 0.0-1.0) 
+#' @param iTempMax (http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius) Daily maximum air temperature exogenous (, -40.0-50.0) 
+#' @param iTempMin (http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius) Daily minimum air temperature exogenous (, -40.0-50.0) 
+#' @param iRadiation (http://www.wurvoc.org/vocabularies/om-1.8/megajoule_per_square_metre) Global Solar radiation exogenous (, 0.0-2000.0) 
+#' @param iRAIN (http://www.wurvoc.org/vocabularies/om-1.8/millimetre) Rain amount exogenous (0.0, 0.0-60.0) 
+#' @param iCropResidues (http://www.wurvoc.org/vocabularies/om-1.8/gram_per_square_metre) Crop residues plus above ground biomass exogenous (, 0.0-20000.0) 
+#' @param iPotentialSoilEvaporation (http://www.wurvoc.org/vocabularies/om-1.8/millimetre) Potenial Evaporation exogenous (0.0, 0.0-12.0) 
+#' @param iLeafAreaIndex (http://www.wurvoc.org/vocabularies/om-1.8/square_metre_per_square_metre) Leaf area index exogenous (, 0.0-10.0) 
+#'
+#' @return
+#'   \item SnowWaterContent (http://www.wurvoc.org/vocabularies/om-1.8/millimetre) Snow water content state (0.0-) 
+#'   \item SoilSurfaceTemperature (http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius) Soil surface temperature state (-40.0-) 
+#'   \item AgeOfSnow (http://www.wurvoc.org/vocabularies/om-1.8/day) Age of snow state (0-) 
+#'
+#' @export
 init_snowcovercalculator <- function (cCarbonContent,
          cInitialAgeOfSnow,
          cInitialSnowWaterContent,
@@ -12,8 +33,7 @@ init_snowcovercalculator <- function (cCarbonContent,
          iRAIN,
          iCropResidues,
          iPotentialSoilEvaporation,
-         iLeafAreaIndex,
-         iSoilTempArray){
+         iLeafAreaIndex){
     SnowWaterContent <- 0.0
     SoilSurfaceTemperature <- 0.0
     AgeOfSnow <- 0
@@ -35,6 +55,42 @@ init_snowcovercalculator <- function (cCarbonContent,
     return (list ("pInternalAlbedo" = pInternalAlbedo,"SnowWaterContent" = SnowWaterContent,"SoilSurfaceTemperature" = SoilSurfaceTemperature,"AgeOfSnow" = AgeOfSnow))
 }
 
+#' @Title SnowCoverCalculator model
+#' @Description as given in the documentation
+#' @Authors Gunther Krauss 
+#' @Institutions INRES Pflanzenbau, Uni Bonn
+#' @Reference ('http://www.simplace.net/doc/simplace_modules/',)
+#' @Version 001
+#'
+#' @param cCarbonContent (http://www.wurvoc.org/vocabularies/om-1.8/percent) Carbon content of upper soil layer constant (0.5, 0.5-20.0) 
+#' @param cInitialAgeOfSnow (http://www.wurvoc.org/vocabularies/om-1.8/percent) Initial age of snow constant (0, 0-) 
+#' @param cInitialSnowWaterContent (http://www.wurvoc.org/vocabularies/om-1.8/percent) Initial snow water content constant (0.0, 0.0-1500.0) 
+#' @param Albedo (http://www.wurvoc.org/vocabularies/om-1.8/one) Albedo constant (, 0.0-1.0) 
+#' @param pInternalAlbedo (http://www.wurvoc.org/vocabularies/om-1.8/one) Albedo privat state (, 0.0-1.0) 
+#' @param cSnowIsolationFactorA (http://www.wurvoc.org/vocabularies/om-1.8/one) Static part of the snow isolation index calculation constant (2.3, 0.0-10.0) 
+#' @param cSnowIsolationFactorB (http://www.wurvoc.org/vocabularies/om-1.8/one) Dynamic part of the snow isolation index calculation constant (0.22, 0.0-1.0) 
+#' @param iTempMax (http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius) Daily maximum air temperature exogenous (, -40.0-50.0) 
+#' @param iTempMin (http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius) Daily minimum air temperature exogenous (, -40.0-50.0) 
+#' @param iRadiation (http://www.wurvoc.org/vocabularies/om-1.8/megajoule_per_square_metre) Global Solar radiation exogenous (, 0.0-2000.0) 
+#' @param iRAIN (http://www.wurvoc.org/vocabularies/om-1.8/millimetre) Rain amount exogenous (0.0, 0.0-60.0) 
+#' @param iCropResidues (http://www.wurvoc.org/vocabularies/om-1.8/gram_per_square_metre) Crop residues plus above ground biomass exogenous (, 0.0-20000.0) 
+#' @param iPotentialSoilEvaporation (http://www.wurvoc.org/vocabularies/om-1.8/millimetre) Potenial Evaporation exogenous (0.0, 0.0-12.0) 
+#' @param iLeafAreaIndex (http://www.wurvoc.org/vocabularies/om-1.8/square_metre_per_square_metre) Leaf area index exogenous (, 0.0-10.0) 
+#' @param iSoilTempArray (http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius) Soil Temp array of last day auxiliary (, -15.0-35.0) 
+#' @param SnowWaterContent (http://www.wurvoc.org/vocabularies/om-1.8/millimetre) Snow water content state (0.0, 0.0-1500.0) 
+#' @param SoilSurfaceTemperature (http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius) Soil surface temperature state (0.0, -40.0-70.0) 
+#' @param AgeOfSnow (http://www.wurvoc.org/vocabularies/om-1.8/day) Age of snow state (0, 0-) 
+#'
+#' @return
+#'   \item SnowWaterContent (http://www.wurvoc.org/vocabularies/om-1.8/millimetre) Snow water content state (0.0-) 
+#'   \item SoilSurfaceTemperature (http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius) Soil surface temperature state (-40.0-) 
+#'   \item AgeOfSnow (http://www.wurvoc.org/vocabularies/om-1.8/day) Age of snow state (0-) 
+#'   \item rSnowWaterContentRate (http://www.wurvoc.org/vocabularies/om-1.8/millimetre_per_day) daily snow water content change rate rate (-1500.0-) 
+#'   \item rSoilSurfaceTemperatureRate (http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day) daily soil surface temperature change rate rate (-40.0-) 
+#'   \item rAgeOfSnowRate (http://www.wurvoc.org/vocabularies/om-1.8/one) daily age of snow change rate rate (-) 
+#'   \item SnowIsolationIndex (http://www.wurvoc.org/vocabularies/om-1.8/one) Snow isolation index auxiliary (0.0-) 
+#'
+#' @export
 model_snowcovercalculator <- function (cCarbonContent,
          cInitialAgeOfSnow,
          cInitialSnowWaterContent,
@@ -53,228 +109,6 @@ model_snowcovercalculator <- function (cCarbonContent,
          SnowWaterContent,
          SoilSurfaceTemperature,
          AgeOfSnow){
-    #'- Name: SnowCoverCalculator -Version: 001, -Time step: 1
-    #'- Description:
-    #'            * Title: SnowCoverCalculator model
-    #'            * Authors: Gunther Krauss
-    #'            * Reference: ('http://www.simplace.net/doc/simplace_modules/',)
-    #'            * Institution: INRES Pflanzenbau, Uni Bonn
-    #'            * ExtendedDescription: as given in the documentation
-    #'            * ShortDescription: None
-    #'- inputs:
-    #'            * name: cCarbonContent
-    #'                          ** description : Carbon content of upper soil layer
-    #'                          ** inputtype : parameter
-    #'                          ** parametercategory : constant
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 20.0
-    #'                          ** min : 0.5
-    #'                          ** default : 0.5
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/percent
-    #'            * name: cInitialAgeOfSnow
-    #'                          ** description : Initial age of snow
-    #'                          ** inputtype : parameter
-    #'                          ** parametercategory : constant
-    #'                          ** datatype : INT
-    #'                          ** max : 
-    #'                          ** min : 0
-    #'                          ** default : 0
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/percent
-    #'            * name: cInitialSnowWaterContent
-    #'                          ** description : Initial snow water content
-    #'                          ** inputtype : parameter
-    #'                          ** parametercategory : constant
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 1500.0
-    #'                          ** min : 0.0
-    #'                          ** default : 0.0
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/percent
-    #'            * name: Albedo
-    #'                          ** description : Albedo
-    #'                          ** inputtype : parameter
-    #'                          ** parametercategory : constant
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 1.0
-    #'                          ** min : 0.0
-    #'                          ** default : 
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
-    #'            * name: pInternalAlbedo
-    #'                          ** description : Albedo privat
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : state
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 1.0
-    #'                          ** min : 0.0
-    #'                          ** default : 
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
-    #'            * name: cSnowIsolationFactorA
-    #'                          ** description : Static part of the snow isolation index calculation
-    #'                          ** inputtype : parameter
-    #'                          ** parametercategory : constant
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 10.0
-    #'                          ** min : 0.0
-    #'                          ** default : 2.3
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
-    #'            * name: cSnowIsolationFactorB
-    #'                          ** description : Dynamic part of the snow isolation index calculation
-    #'                          ** inputtype : parameter
-    #'                          ** parametercategory : constant
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 1.0
-    #'                          ** min : 0.0
-    #'                          ** default : 0.22
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
-    #'            * name: iTempMax
-    #'                          ** description : Daily maximum air temperature
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 50.0
-    #'                          ** min : -40.0
-    #'                          ** default : 
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
-    #'            * name: iTempMin
-    #'                          ** description : Daily minimum air temperature
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 50.0
-    #'                          ** min : -40.0
-    #'                          ** default : 
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
-    #'            * name: iRadiation
-    #'                          ** description : Global Solar radiation
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 2000.0
-    #'                          ** min : 0.0
-    #'                          ** default : 
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/megajoule_per_square_metre
-    #'            * name: iRAIN
-    #'                          ** description : Rain amount
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 60.0
-    #'                          ** min : 0.0
-    #'                          ** default : 0.0
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/millimetre
-    #'            * name: iCropResidues
-    #'                          ** description : Crop residues plus above ground biomass
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 20000.0
-    #'                          ** min : 0.0
-    #'                          ** default : 
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/gram_per_square_metre
-    #'            * name: iPotentialSoilEvaporation
-    #'                          ** description : Potenial Evaporation
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 12.0
-    #'                          ** min : 0.0
-    #'                          ** default : 0.0
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/millimetre
-    #'            * name: iLeafAreaIndex
-    #'                          ** description : Leaf area index
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 10.0
-    #'                          ** min : 0.0
-    #'                          ** default : 
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/square_metre_per_square_metre
-    #'            * name: iSoilTempArray
-    #'                          ** description : Soil Temp array of last day
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
-    #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 
-    #'                          ** max : 35.0
-    #'                          ** min : -15.0
-    #'                          ** default : 
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
-    #'            * name: SnowWaterContent
-    #'                          ** description : Snow water content
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : state
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 1500.0
-    #'                          ** min : 0.0
-    #'                          ** default : 0.0
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/millimetre
-    #'            * name: SoilSurfaceTemperature
-    #'                          ** description : Soil surface temperature
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : state
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 70.0
-    #'                          ** min : -40.0
-    #'                          ** default : 0.0
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
-    #'            * name: AgeOfSnow
-    #'                          ** description : Age of snow
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : state
-    #'                          ** datatype : INT
-    #'                          ** max : 
-    #'                          ** min : 0
-    #'                          ** default : 0
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/day
-    #'- outputs:
-    #'            * name: SnowWaterContent
-    #'                          ** description : Snow water content
-    #'                          ** datatype : DOUBLE
-    #'                          ** variablecategory : state
-    #'                          ** max : 1500.0
-    #'                          ** min : 0.0
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/millimetre
-    #'            * name: SoilSurfaceTemperature
-    #'                          ** description : Soil surface temperature
-    #'                          ** datatype : DOUBLE
-    #'                          ** variablecategory : state
-    #'                          ** max : 70.0
-    #'                          ** min : -40.0
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
-    #'            * name: AgeOfSnow
-    #'                          ** description : Age of snow
-    #'                          ** datatype : INT
-    #'                          ** variablecategory : state
-    #'                          ** max : 
-    #'                          ** min : 0
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/day
-    #'            * name: rSnowWaterContentRate
-    #'                          ** description : daily snow water content change rate
-    #'                          ** datatype : DOUBLE
-    #'                          ** variablecategory : rate
-    #'                          ** max : 1500.0
-    #'                          ** min : -1500.0
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/millimetre_per_day
-    #'            * name: rSoilSurfaceTemperatureRate
-    #'                          ** description : daily soil surface temperature change rate
-    #'                          ** datatype : DOUBLE
-    #'                          ** variablecategory : rate
-    #'                          ** max : 70.0
-    #'                          ** min : -40.0
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
-    #'            * name: rAgeOfSnowRate
-    #'                          ** description : daily age of snow change rate
-    #'                          ** datatype : INT
-    #'                          ** variablecategory : rate
-    #'                          ** max : 
-    #'                          ** min : 
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
-    #'            * name: SnowIsolationIndex
-    #'                          ** description : Snow isolation index
-    #'                          ** datatype : DOUBLE
-    #'                          ** variablecategory : auxiliary
-    #'                          ** max : 1.0
-    #'                          ** min : 0.0
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
     tiCropResidues <- iCropResidues * 10.0
     tiSoilTempArray <- iSoilTempArray[1]
     TMEAN <- 0.5 * (iTempMax + iTempMin)
@@ -299,7 +133,7 @@ model_snowcovercalculator <- function (cCarbonContent,
         tSnowIsolationIndex <- max(SnowWaterContent / (SnowWaterContent + exp(cSnowIsolationFactorA - (cSnowIsolationFactorB * SnowWaterContent))), tSnowIsolationIndex)
         tSoilSurfaceTemperature <- (1 - tSnowIsolationIndex) * DST + (tSnowIsolationIndex * tiSoilTempArray)
     }
-    if (SnowWaterContent == as.double(0) && not (iRAIN > as.double(0) && tiSoilTempArray < as.double(1)))
+    if (SnowWaterContent == as.double(0) && !(iRAIN > as.double(0) && tiSoilTempArray < as.double(1)))
     {
         SnowWaterContent <- as.double(0)
     }
