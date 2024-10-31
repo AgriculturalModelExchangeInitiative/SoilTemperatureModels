@@ -27,6 +27,10 @@ def simulation(datafile, vardata, params, init):
     #parameters
     cCarbonContent = params.loc[params["name"]=="cCarbonContent", "value"].iloc[0]
     cAlbedo = params.loc[params["name"]=="cAlbedo", "value"].iloc[0]
+    cInitialAgeOfSnow = params.loc[params["name"]=="cInitialAgeOfSnow", "value"].iloc[0]
+    cInitialSnowWaterContent = params.loc[params["name"]=="cInitialSnowWaterContent", "value"].iloc[0]
+    cSnowIsolationFactorA = params.loc[params["name"]=="cSnowIsolationFactorA", "value"].iloc[0]
+    cSnowIsolationFactorB = params.loc[params["name"]=="cSnowIsolationFactorB", "value"].iloc[0]
     cSoilLayerDepth = params.loc[params["name"]=="cSoilLayerDepth", "value"].iloc[0]
     cFirstDayMeanTemp = params.loc[params["name"]=="cFirstDayMeanTemp", "value"].iloc[0]
     cAverageGroundTemperature = params.loc[params["name"]=="cAverageGroundTemperature", "value"].iloc[0]
@@ -55,7 +59,7 @@ def simulation(datafile, vardata, params, init):
         AgeOfSnow = t_AgeOfSnow[i]
         rSoilTempArrayRate = t_rSoilTempArrayRate[i]
         pSoilLayerDepth = t_pSoilLayerDepth[i]
-        SoilSurfaceTemperature,SnowIsolationIndex,SnowWaterContent,rSnowWaterContentRate,rSoilSurfaceTemperatureRate,rAgeOfSnowRate,AgeOfSnow,SoilTempArray,rSoilTempArrayRate= SoilTemperatureComponent.model_soiltemperature(cCarbonContent,cAlbedo,iAirTemperatureMax,iAirTemperatureMin,iGlobalSolarRadiation,iRAIN,iCropResidues,iPotentialSoilEvaporation,iLeafAreaIndex,SoilTempArray,cSoilLayerDepth,cFirstDayMeanTemp,cAverageGroundTemperature,cAverageBulkDensity,cDampingDepth,iSoilWaterContent,pInternalAlbedo,SnowWaterContent,SoilSurfaceTemperature,AgeOfSnow,rSoilTempArrayRate,pSoilLayerDepth)
+        SoilSurfaceTemperature,SnowIsolationIndex,SnowWaterContent,rSnowWaterContentRate,rSoilSurfaceTemperatureRate,rAgeOfSnowRate,AgeOfSnow,SoilTempArray,rSoilTempArrayRate= SoilTemperatureComponent.model_soiltemperature(cCarbonContent,cAlbedo,cInitialAgeOfSnow,cInitialSnowWaterContent,cSnowIsolationFactorA,cSnowIsolationFactorB,iAirTemperatureMax,iAirTemperatureMin,iGlobalSolarRadiation,iRAIN,iCropResidues,iPotentialSoilEvaporation,iLeafAreaIndex,SoilTempArray,cSoilLayerDepth,cFirstDayMeanTemp,cAverageGroundTemperature,cAverageBulkDensity,cDampingDepth,iSoilWaterContent,pInternalAlbedo,SnowWaterContent,SoilSurfaceTemperature,AgeOfSnow,rSoilTempArrayRate,pSoilLayerDepth)
 
         df_out.loc[i] = [SoilSurfaceTemperature,SnowIsolationIndex,SnowWaterContent,rSnowWaterContentRate,rSoilSurfaceTemperatureRate,rAgeOfSnowRate,AgeOfSnow,SoilTempArray,rSoilTempArrayRate]
     df_out.insert(0, 'date', pd.to_datetime(df.year*10000 + df.month*100 + df.day, format='%Y%m%d'), True)

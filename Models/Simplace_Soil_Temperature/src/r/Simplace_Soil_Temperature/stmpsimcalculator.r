@@ -1,12 +1,24 @@
 library(gsubfn)
 
+#' @Title Initialization of the STMPsimCalculator model
+#' @param cSoilLayerDepth (http://www.wurvoc.org/vocabularies/om-1.8/metre) Depth of soil layer constant (, 0.03-20.0) 
+#' @param cFirstDayMeanTemp (http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius) Mean air temperature on first day constant (, -40.0-50.0) 
+#' @param cAVT (http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius) Constant Temperature of deepest soil layer - use long term mean air temperature constant (, -10.0-20.0) 
+#' @param cABD (http://www.wurvoc.org/vocabularies/om-1.8/tonne_per_cubic_metre) Mean bulk density constant (2.0, 1.0-4.0) 
+#' @param cDampingDepth (http://www.wurvoc.org/vocabularies/om-1.8/metre) Initial value for damping depth of soil constant (6.0, 1.5-20.0) 
+#' @param iSoilWaterContent (http://www.wurvoc.org/vocabularies/om-1.8/millimetre) Water content, sum of whole soil profile exogenous (5.0, 1.5-20.0) 
+#'
+#' @return
+#'   \item SoilTempArray (http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius) Array of soil temperatures in layers  state (-40.0-20.0) 
+#'   \item rSoilTempArrayRate (http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day) Array of daily temperature change state (-20-20.0) 
+#'
+#' @export
 init_stmpsimcalculator <- function (cSoilLayerDepth,
          cFirstDayMeanTemp,
          cAVT,
          cABD,
          cDampingDepth,
-         iSoilWaterContent,
-         iSoilSurfaceTemperature){
+         iSoilWaterContent){
     SoilTempArray<- vector()
     rSoilTempArrayRate<- vector()
     pSoilLayerDepth<- vector()
@@ -41,6 +53,29 @@ init_stmpsimcalculator <- function (cSoilLayerDepth,
     return (list ("SoilTempArray" = SoilTempArray,"rSoilTempArrayRate" = rSoilTempArrayRate,"pSoilLayerDepth" = pSoilLayerDepth))
 }
 
+#' @Title STMPsimCalculator model
+#' @Description as given in the documentation
+#' @Authors Gunther Krauss 
+#' @Institutions INRES Pflanzenbau, Uni Bonn
+#' @Reference ('http://www.simplace.net/doc/simplace_modules/',)
+#' @Version 001
+#'
+#' @param cSoilLayerDepth (http://www.wurvoc.org/vocabularies/om-1.8/metre) Depth of soil layer constant (, 0.03-20.0) 
+#' @param cFirstDayMeanTemp (http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius) Mean air temperature on first day constant (, -40.0-50.0) 
+#' @param cAVT (http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius) Constant Temperature of deepest soil layer - use long term mean air temperature constant (, -10.0-20.0) 
+#' @param cABD (http://www.wurvoc.org/vocabularies/om-1.8/tonne_per_cubic_metre) Mean bulk density constant (2.0, 1.0-4.0) 
+#' @param cDampingDepth (http://www.wurvoc.org/vocabularies/om-1.8/metre) Initial value for damping depth of soil constant (6.0, 1.5-20.0) 
+#' @param iSoilWaterContent (http://www.wurvoc.org/vocabularies/om-1.8/millimetre) Water content, sum of whole soil profile exogenous (5.0, 1.5-20.0) 
+#' @param iSoilSurfaceTemperature (http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius) Temperature at soil surface auxiliary (, 1.5-20.0) 
+#' @param SoilTempArray (http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius) Array of soil temperatures in layers  state (, -40.0-50.0) 
+#' @param rSoilTempArrayRate (http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day) Array of daily temperature change state (, -20-20) 
+#' @param pSoilLayerDepth (http://www.wurvoc.org/vocabularies/om-1.8/metre) Depth of soil layer plus additional depth state (, 0.03-20.0) 
+#'
+#' @return
+#'   \item SoilTempArray (http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius) Array of soil temperatures in layers  state (-40.0-20.0) 
+#'   \item rSoilTempArrayRate (http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day) Array of daily temperature change state (-20-20.0) 
+#'
+#' @export
 model_stmpsimcalculator <- function (cSoilLayerDepth,
          cFirstDayMeanTemp,
          cAVT,
@@ -51,126 +86,6 @@ model_stmpsimcalculator <- function (cSoilLayerDepth,
          SoilTempArray,
          rSoilTempArrayRate,
          pSoilLayerDepth){
-    #'- Name: STMPsimCalculator -Version: 001, -Time step: 1
-    #'- Description:
-    #'            * Title: STMPsimCalculator model
-    #'            * Authors: Gunther Krauss
-    #'            * Reference: ('http://www.simplace.net/doc/simplace_modules/',)
-    #'            * Institution: INRES Pflanzenbau, Uni Bonn
-    #'            * ExtendedDescription: as given in the documentation
-    #'            * ShortDescription: None
-    #'- inputs:
-    #'            * name: cSoilLayerDepth
-    #'                          ** description : Depth of soil layer
-    #'                          ** inputtype : parameter
-    #'                          ** parametercategory : constant
-    #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 
-    #'                          ** max : 20.0
-    #'                          ** min : 0.03
-    #'                          ** default : 
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/metre
-    #'            * name: cFirstDayMeanTemp
-    #'                          ** description : Mean air temperature on first day
-    #'                          ** inputtype : parameter
-    #'                          ** parametercategory : constant
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 50.0
-    #'                          ** min : -40.0
-    #'                          ** default : 
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
-    #'            * name: cAVT
-    #'                          ** description : Constant Temperature of deepest soil layer - use long term mean air temperature
-    #'                          ** inputtype : parameter
-    #'                          ** parametercategory : constant
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 20.0
-    #'                          ** min : -10.0
-    #'                          ** default : 
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
-    #'            * name: cABD
-    #'                          ** description : Mean bulk density
-    #'                          ** inputtype : parameter
-    #'                          ** parametercategory : constant
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 4.0
-    #'                          ** min : 1.0
-    #'                          ** default : 2.0
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/tonne_per_cubic_metre
-    #'            * name: cDampingDepth
-    #'                          ** description : Initial value for damping depth of soil
-    #'                          ** inputtype : parameter
-    #'                          ** parametercategory : constant
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 20.0
-    #'                          ** min : 1.5
-    #'                          ** default : 6.0
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/metre
-    #'            * name: iSoilWaterContent
-    #'                          ** description : Water content, sum of whole soil profile
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 20.0
-    #'                          ** min : 1.5
-    #'                          ** default : 5.0
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/millimetre
-    #'            * name: iSoilSurfaceTemperature
-    #'                          ** description : Temperature at soil surface
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : exogenous
-    #'                          ** datatype : DOUBLE
-    #'                          ** max : 20.0
-    #'                          ** min : 1.5
-    #'                          ** default : 
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
-    #'            * name: SoilTempArray
-    #'                          ** description : Array of soil temperatures in layers 
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : state
-    #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 
-    #'                          ** max : 50.0
-    #'                          ** min : -40.0
-    #'                          ** default : 
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
-    #'            * name: rSoilTempArrayRate
-    #'                          ** description : Array of daily temperature change
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : state
-    #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 
-    #'                          ** max : 20
-    #'                          ** min : -20
-    #'                          ** default : 
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
-    #'            * name: pSoilLayerDepth
-    #'                          ** description : Depth of soil layer plus additional depth
-    #'                          ** inputtype : variable
-    #'                          ** variablecategory : state
-    #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 
-    #'                          ** max : 20.0
-    #'                          ** min : 0.03
-    #'                          ** default : 
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/metre
-    #'- outputs:
-    #'            * name: SoilTempArray
-    #'                          ** description : Array of soil temperatures in layers 
-    #'                          ** datatype : DOUBLEARRAY
-    #'                          ** variablecategory : state
-    #'                          ** len : 
-    #'                          ** max : 50.0
-    #'                          ** min : -40.0
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius
-    #'            * name: rSoilTempArrayRate
-    #'                          ** description : Array of daily temperature change
-    #'                          ** datatype : DOUBLEARRAY
-    #'                          ** variablecategory : state
-    #'                          ** len : 
-    #'                          ** max : 20
-    #'                          ** min : -20
-    #'                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
     XLAG <- .8
     XLG1 <- 1 - XLAG
     DP <- 1 + (2.5 * cABD / (cABD + exp(6.53 - (5.63 * cABD))))

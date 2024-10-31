@@ -1,0 +1,56 @@
+# Automatic generation of Notebook using PyCropML
+    This notebook implements a crop model.
+
+### Model Snowcovercalculator
+
+
+```
+source("../../src/r/Simplace_Soil_Temperature/snowcovercalculator.r")
+library(assertthat)
+
+```
+
+
+```
+
+
+test_test1<-function(){
+    cCarbonContent = 10.0
+    Albedo = 0
+    iTempMax = 3.0
+    iTempMin = -9.0
+    iRadiation = 1.4
+    iRAIN = 6.0
+    iCropResidues = 30.0
+    iPotentialSoilEvaporation = 0.6
+    iLeafAreaIndex = 0.1
+    iSoilTempArray = c(2.6,5.4,8.6,12.2,11.4,10.6,9.8,9.0)
+    cInitialAgeOfSnow = 0
+    cInitialSnowWaterContent = 0.0
+    cSnowIsolationFactorA = 2.3
+    cSnowIsolationFactorB = 0.22
+    param_init = init_snowcovercalculator(cCarbonContent,cInitialAgeOfSnow,cInitialSnowWaterContent,Albedo,cSnowIsolationFactorA,cSnowIsolationFactorB,iTempMax,iTempMin,iRadiation,iRAIN,iCropResidues,iPotentialSoilEvaporation,iLeafAreaIndex)
+    pInternalAlbedo = param_init$pInternalAlbedo
+    SnowWaterContent = param_init$SnowWaterContent
+    SoilSurfaceTemperature = param_init$SoilSurfaceTemperature
+    AgeOfSnow = param_init$AgeOfSnow
+    SnowWaterContent = 5.0
+    AgeOfSnow = 5
+    SoilSurfaceTemperature = 1.8397688
+    params= model_snowcovercalculator(cCarbonContent, cInitialAgeOfSnow, cInitialSnowWaterContent, Albedo, pInternalAlbedo, cSnowIsolationFactorA, cSnowIsolationFactorB, iTempMax, iTempMin, iRadiation, iRAIN, iCropResidues, iPotentialSoilEvaporation, iLeafAreaIndex, iSoilTempArray, SnowWaterContent, SoilSurfaceTemperature, AgeOfSnow)
+
+    SnowWaterContent_estimated = params$SnowWaterContent
+    SnowWaterContent_computed = 10.7
+    assert_that(all.equal(SnowWaterContent_estimated, SnowWaterContent_computed, scale=1, tol=0.5)==TRUE)
+    AgeOfSnow_estimated = params$AgeOfSnow
+    AgeOfSnow_computed = 6
+    assert_that(all.equal(AgeOfSnow_estimated, AgeOfSnow_computed)==TRUE)
+    SnowIsolationIndex_estimated = params$SnowIsolationIndex
+    SnowIsolationIndex_computed = 1.0
+    assert_that(all.equal(SnowIsolationIndex_estimated, SnowIsolationIndex_computed, scale=1, tol=0.5)==TRUE)
+    SoilSurfaceTemperature_estimated = params$SoilSurfaceTemperature
+    SoilSurfaceTemperature_computed = 2.6
+    assert_that(all.equal(SoilSurfaceTemperature_estimated, SoilSurfaceTemperature_computed, scale=1, tol=0.5)==TRUE)
+}
+test_test1()
+```

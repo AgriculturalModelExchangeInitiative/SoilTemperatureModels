@@ -14,6 +14,10 @@
         <Links>
             <InputLink target="SnowCoverCalculator.cCarbonContent" source="cCarbonContent"/>
             <InputLink target="SnowCoverCalculator.Albedo" source="cAlbedo"/>
+            <InputLink target="SnowCoverCalculator.cInitialAgeOfSnow" source="cInitialAgeOfSnow"/>
+            <InputLink target="SnowCoverCalculator.cInitialSnowWaterContent" source="cInitialSnowWaterContent"/>
+            <InputLink target="SnowCoverCalculator.cSnowIsolationFactorA" source="cSnowIsolationFactorA"/>
+            <InputLink target="SnowCoverCalculator.cSnowIsolationFactorB" source="cSnowIsolationFactorB"/>
             <InputLink target="SnowCoverCalculator.iTempMax" source="iAirTemperatureMax"/>
             <InputLink target="SnowCoverCalculator.iTempMin" source="iAirTemperatureMin"/>
             <InputLink target="SnowCoverCalculator.iRadiation" source="iGlobalSolarRadiation"/>

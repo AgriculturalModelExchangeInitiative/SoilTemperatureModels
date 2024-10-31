@@ -1,0 +1,55 @@
+---
+title: An R Markdown document converted from "D:/Docs/AMEI_Workshop/AMEI_10_14_2022/Models/Simplace_Soil_Temperature/test/py/Snowcovercalculator.ipynb"
+output: html_document
+---
+
+# Automatic generation of Notebook using PyCropML
+    This notebook implements a crop model.
+
+### Model Snowcovercalculator
+
+```{python}
+import numpy
+from datetime import datetime
+from array import array
+import sys
+sys.path.append("..\..\src\py\Simplace_Soil_Temperature")
+from snowcovercalculator import model_snowcovercalculator
+from snowcovercalculator import init_snowcovercalculator
+```
+
+```{python}
+cCarbonContent = 10.0
+Albedo = 0
+iTempMax = 3.0
+iTempMin = -9.0
+iRadiation = 1.4
+iRAIN = 6.0
+iCropResidues = 30.0
+iPotentialSoilEvaporation = 0.6
+iLeafAreaIndex = 0.1
+iSoilTempArray = [2.6, 5.4, 8.6, 12.2, 11.4, 10.6, 9.8, 9.0]
+cInitialAgeOfSnow = 0
+cInitialSnowWaterContent = 0.0
+cSnowIsolationFactorA = 2.3
+cSnowIsolationFactorB = 0.22
+pInternalAlbedo, SnowWaterContent, SoilSurfaceTemperature, AgeOfSnow = init_snowcovercalculator(cCarbonContent,cInitialAgeOfSnow,cInitialSnowWaterContent,Albedo,cSnowIsolationFactorA,cSnowIsolationFactorB,iTempMax,iTempMin,iRadiation,iRAIN,iCropResidues,iPotentialSoilEvaporation,iLeafAreaIndex,iSoilTempArray)
+SnowWaterContent = 5.0
+AgeOfSnow = 5
+SoilSurfaceTemperature = 1.8397688
+params= model_snowcovercalculator(cCarbonContent, cInitialAgeOfSnow, cInitialSnowWaterContent, Albedo, pInternalAlbedo, cSnowIsolationFactorA, cSnowIsolationFactorB, iTempMax, iTempMin, iRadiation, iRAIN, iCropResidues, iPotentialSoilEvaporation, iLeafAreaIndex, iSoilTempArray, SnowWaterContent, SoilSurfaceTemperature, AgeOfSnow)
+
+SnowWaterContent_estimated = round(params[0], 5)
+SnowWaterContent_computed = 10.7
+assert (SnowWaterContent_estimated == SnowWaterContent_computed)
+SoilSurfaceTemperature_estimated = round(params[1], 5)
+SoilSurfaceTemperature_computed = 2.6
+assert (SoilSurfaceTemperature_estimated == SoilSurfaceTemperature_computed)
+AgeOfSnow_estimated =params[2]
+AgeOfSnow_computed = 6
+assert AgeOfSnow_computed == AgeOfSnow_estimated
+SnowIsolationIndex_estimated = round(params[6], 5)
+SnowIsolationIndex_computed = 1.0
+assert (SnowIsolationIndex_estimated == SnowIsolationIndex_computed)
+```
+
