@@ -49,7 +49,7 @@ class OneTreatment:
                  weather, soil, AWC, 
                  LAI, XLAT, TAMP, TAV, 
                  albedo, nb_layers, soil_depth, bulk_density,
-                 irrig, surfOrgResidue, aboveGroundDM, mulch):
+                 irrig, surfOrgResidue, aboveGroundDM, mulch, soil_id):
         self.trt = trt
         self.weather = weather
         self.soil = soil
@@ -68,6 +68,7 @@ class OneTreatment:
         self.surf_org_residue = surfOrgResidue
         self.above_ground_dry_mass = self.CWAD = aboveGroundDM 
         self.mulch = self.MLTHK = mulch
+        self.soil_id=soil_id
 
     def to_dict(self):
         d = self.__dict__.copy()
@@ -105,7 +106,7 @@ class Treatment:
 
         return OneTreatment(self, weather, my_soil, AWC, LAI, XLAT, TAMP, TAV,
                             albedo, nb_layers, soil_depth, bulk_density,
-                            irrig, surfOrgResidue, aboveGroundDM, mulch)
+                            irrig, surfOrgResidue, aboveGroundDM, mulch, soil)
 
 
 #Read all the weather daily values from file
@@ -160,9 +161,9 @@ def read_soil_layers(fn="InputData/SoilData.txt"):
     soil = pd.read_csv(fn, sep='\t', header=2)
 
     # Convert units
-    soil.SLLB *= 0.01
-    soil.THICK *= 10
-    soil.SVSE *= 10**6
+    #soil.SLLB *= 0.01
+    #soil.THICK *= 10
+    #soil.SVSE *= 10**6
 
     # TODO
     soil['SLROCK'] = 0.
