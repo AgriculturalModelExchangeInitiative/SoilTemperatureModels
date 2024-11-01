@@ -39,23 +39,33 @@ def simulate(weather_station, soil, water_content, lai, model_code, nb_steps=-1)
 
     
 
-def run_all(soil_id='SICL', lai=0):
-    
-    for weather_station in WST_IDs:
-        for water_content in AWCs:
-            for model_code in code2model:
-                if code2model[model_code] not in models:
-                    continue 
-                fn = get_filename(weather_station, soil_id, water_content, lai, model_code)
-                print(f'Run {weather_station, soil_id, water_content, lai, model_code}')
-                if (output_dir/fn).exists():
-                    print(f'{fn} is already computed')
-                    continue
-                simulate(weather_station, soil=soil_id, water_content=water_content, 
-                         lai=lai, model_code=model_code,
-                         nb_steps=30)
-                
-def one_process(index=0)
+def run_all(weather_station, soil, water_content, lai):
+    failure = 0
+    for model_code in code2model:
+        if code2model[model_code] not in models:
+            continue 
+        fn = get_filename(weather_station, soil, water_content, lai, model_code)
+        if (output_dir/fn).exists():
+            print(f'{fn} is already computed')
+            continue
+        try:
+            print(f'Run {weather_station, soil, water_content, lai, code2model[model_code]}')
+            simulate(weather_station, soil=soil, water_content=water_content, 
+                lai=lai, model_code=model_code,
+                nb_steps=-1)
+        except: 
+            print('#'*80)
+            print(f'ERROR : Run {weather_station, soil, water_content, lai, model_code}')    
+            failure +=1
+    return failure
+
+def main(i=0):
+    ws = WST_IDs[i]
+    for soil in SOIL_IDs:
+        for lai in LAIDs:
+            for water_content in AWCs:
+                run_all(ws, soil, water_content, lai)
+
 
 """
 Test
@@ -63,6 +73,18 @@ Test
 %run simul
 
 simulate(WST_IDs[0], SOIL_IDs[0], AWCs[0], LAIDs[0], list(code2model)[0], nb_steps=30)
+
+from joblib import Parallel, delayed
+Parallel(n_jobs=-1)(run_all(ws, soil, water_content, lai) for ws in WST_IDs for soil in SOIL_IDs for lai in LAIDs for water_content in AWCs)
+
+# run in a shell to use 7 proc
+python -c 'from simul import main; main(O)'&
+python -c 'from simul import main; main(1)'&
+python -c 'from simul import main; main(2)'&
+python -c 'from simul import main; main(3)'&
+python -c 'from simul import main; main(4)'&
+python -c 'from simul import main; main(5)'&
+python -c 'from simul import main; main(6)'&
 """
 
     
