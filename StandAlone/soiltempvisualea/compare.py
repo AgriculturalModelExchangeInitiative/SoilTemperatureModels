@@ -20,7 +20,8 @@ code2model['STC']='STICS'
 
 models = model.Model.models()
 
-def read_config(path='result/SoilTemperature_SQ_FRMO_SICL_L7_AW0.75'):
+def read_config(path='result/SoilTemperature_SQ_FRMO_SICL_L7_AW0.75',
+                select_models = ['MONICA']):
     
     d = Path(path)
     files = d.glob('*.txt')
@@ -36,6 +37,10 @@ def read_config(path='result/SoilTemperature_SQ_FRMO_SICL_L7_AW0.75'):
 
         model_name = code2model[fields[2]]
         print(f'Model name {model_name}')
+        if select_models and (model_name not in select_models):
+            print(f'{model_name} is not in {select_models}')
+            print('We will not consider it')
+            continue
 
         weather_station = fields[3]
         print(f'Weather Station {weather_station}')

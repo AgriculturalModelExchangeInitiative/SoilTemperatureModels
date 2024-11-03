@@ -1136,8 +1136,7 @@ from Monica_SoilTemp.withsnowsoilsurfacetemperature import (
     model_withsnowsoilsurfacetemperature as monica_model_withsnowsoilsurfacetemperature
 )
 
-#class MONICA(Model):
-class MONICA:#(Model):
+class MONICA(Model):
     """ Monica implementation of the Cambell model.
     """
 
@@ -1166,14 +1165,15 @@ class MONICA:#(Model):
         SW=soil_water.tolist()
         SLOC = soil.SLOC.tolist() 
 
+        #########################################@
         # Parameters of soil for Monica
         nb_layers = c.nb_layers
         nb_layers_monica = 42
         monica_layer_depth = 5 # each layer has a 5cm depth
-        saturatedMonica = []
-        bdMonica = []
-        carbonMonica = []
-        moistureMonica = []
+        saturatedMonica = [0.]*nb_layers_monica
+        bdMonica = [0.]*nb_layers_monica
+        carbonMonica = [0.]*nb_layers_monica
+        moistureMonica = [0.]*nb_layers_monica
 
         base_depth = SLLB
         saturated = SLSAT
@@ -1181,9 +1181,9 @@ class MONICA:#(Model):
 
         for i in range(nb_layers_monica):
             for j in range(nb_layers):
-                if monica_layer_depth *i < base_depth[j]:
+                if monica_layer_depth * i < base_depth[j]:
                     saturatedMonica[i] = saturated[j]
-                    bdMonica[i] = bdMonica[j]
+                    bdMonica[i] = BD[j]
                     carbonMonica[i] = org_matter[j]
                     moistureMonica[i] = SW[j]
                     break
@@ -1201,58 +1201,62 @@ class MONICA:#(Model):
         tmin = wi.TMIN
         baseTemp = 9.5
         dampingFactor = 0.8
-
-
-        # init
-        data_init = init_campbell(
-            NLAYR=c.nb_layers,
-            CONSTANT_TEMPdepth=CONSTANT_TEMPdepth, 
-            T2M=wi.T2M, #
-            TMAX=wi.TMAX, #
-            TMIN=wi.TMIN, #
-            TAV=c.TAV,
-            TAMP=c.TAMP,
-            XLAT=c.XLAT,
-            DOY=wi.DATE.dayofyear, #
-            canopyHeight=canopyHeight,
-            SALB=c.albedo,
-            SRAD=wi.SRAD, #
-            ESP=wi.ESP, #
-            ES=ES, 
-            EOAD=wi.EOAD, #
-            instrumentHeight=instrumentHeight, 
-            # soil
-            THICK=THICK, 
-            BD=BD, 
-            SLCARB=SLCARB, 
-            CLAY=CLAY, 
-            SLROCK=SLROCK, 
-            SLSILT=SLSILT, 
-            SLSAND=SLSAND,
-            SW=SW,     
-            airPressure=airPressure, 
-            boundaryLayerConductanceSource=boundaryLayerConductanceSource,
-            netRadiationSource=netRadiationSource, 
-            windSpeed=windSpeed)        
+        # constant
+        densityAir = 1.25
+        densityHumus = 1300
+        densityWater = 1000
+        initialSurfaceTemp = 10
         
-        (thickness, 
-        depth, 
-        bulkDensity, 
-        clay, 
-        soilWater, 
-        soilTemp, 
-        newTemperature, 
-        minSoilTemp, 
-        maxSoilTemp, 
-        aveSoilTemp, 
-        morningSoilTemp,
-        thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4, 
-        thermalConductivity, thermalConductance, 
-        heatStorage, volSpecHeatSoil, 
-        maxTempYesterday,
-        minTempYesterday, 
-        carbon, rocks, silt, sand, 
-        boundaryLayerConductance) = data_init
+        # LayerThickness is in m. 
+        # Each layer is 5 cm depth &nd there are 42 layers.
+        noOfSoilLayers = nb_layers_monica
+        noOfTempLayers = noOfSoilLayers+2 
+        noOfTempLayersPlus1 = noOfTempLayers+1
+        layerThickness = [monica_layer_depth/100] * noOfTempLayers
+        nTau = 0.65
+        quartzRawDensity = 2650
+
+        saturation = list(saturatedMonica)
+        soilBulkDensity = [_bd*1000 for _bd in bdMonica]
+        soilMoistureConst = list(moistureMonica)
+        soilOrganicMatter = [cm/57 for cm in carbonMonica]
+
+        specificHeatCapacityAir = 1005
+        specificHeatCapacityHumus = 1920
+        specificHeatCapacityQuartz = 750
+        specificHeatCapacityWater = 4192
+
+        timeStep = 1.0
+        
+        # init
+        data_init = monica_init(noOfSoilLayers,
+         noOfTempLayers,
+         noOfTempLayersPlus1,
+         timeStep,
+         soilMoistureConst,
+         baseTemp,
+         initialSurfaceTemp,
+         densityAir,
+         specificHeatCapacityAir,
+         densityHumus,
+         specificHeatCapacityHumus,
+         densityWater,
+         specificHeatCapacityWater,
+         quartzRawDensity,
+         specificHeatCapacityQuartz,
+         nTau,
+         layerThickness,
+         soilBulkDensity,
+         saturation,
+         soilOrganicMatter)    
+        
+        (soilSurfaceTemperature, 
+         soilTemperature, V, B, 
+         volumeMatrix, volumeMatrixOld, 
+         matrixPrimaryDiagonal, matrixSecondaryDiagonal, 
+         heatConductivity, heatConductivityMean, 
+         heatCapacity, solution, 
+         matrixDiagonal, matrixLowerTriangle, heatFlow) = data_init
 
 
 
@@ -1276,101 +1280,57 @@ class MONICA:#(Model):
 
             wi = WeatherRecord(**_wi) 
 
+            # Update meteo variables
+            tmax = wi.TMAX
+            tmin = wi.TMIN
+            globrad = wi.SRAD
+
             # Call the model
-            (soilTemp, 
-            minSoilTemp, 
-            maxSoilTemp, 
-            aveSoilTemp,
-            morningSoilTemp, 
-            newTemperature, 
-            maxTempYesterday, 
-            minTempYesterday, 
-            thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4, 
-            thermalConductivity, thermalConductance, 
-            heatStorage, 
-            volSpecHeatSoil, 
-            boundaryLayerConductance, 
-            thickness, 
-            depth, 
-            bulkDensity, 
-            soilWater, 
-            clay,
-            rocks, 
-            carbon, 
-            sand, 
-            silt) = model_campbell(
-                # idem from init
-                NLAYR=c.nb_layers,
-                CONSTANT_TEMPdepth=CONSTANT_TEMPdepth, 
-                T2M=wi.T2M, 
-                TMAX=wi.TMAX, 
-                TMIN=wi.TMIN,
-                TAV=c.TAV, 
-                TAMP=c.TAMP, 
-                XLAT=c.XLAT,
-                DOY=wi.DATE.dayofyear,
-                canopyHeight=canopyHeight, 
-                SALB=c.albedo,
-                SRAD=wi.SRAD, 
-                ESP=wi.ESP, 
-                ES=ES, 
-                EOAD=wi.EOAD,
-                instrumentHeight=instrumentHeight,
 
-                # soil
-                THICK=THICK, 
-                BD=BD, 
-                SLCARB=SLCARB, 
-                CLAY=CLAY, 
-                SLROCK=SLROCK, 
-                SLSILT=SLSILT, 
-                SLSAND=SLSAND,
-                SW=SW,     
+            soilSurfaceTemperature = monica_model_nosnowsoilsurfacetemperature(
+                tmin, tmax, globrad, soilCoverage, dampingFactor, soilSurfaceTemperature)
+            noSnowSoilSurfaceTemperature = soilSurfaceTemperature
+            soilSurfaceTemperature = monica_model_withsnowsoilsurfacetemperature(
+                noSnowSoilSurfaceTemperature, soilSurfaceTemperatureBelowSnow, hasSnowCover)
+            soilTemperature = monica_model_soiltemperature(
+                noOfSoilLayers, 
+                noOfTempLayers, noOfTempLayersPlus1, 
+                soilSurfaceTemperature, timeStep, 
+                soilMoistureConst, baseTemp, 
+                initialSurfaceTemp, densityAir, specificHeatCapacityAir, 
+                densityHumus, specificHeatCapacityHumus, densityWater, 
+                specificHeatCapacityWater, quartzRawDensity, specificHeatCapacityQuartz, nTau, 
+                layerThickness, soilBulkDensity, saturation, soilOrganicMatter, 
+                soilTemperature, V, B, volumeMatrix, volumeMatrixOld, 
+                matrixPrimaryDiagonal, matrixSecondaryDiagonal, heatConductivity, 
+                heatConductivityMean, heatCapacity, solution, matrixDiagonal, matrixLowerTriangle, heatFlow)
 
-                # APSIM soil internal variable 
-                THICKApsim=thickness, 
-                BDApsim=bulkDensity, 
-                CLAYApsim=clay, 
-                SLROCKApsim=rocks, 
-                SLSILTApsim=silt, 
-                SLSANDApsim=sand, 
-                SWApsim=soilWater,
-                DEPTHApsim =depth, 
-                SLCARBApsim=carbon, 
 
-                soilTemp=soilTemp, 
-                minSoilTemp=minSoilTemp, 
-                maxSoilTemp=maxSoilTemp, 
-                aveSoilTemp=aveSoilTemp,
-                morningSoilTemp=morningSoilTemp, 
-                newTemperature=newTemperature, 
-                maxTempYesterday=maxTempYesterday, 
-                minTempYesterday=minTempYesterday, 
-                thermalCondPar1=thermalCondPar1,
-                thermalCondPar2=thermalCondPar2, 
-                thermalCondPar3=thermalCondPar3, 
-                thermalCondPar4=thermalCondPar4, 
-                thermalConductivity=thermalConductivity, 
-                thermalConductance=thermalConductance, 
-                heatStorage=heatStorage, 
-                volSpecHeatSoil=volSpecHeatSoil, 
-                _boundaryLayerConductance=boundaryLayerConductance, 
-                
-                # parameters
-                airPressure=airPressure, 
-                boundaryLayerConductanceSource=boundaryLayerConductanceSource,
-                netRadiationSource=netRadiationSource, windSpeed=windSpeed
-                ) 
+            
             
             # Store the outputs
             #date_formattee = wi.DATE.strftime("%Y-%m-%d")
             #Dates.append(wi.DATE.dayofyear); 
             Dates.append(wi.DATE); 
-            SLLTs.append(0); SLLBs.append(0); TSLDs.append(aveSoilTemp[1]); TSLXs.append(maxSoilTemp[1]); TSLNs.append(minSoilTemp[1]); Layers.append(0)
-            for j in range(2, c.nb_layers+2):
-                #Dates.append(wi.DATE.dayofyear); 
-                Dates.append(wi.DATE); 
-                SLLTs.append(int(SLLT[j-2])); SLLBs.append(int(SLLB[j-2]*100)); TSLDs.append(aveSoilTemp[j]); TSLXs.append(maxSoilTemp[j]); TSLNs.append(minSoilTemp[j]); Layers.append(j-1)
+            SLLTs.append(0); SLLBs.append(0); TSLDs.append(soilSurfaceTemperature); TSLXs.append(na); TSLNs.append(na); Layers.append(0)
+            temp = 0
+            prev_top = 0
+            prev_i = -1
+            layer = 0
+            index = [0, 2, 5, 8, 11, 17, 23, 29, 35, 41]
+            for i in range(nb_layers_monica):
+                temp += soilTemperature[i]
+                if i in index:
+                    Dates.append(wi.DATE); 
+                    SLLTs.append(prev_top); SLLBs.append(5*(i+1));
+                    TSLDs.append(temp /(i-prev_i))
+                    TSLXs.append(na); TSLNs.append(na);
+                    Layers.append(layer)
+
+                    prev_top = 5*(i+1)
+                    prev_i = i
+                    layer += 1
+                    temp = 0
  
         df = pd.DataFrame( OrderedDict(
                 Date = Dates,
@@ -1509,7 +1469,7 @@ class SiriusQuality(Model):
             Dates.append(wi.DATE); 
             SLLTs.append(0); SLLBs.append(0); TSLDs.append(na); TSLXs.append(na); TSLNs.append(na); Layers.append(0)
             Dates.append(wi.DATE); 
-            SLLTs.append(SLLT[0]); SLLBs.append(SLLT[0]); TSLDs.append(round((maxTSoil+minTSoil)/2., digit)); TSLXs.append(maxTSoil); TSLNs.append(minTSoil); Layers.append(1)
+            SLLTs.append(SLLT[0]); SLLBs.append(SLLB[0]); TSLDs.append(round((maxTSoil+minTSoil)/2., digit)); TSLXs.append(maxTSoil); TSLNs.append(minTSoil); Layers.append(1)
             for j in range(1, c.nb_layers):
                 #Dates.append(wi.DATE.dayofyear); 
                 Dates.append(wi.DATE); 
