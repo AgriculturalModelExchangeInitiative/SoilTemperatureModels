@@ -598,18 +598,18 @@ class DSSAT_ST(Model):
 # Simplace
 
 #######################################################################################
-from Simplace_Soil_Temperature.SoilTemperatureComponent import model_soiltemperature
-from Simplace_Soil_Temperature.snowcovercalculator import init_snowcovercalculator
-from Simplace_Soil_Temperature.stmpsimcalculator import init_stmpsimcalculator
+from Simplace_Soil_Temperature.SoilTemperatureComponent import model_soiltemperature as simplace_model
+from Simplace_Soil_Temperature.snowcovercalculator import init_snowcovercalculator as simplace_init_snow
+from Simplace_Soil_Temperature.stmpsimcalculator import init_stmpsimcalculator as simplace_init_stmp
 
 
 class SIMPLACE_APEX(Model):
 
     def run(self, config, nb_steps=0):
 
-        init_snow = init_snowcovercalculator
-        init_temp = init_stmpsimcalculator
-        model_fun = model_soiltemperature
+        init_snow = simplace_init_snow
+        init_temp = simplace_init_stmp
+        model_fun = simplace_model
 
         c = config
         soil = c.soil

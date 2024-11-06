@@ -71,7 +71,7 @@ class Models(Node):
         self.add_input(name='Model', interface=IEnumStr(self.Models), 
                        value=list(self.Models)[0])
         self.add_input(name='Config', interface=None, value=None)
-        self.add_input(name='steps', interface=IInt(min=-1, max=364), value=30)
+        self.add_input(name='steps', interface=IInt(min=-1, max=365*30), value=30)
 
 
         self.add_output(name='soiltemperature',)

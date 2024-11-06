@@ -13,6 +13,7 @@ models = model.Model.models()
 code2M = dict((code, models[name]()) for code, name in code2model.items() if name in models)
 
 output_dir = Path('OutputData')
+output_monica = Path('OutputData')/'monica'
 
 def get_filename(weather_station, soil, water_content, lai, model_code):
     """ Return the filename for each simulation
@@ -24,7 +25,7 @@ def get_filename(weather_station, soil, water_content, lai, model_code):
     return filename
 
 
-def simulate(weather_station, soil, water_content, lai, model_code, nb_steps=-1):
+def simulate(weather_station, soil, water_content, lai, model_code, nb_steps=-1, output_dir=output_dir):
     fn = get_filename(weather_station, soil, water_content, lai, model_code)
     
     config = trt(weather_station, soil,  water_content, lai)
@@ -59,12 +60,42 @@ def run_all(weather_station, soil, water_content, lai):
             failure +=1
     return failure
 
+def run_monica(weather_station, soil, water_content, lai):
+    failure = 0
+    model_code = 'MOC'
+    if code2model[model_code] not in models:
+        return 
+    fn = get_filename(weather_station, soil, water_content, lai, model_code)
+    if (output_monica/fn).exists():
+        print(f'{fn} is already computed')
+        return
+    try:
+        print(f'Run {weather_station, soil, water_content, lai, code2model[model_code]}')
+        simulate(weather_station, soil=soil, water_content=water_content, 
+            lai=lai, model_code=model_code,
+            nb_steps=-1, output_dir=output_monica)
+    except: 
+        print('#'*80)
+        print(f'ERROR : Run {weather_station, soil, water_content, lai, model_code}')    
+        failure +=1
+    return failure
+
+
 def main(i=0):
     ws = WST_IDs[i]
     for soil in SOIL_IDs:
         for lai in LAIDs:
             for water_content in AWCs:
                 run_all(ws, soil, water_content, lai)
+
+def mainmoc(i=0):
+    ws = WST_IDs[i]
+    for soil in SOIL_IDs:
+        for lai in LAIDs:
+            for water_content in AWCs:
+                run_monica(ws, soil, water_content, lai)
+
+
 
 
 """
@@ -85,6 +116,16 @@ python -c 'from simul import main; main(3)'&
 python -c 'from simul import main; main(4)'&
 python -c 'from simul import main; main(5)'&
 python -c 'from simul import main; main(6)'&
+
+# run in a shell to use 7 proc
+python -c 'from simul import mainmoc; mainmoc(0)'&
+python -c 'from simul import mainmoc; mainmoc(1)'&
+python -c 'from simul import mainmoc; mainmoc(2)'&
+python -c 'from simul import mainmoc; mainmoc(3)'&
+python -c 'from simul import mainmoc; mainmoc(4)'&
+python -c 'from simul import mainmoc; mainmoc(5)'&
+python -c 'from simul import mainmoc; mainmoc(6)'&
+
 """
 
     

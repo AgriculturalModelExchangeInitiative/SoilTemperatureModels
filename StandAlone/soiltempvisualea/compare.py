@@ -20,8 +20,8 @@ code2model['STC']='STICS'
 
 models = model.Model.models()
 
-def read_config(path='result/SoilTemperature_SQ_FRMO_SICL_L7_AW0.75',
-                select_models = ['MONICA']):
+def read_config(path='result/SoilTemperature_SQ',
+                select_models = ['SIMPLACE_APEX']):
     
     d = Path(path)
     files = d.glob('*.txt')
@@ -33,26 +33,21 @@ def read_config(path='result/SoilTemperature_SQ_FRMO_SICL_L7_AW0.75',
         name = fn.name
         prefix = name[:-4]
         fields = prefix.split('_')
-        print(fields)
+        #print(fields)
 
-        model_name = code2model[fields[2]]
-        print(f'Model name {model_name}')
+        model_name = code2model.get(fields[2])
         if select_models and (model_name not in select_models):
-            print(f'{model_name} is not in {select_models}')
-            print('We will not consider it')
+            #print(f'{model_name} is not in {select_models}')
+            #print('We will not consider it')
             continue
 
         weather_station = fields[3]
-        print(f'Weather Station {weather_station}')
 
         soil = fields[4]
-        print(f'soil {soil}')
 
         lai = int(fields[5][1:])
-        print(f'lai {lai}')
 
         water_content = float(fields[6][2:])
-        print(f'AWC {water_content}')
 
         config= trt(weather_station=weather_station, 
                     soil=soil, 
@@ -66,7 +61,6 @@ def read_config(path='result/SoilTemperature_SQ_FRMO_SICL_L7_AW0.75',
 def compare(filename, model_name, config):
     
     if model_name not in models:
-        print(f'{model_name} is not implemented')
         return
     
     model = models[model_name]()
@@ -74,7 +68,6 @@ def compare(filename, model_name, config):
 
     base = read_result(filename, 1)
 
-    print(f'Compare {model_name}')
     
     res.TSLD=round(res.TSLD, 6)
     res=res[res.TSLD!=na]
@@ -85,7 +78,16 @@ def compare(filename, model_name, config):
     diff=(res.TSLD-base.TSLD)
     diff = round(diff, 6)
 
-    print(f'min = {diff.min()} | max = {diff.max()}')
+    #print(f'min = {diff.min()} | max = {diff.max()}')
+
+    if max(abs(diff.min()), abs(diff.max())) > 1e-5:
+        print ("#"*90)
+        print (f"ERROR File : {filename}")
+        print(f'min = {diff.min()} | max = {diff.max()}')
+        print ("#"*90)
+    else:
+        print(f"SUCCESS {filename}")
+        
     return diff
 
 def read_result(filename, nb_steps=-1):
