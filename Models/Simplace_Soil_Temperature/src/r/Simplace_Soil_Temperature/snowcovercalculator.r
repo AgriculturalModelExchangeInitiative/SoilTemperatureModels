@@ -116,7 +116,7 @@ model_snowcovercalculator <- function (cCarbonContent,
     DST <- TMEAN + (TAMPL * (iRadiation * (1 - pInternalAlbedo) - 14) / 20)
     if (iRAIN > as.double(0) && (tiSoilTempArray < as.double(1) || (SnowWaterContent > as.double(3) || SoilSurfaceTemperature < as.double(0))))
     {
-        SnowWaterContent <- SnowWaterContent + iRAIN
+        SnowWaterContent <- SnowWaterContent
     }
     tSnowIsolationIndex <- 1.0
     if (tiCropResidues < as.double(10))

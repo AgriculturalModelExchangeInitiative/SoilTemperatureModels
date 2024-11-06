@@ -6,6 +6,10 @@ CONTAINS
 
     SUBROUTINE model_soiltemperature(cCarbonContent, &
         cAlbedo, &
+        cInitialAgeOfSnow, &
+        cInitialSnowWaterContent, &
+        cSnowIsolationFactorA, &
+        cSnowIsolationFactorB, &
         iAirTemperatureMax, &
         iAirTemperatureMin, &
         iGlobalSolarRadiation, &
@@ -34,6 +38,10 @@ CONTAINS
         INTEGER:: i_cyml_r
         REAL, INTENT(IN) :: cCarbonContent
         REAL, INTENT(IN) :: cAlbedo
+        INTEGER, INTENT(IN) :: cInitialAgeOfSnow
+        REAL, INTENT(IN) :: cInitialSnowWaterContent
+        REAL, INTENT(IN) :: cSnowIsolationFactorA
+        REAL, INTENT(IN) :: cSnowIsolationFactorB
         REAL, INTENT(IN) :: iAirTemperatureMax
         REAL, INTENT(IN) :: iAirTemperatureMin
         REAL, INTENT(IN) :: iGlobalSolarRadiation
@@ -54,11 +62,7 @@ CONTAINS
         INTEGER, INTENT(INOUT) :: AgeOfSnow
         REAL , DIMENSION(: ), INTENT(INOUT) :: rSoilTempArrayRate
         REAL , DIMENSION(: ), INTENT(IN) :: pSoilLayerDepth
-        INTEGER:: cInitialAgeOfSnow
-        REAL:: cInitialSnowWaterContent
         REAL:: Albedo
-        REAL:: cSnowIsolationFactorA
-        REAL:: cSnowIsolationFactorB
         REAL:: iTempMax
         REAL:: iTempMin
         REAL:: iRadiation
@@ -96,6 +100,42 @@ CONTAINS
     !                          ** max : 1.0
     !                          ** min : 0.0
     !                          ** default : 
+    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
+    !            * name: cInitialAgeOfSnow
+    !                          ** description : Initial age of snow
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
+    !                          ** datatype : INT
+    !                          ** max : 
+    !                          ** min : 0
+    !                          ** default : 0
+    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/percent
+    !            * name: cInitialSnowWaterContent
+    !                          ** description : Initial snow water content
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
+    !                          ** datatype : DOUBLE
+    !                          ** max : 1500.0
+    !                          ** min : 0.0
+    !                          ** default : 0.0
+    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/percent
+    !            * name: cSnowIsolationFactorA
+    !                          ** description : Static part of the snow isolation index calculation
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
+    !                          ** datatype : DOUBLE
+    !                          ** max : 10.0
+    !                          ** min : 0.0
+    !                          ** default : 2.3
+    !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
+    !            * name: cSnowIsolationFactorB
+    !                          ** description : Dynamic part of the snow isolation index calculation
+    !                          ** inputtype : parameter
+    !                          ** parametercategory : constant
+    !                          ** datatype : DOUBLE
+    !                          ** max : 1.0
+    !                          ** min : 0.0
+    !                          ** default : 0.22
     !                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/one
     !            * name: iAirTemperatureMax
     !                          ** description : Daily maximum air temperature
@@ -163,7 +203,7 @@ CONTAINS
     !            * name: SoilTempArray
     !                          ** description : Soil Temp array of last day
     !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
+    !                          ** variablecategory : auxiliary
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
     !                          ** max : 35.0

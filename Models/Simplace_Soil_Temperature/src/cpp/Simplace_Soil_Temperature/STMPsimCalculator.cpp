@@ -13,7 +13,6 @@ using namespace Simplace_Soil_Temperature;
 void STMPsimCalculator::Init(SoilTemperatureState &s, SoilTemperatureState &s1, SoilTemperatureRate &r, SoilTemperatureAuxiliary &a, SoilTemperatureExogenous &ex)
 {
     double iSoilWaterContent = ex.getiSoilWaterContent();
-    double iSoilSurfaceTemperature = ex.getiSoilSurfaceTemperature();
     std::vector<double> SoilTempArray;
     std::vector<double> rSoilTempArrayRate;
     std::vector<double> pSoilLayerDepth;
@@ -135,7 +134,7 @@ void STMPsimCalculator::Calculate_Model(SoilTemperatureState &s, SoilTemperature
     //            * name: iSoilSurfaceTemperature
     //                          ** description : Temperature at soil surface
     //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
+    //                          ** variablecategory : auxiliary
     //                          ** datatype : DOUBLE
     //                          ** max : 20.0
     //                          ** min : 1.5
@@ -189,7 +188,7 @@ void STMPsimCalculator::Calculate_Model(SoilTemperatureState &s, SoilTemperature
     //                          ** min : -20
     //                          ** unit : http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius_per_day
     double iSoilWaterContent = ex.getiSoilWaterContent();
-    double iSoilSurfaceTemperature = ex.getiSoilSurfaceTemperature();
+    double iSoilSurfaceTemperature = a.getiSoilSurfaceTemperature();
     std::vector<double> & SoilTempArray = s.getSoilTempArray();
     std::vector<double> & rSoilTempArrayRate = s.getrSoilTempArrayRate();
     std::vector<double> & pSoilLayerDepth = s.getpSoilLayerDepth();

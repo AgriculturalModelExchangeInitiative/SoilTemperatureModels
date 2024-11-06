@@ -15,7 +15,6 @@ CONTAINS
         iCropResidues, &
         iPotentialSoilEvaporation, &
         iLeafAreaIndex, &
-        iSoilTempArray, &
         pInternalAlbedo, &
         SnowWaterContent, &
         SoilSurfaceTemperature, &
@@ -35,7 +34,6 @@ CONTAINS
         REAL, INTENT(IN) :: iCropResidues
         REAL, INTENT(IN) :: iPotentialSoilEvaporation
         REAL, INTENT(IN) :: iLeafAreaIndex
-        REAL , DIMENSION(: ), INTENT(IN) :: iSoilTempArray
         REAL, INTENT(OUT) :: pInternalAlbedo
         REAL, INTENT(OUT) :: SnowWaterContent
         REAL, INTENT(OUT) :: SoilSurfaceTemperature
@@ -257,7 +255,7 @@ CONTAINS
     !            * name: iSoilTempArray
     !                          ** description : Soil Temp array of last day
     !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
+    !                          ** variablecategory : auxiliary
     !                          ** datatype : DOUBLEARRAY
     !                          ** len : 
     !                          ** max : 35.0
@@ -349,7 +347,7 @@ CONTAINS
         IF(iRAIN .GT. REAL(0) .AND. (tiSoilTempArray .LT. REAL(1) .OR.  &
                 (SnowWaterContent .GT. REAL(3) .OR. SoilSurfaceTemperature .LT.  &
                 REAL(0)))) THEN
-            SnowWaterContent = SnowWaterContent + iRAIN
+            SnowWaterContent = SnowWaterContent
         END IF
         tSnowIsolationIndex = 1.0
         IF(tiCropResidues .LT. REAL(10)) THEN

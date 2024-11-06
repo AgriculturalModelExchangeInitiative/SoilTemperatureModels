@@ -57,26 +57,30 @@ namespace Model.Model.SoilTemperature
         }
 
         public void Init(){
-            soiltemperatureComponent.Init(s, r, a);
+            setExogenous();
             loadParameters();
+            soiltemperatureComponent.Init(s, s1, r, a, ex);
         }
 
         private void loadParameters()
         {
-            soiltemperatureComponent.cCarbonContent = cCarbonContent;
-            soiltemperatureComponent.cAlbedo = cAlbedo;
-            soiltemperatureComponent.Albedo = Albedo;
-            soiltemperatureComponent.cSoilLayerDepth = cSoilLayerDepth;
-            soiltemperatureComponent.cFirstDayMeanTemp = cFirstDayMeanTemp;
-            soiltemperatureComponent.cAverageGroundTemperature = cAverageGroundTemperature;
-            soiltemperatureComponent.cAVT = cAVT;
-            soiltemperatureComponent.cAverageBulkDensity = cAverageBulkDensity;
-            soiltemperatureComponent.cABD = cABD;
-            soiltemperatureComponent.cDampingDepth = cDampingDepth;
+            soiltemperatureComponent.cCarbonContent = null; // To be modified
+            soiltemperatureComponent.cAlbedo = null; // To be modified
+            soiltemperatureComponent.cInitialAgeOfSnow = null; // To be modified
+            soiltemperatureComponent.cInitialSnowWaterContent = null; // To be modified
+            soiltemperatureComponent.cSnowIsolationFactorA = null; // To be modified
+            soiltemperatureComponent.cSnowIsolationFactorB = null; // To be modified
+            soiltemperatureComponent.cSoilLayerDepth = null; // To be modified
+            soiltemperatureComponent.cFirstDayMeanTemp = null; // To be modified
+            soiltemperatureComponent.cAverageGroundTemperature = null; // To be modified
+            soiltemperatureComponent.cAverageBulkDensity = null; // To be modified
+            soiltemperatureComponent.cDampingDepth = null; // To be modified
         }
 
-        public void EstimateSoilTemperature(double iAirTemperatureMax, double iTempMax, double iAirTemperatureMin, double iTempMin, double iGlobalSolarRadiation, double iRadiation, double iRAIN, double iCropResidues, double iPotentialSoilEvaporation, double iLeafAreaIndex, double[] iSoilTempArray, double iSoilWaterContent, double iSoilSurfaceTemperature)
+        public void EstimateSoilTemperature(double[] iSoilTempArray, double iSoilSurfaceTemperature, double iAirTemperatureMax, double iTempMax, double iAirTemperatureMin, double iTempMin, double iGlobalSolarRadiation, double iRadiation, double iRAIN, double iCropResidues, double iPotentialSoilEvaporation, double iLeafAreaIndex, double iSoilWaterContent)
         {
+            a.iSoilTempArray = iSoilTempArray;
+            a.iSoilSurfaceTemperature = iSoilSurfaceTemperature;
             a.iAirTemperatureMax = iAirTemperatureMax;
             a.iTempMax = iTempMax;
             a.iAirTemperatureMin = iAirTemperatureMin;
@@ -87,9 +91,7 @@ namespace Model.Model.SoilTemperature
             a.iCropResidues = iCropResidues;
             a.iPotentialSoilEvaporation = iPotentialSoilEvaporation;
             a.iLeafAreaIndex = iLeafAreaIndex;
-            a.iSoilTempArray = iSoilTempArray;
             a.iSoilWaterContent = iSoilWaterContent;
-            a.iSoilSurfaceTemperature = iSoilSurfaceTemperature;
             soiltemperatureComponent.CalculateModel(s,s1, r, a, ex);
         }
 

@@ -10,65 +10,68 @@ public class SoilTemperatureState
     private double[] _pSoilLayerDepth;
     private double[] _SoilTempArray;
     
-        public SoilTemperatureState() { }
+    /// <summary>
+    /// Constructor of the SoilTemperatureState component")
+    /// </summary>  
+    public SoilTemperatureState() { }
     
     
     public SoilTemperatureState(SoilTemperatureState toCopy, bool copyAll) // copy constructor 
     {
-    if (copyAll)
-    {
+        if (copyAll)
+        {
     
-    pInternalAlbedo = toCopy.pInternalAlbedo;
-    SnowWaterContent = toCopy.SnowWaterContent;
-    SoilSurfaceTemperature = toCopy.SoilSurfaceTemperature;
-    AgeOfSnow = toCopy.AgeOfSnow;
-    rSoilTempArrayRate = new double[toCopy.rSoilTempArrayRate.Length];
+            pInternalAlbedo = toCopy.pInternalAlbedo;
+            SnowWaterContent = toCopy.SnowWaterContent;
+            SoilSurfaceTemperature = toCopy.SoilSurfaceTemperature;
+            AgeOfSnow = toCopy.AgeOfSnow;
+            rSoilTempArrayRate = new double[toCopy.rSoilTempArrayRate.Length];
             for (int i = 0; i < toCopy.rSoilTempArrayRate.Length; i++)
-            { rSoilTempArrayRate[i] = toCopy.rSoilTempArrayRate[i]; }
+                { rSoilTempArrayRate[i] = toCopy.rSoilTempArrayRate[i]; }
     
-    pSoilLayerDepth = new double[toCopy.pSoilLayerDepth.Length];
+            pSoilLayerDepth = new double[toCopy.pSoilLayerDepth.Length];
             for (int i = 0; i < toCopy.pSoilLayerDepth.Length; i++)
-            { pSoilLayerDepth[i] = toCopy.pSoilLayerDepth[i]; }
+                { pSoilLayerDepth[i] = toCopy.pSoilLayerDepth[i]; }
     
-    SoilTempArray = new double[toCopy.SoilTempArray.Length];
+            SoilTempArray = new double[toCopy.SoilTempArray.Length];
             for (int i = 0; i < toCopy.SoilTempArray.Length; i++)
-            { SoilTempArray[i] = toCopy.SoilTempArray[i]; }
+                { SoilTempArray[i] = toCopy.SoilTempArray[i]; }
     
-    }
+        }
     }
     public double pInternalAlbedo
-        {
-            get { return this._pInternalAlbedo; }
-            set { this._pInternalAlbedo= value; } 
-        }
+    {
+        get { return this._pInternalAlbedo; }
+        set { this._pInternalAlbedo= value; } 
+    }
     public double SnowWaterContent
-        {
-            get { return this._SnowWaterContent; }
-            set { this._SnowWaterContent= value; } 
-        }
+    {
+        get { return this._SnowWaterContent; }
+        set { this._SnowWaterContent= value; } 
+    }
     public double SoilSurfaceTemperature
-        {
-            get { return this._SoilSurfaceTemperature; }
-            set { this._SoilSurfaceTemperature= value; } 
-        }
+    {
+        get { return this._SoilSurfaceTemperature; }
+        set { this._SoilSurfaceTemperature= value; } 
+    }
     public int AgeOfSnow
-        {
-            get { return this._AgeOfSnow; }
-            set { this._AgeOfSnow= value; } 
-        }
+    {
+        get { return this._AgeOfSnow; }
+        set { this._AgeOfSnow= value; } 
+    }
     public double[] rSoilTempArrayRate
-        {
-            get { return this._rSoilTempArrayRate; }
-            set { this._rSoilTempArrayRate= value; } 
-        }
+    {
+        get { return this._rSoilTempArrayRate; }
+        set { this._rSoilTempArrayRate= value; } 
+    }
     public double[] pSoilLayerDepth
-        {
-            get { return this._pSoilLayerDepth; }
-            set { this._pSoilLayerDepth= value; } 
-        }
+    {
+        get { return this._pSoilLayerDepth; }
+        set { this._pSoilLayerDepth= value; } 
+    }
     public double[] SoilTempArray
-        {
-            get { return this._SoilTempArray; }
-            set { this._SoilTempArray= value; } 
-        }
+    {
+        get { return this._SoilTempArray; }
+        set { this._SoilTempArray= value; } 
+    }
 }

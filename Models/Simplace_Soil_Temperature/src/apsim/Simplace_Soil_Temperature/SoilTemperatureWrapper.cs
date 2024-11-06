@@ -147,6 +147,10 @@ class SoilTemperatureWrapper :  Model
     {
         soiltemperatureComponent.cCarbonContent = null; // To be modified
         soiltemperatureComponent.cAlbedo = null; // To be modified
+        soiltemperatureComponent.cInitialAgeOfSnow = null; // To be modified
+        soiltemperatureComponent.cInitialSnowWaterContent = null; // To be modified
+        soiltemperatureComponent.cSnowIsolationFactorA = null; // To be modified
+        soiltemperatureComponent.cSnowIsolationFactorB = null; // To be modified
         soiltemperatureComponent.cSoilLayerDepth = null; // To be modified
         soiltemperatureComponent.cFirstDayMeanTemp = null; // To be modified
         soiltemperatureComponent.cAverageGroundTemperature = null; // To be modified
@@ -166,7 +170,6 @@ class SoilTemperatureWrapper :  Model
         ex.iCropResidues = null; // To be modified
         ex.iPotentialSoilEvaporation = null; // To be modified
         ex.iLeafAreaIndex = null; // To be modified
-        ex.SoilTempArray = null; // To be modified
         ex.iSoilWaterContent = null; // To be modified
     }
 

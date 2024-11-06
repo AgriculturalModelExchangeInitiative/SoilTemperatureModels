@@ -35,16 +35,16 @@ public class SoilTemperatureState
             SoilSurfaceTemperature = toCopy.SoilSurfaceTemperature;
             AgeOfSnow = toCopy.AgeOfSnow;
             rSoilTempArrayRate = new double[toCopy.rSoilTempArrayRate.Length];
-        for (int i = 0; i < toCopy.rSoilTempArrayRate.Length; i++)
-        { rSoilTempArrayRate[i] = toCopy.rSoilTempArrayRate[i]; }
+            for (int i = 0; i < toCopy.rSoilTempArrayRate.Length; i++)
+                { rSoilTempArrayRate[i] = toCopy.rSoilTempArrayRate[i]; }
     
             pSoilLayerDepth = new double[toCopy.pSoilLayerDepth.Length];
-        for (int i = 0; i < toCopy.pSoilLayerDepth.Length; i++)
-        { pSoilLayerDepth[i] = toCopy.pSoilLayerDepth[i]; }
+            for (int i = 0; i < toCopy.pSoilLayerDepth.Length; i++)
+                { pSoilLayerDepth[i] = toCopy.pSoilLayerDepth[i]; }
     
             SoilTempArray = new double[toCopy.SoilTempArray.Length];
-        for (int i = 0; i < toCopy.SoilTempArray.Length; i++)
-        { SoilTempArray[i] = toCopy.SoilTempArray[i]; }
+            for (int i = 0; i < toCopy.SoilTempArray.Length; i++)
+                { SoilTempArray[i] = toCopy.SoilTempArray[i]; }
     
         }
     }

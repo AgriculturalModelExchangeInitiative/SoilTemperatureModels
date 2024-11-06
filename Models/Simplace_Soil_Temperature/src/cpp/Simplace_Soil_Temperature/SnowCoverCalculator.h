@@ -14,11 +14,11 @@ class SnowCoverCalculator
 {
     private:
         double cCarbonContent ;
-        int cInitialAgeOfSnow{0} ;
-        double cInitialSnowWaterContent {0};
+        int cInitialAgeOfSnow ;
+        double cInitialSnowWaterContent ;
         double Albedo ;
-        double cSnowIsolationFactorA {2.3};
-        double cSnowIsolationFactorB {0.22};
+        double cSnowIsolationFactorA ;
+        double cSnowIsolationFactorB ;
     public:
         SnowCoverCalculator();
         void Calculate_Model(SoilTemperatureState &s, SoilTemperatureState &s1, SoilTemperatureRate &r, SoilTemperatureAuxiliary &a, SoilTemperatureExogenous &ex);

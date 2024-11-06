@@ -1,7 +1,10 @@
 public class SoilTemperatureComponent
 {
     
-        public SoilTemperatureComponent() { }
+    /// <summary>
+    /// Constructor of the SoilTemperatureComponent component")
+    /// </summary>  
+    public SoilTemperatureComponent() { }
     
 
     //Declaration of the associated strategies
@@ -23,22 +26,55 @@ public class SoilTemperatureComponent
     {
         get
         {
-             return _SnowCoverCalculator.cAlbedo; 
-        }
-        set
-        {
-            _SnowCoverCalculator.cAlbedo = value;
-        }
-    }
-    public double Albedo
-    {
-        get
-        {
              return _SnowCoverCalculator.Albedo; 
         }
         set
         {
             _SnowCoverCalculator.Albedo = value;
+        }
+    }
+    public int cInitialAgeOfSnow
+    {
+        get
+        {
+             return _SnowCoverCalculator.cInitialAgeOfSnow; 
+        }
+        set
+        {
+            _SnowCoverCalculator.cInitialAgeOfSnow = value;
+        }
+    }
+    public double cInitialSnowWaterContent
+    {
+        get
+        {
+             return _SnowCoverCalculator.cInitialSnowWaterContent; 
+        }
+        set
+        {
+            _SnowCoverCalculator.cInitialSnowWaterContent = value;
+        }
+    }
+    public double cSnowIsolationFactorA
+    {
+        get
+        {
+             return _SnowCoverCalculator.cSnowIsolationFactorA; 
+        }
+        set
+        {
+            _SnowCoverCalculator.cSnowIsolationFactorA = value;
+        }
+    }
+    public double cSnowIsolationFactorB
+    {
+        get
+        {
+             return _SnowCoverCalculator.cSnowIsolationFactorB; 
+        }
+        set
+        {
+            _SnowCoverCalculator.cSnowIsolationFactorB = value;
         }
     }
     public double[] cSoilLayerDepth
@@ -67,17 +103,6 @@ public class SoilTemperatureComponent
     {
         get
         {
-             return _STMPsimCalculator.cAverageGroundTemperature; 
-        }
-        set
-        {
-            _STMPsimCalculator.cAverageGroundTemperature = value;
-        }
-    }
-    public double cAVT
-    {
-        get
-        {
              return _STMPsimCalculator.cAVT; 
         }
         set
@@ -86,17 +111,6 @@ public class SoilTemperatureComponent
         }
     }
     public double cAverageBulkDensity
-    {
-        get
-        {
-             return _STMPsimCalculator.cAverageBulkDensity; 
-        }
-        set
-        {
-            _STMPsimCalculator.cAverageBulkDensity = value;
-        }
-    }
-    public double cABD
     {
         get
         {
@@ -121,33 +135,31 @@ public class SoilTemperatureComponent
 
     public void  CalculateModel(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a, SoilTemperatureExogenous ex)
     {
-        Albedo = cAlbedo;
         ex.iTempMax = ex.iAirTemperatureMax;
         ex.iTempMin = ex.iAirTemperatureMin;
         ex.iRadiation = ex.iGlobalSolarRadiation;
-        ex.iSoilTempArray = s.SoilTempArray;
-        cAVT = cAverageGroundTemperature;
-        cABD = cAverageBulkDensity;
+        a.iSoilTempArray = s.SoilTempArray;
         _SnowCoverCalculator.CalculateModel(s,s1, r, a, ex);
-        ex.iSoilSurfaceTemperature = s.SoilSurfaceTemperature;
+        a.iSoilSurfaceTemperature = s.SoilSurfaceTemperature;
         _STMPsimCalculator.CalculateModel(s,s1, r, a, ex);
     }
     
     public SoilTemperatureComponent(SoilTemperatureComponent toCopy): this() // copy constructor 
     {
 
-        cCarbonContent = toCopy.cCarbonContent;
-        cAlbedo = toCopy.cAlbedo;
-        Albedo = toCopy.Albedo;
-        
+            cCarbonContent = toCopy.cCarbonContent;
+            cAlbedo = toCopy.cAlbedo;
+            cInitialAgeOfSnow = toCopy.cInitialAgeOfSnow;
+            cInitialSnowWaterContent = toCopy.cInitialSnowWaterContent;
+            cSnowIsolationFactorA = toCopy.cSnowIsolationFactorA;
+            cSnowIsolationFactorB = toCopy.cSnowIsolationFactorB;
+            
             for (int i = 0; i < 100; i++)
-            { cSoilLayerDepth[i] = toCopy.cSoilLayerDepth[i]; }
+                { cSoilLayerDepth[i] = toCopy.cSoilLayerDepth[i]; }
     
-        cFirstDayMeanTemp = toCopy.cFirstDayMeanTemp;
-        cAverageGroundTemperature = toCopy.cAverageGroundTemperature;
-        cAVT = toCopy.cAVT;
-        cAverageBulkDensity = toCopy.cAverageBulkDensity;
-        cABD = toCopy.cABD;
-        cDampingDepth = toCopy.cDampingDepth;
-    }
-}
+            cFirstDayMeanTemp = toCopy.cFirstDayMeanTemp;
+            cAverageGroundTemperature = toCopy.cAverageGroundTemperature;
+            cAverageBulkDensity = toCopy.cAverageBulkDensity;
+            cDampingDepth = toCopy.cDampingDepth;
+            }
+        }

@@ -21,7 +21,7 @@ TAMPL=0.5 * (iTempMax - iTempMin)
 DST=TMEAN + (TAMPL * (iRadiation * (1 - pInternalAlbedo) - 14) / 20)
 #b'/adding new precipitation to snow cover'
 if iRAIN > float(0) and (tiSoilTempArray < float(1) or SnowWaterContent > float(3) or SoilSurfaceTemperature < float(0)):
-    SnowWaterContent=SnowWaterContent + iRAIN
+    SnowWaterContent=SnowWaterContent #+ iRAIN
 tSnowIsolationIndex=1.0
 if tiCropResidues < float(10):
     tSnowIsolationIndex=tiCropResidues / (tiCropResidues + exp(5.34 - (2.4 * tiCropResidues)))
