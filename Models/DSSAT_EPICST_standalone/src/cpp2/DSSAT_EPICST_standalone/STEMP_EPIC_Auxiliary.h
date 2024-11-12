@@ -1,16 +1,12 @@
-#ifndef _STEMP_EPIC_Auxiliary_
-#define _STEMP_EPIC_Auxiliary_
+#pragma once
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
-# include<vector>
-# include<string>
-using namespace std;
-class STEMP_EPIC_Auxiliary
-{
-    private:
-    public:
-        STEMP_EPIC_Auxiliary();
+#include <vector>
+#include <string>
 
+namespace DSSAT_EPICST_standalone {
+struct STEMP_EPIC_Auxiliary
+{
 };
-#endif
+}

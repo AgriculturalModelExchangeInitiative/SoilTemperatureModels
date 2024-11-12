@@ -12,6 +12,21 @@
 using namespace Monica_SoilTemp;
 void SoilTemperature::Init(SoilTemperatureCompState &s, SoilTemperatureCompState &s1, SoilTemperatureCompRate &r, SoilTemperatureCompAuxiliary &a, SoilTemperatureCompExogenous &ex)
 {
+    s.soilSurfaceTemperature = 0.0;
+    s.soilTemperature = std::vector<double>(noOfTempLayers);
+    s.V = std::vector<double>(noOfTempLayers);
+    s.B = std::vector<double>(noOfTempLayers);
+    s.volumeMatrix = std::vector<double>(noOfTempLayers);
+    s.volumeMatrixOld = std::vector<double>(noOfTempLayers);
+    s.matrixPrimaryDiagonal = std::vector<double>(noOfTempLayers);
+    s.matrixSecondaryDiagonal = std::vector<double>(noOfTempLayersPlus1);
+    s.heatConductivity = std::vector<double>(noOfTempLayers);
+    s.heatConductivityMean = std::vector<double>(noOfTempLayers);
+    s.heatCapacity = std::vector<double>(noOfTempLayers);
+    s.solution = std::vector<double>(noOfTempLayers);
+    s.matrixDiagonal = std::vector<double>(noOfTempLayers);
+    s.matrixLowerTriangle = std::vector<double>(noOfTempLayers);
+    s.heatFlow = std::vector<double>(noOfTempLayers);
     s.soilTemperature = std::move(std::vector<double>(noOfTempLayers, 0.0));
     s.V = std::move(std::vector<double>(noOfTempLayers, 0.0));
     s.B = std::move(std::vector<double>(noOfTempLayers, 0.0));

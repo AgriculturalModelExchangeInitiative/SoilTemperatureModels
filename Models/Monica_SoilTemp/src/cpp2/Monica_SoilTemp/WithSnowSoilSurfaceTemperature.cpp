@@ -58,7 +58,6 @@ void WithSnowSoilSurfaceTemperature::Calculate_Model(SoilTemperatureCompState &s
     //                          ** max : 
     //                          ** min : 
     //                          ** unit : °C
-    double soilSurfaceTemperature;
     if (ex.hasSnowCover)
     {
         s.soilSurfaceTemperature = ex.soilSurfaceTemperatureBelowSnow;
