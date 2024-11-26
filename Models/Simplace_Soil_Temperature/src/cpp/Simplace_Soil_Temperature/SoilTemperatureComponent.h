@@ -7,6 +7,10 @@ class SoilTemperatureComponent
     private:
         double cCarbonContent ;
         double cAlbedo ;
+        int cInitialAgeOfSnow ;
+        double cInitialSnowWaterContent ;
+        double cSnowIsolationFactorA ;
+        double cSnowIsolationFactorB ;
         std::vector<double> cSoilLayerDepth ;
         double cFirstDayMeanTemp ;
         double cAverageGroundTemperature ;
@@ -21,6 +25,14 @@ class SoilTemperatureComponent
         void setcCarbonContent(double _cCarbonContent);
         double getcAlbedo();
         void setcAlbedo(double _cAlbedo);
+        int getcInitialAgeOfSnow();
+        void setcInitialAgeOfSnow(int _cInitialAgeOfSnow);
+        double getcInitialSnowWaterContent();
+        void setcInitialSnowWaterContent(double _cInitialSnowWaterContent);
+        double getcSnowIsolationFactorA();
+        void setcSnowIsolationFactorA(double _cSnowIsolationFactorA);
+        double getcSnowIsolationFactorB();
+        void setcSnowIsolationFactorB(double _cSnowIsolationFactorB);
         std::vector<double> & getcSoilLayerDepth();
         void setcSoilLayerDepth(const std::vector<double> &  _cSoilLayerDepth);
         double getcFirstDayMeanTemp();

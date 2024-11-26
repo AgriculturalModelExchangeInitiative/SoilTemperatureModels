@@ -14,11 +14,12 @@ import org.jdom2.Element;
 
 public class SoilTemperature extends FWSimComponent
 {
-    private FWSimVariable<Integer> noOfTempLayers;
     private FWSimVariable<Integer> noOfSoilLayers;
+    private FWSimVariable<Integer> noOfTempLayers;
+    private FWSimVariable<Integer> noOfTempLayersPlus1;
     private FWSimVariable<Double> soilSurfaceTemperature;
     private FWSimVariable<Double> timeStep;
-    private FWSimVariable<Double> soilMoistureConst;
+    private FWSimVariable<Double[]> soilMoistureConst;
     private FWSimVariable<Double> baseTemp;
     private FWSimVariable<Double> initialSurfaceTemp;
     private FWSimVariable<Double> densityAir;
@@ -61,11 +62,12 @@ public class SoilTemperature extends FWSimComponent
     @Override
     public HashMap<String, FWSimVariable<?>> createVariables()
     {
+        addVariable(FWSimVariable.createSimVariable("noOfSoilLayers", "noOfSoilLayers", DATA_TYPE.INT, CONTENT_TYPE.constant,"dimensionless", null, null, 20, this));
         addVariable(FWSimVariable.createSimVariable("noOfTempLayers", "noOfTempLayers=noOfSoilLayers+2", DATA_TYPE.INT, CONTENT_TYPE.constant,"dimensionless", null, null, 22, this));
-        addVariable(FWSimVariable.createSimVariable("noOfSoilLayers", "noOfSoilLayers", DATA_TYPE.INT, CONTENT_TYPE.constant,"dimensionless", null, null, 20.0, this));
+        addVariable(FWSimVariable.createSimVariable("noOfTempLayersPlus1", "for matrixSecondaryDiagonal", DATA_TYPE.INT, CONTENT_TYPE.constant,"dimensionless", null, null, 23, this));
         addVariable(FWSimVariable.createSimVariable("soilSurfaceTemperature", "current soilSurfaceTemperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.state,"°C", -50.0, 80.0, 0.0, this));
         addVariable(FWSimVariable.createSimVariable("timeStep", "timeStep", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"dimensionless", null, null, 1.0, this));
-        addVariable(FWSimVariable.createSimVariable("soilMoistureConst", "initial soilmoisture", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"m**3/m**3", null, null, 0.25, this));
+        addVariable(FWSimVariable.createSimVariable("soilMoistureConst", "constant soilmoisture during the model run", DATA_TYPE.DOUBLEARRAY, CONTENT_TYPE.constant,"m**3/m**3", null, null, null, this));
         addVariable(FWSimVariable.createSimVariable("baseTemp", "baseTemperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"°C", null, null, 9.5, this));
         addVariable(FWSimVariable.createSimVariable("initialSurfaceTemp", "initialSurfaceTemperature", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"°C", null, null, 10.0, this));
         addVariable(FWSimVariable.createSimVariable("densityAir", "DensityAir", DATA_TYPE.DOUBLE, CONTENT_TYPE.constant,"kg/m**3", null, null, 1.25, this));
@@ -101,10 +103,11 @@ public class SoilTemperature extends FWSimComponent
     @Override
     protected void init()
     {
-        Integer t_noOfTempLayers = noOfTempLayers.getValue();
         Integer t_noOfSoilLayers = noOfSoilLayers.getValue();
+        Integer t_noOfTempLayers = noOfTempLayers.getValue();
+        Integer t_noOfTempLayersPlus1 = noOfTempLayersPlus1.getValue();
         double t_timeStep = timeStep.getValue();
-        double t_soilMoistureConst = soilMoistureConst.getValue();
+        Double [] t_soilMoistureConst = soilMoistureConst.getValue();
         double t_baseTemp = baseTemp.getValue();
         double t_initialSurfaceTemp = initialSurfaceTemp.getValue();
         double t_densityAir = densityAir.getValue();
@@ -120,20 +123,21 @@ public class SoilTemperature extends FWSimComponent
         Double [] t_soilBulkDensity = soilBulkDensity.getValue();
         Double [] t_saturation = saturation.getValue();
         Double [] t_soilOrganicMatter = soilOrganicMatter.getValue();
-        Double [] t_soilTemperature = new double[22];
-        Double [] t_V = new double[22];
-        Double [] t_B = new double[22];
-        Double [] t_volumeMatrix = new double[22];
-        Double [] t_volumeMatrixOld = new double[22];
-        Double [] t_matrixPrimaryDiagonal = new double[22];
-        Double [] t_matrixSecondaryDiagonal = new double[23];
-        Double [] t_heatConductivity = new double[22];
-        Double [] t_heatConductivityMean = new double[22];
-        Double [] t_heatCapacity = new double[22];
-        Double [] t_solution = new double[22];
-        Double [] t_matrixDiagonal = new double[22];
-        Double [] t_matrixLowerTriangle = new double[22];
-        Double [] t_heatFlow = new double[22];
+        double t_soilSurfaceTemperature = soilSurfaceTemperature.getDefault();
+        Double [] t_soilTemperature = new double[t_noOfTempLayers];
+        Double [] t_V = new double[t_noOfTempLayers];
+        Double [] t_B = new double[t_noOfTempLayers];
+        Double [] t_volumeMatrix = new double[t_noOfTempLayers];
+        Double [] t_volumeMatrixOld = new double[t_noOfTempLayers];
+        Double [] t_matrixPrimaryDiagonal = new double[t_noOfTempLayers];
+        Double [] t_matrixSecondaryDiagonal = new double[t_noOfTempLayersPlus1];
+        Double [] t_heatConductivity = new double[t_noOfTempLayers];
+        Double [] t_heatConductivityMean = new double[t_noOfTempLayers];
+        Double [] t_heatCapacity = new double[t_noOfTempLayers];
+        Double [] t_solution = new double[t_noOfTempLayers];
+        Double [] t_matrixDiagonal = new double[t_noOfTempLayers];
+        Double [] t_matrixLowerTriangle = new double[t_noOfTempLayers];
+        Double [] t_heatFlow = new double[t_noOfTempLayers];
         Arrays.fill(t_soilTemperature, 0.0d);
         Arrays.fill(t_V, 0.0d);
         Arrays.fill(t_B, 0.0d);
@@ -199,7 +203,7 @@ public class SoilTemperature extends FWSimComponent
         for (i=0 ; i!=t_noOfSoilLayers ; i+=1)
         {
             sbdi = t_soilBulkDensity[i];
-            smi = t_soilMoistureConst;
+            smi = t_soilMoistureConst[i];
             t_heatConductivity[i] = (3.0d * (sbdi / 1000.0d) - 1.7d) * 0.001d / (1.0d + ((11.5d - (5.0d * (sbdi / 1000.0d))) * Math.exp(-50.0d * Math.pow(smi / (sbdi / 1000.0d), 1.5d)))) * 86400.0d * ts * 100.0d * 4.184d;
             sati = t_saturation[i];
             somi = t_soilOrganicMatter[i] / da * sbdi;
@@ -249,11 +253,12 @@ public class SoilTemperature extends FWSimComponent
     @Override
     protected void process()
     {
-        Integer t_noOfTempLayers = noOfTempLayers.getValue();
         Integer t_noOfSoilLayers = noOfSoilLayers.getValue();
+        Integer t_noOfTempLayers = noOfTempLayers.getValue();
+        Integer t_noOfTempLayersPlus1 = noOfTempLayersPlus1.getValue();
         double t_soilSurfaceTemperature = soilSurfaceTemperature.getValue();
         double t_timeStep = timeStep.getValue();
-        double t_soilMoistureConst = soilMoistureConst.getValue();
+        Double [] t_soilMoistureConst = soilMoistureConst.getValue();
         double t_baseTemp = baseTemp.getValue();
         double t_initialSurfaceTemp = initialSurfaceTemp.getValue();
         double t_densityAir = densityAir.getValue();

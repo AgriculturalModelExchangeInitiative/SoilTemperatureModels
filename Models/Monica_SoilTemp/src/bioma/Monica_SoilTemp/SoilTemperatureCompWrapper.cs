@@ -64,6 +64,7 @@ namespace Model.Model.SoilTemperatureComp
             soiltemperaturecompComponent.specificHeatCapacityQuartz = specificHeatCapacityQuartz;
             soiltemperaturecompComponent.nTau = nTau;
             soiltemperaturecompComponent.noOfTempLayers = noOfTempLayers;
+            soiltemperaturecompComponent.noOfTempLayersPlus1 = noOfTempLayersPlus1;
             soiltemperaturecompComponent.noOfSoilLayers = noOfSoilLayers;
             soiltemperaturecompComponent.layerThickness = layerThickness;
             soiltemperaturecompComponent.soilBulkDensity = soilBulkDensity;

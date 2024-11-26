@@ -13,10 +13,7 @@ double SoilTemperatureExogenous::getiRAIN() { return this->iRAIN; }
 double SoilTemperatureExogenous::getiCropResidues() { return this->iCropResidues; }
 double SoilTemperatureExogenous::getiPotentialSoilEvaporation() { return this->iPotentialSoilEvaporation; }
 double SoilTemperatureExogenous::getiLeafAreaIndex() { return this->iLeafAreaIndex; }
-std::vector<double> & SoilTemperatureExogenous::getSoilTempArray() { return this->SoilTempArray; }
-std::vector<double> & SoilTemperatureExogenous::getiSoilTempArray() { return this->iSoilTempArray; }
 double SoilTemperatureExogenous::getiSoilWaterContent() { return this->iSoilWaterContent; }
-double SoilTemperatureExogenous::getiSoilSurfaceTemperature() { return this->iSoilSurfaceTemperature; }
 
 void SoilTemperatureExogenous::setiAirTemperatureMax(double _iAirTemperatureMax) { this->iAirTemperatureMax = _iAirTemperatureMax; }
 void SoilTemperatureExogenous::setiTempMax(double _iTempMax) { this->iTempMax = _iTempMax; }
@@ -28,11 +25,4 @@ void SoilTemperatureExogenous::setiRAIN(double _iRAIN) { this->iRAIN = _iRAIN; }
 void SoilTemperatureExogenous::setiCropResidues(double _iCropResidues) { this->iCropResidues = _iCropResidues; }
 void SoilTemperatureExogenous::setiPotentialSoilEvaporation(double _iPotentialSoilEvaporation) { this->iPotentialSoilEvaporation = _iPotentialSoilEvaporation; }
 void SoilTemperatureExogenous::setiLeafAreaIndex(double _iLeafAreaIndex) { this->iLeafAreaIndex = _iLeafAreaIndex; }
-void SoilTemperatureExogenous::setSoilTempArray(std::vector<double> const &_SoilTempArray){
-    this->SoilTempArray = _SoilTempArray;
-}
-void SoilTemperatureExogenous::setiSoilTempArray(std::vector<double> const &_iSoilTempArray){
-    this->iSoilTempArray = _iSoilTempArray;
-}
 void SoilTemperatureExogenous::setiSoilWaterContent(double _iSoilWaterContent) { this->iSoilWaterContent = _iSoilWaterContent; }
-void SoilTemperatureExogenous::setiSoilSurfaceTemperature(double _iSoilSurfaceTemperature) { this->iSoilSurfaceTemperature = _iSoilSurfaceTemperature; }

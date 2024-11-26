@@ -1,0 +1,65 @@
+# coding: utf8
+from copy import copy
+from array import array
+from math import *
+from typing import *
+from datetime import datetime
+
+from Campbell.campbell import model_campbell
+
+def model_model_soiltempcampbell(NLAYR:int,
+         THICK:'Array[float]',
+         BD:'Array[float]',
+         SLCARB:'Array[float]',
+         CLAY:'Array[float]',
+         SLROCK:'Array[float]',
+         SLSILT:'Array[float]',
+         SLSAND:'Array[float]',
+         SW:'Array[float]',
+         THICKApsim:List[float],
+         DEPTHApsim:List[float],
+         CONSTANT_TEMPdepth:float,
+         BDApsim:List[float],
+         T2M:float,
+         TMAX:float,
+         TMIN:float,
+         TAV:float,
+         TAMP:float,
+         XLAT:float,
+         CLAYApsim:List[float],
+         SWApsim:List[float],
+         DOY:int,
+         airPressure:float,
+         canopyHeight:float,
+         SALB:float,
+         SRAD:float,
+         ESP:float,
+         ES:float,
+         EOAD:float,
+         soilTemp:List[float],
+         newTemperature:List[float],
+         minSoilTemp:List[float],
+         maxSoilTemp:List[float],
+         aveSoilTemp:List[float],
+         morningSoilTemp:List[float],
+         thermalCondPar1:List[float],
+         thermalCondPar2:List[float],
+         thermalCondPar3:List[float],
+         thermalCondPar4:List[float],
+         thermalConductivity:List[float],
+         thermalConductance:List[float],
+         heatStorage:List[float],
+         volSpecHeatSoil:List[float],
+         maxTempYesterday:float,
+         minTempYesterday:float,
+         instrumentHeight:float,
+         boundaryLayerConductanceSource:str,
+         netRadiationSource:str,
+         windSpeed:float,
+         SLCARBApsim:List[float],
+         SLROCKApsim:List[float],
+         SLSILTApsim:List[float],
+         SLSANDApsim:List[float],
+         _boundaryLayerConductance:float):
+    (soilTemp, minSoilTemp, maxSoilTemp, aveSoilTemp, morningSoilTemp, newTemperature, maxTempYesterday, minTempYesterday, thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4, thermalConductivity, thermalConductance, heatStorage, volSpecHeatSoil, _boundaryLayerConductance, THICKApsim, DEPTHApsim, BDApsim, SWApsim, CLAYApsim, SLROCKApsim, SLCARBApsim, SLSANDApsim, SLSILTApsim) = model_campbell(NLAYR, THICK, BD, SLCARB, CLAY, SLROCK, SLSILT, SLSAND, SW, THICKApsim, DEPTHApsim, CONSTANT_TEMPdepth, BDApsim, T2M, TMAX, TMIN, TAV, TAMP, XLAT, CLAYApsim, SWApsim, DOY, airPressure, canopyHeight, SALB, SRAD, ESP, ES, EOAD, soilTemp, newTemperature, minSoilTemp, maxSoilTemp, aveSoilTemp, morningSoilTemp, thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4, thermalConductivity, thermalConductance, heatStorage, volSpecHeatSoil, maxTempYesterday, minTempYesterday, instrumentHeight, boundaryLayerConductanceSource, netRadiationSource, windSpeed, SLCARBApsim, SLROCKApsim, SLSILTApsim, SLSANDApsim, _boundaryLayerConductance)
+    return (soilTemp, minSoilTemp, maxSoilTemp, aveSoilTemp, morningSoilTemp, newTemperature, maxTempYesterday, minTempYesterday, thermalCondPar1, thermalCondPar2, thermalCondPar3, thermalCondPar4, thermalConductivity, thermalConductance, heatStorage, volSpecHeatSoil, _boundaryLayerConductance, THICKApsim, DEPTHApsim, BDApsim, SWApsim, CLAYApsim, SLROCKApsim, SLCARBApsim, SLSANDApsim, SLSILTApsim)

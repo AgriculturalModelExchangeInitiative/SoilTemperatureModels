@@ -22,7 +22,7 @@ class SoilTemperatureCompWrapper
 
         double dampingFactor;
     double timeStep;
-    double soilMoistureConst;
+    double[] soilMoistureConst =  new double [100];
     double baseTemp;
     double initialSurfaceTemp;
     double densityAir;
@@ -35,6 +35,7 @@ class SoilTemperatureCompWrapper
     double specificHeatCapacityQuartz;
     double nTau;
     int noOfTempLayers;
+    int noOfTempLayersPlus1;
     int noOfSoilLayers;
     double[] layerThickness =  new double [100];
     double[] soilBulkDensity =  new double [100];
@@ -80,6 +81,7 @@ class SoilTemperatureCompWrapper
         soiltemperaturecompComponent.specificHeatCapacityQuartz = specificHeatCapacityQuartz;
         soiltemperaturecompComponent.nTau = nTau;
         soiltemperaturecompComponent.noOfTempLayers = noOfTempLayers;
+        soiltemperaturecompComponent.noOfTempLayersPlus1 = noOfTempLayersPlus1;
         soiltemperaturecompComponent.noOfSoilLayers = noOfSoilLayers;
         soiltemperaturecompComponent.layerThickness = layerThickness;
         soiltemperaturecompComponent.soilBulkDensity = soilBulkDensity;

@@ -6,8 +6,7 @@ def init_stmpsimcalculator(float cSoilLayerDepth[],
                            float cAVT,
                            float cABD,
                            float cDampingDepth,
-                           float iSoilWaterContent,
-                           float iSoilSurfaceTemperature):
+                           float iSoilWaterContent):
     cdef float SoilTempArray[]
     cdef float rSoilTempArrayRate[]
     cdef float pSoilLayerDepth[]

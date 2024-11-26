@@ -70,25 +70,25 @@ namespace SoilTemperatureComp.DomainClass
         {
             _tmin.Name = "tmin";
             _tmin.Description = "the days min air temperature";
-            _tmin.MaxValue = 70;
-            _tmin.MinValue = -50;
+            _tmin.MaxValue = 70.0;
+            _tmin.MinValue = -50.0;
             _tmin.DefaultValue = -1D;
             _tmin.Units = "°C";
             _tmin.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _tmax.Name = "tmax";
             _tmax.Description = "the days max air temperature";
-            _tmax.MaxValue = 70;
-            _tmax.MinValue = -50;
+            _tmax.MaxValue = 70.0;
+            _tmax.MinValue = -50.0;
             _tmax.DefaultValue = -1D;
             _tmax.Units = "°C";
             _tmax.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             _globrad.Name = "globrad";
             _globrad.Description = "the days global radiation";
-            _globrad.MaxValue = 30;
-            _globrad.MinValue = 0;
-            _globrad.DefaultValue = 0;
+            _globrad.MaxValue = 30.0;
+            _globrad.MinValue = 0.0;
+            _globrad.DefaultValue = 0.0;
             _globrad.Units = "MJ/m**2/d";
             _globrad.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 

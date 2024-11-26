@@ -24,8 +24,10 @@
 
         <Input name="timeStep" description="timeStep" inputtype="parameter" parametercategory="constant"
                datatype="DOUBLE" max="" min="" default="1.0" unit="dimensionless"/>
-        <Input name="soilMoistureConst" description="initial soilmoisture" inputtype="parameter"
-               parametercategory="constant" datatype="DOUBLE" max="" min="" default="0.25" unit="m**3/m**3"/>
+        <Input name="soilMoistureConst" description="constant soilmoisture during the model run" inputtype="parameter" parametercategory="constant"
+               datatype="DOUBLEARRAY" len="noOfSoilLayers" max="" min="" default="" unit="m**3/m**3"/>
+        <!--<Input name="soilMoistureConst" description="initial soilmoisture" inputtype="parameter"
+               parametercategory="constant" datatype="DOUBLE" max="" min="" default="0.25" unit="m**3/m**3"/>-->
         <Input name="baseTemp" description="baseTemperature" inputtype="parameter" parametercategory="constant"
                datatype="DOUBLE" max="" min="" default="9.5" unit="°C"/>
         <Input name="initialSurfaceTemp" description="initialSurfaceTemperature" inputtype="parameter"

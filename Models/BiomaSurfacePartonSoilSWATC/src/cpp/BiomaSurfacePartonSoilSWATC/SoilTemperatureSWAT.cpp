@@ -15,7 +15,7 @@ void SoilTemperatureSWAT::Init(SurfacePartonSoilSWATCState &s, SurfacePartonSoil
     std::vector<double> & VolumetricWaterContent = ex.getVolumetricWaterContent();
     std::vector<double> SoilTemperatureByLayers;
     int i;
-    fill(SoilTemperatureByLayers.begin(),SoilTemperatureByLayers.end(), 0.0);
+    SoilTemperatureByLayers = std::move(std::vector<double>(LayerThickness.size(), 0.0));
     for (i=0 ; i!=LayerThickness.size() ; i+=1)
     {
         SoilTemperatureByLayers[i] = float(15);

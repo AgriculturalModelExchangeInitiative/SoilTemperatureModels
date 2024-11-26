@@ -4,6 +4,10 @@ from Simplace_Soil_Temperature.snowcovercalculator import model_snowcovercalcula
 from Simplace_Soil_Temperature.stmpsimcalculator import model_stmpsimcalculator
 def model_soiltemperature(float cCarbonContent,
       float cAlbedo,
+      int cInitialAgeOfSnow,
+      float cInitialSnowWaterContent,
+      float cSnowIsolationFactorA,
+      float cSnowIsolationFactorB,
       float iAirTemperatureMax,
       float iAirTemperatureMin,
       float iGlobalSolarRadiation,
@@ -24,11 +28,7 @@ def model_soiltemperature(float cCarbonContent,
       int AgeOfSnow,
       float rSoilTempArrayRate[],
       float pSoilLayerDepth[]):
-    cdef int cInitialAgeOfSnow
-    cdef float cInitialSnowWaterContent
     cdef float Albedo
-    cdef float cSnowIsolationFactorA
-    cdef float cSnowIsolationFactorB
     cdef float iTempMax
     cdef float iTempMin
     cdef float iRadiation

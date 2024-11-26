@@ -7,11 +7,6 @@
 # shouldn't hurt
 #if(!_soilColumn.empty()) _soilColumnGroundLayer = _soilColumnBottomLayer = _soilColumn.back();
 
-# according to sensitivity tests, soil moisture has minor
-# influence to the temperature and thus can be set as constant
-# by xenia
-#cdef double soilMoistureConst = _params.pt_SoilMoisture;
-
 #double baseTemp = _params.pt_BaseTemperature;  // temperature for lowest layer (avg yearly air temp)
 #double initialSurfaceTemp = _params.pt_InitialSurfaceTemperature; // Replace by Mean air temperature
 
@@ -21,9 +16,6 @@ cdef float lti_1, lti
 cdef float ts, dw, cw, dq, cq, da, ca, dh, ch,sbdi, smi, sati, somi
 cdef float hci_1, hci
 
-
-
-
 # Initialising the soil properties
 cdef int i
 for i in range(noOfSoilLayers):
@@ -31,11 +23,6 @@ for i in range(noOfSoilLayers):
     soilTemperature[i] = ((1.0 - (float(i) / noOfSoilLayers)) * initialSurfaceTemp) \
         + ((float(i) / noOfSoilLayers) * baseTemp)
 
-    # Initialising the soil moisture content
-    # Soil moisture content is held constant for numeric stability.
-    # If dynamic soil moisture should be used, the energy balance
-    # must be extended by latent heat flow.
-    #vs_SoilMoisture_const[i] = soilMoistureConst;
 
 # Determination of the geometry parameters for soil temperature calculation
 # with Cholesky-Method
@@ -81,7 +68,7 @@ for i in range(noOfSoilLayers):
     # Note: in this original publication lambda is calculated in cal cm-1 s-1 K-1!
     #######################################################################################
     sbdi = soilBulkDensity[i]
-    smi = soilMoistureConst # SoilMoisture_const[i]
+    smi = soilMoistureConst[i]
     heatConductivity[i] = \
         ((3.0 * (sbdi / 1000.0) - 1.7) * 0.001) \
         / (1.0 + (11.5 - 5.0 * (sbdi / 1000.0)) \

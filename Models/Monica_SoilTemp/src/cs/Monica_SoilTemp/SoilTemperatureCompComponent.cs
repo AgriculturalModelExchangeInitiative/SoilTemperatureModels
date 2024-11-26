@@ -31,7 +31,7 @@ public class SoilTemperatureCompComponent
             _SoilTemperature.timeStep = value;
         }
     }
-    public double soilMoistureConst
+    public double[] soilMoistureConst
     {
         get
         {
@@ -174,6 +174,17 @@ public class SoilTemperatureCompComponent
             _SoilTemperature.noOfTempLayers = value;
         }
     }
+    public int noOfTempLayersPlus1
+    {
+        get
+        {
+             return _SoilTemperature.noOfTempLayersPlus1; 
+        }
+        set
+        {
+            _SoilTemperature.noOfTempLayersPlus1 = value;
+        }
+    }
     public int noOfSoilLayers
     {
         get
@@ -243,7 +254,10 @@ public class SoilTemperatureCompComponent
 
         dampingFactor = toCopy.dampingFactor;
         timeStep = toCopy.timeStep;
-        soilMoistureConst = toCopy.soilMoistureConst;
+        
+            for (int i = 0; i < 100; i++)
+            { soilMoistureConst[i] = toCopy.soilMoistureConst[i]; }
+    
         baseTemp = toCopy.baseTemp;
         initialSurfaceTemp = toCopy.initialSurfaceTemp;
         densityAir = toCopy.densityAir;
@@ -256,6 +270,7 @@ public class SoilTemperatureCompComponent
         specificHeatCapacityQuartz = toCopy.specificHeatCapacityQuartz;
         nTau = toCopy.nTau;
         noOfTempLayers = toCopy.noOfTempLayers;
+        noOfTempLayersPlus1 = toCopy.noOfTempLayersPlus1;
         noOfSoilLayers = toCopy.noOfSoilLayers;
         
             for (int i = 0; i < 100; i++)

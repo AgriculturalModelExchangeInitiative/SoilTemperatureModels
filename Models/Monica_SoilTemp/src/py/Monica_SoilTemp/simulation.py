@@ -44,6 +44,7 @@ def simulation(datafile, vardata, params, init):
     specificHeatCapacityQuartz = params.loc[params["name"]=="specificHeatCapacityQuartz", "value"].iloc[0]
     nTau = params.loc[params["name"]=="nTau", "value"].iloc[0]
     noOfTempLayers = params.loc[params["name"]=="noOfTempLayers", "value"].iloc[0]
+    noOfTempLayersPlus1 = params.loc[params["name"]=="noOfTempLayersPlus1", "value"].iloc[0]
     noOfSoilLayers = params.loc[params["name"]=="noOfSoilLayers", "value"].iloc[0]
     layerThickness = params.loc[params["name"]=="layerThickness", "value"].iloc[0]
     soilBulkDensity = params.loc[params["name"]=="soilBulkDensity", "value"].iloc[0]
@@ -76,7 +77,7 @@ def simulation(datafile, vardata, params, init):
         matrixDiagonal = t_matrixDiagonal[i]
         matrixLowerTriangle = t_matrixLowerTriangle[i]
         heatFlow = t_heatFlow[i]
-        soilSurfaceTemperature,soilTemperature= SoilTemperatureCompComponent.model_soiltemperaturecomp(tmin,tmax,globrad,dampingFactor,soilCoverage,soilSurfaceTemperatureBelowSnow,hasSnowCover,timeStep,soilMoistureConst,baseTemp,initialSurfaceTemp,densityAir,specificHeatCapacityAir,densityHumus,specificHeatCapacityHumus,densityWater,specificHeatCapacityWater,quartzRawDensity,specificHeatCapacityQuartz,nTau,noOfTempLayers,noOfSoilLayers,layerThickness,soilBulkDensity,saturation,soilOrganicMatter,V,B,volumeMatrix,volumeMatrixOld,matrixPrimaryDiagonal,matrixSecondaryDiagonal,heatConductivity,heatConductivityMean,heatCapacity,solution,matrixDiagonal,matrixLowerTriangle,heatFlow)
+        soilSurfaceTemperature,soilTemperature= SoilTemperatureCompComponent.model_soiltemperaturecomp(tmin,tmax,globrad,dampingFactor,soilCoverage,soilSurfaceTemperatureBelowSnow,hasSnowCover,timeStep,soilMoistureConst,baseTemp,initialSurfaceTemp,densityAir,specificHeatCapacityAir,densityHumus,specificHeatCapacityHumus,densityWater,specificHeatCapacityWater,quartzRawDensity,specificHeatCapacityQuartz,nTau,noOfTempLayers,noOfTempLayersPlus1,noOfSoilLayers,layerThickness,soilBulkDensity,saturation,soilOrganicMatter,V,B,volumeMatrix,volumeMatrixOld,matrixPrimaryDiagonal,matrixSecondaryDiagonal,heatConductivity,heatConductivityMean,heatCapacity,solution,matrixDiagonal,matrixLowerTriangle,heatFlow)
 
         df_out.loc[i] = [soilSurfaceTemperature,soilTemperature]
     df_out.insert(0, 'date', pd.to_datetime(df.year*10000 + df.month*100 + df.day, format='%Y%m%d'), True)

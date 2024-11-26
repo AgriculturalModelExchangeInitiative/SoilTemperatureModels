@@ -27,8 +27,8 @@ public class NoSnowSoilSurfaceTemperature
     //                          ** inputtype : variable
     //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLE
-    //                          ** max : 70
-    //                          ** min : -50
+    //                          ** max : 70.0
+    //                          ** min : -50.0
     //                          ** default : 
     //                          ** unit : °C
     //            * name: tmax
@@ -36,8 +36,8 @@ public class NoSnowSoilSurfaceTemperature
     //                          ** inputtype : variable
     //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLE
-    //                          ** max : 70
-    //                          ** min : -50
+    //                          ** max : 70.0
+    //                          ** min : -50.0
     //                          ** default : 
     //                          ** unit : °C
     //            * name: globrad
@@ -45,9 +45,9 @@ public class NoSnowSoilSurfaceTemperature
     //                          ** inputtype : variable
     //                          ** variablecategory : exogenous
     //                          ** datatype : DOUBLE
-    //                          ** max : 30
-    //                          ** min : 0
-    //                          ** default : 0
+    //                          ** max : 30.0
+    //                          ** min : 0.0
+    //                          ** default : 0.0
     //                          ** unit : MJ/m**2/d
     //            * name: soilCoverage
     //                          ** description : soilCoverage
@@ -89,8 +89,8 @@ public class NoSnowSoilSurfaceTemperature
         double globrad = ex.globrad;
         double soilCoverage = ex.soilCoverage;
         double soilSurfaceTemperature = s.soilSurfaceTemperature;
-        globrad = Math.Max(8.330d, globrad);
         double shadingCoefficient;
+        globrad = Math.Max(8.330d, globrad);
         shadingCoefficient = 0.10d + (soilCoverage * dampingFactor + ((1 - soilCoverage) * (1 - dampingFactor)));
         soilSurfaceTemperature = (1.00d - shadingCoefficient) * (tmin + ((tmax - tmin) * Math.Pow(0.030d * globrad, 0.50d))) + (shadingCoefficient * soilSurfaceTemperature);
         if (soilSurfaceTemperature < 0.00d)

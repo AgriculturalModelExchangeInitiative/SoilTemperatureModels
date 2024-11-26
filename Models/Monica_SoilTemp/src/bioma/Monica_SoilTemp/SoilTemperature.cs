@@ -21,252 +21,265 @@ namespace SoilTemperatureComp.Strategies
             //Parameters
             List<VarInfo> _parameters0_0 = new List<VarInfo>();
             VarInfo v1 = new VarInfo();
-            v1.DefaultValue = 1.0;
-            v1.Description = "timeStep";
+            v1.DefaultValue = 20;
+            v1.Description = "noOfSoilLayers";
             v1.Id = 0;
             v1.MaxValue = -1D;
             v1.MinValue = -1D;
-            v1.Name = "timeStep";
+            v1.Name = "noOfSoilLayers";
             v1.Size = 1;
             v1.Units = "dimensionless";
             v1.URL = "";
             v1.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
-            v1.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+            v1.ValueType = VarInfoValueTypes.GetInstanceForName("Integer");
             _parameters0_0.Add(v1);
             VarInfo v2 = new VarInfo();
-            v2.DefaultValue = 0.25;
-            v2.Description = "initial soilmoisture";
+            v2.DefaultValue = 22;
+            v2.Description = "noOfTempLayers=noOfSoilLayers+2";
             v2.Id = 0;
             v2.MaxValue = -1D;
             v2.MinValue = -1D;
-            v2.Name = "soilMoistureConst";
+            v2.Name = "noOfTempLayers";
             v2.Size = 1;
-            v2.Units = "m**3/m**3";
+            v2.Units = "dimensionless";
             v2.URL = "";
             v2.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
-            v2.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+            v2.ValueType = VarInfoValueTypes.GetInstanceForName("Integer");
             _parameters0_0.Add(v2);
             VarInfo v3 = new VarInfo();
-            v3.DefaultValue = 9.5;
-            v3.Description = "baseTemperature";
+            v3.DefaultValue = 23;
+            v3.Description = "for matrixSecondaryDiagonal";
             v3.Id = 0;
             v3.MaxValue = -1D;
             v3.MinValue = -1D;
-            v3.Name = "baseTemp";
+            v3.Name = "noOfTempLayersPlus1";
             v3.Size = 1;
-            v3.Units = "°C";
+            v3.Units = "dimensionless";
             v3.URL = "";
             v3.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
-            v3.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+            v3.ValueType = VarInfoValueTypes.GetInstanceForName("Integer");
             _parameters0_0.Add(v3);
             VarInfo v4 = new VarInfo();
-            v4.DefaultValue = 10.0;
-            v4.Description = "initialSurfaceTemperature";
+            v4.DefaultValue = 1.0;
+            v4.Description = "timeStep";
             v4.Id = 0;
             v4.MaxValue = -1D;
             v4.MinValue = -1D;
-            v4.Name = "initialSurfaceTemp";
+            v4.Name = "timeStep";
             v4.Size = 1;
-            v4.Units = "°C";
+            v4.Units = "dimensionless";
             v4.URL = "";
             v4.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
             v4.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
             _parameters0_0.Add(v4);
             VarInfo v5 = new VarInfo();
-            v5.DefaultValue = 1.25;
-            v5.Description = "DensityAir";
+            v5.DefaultValue = -1D;
+            v5.Description = "constant soilmoisture during the model run";
             v5.Id = 0;
             v5.MaxValue = -1D;
             v5.MinValue = -1D;
-            v5.Name = "densityAir";
+            v5.Name = "soilMoistureConst";
             v5.Size = 1;
-            v5.Units = "kg/m**3";
+            v5.Units = "m**3/m**3";
             v5.URL = "";
             v5.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
-            v5.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+            v5.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
             _parameters0_0.Add(v5);
             VarInfo v6 = new VarInfo();
-            v6.DefaultValue = 1005;
-            v6.Description = "SpecificHeatCapacityAir";
+            v6.DefaultValue = 9.5;
+            v6.Description = "baseTemperature";
             v6.Id = 0;
             v6.MaxValue = -1D;
             v6.MinValue = -1D;
-            v6.Name = "specificHeatCapacityAir";
+            v6.Name = "baseTemp";
             v6.Size = 1;
-            v6.Units = "J/kg/K";
+            v6.Units = "°C";
             v6.URL = "";
             v6.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
             v6.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
             _parameters0_0.Add(v6);
             VarInfo v7 = new VarInfo();
-            v7.DefaultValue = 1300;
-            v7.Description = "DensityHumus";
+            v7.DefaultValue = 10.0;
+            v7.Description = "initialSurfaceTemperature";
             v7.Id = 0;
             v7.MaxValue = -1D;
             v7.MinValue = -1D;
-            v7.Name = "densityHumus";
+            v7.Name = "initialSurfaceTemp";
             v7.Size = 1;
-            v7.Units = "kg/m**3";
+            v7.Units = "°C";
             v7.URL = "";
             v7.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
             v7.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
             _parameters0_0.Add(v7);
             VarInfo v8 = new VarInfo();
-            v8.DefaultValue = 1920;
-            v8.Description = "SpecificHeatCapacityHumus";
+            v8.DefaultValue = 1.25;
+            v8.Description = "DensityAir";
             v8.Id = 0;
             v8.MaxValue = -1D;
             v8.MinValue = -1D;
-            v8.Name = "specificHeatCapacityHumus";
+            v8.Name = "densityAir";
             v8.Size = 1;
-            v8.Units = "J/kg/K";
+            v8.Units = "kg/m**3";
             v8.URL = "";
             v8.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
             v8.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
             _parameters0_0.Add(v8);
             VarInfo v9 = new VarInfo();
-            v9.DefaultValue = 1000;
-            v9.Description = "DensityWater";
+            v9.DefaultValue = 1005.0;
+            v9.Description = "SpecificHeatCapacityAir";
             v9.Id = 0;
             v9.MaxValue = -1D;
             v9.MinValue = -1D;
-            v9.Name = "densityWater";
+            v9.Name = "specificHeatCapacityAir";
             v9.Size = 1;
-            v9.Units = "kg/m**3";
+            v9.Units = "J/kg/K";
             v9.URL = "";
             v9.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
             v9.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
             _parameters0_0.Add(v9);
             VarInfo v10 = new VarInfo();
-            v10.DefaultValue = 4192;
-            v10.Description = "SpecificHeatCapacityWater";
+            v10.DefaultValue = 1300.0;
+            v10.Description = "DensityHumus";
             v10.Id = 0;
             v10.MaxValue = -1D;
             v10.MinValue = -1D;
-            v10.Name = "specificHeatCapacityWater";
+            v10.Name = "densityHumus";
             v10.Size = 1;
-            v10.Units = "J/kg/K";
+            v10.Units = "kg/m**3";
             v10.URL = "";
             v10.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
             v10.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
             _parameters0_0.Add(v10);
             VarInfo v11 = new VarInfo();
-            v11.DefaultValue = 2650;
-            v11.Description = "QuartzRawDensity";
+            v11.DefaultValue = 1920.0;
+            v11.Description = "SpecificHeatCapacityHumus";
             v11.Id = 0;
             v11.MaxValue = -1D;
             v11.MinValue = -1D;
-            v11.Name = "quartzRawDensity";
+            v11.Name = "specificHeatCapacityHumus";
             v11.Size = 1;
-            v11.Units = "kg/m**3";
+            v11.Units = "J/kg/K";
             v11.URL = "";
             v11.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
             v11.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
             _parameters0_0.Add(v11);
             VarInfo v12 = new VarInfo();
-            v12.DefaultValue = 750;
-            v12.Description = "SpecificHeatCapacityQuartz";
+            v12.DefaultValue = 1000.0;
+            v12.Description = "DensityWater";
             v12.Id = 0;
             v12.MaxValue = -1D;
             v12.MinValue = -1D;
-            v12.Name = "specificHeatCapacityQuartz";
+            v12.Name = "densityWater";
             v12.Size = 1;
-            v12.Units = "J/kg/K";
+            v12.Units = "kg/m**3";
             v12.URL = "";
             v12.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
             v12.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
             _parameters0_0.Add(v12);
             VarInfo v13 = new VarInfo();
-            v13.DefaultValue = 0.65;
-            v13.Description = "NTau";
+            v13.DefaultValue = 4192.0;
+            v13.Description = "SpecificHeatCapacityWater";
             v13.Id = 0;
             v13.MaxValue = -1D;
             v13.MinValue = -1D;
-            v13.Name = "nTau";
+            v13.Name = "specificHeatCapacityWater";
             v13.Size = 1;
-            v13.Units = "?";
+            v13.Units = "J/kg/K";
             v13.URL = "";
             v13.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
             v13.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
             _parameters0_0.Add(v13);
             VarInfo v14 = new VarInfo();
-            v14.DefaultValue = 22;
-            v14.Description = "noOfTempLayers=noOfSoilLayers+2";
+            v14.DefaultValue = 2650.0;
+            v14.Description = "QuartzRawDensity";
             v14.Id = 0;
             v14.MaxValue = -1D;
             v14.MinValue = -1D;
-            v14.Name = "noOfTempLayers";
+            v14.Name = "quartzRawDensity";
             v14.Size = 1;
-            v14.Units = "dimensionless";
+            v14.Units = "kg/m**3";
             v14.URL = "";
             v14.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
-            v14.ValueType = VarInfoValueTypes.GetInstanceForName("Integer");
+            v14.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
             _parameters0_0.Add(v14);
             VarInfo v15 = new VarInfo();
-            v15.DefaultValue = 20;
-            v15.Description = "noOfSoilLayers";
+            v15.DefaultValue = 750.0;
+            v15.Description = "SpecificHeatCapacityQuartz";
             v15.Id = 0;
             v15.MaxValue = -1D;
             v15.MinValue = -1D;
-            v15.Name = "noOfSoilLayers";
+            v15.Name = "specificHeatCapacityQuartz";
             v15.Size = 1;
-            v15.Units = "dimensionless";
+            v15.Units = "J/kg/K";
             v15.URL = "";
             v15.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
-            v15.ValueType = VarInfoValueTypes.GetInstanceForName("Integer");
+            v15.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
             _parameters0_0.Add(v15);
             VarInfo v16 = new VarInfo();
-            v16.DefaultValue = -1D;
-            v16.Description = "layerThickness";
+            v16.DefaultValue = 0.65;
+            v16.Description = "NTau";
             v16.Id = 0;
             v16.MaxValue = -1D;
             v16.MinValue = -1D;
-            v16.Name = "layerThickness";
+            v16.Name = "nTau";
             v16.Size = 1;
-            v16.Units = "m";
+            v16.Units = "?";
             v16.URL = "";
             v16.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
-            v16.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+            v16.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
             _parameters0_0.Add(v16);
             VarInfo v17 = new VarInfo();
             v17.DefaultValue = -1D;
-            v17.Description = "bulkDensity";
+            v17.Description = "layerThickness";
             v17.Id = 0;
             v17.MaxValue = -1D;
             v17.MinValue = -1D;
-            v17.Name = "soilBulkDensity";
+            v17.Name = "layerThickness";
             v17.Size = 1;
-            v17.Units = "kg/m**3";
+            v17.Units = "m";
             v17.URL = "";
             v17.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
             v17.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
             _parameters0_0.Add(v17);
             VarInfo v18 = new VarInfo();
             v18.DefaultValue = -1D;
-            v18.Description = "saturation";
+            v18.Description = "bulkDensity";
             v18.Id = 0;
             v18.MaxValue = -1D;
             v18.MinValue = -1D;
-            v18.Name = "saturation";
+            v18.Name = "soilBulkDensity";
             v18.Size = 1;
-            v18.Units = "m**3/m**3";
+            v18.Units = "kg/m**3";
             v18.URL = "";
             v18.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
             v18.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
             _parameters0_0.Add(v18);
             VarInfo v19 = new VarInfo();
             v19.DefaultValue = -1D;
-            v19.Description = "soilOrganicMatter";
+            v19.Description = "saturation";
             v19.Id = 0;
             v19.MaxValue = -1D;
             v19.MinValue = -1D;
-            v19.Name = "soilOrganicMatter";
+            v19.Name = "saturation";
             v19.Size = 1;
             v19.Units = "m**3/m**3";
             v19.URL = "";
             v19.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
             v19.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
             _parameters0_0.Add(v19);
+            VarInfo v20 = new VarInfo();
+            v20.DefaultValue = -1D;
+            v20.Description = "soilOrganicMatter";
+            v20.Id = 0;
+            v20.MaxValue = -1D;
+            v20.MinValue = -1D;
+            v20.Name = "soilOrganicMatter";
+            v20.Size = 1;
+            v20.Units = "m**3/m**3";
+            v20.URL = "";
+            v20.VarType = CRA.ModelLayer.Core.VarInfo.Type.PARAMETER;
+            v20.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+            _parameters0_0.Add(v20);
             mo0_0.Parameters=_parameters0_0;
 
             //Inputs
@@ -443,6 +456,42 @@ namespace SoilTemperatureComp.Strategies
 
         // Getter and setters for the value of the parameters of the strategy. The actual parameters are stored into the ModelingOptionsManager of the strategy.
 
+        public int noOfSoilLayers
+        {
+            get { 
+                VarInfo vi= _modellingOptionsManager.GetParameterByName("noOfSoilLayers");
+                if (vi != null && vi.CurrentValue!=null) return (int)vi.CurrentValue ;
+                else throw new Exception("Parameter 'noOfSoilLayers' not found (or found null) in strategy 'SoilTemperature'");
+            } set {
+                VarInfo vi = _modellingOptionsManager.GetParameterByName("noOfSoilLayers");
+                if (vi != null)  vi.CurrentValue=value;
+                else throw new Exception("Parameter 'noOfSoilLayers' not found in strategy 'SoilTemperature'");
+            }
+        }
+        public int noOfTempLayers
+        {
+            get { 
+                VarInfo vi= _modellingOptionsManager.GetParameterByName("noOfTempLayers");
+                if (vi != null && vi.CurrentValue!=null) return (int)vi.CurrentValue ;
+                else throw new Exception("Parameter 'noOfTempLayers' not found (or found null) in strategy 'SoilTemperature'");
+            } set {
+                VarInfo vi = _modellingOptionsManager.GetParameterByName("noOfTempLayers");
+                if (vi != null)  vi.CurrentValue=value;
+                else throw new Exception("Parameter 'noOfTempLayers' not found in strategy 'SoilTemperature'");
+            }
+        }
+        public int noOfTempLayersPlus1
+        {
+            get { 
+                VarInfo vi= _modellingOptionsManager.GetParameterByName("noOfTempLayersPlus1");
+                if (vi != null && vi.CurrentValue!=null) return (int)vi.CurrentValue ;
+                else throw new Exception("Parameter 'noOfTempLayersPlus1' not found (or found null) in strategy 'SoilTemperature'");
+            } set {
+                VarInfo vi = _modellingOptionsManager.GetParameterByName("noOfTempLayersPlus1");
+                if (vi != null)  vi.CurrentValue=value;
+                else throw new Exception("Parameter 'noOfTempLayersPlus1' not found in strategy 'SoilTemperature'");
+            }
+        }
         public double timeStep
         {
             get { 
@@ -455,11 +504,11 @@ namespace SoilTemperatureComp.Strategies
                 else throw new Exception("Parameter 'timeStep' not found in strategy 'SoilTemperature'");
             }
         }
-        public double soilMoistureConst
+        public double[] soilMoistureConst
         {
             get { 
                 VarInfo vi= _modellingOptionsManager.GetParameterByName("soilMoistureConst");
-                if (vi != null && vi.CurrentValue!=null) return (double)vi.CurrentValue ;
+                if (vi != null && vi.CurrentValue!=null) return (double[])vi.CurrentValue ;
                 else throw new Exception("Parameter 'soilMoistureConst' not found (or found null) in strategy 'SoilTemperature'");
             } set {
                 VarInfo vi = _modellingOptionsManager.GetParameterByName("soilMoistureConst");
@@ -599,30 +648,6 @@ namespace SoilTemperatureComp.Strategies
                 else throw new Exception("Parameter 'nTau' not found in strategy 'SoilTemperature'");
             }
         }
-        public int noOfTempLayers
-        {
-            get { 
-                VarInfo vi= _modellingOptionsManager.GetParameterByName("noOfTempLayers");
-                if (vi != null && vi.CurrentValue!=null) return (int)vi.CurrentValue ;
-                else throw new Exception("Parameter 'noOfTempLayers' not found (or found null) in strategy 'SoilTemperature'");
-            } set {
-                VarInfo vi = _modellingOptionsManager.GetParameterByName("noOfTempLayers");
-                if (vi != null)  vi.CurrentValue=value;
-                else throw new Exception("Parameter 'noOfTempLayers' not found in strategy 'SoilTemperature'");
-            }
-        }
-        public int noOfSoilLayers
-        {
-            get { 
-                VarInfo vi= _modellingOptionsManager.GetParameterByName("noOfSoilLayers");
-                if (vi != null && vi.CurrentValue!=null) return (int)vi.CurrentValue ;
-                else throw new Exception("Parameter 'noOfSoilLayers' not found (or found null) in strategy 'SoilTemperature'");
-            } set {
-                VarInfo vi = _modellingOptionsManager.GetParameterByName("noOfSoilLayers");
-                if (vi != null)  vi.CurrentValue=value;
-                else throw new Exception("Parameter 'noOfSoilLayers' not found in strategy 'SoilTemperature'");
-            }
-        }
         public double[] layerThickness
         {
             get { 
@@ -680,6 +705,30 @@ namespace SoilTemperatureComp.Strategies
         private static void SetStaticParametersVarInfoDefinitions()
         {
 
+            noOfSoilLayersVarInfo.Name = "noOfSoilLayers";
+            noOfSoilLayersVarInfo.Description = "noOfSoilLayers";
+            noOfSoilLayersVarInfo.MaxValue = -1D;
+            noOfSoilLayersVarInfo.MinValue = -1D;
+            noOfSoilLayersVarInfo.DefaultValue = 20;
+            noOfSoilLayersVarInfo.Units = "dimensionless";
+            noOfSoilLayersVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Integer");
+
+            noOfTempLayersVarInfo.Name = "noOfTempLayers";
+            noOfTempLayersVarInfo.Description = "noOfTempLayers=noOfSoilLayers+2";
+            noOfTempLayersVarInfo.MaxValue = -1D;
+            noOfTempLayersVarInfo.MinValue = -1D;
+            noOfTempLayersVarInfo.DefaultValue = 22;
+            noOfTempLayersVarInfo.Units = "dimensionless";
+            noOfTempLayersVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Integer");
+
+            noOfTempLayersPlus1VarInfo.Name = "noOfTempLayersPlus1";
+            noOfTempLayersPlus1VarInfo.Description = "for matrixSecondaryDiagonal";
+            noOfTempLayersPlus1VarInfo.MaxValue = -1D;
+            noOfTempLayersPlus1VarInfo.MinValue = -1D;
+            noOfTempLayersPlus1VarInfo.DefaultValue = 23;
+            noOfTempLayersPlus1VarInfo.Units = "dimensionless";
+            noOfTempLayersPlus1VarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Integer");
+
             timeStepVarInfo.Name = "timeStep";
             timeStepVarInfo.Description = "timeStep";
             timeStepVarInfo.MaxValue = -1D;
@@ -689,12 +738,12 @@ namespace SoilTemperatureComp.Strategies
             timeStepVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
             soilMoistureConstVarInfo.Name = "soilMoistureConst";
-            soilMoistureConstVarInfo.Description = "initial soilmoisture";
+            soilMoistureConstVarInfo.Description = "constant soilmoisture during the model run";
             soilMoistureConstVarInfo.MaxValue = -1D;
             soilMoistureConstVarInfo.MinValue = -1D;
-            soilMoistureConstVarInfo.DefaultValue = 0.25;
+            soilMoistureConstVarInfo.DefaultValue = -1D;
             soilMoistureConstVarInfo.Units = "m**3/m**3";
-            soilMoistureConstVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
+            soilMoistureConstVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
 
             baseTempVarInfo.Name = "baseTemp";
             baseTempVarInfo.Description = "baseTemperature";
@@ -724,7 +773,7 @@ namespace SoilTemperatureComp.Strategies
             specificHeatCapacityAirVarInfo.Description = "SpecificHeatCapacityAir";
             specificHeatCapacityAirVarInfo.MaxValue = -1D;
             specificHeatCapacityAirVarInfo.MinValue = -1D;
-            specificHeatCapacityAirVarInfo.DefaultValue = 1005;
+            specificHeatCapacityAirVarInfo.DefaultValue = 1005.0;
             specificHeatCapacityAirVarInfo.Units = "J/kg/K";
             specificHeatCapacityAirVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
@@ -732,7 +781,7 @@ namespace SoilTemperatureComp.Strategies
             densityHumusVarInfo.Description = "DensityHumus";
             densityHumusVarInfo.MaxValue = -1D;
             densityHumusVarInfo.MinValue = -1D;
-            densityHumusVarInfo.DefaultValue = 1300;
+            densityHumusVarInfo.DefaultValue = 1300.0;
             densityHumusVarInfo.Units = "kg/m**3";
             densityHumusVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
@@ -740,7 +789,7 @@ namespace SoilTemperatureComp.Strategies
             specificHeatCapacityHumusVarInfo.Description = "SpecificHeatCapacityHumus";
             specificHeatCapacityHumusVarInfo.MaxValue = -1D;
             specificHeatCapacityHumusVarInfo.MinValue = -1D;
-            specificHeatCapacityHumusVarInfo.DefaultValue = 1920;
+            specificHeatCapacityHumusVarInfo.DefaultValue = 1920.0;
             specificHeatCapacityHumusVarInfo.Units = "J/kg/K";
             specificHeatCapacityHumusVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
@@ -748,7 +797,7 @@ namespace SoilTemperatureComp.Strategies
             densityWaterVarInfo.Description = "DensityWater";
             densityWaterVarInfo.MaxValue = -1D;
             densityWaterVarInfo.MinValue = -1D;
-            densityWaterVarInfo.DefaultValue = 1000;
+            densityWaterVarInfo.DefaultValue = 1000.0;
             densityWaterVarInfo.Units = "kg/m**3";
             densityWaterVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
@@ -756,7 +805,7 @@ namespace SoilTemperatureComp.Strategies
             specificHeatCapacityWaterVarInfo.Description = "SpecificHeatCapacityWater";
             specificHeatCapacityWaterVarInfo.MaxValue = -1D;
             specificHeatCapacityWaterVarInfo.MinValue = -1D;
-            specificHeatCapacityWaterVarInfo.DefaultValue = 4192;
+            specificHeatCapacityWaterVarInfo.DefaultValue = 4192.0;
             specificHeatCapacityWaterVarInfo.Units = "J/kg/K";
             specificHeatCapacityWaterVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
@@ -764,7 +813,7 @@ namespace SoilTemperatureComp.Strategies
             quartzRawDensityVarInfo.Description = "QuartzRawDensity";
             quartzRawDensityVarInfo.MaxValue = -1D;
             quartzRawDensityVarInfo.MinValue = -1D;
-            quartzRawDensityVarInfo.DefaultValue = 2650;
+            quartzRawDensityVarInfo.DefaultValue = 2650.0;
             quartzRawDensityVarInfo.Units = "kg/m**3";
             quartzRawDensityVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
@@ -772,7 +821,7 @@ namespace SoilTemperatureComp.Strategies
             specificHeatCapacityQuartzVarInfo.Description = "SpecificHeatCapacityQuartz";
             specificHeatCapacityQuartzVarInfo.MaxValue = -1D;
             specificHeatCapacityQuartzVarInfo.MinValue = -1D;
-            specificHeatCapacityQuartzVarInfo.DefaultValue = 750;
+            specificHeatCapacityQuartzVarInfo.DefaultValue = 750.0;
             specificHeatCapacityQuartzVarInfo.Units = "J/kg/K";
             specificHeatCapacityQuartzVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
 
@@ -783,22 +832,6 @@ namespace SoilTemperatureComp.Strategies
             nTauVarInfo.DefaultValue = 0.65;
             nTauVarInfo.Units = "?";
             nTauVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Double");
-
-            noOfTempLayersVarInfo.Name = "noOfTempLayers";
-            noOfTempLayersVarInfo.Description = "noOfTempLayers=noOfSoilLayers+2";
-            noOfTempLayersVarInfo.MaxValue = -1D;
-            noOfTempLayersVarInfo.MinValue = -1D;
-            noOfTempLayersVarInfo.DefaultValue = 22;
-            noOfTempLayersVarInfo.Units = "dimensionless";
-            noOfTempLayersVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Integer");
-
-            noOfSoilLayersVarInfo.Name = "noOfSoilLayers";
-            noOfSoilLayersVarInfo.Description = "noOfSoilLayers";
-            noOfSoilLayersVarInfo.MaxValue = -1D;
-            noOfSoilLayersVarInfo.MinValue = -1D;
-            noOfSoilLayersVarInfo.DefaultValue = 20;
-            noOfSoilLayersVarInfo.Units = "dimensionless";
-            noOfSoilLayersVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("Integer");
 
             layerThicknessVarInfo.Name = "layerThickness";
             layerThicknessVarInfo.Description = "layerThickness";
@@ -831,6 +864,24 @@ namespace SoilTemperatureComp.Strategies
             soilOrganicMatterVarInfo.DefaultValue = -1D;
             soilOrganicMatterVarInfo.Units = "m**3/m**3";
             soilOrganicMatterVarInfo.ValueType = VarInfoValueTypes.GetInstanceForName("ArrayDouble");
+        }
+
+        private static VarInfo _noOfSoilLayersVarInfo = new VarInfo();
+        public static VarInfo noOfSoilLayersVarInfo
+        {
+            get { return _noOfSoilLayersVarInfo;} 
+        }
+
+        private static VarInfo _noOfTempLayersVarInfo = new VarInfo();
+        public static VarInfo noOfTempLayersVarInfo
+        {
+            get { return _noOfTempLayersVarInfo;} 
+        }
+
+        private static VarInfo _noOfTempLayersPlus1VarInfo = new VarInfo();
+        public static VarInfo noOfTempLayersPlus1VarInfo
+        {
+            get { return _noOfTempLayersPlus1VarInfo;} 
         }
 
         private static VarInfo _timeStepVarInfo = new VarInfo();
@@ -911,18 +962,6 @@ namespace SoilTemperatureComp.Strategies
             get { return _nTauVarInfo;} 
         }
 
-        private static VarInfo _noOfTempLayersVarInfo = new VarInfo();
-        public static VarInfo noOfTempLayersVarInfo
-        {
-            get { return _noOfTempLayersVarInfo;} 
-        }
-
-        private static VarInfo _noOfSoilLayersVarInfo = new VarInfo();
-        public static VarInfo noOfSoilLayersVarInfo
-        {
-            get { return _noOfSoilLayersVarInfo;} 
-        }
-
         private static VarInfo _layerThicknessVarInfo = new VarInfo();
         public static VarInfo layerThicknessVarInfo
         {
@@ -955,8 +994,8 @@ namespace SoilTemperatureComp.Strategies
                 SoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilTemperature.CurrentValue=s.soilTemperature;
                 ConditionsCollection prc = new ConditionsCollection();
                 Preconditions pre = new Preconditions(); 
-                RangeBasedCondition r35 = new RangeBasedCondition(SoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilTemperature);
-                if(r35.ApplicableVarInfoValueTypes.Contains( SoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilTemperature.ValueType)){prc.AddCondition(r35);}
+                RangeBasedCondition r36 = new RangeBasedCondition(SoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilTemperature);
+                if(r36.ApplicableVarInfoValueTypes.Contains( SoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.soilTemperature.ValueType)){prc.AddCondition(r36);}
                 string postConditionsResult = pre.VerifyPostconditions(prc, callID); if (!string.IsNullOrEmpty(postConditionsResult)) { pre.TestsOut(postConditionsResult, true, "PostConditions errors in strategy " + this.GetType().Name); } return postConditionsResult;
             }
             catch (Exception exception)
@@ -1018,6 +1057,9 @@ namespace SoilTemperatureComp.Strategies
                 if(r14.ApplicableVarInfoValueTypes.Contains( SoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.matrixLowerTriangle.ValueType)){prc.AddCondition(r14);}
                 RangeBasedCondition r15 = new RangeBasedCondition(SoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.heatFlow);
                 if(r15.ApplicableVarInfoValueTypes.Contains( SoilTemperatureComp.DomainClass.SoilTemperatureCompStateVarInfo.heatFlow.ValueType)){prc.AddCondition(r15);}
+                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("noOfSoilLayers")));
+                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("noOfTempLayers")));
+                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("noOfTempLayersPlus1")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("timeStep")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("soilMoistureConst")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("baseTemp")));
@@ -1031,8 +1073,6 @@ namespace SoilTemperatureComp.Strategies
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("quartzRawDensity")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("specificHeatCapacityQuartz")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("nTau")));
-                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("noOfTempLayers")));
-                prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("noOfSoilLayers")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("layerThickness")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("soilBulkDensity")));
                 prc.AddCondition(new RangeBasedCondition(_modellingOptionsManager.GetParameterByName("saturation")));
@@ -1062,56 +1102,59 @@ namespace SoilTemperatureComp.Strategies
         public void Init(SoilTemperatureComp.DomainClass.SoilTemperatureCompState s, SoilTemperatureComp.DomainClass.SoilTemperatureCompState s1, SoilTemperatureComp.DomainClass.SoilTemperatureCompRate r, SoilTemperatureComp.DomainClass.SoilTemperatureCompAuxiliary a, SoilTemperatureComp.DomainClass.SoilTemperatureCompExogenous ex)
         {
             double soilSurfaceTemperature = 0.0;
-            double[] soilTemperature =  new double [22];
-            double[] V =  new double [22];
-            double[] B =  new double [22];
-            double[] volumeMatrix =  new double [22];
-            double[] volumeMatrixOld =  new double [22];
-            double[] matrixPrimaryDiagonal =  new double [22];
-            double[] matrixSecondaryDiagonal =  new double [23];
-            double[] heatConductivity =  new double [22];
-            double[] heatConductivityMean =  new double [22];
-            double[] heatCapacity =  new double [22];
-            double[] solution =  new double [22];
-            double[] matrixDiagonal =  new double [22];
-            double[] matrixLowerTriangle =  new double [22];
-            double[] heatFlow =  new double [22];
-            soilTemperature = new double[22];
-            V = new double[22];
-            B = new double[22];
-            volumeMatrix = new double[22];
-            volumeMatrixOld = new double[22];
-            matrixPrimaryDiagonal = new double[22];
-            matrixSecondaryDiagonal = new double[23];
-            heatConductivity = new double[22];
-            heatConductivityMean = new double[22];
-            heatCapacity = new double[22];
-            solution = new double[22];
-            matrixDiagonal = new double[22];
-            matrixLowerTriangle = new double[22];
-            heatFlow = new double[22];
-            soilTemperature = new double[ noOfTempLayers];
-            V = new double[ noOfTempLayers];
-            volumeMatrix = new double[ noOfTempLayers];
-            volumeMatrixOld = new double[ noOfTempLayers];
-            B = new double[ noOfTempLayers];
-            matrixPrimaryDiagonal = new double[ noOfTempLayers];
-            matrixSecondaryDiagonal = new double[ noOfTempLayers + 1];
-            heatConductivity = new double[ noOfTempLayers];
-            heatConductivityMean = new double[ noOfTempLayers];
-            heatCapacity = new double[ noOfTempLayers];
-            solution = new double[ noOfTempLayers];
-            matrixDiagonal = new double[ noOfTempLayers];
-            matrixLowerTriangle = new double[ noOfTempLayers];
-            heatFlow = new double[ noOfTempLayers];
+            double[] soilTemperature =  new double [noOfTempLayers];
+            double[] V =  new double [noOfTempLayers];
+            double[] B =  new double [noOfTempLayers];
+            double[] volumeMatrix =  new double [noOfTempLayers];
+            double[] volumeMatrixOld =  new double [noOfTempLayers];
+            double[] matrixPrimaryDiagonal =  new double [noOfTempLayers];
+            double[] matrixSecondaryDiagonal =  new double [noOfTempLayersPlus1];
+            double[] heatConductivity =  new double [noOfTempLayers];
+            double[] heatConductivityMean =  new double [noOfTempLayers];
+            double[] heatCapacity =  new double [noOfTempLayers];
+            double[] solution =  new double [noOfTempLayers];
+            double[] matrixDiagonal =  new double [noOfTempLayers];
+            double[] matrixLowerTriangle =  new double [noOfTempLayers];
+            double[] heatFlow =  new double [noOfTempLayers];
+            soilTemperature = new double[noOfTempLayers];
+            V = new double[noOfTempLayers];
+            B = new double[noOfTempLayers];
+            volumeMatrix = new double[noOfTempLayers];
+            volumeMatrixOld = new double[noOfTempLayers];
+            matrixPrimaryDiagonal = new double[noOfTempLayers];
+            matrixSecondaryDiagonal = new double[noOfTempLayersPlus1];
+            heatConductivity = new double[noOfTempLayers];
+            heatConductivityMean = new double[noOfTempLayers];
+            heatCapacity = new double[noOfTempLayers];
+            solution = new double[noOfTempLayers];
+            matrixDiagonal = new double[noOfTempLayers];
+            matrixLowerTriangle = new double[noOfTempLayers];
+            heatFlow = new double[noOfTempLayers];
+            int groundLayer;
+            int bottomLayer;
+            double lti_1;
+            double lti;
+            double ts;
+            double dw;
+            double cw;
+            double dq;
+            double cq;
+            double da;
+            double ca;
+            double dh;
+            double ch;
+            double sbdi;
+            double smi;
+            double sati;
+            double somi;
+            double hci_1;
+            double hci;
             int i;
             for (i=0 ; i!=noOfSoilLayers ; i+=1)
             {
                 soilTemperature[i] = (1.00d - ((double)(i) / noOfSoilLayers)) * initialSurfaceTemp + ((double)(i) / noOfSoilLayers * baseTemp);
             }
-            int groundLayer;
             groundLayer = noOfTempLayers - 2;
-            int bottomLayer;
             bottomLayer = noOfTempLayers - 1;
             layerThickness[groundLayer] = 2.00d * layerThickness[(groundLayer - 1)];
             layerThickness[bottomLayer] = 1.00d;
@@ -1119,8 +1162,6 @@ namespace SoilTemperatureComp.Strategies
             soilTemperature[bottomLayer] = baseTemp;
             V[0] = layerThickness[0];
             B[0] = 2.00d / layerThickness[0];
-            double lti_1;
-            double lti;
             for (i=1 ; i!=noOfTempLayers ; i+=1)
             {
                 lti_1 = layerThickness[i - 1];
@@ -1128,32 +1169,19 @@ namespace SoilTemperatureComp.Strategies
                 B[i] = 2.00d / (lti + lti_1);
                 V[i] = lti * nTau;
             }
-            double ts;
             ts = timeStep;
-            double dw;
             dw = densityWater;
-            double cw;
             cw = specificHeatCapacityWater;
-            double dq;
             dq = quartzRawDensity;
-            double cq;
             cq = specificHeatCapacityQuartz;
-            double da;
             da = densityAir;
-            double ca;
             ca = specificHeatCapacityAir;
-            double dh;
             dh = densityHumus;
-            double ch;
             ch = specificHeatCapacityHumus;
-            double sbdi;
-            double smi;
-            double sati;
-            double somi;
             for (i=0 ; i!=noOfSoilLayers ; i+=1)
             {
                 sbdi = soilBulkDensity[i];
-                smi = soilMoistureConst;
+                smi = soilMoistureConst[i];
                 heatConductivity[i] = (3.00d * (sbdi / 1000.00d) - 1.70d) * 0.0010d / (1.00d + ((11.50d - (5.00d * (sbdi / 1000.00d))) * Math.Exp(-50.00d * Math.Pow(smi / (sbdi / 1000.00d), 1.50d)))) * 86400.00d * ts * 100.00d * 4.1840d;
                 sati = saturation[i];
                 somi = soilOrganicMatter[i] / da * sbdi;
@@ -1165,8 +1193,6 @@ namespace SoilTemperatureComp.Strategies
             heatConductivity[bottomLayer] = heatConductivity[groundLayer];
             soilSurfaceTemperature = initialSurfaceTemp;
             heatConductivityMean[0] = heatConductivity[0];
-            double hci_1;
-            double hci;
             for (i=1 ; i!=noOfTempLayers ; i+=1)
             {
                 lti_1 = layerThickness[i - 1];
@@ -1222,10 +1248,12 @@ namespace SoilTemperatureComp.Strategies
             double[] heatFlow = s.heatFlow;
             int groundLayer;
             int bottomLayer;
+            int i;
+            int j;
+            int j_1;
             groundLayer = noOfTempLayers - 2;
             bottomLayer = noOfTempLayers - 1;
             heatFlow[0] = soilSurfaceTemperature * B[0] * heatConductivityMean[0];
-            int i;
             for (i=0 ; i!=noOfTempLayers ; i+=1)
             {
                 solution[i] = (volumeMatrixOld[i] + ((volumeMatrix[i] - volumeMatrixOld[i]) / layerThickness[i])) * soilTemperature[i] + heatFlow[i];
@@ -1241,8 +1269,6 @@ namespace SoilTemperatureComp.Strategies
                 solution[i] = solution[i] - (matrixLowerTriangle[i] * solution[(i - 1)]);
             }
             solution[bottomLayer] = solution[bottomLayer] / matrixDiagonal[bottomLayer];
-            int j;
-            int j_1;
             for (i=0 ; i!=bottomLayer ; i+=1)
             {
                 j = bottomLayer - 1 - i;

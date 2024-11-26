@@ -18,10 +18,7 @@ class SoilTemperatureExogenous
         double iCropResidues ;
         double iPotentialSoilEvaporation ;
         double iLeafAreaIndex ;
-        std::vector<double> SoilTempArray ;
-        std::vector<double> iSoilTempArray ;
         double iSoilWaterContent ;
-        double iSoilSurfaceTemperature ;
     public:
         SoilTemperatureExogenous();
         double getiAirTemperatureMax();
@@ -44,14 +41,8 @@ class SoilTemperatureExogenous
         void setiPotentialSoilEvaporation(double _iPotentialSoilEvaporation);
         double getiLeafAreaIndex();
         void setiLeafAreaIndex(double _iLeafAreaIndex);
-        std::vector<double> & getSoilTempArray();
-        void setSoilTempArray(const std::vector<double> &  _SoilTempArray);
-        std::vector<double> & getiSoilTempArray();
-        void setiSoilTempArray(const std::vector<double> &  _iSoilTempArray);
         double getiSoilWaterContent();
         void setiSoilWaterContent(double _iSoilWaterContent);
-        double getiSoilSurfaceTemperature();
-        void setiSoilSurfaceTemperature(double _iSoilSurfaceTemperature);
 
 };
 }

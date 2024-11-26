@@ -17,7 +17,7 @@ class SoilTemperature
         int noOfTempLayers ;
         int noOfTempLayersPlus1 ;
         double timeStep ;
-        double soilMoistureConst ;
+        std::vector<double> soilMoistureConst ;
         double baseTemp ;
         double initialSurfaceTemp ;
         double densityAir ;
@@ -45,8 +45,8 @@ class SoilTemperature
         void setnoOfTempLayersPlus1(int _noOfTempLayersPlus1);
         double gettimeStep();
         void settimeStep(double _timeStep);
-        double getsoilMoistureConst();
-        void setsoilMoistureConst(double _soilMoistureConst);
+        std::vector<double> & getsoilMoistureConst();
+        void setsoilMoistureConst(const std::vector<double> &  _soilMoistureConst);
         double getbaseTemp();
         void setbaseTemp(double _baseTemp);
         double getinitialSurfaceTemp();

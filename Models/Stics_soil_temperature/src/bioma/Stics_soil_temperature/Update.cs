@@ -194,13 +194,13 @@ namespace soil_temp.Strategies
         private void CalculateModel(soil_temp.DomainClass.soil_tempState s, soil_temp.DomainClass.soil_tempState s1, soil_temp.DomainClass.soil_tempRate r, soil_temp.DomainClass.soil_tempAuxiliary a, soil_temp.DomainClass.soil_tempExogenous ex)
         {
             double canopy_temp_avg = s.canopy_temp_avg;
-            double[] temp_profile = s.temp_profile;
+            List<double> temp_profile = s.temp_profile;
             double prev_canopy_temp;
-            double[] prev_temp_profile =  new double [1];
+            List<double> prev_temp_profile = new List<double>();
             int n;
             prev_canopy_temp = canopy_temp_avg;
-            n = temp_profile.Length;
-            prev_temp_profile = new double[ n];
+            n = temp_profile.Count;
+            prev_temp_profile = new List<double>(n);
             prev_temp_profile = temp_profile;
             s.prev_canopy_temp= prev_canopy_temp;
             s.prev_temp_profile= prev_temp_profile;

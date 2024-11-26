@@ -1,17 +1,17 @@
-import numpy 
+import numpy
 from math import *
+
 def model_layers_temp(float temp_profile[],
                       int layer_thick[]):
     """
-
     layers mean temperature model
     Author: None
     Reference: doi:http://dx.doi.org/10.1016/j.agrformet.2014.05.002
     Institution: INRAE
     ExtendedDescription: None
     ShortDescription: None
-
     """
+
     cdef float layer_temp[]
     cdef int z 
     cdef int layers_nb 
@@ -40,6 +40,7 @@ def model_layers_temp(float temp_profile[],
     return  layer_temp
 
 
+
 def get_layers_number(int layer_thick_or_depth[]):
     cdef int layers_number 
     cdef int z 
@@ -48,10 +49,6 @@ def get_layers_number(int layer_thick_or_depth[]):
         if layer_thick_or_depth[z - 1] != 0:
             layers_number=layers_number + 1
     return layers_number
-
-
-
-#%%CyML Model End%%
 
 def layer_thickness2depth(int layer_thick[]):
     cdef intlist  layer_depth
@@ -65,6 +62,4 @@ def layer_thickness2depth(int layer_thick[]):
         if layer_thick[z - 1] != 0:
             layer_depth[z - 1]=sum(layer_thick[1 - 1:z])
     return layer_depth
-
-
 

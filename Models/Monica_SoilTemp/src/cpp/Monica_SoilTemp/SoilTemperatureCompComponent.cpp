@@ -8,7 +8,7 @@ SoilTemperatureCompComponent::SoilTemperatureCompComponent()
 
 double SoilTemperatureCompComponent::getdampingFactor(){ return this->dampingFactor; }
 double SoilTemperatureCompComponent::gettimeStep(){ return this->timeStep; }
-double SoilTemperatureCompComponent::getsoilMoistureConst(){ return this->soilMoistureConst; }
+std::vector<double> & SoilTemperatureCompComponent::getsoilMoistureConst(){ return this->soilMoistureConst; }
 double SoilTemperatureCompComponent::getbaseTemp(){ return this->baseTemp; }
 double SoilTemperatureCompComponent::getinitialSurfaceTemp(){ return this->initialSurfaceTemp; }
 double SoilTemperatureCompComponent::getdensityAir(){ return this->densityAir; }
@@ -36,7 +36,7 @@ void SoilTemperatureCompComponent::settimeStep(double _timeStep)
 {
     _SoilTemperature.settimeStep(_timeStep);
 }
-void SoilTemperatureCompComponent::setsoilMoistureConst(double _soilMoistureConst)
+void SoilTemperatureCompComponent::setsoilMoistureConst(const std::vector<double> & _soilMoistureConst)
 {
     _SoilTemperature.setsoilMoistureConst(_soilMoistureConst);
 }
@@ -123,7 +123,11 @@ SoilTemperatureCompComponent::SoilTemperatureCompComponent(SoilTemperatureCompCo
 {
     dampingFactor = toCopy.getdampingFactor();
     timeStep = toCopy.gettimeStep();
-    soilMoistureConst = toCopy.getsoilMoistureConst();
+    for (int i = 0; i < noOfSoilLayers; i++)
+{
+    soilMoistureConst[i] = toCopy.getsoilMoistureConst()[i];
+}
+
     baseTemp = toCopy.getbaseTemp();
     initialSurfaceTemp = toCopy.getinitialSurfaceTemp();
     densityAir = toCopy.getdensityAir();

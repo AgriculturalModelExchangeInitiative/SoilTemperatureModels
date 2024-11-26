@@ -1,58 +1,73 @@
-public class Withsnowsoilsurfacetemperature: Model
+using System;
+using System.Collections.Generic;
+using System.Linq;    
+using Models.Core;   
+namespace Models.Crop2ML;
+
+/// <summary>
+///- Name: WithSnowSoilSurfaceTemperature -Version: 1, -Time step: 1
+///- Description:
+///            * Title: Soil surface temperature with potential snow cover
+///            * Authors: Michael Berg-Mohnicke
+///            * Reference: None
+///            * Institution: ZALF e.V.
+///            * ExtendedDescription: None
+///            * ShortDescription: It calculates the soil surface temperature taking a potential snow cover into account
+///        
+///- inputs:
+///            * name: noSnowSoilSurfaceTemperature
+///                          ** description : soilSurfaceTemperature without snow
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 0.0
+///                          ** unit : °C
+///            * name: soilSurfaceTemperatureBelowSnow
+///                          ** description : soilSurfaceTemperature below snow cover
+///                          ** inputtype : variable
+///                          ** variablecategory : exogenous
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 0.0
+///                          ** unit : °C
+///            * name: hasSnowCover
+///                          ** description : is soil covered by snow
+///                          ** inputtype : variable
+///                          ** variablecategory : exogenous
+///                          ** datatype : BOOLEAN
+///                          ** max : 
+///                          ** min : 
+///                          ** default : false
+///                          ** unit : dimensionless
+///- outputs:
+///            * name: soilSurfaceTemperature
+///                          ** description : soilSurfaceTemperature
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** unit : °C
+/// </summary>
+public class WithSnowSoilSurfaceTemperature
 {
+
     
-        public Withsnowsoilsurfacetemperature() { }
+    /// <summary>
+    /// Constructor of the WithSnowSoilSurfaceTemperature component")
+    /// </summary>  
+    public WithSnowSoilSurfaceTemperature() { }
     
-    public void  Calculate_withsnowsoilsurfacetemperature(SoiltemperaturecompState s, SoiltemperaturecompState s1, SoiltemperaturecompRate r, SoiltemperaturecompAuxiliary a)
+    /// <summary>
+    /// Algorithm of the WithSnowSoilSurfaceTemperature component
+    /// </summary>
+    public void  CalculateModel(SoilTemperatureCompState s, SoilTemperatureCompState s1, SoilTemperatureCompRate r, SoilTemperatureCompAuxiliary a, SoilTemperatureCompExogenous ex)
     {
-        //- Name: WithSnowSoilSurfaceTemperature -Version: 1, -Time step: 1
-        //- Description:
-    //            * Title: Soil surface temperature with potential snow cover
-    //            * Authors: Michael Berg-Mohnicke
-    //            * Reference: None
-    //            * Institution: ZALF e.V.
-    //            * ExtendedDescription: None
-    //            * ShortDescription: It calculates the soil surface temperature taking a potential snow cover into account
-    //        
-        //- inputs:
-    //            * name: noSnowSoilSurfaceTemperature
-    //                          ** description : soilSurfaceTemperature without snow
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 0.0
-    //                          ** unit : °C
-    //            * name: soilSurfaceTemperatureBelowSnow
-    //                          ** description : soilSurfaceTemperature below snow cover
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 0.0
-    //                          ** unit : °C
-    //            * name: hasSnowCover
-    //                          ** description : is soil covered by snow
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : BOOLEAN
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : false
-    //                          ** unit : dimensionless
-        //- outputs:
-    //            * name: soilSurfaceTemperature
-    //                          ** description : soilSurfaceTemperature
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** unit : °C
         double noSnowSoilSurfaceTemperature = s.noSnowSoilSurfaceTemperature;
-        double soilSurfaceTemperatureBelowSnow;
-        bool hasSnowCover;
+        double soilSurfaceTemperatureBelowSnow = ex.soilSurfaceTemperatureBelowSnow;
+        bool hasSnowCover = ex.hasSnowCover;
         double soilSurfaceTemperature;
         if (hasSnowCover)
         {

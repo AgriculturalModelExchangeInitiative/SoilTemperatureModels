@@ -13,8 +13,7 @@ def init_snowcovercalculator(float cCarbonContent,
                              float iRAIN,
                              float iCropResidues,
                              float iPotentialSoilEvaporation,
-                             float iLeafAreaIndex,
-                             float iSoilTempArray[]):
+                             float iLeafAreaIndex):
     cdef float pInternalAlbedo
     cdef float SnowWaterContent = 0.0
     cdef float SoilSurfaceTemperature = 0.0

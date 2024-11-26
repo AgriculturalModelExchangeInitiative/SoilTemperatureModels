@@ -163,24 +163,6 @@ def model_stemp(int NL,
 
 
 
-#=======================================================================
-#%%CyML Model End%%
-#=======================================================================
-#  SOILT, Subroutine
-#  Determines soil temperature by layer
-#-----------------------------------------------------------------------
-#  Revision history
-#  02/09/1933 PWW Header revision and minor changes.
-#  12/09/1999 CHP Revisions for modular format.
-#  01/01/2000 AJG Added surface temperature for the CENTURY-based
-#                SOM/soil-N module.
-#  01/14/2005 CHP Added METMP = 3: Corrected water content in temp. eqn.
-#  12/07/2008 CHP Removed METMP -- use only corrected water content
-#-----------------------------------------------------------------------
-#  Called : STEMP
-#  Calls  : None
-#=======================================================================
-
 def SOILT(int NL,
          float ALBEDO,
          float B,
@@ -258,6 +240,4 @@ def SOILT(int NL,
     #     elsewhere. - chp 11/27/01
     #-----------------------------------------------------------------------
     return (ATOT, TMA, SRFTEMP, ST)
-
-
 

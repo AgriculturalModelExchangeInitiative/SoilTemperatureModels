@@ -1,7 +1,8 @@
 library(gsubfn)
 
-init_soiltemperature <- function (noOfTempLayers,
-         noOfSoilLayers,
+init_soiltemperature <- function (noOfSoilLayers,
+         noOfTempLayers,
+         noOfTempLayersPlus1,
          timeStep,
          soilMoistureConst,
          baseTemp,
@@ -20,34 +21,34 @@ init_soiltemperature <- function (noOfTempLayers,
          saturation,
          soilOrganicMatter){
     soilSurfaceTemperature <- 0.0
-    soilTemperature <- vector(,22)
-    V <- vector(,22)
-    B <- vector(,22)
-    volumeMatrix <- vector(,22)
-    volumeMatrixOld <- vector(,22)
-    matrixPrimaryDiagonal <- vector(,22)
-    matrixSecondaryDiagonal <- vector(,23)
-    heatConductivity <- vector(,22)
-    heatConductivityMean <- vector(,22)
-    heatCapacity <- vector(,22)
-    solution <- vector(,22)
-    matrixDiagonal <- vector(,22)
-    matrixLowerTriangle <- vector(,22)
-    heatFlow <- vector(,22)
-    soilTemperature <-  rep(0.0,22)
-    V <-  rep(0.0,22)
-    B <-  rep(0.0,22)
-    volumeMatrix <-  rep(0.0,22)
-    volumeMatrixOld <-  rep(0.0,22)
-    matrixPrimaryDiagonal <-  rep(0.0,22)
-    matrixSecondaryDiagonal <-  rep(0.0,23)
-    heatConductivity <-  rep(0.0,22)
-    heatConductivityMean <-  rep(0.0,22)
-    heatCapacity <-  rep(0.0,22)
-    solution <-  rep(0.0,22)
-    matrixDiagonal <-  rep(0.0,22)
-    matrixLowerTriangle <-  rep(0.0,22)
-    heatFlow <-  rep(0.0,22)
+    soilTemperature <- vector(,noOfTempLayers)
+    V <- vector(,noOfTempLayers)
+    B <- vector(,noOfTempLayers)
+    volumeMatrix <- vector(,noOfTempLayers)
+    volumeMatrixOld <- vector(,noOfTempLayers)
+    matrixPrimaryDiagonal <- vector(,noOfTempLayers)
+    matrixSecondaryDiagonal <- vector(,noOfTempLayersPlus1)
+    heatConductivity <- vector(,noOfTempLayers)
+    heatConductivityMean <- vector(,noOfTempLayers)
+    heatCapacity <- vector(,noOfTempLayers)
+    solution <- vector(,noOfTempLayers)
+    matrixDiagonal <- vector(,noOfTempLayers)
+    matrixLowerTriangle <- vector(,noOfTempLayers)
+    heatFlow <- vector(,noOfTempLayers)
+    soilTemperature <-  rep(0.0,noOfTempLayers)
+    V <-  rep(0.0,noOfTempLayers)
+    B <-  rep(0.0,noOfTempLayers)
+    volumeMatrix <-  rep(0.0,noOfTempLayers)
+    volumeMatrixOld <-  rep(0.0,noOfTempLayers)
+    matrixPrimaryDiagonal <-  rep(0.0,noOfTempLayers)
+    matrixSecondaryDiagonal <-  rep(0.0,noOfTempLayersPlus1)
+    heatConductivity <-  rep(0.0,noOfTempLayers)
+    heatConductivityMean <-  rep(0.0,noOfTempLayers)
+    heatCapacity <-  rep(0.0,noOfTempLayers)
+    solution <-  rep(0.0,noOfTempLayers)
+    matrixDiagonal <-  rep(0.0,noOfTempLayers)
+    matrixLowerTriangle <-  rep(0.0,noOfTempLayers)
+    heatFlow <-  rep(0.0,noOfTempLayers)
     for( i in seq(0, noOfSoilLayers-1, 1)){
         soilTemperature[i+1] <- (1.0 - (as.double(i) / noOfSoilLayers)) * initialSurfaceTemp + (as.double(i) / noOfSoilLayers * baseTemp)
     }
@@ -76,7 +77,7 @@ init_soiltemperature <- function (noOfTempLayers,
     ch <- specificHeatCapacityHumus
     for( i in seq(0, noOfSoilLayers-1, 1)){
         sbdi <- soilBulkDensity[i+1]
-        smi <- soilMoistureConst
+        smi <- soilMoistureConst[i+1]
         heatConductivity[i+1] <- (3.0 * (sbdi / 1000.0) - 1.7) * 0.001 / (1.0 + ((11.5 - (5.0 * (sbdi / 1000.0))) * exp(-50.0 * (smi / (sbdi / 1000.0)) ^ 1.5))) * 86400.0 * ts * 100.0 * 4.184
         sati <- saturation[i+1]
         somi <- soilOrganicMatter[i+1] / da * sbdi
@@ -107,8 +108,9 @@ init_soiltemperature <- function (noOfTempLayers,
     return (list ("soilSurfaceTemperature" = soilSurfaceTemperature,"soilTemperature" = soilTemperature,"V" = V,"B" = B,"volumeMatrix" = volumeMatrix,"volumeMatrixOld" = volumeMatrixOld,"matrixPrimaryDiagonal" = matrixPrimaryDiagonal,"matrixSecondaryDiagonal" = matrixSecondaryDiagonal,"heatConductivity" = heatConductivity,"heatConductivityMean" = heatConductivityMean,"heatCapacity" = heatCapacity,"solution" = solution,"matrixDiagonal" = matrixDiagonal,"matrixLowerTriangle" = matrixLowerTriangle,"heatFlow" = heatFlow))
 }
 
-model_soiltemperature <- function (noOfTempLayers,
-         noOfSoilLayers,
+model_soiltemperature <- function (noOfSoilLayers,
+         noOfTempLayers,
+         noOfTempLayersPlus1,
          soilSurfaceTemperature,
          timeStep,
          soilMoistureConst,
@@ -150,6 +152,15 @@ model_soiltemperature <- function (noOfTempLayers,
     #'            * ExtendedDescription: None
     #'            * ShortDescription: Calculates the soil temperature at all soil layers
     #'- inputs:
+    #'            * name: noOfSoilLayers
+    #'                          ** description : noOfSoilLayers
+    #'                          ** inputtype : parameter
+    #'                          ** parametercategory : constant
+    #'                          ** datatype : INT
+    #'                          ** max : 
+    #'                          ** min : 
+    #'                          ** default : 20
+    #'                          ** unit : dimensionless
     #'            * name: noOfTempLayers
     #'                          ** description : noOfTempLayers=noOfSoilLayers+2
     #'                          ** inputtype : parameter
@@ -159,14 +170,14 @@ model_soiltemperature <- function (noOfTempLayers,
     #'                          ** min : 
     #'                          ** default : 22
     #'                          ** unit : dimensionless
-    #'            * name: noOfSoilLayers
-    #'                          ** description : noOfSoilLayers
+    #'            * name: noOfTempLayersPlus1
+    #'                          ** description : for matrixSecondaryDiagonal
     #'                          ** inputtype : parameter
     #'                          ** parametercategory : constant
     #'                          ** datatype : INT
     #'                          ** max : 
     #'                          ** min : 
-    #'                          ** default : 20.0
+    #'                          ** default : 23
     #'                          ** unit : dimensionless
     #'            * name: soilSurfaceTemperature
     #'                          ** description : current soilSurfaceTemperature
@@ -187,13 +198,14 @@ model_soiltemperature <- function (noOfTempLayers,
     #'                          ** default : 1.0
     #'                          ** unit : dimensionless
     #'            * name: soilMoistureConst
-    #'                          ** description : initial soilmoisture
+    #'                          ** description : constant soilmoisture during the model run
     #'                          ** inputtype : parameter
     #'                          ** parametercategory : constant
-    #'                          ** datatype : DOUBLE
+    #'                          ** datatype : DOUBLEARRAY
+    #'                          ** len : noOfSoilLayers
     #'                          ** max : 
     #'                          ** min : 
-    #'                          ** default : 0.25
+    #'                          ** default : 
     #'                          ** unit : m**3/m**3
     #'            * name: baseTemp
     #'                          ** description : baseTemperature
@@ -299,7 +311,7 @@ model_soiltemperature <- function (noOfTempLayers,
     #'                          ** inputtype : parameter
     #'                          ** parametercategory : constant
     #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 22
+    #'                          ** len : noOfTempLayers
     #'                          ** max : 
     #'                          ** min : 
     #'                          ** default : 
@@ -309,7 +321,7 @@ model_soiltemperature <- function (noOfTempLayers,
     #'                          ** inputtype : parameter
     #'                          ** parametercategory : constant
     #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 20
+    #'                          ** len : noOfSoilLayers
     #'                          ** max : 
     #'                          ** min : 
     #'                          ** default : 
@@ -319,7 +331,7 @@ model_soiltemperature <- function (noOfTempLayers,
     #'                          ** inputtype : parameter
     #'                          ** parametercategory : constant
     #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 20
+    #'                          ** len : noOfSoilLayers
     #'                          ** max : 
     #'                          ** min : 
     #'                          ** default : 
@@ -329,7 +341,7 @@ model_soiltemperature <- function (noOfTempLayers,
     #'                          ** inputtype : parameter
     #'                          ** parametercategory : constant
     #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 20
+    #'                          ** len : noOfSoilLayers
     #'                          ** max : 
     #'                          ** min : 
     #'                          ** default : 
@@ -339,7 +351,7 @@ model_soiltemperature <- function (noOfTempLayers,
     #'                          ** inputtype : variable
     #'                          ** variablecategory : state
     #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 22
+    #'                          ** len : noOfTempLayers
     #'                          ** max : 
     #'                          ** min : 
     #'                          ** default : 
@@ -349,7 +361,7 @@ model_soiltemperature <- function (noOfTempLayers,
     #'                          ** inputtype : variable
     #'                          ** variablecategory : state
     #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 22
+    #'                          ** len : noOfTempLayers
     #'                          ** max : 
     #'                          ** min : 
     #'                          ** default : 
@@ -359,7 +371,7 @@ model_soiltemperature <- function (noOfTempLayers,
     #'                          ** inputtype : variable
     #'                          ** variablecategory : state
     #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 22
+    #'                          ** len : noOfTempLayers
     #'                          ** max : 
     #'                          ** min : 
     #'                          ** default : 
@@ -369,7 +381,7 @@ model_soiltemperature <- function (noOfTempLayers,
     #'                          ** inputtype : variable
     #'                          ** variablecategory : state
     #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 22
+    #'                          ** len : noOfTempLayers
     #'                          ** max : 
     #'                          ** min : 
     #'                          ** default : 
@@ -379,7 +391,7 @@ model_soiltemperature <- function (noOfTempLayers,
     #'                          ** inputtype : variable
     #'                          ** variablecategory : state
     #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 22
+    #'                          ** len : noOfTempLayers
     #'                          ** max : 
     #'                          ** min : 
     #'                          ** default : 
@@ -389,7 +401,7 @@ model_soiltemperature <- function (noOfTempLayers,
     #'                          ** inputtype : variable
     #'                          ** variablecategory : state
     #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 22
+    #'                          ** len : noOfTempLayers
     #'                          ** max : 
     #'                          ** min : 
     #'                          ** default : 
@@ -399,7 +411,7 @@ model_soiltemperature <- function (noOfTempLayers,
     #'                          ** inputtype : variable
     #'                          ** variablecategory : state
     #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 23
+    #'                          ** len : noOfTempLayersPlus1
     #'                          ** max : 
     #'                          ** min : 
     #'                          ** default : 
@@ -409,7 +421,7 @@ model_soiltemperature <- function (noOfTempLayers,
     #'                          ** inputtype : variable
     #'                          ** variablecategory : state
     #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 22
+    #'                          ** len : noOfTempLayers
     #'                          ** max : 
     #'                          ** min : 
     #'                          ** default : 
@@ -419,7 +431,7 @@ model_soiltemperature <- function (noOfTempLayers,
     #'                          ** inputtype : variable
     #'                          ** variablecategory : state
     #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 22
+    #'                          ** len : noOfTempLayers
     #'                          ** max : 
     #'                          ** min : 
     #'                          ** default : 
@@ -429,7 +441,7 @@ model_soiltemperature <- function (noOfTempLayers,
     #'                          ** inputtype : variable
     #'                          ** variablecategory : state
     #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 22
+    #'                          ** len : noOfTempLayers
     #'                          ** max : 
     #'                          ** min : 
     #'                          ** default : 
@@ -439,7 +451,7 @@ model_soiltemperature <- function (noOfTempLayers,
     #'                          ** inputtype : variable
     #'                          ** variablecategory : state
     #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 22
+    #'                          ** len : noOfTempLayers
     #'                          ** max : 
     #'                          ** min : 
     #'                          ** default : 
@@ -449,7 +461,7 @@ model_soiltemperature <- function (noOfTempLayers,
     #'                          ** inputtype : variable
     #'                          ** variablecategory : state
     #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 22
+    #'                          ** len : noOfTempLayers
     #'                          ** max : 
     #'                          ** min : 
     #'                          ** default : 
@@ -459,7 +471,7 @@ model_soiltemperature <- function (noOfTempLayers,
     #'                          ** inputtype : variable
     #'                          ** variablecategory : state
     #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 22
+    #'                          ** len : noOfTempLayers
     #'                          ** max : 
     #'                          ** min : 
     #'                          ** default : 
@@ -469,7 +481,7 @@ model_soiltemperature <- function (noOfTempLayers,
     #'                          ** inputtype : variable
     #'                          ** variablecategory : state
     #'                          ** datatype : DOUBLEARRAY
-    #'                          ** len : 22
+    #'                          ** len : noOfTempLayers
     #'                          ** max : 
     #'                          ** min : 
     #'                          ** default : 

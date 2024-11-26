@@ -28,6 +28,7 @@
             <input id="specificHeatCapacityQuartz" source="SoilTemperatureComp.specificHeatCapacityQuartz"/>
             <input id="nTau" source="SoilTemperatureComp.nTau"/>
             <input id="noOfTempLayers" source="SoilTemperatureComp.noOfTempLayers"/>
+            <input id="noOfTempLayersPlus1" source="SoilTemperatureComp.noOfTempLayersPlus1"/>
             <input id="noOfSoilLayers" source="SoilTemperatureComp.noOfSoilLayers"/>
             <input id="layerThickness" source="SoilTemperatureComp.layerThickness"/>
             <input id="soilBulkDensity" source="SoilTemperatureComp.soilBulkDensity"/>

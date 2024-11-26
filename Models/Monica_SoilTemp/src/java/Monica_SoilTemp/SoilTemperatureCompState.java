@@ -26,68 +26,68 @@ public class SoilTemperatureCompState
     {
         if (copyAll)
         {
-            V = new Double[22];
-        for (int i = 0; i < 22; i++)
+            V = new Double[toCopy.getV().length];
+        for (int i = 0; i < toCopy.getV().length; i++)
         {
             V[i] = toCopy.getV()[i];
         }
-            B = new Double[22];
-        for (int i = 0; i < 22; i++)
+            B = new Double[toCopy.getB().length];
+        for (int i = 0; i < toCopy.getB().length; i++)
         {
             B[i] = toCopy.getB()[i];
         }
-            volumeMatrix = new Double[22];
-        for (int i = 0; i < 22; i++)
+            volumeMatrix = new Double[toCopy.getvolumeMatrix().length];
+        for (int i = 0; i < toCopy.getvolumeMatrix().length; i++)
         {
             volumeMatrix[i] = toCopy.getvolumeMatrix()[i];
         }
-            volumeMatrixOld = new Double[22];
-        for (int i = 0; i < 22; i++)
+            volumeMatrixOld = new Double[toCopy.getvolumeMatrixOld().length];
+        for (int i = 0; i < toCopy.getvolumeMatrixOld().length; i++)
         {
             volumeMatrixOld[i] = toCopy.getvolumeMatrixOld()[i];
         }
-            matrixPrimaryDiagonal = new Double[22];
-        for (int i = 0; i < 22; i++)
+            matrixPrimaryDiagonal = new Double[toCopy.getmatrixPrimaryDiagonal().length];
+        for (int i = 0; i < toCopy.getmatrixPrimaryDiagonal().length; i++)
         {
             matrixPrimaryDiagonal[i] = toCopy.getmatrixPrimaryDiagonal()[i];
         }
-            matrixSecondaryDiagonal = new Double[23];
-        for (int i = 0; i < 23; i++)
+            matrixSecondaryDiagonal = new Double[toCopy.getmatrixSecondaryDiagonal().length];
+        for (int i = 0; i < toCopy.getmatrixSecondaryDiagonal().length; i++)
         {
             matrixSecondaryDiagonal[i] = toCopy.getmatrixSecondaryDiagonal()[i];
         }
-            heatConductivity = new Double[22];
-        for (int i = 0; i < 22; i++)
+            heatConductivity = new Double[toCopy.getheatConductivity().length];
+        for (int i = 0; i < toCopy.getheatConductivity().length; i++)
         {
             heatConductivity[i] = toCopy.getheatConductivity()[i];
         }
-            heatConductivityMean = new Double[22];
-        for (int i = 0; i < 22; i++)
+            heatConductivityMean = new Double[toCopy.getheatConductivityMean().length];
+        for (int i = 0; i < toCopy.getheatConductivityMean().length; i++)
         {
             heatConductivityMean[i] = toCopy.getheatConductivityMean()[i];
         }
-            heatCapacity = new Double[22];
-        for (int i = 0; i < 22; i++)
+            heatCapacity = new Double[toCopy.getheatCapacity().length];
+        for (int i = 0; i < toCopy.getheatCapacity().length; i++)
         {
             heatCapacity[i] = toCopy.getheatCapacity()[i];
         }
-            solution = new Double[22];
-        for (int i = 0; i < 22; i++)
+            solution = new Double[toCopy.getsolution().length];
+        for (int i = 0; i < toCopy.getsolution().length; i++)
         {
             solution[i] = toCopy.getsolution()[i];
         }
-            matrixDiagonal = new Double[22];
-        for (int i = 0; i < 22; i++)
+            matrixDiagonal = new Double[toCopy.getmatrixDiagonal().length];
+        for (int i = 0; i < toCopy.getmatrixDiagonal().length; i++)
         {
             matrixDiagonal[i] = toCopy.getmatrixDiagonal()[i];
         }
-            matrixLowerTriangle = new Double[22];
-        for (int i = 0; i < 22; i++)
+            matrixLowerTriangle = new Double[toCopy.getmatrixLowerTriangle().length];
+        for (int i = 0; i < toCopy.getmatrixLowerTriangle().length; i++)
         {
             matrixLowerTriangle[i] = toCopy.getmatrixLowerTriangle()[i];
         }
-            heatFlow = new Double[22];
-        for (int i = 0; i < 22; i++)
+            heatFlow = new Double[toCopy.getheatFlow().length];
+        for (int i = 0; i < toCopy.getheatFlow().length; i++)
         {
             heatFlow[i] = toCopy.getheatFlow()[i];
         }
