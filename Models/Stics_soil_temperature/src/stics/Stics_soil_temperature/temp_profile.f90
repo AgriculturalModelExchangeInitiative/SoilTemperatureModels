@@ -20,7 +20,7 @@ CONTAINS
         INTEGER:: soil_depth
         temp_amp = 0.0
         
-        deallocate(prev_temp_profile)
+        !deallocate(prev_temp_profile)
 
         prev_canopy_temp = 0.0
         soil_depth = sum(layer_thick)
