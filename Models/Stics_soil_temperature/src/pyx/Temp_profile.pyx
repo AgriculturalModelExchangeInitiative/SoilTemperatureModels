@@ -1,9 +1,10 @@
-import numpy 
+import numpy
 from math import *
+
 def init_temp_profile(float min_air_temp,
                       float air_temp_day1,
                       int layer_thick[]):
-    cdef float temp_amp=0.0
+    cdef float temp_amp = 0.0
     cdef float prev_temp_profile[]
     cdef float prev_canopy_temp
     prev_temp_profile = None
@@ -14,6 +15,7 @@ def init_temp_profile(float min_air_temp,
     prev_temp_profile=[air_temp_day1]*(soil_depth)
     prev_canopy_temp=air_temp_day1
     return  temp_amp, prev_temp_profile, prev_canopy_temp
+
 def model_temp_profile(float temp_amp,
                        float prev_temp_profile[],
                        float prev_canopy_temp,
@@ -21,15 +23,14 @@ def model_temp_profile(float temp_amp,
                        float air_temp_day1,
                        int layer_thick[]):
     """
-
     tempprofile model
     Author: None
     Reference: doi:http://dx.doi.org/10.1016/j.agrformet.2014.05.002
     Institution: INRAE
     ExtendedDescription: None
     ShortDescription: None
-
     """
+
     cdef float temp_profile[]
     cdef int z , n 
     cdef floatlist  vexp
@@ -49,5 +50,6 @@ def model_temp_profile(float temp_amp,
     for z in range(1 , n + 1 , 1):
         temp_profile[z - 1]=prev_temp_profile[z - 1] - (vexp[(z - 1)] * (prev_canopy_temp - min_air_temp)) + (0.1 * (prev_canopy_temp - prev_temp_profile[z - 1])) + (temp_amp * vexp[(z - 1)] / 2)
     return  temp_profile
+
 
 

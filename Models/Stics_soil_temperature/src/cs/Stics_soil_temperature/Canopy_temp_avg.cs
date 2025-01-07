@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-public class canopy_temp_avg
+public class Canopy_temp_avg
 {
     
     /// <summary>

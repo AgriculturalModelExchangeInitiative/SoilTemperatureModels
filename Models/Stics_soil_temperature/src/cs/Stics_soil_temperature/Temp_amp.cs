@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-public class temp_amp
+public class Temp_amp
 {
     
     /// <summary>

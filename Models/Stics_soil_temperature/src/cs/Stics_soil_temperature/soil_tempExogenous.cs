@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-public class soil_tempExogenous 
+public class Soil_tempExogenous 
 {
     private double _min_temp;
     private double _max_temp;
@@ -17,15 +17,15 @@ public class soil_tempExogenous
     
     public soil_tempExogenous(soil_tempExogenous toCopy, bool copyAll) // copy constructor 
     {
-    if (copyAll)
-    {
+        if (copyAll)
+        {
     
-    min_temp = toCopy.min_temp;
-    max_temp = toCopy.max_temp;
-    min_air_temp = toCopy.min_air_temp;
-    min_canopy_temp = toCopy.min_canopy_temp;
-    max_canopy_temp = toCopy.max_canopy_temp;
-    }
+            min_temp = toCopy.min_temp;
+            max_temp = toCopy.max_temp;
+            min_air_temp = toCopy.min_air_temp;
+            min_canopy_temp = toCopy.min_canopy_temp;
+            max_canopy_temp = toCopy.max_canopy_temp;
+        }
     }
     public double min_temp
     {

@@ -1,4 +1,4 @@
-public class soil_tempComponent
+public class Soil_tempComponent
 {
     
     /// <summary>
@@ -18,23 +18,23 @@ public class soil_tempComponent
     {
         get
         {
-             return _temp_profile.air_temp_day1; 
+             return _Temp_profile.air_temp_day1; 
         }
         set
         {
-            _temp_profile.air_temp_day1 = value;
+            _Temp_profile.air_temp_day1 = value;
         }
     }
     public int[] layer_thick
     {
         get
         {
-             return _temp_profile.layer_thick; 
+             return _Temp_profile.layer_thick; 
         }
         set
         {
-            _temp_profile.layer_thick = value;
-            _layers_temp.layer_thick = value;
+            _Temp_profile.layer_thick = value;
+            _Layers_temp.layer_thick = value;
         }
     }
 
@@ -50,10 +50,10 @@ public class soil_tempComponent
     public soil_tempComponent(soil_tempComponent toCopy): this() // copy constructor 
     {
 
-    air_temp_day1 = toCopy.air_temp_day1;
+            air_temp_day1 = toCopy.air_temp_day1;
+            
+            for (int i = 0; i < 100; i++)
+                { layer_thick[i] = toCopy.layer_thick[i]; }
     
-        for (int i = 0; i < 100; i++)
-        { layer_thick[i] = toCopy.layer_thick[i]; }
-    
-    }
-}
+            }
+        }

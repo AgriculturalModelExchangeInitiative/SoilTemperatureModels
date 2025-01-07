@@ -1,20 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-public class temp_profile
+public class Temp_profile
 {
     public void Init(soil_tempState s, soil_tempState s1, soil_tempRate r, soil_tempAuxiliary a, soil_tempExogenous ex)
     {
         double min_air_temp = ex.min_air_temp;
         double temp_amp = 0.0;
-        List<double> prev_temp_profile = new List<double>();
+        double[] prev_temp_profile ;
         double prev_canopy_temp;
-        prev_temp_profile = new List<double>{};
-        prev_canopy_temp = 0.00d;
+        prev_canopy_temp = 0.0;
         int soil_depth;
         soil_depth = layer_thick.Sum();
-        prev_temp_profile = new List<double>(soil_depth);
-        for (var i = 0; i < soil_depth; i++){prev_temp_profile.Add(air_temp_day1);}
+        prev_temp_profile = new double[ soil_depth];
+        for (var i = 0; i < soil_depth; i++){prev_temp_profile[i] = air_temp_day1;}
         prev_canopy_temp = air_temp_day1;
         s.temp_amp= temp_amp;
         s.prev_temp_profile= prev_temp_profile;
@@ -61,7 +60,8 @@ public class temp_profile
     //                          ** description : previous soil temperature profile (for 1 cm layers)
     //                          ** inputtype : variable
     //                          ** variablecategory : state
-    //                          ** datatype : DOUBLELIST
+    //                          ** datatype : DOUBLEARRAY
+    //                          ** len : 
     //                          ** max : 50.0
     //                          ** min : -50.0
     //                          ** default : 
@@ -106,33 +106,34 @@ public class temp_profile
         //- outputs:
     //            * name: temp_profile
     //                          ** description : current soil profile temperature (for 1 cm layers)
-    //                          ** datatype : DOUBLELIST
+    //                          ** datatype : DOUBLEARRAY
     //                          ** variablecategory : state
+    //                          ** len : 
     //                          ** max : 50.0
     //                          ** min : -50.0
     //                          ** unit : degC
         double temp_amp = s.temp_amp;
-        List<double> prev_temp_profile = s.prev_temp_profile;
+        double[] prev_temp_profile = s.prev_temp_profile;
         double prev_canopy_temp = s.prev_canopy_temp;
         double min_air_temp = ex.min_air_temp;
-        List<double> temp_profile = new List<double>();
+        double[] temp_profile ;
         int z;
         int n;
         List<double> vexp = new List<double>();
         double therm_diff = 5.37e-3;
         double temp_freq = 7.272e-5;
         double therm_amp;
-        n = prev_temp_profile.Count;
-        temp_profile = new List<double>(n);
+        n = prev_temp_profile.Length;
+        temp_profile = new double[ n];
         vexp = new List<double>(n);
         therm_amp = Math.Sqrt(temp_freq / 2 / therm_diff);
         for (z=1 ; z!=n + 1 ; z+=1)
         {
-            vexp[z - 1] = Math.Exp(-(z * therm_amp));
+            vexp.Add(Math.Exp(-(z * therm_amp)));
         }
         for (z=1 ; z!=n + 1 ; z+=1)
         {
-            temp_profile[z - 1] = prev_temp_profile[z - 1] - (vexp[(z - 1)] * (prev_canopy_temp - min_air_temp)) + (0.10d * (prev_canopy_temp - prev_temp_profile[z - 1])) + (temp_amp * vexp[(z - 1)] / 2);
+            temp_profile[z - 1] = prev_temp_profile[z - 1] - (vexp[(z - 1)] * (prev_canopy_temp - min_air_temp)) + (0.1 * (prev_canopy_temp - prev_temp_profile[z - 1])) + (temp_amp * vexp[(z - 1)] / 2);
         }
         s.temp_profile= temp_profile;
     }

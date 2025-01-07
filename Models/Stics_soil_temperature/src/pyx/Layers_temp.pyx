@@ -1,17 +1,17 @@
-import numpy 
+import numpy
 from math import *
+
 def model_layers_temp(float temp_profile[],
                       int layer_thick[]):
     """
-
     layers mean temperature model
     Author: None
     Reference: doi:http://dx.doi.org/10.1016/j.agrformet.2014.05.002
     Institution: INRAE
     ExtendedDescription: None
     ShortDescription: None
-
     """
+
     cdef float layer_temp[]
     cdef int z 
     cdef int layers_nb 
@@ -38,6 +38,7 @@ def model_layers_temp(float temp_profile[],
     for z in range(1 , layers_nb + 1 , 1):
         layer_temp[z - 1]=sum(temp_profile[(up_depth[z - 1] + 1 - 1):up_depth[(z + 1 - 1)]]) / layer_thick[(z - 1)]
     return  layer_temp
+
 
 
 def get_layers_number(int layer_thick_or_depth[]):
