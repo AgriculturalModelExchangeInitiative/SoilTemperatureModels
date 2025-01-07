@@ -19,7 +19,6 @@ void SnowCoverCalculator::Init(SoilTemperatureState &s, SoilTemperatureState &s1
     double iCropResidues = ex.getiCropResidues();
     double iPotentialSoilEvaporation = ex.getiPotentialSoilEvaporation();
     double iLeafAreaIndex = ex.getiLeafAreaIndex();
-    std::vector<double> & iSoilTempArray = ex.getiSoilTempArray();
     double pInternalAlbedo;
     double SnowWaterContent = 0.0;
     double SoilSurfaceTemperature = 0.0;
@@ -200,7 +199,7 @@ void SnowCoverCalculator::Calculate_Model(SoilTemperatureState &s, SoilTemperatu
     //            * name: iSoilTempArray
     //                          ** description : Soil Temp array of last day
     //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
+    //                          ** variablecategory : auxiliary
     //                          ** datatype : DOUBLEARRAY
     //                          ** len : 
     //                          ** max : 35.0
@@ -292,7 +291,7 @@ void SnowCoverCalculator::Calculate_Model(SoilTemperatureState &s, SoilTemperatu
     double iCropResidues = ex.getiCropResidues();
     double iPotentialSoilEvaporation = ex.getiPotentialSoilEvaporation();
     double iLeafAreaIndex = ex.getiLeafAreaIndex();
-    std::vector<double> & iSoilTempArray = ex.getiSoilTempArray();
+    std::vector<double> & iSoilTempArray = a.getiSoilTempArray();
     double SnowWaterContent = s.getSnowWaterContent();
     double SoilSurfaceTemperature = s.getSoilSurfaceTemperature();
     int AgeOfSnow = s.getAgeOfSnow();

@@ -50,10 +50,6 @@ def get_layers_number(int layer_thick_or_depth[]):
             layers_number=layers_number + 1
     return layers_number
 
-
-
-#%%CyML Model End%%
-
 def layer_thickness2depth(int layer_thick[]):
     cdef intlist  layer_depth
     cdef int layers_nb , z 
@@ -66,6 +62,4 @@ def layer_thickness2depth(int layer_thick[]):
         if layer_thick[z - 1] != 0:
             layer_depth[z - 1]=sum(layer_thick[1 - 1:z])
     return layer_depth
-
-
 

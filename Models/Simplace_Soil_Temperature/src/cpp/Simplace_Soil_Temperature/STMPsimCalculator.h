@@ -16,8 +16,8 @@ class STMPsimCalculator
         std::vector<double> cSoilLayerDepth ;
         double cFirstDayMeanTemp ;
         double cAVT ;
-        double cABD {2.0} ;
-        double cDampingDepth {6.0};
+        double cABD ;
+        double cDampingDepth ;
     public:
         STMPsimCalculator();
         void Calculate_Model(SoilTemperatureState &s, SoilTemperatureState &s1, SoilTemperatureRate &r, SoilTemperatureAuxiliary &a, SoilTemperatureExogenous &ex);
