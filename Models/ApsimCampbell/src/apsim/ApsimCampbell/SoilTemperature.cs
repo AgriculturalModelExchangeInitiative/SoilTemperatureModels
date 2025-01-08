@@ -2124,7 +2124,7 @@ public class SoilTemperature
     /// <summary>
     /// 
     /// </summary>
-    public static void  getBoundaryLayerConductance(ref double[] TNew_zb, double stefanBoltzmannConstant, double airTemperature, double waterBalance_Eos, double weather_AirPressure, double instrumentHeight, double waterBalance_Eo, double weather_Wind, double canopyHeight, int surfaceNode, out double boundaryLayerCond)
+    public static double getBoundaryLayerConductance(ref double[] TNew_zb, double stefanBoltzmannConstant, double airTemperature, double waterBalance_Eos, double weather_AirPressure, double instrumentHeight, double waterBalance_Eo, double weather_Wind, double canopyHeight, int surfaceNode)
     {
         int iteration;
         double vonKarmanConstant;
@@ -2139,6 +2139,7 @@ public class SoilTemperature
         double diffusePenetrationConstant;
         double radiativeConductance;
         double frictionVelocity;
+        double boundaryLayerCond;
         double stabilityParammeter;
         double stabilityCorrectionMomentum;
         double stabilityCorrectionHeat;
@@ -2178,6 +2179,7 @@ public class SoilTemperature
                 stabilityCorrectionMomentum = 0.6 * stabilityCorrectionHeat;
             }
         }
+        return boundaryLayerCond;
     }
     /// <summary>
     /// 

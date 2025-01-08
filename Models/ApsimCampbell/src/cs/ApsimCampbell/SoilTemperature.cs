@@ -1832,7 +1832,7 @@ public class SoilTemperature
             newTemps[node] = d[node] - (c[node] * newTemps[(node + 1)]);
         }
     }
-    public static void  getBoundaryLayerConductance(ref double[] TNew_zb, double stefanBoltzmannConstant, double airTemperature, double waterBalance_Eos, double weather_AirPressure, double instrumentHeight, double waterBalance_Eo, double weather_Wind, double canopyHeight, int surfaceNode, out double boundaryLayerCond)
+    public static double getBoundaryLayerConductance(ref double[] TNew_zb, double stefanBoltzmannConstant, double airTemperature, double waterBalance_Eos, double weather_AirPressure, double instrumentHeight, double waterBalance_Eo, double weather_Wind, double canopyHeight, int surfaceNode)
     {
         int iteration;
         double vonKarmanConstant;
@@ -1847,6 +1847,7 @@ public class SoilTemperature
         double diffusePenetrationConstant;
         double radiativeConductance;
         double frictionVelocity;
+        double boundaryLayerCond;
         double stabilityParammeter;
         double stabilityCorrectionMomentum;
         double stabilityCorrectionHeat;
@@ -1886,6 +1887,7 @@ public class SoilTemperature
                 stabilityCorrectionMomentum = 0.6 * stabilityCorrectionHeat;
             }
         }
+        return boundaryLayerCond;
     }
     public static double interpolateNetRadiation(double solarRadn, double cloudFr, double cva, double[] soilTemp, double airTemperature, double waterBalance_Eo, double waterBalance_Eos, double waterBalance_Salb, int surfaceNode, double internalTimeStep, double stefanBoltzmannConstant)
     {
