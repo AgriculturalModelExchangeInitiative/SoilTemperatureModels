@@ -27,42 +27,54 @@ public class SoilTemperature
         double waterBalance_Es = ex.waterBalance_Es;
         double waterBalance_Salb = ex.waterBalance_Salb;
         double timestep = ex.timestep;
+        double[] nodeDepth_loc = nodeDepth;
+        double[] thermCondPar1_loc = thermCondPar1;
+        double[] thermCondPar2_loc = thermCondPar2;
+        double[] thermCondPar3_loc = thermCondPar3;
+        double[] thermCondPar4_loc = thermCondPar4;
+        double soilRoughnessHeight_loc = soilRoughnessHeight;
         bool doInitialisationStuff = false;
         double internalTimeStep = 0.0;
         double timeOfDaySecs = 0.0;
         int numNodes = 0;
         int numLayers = 0;
-        double[] volSpecHeatSoil ;
-        double[] soilTemp ;
-        double[] morningSoilTemp ;
-        double[] heatStorage ;
-        double[] thermalConductance ;
-        double[] thermalConductivity ;
+        double[] volSpecHeatSoil = null ;
+        double[] soilTemp = null ;
+        double[] morningSoilTemp = null ;
+        double[] heatStorage = null ;
+        double[] thermalConductance = null ;
+        double[] thermalConductivity = null ;
         double boundaryLayerConductance = 0.0;
-        double[] newTemperature ;
+        double[] newTemperature = null ;
         double airTemperature = 0.0;
         double maxTempYesterday = 0.0;
         double minTempYesterday = 0.0;
-        double[] soilWater ;
-        double[] minSoilTemp ;
-        double[] maxSoilTemp ;
-        double[] aveSoilTemp ;
-        double[] aveSoilWater ;
-        double[] thickness ;
-        double[] bulkDensity ;
-        double[] rocks ;
-        double[] carbon ;
-        double[] sand ;
-        double[] silt ;
-        double[] clay ;
+        double[] soilWater = null ;
+        double[] minSoilTemp = null ;
+        double[] maxSoilTemp = null ;
+        double[] aveSoilTemp = null ;
+        double[] aveSoilWater = null ;
+        double[] thickness = null ;
+        double[] bulkDensity = null ;
+        double[] rocks = null ;
+        double[] carbon = null ;
+        double[] sand = null ;
+        double[] silt = null ;
+        double[] clay = null ;
         double instrumentHeight = 0.0;
         double netRadiation = 0.0;
         double canopyHeight = 0.0;
         double instrumHeight = 0.0;
         doInitialisationStuff = true;
         instrumentHeight = getIniVariables(instrumHeight, defaultInstrumentHeight, instrumentHeight);
-        getProfileVariables(ref maxSoilTemp, ref minSoilTemp, topsoilNode, ref thermalConductance, physical_BD, ref soilTemp, ref carbon, physical_ParticleSizeSand, physical_Thickness, ref newTemperature, ref heatStorage, numPhantomNodes, ref soilWater, ref nodeDepth, ref volSpecHeatSoil, ref aveSoilTemp, surfaceNode, ref rocks, physical_Rocks, physical_ParticleSizeSilt, ref thermalConductivity, ref silt, ref sand, ref numNodes, organic_Carbon, ref morningSoilTemp, DepthToConstantTemperature, ref clay, ref thickness, ref bulkDensity, waterBalance_SW, airNode, physical_ParticleSizeClay, ref numLayers, MissingValue);
-        readParam(ref soilTemp, ref soilRoughnessHeight, ref newTemperature, bareSoilRoughness, ref thermCondPar2, ref thermCondPar3, ref thermCondPar4, bulkDensity, ref thermCondPar1, numNodes, clay, numLayers, weather_Latitude, weather_Amp, clock_Today_DayOfYear, weather_Tav, surfaceNode, thickness);
+        getProfileVariables(ref clay, ref thermalConductance, ref sand, ref soilWater, waterBalance_SW, organic_Carbon, ref thermalConductivity, physical_BD, ref minSoilTemp, ref newTemperature, physical_ParticleSizeSilt, physical_Rocks, topsoilNode, airNode, ref carbon, ref nodeDepth_loc, physical_ParticleSizeSand, ref maxSoilTemp, surfaceNode, DepthToConstantTemperature, ref silt, ref soilTemp, ref volSpecHeatSoil, ref thickness, ref heatStorage, numPhantomNodes, ref numNodes, physical_ParticleSizeClay, ref rocks, ref bulkDensity, physical_Thickness, ref numLayers, ref morningSoilTemp, ref aveSoilTemp, MissingValue);
+        readParam(ref newTemperature, ref soilRoughnessHeight_loc, ref soilTemp, bareSoilRoughness, clay, numNodes, bulkDensity, numLayers, ref thermCondPar2_loc, ref thermCondPar4_loc, ref thermCondPar3_loc, ref thermCondPar1_loc, surfaceNode, weather_Amp, clock_Today_DayOfYear, weather_Tav, thickness, weather_Latitude);
+        nodeDepth = nodeDepth_loc;
+        thermCondPar1 = thermCondPar1_loc;
+        thermCondPar2 = thermCondPar2_loc;
+        thermCondPar3 = thermCondPar3_loc;
+        thermCondPar4 = thermCondPar4_loc;
+        soilRoughnessHeight = soilRoughnessHeight_loc;
         s.doInitialisationStuff= doInitialisationStuff;
         s.internalTimeStep= internalTimeStep;
         s.timeOfDaySecs= timeOfDaySecs;
@@ -144,8 +156,8 @@ public class SoilTemperature
         get { return this._stefanBoltzmannConstant; }
         set { this._stefanBoltzmannConstant= value; } 
     }
-    private double _airNode;
-    public double airNode
+    private int _airNode;
+    public int airNode
     {
         get { return this._airNode; }
         set { this._airNode= value; } 
@@ -570,7 +582,7 @@ public class SoilTemperature
     //                          ** description : The index of the node in the atmosphere (aboveground)
     //                          ** inputtype : parameter
     //                          ** parametercategory : constant
-    //                          ** datatype : DOUBLE
+    //                          ** datatype : INT
     //                          ** max : 
     //                          ** min : 
     //                          ** default : 0
@@ -1247,32 +1259,32 @@ public class SoilTemperature
         double canopyHeight = s.canopyHeight;
         double instrumHeight = s.instrumHeight;
         int i;
-        getOtherVariables(ref soilWater, ref instrumentHeight, microClimate_CanopyHeight, waterBalance_SW, numNodes, ref canopyHeight, soilRoughnessHeight, numLayers);
+        getOtherVariables(ref instrumentHeight, soilRoughnessHeight, numNodes, ref canopyHeight, microClimate_CanopyHeight, ref soilWater, waterBalance_SW, numLayers);
         if (doInitialisationStuff)
         {
             if (ValuesInArray(InitialValues, MissingValue))
             {
                 soilTemp = new double[numNodes + 1 + 1];
-                soilTemp.ToList().GetRange(topsoilNode,topsoilNode + InitialValues.Length - topsoilNode) = InitialValues.ToList().GetRange(0,0 + InitialValues.Length - 0);
+                 Array.ConstrainedCopy(InitialValues, 0, soilTemp, topsoilNode, InitialValues.Length);
             }
             else
             {
-                soilTemp = calcSoilTemperature(soilTemp, weather_Latitude, weather_Amp, numNodes, clock_Today_DayOfYear, weather_Tav, surfaceNode, thickness);
+                soilTemp = calcSoilTemperature(soilTemp, surfaceNode, weather_Amp, clock_Today_DayOfYear, weather_Tav, numNodes, thickness, weather_Latitude);
                 InitialValues = new double[numLayers];
-                InitialValues.ToList().GetRange(0,0 + numLayers - 0) = soilTemp.ToList().GetRange(topsoilNode,topsoilNode + numLayers - topsoilNode);
+                 Array.ConstrainedCopy(soilTemp, topsoilNode, InitialValues, 0, numLayers);
             }
             soilTemp[airNode] = weather_MeanT;
-            soilTemp[surfaceNode] = calcSurfaceTemperature(waterBalance_Salb, weather_MeanT, weather_Radn, weather_MaxT);
+            soilTemp[surfaceNode] = calcSurfaceTemperature(weather_MaxT, weather_Radn, weather_MeanT, waterBalance_Salb);
             for (i=numNodes + 1 ; i!=soilTemp.Length ; i+=1)
             {
                 soilTemp[i] = weather_Tav;
             }
-            newTemperature.ToList().GetRange(0,0 + soilTemp.Length - 0) = soilTemp;
+            soilTemp.CopyTo(newTemperature, 0);
             maxTempYesterday = weather_MaxT;
             minTempYesterday = weather_MinT;
             doInitialisationStuff = false;
         }
-        doProcess(ref maxSoilTemp, ref minSoilTemp, weather_MaxT, numIterationsForBoundaryLayerConductance, ref maxTempYesterday, ref thermalConductivity, ref timeOfDaySecs, ref soilTemp, weather_MeanT, ref morningSoilTemp, ref newTemperature, ref boundaryLayerConductance, constantBoundaryLayerConductance, ref airTemperature, timestep, weather_MinT, airNode, ref netRadiation, ref aveSoilTemp, ref minTempYesterday, ref internalTimeStep, boundarLayerConductanceSource, clock_Today_DayOfYear, weather_Latitude, weather_Radn, soilConstituentNames, soilWater, ref volSpecHeatSoil, numNodes, nodeDepth, surfaceNode, thickness, MissingValue, bulkDensity, carbon, pom, rocks, ps, sand, silt, clay, defaultTimeOfMaximumTemperature, waterBalance_Eo, waterBalance_Eos, waterBalance_Salb, stefanBoltzmannConstant, weather_AirPressure, instrumentHeight, weather_Wind, canopyHeight, netRadiationSource, ref thermalConductance, waterBalance_Es, ref heatStorage, latentHeatOfVapourisation, nu);
+        doProcess(ref minTempYesterday, timestep, weather_MaxT, weather_MinT, numIterationsForBoundaryLayerConductance, ref soilTemp, ref maxTempYesterday, ref thermalConductivity, boundarLayerConductanceSource, ref minSoilTemp, ref boundaryLayerConductance, ref newTemperature, weather_MeanT, ref morningSoilTemp, ref aveSoilTemp, ref internalTimeStep, ref airTemperature, ref netRadiation, airNode, ref timeOfDaySecs, ref maxSoilTemp, constantBoundaryLayerConductance, weather_Latitude, clock_Today_DayOfYear, weather_Radn, numNodes, soilWater, ref volSpecHeatSoil, soilConstituentNames, surfaceNode, thickness, nodeDepth, MissingValue, pom, carbon, bulkDensity, rocks, sand, ps, silt, clay, defaultTimeOfMaximumTemperature, waterBalance_Eos, waterBalance_Eo, waterBalance_Salb, stefanBoltzmannConstant, instrumentHeight, canopyHeight, weather_AirPressure, weather_Wind, ref thermalConductance, nu, ref heatStorage, waterBalance_Es, latentHeatOfVapourisation, netRadiationSource);
         s.doInitialisationStuff= doInitialisationStuff;
         s.volSpecHeatSoil= volSpecHeatSoil;
         s.soilTemp= soilTemp;
@@ -1302,7 +1314,7 @@ public class SoilTemperature
         }
         return instrumentHeight;
     }
-    public static void  getProfileVariables(ref double[] maxSoilTemp, ref double[] minSoilTemp, int topsoilNode, ref double[] thermalConductance, double[] physical_BD, ref double[] soilTemp, ref double[] carbon, double[] physical_ParticleSizeSand, double[] physical_Thickness, ref double[] newTemperature, ref double[] heatStorage, int numPhantomNodes, ref double[] soilWater, ref double[] nodeDepth, ref double[] volSpecHeatSoil, ref double[] aveSoilTemp, int surfaceNode, ref double[] rocks, double[] physical_Rocks, double[] physical_ParticleSizeSilt, ref double[] thermalConductivity, ref double[] silt, ref double[] sand, ref int numNodes, double[] organic_Carbon, ref double[] morningSoilTemp, double DepthToConstantTemperature, ref double[] clay, ref double[] thickness, ref double[] bulkDensity, double[] waterBalance_SW, double airNode, double[] physical_ParticleSizeClay, ref int numLayers, double MissingValue)
+    public static void  getProfileVariables(ref double[] clay, ref double[] thermalConductance, ref double[] sand, ref double[] soilWater, double[] waterBalance_SW, double[] organic_Carbon, ref double[] thermalConductivity, double[] physical_BD, ref double[] minSoilTemp, ref double[] newTemperature, double[] physical_ParticleSizeSilt, double[] physical_Rocks, int topsoilNode, int airNode, ref double[] carbon, ref double[] nodeDepth, double[] physical_ParticleSizeSand, ref double[] maxSoilTemp, int surfaceNode, double DepthToConstantTemperature, ref double[] silt, ref double[] soilTemp, ref double[] volSpecHeatSoil, ref double[] thickness, ref double[] heatStorage, int numPhantomNodes, ref int numNodes, double[] physical_ParticleSizeClay, ref double[] rocks, ref double[] bulkDensity, double[] physical_Thickness, ref int numLayers, ref double[] morningSoilTemp, ref double[] aveSoilTemp, double MissingValue)
     {
         int layer;
         int node;
@@ -1310,13 +1322,13 @@ public class SoilTemperature
         double belowProfileDepth;
         double thicknessForPhantomNodes;
         int firstPhantomNode;
-        double[] oldDepth ;
-        double[] oldBulkDensity ;
-        double[] oldSoilWater ;
+        double[] oldDepth = null ;
+        double[] oldBulkDensity = null ;
+        double[] oldSoilWater = null ;
         numLayers = physical_Thickness.Length;
         numNodes = numLayers + numPhantomNodes;
         thickness = new double[numLayers + numPhantomNodes + 1];
-        thickness.ToList().GetRange(1,1 + physical_Thickness.Length - 1) = physical_Thickness;
+        physical_Thickness.CopyTo(thickness, 1);
         belowProfileDepth = Math.Max(DepthToConstantTemperature - Sum(thickness, 1, numLayers, MissingValue), 1000.0);
         thicknessForPhantomNodes = belowProfileDepth * 2.0 / numPhantomNodes;
         firstPhantomNode = numLayers;
@@ -1328,7 +1340,7 @@ public class SoilTemperature
         nodeDepth = new double[numNodes + 1 + 1];
         if (oldDepth != null)
         {
-            nodeDepth.ToList().GetRange(0,Math.Min(numNodes + 1 + 1, oldDepth.Length) - 0) = oldDepth.ToList().GetRange(0,Math.Min(numNodes + 1 + 1, oldDepth.Length) - 0);
+             Array.ConstrainedCopy(oldDepth, 0, nodeDepth, 0, Math.Min(numNodes + 1 + 1, oldDepth.Length));
         }
         nodeDepth[airNode] = 0.0;
         nodeDepth[surfaceNode] = 0.0;
@@ -1341,9 +1353,9 @@ public class SoilTemperature
         bulkDensity = new double[numLayers + 1 + numPhantomNodes];
         if (oldBulkDensity != null)
         {
-            bulkDensity.ToList().GetRange(0,Math.Min(numLayers + 1 + numPhantomNodes, oldBulkDensity.Length) - 0) = oldBulkDensity.ToList().GetRange(0,Math.Min(numLayers + 1 + numPhantomNodes, oldBulkDensity.Length) - 0);
+             Array.ConstrainedCopy(oldBulkDensity, 0, bulkDensity, 0, Math.Min(numLayers + 1 + numPhantomNodes, oldBulkDensity.Length));
         }
-        bulkDensity.ToList().GetRange(1,1 + physical_BD.Length - 1) = physical_BD;
+        physical_BD.CopyTo(bulkDensity, 1);
         bulkDensity[numNodes] = bulkDensity[numLayers];
         for (layer=numLayers + 1 ; layer!=numLayers + numPhantomNodes + 1 ; layer+=1)
         {
@@ -1353,7 +1365,7 @@ public class SoilTemperature
         soilWater = new double[numLayers + 1 + numPhantomNodes];
         if (oldSoilWater != null)
         {
-            soilWater.ToList().GetRange(0,Math.Min(numLayers + 1 + numPhantomNodes, oldSoilWater.Length) - 0) = oldSoilWater.ToList().GetRange(0,Math.Min(numLayers + 1 + numPhantomNodes, oldSoilWater.Length) - 0);
+             Array.ConstrainedCopy(oldSoilWater, 0, soilWater, 0, Math.Min(numLayers + 1 + numPhantomNodes, oldSoilWater.Length));
         }
         if (waterBalance_SW != null)
         {
@@ -1422,37 +1434,37 @@ public class SoilTemperature
         heatStorage = new double[numNodes + 1];
         thermalConductance = new double[numNodes + 1 + 1];
     }
-    public static void  doThermalConductivityCoeffs(ref double[] thermCondPar2, ref double[] thermCondPar3, ref double[] thermCondPar4, double[] bulkDensity, ref double[] thermCondPar1, int numNodes, double[] clay, int numLayers)
+    public static void  doThermalConductivityCoeffs(double[] clay, int numNodes, double[] bulkDensity, int numLayers, ref double[] thermCondPar2, ref double[] thermCondPar4, ref double[] thermCondPar3, ref double[] thermCondPar1)
     {
         int layer;
-        double[] oldGC1 ;
-        double[] oldGC2 ;
-        double[] oldGC3 ;
-        double[] oldGC4 ;
+        double[] oldGC1 = null ;
+        double[] oldGC2 = null ;
+        double[] oldGC3 = null ;
+        double[] oldGC4 = null ;
         int element;
         oldGC1 = thermCondPar1;
         thermCondPar1 = new double[numNodes + 1];
         if (oldGC1 != null)
         {
-            thermCondPar1.ToList().GetRange(0,Math.Min(numNodes + 1, oldGC1.Length) - 0) = oldGC1.ToList().GetRange(0,Math.Min(numNodes + 1, oldGC1.Length) - 0);
+             Array.ConstrainedCopy(oldGC1, 0, thermCondPar1, 0, Math.Min(numNodes + 1, oldGC1.Length));
         }
         oldGC2 = thermCondPar2;
         thermCondPar2 = new double[numNodes + 1];
         if (oldGC2 != null)
         {
-            thermCondPar2.ToList().GetRange(0,Math.Min(numNodes + 1, oldGC2.Length) - 0) = oldGC2.ToList().GetRange(0,Math.Min(numNodes + 1, oldGC2.Length) - 0);
+             Array.ConstrainedCopy(oldGC2, 0, thermCondPar2, 0, Math.Min(numNodes + 1, oldGC2.Length));
         }
         oldGC3 = thermCondPar3;
         thermCondPar3 = new double[numNodes + 1];
         if (oldGC3 != null)
         {
-            thermCondPar3.ToList().GetRange(0,Math.Min(numNodes + 1, oldGC3.Length) - 0) = oldGC3.ToList().GetRange(0,Math.Min(numNodes + 1, oldGC3.Length) - 0);
+             Array.ConstrainedCopy(oldGC3, 0, thermCondPar3, 0, Math.Min(numNodes + 1, oldGC3.Length));
         }
         oldGC4 = thermCondPar4;
         thermCondPar4 = new double[numNodes + 1];
         if (oldGC4 != null)
         {
-            thermCondPar4.ToList().GetRange(0,Math.Min(numNodes + 1, oldGC4.Length) - 0) = oldGC4.ToList().GetRange(0,Math.Min(numNodes + 1, oldGC4.Length) - 0);
+             Array.ConstrainedCopy(oldGC4, 0, thermCondPar4, 0, Math.Min(numNodes + 1, oldGC4.Length));
         }
         for (layer=1 ; layer!=numLayers + 1 + 1 ; layer+=1)
         {
@@ -1463,21 +1475,21 @@ public class SoilTemperature
             thermCondPar4[element] = 0.03 + (0.1 * Math.Pow(bulkDensity[layer], 2));
         }
     }
-    public static void  readParam(ref double[] soilTemp, ref double soilRoughnessHeight, ref double[] newTemperature, double bareSoilRoughness, ref double[] thermCondPar2, ref double[] thermCondPar3, ref double[] thermCondPar4, double[] bulkDensity, ref double[] thermCondPar1, int numNodes, double[] clay, int numLayers, double weather_Latitude, double weather_Amp, int clock_Today_DayOfYear, double weather_Tav, int surfaceNode, double[] thickness)
+    public static void  readParam(ref double[] newTemperature, ref double soilRoughnessHeight, ref double[] soilTemp, double bareSoilRoughness, double[] clay, int numNodes, double[] bulkDensity, int numLayers, ref double[] thermCondPar2, ref double[] thermCondPar4, ref double[] thermCondPar3, ref double[] thermCondPar1, int surfaceNode, double weather_Amp, int clock_Today_DayOfYear, double weather_Tav, double[] thickness, double weather_Latitude)
     {
-        doThermalConductivityCoeffs(ref thermCondPar2, ref thermCondPar3, ref thermCondPar4, bulkDensity, ref thermCondPar1, numNodes, clay, numLayers);
-        soilTemp = calcSoilTemperature(soilTemp, weather_Latitude, weather_Amp, numNodes, clock_Today_DayOfYear, weather_Tav, surfaceNode, thickness);
-        newTemperature.ToList().GetRange(0,0 + soilTemp.Length - 0) = soilTemp;
+        doThermalConductivityCoeffs(clay, numNodes, bulkDensity, numLayers, ref thermCondPar2, ref thermCondPar4, ref thermCondPar3, ref thermCondPar1);
+        soilTemp = calcSoilTemperature(soilTemp, surfaceNode, weather_Amp, clock_Today_DayOfYear, weather_Tav, numNodes, thickness, weather_Latitude);
+        soilTemp.CopyTo(newTemperature, 0);
         soilRoughnessHeight = bareSoilRoughness;
     }
-    public static void  getOtherVariables(ref double[] soilWater, ref double instrumentHeight, double microClimate_CanopyHeight, double[] waterBalance_SW, int numNodes, ref double canopyHeight, double soilRoughnessHeight, int numLayers)
+    public static void  getOtherVariables(ref double instrumentHeight, double soilRoughnessHeight, int numNodes, ref double canopyHeight, double microClimate_CanopyHeight, ref double[] soilWater, double[] waterBalance_SW, int numLayers)
     {
-        soilWater.ToList().GetRange(1,1 + waterBalance_SW.Length - 1) = waterBalance_SW;
+        waterBalance_SW.CopyTo(soilWater, 1);
         soilWater[numNodes] = soilWater[numLayers];
         canopyHeight = Math.Max(microClimate_CanopyHeight, soilRoughnessHeight) / 1000.0;
         instrumentHeight = Math.Max(instrumentHeight, canopyHeight + 0.5);
     }
-    public static double volumetricFractionOrganicMatter(int layer, double[] bulkDensity, double[] carbon, double pom)
+    public static double volumetricFractionOrganicMatter(int layer, double pom, double[] carbon, double[] bulkDensity)
     {
         return carbon[layer] / 100.0 * 2.5 * bulkDensity[layer] / pom;
     }
@@ -1489,21 +1501,21 @@ public class SoilTemperature
     {
         return 0.0;
     }
-    public static double volumetricFractionWater(int layer, double[] soilWater, double[] bulkDensity, double[] carbon, double pom)
+    public static double volumetricFractionWater(int layer, double[] soilWater, double pom, double[] carbon, double[] bulkDensity)
     {
-        return (1 - volumetricFractionOrganicMatter(layer, bulkDensity, carbon, pom)) * soilWater[layer];
+        return (1 - volumetricFractionOrganicMatter(layer, pom, carbon, bulkDensity)) * soilWater[layer];
     }
-    public static double volumetricFractionClay(int layer, double[] bulkDensity, double[] clay, double ps, double[] carbon, double pom, double[] rocks)
+    public static double volumetricFractionClay(int layer, double[] clay, double ps, double[] bulkDensity, double pom, double[] carbon, double[] rocks)
     {
-        return (1 - volumetricFractionOrganicMatter(layer, bulkDensity, carbon, pom) - volumetricFractionRocks(layer, rocks)) * clay[layer] / 100.0 * bulkDensity[layer] / ps;
+        return (1 - volumetricFractionOrganicMatter(layer, pom, carbon, bulkDensity) - volumetricFractionRocks(layer, rocks)) * clay[layer] / 100.0 * bulkDensity[layer] / ps;
     }
-    public static double volumetricFractionSilt(int layer, double[] bulkDensity, double[] silt, double ps, double[] carbon, double pom, double[] rocks)
+    public static double volumetricFractionSilt(int layer, double[] silt, double ps, double[] bulkDensity, double pom, double[] carbon, double[] rocks)
     {
-        return (1 - volumetricFractionOrganicMatter(layer, bulkDensity, carbon, pom) - volumetricFractionRocks(layer, rocks)) * silt[layer] / 100.0 * bulkDensity[layer] / ps;
+        return (1 - volumetricFractionOrganicMatter(layer, pom, carbon, bulkDensity) - volumetricFractionRocks(layer, rocks)) * silt[layer] / 100.0 * bulkDensity[layer] / ps;
     }
-    public static double volumetricFractionSand(int layer, double[] bulkDensity, double ps, double[] sand, double[] carbon, double pom, double[] rocks)
+    public static double volumetricFractionSand(int layer, double[] sand, double ps, double[] bulkDensity, double pom, double[] carbon, double[] rocks)
     {
-        return (1 - volumetricFractionOrganicMatter(layer, bulkDensity, carbon, pom) - volumetricFractionRocks(layer, rocks)) * sand[layer] / 100.0 * bulkDensity[layer] / ps;
+        return (1 - volumetricFractionOrganicMatter(layer, pom, carbon, bulkDensity) - volumetricFractionRocks(layer, rocks)) * sand[layer] / 100.0 * bulkDensity[layer] / ps;
     }
     public static double kelvinT(double celciusT)
     {
@@ -1595,9 +1607,9 @@ public class SoilTemperature
         }
         return result;
     }
-    public static double volumetricFractionAir(int layer, double[] rocks, double[] bulkDensity, double[] carbon, double pom, double ps, double[] sand, double[] silt, double[] clay, double[] soilWater)
+    public static double volumetricFractionAir(int layer, double[] rocks, double pom, double[] carbon, double[] bulkDensity, double[] sand, double ps, double[] silt, double[] clay, double[] soilWater)
     {
-        return 1.0 - volumetricFractionRocks(layer, rocks) - volumetricFractionOrganicMatter(layer, bulkDensity, carbon, pom) - volumetricFractionSand(layer, bulkDensity, ps, sand, carbon, pom, rocks) - volumetricFractionSilt(layer, bulkDensity, silt, ps, carbon, pom, rocks) - volumetricFractionClay(layer, bulkDensity, clay, ps, carbon, pom, rocks) - volumetricFractionWater(layer, soilWater, bulkDensity, carbon, pom) - volumetricFractionIce(layer);
+        return 1.0 - volumetricFractionRocks(layer, rocks) - volumetricFractionOrganicMatter(layer, pom, carbon, bulkDensity) - volumetricFractionSand(layer, sand, ps, bulkDensity, pom, carbon, rocks) - volumetricFractionSilt(layer, silt, ps, bulkDensity, pom, carbon, rocks) - volumetricFractionClay(layer, clay, ps, bulkDensity, pom, carbon, rocks) - volumetricFractionWater(layer, soilWater, pom, carbon, bulkDensity) - volumetricFractionIce(layer);
     }
     public static double airDensity(double temperature, double AirPressure)
     {
@@ -1613,7 +1625,7 @@ public class SoilTemperature
     {
         return stefanBoltzmannConstant * emissivity * Math.Pow(kelvinT(tDegC), 4);
     }
-    public static double[] mapLayer2Node(double[] layerArray, double[] nodeArray, int numNodes, double[] nodeDepth, int surfaceNode, double[] thickness, double MissingValue)
+    public static double[] mapLayer2Node(double[] layerArray, double[] nodeArray, int surfaceNode, double[] thickness, int numNodes, double[] nodeDepth, double MissingValue)
     {
         int node;
         int layer;
@@ -1632,7 +1644,7 @@ public class SoilTemperature
         }
         return nodeArray;
     }
-    public static double ThermalConductance(string name, int layer, double[] rocks, double[] bulkDensity, double ps, double[] sand, double[] carbon, double pom, double[] silt, double[] clay)
+    public static double ThermalConductance(string name, int layer, double[] rocks, double[] sand, double ps, double[] bulkDensity, double pom, double[] carbon, double[] silt, double[] clay)
     {
         double thermalConductanceRocks;
         double thermalConductanceOM;
@@ -1686,12 +1698,12 @@ public class SoilTemperature
         }
         else if ( name == "Minerals")
         {
-            result = Math.Pow(thermalConductanceRocks, volumetricFractionRocks(layer, rocks)) * Math.Pow(thermalConductanceSand, volumetricFractionSand(layer, bulkDensity, ps, sand, carbon, pom, rocks)) + Math.Pow(thermalConductanceSilt, volumetricFractionSilt(layer, bulkDensity, silt, ps, carbon, pom, rocks)) + Math.Pow(thermalConductanceClay, volumetricFractionClay(layer, bulkDensity, clay, ps, carbon, pom, rocks));
+            result = Math.Pow(thermalConductanceRocks, volumetricFractionRocks(layer, rocks)) * Math.Pow(thermalConductanceSand, volumetricFractionSand(layer, sand, ps, bulkDensity, pom, carbon, rocks)) + Math.Pow(thermalConductanceSilt, volumetricFractionSilt(layer, silt, ps, bulkDensity, pom, carbon, rocks)) + Math.Pow(thermalConductanceClay, volumetricFractionClay(layer, clay, ps, bulkDensity, pom, carbon, rocks));
         }
         result = volumetricSpecificHeat(name, layer);
         return result;
     }
-    public static double shapeFactor(string name, int layer, double[] soilWater, double[] bulkDensity, double[] carbon, double pom, double[] rocks, double ps, double[] sand, double[] silt, double[] clay)
+    public static double shapeFactor(string name, int layer, double[] soilWater, double pom, double[] carbon, double[] bulkDensity, double[] rocks, double[] sand, double ps, double[] silt, double[] clay)
     {
         double shapeFactorRocks;
         double shapeFactorOM;
@@ -1733,25 +1745,25 @@ public class SoilTemperature
         }
         else if ( name == "Ice")
         {
-            result = 0.333 - (0.333 * volumetricFractionIce(layer) / (volumetricFractionWater(layer, soilWater, bulkDensity, carbon, pom) + volumetricFractionIce(layer) + volumetricFractionAir(layer, rocks, bulkDensity, carbon, pom, ps, sand, silt, clay, soilWater)));
+            result = 0.333 - (0.333 * volumetricFractionIce(layer) / (volumetricFractionWater(layer, soilWater, pom, carbon, bulkDensity) + volumetricFractionIce(layer) + volumetricFractionAir(layer, rocks, pom, carbon, bulkDensity, sand, ps, silt, clay, soilWater)));
             return result;
         }
         else if ( name == "Air")
         {
-            result = 0.333 - (0.333 * volumetricFractionAir(layer, rocks, bulkDensity, carbon, pom, ps, sand, silt, clay, soilWater) / (volumetricFractionWater(layer, soilWater, bulkDensity, carbon, pom) + volumetricFractionIce(layer) + volumetricFractionAir(layer, rocks, bulkDensity, carbon, pom, ps, sand, silt, clay, soilWater)));
+            result = 0.333 - (0.333 * volumetricFractionAir(layer, rocks, pom, carbon, bulkDensity, sand, ps, silt, clay, soilWater) / (volumetricFractionWater(layer, soilWater, pom, carbon, bulkDensity) + volumetricFractionIce(layer) + volumetricFractionAir(layer, rocks, pom, carbon, bulkDensity, sand, ps, silt, clay, soilWater)));
             return result;
         }
         else if ( name == "Minerals")
         {
-            result = shapeFactorRocks * volumetricFractionRocks(layer, rocks) + (shapeFactorSand * volumetricFractionSand(layer, bulkDensity, ps, sand, carbon, pom, rocks)) + (shapeFactorSilt * volumetricFractionSilt(layer, bulkDensity, silt, ps, carbon, pom, rocks)) + (shapeFactorClay * volumetricFractionClay(layer, bulkDensity, clay, ps, carbon, pom, rocks));
+            result = shapeFactorRocks * volumetricFractionRocks(layer, rocks) + (shapeFactorSand * volumetricFractionSand(layer, sand, ps, bulkDensity, pom, carbon, rocks)) + (shapeFactorSilt * volumetricFractionSilt(layer, silt, ps, bulkDensity, pom, carbon, rocks)) + (shapeFactorClay * volumetricFractionClay(layer, clay, ps, bulkDensity, pom, carbon, rocks));
         }
         result = volumetricSpecificHeat(name, layer);
         return result;
     }
-    public static void  doUpdate(int numInterationsPerDay, ref double[] maxSoilTemp, ref double[] minSoilTemp, double[] thermalConductivity, ref double[] soilTemp, double timeOfDaySecs, int numNodes, ref double boundaryLayerConductance, ref double[] aveSoilTemp, double airNode, double[] newTemperature, int surfaceNode, double internalTimeStep)
+    public static void  doUpdate(int numInterationsPerDay, double[] newTemperature, int surfaceNode, int numNodes, ref double[] soilTemp, ref double[] aveSoilTemp, double timeOfDaySecs, double[] thermalConductivity, int airNode, double internalTimeStep, ref double[] maxSoilTemp, ref double[] minSoilTemp, ref double boundaryLayerConductance)
     {
         int node;
-        soilTemp.ToList().GetRange(0,0 + newTemperature.Length - 0) = newTemperature;
+        newTemperature.CopyTo(soilTemp, 0);
         if (timeOfDaySecs < (internalTimeStep * 1.2))
         {
             for (node=surfaceNode ; node!=numNodes + 1 ; node+=1)
@@ -1774,7 +1786,7 @@ public class SoilTemperature
         }
         boundaryLayerConductance = boundaryLayerConductance + Divide(thermalConductivity[airNode], numInterationsPerDay, 0);
     }
-    public static void  doThomas(ref double[] newTemps, string netRadiationSource, ref double[] thermalConductance, double waterBalance_Eos, double waterBalance_Es, double[] thermalConductivity, double[] soilTemp, int numNodes, double internalTimeStep, ref double[] heatStorage, double latentHeatOfVapourisation, double[] nodeDepth, double nu, double[] volSpecHeatSoil, double airNode, double netRadiation, int surfaceNode, double timestep)
+    public static void  doThomas(ref double[] newTemps, int surfaceNode, ref double[] thermalConductance, double nu, double timestep, double[] soilTemp, double waterBalance_Eos, double[] volSpecHeatSoil, ref double[] heatStorage, double waterBalance_Es, double[] thermalConductivity, double[] nodeDepth, int numNodes, double latentHeatOfVapourisation, double netRadiation, int airNode, double internalTimeStep, string netRadiationSource)
     {
         int node;
         double[] a =  new double [numNodes + 1 + 1];
@@ -1832,7 +1844,7 @@ public class SoilTemperature
             newTemps[node] = d[node] - (c[node] * newTemps[(node + 1)]);
         }
     }
-    public static double getBoundaryLayerConductance(ref double[] TNew_zb, double stefanBoltzmannConstant, double airTemperature, double waterBalance_Eos, double weather_AirPressure, double instrumentHeight, double waterBalance_Eo, double weather_Wind, double canopyHeight, int surfaceNode)
+    public static double getBoundaryLayerConductance(ref double[] TNew_zb, int surfaceNode, double instrumentHeight, double canopyHeight, double weather_AirPressure, double weather_Wind, double waterBalance_Eos, double waterBalance_Eo, double airTemperature, double stefanBoltzmannConstant)
     {
         int iteration;
         double vonKarmanConstant;
@@ -1889,7 +1901,7 @@ public class SoilTemperature
         }
         return boundaryLayerCond;
     }
-    public static double interpolateNetRadiation(double solarRadn, double cloudFr, double cva, double[] soilTemp, double airTemperature, double waterBalance_Eo, double waterBalance_Eos, double waterBalance_Salb, int surfaceNode, double internalTimeStep, double stefanBoltzmannConstant)
+    public static double interpolateNetRadiation(double solarRadn, double cloudFr, double cva, int surfaceNode, double waterBalance_Eos, double waterBalance_Eo, double airTemperature, double internalTimeStep, double[] soilTemp, double waterBalance_Salb, double stefanBoltzmannConstant)
     {
         double surfaceEmissivity;
         double w2MJ;
@@ -1913,7 +1925,7 @@ public class SoilTemperature
         swRnetSoil = (swRin - swRout) * PenetrationConstant;
         return swRnetSoil + lwRnetSoil;
     }
-    public static double interpolateTemperature(double timeHours, double defaultTimeOfMaximumTemperature, double weather_MeanT, double weather_MaxT, double maxTempYesterday, double minTempYesterday, double weather_MinT)
+    public static double interpolateTemperature(double timeHours, double maxTempYesterday, double minTempYesterday, double weather_MinT, double defaultTimeOfMaximumTemperature, double weather_MeanT, double weather_MaxT)
     {
         double time;
         double maxT_time;
@@ -1945,7 +1957,7 @@ public class SoilTemperature
             return currentTemperature;
         }
     }
-    public static double[] doThermalConductivity(string[] soilConstituentNames, double[] soilWater, double[] thermalConductivity, int numNodes, double[] bulkDensity, double[] carbon, double pom, double[] rocks, double ps, double[] sand, double[] silt, double[] clay, double[] nodeDepth, int surfaceNode, double[] thickness, double MissingValue)
+    public static double[] doThermalConductivity(int numNodes, double[] soilWater, double[] thermalConductivity, string[] soilConstituentNames, double pom, double[] carbon, double[] bulkDensity, double[] rocks, double[] sand, double ps, double[] silt, double[] clay, int surfaceNode, double[] thickness, double[] nodeDepth, double MissingValue)
     {
         int node;
         string constituentName;
@@ -1960,22 +1972,22 @@ public class SoilTemperature
         {
             numerator = 0.0;
             denominator = 0.0;
-            foreach(str constituentName_cyml in soilConstituentNames)
+            foreach(string constituentName_cyml in soilConstituentNames)
             {
                 constituentName = constituentName_cyml;
-                shapeFactorConstituent = shapeFactor(constituentName, node, soilWater, bulkDensity, carbon, pom, rocks, ps, sand, silt, clay);
-                thermalConductanceConstituent = ThermalConductance(constituentName, node, rocks, bulkDensity, ps, sand, carbon, pom, silt, clay);
-                thermalConductanceWater = ThermalConductance("Water", node, rocks, bulkDensity, ps, sand, carbon, pom, silt, clay);
+                shapeFactorConstituent = shapeFactor(constituentName, node, soilWater, pom, carbon, bulkDensity, rocks, sand, ps, silt, clay);
+                thermalConductanceConstituent = ThermalConductance(constituentName, node, rocks, sand, ps, bulkDensity, pom, carbon, silt, clay);
+                thermalConductanceWater = ThermalConductance("Water", node, rocks, sand, ps, bulkDensity, pom, carbon, silt, clay);
                 k = 2.0 / 3.0 * Math.Pow((1 + (shapeFactorConstituent * (thermalConductanceConstituent / thermalConductanceWater - 1.0))), -1) + (1.0 / 3.0 * Math.Pow((1 + (shapeFactorConstituent * (thermalConductanceConstituent / thermalConductanceWater - 1.0) * (1 - (2 * shapeFactorConstituent)))), -1));
                 numerator = numerator + (thermalConductanceConstituent * soilWater[node] * k);
                 denominator = denominator + (soilWater[node] * k);
             }
             thermCondLayers[node] = numerator / denominator;
         }
-        thermalConductivity = mapLayer2Node(thermCondLayers, thermalConductivity, numNodes, nodeDepth, surfaceNode, thickness, MissingValue);
+        thermalConductivity = mapLayer2Node(thermCondLayers, thermalConductivity, surfaceNode, thickness, numNodes, nodeDepth, MissingValue);
         return thermalConductivity;
     }
-    public static double[] doVolumetricSpecificHeat(string[] soilConstituentNames, double[] soilWater, double[] volSpecHeatSoil, int numNodes, double[] nodeDepth, int surfaceNode, double[] thickness, double MissingValue)
+    public static double[] doVolumetricSpecificHeat(int numNodes, double[] soilWater, double[] volSpecHeatSoil, string[] soilConstituentNames, int surfaceNode, double[] thickness, double[] nodeDepth, double MissingValue)
     {
         int node;
         string constituentName;
@@ -1983,7 +1995,7 @@ public class SoilTemperature
         for (node=1 ; node!=numNodes + 1 ; node+=1)
         {
             volspecHeatSoil_[node] = (double)(0);
-            foreach(str constituentName_cyml in soilConstituentNames)
+            foreach(string constituentName_cyml in soilConstituentNames)
             {
                 constituentName = constituentName_cyml;
                 if (!new List<string>{"Minerals"}.Contains(constituentName))
@@ -1992,7 +2004,7 @@ public class SoilTemperature
                 }
             }
         }
-        volSpecHeatSoil = mapLayer2Node(volspecHeatSoil_, volSpecHeatSoil, numNodes, nodeDepth, surfaceNode, thickness, MissingValue);
+        volSpecHeatSoil = mapLayer2Node(volspecHeatSoil_, volSpecHeatSoil, surfaceNode, thickness, numNodes, nodeDepth, MissingValue);
         return volSpecHeatSoil;
     }
     public static double[] Zero(double[] arr)
@@ -2007,7 +2019,7 @@ public class SoilTemperature
         }
         return arr;
     }
-    public static void  doNetRadiation(ref double[] solarRadn, ref double cloudFr, ref double cva, int ITERATIONSperDAY, int clock_Today_DayOfYear, double weather_Latitude, double weather_Radn, double weather_MinT)
+    public static void  doNetRadiation(ref double[] solarRadn, ref double cloudFr, ref double cva, int ITERATIONSperDAY, double weather_Latitude, int clock_Today_DayOfYear, double weather_MinT, double weather_Radn)
     {
         int timestepNumber;
         double TSTEPS2RAD;
@@ -2045,7 +2057,7 @@ public class SoilTemperature
         }
         cva = Math.Exp((31.3716 - (6014.79 / kelvinT(weather_MinT)) - (0.00792495 * kelvinT(weather_MinT)))) / kelvinT(weather_MinT);
     }
-    public static void  doProcess(ref double[] maxSoilTemp, ref double[] minSoilTemp, double weather_MaxT, int numIterationsForBoundaryLayerConductance, ref double maxTempYesterday, ref double[] thermalConductivity, ref double timeOfDaySecs, ref double[] soilTemp, double weather_MeanT, ref double[] morningSoilTemp, ref double[] newTemperature, ref double boundaryLayerConductance, double constantBoundaryLayerConductance, ref double airTemperature, double timestep, double weather_MinT, double airNode, ref double netRadiation, ref double[] aveSoilTemp, ref double minTempYesterday, ref double internalTimeStep, string boundarLayerConductanceSource, int clock_Today_DayOfYear, double weather_Latitude, double weather_Radn, string[] soilConstituentNames, double[] soilWater, ref double[] volSpecHeatSoil, int numNodes, double[] nodeDepth, int surfaceNode, double[] thickness, double MissingValue, double[] bulkDensity, double[] carbon, double pom, double[] rocks, double ps, double[] sand, double[] silt, double[] clay, double defaultTimeOfMaximumTemperature, double waterBalance_Eo, double waterBalance_Eos, double waterBalance_Salb, double stefanBoltzmannConstant, double weather_AirPressure, double instrumentHeight, double weather_Wind, double canopyHeight, string netRadiationSource, ref double[] thermalConductance, double waterBalance_Es, ref double[] heatStorage, double latentHeatOfVapourisation, double nu)
+    public static void  doProcess(ref double minTempYesterday, double timestep, double weather_MaxT, double weather_MinT, int numIterationsForBoundaryLayerConductance, ref double[] soilTemp, ref double maxTempYesterday, ref double[] thermalConductivity, string boundarLayerConductanceSource, ref double[] minSoilTemp, ref double boundaryLayerConductance, ref double[] newTemperature, double weather_MeanT, ref double[] morningSoilTemp, ref double[] aveSoilTemp, ref double internalTimeStep, ref double airTemperature, ref double netRadiation, int airNode, ref double timeOfDaySecs, ref double[] maxSoilTemp, double constantBoundaryLayerConductance, double weather_Latitude, int clock_Today_DayOfYear, double weather_Radn, int numNodes, double[] soilWater, ref double[] volSpecHeatSoil, string[] soilConstituentNames, int surfaceNode, double[] thickness, double[] nodeDepth, double MissingValue, double pom, double[] carbon, double[] bulkDensity, double[] rocks, double[] sand, double ps, double[] silt, double[] clay, double defaultTimeOfMaximumTemperature, double waterBalance_Eos, double waterBalance_Eo, double waterBalance_Salb, double stefanBoltzmannConstant, double instrumentHeight, double canopyHeight, double weather_AirPressure, double weather_Wind, ref double[] thermalConductance, double nu, ref double[] heatStorage, double waterBalance_Es, double latentHeatOfVapourisation, string netRadiationSource)
     {
         int timeStepIteration;
         int iteration;
@@ -2056,14 +2068,14 @@ public class SoilTemperature
         interactionsPerDay = 48;
         cva = 0.0;
         cloudFr = 0.0;
-        doNetRadiation(ref solarRadn, ref cloudFr, ref cva, interactionsPerDay, clock_Today_DayOfYear, weather_Latitude, weather_Radn, weather_MinT);
+        doNetRadiation(ref solarRadn, ref cloudFr, ref cva, interactionsPerDay, weather_Latitude, clock_Today_DayOfYear, weather_MinT, weather_Radn);
         minSoilTemp = Zero(minSoilTemp);
         maxSoilTemp = Zero(maxSoilTemp);
         aveSoilTemp = Zero(aveSoilTemp);
         boundaryLayerConductance = 0.0;
         internalTimeStep = Math.Round(timestep / interactionsPerDay);
-        volSpecHeatSoil = doVolumetricSpecificHeat(soilConstituentNames, soilWater, volSpecHeatSoil, numNodes, nodeDepth, surfaceNode, thickness, MissingValue);
-        thermalConductivity = doThermalConductivity(soilConstituentNames, soilWater, thermalConductivity, numNodes, bulkDensity, carbon, pom, rocks, ps, sand, silt, clay, nodeDepth, surfaceNode, thickness, MissingValue);
+        volSpecHeatSoil = doVolumetricSpecificHeat(numNodes, soilWater, volSpecHeatSoil, soilConstituentNames, surfaceNode, thickness, nodeDepth, MissingValue);
+        thermalConductivity = doThermalConductivity(numNodes, soilWater, thermalConductivity, soilConstituentNames, pom, carbon, bulkDensity, rocks, sand, ps, silt, clay, surfaceNode, thickness, nodeDepth, MissingValue);
         for (timeStepIteration=1 ; timeStepIteration!=interactionsPerDay + 1 ; timeStepIteration+=1)
         {
             timeOfDaySecs = internalTimeStep * (double)(timeStepIteration);
@@ -2073,28 +2085,28 @@ public class SoilTemperature
             }
             else
             {
-                airTemperature = interpolateTemperature(timeOfDaySecs / 3600.0, defaultTimeOfMaximumTemperature, weather_MeanT, weather_MaxT, maxTempYesterday, minTempYesterday, weather_MinT);
+                airTemperature = interpolateTemperature(timeOfDaySecs / 3600.0, maxTempYesterday, minTempYesterday, weather_MinT, defaultTimeOfMaximumTemperature, weather_MeanT, weather_MaxT);
             }
             newTemperature[airNode] = airTemperature;
-            netRadiation = interpolateNetRadiation(solarRadn[timeStepIteration], cloudFr, cva, soilTemp, airTemperature, waterBalance_Eo, waterBalance_Eos, waterBalance_Salb, surfaceNode, internalTimeStep, stefanBoltzmannConstant);
+            netRadiation = interpolateNetRadiation(solarRadn[timeStepIteration], cloudFr, cva, surfaceNode, waterBalance_Eos, waterBalance_Eo, airTemperature, internalTimeStep, soilTemp, waterBalance_Salb, stefanBoltzmannConstant);
             if (boundarLayerConductanceSource == "constant")
             {
                 thermalConductivity[airNode] = constantBoundaryLayerConductance;
             }
             else if ( boundarLayerConductanceSource == "calc")
             {
-                thermalConductivity[airNode] = getBoundaryLayerConductance(ref newTemperature, stefanBoltzmannConstant, airTemperature, waterBalance_Eos, weather_AirPressure, instrumentHeight, waterBalance_Eo, weather_Wind, canopyHeight, surfaceNode);
+                thermalConductivity[airNode] = getBoundaryLayerConductance(ref newTemperature, surfaceNode, instrumentHeight, canopyHeight, weather_AirPressure, weather_Wind, waterBalance_Eos, waterBalance_Eo, airTemperature, stefanBoltzmannConstant);
                 for (iteration=1 ; iteration!=numIterationsForBoundaryLayerConductance + 1 ; iteration+=1)
                 {
-                    doThomas(ref newTemperature, netRadiationSource, ref thermalConductance, waterBalance_Eos, waterBalance_Es, thermalConductivity, soilTemp, numNodes, internalTimeStep, ref heatStorage, latentHeatOfVapourisation, nodeDepth, nu, volSpecHeatSoil, airNode, netRadiation, surfaceNode, timestep);
-                    thermalConductivity[airNode] = getBoundaryLayerConductance(ref newTemperature, stefanBoltzmannConstant, airTemperature, waterBalance_Eos, weather_AirPressure, instrumentHeight, waterBalance_Eo, weather_Wind, canopyHeight, surfaceNode);
+                    doThomas(ref newTemperature, surfaceNode, ref thermalConductance, nu, timestep, soilTemp, waterBalance_Eos, volSpecHeatSoil, ref heatStorage, waterBalance_Es, thermalConductivity, nodeDepth, numNodes, latentHeatOfVapourisation, netRadiation, airNode, internalTimeStep, netRadiationSource);
+                    thermalConductivity[airNode] = getBoundaryLayerConductance(ref newTemperature, surfaceNode, instrumentHeight, canopyHeight, weather_AirPressure, weather_Wind, waterBalance_Eos, waterBalance_Eo, airTemperature, stefanBoltzmannConstant);
                 }
             }
-            doThomas(ref newTemperature, netRadiationSource, ref thermalConductance, waterBalance_Eos, waterBalance_Es, thermalConductivity, soilTemp, numNodes, internalTimeStep, ref heatStorage, latentHeatOfVapourisation, nodeDepth, nu, volSpecHeatSoil, airNode, netRadiation, surfaceNode, timestep);
-            doUpdate(interactionsPerDay, ref maxSoilTemp, ref minSoilTemp, thermalConductivity, ref soilTemp, timeOfDaySecs, numNodes, ref boundaryLayerConductance, ref aveSoilTemp, airNode, newTemperature, surfaceNode, internalTimeStep);
+            doThomas(ref newTemperature, surfaceNode, ref thermalConductance, nu, timestep, soilTemp, waterBalance_Eos, volSpecHeatSoil, ref heatStorage, waterBalance_Es, thermalConductivity, nodeDepth, numNodes, latentHeatOfVapourisation, netRadiation, airNode, internalTimeStep, netRadiationSource);
+            doUpdate(interactionsPerDay, newTemperature, surfaceNode, numNodes, ref soilTemp, ref aveSoilTemp, timeOfDaySecs, thermalConductivity, airNode, internalTimeStep, ref maxSoilTemp, ref minSoilTemp, ref boundaryLayerConductance);
             if (Math.Abs(timeOfDaySecs - (5.0 * 3600.0)) <= (Math.Min(timeOfDaySecs, 5.0 * 3600.0) * 0.0001))
             {
-                morningSoilTemp.ToList().GetRange(0,0 + soilTemp.Length - 0) = soilTemp;
+                soilTemp.CopyTo(morningSoilTemp, 0);
             }
         }
         minTempYesterday = weather_MinT;
@@ -2114,10 +2126,10 @@ public class SoilTemperature
         }
         return CumThickness;
     }
-    public static double[] calcSoilTemperature(double[] soilTempIO, double weather_Latitude, double weather_Amp, int numNodes, int clock_Today_DayOfYear, double weather_Tav, int surfaceNode, double[] thickness)
+    public static double[] calcSoilTemperature(double[] soilTempIO, int surfaceNode, double weather_Amp, int clock_Today_DayOfYear, double weather_Tav, int numNodes, double[] thickness, double weather_Latitude)
     {
         int nodes;
-        double[] cumulativeDepth ;
+        double[] cumulativeDepth = null ;
         double w;
         double dh;
         double zd;
@@ -2136,10 +2148,10 @@ public class SoilTemperature
         {
             soilTemp[nodes] = weather_Tav + (weather_Amp * Math.Exp(-1 * cumulativeDepth[nodes] / zd) * Math.Sin(((clock_Today_DayOfYear / 365.0 + offset) * 2.0 * Math.PI - (cumulativeDepth[nodes] / zd))));
         }
-        soilTempIO.ToList().GetRange(surfaceNode,surfaceNode + numNodes - surfaceNode) = soilTemp.ToList().GetRange(0,0 + numNodes - 0);
+         Array.ConstrainedCopy(soilTemp, 0, soilTempIO, surfaceNode, numNodes);
         return soilTempIO;
     }
-    public static double calcSurfaceTemperature(double waterBalance_Salb, double weather_MeanT, double weather_Radn, double weather_MaxT)
+    public static double calcSurfaceTemperature(double weather_MaxT, double weather_Radn, double weather_MeanT, double waterBalance_Salb)
     {
         double surfaceT;
         surfaceT = (1.0 - waterBalance_Salb) * (weather_MeanT + ((weather_MaxT - weather_MeanT) * Math.Sqrt(Math.Max(weather_Radn, 0.1) * 23.8846 / 800.0))) + (waterBalance_Salb * weather_MeanT);

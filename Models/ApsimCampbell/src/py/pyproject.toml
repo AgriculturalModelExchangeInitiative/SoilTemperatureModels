@@ -1,9 +1,0 @@
-[build-system]
-requires = ["setuptools>=61", "setuptools_scm[toml]>=7"]
-build-backend = "setuptools.build_meta"
-[project]
-name = "ApsimCampbell"
-authors = [{name = "Cyrille"}]
-description=""
-version="0.1"
-dependencies = ["pandas","numpy"]

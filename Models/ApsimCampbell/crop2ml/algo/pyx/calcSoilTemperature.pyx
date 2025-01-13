@@ -8,13 +8,13 @@ def ToCumThickness(floatarray Thickness):
     return CumThickness
 
 def calcSoilTemperature(floatarray soilTempIO,
-         float weather_Latitude,
+         int surfaceNode,
          float weather_Amp,
-         int numNodes,
          int clock_Today_DayOfYear,
          float weather_Tav,
-         int surfaceNode,
-         floatarray thickness):
+         int numNodes,
+         floatarray thickness,
+         float weather_Latitude):
     cdef int nodes 
     cdef float cumulativeDepth[]
     cdef float w 

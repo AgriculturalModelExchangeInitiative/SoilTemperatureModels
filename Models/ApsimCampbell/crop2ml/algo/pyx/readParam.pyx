@@ -1,11 +1,11 @@
-def doThermalConductivityCoeffs(floatarray thermCondPar2,
-         floatarray thermCondPar3,
-         floatarray thermCondPar4,
-         floatarray bulkDensity,
-         floatarray thermCondPar1,
+def doThermalConductivityCoeffs(floatarray clay,
          int numNodes,
-         floatarray clay,
-         int numLayers):
+         floatarray bulkDensity,
+         int numLayers,
+         floatarray thermCondPar2,
+         floatarray thermCondPar4,
+         floatarray thermCondPar3,
+         floatarray thermCondPar1):
     cdef int layer 
     cdef float oldGC1[]
     cdef float oldGC2[]
@@ -34,28 +34,28 @@ def doThermalConductivityCoeffs(floatarray thermCondPar2,
         thermCondPar2[element]=1.06 * bulkDensity[layer]
         thermCondPar3[element]=1.0 + Divide(2.6, sqrt(clay[layer]), 0)
         thermCondPar4[element]=0.03 + (0.1 * pow(bulkDensity[layer], 2))
-    return (thermCondPar2, thermCondPar3, thermCondPar4, thermCondPar1)
+    return (thermCondPar2, thermCondPar4, thermCondPar3, thermCondPar1)
 
-def readParam(floatarray soilTemp,
+def readParam(floatarray newTemperature,
          float soilRoughnessHeight,
-         floatarray newTemperature,
+         floatarray soilTemp,
          float bareSoilRoughness,
-         floatarray thermCondPar2,
-         floatarray thermCondPar3,
-         floatarray thermCondPar4,
-         floatarray bulkDensity,
-         floatarray thermCondPar1,
-         int numNodes,
          floatarray clay,
+         int numNodes,
+         floatarray bulkDensity,
          int numLayers,
-         float weather_Latitude,
+         floatarray thermCondPar2,
+         floatarray thermCondPar4,
+         floatarray thermCondPar3,
+         floatarray thermCondPar1,
+         int surfaceNode,
          float weather_Amp,
          int clock_Today_DayOfYear,
          float weather_Tav,
-         int surfaceNode,
-         floatarray thickness):
-    (thermCondPar2, thermCondPar3, thermCondPar4, thermCondPar1)=doThermalConductivityCoeffs(thermCondPar2, thermCondPar3, thermCondPar4, bulkDensity, thermCondPar1, numNodes, clay, numLayers)
-    soilTemp=calcSoilTemperature(soilTemp, weather_Latitude, weather_Amp, numNodes, clock_Today_DayOfYear, weather_Tav, surfaceNode, thickness)
+         floatarray thickness,
+         float weather_Latitude):
+    (thermCondPar2, thermCondPar4, thermCondPar3, thermCondPar1)=doThermalConductivityCoeffs(clay, numNodes, bulkDensity, numLayers, thermCondPar2, thermCondPar4, thermCondPar3, thermCondPar1)
+    soilTemp=calcSoilTemperature(soilTemp, surfaceNode, weather_Amp, clock_Today_DayOfYear, weather_Tav, numNodes, thickness, weather_Latitude)
     newTemperature[0:0 + len(soilTemp)]=soilTemp
     soilRoughnessHeight=bareSoilRoughness
-    return (soilTemp, newTemperature, thermCondPar2, thermCondPar3, thermCondPar4, thermCondPar1, soilRoughnessHeight)
+    return (newTemperature, soilTemp, thermCondPar2, thermCondPar4, thermCondPar3, thermCondPar1, soilRoughnessHeight)

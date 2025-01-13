@@ -40,7 +40,7 @@
         <Input name="timestep" description="Internal time-step (minutes)" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="24.0 * 60.0 * 60.0" unit="minutes"/>
         <Input name="latentHeatOfVapourisation" description="Latent heat of vapourisation for water" inputtype="parameter" parametercategory="constant" datatype="DOUBLE" max="" min="" default="2465000" unit="miJ/kg"/>
         <Input name="stefanBoltzmannConstant" description="The Stefan-Boltzmann constant" inputtype="parameter" parametercategory="constant" datatype="DOUBLE" max="" min="" default="0.0000000567" unit="W/m2/K4"/>
-        <Input name="airNode" description="The index of the node in the atmosphere (aboveground)" inputtype="parameter" parametercategory="constant" datatype="DOUBLE" max="" min="" default="0" unit=""/>
+        <Input name="airNode" description="The index of the node in the atmosphere (aboveground)" inputtype="parameter" parametercategory="constant" datatype="INT" max="" min="" default="0" unit=""/>
         <Input name="surfaceNode" description="The index of the node on the soil surface (depth = 0)" inputtype="parameter" parametercategory="constant" datatype="INT" max="" min="" default="1" unit=""/>
         <Input name="topsoilNode" description="The index of the first node within the soil (top layer)" inputtype="parameter" parametercategory="constant" datatype="INT" max="" min="" default="2" unit=""/>
         <Input name="numPhantomNodes" description="The number of phantom nodes below the soil profile" inputtype="parameter" parametercategory="constant" datatype="INT" max="" min="" default="5" unit=""/>
