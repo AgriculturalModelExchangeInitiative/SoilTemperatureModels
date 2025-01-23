@@ -250,34 +250,34 @@ class SoiltempWrapper :  Model
     private void loadParameters()
     {
         soiltempComponent.thermCondPar1 = null; // To be modified
-        soiltempComponent.topsoilNode = null; // To be modified
-        soiltempComponent.surfaceNode = null; // To be modified
-        soiltempComponent.numPhantomNodes = null; // To be modified
-        soiltempComponent.soilConstituentNames = null; // To be modified
+        soiltempComponent.topsoilNode = 2; 
+        soiltempComponent.surfaceNode = 1; 
+        soiltempComponent.numPhantomNodes = 5; 
+        soiltempComponent.soilConstituentNames = {"Rocks", "OrganicMatter", "Sand", "Silt", "Clay", "Water", "Ice", "Air"};
         soiltempComponent.physical_Thickness = null; // To be modified
-        soiltempComponent.MissingValue = null; // To be modified
-        soiltempComponent.timestep = null; // To be modified
+        soiltempComponent.MissingValue = 99999; 
+        soiltempComponent.timestep = 24.0 * 60.0 * 60.0; 
         soiltempComponent.soilRoughnessHeight = null; // To be modified
-        soiltempComponent.numIterationsForBoundaryLayerConductance = null; // To be modified
-        soiltempComponent.defaultTimeOfMaximumTemperature = null; // To be modified
+        soiltempComponent.numIterationsForBoundaryLayerConductance = 1; 
+        soiltempComponent.defaultTimeOfMaximumTemperature = 14.0; 
         soiltempComponent.pom = null; // To be modified
-        soiltempComponent.DepthToConstantTemperature = null; // To be modified
-        soiltempComponent.constantBoundaryLayerConductance = null; // To be modified
+        soiltempComponent.DepthToConstantTemperature = 10000; 
+        soiltempComponent.constantBoundaryLayerConductance = 20; 
         soiltempComponent.thermCondPar4 = null; // To be modified
         soiltempComponent.nodeDepth = null; // To be modified
-        soiltempComponent.nu = null; // To be modified
+        soiltempComponent.nu = 0.6; 
         soiltempComponent.pInitialValues = null; // To be modified
         soiltempComponent.ps = null; // To be modified
-        soiltempComponent.netRadiationSource = null; // To be modified
-        soiltempComponent.airNode = null; // To be modified
-        soiltempComponent.bareSoilRoughness = null; // To be modified
+        soiltempComponent.netRadiationSource = 'calc'
+        soiltempComponent.airNode = 0; 
+        soiltempComponent.bareSoilRoughness = 57; 
         soiltempComponent.thermCondPar2 = null; // To be modified
-        soiltempComponent.defaultInstrumentHeight = null; // To be modified
+        soiltempComponent.defaultInstrumentHeight = 1.2; 
         soiltempComponent.physical_BD = null; // To be modified
-        soiltempComponent.latentHeatOfVapourisation = null; // To be modified
+        soiltempComponent.latentHeatOfVapourisation = 2465000; 
         soiltempComponent.weather_Latitude = null; // To be modified
-        soiltempComponent.stefanBoltzmannConstant = null; // To be modified
-        soiltempComponent.boundarLayerConductanceSource = null; // To be modified
+        soiltempComponent.stefanBoltzmannConstant = 0.0000000567; 
+        soiltempComponent.boundarLayerConductanceSource = 'calc'
         soiltempComponent.thermCondPar3 = null; // To be modified
     }
 
