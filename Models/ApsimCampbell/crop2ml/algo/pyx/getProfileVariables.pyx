@@ -1,37 +1,37 @@
-def getProfileVariables(floatarray clay,
-         floatarray thermalConductance,
-         floatarray sand,
-         floatarray soilWater,
+def getProfileVariables(floatarray heatStorage,
+         floatarray minSoilTemp,
+         floatarray bulkDensity,
+         int numNodes,
+         floatarray physical_BD,
+         floatarray maxSoilTemp,
          floatarray waterBalance_SW,
          floatarray organic_Carbon,
-         floatarray thermalConductivity,
-         floatarray physical_BD,
-         floatarray minSoilTemp,
-         floatarray newTemperature,
-         floatarray physical_ParticleSizeSilt,
          floatarray physical_Rocks,
-         int topsoilNode,
-         int airNode,
-         floatarray carbon,
          floatarray nodeDepth,
-         floatarray physical_ParticleSizeSand,
-         floatarray maxSoilTemp,
+         int topsoilNode,
+         floatarray newTemperature,
          int surfaceNode,
-         float DepthToConstantTemperature,
-         floatarray silt,
-         floatarray soilTemp,
-         floatarray volSpecHeatSoil,
+         floatarray soilWater,
+         floatarray thermalConductance,
+         floatarray thermalConductivity,
+         floatarray sand,
+         floatarray carbon,
          floatarray thickness,
-         floatarray heatStorage,
          int numPhantomNodes,
-         int numNodes,
-         floatarray physical_ParticleSizeClay,
+         floatarray physical_ParticleSizeSand,
          floatarray rocks,
-         floatarray bulkDensity,
-         floatarray physical_Thickness,
+         floatarray clay,
+         floatarray physical_ParticleSizeSilt,
+         int airNode,
+         floatarray physical_ParticleSizeClay,
+         floatarray soilTemp,
          int numLayers,
-         floatarray morningSoilTemp,
+         floatarray physical_Thickness,
+         floatarray silt,
+         floatarray volSpecHeatSoil,
          floatarray aveSoilTemp,
+         floatarray morningSoilTemp,
+         float DepthToConstantTemperature,
          float MissingValue):
     cdef int layer 
     cdef int node 
@@ -74,7 +74,7 @@ def getProfileVariables(floatarray clay,
         soilWater[0:min(numLayers + 1 + numPhantomNodes, len(oldSoilWater))]=oldSoilWater[0:min(numLayers + 1 + numPhantomNodes, len(oldSoilWater))]
     if waterBalance_SW is not None:
         for layer in range(1 , numLayers + 1 , 1):
-            soilWater[layer]=Divide(waterBalance_SW[(layer - 1)] * thickness[(layer - 1)], thickness[layer], 0)
+            soilWater[layer]=Divide(waterBalance_SW[(layer - 1)] * thickness[(layer - 1)], thickness[layer], float(0))
         for layer in range(numLayers + 1 , numLayers + numPhantomNodes + 1 , 1):
             soilWater[layer]=soilWater[numLayers]
     carbon=array('f', [0.0]*(numLayers + 1 + numPhantomNodes))
@@ -112,4 +112,4 @@ def getProfileVariables(floatarray clay,
     thermalConductivity=array('f', [0.0]*(numNodes + 1))
     heatStorage=array('f', [0.0]*(numNodes + 1))
     thermalConductance=array('f', [0.0]*(numNodes + 1 + 1))
-    return (clay, thermalConductance, sand, soilWater, thermalConductivity, minSoilTemp, newTemperature, carbon, nodeDepth, maxSoilTemp, silt, soilTemp, volSpecHeatSoil, thickness, heatStorage, rocks, bulkDensity, morningSoilTemp, aveSoilTemp, numNodes, numLayers)
+    return (heatStorage, minSoilTemp, bulkDensity, maxSoilTemp, nodeDepth, newTemperature, soilWater, thermalConductance, thermalConductivity, sand, carbon, thickness, rocks, clay, soilTemp, silt, volSpecHeatSoil, aveSoilTemp, morningSoilTemp, numNodes, numLayers)

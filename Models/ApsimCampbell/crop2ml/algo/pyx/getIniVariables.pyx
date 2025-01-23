@@ -1,6 +1,6 @@
-def getIniVariables(float instrumHeight,
-         float defaultInstrumentHeight,
-         float instrumentHeight):
+def getIniVariables(float instrumentHeight,
+         float instrumHeight,
+         float defaultInstrumentHeight):
     if instrumHeight > 0.00001:
         instrumentHeight=instrumHeight
     else:

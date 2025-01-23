@@ -1,8 +1,975 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Linq;    
+using Models.Core;   
+namespace Models.Crop2ML;
+
+/// <summary>
+///- Name: SoilTemperature -Version:  1.0, -Time step:  1
+///- Description:
+///            * Title: SoilTemperature
+///            * Authors: APSIM
+///            * Reference: None
+///            * Institution: APSIM Initiative
+///            * ExtendedDescription:  Soil Temperature 
+///            * ShortDescription: Heat flux and temperatures over the surface and soil profile (based on Campbell, 1985)
+///- inputs:
+///            * name: weather_MinT
+///                          ** description : Minimum temperature
+///                          ** inputtype : variable
+///                          ** variablecategory : exogenous
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : oC
+///            * name: weather_MaxT
+///                          ** description : Maximum temperature
+///                          ** inputtype : variable
+///                          ** variablecategory : exogenous
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : oC
+///            * name: weather_MeanT
+///                          ** description : Mean temperature
+///                          ** inputtype : variable
+///                          ** variablecategory : exogenous
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : oC
+///            * name: weather_Tav
+///                          ** description : Annual average temperature
+///                          ** inputtype : variable
+///                          ** variablecategory : exogenous
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : oC
+///            * name: weather_Amp
+///                          ** description : Annual average temperature amplitude
+///                          ** inputtype : variable
+///                          ** variablecategory : exogenous
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : oC
+///            * name: weather_AirPressure
+///                          ** description : Air pressure
+///                          ** inputtype : variable
+///                          ** variablecategory : exogenous
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : hPa
+///            * name: weather_Wind
+///                          ** description : Wind speed
+///                          ** inputtype : variable
+///                          ** variablecategory : exogenous
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : m/s
+///            * name: weather_Latitude
+///                          ** description : Latitude
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : deg
+///            * name: weather_Radn
+///                          ** description : Solar radiation
+///                          ** inputtype : variable
+///                          ** variablecategory : exogenous
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : MJ/m2/day
+///            * name: clock_Today_DayOfYear
+///                          ** description : Day of year
+///                          ** inputtype : variable
+///                          ** variablecategory : exogenous
+///                          ** datatype : INT
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : day number
+///            * name: microClimate_CanopyHeight
+///                          ** description : Canopy height
+///                          ** inputtype : variable
+///                          ** variablecategory : exogenous
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : mm
+///            * name: physical_Thickness
+///                          ** description : Soil layer thickness
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : mm
+///            * name: physical_BD
+///                          ** description : Bulk density
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : g/cc
+///            * name: ps
+///                          ** description : ps
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : 
+///            * name: physical_Rocks
+///                          ** description : Rocks
+///                          ** inputtype : variable
+///                          ** variablecategory : exogenous
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : %
+///            * name: physical_ParticleSizeSand
+///                          ** description : Particle size sand
+///                          ** inputtype : variable
+///                          ** variablecategory : exogenous
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : %
+///            * name: physical_ParticleSizeSilt
+///                          ** description : Particle size silt
+///                          ** inputtype : variable
+///                          ** variablecategory : exogenous
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : %
+///            * name: physical_ParticleSizeClay
+///                          ** description : Particle size clay
+///                          ** inputtype : variable
+///                          ** variablecategory : exogenous
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : %
+///            * name: organic_Carbon
+///                          ** description : Total organic carbon
+///                          ** inputtype : variable
+///                          ** variablecategory : exogenous
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : %
+///            * name: waterBalance_SW
+///                          ** description : Volumetric water content
+///                          ** inputtype : variable
+///                          ** variablecategory : exogenous
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : mm/mm
+///            * name: waterBalance_Eos
+///                          ** description : Potential soil evaporation from soil surface
+///                          ** inputtype : variable
+///                          ** variablecategory : exogenous
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : mm
+///            * name: waterBalance_Eo
+///                          ** description : Potential soil evapotranspiration from soil surface
+///                          ** inputtype : variable
+///                          ** variablecategory : exogenous
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : mm
+///            * name: waterBalance_Es
+///                          ** description : Actual (realised) soil water evaporation
+///                          ** inputtype : variable
+///                          ** variablecategory : exogenous
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : mm
+///            * name: waterBalance_Salb
+///                          ** description : Fraction of incoming radiation reflected from bare soil
+///                          ** inputtype : variable
+///                          ** variablecategory : exogenous
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : 0-1
+///            * name: InitialValues
+///                          ** description : Initial soil temperature
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : oC
+///            * name: pInitialValues
+///                          ** description : Initial soil temperature
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : oC
+///            * name: DepthToConstantTemperature
+///                          ** description : Soil depth to constant temperature
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 10000
+///                          ** unit : mm
+///            * name: timestep
+///                          ** description : Internal time-step (minutes)
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 24.0 * 60.0 * 60.0
+///                          ** unit : minutes
+///            * name: latentHeatOfVapourisation
+///                          ** description : Latent heat of vapourisation for water
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 2465000
+///                          ** unit : miJ/kg
+///            * name: stefanBoltzmannConstant
+///                          ** description : The Stefan-Boltzmann constant
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 0.0000000567
+///                          ** unit : W/m2/K4
+///            * name: airNode
+///                          ** description : The index of the node in the atmosphere (aboveground)
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : INT
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 0
+///                          ** unit : 
+///            * name: surfaceNode
+///                          ** description : The index of the node on the soil surface (depth = 0)
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : INT
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 1
+///                          ** unit : 
+///            * name: topsoilNode
+///                          ** description : The index of the first node within the soil (top layer)
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : INT
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 2
+///                          ** unit : 
+///            * name: numPhantomNodes
+///                          ** description : The number of phantom nodes below the soil profile
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : INT
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 5
+///                          ** unit : 
+///            * name: constantBoundaryLayerConductance
+///                          ** description : Boundary layer conductance, if constant
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 20
+///                          ** unit : K/W
+///            * name: numIterationsForBoundaryLayerConductance
+///                          ** description : Number of iterations to calculate atmosphere boundary layer conductance
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : INT
+///                          ** min : 
+///                          ** default : 1
+///                          ** unit : 
+///            * name: defaultTimeOfMaximumTemperature
+///                          ** description : Time of maximum temperature
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 14.0
+///                          ** unit : minutes
+///            * name: defaultInstrumentHeight
+///                          ** description : Default instrument height
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 1.2
+///                          ** unit : m
+///            * name: bareSoilRoughness
+///                          ** description : Roughness element height of bare soil
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 57
+///                          ** unit : mm
+///            * name: doInitialisationStuff
+///                          ** description : Flag whether initialisation is needed
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : BOOLEAN
+///                          ** max : 
+///                          ** min : 
+///                          ** default : false
+///                          ** unit : mintes
+///            * name: internalTimeStep
+///                          ** description : Internal time-step
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 0
+///                          ** unit : sec
+///            * name: timeOfDaySecs
+///                          ** description : Time of day from midnight
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 0
+///                          ** unit : sec
+///            * name: numNodes
+///                          ** description : Number of nodes over the soil profile
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : INT
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 0
+///                          ** unit : 
+///            * name: numLayers
+///                          ** description : Number of layers in the soil profile
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : INT
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 0
+///                          ** unit : 
+///            * name: nodeDepth
+///                          ** description : Depths of nodes
+///                          ** inputtype : parameter
+///                          ** parametercategory : private
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : mm
+///            * name: thermCondPar1
+///                          ** description : Parameter 1 for computing thermal conductivity of soil solids
+///                          ** inputtype : parameter
+///                          ** parametercategory : private
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : 
+///            * name: thermCondPar2
+///                          ** description : Parameter 2 for computing thermal conductivity of soil solids
+///                          ** inputtype : parameter
+///                          ** parametercategory : private
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : 
+///            * name: thermCondPar3
+///                          ** description : Parameter 3 for computing thermal conductivity of soil solids
+///                          ** inputtype : parameter
+///                          ** parametercategory : private
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : 
+///            * name: thermCondPar4
+///                          ** description : Parameter 4 for computing thermal conductivity of soil solids
+///                          ** inputtype : parameter
+///                          ** parametercategory : private
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : 
+///            * name: volSpecHeatSoil
+///                          ** description : Volumetric specific heat over the soil profile
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : J/K/m3
+///            * name: soilTemp
+///                          ** description : Soil temperature over the soil profile at morning
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : oC
+///            * name: morningSoilTemp
+///                          ** description : Soil temperature over the soil profile at morning
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : oC
+///            * name: heatStorage
+///                          ** description : CP, heat storage between nodes
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : J/K
+///            * name: thermalConductance
+///                          ** description : K, conductance of element between nodes
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : W/K
+///            * name: thermalConductivity
+///                          ** description : Thermal conductivity
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : W.m/K
+///            * name: boundaryLayerConductance
+///                          ** description : Average daily atmosphere boundary layer conductance
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 0
+///                          ** unit : 
+///            * name: newTemperature
+///                          ** description : Soil temperature at the end of this iteration
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : oC
+///            * name: airTemperature
+///                          ** description : Air temperature
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 0
+///                          ** unit : oC
+///            * name: maxTempYesterday
+///                          ** description : Yesterday's maximum daily air temperature
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 0
+///                          ** unit : oC
+///            * name: minTempYesterday
+///                          ** description : Yesterday's minimum daily air temperature
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 0
+///                          ** unit : oC
+///            * name: soilWater
+///                          ** description : Volumetric water content of each soil layer
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : mm3/mm3
+///            * name: minSoilTemp
+///                          ** description : Minimum soil temperature
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : oC
+///            * name: maxSoilTemp
+///                          ** description : Maximum soil temperature
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : oC
+///            * name: aveSoilTemp
+///                          ** description : average soil temperature
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : oC
+///            * name: aveSoilWater
+///                          ** description : Average soil temperaturer
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : oC
+///            * name: thickness
+///                          ** description : Thickness of each soil, includes phantom layer
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : mm
+///            * name: bulkDensity
+///                          ** description : Soil bulk density, includes phantom layer
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : g/cm3
+///            * name: rocks
+///                          ** description : Volumetric fraction of rocks in each soil laye
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : %
+///            * name: carbon
+///                          ** description : Volumetric fraction of carbon (CHECK, OM?) in each soil layer
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : %
+///            * name: sand
+///                          ** description : Volumetric fraction of sand in each soil layer
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : %
+///            * name: pom
+///                          ** description : Particle density of organic matter
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : Mg/m3
+///            * name: silt
+///                          ** description : Volumetric fraction of silt in each soil layer
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : %
+///            * name: clay
+///                          ** description : Volumetric fraction of clay in each soil layer
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 
+///                          ** unit : %
+///            * name: soilRoughnessHeight
+///                          ** description : Height of soil roughness
+///                          ** inputtype : parameter
+///                          ** parametercategory : private
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 0
+///                          ** unit : mm
+///            * name: instrumentHeight
+///                          ** description : Height of instruments above soil surface
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 0
+///                          ** unit : mm
+///            * name: netRadiation
+///                          ** description : Net radiation per internal time-step
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 0
+///                          ** unit : MJ
+///            * name: canopyHeight
+///                          ** description : Height of canopy above ground
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 0
+///                          ** unit : mm
+///            * name: instrumHeight
+///                          ** description : Height of instruments above ground
+///                          ** inputtype : variable
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 0
+///                          ** unit : mm
+///            * name: nu
+///                          ** description : Forward/backward differencing coefficient
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 0.6
+///                          ** unit : 0-1
+///            * name: boundarLayerConductanceSource
+///                          ** description : Flag whether boundary layer conductance is calculated or gotten from inpu
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : STRING
+///                          ** max : 
+///                          ** min : 
+///                          ** default : calc
+///                          ** unit : 
+///            * name: netRadiationSource
+///                          ** description : Flag whether net radiation is calculated or gotten from input
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : STRING
+///                          ** max : 
+///                          ** min : 
+///                          ** default : calc
+///                          ** unit : m
+///            * name: MissingValue
+///                          ** description : missing value
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** default : 99999
+///                          ** unit : m
+///            * name: soilConstituentNames
+///                          ** description : soilConstituentNames
+///                          ** inputtype : parameter
+///                          ** parametercategory : constant
+///                          ** datatype : STRINGARRAY
+///                          ** len : 8
+///                          ** max : 
+///                          ** min : 
+///                          ** default : ["Rocks", "OrganicMatter", "Sand", "Silt", "Clay", "Water", "Ice", "Air"]
+///                          ** unit : m
+///- outputs:
+///            * name: heatStorage
+///                          ** description : CP, heat storage between nodes
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** variablecategory : state
+///                          ** max : 
+///                          ** min : 
+///                          ** unit : J/K
+///            * name: instrumentHeight
+///                          ** description : Height of instruments above soil surface
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** unit : mm
+///            * name: canopyHeight
+///                          ** description : Height of canopy above ground
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** unit : mm
+///            * name: minSoilTemp
+///                          ** description : Minimum soil temperature
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** unit : oC
+///            * name: maxSoilTemp
+///                          ** description : Maximum soil temperature
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** unit : oC
+///            * name: aveSoilTemp
+///                          ** description : average soil temperature
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** unit : oC
+///            * name: volSpecHeatSoil
+///                          ** description : Volumetric specific heat over the soil profile
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** unit : J/K/m3
+///            * name: soilTemp
+///                          ** description : Soil temperature over the soil profile at morning
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** unit : oC
+///            * name: morningSoilTemp
+///                          ** description : Soil temperature over the soil profile at morning
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** unit : oC
+///            * name: newTemperature
+///                          ** description : Soil temperature at the end of this iteration
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** unit : oC
+///            * name: thermalConductivity
+///                          ** description : Thermal conductivity
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** unit : W.m/K
+///            * name: thermalConductance
+///                          ** description : K, conductance of element between nodes
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** unit : W/K
+///            * name: boundaryLayerConductance
+///                          ** description : Average daily atmosphere boundary layer conductance
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** unit : 
+///            * name: soilWater
+///                          ** description : Volumetric water content of each soil layer
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** unit : mm3/mm3
+///            * name: doInitialisationStuff
+///                          ** description : Flag whether initialisation is needed
+///                          ** variablecategory : state
+///                          ** datatype : BOOLEAN
+///                          ** max : 
+///                          ** min : 
+///                          ** unit : 
+///            * name: maxTempYesterday
+///                          ** description : Yesterday's maximum daily air temperature (oC)
+///                          ** datatype : DOUBLE
+///                          ** variablecategory : state
+///                          ** max : 
+///                          ** min : 
+///                          ** unit : oC
+///            * name: minTempYesterday
+///                          ** description : Yesterday's minimum daily air temperature (oC)
+///                          ** datatype : DOUBLE
+///                          ** variablecategory : state
+///                          ** len : 
+///                          ** max : 
+///                          ** unit : oC
+///                          ** min : 
+///            * name: airTemperature
+///                          ** description : Air temperature
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** unit : oC
+///            * name: internalTimeStep
+///                          ** description : Internal time-step
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** unit : sec
+///            * name: timeOfDaySecs
+///                          ** description : Time of day from midnight
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** unit : sec
+///            * name: netRadiation
+///                          ** description : Net radiation per internal time-step
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLE
+///                          ** max : 
+///                          ** min : 
+///                          ** unit : MJ
+///            * name: InitialValues
+///                          ** description : Initial soil temperature
+///                          ** variablecategory : state
+///                          ** datatype : DOUBLEARRAY
+///                          ** len : 
+///                          ** max : 
+///                          ** min : 
+///                          ** unit : oC
+/// </summary>
 public class SoilTemperature
 {
+
+    /// <summary>
+    /// initialization of the SoilTemperature component
+    /// </summary>
     public void Init(SoiltempState s, SoiltempState s1, SoiltempRate r, SoiltempAuxiliary a, SoiltempExogenous ex)
     {
         double weather_MinT = ex.weather_MinT;
@@ -109,1151 +1076,408 @@ public class SoilTemperature
         s.canopyHeight= canopyHeight;
         s.instrumHeight= instrumHeight;
     }
+
     private double _weather_Latitude;
+    /// <summary>
+    /// Gets and sets the Latitude
+    /// </summary>
+    [Description("Latitude")] 
+    [Units("deg")] 
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")] 
     public double weather_Latitude
     {
         get { return this._weather_Latitude; }
         set { this._weather_Latitude= value; } 
     }
+
     private double[] _physical_Thickness;
+    /// <summary>
+    /// Gets and sets the Soil layer thickness
+    /// </summary>
+    [Description("Soil layer thickness")] 
+    [Units("mm")] 
+    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")] 
     public double[] physical_Thickness
     {
         get { return this._physical_Thickness; }
         set { this._physical_Thickness= value; } 
     }
+
     private double[] _physical_BD;
+    /// <summary>
+    /// Gets and sets the Bulk density
+    /// </summary>
+    [Description("Bulk density")] 
+    [Units("g/cc")] 
+    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")] 
     public double[] physical_BD
     {
         get { return this._physical_BD; }
         set { this._physical_BD= value; } 
     }
+
     private double _ps;
+    /// <summary>
+    /// Gets and sets the ps
+    /// </summary>
+    [Description("ps")] 
+    [Units("")] 
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")] 
     public double ps
     {
         get { return this._ps; }
         set { this._ps= value; } 
     }
+
     private double[] _pInitialValues;
+    /// <summary>
+    /// Gets and sets the Initial soil temperature
+    /// </summary>
+    [Description("Initial soil temperature")] 
+    [Units("oC")] 
+    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")] 
     public double[] pInitialValues
     {
         get { return this._pInitialValues; }
         set { this._pInitialValues= value; } 
     }
+
     private double _DepthToConstantTemperature;
+    /// <summary>
+    /// Gets and sets the Soil depth to constant temperature
+    /// </summary>
+    [Description("Soil depth to constant temperature")] 
+    [Units("mm")] 
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=10000, parametercategory=constant, inputtype="parameter")] 
     public double DepthToConstantTemperature
     {
         get { return this._DepthToConstantTemperature; }
         set { this._DepthToConstantTemperature= value; } 
     }
+
     private double _timestep;
+    /// <summary>
+    /// Gets and sets the Internal time-step (minutes)
+    /// </summary>
+    [Description("Internal time-step (minutes)")] 
+    [Units("minutes")] 
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=24.0 * 60.0 * 60.0, parametercategory=constant, inputtype="parameter")] 
     public double timestep
     {
         get { return this._timestep; }
         set { this._timestep= value; } 
     }
+
     private double _latentHeatOfVapourisation;
+    /// <summary>
+    /// Gets and sets the Latent heat of vapourisation for water
+    /// </summary>
+    [Description("Latent heat of vapourisation for water")] 
+    [Units("miJ/kg")] 
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=2465000, parametercategory=constant, inputtype="parameter")] 
     public double latentHeatOfVapourisation
     {
         get { return this._latentHeatOfVapourisation; }
         set { this._latentHeatOfVapourisation= value; } 
     }
+
     private double _stefanBoltzmannConstant;
+    /// <summary>
+    /// Gets and sets the The Stefan-Boltzmann constant
+    /// </summary>
+    [Description("The Stefan-Boltzmann constant")] 
+    [Units("W/m2/K4")] 
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=0.0000000567, parametercategory=constant, inputtype="parameter")] 
     public double stefanBoltzmannConstant
     {
         get { return this._stefanBoltzmannConstant; }
         set { this._stefanBoltzmannConstant= value; } 
     }
+
     private int _airNode;
+    /// <summary>
+    /// Gets and sets the The index of the node in the atmosphere (aboveground)
+    /// </summary>
+    [Description("The index of the node in the atmosphere (aboveground)")] 
+    [Units("")] 
+    //[Crop2ML(datatype="INT", min=null, max=null, default=0, parametercategory=constant, inputtype="parameter")] 
     public int airNode
     {
         get { return this._airNode; }
         set { this._airNode= value; } 
     }
+
     private int _surfaceNode;
+    /// <summary>
+    /// Gets and sets the The index of the node on the soil surface (depth = 0)
+    /// </summary>
+    [Description("The index of the node on the soil surface (depth = 0)")] 
+    [Units("")] 
+    //[Crop2ML(datatype="INT", min=null, max=null, default=1, parametercategory=constant, inputtype="parameter")] 
     public int surfaceNode
     {
         get { return this._surfaceNode; }
         set { this._surfaceNode= value; } 
     }
+
     private int _topsoilNode;
+    /// <summary>
+    /// Gets and sets the The index of the first node within the soil (top layer)
+    /// </summary>
+    [Description("The index of the first node within the soil (top layer)")] 
+    [Units("")] 
+    //[Crop2ML(datatype="INT", min=null, max=null, default=2, parametercategory=constant, inputtype="parameter")] 
     public int topsoilNode
     {
         get { return this._topsoilNode; }
         set { this._topsoilNode= value; } 
     }
+
     private int _numPhantomNodes;
+    /// <summary>
+    /// Gets and sets the The number of phantom nodes below the soil profile
+    /// </summary>
+    [Description("The number of phantom nodes below the soil profile")] 
+    [Units("")] 
+    //[Crop2ML(datatype="INT", min=null, max=null, default=5, parametercategory=constant, inputtype="parameter")] 
     public int numPhantomNodes
     {
         get { return this._numPhantomNodes; }
         set { this._numPhantomNodes= value; } 
     }
+
     private double _constantBoundaryLayerConductance;
+    /// <summary>
+    /// Gets and sets the Boundary layer conductance, if constant
+    /// </summary>
+    [Description("Boundary layer conductance, if constant")] 
+    [Units("K/W")] 
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=20, parametercategory=constant, inputtype="parameter")] 
     public double constantBoundaryLayerConductance
     {
         get { return this._constantBoundaryLayerConductance; }
         set { this._constantBoundaryLayerConductance= value; } 
     }
+
     private int _numIterationsForBoundaryLayerConductance;
+    /// <summary>
+    /// Gets and sets the Number of iterations to calculate atmosphere boundary layer conductance
+    /// </summary>
+    [Description("Number of iterations to calculate atmosphere boundary layer conductance")] 
+    [Units("")] 
+    //[Crop2ML(datatype="INT", min=null, max=None, default=1, parametercategory=constant, inputtype="parameter")] 
     public int numIterationsForBoundaryLayerConductance
     {
         get { return this._numIterationsForBoundaryLayerConductance; }
         set { this._numIterationsForBoundaryLayerConductance= value; } 
     }
+
     private double _defaultTimeOfMaximumTemperature;
+    /// <summary>
+    /// Gets and sets the Time of maximum temperature
+    /// </summary>
+    [Description("Time of maximum temperature")] 
+    [Units("minutes")] 
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=14.0, parametercategory=constant, inputtype="parameter")] 
     public double defaultTimeOfMaximumTemperature
     {
         get { return this._defaultTimeOfMaximumTemperature; }
         set { this._defaultTimeOfMaximumTemperature= value; } 
     }
+
     private double _defaultInstrumentHeight;
+    /// <summary>
+    /// Gets and sets the Default instrument height
+    /// </summary>
+    [Description("Default instrument height")] 
+    [Units("m")] 
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=1.2, parametercategory=constant, inputtype="parameter")] 
     public double defaultInstrumentHeight
     {
         get { return this._defaultInstrumentHeight; }
         set { this._defaultInstrumentHeight= value; } 
     }
+
     private double _bareSoilRoughness;
+    /// <summary>
+    /// Gets and sets the Roughness element height of bare soil
+    /// </summary>
+    [Description("Roughness element height of bare soil")] 
+    [Units("mm")] 
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=57, parametercategory=constant, inputtype="parameter")] 
     public double bareSoilRoughness
     {
         get { return this._bareSoilRoughness; }
         set { this._bareSoilRoughness= value; } 
     }
+
     private double[] _nodeDepth;
+    /// <summary>
+    /// Gets and sets the Depths of nodes
+    /// </summary>
+    [Description("Depths of nodes")] 
+    [Units("mm")] 
+    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=private, inputtype="parameter")] 
     public double[] nodeDepth
     {
         get { return this._nodeDepth; }
         set { this._nodeDepth= value; } 
     }
+
     private double[] _thermCondPar1;
+    /// <summary>
+    /// Gets and sets the Parameter 1 for computing thermal conductivity of soil solids
+    /// </summary>
+    [Description("Parameter 1 for computing thermal conductivity of soil solids")] 
+    [Units("")] 
+    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=private, inputtype="parameter")] 
     public double[] thermCondPar1
     {
         get { return this._thermCondPar1; }
         set { this._thermCondPar1= value; } 
     }
+
     private double[] _thermCondPar2;
+    /// <summary>
+    /// Gets and sets the Parameter 2 for computing thermal conductivity of soil solids
+    /// </summary>
+    [Description("Parameter 2 for computing thermal conductivity of soil solids")] 
+    [Units("")] 
+    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=private, inputtype="parameter")] 
     public double[] thermCondPar2
     {
         get { return this._thermCondPar2; }
         set { this._thermCondPar2= value; } 
     }
+
     private double[] _thermCondPar3;
+    /// <summary>
+    /// Gets and sets the Parameter 3 for computing thermal conductivity of soil solids
+    /// </summary>
+    [Description("Parameter 3 for computing thermal conductivity of soil solids")] 
+    [Units("")] 
+    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=private, inputtype="parameter")] 
     public double[] thermCondPar3
     {
         get { return this._thermCondPar3; }
         set { this._thermCondPar3= value; } 
     }
+
     private double[] _thermCondPar4;
+    /// <summary>
+    /// Gets and sets the Parameter 4 for computing thermal conductivity of soil solids
+    /// </summary>
+    [Description("Parameter 4 for computing thermal conductivity of soil solids")] 
+    [Units("")] 
+    //[Crop2ML(datatype="DOUBLEARRAY", min=null, max=null, default=, parametercategory=private, inputtype="parameter")] 
     public double[] thermCondPar4
     {
         get { return this._thermCondPar4; }
         set { this._thermCondPar4= value; } 
     }
+
     private double _pom;
+    /// <summary>
+    /// Gets and sets the Particle density of organic matter
+    /// </summary>
+    [Description("Particle density of organic matter")] 
+    [Units("Mg/m3")] 
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=, parametercategory=constant, inputtype="parameter")] 
     public double pom
     {
         get { return this._pom; }
         set { this._pom= value; } 
     }
+
     private double _soilRoughnessHeight;
+    /// <summary>
+    /// Gets and sets the Height of soil roughness
+    /// </summary>
+    [Description("Height of soil roughness")] 
+    [Units("mm")] 
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=0, parametercategory=private, inputtype="parameter")] 
     public double soilRoughnessHeight
     {
         get { return this._soilRoughnessHeight; }
         set { this._soilRoughnessHeight= value; } 
     }
+
     private double _nu;
+    /// <summary>
+    /// Gets and sets the Forward/backward differencing coefficient
+    /// </summary>
+    [Description("Forward/backward differencing coefficient")] 
+    [Units("0-1")] 
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=0.6, parametercategory=constant, inputtype="parameter")] 
     public double nu
     {
         get { return this._nu; }
         set { this._nu= value; } 
     }
+
     private string _boundarLayerConductanceSource;
+    /// <summary>
+    /// Gets and sets the Flag whether boundary layer conductance is calculated or gotten from inpu
+    /// </summary>
+    [Description("Flag whether boundary layer conductance is calculated or gotten from inpu")] 
+    [Units("")] 
+    //[Crop2ML(datatype="STRING", min=null, max=null, default=calc, parametercategory=constant, inputtype="parameter")] 
     public string boundarLayerConductanceSource
     {
         get { return this._boundarLayerConductanceSource; }
         set { this._boundarLayerConductanceSource= value; } 
     }
+
     private string _netRadiationSource;
+    /// <summary>
+    /// Gets and sets the Flag whether net radiation is calculated or gotten from input
+    /// </summary>
+    [Description("Flag whether net radiation is calculated or gotten from input")] 
+    [Units("m")] 
+    //[Crop2ML(datatype="STRING", min=null, max=null, default=calc, parametercategory=constant, inputtype="parameter")] 
     public string netRadiationSource
     {
         get { return this._netRadiationSource; }
         set { this._netRadiationSource= value; } 
     }
+
     private double _MissingValue;
+    /// <summary>
+    /// Gets and sets the missing value
+    /// </summary>
+    [Description("missing value")] 
+    [Units("m")] 
+    //[Crop2ML(datatype="DOUBLE", min=null, max=null, default=99999, parametercategory=constant, inputtype="parameter")] 
     public double MissingValue
     {
         get { return this._MissingValue; }
         set { this._MissingValue= value; } 
     }
+
     private string[] _soilConstituentNames;
+    /// <summary>
+    /// Gets and sets the soilConstituentNames
+    /// </summary>
+    [Description("soilConstituentNames")] 
+    [Units("m")] 
+    //[Crop2ML(datatype="STRINGARRAY", min=null, max=null, default=["Rocks", "OrganicMatter", "Sand", "Silt", "Clay", "Water", "Ice", "Air"], parametercategory=constant, inputtype="parameter")] 
     public string[] soilConstituentNames
     {
         get { return this._soilConstituentNames; }
         set { this._soilConstituentNames= value; } 
     }
+
+    
     /// <summary>
     /// Constructor of the SoilTemperature component")
     /// </summary>  
     public SoilTemperature() { }
     
+    /// <summary>
+    /// Algorithm of the SoilTemperature component
+    /// </summary>
     public void  CalculateModel(SoiltempState s, SoiltempState s1, SoiltempRate r, SoiltempAuxiliary a, SoiltempExogenous ex)
     {
-        //- Name: SoilTemperature -Version:  1.0, -Time step:  1
-        //- Description:
-    //            * Title: SoilTemperature
-    //            * Authors: APSIM
-    //            * Reference: None
-    //            * Institution: APSIM Initiative
-    //            * ExtendedDescription:  Soil Temperature 
-    //            * ShortDescription: Heat flux and temperatures over the surface and soil profile (based on Campbell, 1985)
-        //- inputs:
-    //            * name: weather_MinT
-    //                          ** description : Minimum temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : oC
-    //            * name: weather_MaxT
-    //                          ** description : Maximum temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : oC
-    //            * name: weather_MeanT
-    //                          ** description : Mean temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : oC
-    //            * name: weather_Tav
-    //                          ** description : Annual average temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : oC
-    //            * name: weather_Amp
-    //                          ** description : Annual average temperature amplitude
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : oC
-    //            * name: weather_AirPressure
-    //                          ** description : Air pressure
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : hPa
-    //            * name: weather_Wind
-    //                          ** description : Wind speed
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : m/s
-    //            * name: weather_Latitude
-    //                          ** description : Latitude
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : deg
-    //            * name: weather_Radn
-    //                          ** description : Solar radiation
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : MJ/m2/day
-    //            * name: clock_Today_DayOfYear
-    //                          ** description : Day of year
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : INT
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : day number
-    //            * name: microClimate_CanopyHeight
-    //                          ** description : Canopy height
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : mm
-    //            * name: physical_Thickness
-    //                          ** description : Soil layer thickness
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : mm
-    //            * name: physical_BD
-    //                          ** description : Bulk density
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : g/cc
-    //            * name: ps
-    //                          ** description : ps
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : 
-    //            * name: physical_Rocks
-    //                          ** description : Rocks
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : %
-    //            * name: physical_ParticleSizeSand
-    //                          ** description : Particle size sand
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : %
-    //            * name: physical_ParticleSizeSilt
-    //                          ** description : Particle size silt
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : %
-    //            * name: physical_ParticleSizeClay
-    //                          ** description : Particle size clay
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : %
-    //            * name: organic_Carbon
-    //                          ** description : Total organic carbon
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : %
-    //            * name: waterBalance_SW
-    //                          ** description : Volumetric water content
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : mm/mm
-    //            * name: waterBalance_Eos
-    //                          ** description : Potential soil evaporation from soil surface
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : mm
-    //            * name: waterBalance_Eo
-    //                          ** description : Potential soil evapotranspiration from soil surface
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : mm
-    //            * name: waterBalance_Es
-    //                          ** description : Actual (realised) soil water evaporation
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : mm
-    //            * name: waterBalance_Salb
-    //                          ** description : Fraction of incoming radiation reflected from bare soil
-    //                          ** inputtype : variable
-    //                          ** variablecategory : exogenous
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : 0-1
-    //            * name: InitialValues
-    //                          ** description : Initial soil temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : oC
-    //            * name: pInitialValues
-    //                          ** description : Initial soil temperature
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : oC
-    //            * name: DepthToConstantTemperature
-    //                          ** description : Soil depth to constant temperature
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 10000
-    //                          ** unit : mm
-    //            * name: timestep
-    //                          ** description : Internal time-step (minutes)
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 24.0 * 60.0 * 60.0
-    //                          ** unit : minutes
-    //            * name: latentHeatOfVapourisation
-    //                          ** description : Latent heat of vapourisation for water
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 2465000
-    //                          ** unit : miJ/kg
-    //            * name: stefanBoltzmannConstant
-    //                          ** description : The Stefan-Boltzmann constant
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 0.0000000567
-    //                          ** unit : W/m2/K4
-    //            * name: airNode
-    //                          ** description : The index of the node in the atmosphere (aboveground)
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : INT
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 0
-    //                          ** unit : 
-    //            * name: surfaceNode
-    //                          ** description : The index of the node on the soil surface (depth = 0)
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : INT
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 1
-    //                          ** unit : 
-    //            * name: topsoilNode
-    //                          ** description : The index of the first node within the soil (top layer)
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : INT
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 2
-    //                          ** unit : 
-    //            * name: numPhantomNodes
-    //                          ** description : The number of phantom nodes below the soil profile
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : INT
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 5
-    //                          ** unit : 
-    //            * name: constantBoundaryLayerConductance
-    //                          ** description : Boundary layer conductance, if constant
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 20
-    //                          ** unit : K/W
-    //            * name: numIterationsForBoundaryLayerConductance
-    //                          ** description : Number of iterations to calculate atmosphere boundary layer conductance
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : INT
-    //                          ** min : 
-    //                          ** default : 1
-    //                          ** unit : 
-    //            * name: defaultTimeOfMaximumTemperature
-    //                          ** description : Time of maximum temperature
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 14.0
-    //                          ** unit : minutes
-    //            * name: defaultInstrumentHeight
-    //                          ** description : Default instrument height
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 1.2
-    //                          ** unit : m
-    //            * name: bareSoilRoughness
-    //                          ** description : Roughness element height of bare soil
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 57
-    //                          ** unit : mm
-    //            * name: doInitialisationStuff
-    //                          ** description : Flag whether initialisation is needed
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : BOOLEAN
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : false
-    //                          ** unit : mintes
-    //            * name: internalTimeStep
-    //                          ** description : Internal time-step
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 0
-    //                          ** unit : sec
-    //            * name: timeOfDaySecs
-    //                          ** description : Time of day from midnight
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 0
-    //                          ** unit : sec
-    //            * name: numNodes
-    //                          ** description : Number of nodes over the soil profile
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : INT
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 0
-    //                          ** unit : 
-    //            * name: numLayers
-    //                          ** description : Number of layers in the soil profile
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : INT
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 0
-    //                          ** unit : 
-    //            * name: nodeDepth
-    //                          ** description : Depths of nodes
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : private
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : mm
-    //            * name: thermCondPar1
-    //                          ** description : Parameter 1 for computing thermal conductivity of soil solids
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : private
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : 
-    //            * name: thermCondPar2
-    //                          ** description : Parameter 2 for computing thermal conductivity of soil solids
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : private
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : 
-    //            * name: thermCondPar3
-    //                          ** description : Parameter 3 for computing thermal conductivity of soil solids
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : private
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : 
-    //            * name: thermCondPar4
-    //                          ** description : Parameter 4 for computing thermal conductivity of soil solids
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : private
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : 
-    //            * name: volSpecHeatSoil
-    //                          ** description : Volumetric specific heat over the soil profile
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : J/K/m3
-    //            * name: soilTemp
-    //                          ** description : Soil temperature over the soil profile at morning
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : oC
-    //            * name: morningSoilTemp
-    //                          ** description : Soil temperature over the soil profile at morning
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : oC
-    //            * name: heatStorage
-    //                          ** description : CP, heat storage between nodes
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : J/K
-    //            * name: thermalConductance
-    //                          ** description : K, conductance of element between nodes
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : W/K
-    //            * name: thermalConductivity
-    //                          ** description : Thermal conductivity
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : W.m/K
-    //            * name: boundaryLayerConductance
-    //                          ** description : Average daily atmosphere boundary layer conductance
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 0
-    //                          ** unit : 
-    //            * name: newTemperature
-    //                          ** description : Soil temperature at the end of this iteration
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : oC
-    //            * name: airTemperature
-    //                          ** description : Air temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 0
-    //                          ** unit : oC
-    //            * name: maxTempYesterday
-    //                          ** description : Yesterday's maximum daily air temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 0
-    //                          ** unit : oC
-    //            * name: minTempYesterday
-    //                          ** description : Yesterday's minimum daily air temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 0
-    //                          ** unit : oC
-    //            * name: soilWater
-    //                          ** description : Volumetric water content of each soil layer
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : mm3/mm3
-    //            * name: minSoilTemp
-    //                          ** description : Minimum soil temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : oC
-    //            * name: maxSoilTemp
-    //                          ** description : Maximum soil temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : oC
-    //            * name: aveSoilTemp
-    //                          ** description : average soil temperature
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : oC
-    //            * name: aveSoilWater
-    //                          ** description : Average soil temperaturer
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : oC
-    //            * name: thickness
-    //                          ** description : Thickness of each soil, includes phantom layer
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : mm
-    //            * name: bulkDensity
-    //                          ** description : Soil bulk density, includes phantom layer
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : g/cm3
-    //            * name: rocks
-    //                          ** description : Volumetric fraction of rocks in each soil laye
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : %
-    //            * name: carbon
-    //                          ** description : Volumetric fraction of carbon (CHECK, OM?) in each soil layer
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : %
-    //            * name: sand
-    //                          ** description : Volumetric fraction of sand in each soil layer
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : %
-    //            * name: pom
-    //                          ** description : Particle density of organic matter
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : Mg/m3
-    //            * name: silt
-    //                          ** description : Volumetric fraction of silt in each soil layer
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : %
-    //            * name: clay
-    //                          ** description : Volumetric fraction of clay in each soil layer
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 
-    //                          ** unit : %
-    //            * name: soilRoughnessHeight
-    //                          ** description : Height of soil roughness
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : private
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 0
-    //                          ** unit : mm
-    //            * name: instrumentHeight
-    //                          ** description : Height of instruments above soil surface
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 0
-    //                          ** unit : mm
-    //            * name: netRadiation
-    //                          ** description : Net radiation per internal time-step
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 0
-    //                          ** unit : MJ
-    //            * name: canopyHeight
-    //                          ** description : Height of canopy above ground
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 0
-    //                          ** unit : mm
-    //            * name: instrumHeight
-    //                          ** description : Height of instruments above ground
-    //                          ** inputtype : variable
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 0
-    //                          ** unit : mm
-    //            * name: nu
-    //                          ** description : Forward/backward differencing coefficient
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 0.6
-    //                          ** unit : 0-1
-    //            * name: boundarLayerConductanceSource
-    //                          ** description : Flag whether boundary layer conductance is calculated or gotten from inpu
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : STRING
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : calc
-    //                          ** unit : 
-    //            * name: netRadiationSource
-    //                          ** description : Flag whether net radiation is calculated or gotten from input
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : STRING
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : calc
-    //                          ** unit : m
-    //            * name: MissingValue
-    //                          ** description : missing value
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : 99999
-    //                          ** unit : m
-    //            * name: soilConstituentNames
-    //                          ** description : soilConstituentNames
-    //                          ** inputtype : parameter
-    //                          ** parametercategory : constant
-    //                          ** datatype : STRINGARRAY
-    //                          ** len : 8
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** default : ["Rocks", "OrganicMatter", "Sand", "Silt", "Clay", "Water", "Ice", "Air"]
-    //                          ** unit : m
-        //- outputs:
-    //            * name: heatStorage
-    //                          ** description : CP, heat storage between nodes
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** variablecategory : state
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** unit : J/K
-    //            * name: instrumentHeight
-    //                          ** description : Height of instruments above soil surface
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** unit : mm
-    //            * name: canopyHeight
-    //                          ** description : Height of canopy above ground
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** unit : mm
-    //            * name: minSoilTemp
-    //                          ** description : Minimum soil temperature
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** unit : oC
-    //            * name: maxSoilTemp
-    //                          ** description : Maximum soil temperature
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** unit : oC
-    //            * name: aveSoilTemp
-    //                          ** description : average soil temperature
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** unit : oC
-    //            * name: volSpecHeatSoil
-    //                          ** description : Volumetric specific heat over the soil profile
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** unit : J/K/m3
-    //            * name: soilTemp
-    //                          ** description : Soil temperature over the soil profile at morning
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** unit : oC
-    //            * name: morningSoilTemp
-    //                          ** description : Soil temperature over the soil profile at morning
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** unit : oC
-    //            * name: newTemperature
-    //                          ** description : Soil temperature at the end of this iteration
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** unit : oC
-    //            * name: thermalConductivity
-    //                          ** description : Thermal conductivity
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** unit : W.m/K
-    //            * name: thermalConductance
-    //                          ** description : K, conductance of element between nodes
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** unit : W/K
-    //            * name: boundaryLayerConductance
-    //                          ** description : Average daily atmosphere boundary layer conductance
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** unit : 
-    //            * name: soilWater
-    //                          ** description : Volumetric water content of each soil layer
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** unit : mm3/mm3
-    //            * name: doInitialisationStuff
-    //                          ** description : Flag whether initialisation is needed
-    //                          ** variablecategory : state
-    //                          ** datatype : BOOLEAN
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** unit : 
-    //            * name: maxTempYesterday
-    //                          ** description : Yesterday's maximum daily air temperature (oC)
-    //                          ** datatype : DOUBLE
-    //                          ** variablecategory : state
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** unit : oC
-    //            * name: minTempYesterday
-    //                          ** description : Yesterday's minimum daily air temperature (oC)
-    //                          ** datatype : DOUBLE
-    //                          ** variablecategory : state
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** unit : oC
-    //                          ** min : 
-    //            * name: airTemperature
-    //                          ** description : Air temperature
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** unit : oC
-    //            * name: internalTimeStep
-    //                          ** description : Internal time-step
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** unit : sec
-    //            * name: timeOfDaySecs
-    //                          ** description : Time of day from midnight
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** unit : sec
-    //            * name: netRadiation
-    //                          ** description : Net radiation per internal time-step
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLE
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** unit : MJ
-    //            * name: InitialValues
-    //                          ** description : Initial soil temperature
-    //                          ** variablecategory : state
-    //                          ** datatype : DOUBLEARRAY
-    //                          ** len : 
-    //                          ** max : 
-    //                          ** min : 
-    //                          ** unit : oC
         double weather_MinT = ex.weather_MinT;
         double weather_MaxT = ex.weather_MaxT;
         double weather_MeanT = ex.weather_MeanT;
@@ -1357,6 +1581,9 @@ public class SoilTemperature
         s.netRadiation= netRadiation;
         s.canopyHeight= canopyHeight;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double getIniVariables(double instrumentHeight, double instrumHeight, double defaultInstrumentHeight)
     {
         if (instrumHeight > 0.00001)
@@ -1369,6 +1596,9 @@ public class SoilTemperature
         }
         return instrumentHeight;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static void  getProfileVariables(ref double[] heatStorage, ref double[] minSoilTemp, ref double[] bulkDensity, ref int numNodes, double[] physical_BD, ref double[] maxSoilTemp, double[] waterBalance_SW, double[] organic_Carbon, double[] physical_Rocks, ref double[] nodeDepth, int topsoilNode, ref double[] newTemperature, int surfaceNode, ref double[] soilWater, ref double[] thermalConductance, ref double[] thermalConductivity, ref double[] sand, ref double[] carbon, ref double[] thickness, int numPhantomNodes, double[] physical_ParticleSizeSand, ref double[] rocks, ref double[] clay, double[] physical_ParticleSizeSilt, int airNode, double[] physical_ParticleSizeClay, ref double[] soilTemp, ref int numLayers, double[] physical_Thickness, ref double[] silt, ref double[] volSpecHeatSoil, ref double[] aveSoilTemp, ref double[] morningSoilTemp, double DepthToConstantTemperature, double MissingValue)
     {
         int layer;
@@ -1489,6 +1719,9 @@ public class SoilTemperature
         heatStorage = new double[numNodes + 1];
         thermalConductance = new double[numNodes + 1 + 1];
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static void  doThermalConductivityCoeffs(ref double[] thermCondPar2, int numLayers, double[] bulkDensity, int numNodes, ref double[] thermCondPar3, ref double[] thermCondPar4, double[] clay, ref double[] thermCondPar1)
     {
         int layer;
@@ -1530,6 +1763,9 @@ public class SoilTemperature
             thermCondPar4[element] = 0.03 + (0.1 * Math.Pow(bulkDensity[layer], 2));
         }
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static void  readParam(double bareSoilRoughness, ref double[] newTemperature, ref double soilRoughnessHeight, ref double[] soilTemp, ref double[] thermCondPar2, int numLayers, double[] bulkDensity, int numNodes, ref double[] thermCondPar3, ref double[] thermCondPar4, double[] clay, ref double[] thermCondPar1, double weather_Tav, int clock_Today_DayOfYear, int surfaceNode, double weather_Amp, double[] thickness, double weather_Latitude)
     {
         doThermalConductivityCoeffs(ref thermCondPar2, numLayers, bulkDensity, numNodes, ref thermCondPar3, ref thermCondPar4, clay, ref thermCondPar1);
@@ -1537,6 +1773,9 @@ public class SoilTemperature
         soilTemp.CopyTo(newTemperature, 0);
         soilRoughnessHeight = bareSoilRoughness;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static void  getOtherVariables(int numLayers, int numNodes, ref double[] soilWater, ref double instrumentHeight, double soilRoughnessHeight, double[] waterBalance_SW, double microClimate_CanopyHeight, ref double canopyHeight)
     {
         waterBalance_SW.CopyTo(soilWater, 1);
@@ -1544,40 +1783,67 @@ public class SoilTemperature
         canopyHeight = Math.Max(microClimate_CanopyHeight, soilRoughnessHeight) / 1000.0;
         instrumentHeight = Math.Max(instrumentHeight, canopyHeight + 0.5);
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double volumetricFractionOrganicMatter(int layer, double[] carbon, double[] bulkDensity, double pom)
     {
         return carbon[layer] / 100.0 * 2.5 * bulkDensity[layer] / pom;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double volumetricFractionRocks(int layer, double[] rocks)
     {
         return rocks[layer] / 100.0;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double volumetricFractionIce(int layer)
     {
         return 0.0;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double volumetricFractionWater(int layer, double[] soilWater, double[] carbon, double[] bulkDensity, double pom)
     {
         return (1 - volumetricFractionOrganicMatter(layer, carbon, bulkDensity, pom)) * soilWater[layer];
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double volumetricFractionClay(int layer, double[] bulkDensity, double ps, double[] clay, double[] carbon, double pom, double[] rocks)
     {
         return (1 - volumetricFractionOrganicMatter(layer, carbon, bulkDensity, pom) - volumetricFractionRocks(layer, rocks)) * clay[layer] / 100.0 * bulkDensity[layer] / ps;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double volumetricFractionSilt(int layer, double[] bulkDensity, double[] silt, double ps, double[] carbon, double pom, double[] rocks)
     {
         return (1 - volumetricFractionOrganicMatter(layer, carbon, bulkDensity, pom) - volumetricFractionRocks(layer, rocks)) * silt[layer] / 100.0 * bulkDensity[layer] / ps;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double volumetricFractionSand(int layer, double[] bulkDensity, double[] sand, double ps, double[] carbon, double pom, double[] rocks)
     {
         return (1 - volumetricFractionOrganicMatter(layer, carbon, bulkDensity, pom) - volumetricFractionRocks(layer, rocks)) * sand[layer] / 100.0 * bulkDensity[layer] / ps;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double kelvinT(double celciusT)
     {
         double celciusToKelvin;
         celciusToKelvin = 273.18;
         return celciusT + celciusToKelvin;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double Divide(double value1, double value2, double errVal)
     {
         if (value2 != (double)(0))
@@ -1586,6 +1852,9 @@ public class SoilTemperature
         }
         return errVal;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double Sum(double[] values, int startIndex, int endIndex, double MissingValue)
     {
         double value;
@@ -1608,6 +1877,9 @@ public class SoilTemperature
         }
         return result;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double volumetricSpecificHeat(string name, int layer)
     {
         double specificHeatRocks;
@@ -1662,10 +1934,16 @@ public class SoilTemperature
         }
         return result;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double volumetricFractionAir(int layer, double[] rocks, double[] carbon, double[] bulkDensity, double pom, double[] sand, double ps, double[] silt, double[] clay, double[] soilWater)
     {
         return 1.0 - volumetricFractionRocks(layer, rocks) - volumetricFractionOrganicMatter(layer, carbon, bulkDensity, pom) - volumetricFractionSand(layer, bulkDensity, sand, ps, carbon, pom, rocks) - volumetricFractionSilt(layer, bulkDensity, silt, ps, carbon, pom, rocks) - volumetricFractionClay(layer, bulkDensity, ps, clay, carbon, pom, rocks) - volumetricFractionWater(layer, soilWater, carbon, bulkDensity, pom) - volumetricFractionIce(layer);
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double airDensity(double temperature, double AirPressure)
     {
         double MWair;
@@ -1676,10 +1954,16 @@ public class SoilTemperature
         HPA2PA = 100.0;
         return Divide(MWair * AirPressure * HPA2PA, kelvinT(temperature) * RGAS, 0.0);
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double longWaveRadn(double emissivity, double tDegC, double stefanBoltzmannConstant)
     {
         return stefanBoltzmannConstant * emissivity * Math.Pow(kelvinT(tDegC), 4);
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double[] mapLayer2Node(double[] layerArray, double[] nodeArray, double[] nodeDepth, int numNodes, double[] thickness, int surfaceNode, double MissingValue)
     {
         int node;
@@ -1699,6 +1983,9 @@ public class SoilTemperature
         }
         return nodeArray;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double ThermalConductance(string name, int layer, double[] rocks, double[] bulkDensity, double[] sand, double ps, double[] carbon, double pom, double[] silt, double[] clay)
     {
         double thermalConductanceRocks;
@@ -1758,6 +2045,9 @@ public class SoilTemperature
         result = volumetricSpecificHeat(name, layer);
         return result;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double shapeFactor(string name, int layer, double[] soilWater, double[] carbon, double[] bulkDensity, double pom, double[] rocks, double[] sand, double ps, double[] silt, double[] clay)
     {
         double shapeFactorRocks;
@@ -1815,6 +2105,9 @@ public class SoilTemperature
         result = volumetricSpecificHeat(name, layer);
         return result;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static void  doUpdate(int numInterationsPerDay, double timeOfDaySecs, ref double boundaryLayerConductance, ref double[] minSoilTemp, int airNode, ref double[] soilTemp, double[] newTemperature, int numNodes, int surfaceNode, double internalTimeStep, ref double[] maxSoilTemp, ref double[] aveSoilTemp, double[] thermalConductivity)
     {
         int node;
@@ -1841,6 +2134,9 @@ public class SoilTemperature
         }
         boundaryLayerConductance = boundaryLayerConductance + Divide(thermalConductivity[airNode], (double)(numInterationsPerDay), (double)(0));
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static void  doThomas(ref double[] newTemps, double netRadiation, ref double[] heatStorage, double waterBalance_Eos, int numNodes, double timestep, string netRadiationSource, double latentHeatOfVapourisation, double[] nodeDepth, double waterBalance_Es, int airNode, double[] soilTemp, int surfaceNode, double internalTimeStep, ref double[] thermalConductance, double[] thermalConductivity, double nu, double[] volSpecHeatSoil)
     {
         int node;
@@ -1899,6 +2195,9 @@ public class SoilTemperature
             newTemps[node] = d[node] - (c[node] * newTemps[(node + 1)]);
         }
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double getBoundaryLayerConductance(ref double[] TNew_zb, double weather_AirPressure, double stefanBoltzmannConstant, double waterBalance_Eos, double weather_Wind, double airTemperature, int surfaceNode, double waterBalance_Eo, double instrumentHeight, double canopyHeight)
     {
         int iteration;
@@ -1956,6 +2255,9 @@ public class SoilTemperature
         }
         return boundaryLayerCond;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double interpolateNetRadiation(double solarRadn, double cloudFr, double cva, double waterBalance_Eo, double waterBalance_Eos, double waterBalance_Salb, double[] soilTemp, double airTemperature, int surfaceNode, double internalTimeStep, double stefanBoltzmannConstant)
     {
         double surfaceEmissivity;
@@ -1980,6 +2282,9 @@ public class SoilTemperature
         swRnetSoil = (swRin - swRout) * PenetrationConstant;
         return swRnetSoil + lwRnetSoil;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double interpolateTemperature(double timeHours, double minTempYesterday, double maxTempYesterday, double weather_MeanT, double weather_MaxT, double weather_MinT, double defaultTimeOfMaximumTemperature)
     {
         double time;
@@ -2012,6 +2317,9 @@ public class SoilTemperature
             return currentTemperature;
         }
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double[] doThermalConductivity(string[] soilConstituentNames, int numNodes, double[] soilWater, double[] thermalConductivity, double[] carbon, double[] bulkDensity, double pom, double[] rocks, double[] sand, double ps, double[] silt, double[] clay, double[] nodeDepth, double[] thickness, int surfaceNode, double MissingValue)
     {
         int node;
@@ -2042,6 +2350,9 @@ public class SoilTemperature
         thermalConductivity = mapLayer2Node(thermCondLayers, thermalConductivity, nodeDepth, numNodes, thickness, surfaceNode, MissingValue);
         return thermalConductivity;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double[] doVolumetricSpecificHeat(string[] soilConstituentNames, int numNodes, double[] volSpecHeatSoil, double[] soilWater, double[] nodeDepth, double[] thickness, int surfaceNode, double MissingValue)
     {
         int node;
@@ -2062,6 +2373,9 @@ public class SoilTemperature
         volSpecHeatSoil = mapLayer2Node(volspecHeatSoil_, volSpecHeatSoil, nodeDepth, numNodes, thickness, surfaceNode, MissingValue);
         return volSpecHeatSoil;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double[] Zero(double[] arr)
     {
         int i;
@@ -2074,6 +2388,9 @@ public class SoilTemperature
         }
         return arr;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static void  doNetRadiation(ref double[] solarRadn, ref double cloudFr, ref double cva, int ITERATIONSperDAY, double weather_MinT, int clock_Today_DayOfYear, double weather_Radn, double weather_Latitude)
     {
         int timestepNumber;
@@ -2112,6 +2429,9 @@ public class SoilTemperature
         }
         cva = Math.Exp((31.3716 - (6014.79 / kelvinT(weather_MinT)) - (0.00792495 * kelvinT(weather_MinT)))) / kelvinT(weather_MinT);
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static void  doProcess(ref double timeOfDaySecs, ref double netRadiation, ref double[] minSoilTemp, ref double[] maxSoilTemp, int numIterationsForBoundaryLayerConductance, double timestep, ref double boundaryLayerConductance, ref double maxTempYesterday, int airNode, ref double[] soilTemp, ref double airTemperature, ref double[] newTemperature, double weather_MaxT, ref double internalTimeStep, string boundarLayerConductanceSource, ref double[] thermalConductivity, ref double minTempYesterday, ref double[] aveSoilTemp, ref double[] morningSoilTemp, double weather_MeanT, double constantBoundaryLayerConductance, double weather_MinT, int clock_Today_DayOfYear, double weather_Radn, double weather_Latitude, string[] soilConstituentNames, int numNodes, ref double[] volSpecHeatSoil, double[] soilWater, double[] nodeDepth, double[] thickness, int surfaceNode, double MissingValue, double[] carbon, double[] bulkDensity, double pom, double[] rocks, double[] sand, double ps, double[] silt, double[] clay, double defaultTimeOfMaximumTemperature, double waterBalance_Eo, double waterBalance_Eos, double waterBalance_Salb, double stefanBoltzmannConstant, double weather_AirPressure, double weather_Wind, double instrumentHeight, double canopyHeight, ref double[] heatStorage, string netRadiationSource, double latentHeatOfVapourisation, double waterBalance_Es, ref double[] thermalConductance, double nu)
     {
         int timeStepIteration;
@@ -2167,6 +2487,9 @@ public class SoilTemperature
         minTempYesterday = weather_MinT;
         maxTempYesterday = weather_MaxT;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double[] ToCumThickness(double[] Thickness)
     {
         int Layer;
@@ -2181,6 +2504,9 @@ public class SoilTemperature
         }
         return CumThickness;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double[] calcSoilTemperature(double[] soilTempIO, double weather_Tav, int clock_Today_DayOfYear, int surfaceNode, int numNodes, double weather_Amp, double[] thickness, double weather_Latitude)
     {
         int nodes;
@@ -2206,12 +2532,18 @@ public class SoilTemperature
          Array.ConstrainedCopy(soilTemp, 0, soilTempIO, surfaceNode, numNodes);
         return soilTempIO;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static double calcSurfaceTemperature(double weather_MeanT, double weather_MaxT, double waterBalance_Salb, double weather_Radn)
     {
         double surfaceT;
         surfaceT = (1.0 - waterBalance_Salb) * (weather_MeanT + ((weather_MaxT - weather_MeanT) * Math.Sqrt(Math.Max(weather_Radn, 0.1) * 23.8846 / 800.0))) + (waterBalance_Salb * weather_MeanT);
         return surfaceT;
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static bool ValuesInArray(double[] Values, double MissingValue)
     {
         double Value;

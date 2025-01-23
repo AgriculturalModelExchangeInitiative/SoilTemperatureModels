@@ -512,6 +512,9 @@ namespace Models.Soils.SoilTemp
         /// <summary>Flag whether net radiation is calculated or gotten from input</summary>
         private string netRadiationSource = "calc";
 
+        /// <summary>Initial values for the temperature in each layer (oC)</summary> \\ Added by cyrille
+        private double[] pInitialValues = null;
+
         #endregion  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
         #region Input for this model  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -671,6 +674,7 @@ namespace Models.Soils.SoilTemp
             getIniVariables();
             getProfileVariables();
             readParam();
+            InitialValues = pInitialValues;
         }
 
         [EventSubscribe("EndOfSimulation")]

@@ -17,7 +17,7 @@
         <Input name="weather_Amp" description="Annual average temperature amplitude" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit="oC"/>
         <Input name="weather_AirPressure" description="Air pressure" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit="hPa"/>
         <Input name="weather_Wind" description="Wind speed" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit="m/s"/>
-        <Input name="weather_Latitude" description="Latitude" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit="deg"/>
+        <Input name="weather_Latitude" description="Latitude" inputtype="parameter" parametercategory="constant" datatype="DOUBLE" max="" min="" default="" unit="deg"/>
         <Input name="weather_Radn" description="Solar radiation" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit="MJ/m2/day"/>
         <Input name="clock_Today_DayOfYear" description="Day of year" inputtype="variable" variablecategory="exogenous" datatype="INT" max="" min="" default="" unit="day number"/>
         <Input name="microClimate_CanopyHeight" description="Canopy height" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit="mm"/>
@@ -34,10 +34,10 @@
         <Input name="waterBalance_Eo" description="Potential soil evapotranspiration from soil surface" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit="mm"/>
         <Input name="waterBalance_Es" description="Actual (realised) soil water evaporation" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit="mm"/>
         <Input name="waterBalance_Salb" description="Fraction of incoming radiation reflected from bare soil" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="" unit="0-1"/>
-        <Input name="Thickness" description="Thickness of soil layers (mm)" inputtype="parameter" parametercategory="constant" datatype="DOUBLEARRAY"  len=""  max="" min="" default="" unit="mm"/>
-        <Input name="InitialValues" description="Initial soil temperature" inputtype="parameter" parametercategory="constant" datatype="DOUBLEARRAY"  len=""  max="" min="" default="" unit="oC"/>
+        <Input name="InitialValues" description="Initial soil temperature" inputtype="variable" variablecategory="state" datatype="DOUBLEARRAY"  len=""  max="" min="" default="" unit="oC"/>
+        <Input name="pInitialValues" description="Initial soil temperature" inputtype="parameter" parametercategory="constant" datatype="DOUBLEARRAY"  len=""  max="" min="" default="" unit="oC"/>
         <Input name="DepthToConstantTemperature" description="Soil depth to constant temperature" inputtype="parameter" parametercategory="constant" datatype="DOUBLE" max="" min="" default="10000" unit="mm"/>
-        <Input name="timestep" description="Internal time-step (minutes)" inputtype="variable" variablecategory="exogenous" datatype="DOUBLE" max="" min="" default="24.0 * 60.0 * 60.0" unit="minutes"/>
+        <Input name="timestep" description="Internal time-step (minutes)" inputtype="parameter" parametercategory="constant" datatype="DOUBLE" max="" min="" default="24.0 * 60.0 * 60.0" unit="minutes"/>
         <Input name="latentHeatOfVapourisation" description="Latent heat of vapourisation for water" inputtype="parameter" parametercategory="constant" datatype="DOUBLE" max="" min="" default="2465000" unit="miJ/kg"/>
         <Input name="stefanBoltzmannConstant" description="The Stefan-Boltzmann constant" inputtype="parameter" parametercategory="constant" datatype="DOUBLE" max="" min="" default="0.0000000567" unit="W/m2/K4"/>
         <Input name="airNode" description="The index of the node in the atmosphere (aboveground)" inputtype="parameter" parametercategory="constant" datatype="INT" max="" min="" default="0" unit=""/>
@@ -99,6 +99,7 @@
     <Outputs>
 		<Output name="heatStorage" description="CP, heat storage between nodes" datatype="DOUBLEARRAY"  len=""  variablecategory="state" max="" min="" unit="J/K"/>
         <Output name="instrumentHeight" description="Height of instruments above soil surface" variablecategory="state" datatype="DOUBLE" max="" min="" unit="mm"/>
+        <Output name="canopyHeight" description="Height of canopy above ground" variablecategory="state" datatype="DOUBLE" max="" min="" unit="mm"/>
         <Output name="minSoilTemp" description="Minimum soil temperature"  variablecategory="state" datatype="DOUBLEARRAY"  len=""  max="" min=""  unit="oC"/>
         <Output name="maxSoilTemp" description="Maximum soil temperature"  variablecategory="state" datatype="DOUBLEARRAY"  len=""  max="" min="" unit="oC"/>
 	    <Output name="aveSoilTemp" description="average soil temperature"  variablecategory="state" datatype="DOUBLEARRAY" len="" max="" min=""  unit="oC"/>
@@ -113,6 +114,11 @@
         <Output name="doInitialisationStuff" description="Flag whether initialisation is needed" variablecategory="state" datatype="BOOLEAN" max="" min="" unit=""/>
         <Output name="maxTempYesterday" description="Yesterday's maximum daily air temperature (oC)" datatype="DOUBLE" variablecategory="state"   max="" min=""  unit="oC"/>
         <Output name="minTempYesterday" description="Yesterday's minimum daily air temperature (oC)" datatype="DOUBLE" variablecategory="state" len=""  max=""  unit="oC" min="" />
+        <Output name="airTemperature" description="Air temperature" variablecategory="state" datatype="DOUBLE" max="" min=""  unit="oC"/>
+        <Output name="internalTimeStep" description="Internal time-step" variablecategory="state" datatype="DOUBLE" max="" min=""  unit="sec"/>     
+        <Output name="timeOfDaySecs" description="Time of day from midnight" variablecategory="state" datatype="DOUBLE" max="" min="" unit="sec"/> 
+        <Output name="netRadiation" description="Net radiation per internal time-step"  variablecategory="state" datatype="DOUBLE" max="" min=""  unit="MJ"/>   
+        <Output name="InitialValues" description="Initial soil temperature"  variablecategory="state" datatype="DOUBLEARRAY"  len=""  max="" min="" unit="oC"/> 
 
     </Outputs>
     
