@@ -25,8 +25,7 @@ def init_soiltemperature(float weather_MinT,
                          float waterBalance_Eo,
                          float waterBalance_Es,
                          float waterBalance_Salb,
-                         float Thickness[],
-                         float InitialValues[],
+                         float pInitialValues[],
                          float DepthToConstantTemperature,
                          float timestep,
                          float latentHeatOfVapourisation,
@@ -52,6 +51,7 @@ def init_soiltemperature(float weather_MinT,
                          str netRadiationSource,
                          float MissingValue,
                          str soilConstituentNames[8]):
+    cdef float InitialValues[]
     cdef bool doInitialisationStuff = False
     cdef float internalTimeStep = 0.0
     cdef float timeOfDaySecs = 0.0
@@ -84,6 +84,7 @@ def init_soiltemperature(float weather_MinT,
     cdef float netRadiation = 0.0
     cdef float canopyHeight = 0.0
     cdef float instrumHeight = 0.0
+    InitialValues = None
     volSpecHeatSoil = None
     soilTemp = None
     morningSoilTemp = None
@@ -104,10 +105,11 @@ def init_soiltemperature(float weather_MinT,
     silt = None
     clay = None
     doInitialisationStuff=True
-    instrumentHeight=getIniVariables(instrumHeight, defaultInstrumentHeight, instrumentHeight)
-    (clay, thermalConductance, sand, soilWater, thermalConductivity, minSoilTemp, newTemperature, carbon, nodeDepth, maxSoilTemp, silt, soilTemp, volSpecHeatSoil, thickness, heatStorage, rocks, bulkDensity, morningSoilTemp, aveSoilTemp, numNodes, numLayers)=getProfileVariables(clay, thermalConductance, sand, soilWater, waterBalance_SW, organic_Carbon, thermalConductivity, physical_BD, minSoilTemp, newTemperature, physical_ParticleSizeSilt, physical_Rocks, topsoilNode, airNode, carbon, nodeDepth, physical_ParticleSizeSand, maxSoilTemp, surfaceNode, DepthToConstantTemperature, silt, soilTemp, volSpecHeatSoil, thickness, heatStorage, numPhantomNodes, numNodes, physical_ParticleSizeClay, rocks, bulkDensity, physical_Thickness, numLayers, morningSoilTemp, aveSoilTemp, MissingValue)
-    (newTemperature, soilTemp, thermCondPar2, thermCondPar4, thermCondPar3, thermCondPar1, soilRoughnessHeight)=readParam(newTemperature, soilRoughnessHeight, soilTemp, bareSoilRoughness, clay, numNodes, bulkDensity, numLayers, thermCondPar2, thermCondPar4, thermCondPar3, thermCondPar1, surfaceNode, weather_Amp, clock_Today_DayOfYear, weather_Tav, thickness, weather_Latitude)
-    return  doInitialisationStuff, internalTimeStep, timeOfDaySecs, numNodes, numLayers, nodeDepth, thermCondPar1, thermCondPar2, thermCondPar3, thermCondPar4, volSpecHeatSoil, soilTemp, morningSoilTemp, heatStorage, thermalConductance, thermalConductivity, boundaryLayerConductance, newTemperature, airTemperature, maxTempYesterday, minTempYesterday, soilWater, minSoilTemp, maxSoilTemp, aveSoilTemp, aveSoilWater, thickness, bulkDensity, rocks, carbon, sand, silt, clay, soilRoughnessHeight, instrumentHeight, netRadiation, canopyHeight, instrumHeight
+    instrumentHeight=getIniVariables(instrumentHeight, instrumHeight, defaultInstrumentHeight)
+    (heatStorage, minSoilTemp, bulkDensity, maxSoilTemp, nodeDepth, newTemperature, soilWater, thermalConductance, thermalConductivity, sand, carbon, thickness, rocks, clay, soilTemp, silt, volSpecHeatSoil, aveSoilTemp, morningSoilTemp, numNodes, numLayers)=getProfileVariables(heatStorage, minSoilTemp, bulkDensity, numNodes, physical_BD, maxSoilTemp, waterBalance_SW, organic_Carbon, physical_Rocks, nodeDepth, topsoilNode, newTemperature, surfaceNode, soilWater, thermalConductance, thermalConductivity, sand, carbon, thickness, numPhantomNodes, physical_ParticleSizeSand, rocks, clay, physical_ParticleSizeSilt, airNode, physical_ParticleSizeClay, soilTemp, numLayers, physical_Thickness, silt, volSpecHeatSoil, aveSoilTemp, morningSoilTemp, DepthToConstantTemperature, MissingValue)
+    (newTemperature, soilTemp, thermCondPar2, thermCondPar3, thermCondPar4, thermCondPar1, soilRoughnessHeight)=readParam(bareSoilRoughness, newTemperature, soilRoughnessHeight, soilTemp, thermCondPar2, numLayers, bulkDensity, numNodes, thermCondPar3, thermCondPar4, clay, thermCondPar1, weather_Tav, clock_Today_DayOfYear, surfaceNode, weather_Amp, thickness, weather_Latitude)
+    InitialValues=pInitialValues
+    return  InitialValues, doInitialisationStuff, internalTimeStep, timeOfDaySecs, numNodes, numLayers, nodeDepth, thermCondPar1, thermCondPar2, thermCondPar3, thermCondPar4, volSpecHeatSoil, soilTemp, morningSoilTemp, heatStorage, thermalConductance, thermalConductivity, boundaryLayerConductance, newTemperature, airTemperature, maxTempYesterday, minTempYesterday, soilWater, minSoilTemp, maxSoilTemp, aveSoilTemp, aveSoilWater, thickness, bulkDensity, rocks, carbon, sand, silt, clay, soilRoughnessHeight, instrumentHeight, netRadiation, canopyHeight, instrumHeight
 
 def model_soiltemperature(float weather_MinT,
                           float weather_MaxT,
@@ -133,8 +135,8 @@ def model_soiltemperature(float weather_MinT,
                           float waterBalance_Eo,
                           float waterBalance_Es,
                           float waterBalance_Salb,
-                          float Thickness[],
                           float InitialValues[],
+                          float pInitialValues[],
                           float DepthToConstantTemperature,
                           float timestep,
                           float latentHeatOfVapourisation,
@@ -202,71 +204,71 @@ def model_soiltemperature(float weather_MinT,
     """
 
     cdef int i 
-    (soilWater, instrumentHeight, canopyHeight)=getOtherVariables(instrumentHeight, soilRoughnessHeight, numNodes, canopyHeight, microClimate_CanopyHeight, soilWater, waterBalance_SW, numLayers)
+    (soilWater, instrumentHeight, canopyHeight)=getOtherVariables(numLayers, numNodes, soilWater, instrumentHeight, soilRoughnessHeight, waterBalance_SW, microClimate_CanopyHeight, canopyHeight)
     if doInitialisationStuff:
         if ValuesInArray(InitialValues, MissingValue):
             soilTemp=array('f', [0.0]*(numNodes + 1 + 1))
             soilTemp[topsoilNode:topsoilNode + len(InitialValues)]=InitialValues[0:0 + len(InitialValues)]
         else:
-            soilTemp=calcSoilTemperature(soilTemp, surfaceNode, weather_Amp, clock_Today_DayOfYear, weather_Tav, numNodes, thickness, weather_Latitude)
+            soilTemp=calcSoilTemperature(soilTemp, weather_Tav, clock_Today_DayOfYear, surfaceNode, numNodes, weather_Amp, thickness, weather_Latitude)
             InitialValues=array('f', [0.0]*(numLayers))
             InitialValues[0:0 + numLayers]=soilTemp[topsoilNode:topsoilNode + numLayers]
         soilTemp[airNode]=weather_MeanT
-        soilTemp[surfaceNode]=calcSurfaceTemperature(weather_MaxT, weather_Radn, weather_MeanT, waterBalance_Salb)
+        soilTemp[surfaceNode]=calcSurfaceTemperature(weather_MeanT, weather_MaxT, waterBalance_Salb, weather_Radn)
         for i in range(numNodes + 1 , len(soilTemp) , 1):
             soilTemp[i]=weather_Tav
         newTemperature[0:0 + len(soilTemp)]=soilTemp
         maxTempYesterday=weather_MaxT
         minTempYesterday=weather_MinT
         doInitialisationStuff=False
-    (soilTemp, thermalConductivity, minSoilTemp, newTemperature, morningSoilTemp, aveSoilTemp, maxSoilTemp, volSpecHeatSoil, thermalConductance, heatStorage, minTempYesterday, maxTempYesterday, boundaryLayerConductance, netRadiation, timeOfDaySecs, internalTimeStep, airTemperature)=doProcess(minTempYesterday, timestep, weather_MaxT, weather_MinT, numIterationsForBoundaryLayerConductance, soilTemp, maxTempYesterday, thermalConductivity, boundarLayerConductanceSource, minSoilTemp, boundaryLayerConductance, newTemperature, weather_MeanT, morningSoilTemp, aveSoilTemp, internalTimeStep, airTemperature, netRadiation, airNode, timeOfDaySecs, maxSoilTemp, constantBoundaryLayerConductance, weather_Latitude, clock_Today_DayOfYear, weather_Radn, numNodes, soilWater, volSpecHeatSoil, soilConstituentNames, surfaceNode, thickness, nodeDepth, MissingValue, pom, carbon, bulkDensity, rocks, sand, ps, silt, clay, defaultTimeOfMaximumTemperature, waterBalance_Eos, waterBalance_Eo, waterBalance_Salb, stefanBoltzmannConstant, instrumentHeight, canopyHeight, weather_AirPressure, weather_Wind, thermalConductance, nu, heatStorage, waterBalance_Es, latentHeatOfVapourisation, netRadiationSource)
-    return  heatStorage, instrumentHeight, minSoilTemp, maxSoilTemp, aveSoilTemp, volSpecHeatSoil, soilTemp, morningSoilTemp, newTemperature, thermalConductivity, thermalConductance, boundaryLayerConductance, soilWater, doInitialisationStuff, maxTempYesterday, minTempYesterday
+    (minSoilTemp, maxSoilTemp, soilTemp, newTemperature, thermalConductivity, aveSoilTemp, morningSoilTemp, volSpecHeatSoil, heatStorage, thermalConductance, timeOfDaySecs, netRadiation, airTemperature, internalTimeStep, minTempYesterday, boundaryLayerConductance, maxTempYesterday)=doProcess(timeOfDaySecs, netRadiation, minSoilTemp, maxSoilTemp, numIterationsForBoundaryLayerConductance, timestep, boundaryLayerConductance, maxTempYesterday, airNode, soilTemp, airTemperature, newTemperature, weather_MaxT, internalTimeStep, boundarLayerConductanceSource, thermalConductivity, minTempYesterday, aveSoilTemp, morningSoilTemp, weather_MeanT, constantBoundaryLayerConductance, weather_MinT, clock_Today_DayOfYear, weather_Radn, weather_Latitude, soilConstituentNames, numNodes, volSpecHeatSoil, soilWater, nodeDepth, thickness, surfaceNode, MissingValue, carbon, bulkDensity, pom, rocks, sand, ps, silt, clay, defaultTimeOfMaximumTemperature, waterBalance_Eo, waterBalance_Eos, waterBalance_Salb, stefanBoltzmannConstant, weather_AirPressure, weather_Wind, instrumentHeight, canopyHeight, heatStorage, netRadiationSource, latentHeatOfVapourisation, waterBalance_Es, thermalConductance, nu)
+    return  heatStorage, instrumentHeight, canopyHeight, minSoilTemp, maxSoilTemp, aveSoilTemp, volSpecHeatSoil, soilTemp, morningSoilTemp, newTemperature, thermalConductivity, thermalConductance, boundaryLayerConductance, soilWater, doInitialisationStuff, maxTempYesterday, minTempYesterday, airTemperature, internalTimeStep, timeOfDaySecs, netRadiation, InitialValues
 
 
 
-def getIniVariables(float instrumHeight,
-         float defaultInstrumentHeight,
-         float instrumentHeight):
+def getIniVariables(float instrumentHeight,
+         float instrumHeight,
+         float defaultInstrumentHeight):
     if instrumHeight > 0.00001:
         instrumentHeight=instrumHeight
     else:
         instrumentHeight=defaultInstrumentHeight
     return instrumentHeight
 
-def getProfileVariables(floatarray clay,
-         floatarray thermalConductance,
-         floatarray sand,
-         floatarray soilWater,
+def getProfileVariables(floatarray heatStorage,
+         floatarray minSoilTemp,
+         floatarray bulkDensity,
+         int numNodes,
+         floatarray physical_BD,
+         floatarray maxSoilTemp,
          floatarray waterBalance_SW,
          floatarray organic_Carbon,
-         floatarray thermalConductivity,
-         floatarray physical_BD,
-         floatarray minSoilTemp,
-         floatarray newTemperature,
-         floatarray physical_ParticleSizeSilt,
          floatarray physical_Rocks,
-         int topsoilNode,
-         int airNode,
-         floatarray carbon,
          floatarray nodeDepth,
-         floatarray physical_ParticleSizeSand,
-         floatarray maxSoilTemp,
+         int topsoilNode,
+         floatarray newTemperature,
          int surfaceNode,
-         float DepthToConstantTemperature,
-         floatarray silt,
-         floatarray soilTemp,
-         floatarray volSpecHeatSoil,
+         floatarray soilWater,
+         floatarray thermalConductance,
+         floatarray thermalConductivity,
+         floatarray sand,
+         floatarray carbon,
          floatarray thickness,
-         floatarray heatStorage,
          int numPhantomNodes,
-         int numNodes,
-         floatarray physical_ParticleSizeClay,
+         floatarray physical_ParticleSizeSand,
          floatarray rocks,
-         floatarray bulkDensity,
-         floatarray physical_Thickness,
+         floatarray clay,
+         floatarray physical_ParticleSizeSilt,
+         int airNode,
+         floatarray physical_ParticleSizeClay,
+         floatarray soilTemp,
          int numLayers,
-         floatarray morningSoilTemp,
+         floatarray physical_Thickness,
+         floatarray silt,
+         floatarray volSpecHeatSoil,
          floatarray aveSoilTemp,
+         floatarray morningSoilTemp,
+         float DepthToConstantTemperature,
          float MissingValue):
     cdef int layer 
     cdef int node 
@@ -309,7 +311,7 @@ def getProfileVariables(floatarray clay,
         soilWater[0:min(numLayers + 1 + numPhantomNodes, len(oldSoilWater))]=oldSoilWater[0:min(numLayers + 1 + numPhantomNodes, len(oldSoilWater))]
     if waterBalance_SW is not None:
         for layer in range(1 , numLayers + 1 , 1):
-            soilWater[layer]=Divide(waterBalance_SW[(layer - 1)] * thickness[(layer - 1)], thickness[layer], 0)
+            soilWater[layer]=Divide(waterBalance_SW[(layer - 1)] * thickness[(layer - 1)], thickness[layer], float(0))
         for layer in range(numLayers + 1 , numLayers + numPhantomNodes + 1 , 1):
             soilWater[layer]=soilWater[numLayers]
     carbon=array('f', [0.0]*(numLayers + 1 + numPhantomNodes))
@@ -347,15 +349,15 @@ def getProfileVariables(floatarray clay,
     thermalConductivity=array('f', [0.0]*(numNodes + 1))
     heatStorage=array('f', [0.0]*(numNodes + 1))
     thermalConductance=array('f', [0.0]*(numNodes + 1 + 1))
-    return (clay, thermalConductance, sand, soilWater, thermalConductivity, minSoilTemp, newTemperature, carbon, nodeDepth, maxSoilTemp, silt, soilTemp, volSpecHeatSoil, thickness, heatStorage, rocks, bulkDensity, morningSoilTemp, aveSoilTemp, numNodes, numLayers)
+    return (heatStorage, minSoilTemp, bulkDensity, maxSoilTemp, nodeDepth, newTemperature, soilWater, thermalConductance, thermalConductivity, sand, carbon, thickness, rocks, clay, soilTemp, silt, volSpecHeatSoil, aveSoilTemp, morningSoilTemp, numNodes, numLayers)
 
-def doThermalConductivityCoeffs(floatarray clay,
-         int numNodes,
-         floatarray bulkDensity,
+def doThermalConductivityCoeffs(floatarray thermCondPar2,
          int numLayers,
-         floatarray thermCondPar2,
-         floatarray thermCondPar4,
+         floatarray bulkDensity,
+         int numNodes,
          floatarray thermCondPar3,
+         floatarray thermCondPar4,
+         floatarray clay,
          floatarray thermCondPar1):
     cdef int layer 
     cdef float oldGC1[]
@@ -383,43 +385,43 @@ def doThermalConductivityCoeffs(floatarray clay,
         element=layer
         thermCondPar1[element]=0.65 - (0.78 * bulkDensity[layer]) + (0.6 * pow(bulkDensity[layer], 2))
         thermCondPar2[element]=1.06 * bulkDensity[layer]
-        thermCondPar3[element]=1.0 + Divide(2.6, sqrt(clay[layer]), 0)
+        thermCondPar3[element]=1.0 + Divide(2.6, sqrt(clay[layer]), float(0))
         thermCondPar4[element]=0.03 + (0.1 * pow(bulkDensity[layer], 2))
-    return (thermCondPar2, thermCondPar4, thermCondPar3, thermCondPar1)
+    return (thermCondPar2, thermCondPar3, thermCondPar4, thermCondPar1)
 
 
-def readParam(floatarray newTemperature,
+def readParam(float bareSoilRoughness,
+         floatarray newTemperature,
          float soilRoughnessHeight,
          floatarray soilTemp,
-         float bareSoilRoughness,
-         floatarray clay,
-         int numNodes,
-         floatarray bulkDensity,
-         int numLayers,
          floatarray thermCondPar2,
-         floatarray thermCondPar4,
+         int numLayers,
+         floatarray bulkDensity,
+         int numNodes,
          floatarray thermCondPar3,
+         floatarray thermCondPar4,
+         floatarray clay,
          floatarray thermCondPar1,
+         float weather_Tav,
+         int clock_Today_DayOfYear,
          int surfaceNode,
          float weather_Amp,
-         int clock_Today_DayOfYear,
-         float weather_Tav,
          floatarray thickness,
          float weather_Latitude):
-    (thermCondPar2, thermCondPar4, thermCondPar3, thermCondPar1)=doThermalConductivityCoeffs(clay, numNodes, bulkDensity, numLayers, thermCondPar2, thermCondPar4, thermCondPar3, thermCondPar1)
-    soilTemp=calcSoilTemperature(soilTemp, surfaceNode, weather_Amp, clock_Today_DayOfYear, weather_Tav, numNodes, thickness, weather_Latitude)
+    (thermCondPar2, thermCondPar3, thermCondPar4, thermCondPar1)=doThermalConductivityCoeffs(thermCondPar2, numLayers, bulkDensity, numNodes, thermCondPar3, thermCondPar4, clay, thermCondPar1)
+    soilTemp=calcSoilTemperature(soilTemp, weather_Tav, clock_Today_DayOfYear, surfaceNode, numNodes, weather_Amp, thickness, weather_Latitude)
     newTemperature[0:0 + len(soilTemp)]=soilTemp
     soilRoughnessHeight=bareSoilRoughness
-    return (newTemperature, soilTemp, thermCondPar2, thermCondPar4, thermCondPar3, thermCondPar1, soilRoughnessHeight)
+    return (newTemperature, soilTemp, thermCondPar2, thermCondPar3, thermCondPar4, thermCondPar1, soilRoughnessHeight)
 
-def getOtherVariables(float instrumentHeight,
-         float soilRoughnessHeight,
+def getOtherVariables(int numLayers,
          int numNodes,
-         float canopyHeight,
-         float microClimate_CanopyHeight,
          floatarray soilWater,
+         float instrumentHeight,
+         float soilRoughnessHeight,
          floatarray waterBalance_SW,
-         int numLayers):
+         float microClimate_CanopyHeight,
+         float canopyHeight):
     soilWater[1:1 + len(waterBalance_SW)]=waterBalance_SW
     soilWater[numNodes]=soilWater[numLayers]
     canopyHeight=max(microClimate_CanopyHeight, soilRoughnessHeight) / 1000.0
@@ -427,9 +429,9 @@ def getOtherVariables(float instrumentHeight,
     return (soilWater, instrumentHeight, canopyHeight)
 
 def volumetricFractionOrganicMatter(int layer,
-         float pom,
          floatarray carbon,
-         floatarray bulkDensity):
+         floatarray bulkDensity,
+         float pom):
     return carbon[layer] / 100.0 * 2.5 * bulkDensity[layer] / pom
 
 
@@ -444,40 +446,40 @@ def volumetricFractionIce(int layer):
 
 def volumetricFractionWater(int layer,
          floatarray soilWater,
-         float pom,
          floatarray carbon,
-         floatarray bulkDensity):
-    return (1 - volumetricFractionOrganicMatter(layer, pom, carbon, bulkDensity)) * soilWater[layer]
+         floatarray bulkDensity,
+         float pom):
+    return (1 - volumetricFractionOrganicMatter(layer, carbon, bulkDensity, pom)) * soilWater[layer]
 
 
 def volumetricFractionClay(int layer,
-         floatarray clay,
-         float ps,
          floatarray bulkDensity,
-         float pom,
+         float ps,
+         floatarray clay,
          floatarray carbon,
+         float pom,
          floatarray rocks):
-    return (1 - volumetricFractionOrganicMatter(layer, pom, carbon, bulkDensity) - volumetricFractionRocks(layer, rocks)) * clay[layer] / 100.0 * bulkDensity[layer] / ps
+    return (1 - volumetricFractionOrganicMatter(layer, carbon, bulkDensity, pom) - volumetricFractionRocks(layer, rocks)) * clay[layer] / 100.0 * bulkDensity[layer] / ps
 
 
 def volumetricFractionSilt(int layer,
+         floatarray bulkDensity,
          floatarray silt,
          float ps,
-         floatarray bulkDensity,
-         float pom,
          floatarray carbon,
+         float pom,
          floatarray rocks):
-    return (1 - volumetricFractionOrganicMatter(layer, pom, carbon, bulkDensity) - volumetricFractionRocks(layer, rocks)) * silt[layer] / 100.0 * bulkDensity[layer] / ps
+    return (1 - volumetricFractionOrganicMatter(layer, carbon, bulkDensity, pom) - volumetricFractionRocks(layer, rocks)) * silt[layer] / 100.0 * bulkDensity[layer] / ps
 
 
 def volumetricFractionSand(int layer,
+         floatarray bulkDensity,
          floatarray sand,
          float ps,
-         floatarray bulkDensity,
-         float pom,
          floatarray carbon,
+         float pom,
          floatarray rocks):
-    return (1 - volumetricFractionOrganicMatter(layer, pom, carbon, bulkDensity) - volumetricFractionRocks(layer, rocks)) * sand[layer] / 100.0 * bulkDensity[layer] / ps
+    return (1 - volumetricFractionOrganicMatter(layer, carbon, bulkDensity, pom) - volumetricFractionRocks(layer, rocks)) * sand[layer] / 100.0 * bulkDensity[layer] / ps
 
 
 def kelvinT(float celciusT):
@@ -553,15 +555,15 @@ def volumetricSpecificHeat(str name,
 
 def volumetricFractionAir(int layer,
          floatarray rocks,
-         float pom,
          floatarray carbon,
          floatarray bulkDensity,
+         float pom,
          floatarray sand,
          float ps,
          floatarray silt,
          floatarray clay,
          floatarray soilWater):
-    return 1.0 - volumetricFractionRocks(layer, rocks) - volumetricFractionOrganicMatter(layer, pom, carbon, bulkDensity) - volumetricFractionSand(layer, sand, ps, bulkDensity, pom, carbon, rocks) - volumetricFractionSilt(layer, silt, ps, bulkDensity, pom, carbon, rocks) - volumetricFractionClay(layer, clay, ps, bulkDensity, pom, carbon, rocks) - volumetricFractionWater(layer, soilWater, pom, carbon, bulkDensity) - volumetricFractionIce(layer)
+    return 1.0 - volumetricFractionRocks(layer, rocks) - volumetricFractionOrganicMatter(layer, carbon, bulkDensity, pom) - volumetricFractionSand(layer, bulkDensity, sand, ps, carbon, pom, rocks) - volumetricFractionSilt(layer, bulkDensity, silt, ps, carbon, pom, rocks) - volumetricFractionClay(layer, bulkDensity, ps, clay, carbon, pom, rocks) - volumetricFractionWater(layer, soilWater, carbon, bulkDensity, pom) - volumetricFractionIce(layer)
 
 
 def airDensity(float temperature,
@@ -583,10 +585,10 @@ def longWaveRadn(float emissivity,
 
 def mapLayer2Node(floatarray layerArray,
          floatarray nodeArray,
-         int surfaceNode,
-         floatarray thickness,
-         int numNodes,
          floatarray nodeDepth,
+         int numNodes,
+         floatarray thickness,
+         int surfaceNode,
          float MissingValue):
     cdef int node 
     cdef int layer 
@@ -600,18 +602,18 @@ def mapLayer2Node(floatarray layerArray,
         d1=depthLayerAbove - (nodeDepth[node] * 1000.0)
         d2=nodeDepth[(node + 1)] * 1000.0 - depthLayerAbove
         dSum=d1 + d2
-        nodeArray[node]=Divide(layerArray[layer] * d1, dSum, 0) + Divide(layerArray[(layer + 1)] * d2, dSum, 0)
+        nodeArray[node]=Divide(layerArray[layer] * d1, dSum, float(0)) + Divide(layerArray[(layer + 1)] * d2, dSum, float(0))
     return nodeArray
 
 
 def ThermalConductance(str name,
          int layer,
          floatarray rocks,
+         floatarray bulkDensity,
          floatarray sand,
          float ps,
-         floatarray bulkDensity,
-         float pom,
          floatarray carbon,
+         float pom,
          floatarray silt,
          floatarray clay):
     cdef float thermalConductanceRocks 
@@ -649,7 +651,7 @@ def ThermalConductance(str name,
     elif name == "Air":
         result=thermalConductanceAir
     elif name == "Minerals":
-        result=pow(thermalConductanceRocks, volumetricFractionRocks(layer, rocks)) * pow(thermalConductanceSand, volumetricFractionSand(layer, sand, ps, bulkDensity, pom, carbon, rocks)) + pow(thermalConductanceSilt, volumetricFractionSilt(layer, silt, ps, bulkDensity, pom, carbon, rocks)) + pow(thermalConductanceClay, volumetricFractionClay(layer, clay, ps, bulkDensity, pom, carbon, rocks))
+        result=pow(thermalConductanceRocks, volumetricFractionRocks(layer, rocks)) * pow(thermalConductanceSand, volumetricFractionSand(layer, bulkDensity, sand, ps, carbon, pom, rocks)) + pow(thermalConductanceSilt, volumetricFractionSilt(layer, bulkDensity, silt, ps, carbon, pom, rocks)) + pow(thermalConductanceClay, volumetricFractionClay(layer, bulkDensity, ps, clay, carbon, pom, rocks))
     result=volumetricSpecificHeat(name, layer)
     return result
 
@@ -657,9 +659,9 @@ def ThermalConductance(str name,
 def shapeFactor(str name,
          int layer,
          floatarray soilWater,
-         float pom,
          floatarray carbon,
          floatarray bulkDensity,
+         float pom,
          floatarray rocks,
          floatarray sand,
          float ps,
@@ -692,30 +694,30 @@ def shapeFactor(str name,
     elif name == "Water":
         result=shapeFactorWater
     elif name == "Ice":
-        result=0.333 - (0.333 * volumetricFractionIce(layer) / (volumetricFractionWater(layer, soilWater, pom, carbon, bulkDensity) + volumetricFractionIce(layer) + volumetricFractionAir(layer, rocks, pom, carbon, bulkDensity, sand, ps, silt, clay, soilWater)))
+        result=0.333 - (0.333 * volumetricFractionIce(layer) / (volumetricFractionWater(layer, soilWater, carbon, bulkDensity, pom) + volumetricFractionIce(layer) + volumetricFractionAir(layer, rocks, carbon, bulkDensity, pom, sand, ps, silt, clay, soilWater)))
         return result
     elif name == "Air":
-        result=0.333 - (0.333 * volumetricFractionAir(layer, rocks, pom, carbon, bulkDensity, sand, ps, silt, clay, soilWater) / (volumetricFractionWater(layer, soilWater, pom, carbon, bulkDensity) + volumetricFractionIce(layer) + volumetricFractionAir(layer, rocks, pom, carbon, bulkDensity, sand, ps, silt, clay, soilWater)))
+        result=0.333 - (0.333 * volumetricFractionAir(layer, rocks, carbon, bulkDensity, pom, sand, ps, silt, clay, soilWater) / (volumetricFractionWater(layer, soilWater, carbon, bulkDensity, pom) + volumetricFractionIce(layer) + volumetricFractionAir(layer, rocks, carbon, bulkDensity, pom, sand, ps, silt, clay, soilWater)))
         return result
     elif name == "Minerals":
-        result=shapeFactorRocks * volumetricFractionRocks(layer, rocks) + (shapeFactorSand * volumetricFractionSand(layer, sand, ps, bulkDensity, pom, carbon, rocks)) + (shapeFactorSilt * volumetricFractionSilt(layer, silt, ps, bulkDensity, pom, carbon, rocks)) + (shapeFactorClay * volumetricFractionClay(layer, clay, ps, bulkDensity, pom, carbon, rocks))
+        result=shapeFactorRocks * volumetricFractionRocks(layer, rocks) + (shapeFactorSand * volumetricFractionSand(layer, bulkDensity, sand, ps, carbon, pom, rocks)) + (shapeFactorSilt * volumetricFractionSilt(layer, bulkDensity, silt, ps, carbon, pom, rocks)) + (shapeFactorClay * volumetricFractionClay(layer, bulkDensity, ps, clay, carbon, pom, rocks))
     result=volumetricSpecificHeat(name, layer)
     return result
 
 
 def doUpdate(int numInterationsPerDay,
-         floatarray newTemperature,
-         int surfaceNode,
-         int numNodes,
-         floatarray soilTemp,
-         floatarray aveSoilTemp,
          float timeOfDaySecs,
-         floatarray thermalConductivity,
+         float boundaryLayerConductance,
+         floatarray minSoilTemp,
          int airNode,
+         floatarray soilTemp,
+         floatarray newTemperature,
+         int numNodes,
+         int surfaceNode,
          float internalTimeStep,
          floatarray maxSoilTemp,
-         floatarray minSoilTemp,
-         float boundaryLayerConductance):
+         floatarray aveSoilTemp,
+         floatarray thermalConductivity):
     cdef int node 
     soilTemp[0:0 + len(newTemperature)]=newTemperature
     if timeOfDaySecs < (internalTimeStep * 1.2):
@@ -727,29 +729,29 @@ def doUpdate(int numInterationsPerDay,
             minSoilTemp[node]=soilTemp[node]
         elif soilTemp[node] > maxSoilTemp[node]:
             maxSoilTemp[node]=soilTemp[node]
-        aveSoilTemp[node]+=Divide(soilTemp[node], numInterationsPerDay, 0)
-    boundaryLayerConductance+=Divide(thermalConductivity[airNode], numInterationsPerDay, 0)
-    return (soilTemp, aveSoilTemp, maxSoilTemp, minSoilTemp, boundaryLayerConductance)
+        aveSoilTemp[node]+=Divide(soilTemp[node], float(numInterationsPerDay), float(0))
+    boundaryLayerConductance+=Divide(thermalConductivity[airNode], float(numInterationsPerDay), float(0))
+    return (minSoilTemp, soilTemp, maxSoilTemp, aveSoilTemp, boundaryLayerConductance)
 
 
 def doThomas(floatarray newTemps,
-         int surfaceNode,
-         floatarray thermalConductance,
-         float nu,
-         float timestep,
-         floatarray soilTemp,
-         float waterBalance_Eos,
-         floatarray volSpecHeatSoil,
-         floatarray heatStorage,
-         float waterBalance_Es,
-         floatarray thermalConductivity,
-         floatarray nodeDepth,
-         int numNodes,
-         float latentHeatOfVapourisation,
          float netRadiation,
+         floatarray heatStorage,
+         float waterBalance_Eos,
+         int numNodes,
+         float timestep,
+         str netRadiationSource,
+         float latentHeatOfVapourisation,
+         floatarray nodeDepth,
+         float waterBalance_Es,
          int airNode,
+         floatarray soilTemp,
+         int surfaceNode,
          float internalTimeStep,
-         str netRadiationSource):
+         floatarray thermalConductance,
+         floatarray thermalConductivity,
+         float nu,
+         floatarray volSpecHeatSoil):
     cdef int node 
     cdef float a[numNodes + 1 + 1]
     cdef float b[numNodes + 1]
@@ -765,9 +767,9 @@ def doThomas(floatarray newTemps,
     thermalConductance[airNode]=thermalConductivity[airNode]
     for node in range(surfaceNode , numNodes + 1 , 1):
         volumeOfSoilAtNode=0.5 * (nodeDepth[node + 1] - nodeDepth[node - 1])
-        heatStorage[node]=Divide(volSpecHeatSoil[node] * volumeOfSoilAtNode, internalTimeStep, 0)
+        heatStorage[node]=Divide(volSpecHeatSoil[node] * volumeOfSoilAtNode, internalTimeStep, float(0))
         elementLength=nodeDepth[node + 1] - nodeDepth[node]
-        thermalConductance[node]=Divide(thermalConductivity[node], elementLength, 0)
+        thermalConductance[node]=Divide(thermalConductivity[node], elementLength, float(0))
     g=1 - nu
     for node in range(surfaceNode , numNodes + 1 , 1):
         c[node]=-nu * thermalConductance[node]
@@ -778,34 +780,34 @@ def doThomas(floatarray newTemps,
     sensibleHeatFlux=nu * thermalConductance[airNode] * newTemps[airNode]
     radnNet=0.0
     if netRadiationSource == "calc":
-        radnNet=Divide(netRadiation * 1000000.0, internalTimeStep, 0)
+        radnNet=Divide(netRadiation * 1000000.0, internalTimeStep, float(0))
     elif netRadiationSource == "eos":
-        radnNet=Divide(waterBalance_Eos * latentHeatOfVapourisation, timestep, 0)
-    latentHeatFlux=Divide(waterBalance_Es * latentHeatOfVapourisation, timestep, 0)
+        radnNet=Divide(waterBalance_Eos * latentHeatOfVapourisation, timestep, float(0))
+    latentHeatFlux=Divide(waterBalance_Es * latentHeatOfVapourisation, timestep, float(0))
     soilSurfaceHeatFlux=sensibleHeatFlux + radnNet - latentHeatFlux
     d[surfaceNode]+=soilSurfaceHeatFlux
     d[numNodes]+=nu * thermalConductance[numNodes] * newTemps[(numNodes + 1)]
     for node in range(surfaceNode , numNodes - 1 + 1 , 1):
-        c[node]=Divide(c[node], b[node], 0)
-        d[node]=Divide(d[node], b[node], 0)
+        c[node]=Divide(c[node], b[node], float(0))
+        d[node]=Divide(d[node], b[node], float(0))
         b[node + 1]-=a[(node + 1)] * c[node]
         d[node + 1]-=a[(node + 1)] * d[node]
-    newTemps[numNodes]=Divide(d[numNodes], b[numNodes], 0)
+    newTemps[numNodes]=Divide(d[numNodes], b[numNodes], float(0))
     for node in range(numNodes - 1 , surfaceNode - 1 , -1):
         newTemps[node]=d[node] - (c[node] * newTemps[(node + 1)])
-    return (newTemps, thermalConductance, heatStorage)
+    return (newTemps, heatStorage, thermalConductance)
 
 
 def getBoundaryLayerConductance(floatarray TNew_zb,
-         int surfaceNode,
-         float instrumentHeight,
-         float canopyHeight,
          float weather_AirPressure,
-         float weather_Wind,
+         float stefanBoltzmannConstant,
          float waterBalance_Eos,
-         float waterBalance_Eo,
+         float weather_Wind,
          float airTemperature,
-         float stefanBoltzmannConstant):
+         int surfaceNode,
+         float waterBalance_Eo,
+         float instrumentHeight,
+         float canopyHeight):
     cdef int iteration 
     cdef float vonKarmanConstant 
     cdef float gravitationalConstant 
@@ -842,11 +844,11 @@ def getBoundaryLayerConductance(floatarray TNew_zb,
     stabilityCorrectionHeat=0.0
     heatFluxDensity=0.0
     for iteration in range(1 , 3 + 1 , 1):
-        frictionVelocity=Divide(weather_Wind * vonKarmanConstant, log(Divide(instrumentHeight - d + roughnessFactorMomentum, roughnessFactorMomentum, 0)) + stabilityCorrectionMomentum, 0)
-        boundaryLayerCond=Divide(SpecificHeatAir * vonKarmanConstant * frictionVelocity, log(Divide(instrumentHeight - d + roughnessFactorHeat, roughnessFactorHeat, 0)) + stabilityCorrectionHeat, 0)
+        frictionVelocity=Divide(weather_Wind * vonKarmanConstant, log(Divide(instrumentHeight - d + roughnessFactorMomentum, roughnessFactorMomentum, float(0))) + stabilityCorrectionMomentum, float(0))
+        boundaryLayerCond=Divide(SpecificHeatAir * vonKarmanConstant * frictionVelocity, log(Divide(instrumentHeight - d + roughnessFactorHeat, roughnessFactorHeat, float(0))) + stabilityCorrectionHeat, float(0))
         boundaryLayerCond+=radiativeConductance
         heatFluxDensity=boundaryLayerCond * (surfaceTemperature - airTemperature)
-        stabilityParammeter=Divide(-vonKarmanConstant * instrumentHeight * gravitationalConstant * heatFluxDensity, SpecificHeatAir * kelvinT(airTemperature) * pow(frictionVelocity, 3.0), 0)
+        stabilityParammeter=Divide(-vonKarmanConstant * instrumentHeight * gravitationalConstant * heatFluxDensity, SpecificHeatAir * kelvinT(airTemperature) * pow(frictionVelocity, 3.0), float(0))
         if stabilityParammeter > 0.0:
             stabilityCorrectionHeat=4.7 * stabilityParammeter
             stabilityCorrectionMomentum=stabilityCorrectionHeat
@@ -859,13 +861,13 @@ def getBoundaryLayerConductance(floatarray TNew_zb,
 def interpolateNetRadiation(float solarRadn,
          float cloudFr,
          float cva,
-         int surfaceNode,
-         float waterBalance_Eos,
          float waterBalance_Eo,
-         float airTemperature,
-         float internalTimeStep,
-         floatarray soilTemp,
+         float waterBalance_Eos,
          float waterBalance_Salb,
+         floatarray soilTemp,
+         float airTemperature,
+         int surfaceNode,
+         float internalTimeStep,
          float stefanBoltzmannConstant):
     cdef float surfaceEmissivity 
     cdef float w2MJ 
@@ -880,7 +882,7 @@ def interpolateNetRadiation(float solarRadn,
     surfaceEmissivity=0.96
     w2MJ=internalTimeStep / 1000000.0
     emissivityAtmos=(1 - (0.84 * cloudFr)) * 0.58 * pow(cva, 1.0 / 7.0) + (0.84 * cloudFr)
-    PenetrationConstant=Divide(max(0.1, waterBalance_Eos), max(0.1, waterBalance_Eo), 0)
+    PenetrationConstant=Divide(max(0.1, waterBalance_Eos), max(0.1, waterBalance_Eo), float(0))
     lwRinSoil=longWaveRadn(emissivityAtmos, airTemperature, stefanBoltzmannConstant) * PenetrationConstant * w2MJ
     lwRoutSoil=longWaveRadn(surfaceEmissivity, soilTemp[surfaceNode], stefanBoltzmannConstant) * PenetrationConstant * w2MJ
     lwRnetSoil=lwRinSoil - lwRoutSoil
@@ -891,12 +893,12 @@ def interpolateNetRadiation(float solarRadn,
 
 
 def interpolateTemperature(float timeHours,
-         float maxTempYesterday,
          float minTempYesterday,
-         float weather_MinT,
-         float defaultTimeOfMaximumTemperature,
+         float maxTempYesterday,
          float weather_MeanT,
-         float weather_MaxT):
+         float weather_MaxT,
+         float weather_MinT,
+         float defaultTimeOfMaximumTemperature):
     cdef float time 
     cdef float maxT_time 
     cdef float minT_time 
@@ -920,21 +922,21 @@ def interpolateTemperature(float timeHours,
         return currentTemperature
 
 
-def doThermalConductivity(int numNodes,
+def doThermalConductivity(strarray soilConstituentNames,
+         int numNodes,
          floatarray soilWater,
          floatarray thermalConductivity,
-         strarray soilConstituentNames,
-         float pom,
          floatarray carbon,
          floatarray bulkDensity,
+         float pom,
          floatarray rocks,
          floatarray sand,
          float ps,
          floatarray silt,
          floatarray clay,
-         int surfaceNode,
-         floatarray thickness,
          floatarray nodeDepth,
+         floatarray thickness,
+         int surfaceNode,
          float MissingValue):
     cdef int node 
     cdef str constituentName 
@@ -949,24 +951,24 @@ def doThermalConductivity(int numNodes,
         numerator=0.0
         denominator=0.0
         for constituentName in soilConstituentNames:
-            shapeFactorConstituent=shapeFactor(constituentName, node, soilWater, pom, carbon, bulkDensity, rocks, sand, ps, silt, clay)
-            thermalConductanceConstituent=ThermalConductance(constituentName, node, rocks, sand, ps, bulkDensity, pom, carbon, silt, clay)
-            thermalConductanceWater=ThermalConductance("Water", node, rocks, sand, ps, bulkDensity, pom, carbon, silt, clay)
+            shapeFactorConstituent=shapeFactor(constituentName, node, soilWater, carbon, bulkDensity, pom, rocks, sand, ps, silt, clay)
+            thermalConductanceConstituent=ThermalConductance(constituentName, node, rocks, bulkDensity, sand, ps, carbon, pom, silt, clay)
+            thermalConductanceWater=ThermalConductance("Water", node, rocks, bulkDensity, sand, ps, carbon, pom, silt, clay)
             k=2.0 / 3.0 * pow((1 + (shapeFactorConstituent * (thermalConductanceConstituent / thermalConductanceWater - 1.0))), -1) + (1.0 / 3.0 * pow((1 + (shapeFactorConstituent * (thermalConductanceConstituent / thermalConductanceWater - 1.0) * (1 - (2 * shapeFactorConstituent)))), -1))
             numerator+=thermalConductanceConstituent * soilWater[node] * k
             denominator+=soilWater[node] * k
         thermCondLayers[node]=numerator / denominator
-    thermalConductivity=mapLayer2Node(thermCondLayers, thermalConductivity, surfaceNode, thickness, numNodes, nodeDepth, MissingValue)
+    thermalConductivity=mapLayer2Node(thermCondLayers, thermalConductivity, nodeDepth, numNodes, thickness, surfaceNode, MissingValue)
     return thermalConductivity
 
 
-def doVolumetricSpecificHeat(int numNodes,
-         floatarray soilWater,
+def doVolumetricSpecificHeat(strarray soilConstituentNames,
+         int numNodes,
          floatarray volSpecHeatSoil,
-         strarray soilConstituentNames,
-         int surfaceNode,
-         floatarray thickness,
+         floatarray soilWater,
          floatarray nodeDepth,
+         floatarray thickness,
+         int surfaceNode,
          float MissingValue):
     cdef int node 
     cdef str constituentName 
@@ -976,7 +978,7 @@ def doVolumetricSpecificHeat(int numNodes,
         for constituentName in soilConstituentNames:
             if constituentName not in ["Minerals"]:
                 volspecHeatSoil_[node]+=volumetricSpecificHeat(constituentName, node) * 1000000.0 * soilWater[node]
-    volSpecHeatSoil=mapLayer2Node(volspecHeatSoil_, volSpecHeatSoil, surfaceNode, thickness, numNodes, nodeDepth, MissingValue)
+    volSpecHeatSoil=mapLayer2Node(volspecHeatSoil_, volSpecHeatSoil, nodeDepth, numNodes, thickness, surfaceNode, MissingValue)
     return volSpecHeatSoil
 
 
@@ -992,10 +994,10 @@ def doNetRadiation(floatarray solarRadn,
          float cloudFr,
          float cva,
          int ITERATIONSperDAY,
-         float weather_Latitude,
-         int clock_Today_DayOfYear,
          float weather_MinT,
-         float weather_Radn):
+         int clock_Today_DayOfYear,
+         float weather_Radn,
+         float weather_Latitude):
     cdef int timestepNumber 
     cdef float TSTEPS2RAD 
     cdef float solarConstant 
@@ -1005,7 +1007,7 @@ def doNetRadiation(floatarray solarRadn,
     cdef float m1Tot 
     cdef float psr 
     cdef float fr 
-    TSTEPS2RAD=Divide(2.0 * pi, float(ITERATIONSperDAY), 0)
+    TSTEPS2RAD=Divide(2.0 * pi, float(ITERATIONSperDAY), float(0))
     solarConstant=1360.0
     solarDeclination=0.3985 * sin((4.869 + (clock_Today_DayOfYear * 2.0 * pi / 365.25) + (0.03345 * sin((6.224 + (clock_Today_DayOfYear * 2.0 * pi / 365.25))))))
     cD=sqrt(1.0 - (solarDeclination * solarDeclination))
@@ -1017,71 +1019,71 @@ def doNetRadiation(floatarray solarRadn,
         else:
             m1[timestepNumber]=0.0
     psr=m1Tot * solarConstant * 3600.0 / 1000000.0
-    fr=Divide(max(weather_Radn, 0.1), psr, 0)
+    fr=Divide(max(weather_Radn, 0.1), psr, float(0))
     cloudFr=2.33 - (3.33 * fr)
     cloudFr=min(max(cloudFr, 0.0), 1.0)
     for timestepNumber in range(1 , ITERATIONSperDAY + 1 , 1):
-        solarRadn[timestepNumber]=max(weather_Radn, 0.1) * Divide(m1[timestepNumber], m1Tot, 0)
+        solarRadn[timestepNumber]=max(weather_Radn, 0.1) * Divide(m1[timestepNumber], m1Tot, float(0))
     cva=exp((31.3716 - (6014.79 / kelvinT(weather_MinT)) - (0.00792495 * kelvinT(weather_MinT)))) / kelvinT(weather_MinT)
     return (solarRadn, cloudFr, cva)
 
 
-def doProcess(float minTempYesterday,
-         float timestep,
-         float weather_MaxT,
-         float weather_MinT,
-         int numIterationsForBoundaryLayerConductance,
-         floatarray soilTemp,
-         float maxTempYesterday,
-         floatarray thermalConductivity,
-         str boundarLayerConductanceSource,
-         floatarray minSoilTemp,
-         float boundaryLayerConductance,
-         floatarray newTemperature,
-         float weather_MeanT,
-         floatarray morningSoilTemp,
-         floatarray aveSoilTemp,
-         float internalTimeStep,
-         float airTemperature,
+def doProcess(float timeOfDaySecs,
          float netRadiation,
-         int airNode,
-         float timeOfDaySecs,
+         floatarray minSoilTemp,
          floatarray maxSoilTemp,
+         int numIterationsForBoundaryLayerConductance,
+         float timestep,
+         float boundaryLayerConductance,
+         float maxTempYesterday,
+         int airNode,
+         floatarray soilTemp,
+         float airTemperature,
+         floatarray newTemperature,
+         float weather_MaxT,
+         float internalTimeStep,
+         str boundarLayerConductanceSource,
+         floatarray thermalConductivity,
+         float minTempYesterday,
+         floatarray aveSoilTemp,
+         floatarray morningSoilTemp,
+         float weather_MeanT,
          float constantBoundaryLayerConductance,
-         float weather_Latitude,
+         float weather_MinT,
          int clock_Today_DayOfYear,
          float weather_Radn,
-         int numNodes,
-         floatarray soilWater,
-         floatarray volSpecHeatSoil,
+         float weather_Latitude,
          strarray soilConstituentNames,
-         int surfaceNode,
-         floatarray thickness,
+         int numNodes,
+         floatarray volSpecHeatSoil,
+         floatarray soilWater,
          floatarray nodeDepth,
+         floatarray thickness,
+         int surfaceNode,
          float MissingValue,
-         float pom,
          floatarray carbon,
          floatarray bulkDensity,
+         float pom,
          floatarray rocks,
          floatarray sand,
          float ps,
          floatarray silt,
          floatarray clay,
          float defaultTimeOfMaximumTemperature,
-         float waterBalance_Eos,
          float waterBalance_Eo,
+         float waterBalance_Eos,
          float waterBalance_Salb,
          float stefanBoltzmannConstant,
-         float instrumentHeight,
-         float canopyHeight,
          float weather_AirPressure,
          float weather_Wind,
-         floatarray thermalConductance,
-         float nu,
+         float instrumentHeight,
+         float canopyHeight,
          floatarray heatStorage,
-         float waterBalance_Es,
+         str netRadiationSource,
          float latentHeatOfVapourisation,
-         str netRadiationSource):
+         float waterBalance_Es,
+         floatarray thermalConductance,
+         float nu):
     cdef int timeStepIteration 
     cdef int iteration 
     cdef int interactionsPerDay 
@@ -1091,36 +1093,36 @@ def doProcess(float minTempYesterday,
     interactionsPerDay=48
     cva=0.0
     cloudFr=0.0
-    (solarRadn, cloudFr, cva)=doNetRadiation(solarRadn, cloudFr, cva, interactionsPerDay, weather_Latitude, clock_Today_DayOfYear, weather_MinT, weather_Radn)
+    (solarRadn, cloudFr, cva)=doNetRadiation(solarRadn, cloudFr, cva, interactionsPerDay, weather_MinT, clock_Today_DayOfYear, weather_Radn, weather_Latitude)
     minSoilTemp=Zero(minSoilTemp)
     maxSoilTemp=Zero(maxSoilTemp)
     aveSoilTemp=Zero(aveSoilTemp)
     boundaryLayerConductance=0.0
     internalTimeStep=round(timestep / interactionsPerDay)
-    volSpecHeatSoil=doVolumetricSpecificHeat(numNodes, soilWater, volSpecHeatSoil, soilConstituentNames, surfaceNode, thickness, nodeDepth, MissingValue)
-    thermalConductivity=doThermalConductivity(numNodes, soilWater, thermalConductivity, soilConstituentNames, pom, carbon, bulkDensity, rocks, sand, ps, silt, clay, surfaceNode, thickness, nodeDepth, MissingValue)
+    volSpecHeatSoil=doVolumetricSpecificHeat(soilConstituentNames, numNodes, volSpecHeatSoil, soilWater, nodeDepth, thickness, surfaceNode, MissingValue)
+    thermalConductivity=doThermalConductivity(soilConstituentNames, numNodes, soilWater, thermalConductivity, carbon, bulkDensity, pom, rocks, sand, ps, silt, clay, nodeDepth, thickness, surfaceNode, MissingValue)
     for timeStepIteration in range(1 , interactionsPerDay + 1 , 1):
         timeOfDaySecs=internalTimeStep * float(timeStepIteration)
         if timestep < (24.0 * 60.0 * 60.0):
             airTemperature=weather_MeanT
         else:
-            airTemperature=interpolateTemperature(timeOfDaySecs / 3600.0, maxTempYesterday, minTempYesterday, weather_MinT, defaultTimeOfMaximumTemperature, weather_MeanT, weather_MaxT)
+            airTemperature=interpolateTemperature(timeOfDaySecs / 3600.0, minTempYesterday, maxTempYesterday, weather_MeanT, weather_MaxT, weather_MinT, defaultTimeOfMaximumTemperature)
         newTemperature[airNode]=airTemperature
-        netRadiation=interpolateNetRadiation(solarRadn[timeStepIteration], cloudFr, cva, surfaceNode, waterBalance_Eos, waterBalance_Eo, airTemperature, internalTimeStep, soilTemp, waterBalance_Salb, stefanBoltzmannConstant)
+        netRadiation=interpolateNetRadiation(solarRadn[timeStepIteration], cloudFr, cva, waterBalance_Eo, waterBalance_Eos, waterBalance_Salb, soilTemp, airTemperature, surfaceNode, internalTimeStep, stefanBoltzmannConstant)
         if boundarLayerConductanceSource == "constant":
             thermalConductivity[airNode]=constantBoundaryLayerConductance
         elif boundarLayerConductanceSource == "calc":
-            (thermalConductivity[airNode], newTemperature)=getBoundaryLayerConductance(newTemperature, surfaceNode, instrumentHeight, canopyHeight, weather_AirPressure, weather_Wind, waterBalance_Eos, waterBalance_Eo, airTemperature, stefanBoltzmannConstant)
+            (thermalConductivity[airNode], newTemperature)=getBoundaryLayerConductance(newTemperature, weather_AirPressure, stefanBoltzmannConstant, waterBalance_Eos, weather_Wind, airTemperature, surfaceNode, waterBalance_Eo, instrumentHeight, canopyHeight)
             for iteration in range(1 , numIterationsForBoundaryLayerConductance + 1 , 1):
-                (newTemperature, thermalConductance, heatStorage)=doThomas(newTemperature, surfaceNode, thermalConductance, nu, timestep, soilTemp, waterBalance_Eos, volSpecHeatSoil, heatStorage, waterBalance_Es, thermalConductivity, nodeDepth, numNodes, latentHeatOfVapourisation, netRadiation, airNode, internalTimeStep, netRadiationSource)
-                (thermalConductivity[airNode], newTemperature)=getBoundaryLayerConductance(newTemperature, surfaceNode, instrumentHeight, canopyHeight, weather_AirPressure, weather_Wind, waterBalance_Eos, waterBalance_Eo, airTemperature, stefanBoltzmannConstant)
-        (newTemperature, thermalConductance, heatStorage)=doThomas(newTemperature, surfaceNode, thermalConductance, nu, timestep, soilTemp, waterBalance_Eos, volSpecHeatSoil, heatStorage, waterBalance_Es, thermalConductivity, nodeDepth, numNodes, latentHeatOfVapourisation, netRadiation, airNode, internalTimeStep, netRadiationSource)
-        (soilTemp, aveSoilTemp, maxSoilTemp, minSoilTemp, boundaryLayerConductance)=doUpdate(interactionsPerDay, newTemperature, surfaceNode, numNodes, soilTemp, aveSoilTemp, timeOfDaySecs, thermalConductivity, airNode, internalTimeStep, maxSoilTemp, minSoilTemp, boundaryLayerConductance)
+                (newTemperature, heatStorage, thermalConductance)=doThomas(newTemperature, netRadiation, heatStorage, waterBalance_Eos, numNodes, timestep, netRadiationSource, latentHeatOfVapourisation, nodeDepth, waterBalance_Es, airNode, soilTemp, surfaceNode, internalTimeStep, thermalConductance, thermalConductivity, nu, volSpecHeatSoil)
+                (thermalConductivity[airNode], newTemperature)=getBoundaryLayerConductance(newTemperature, weather_AirPressure, stefanBoltzmannConstant, waterBalance_Eos, weather_Wind, airTemperature, surfaceNode, waterBalance_Eo, instrumentHeight, canopyHeight)
+        (newTemperature, heatStorage, thermalConductance)=doThomas(newTemperature, netRadiation, heatStorage, waterBalance_Eos, numNodes, timestep, netRadiationSource, latentHeatOfVapourisation, nodeDepth, waterBalance_Es, airNode, soilTemp, surfaceNode, internalTimeStep, thermalConductance, thermalConductivity, nu, volSpecHeatSoil)
+        (minSoilTemp, soilTemp, maxSoilTemp, aveSoilTemp, boundaryLayerConductance)=doUpdate(interactionsPerDay, timeOfDaySecs, boundaryLayerConductance, minSoilTemp, airNode, soilTemp, newTemperature, numNodes, surfaceNode, internalTimeStep, maxSoilTemp, aveSoilTemp, thermalConductivity)
         if abs(timeOfDaySecs - (5.0 * 3600.0)) <= (min(timeOfDaySecs, 5.0 * 3600.0) * 0.0001):
             morningSoilTemp[0:0 + len(soilTemp)]=soilTemp
     minTempYesterday=weather_MinT
     maxTempYesterday=weather_MaxT
-    return (soilTemp, thermalConductivity, minSoilTemp, newTemperature, morningSoilTemp, aveSoilTemp, maxSoilTemp, volSpecHeatSoil, thermalConductance, heatStorage, minTempYesterday, maxTempYesterday, boundaryLayerConductance, netRadiation, timeOfDaySecs, internalTimeStep, airTemperature)
+    return (minSoilTemp, maxSoilTemp, soilTemp, newTemperature, thermalConductivity, aveSoilTemp, morningSoilTemp, volSpecHeatSoil, heatStorage, thermalConductance, timeOfDaySecs, netRadiation, airTemperature, internalTimeStep, minTempYesterday, boundaryLayerConductance, maxTempYesterday)
 
 def ToCumThickness(floatarray Thickness):
     cdef int Layer 
@@ -1133,11 +1135,11 @@ def ToCumThickness(floatarray Thickness):
 
 
 def calcSoilTemperature(floatarray soilTempIO,
-         int surfaceNode,
-         float weather_Amp,
-         int clock_Today_DayOfYear,
          float weather_Tav,
+         int clock_Today_DayOfYear,
+         int surfaceNode,
          int numNodes,
+         float weather_Amp,
          floatarray thickness,
          float weather_Latitude):
     cdef int nodes 
@@ -1159,10 +1161,10 @@ def calcSoilTemperature(floatarray soilTempIO,
     soilTempIO[surfaceNode:surfaceNode + numNodes]=soilTemp[0:0 + numNodes]
     return soilTempIO
 
-def calcSurfaceTemperature(float weather_MaxT,
-         float weather_Radn,
-         float weather_MeanT,
-         float waterBalance_Salb):
+def calcSurfaceTemperature(float weather_MeanT,
+         float weather_MaxT,
+         float waterBalance_Salb,
+         float weather_Radn):
     cdef float surfaceT 
     surfaceT=(1.0 - waterBalance_Salb) * (weather_MeanT + ((weather_MaxT - weather_MeanT) * sqrt(max(weather_Radn, 0.1) * 23.8846 / 800.0))) + (waterBalance_Salb * weather_MeanT)
     return surfaceT
