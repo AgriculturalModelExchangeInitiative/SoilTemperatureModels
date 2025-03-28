@@ -1073,17 +1073,14 @@ void SoilTemperature::Calculate_Model(SoiltempState &s, SoiltempState &s1, Soilt
     //                          ** unit : oC
     int i;
     tie(s.soilWater, s.instrumentHeight, s.canopyHeight) = getOtherVariables(s.numLayers, s.numNodes, s.soilWater, s.instrumentHeight, soilRoughnessHeight, ex.waterBalance_SW, ex.microClimate_CanopyHeight, s.canopyHeight);
-    if (s.doInitialisationStuff)
-    {
-        if (ValuesInArray(s.InitialValues, MissingValue))
-        {
+    if (s.doInitialisationStuff) {
+        if (ValuesInArray(s.InitialValues, MissingValue)) {
             s.soilTemp = std::move(std::vector<double>(s.numNodes + 1 + 1, 0.0));
             for (int _i=topsoilNode, _k=0; _i < (topsoilNode + int(s.InitialValues.size())) && _k < (0 + int(s.InitialValues.size())); _i++, _k++) {
                 s.soilTemp[_i] = s.InitialValues[_k];
             }
         }
-        else
-        {
+        else {
             s.soilTemp = calcSoilTemperature(s.soilTemp, ex.weather_Tav, ex.clock_Today_DayOfYear, surfaceNode, s.numNodes, ex.weather_Amp, s.thickness, weather_Latitude);
             s.InitialValues = std::move(std::vector<double>(s.numLayers, 0.0));
             for (int _i=0, _k=topsoilNode; _i < (0 + s.numLayers) && _k < (topsoilNode + s.numLayers); _i++, _k++) {
@@ -1092,11 +1089,11 @@ void SoilTemperature::Calculate_Model(SoiltempState &s, SoiltempState &s1, Soilt
         }
         s.soilTemp[airNode] = ex.weather_MeanT;
         s.soilTemp[surfaceNode] = calcSurfaceTemperature(ex.weather_MeanT, ex.weather_MaxT, ex.waterBalance_Salb, ex.weather_Radn);
-        for (i=s.numNodes + 1 ; i!=int(s.soilTemp.size()) ; i+=1)
-        {
+        for (i=s.numNodes + 1; i!=int(s.soilTemp.size()); i+=1) {
             s.soilTemp[i] = ex.weather_Tav;
-        }for (int _i=0, _k=0; _i < (0 + int(s.soilTemp.size())) && _k < s.soilTemp.size(); _i++, _k++) {
-        s.newTemperature[_i] = s.soilTemp[_k];
+        }
+        for (int _i=0, _k=0; _i < (0 + int(s.soilTemp.size())) && _k < s.soilTemp.size(); _i++, _k++) {
+            s.newTemperature[_i] = s.soilTemp[_k];
         }
         s.maxTempYesterday = ex.weather_MaxT;
         s.minTempYesterday = ex.weather_MinT;
@@ -1106,12 +1103,10 @@ void SoilTemperature::Calculate_Model(SoiltempState &s, SoiltempState &s1, Soilt
 }
 double SoilTemperature::getIniVariables(double instrumentHeight, double instrumHeight, double defaultInstrumentHeight)
 {
-    if (instrumHeight > 0.00001)
-    {
+    if (instrumHeight > 0.00001) {
         instrumentHeight = instrumHeight;
     }
-    else
-    {
+    else {
         instrumentHeight = defaultInstrumentHeight;
     }
     return instrumentHeight;
@@ -1131,19 +1126,17 @@ std::tuple<std::vector<double> ,std::vector<double> ,std::vector<double> ,std::v
     numNodes = numLayers + numPhantomNodes;
     thickness = std::move(std::vector<double>(numLayers + numPhantomNodes + 1, 0.0));
     for (int _i=1, _k=0; _i < (1 + int(physical_Thickness.size())) && _k < physical_Thickness.size(); _i++, _k++) {
-    thickness[_i] = physical_Thickness[_k];
+        thickness[_i] = physical_Thickness[_k];
     }
     belowProfileDepth = std::max(DepthToConstantTemperature - Sum(thickness, 1, numLayers, MissingValue), 1000.0);
     thicknessForPhantomNodes = belowProfileDepth * 2.0 / numPhantomNodes;
     firstPhantomNode = numLayers;
-    for (i=firstPhantomNode ; i!=firstPhantomNode + numPhantomNodes ; i+=1)
-    {
+    for (i=firstPhantomNode; i!=firstPhantomNode + numPhantomNodes; i+=1) {
         thickness[i] = thicknessForPhantomNodes;
     }
     oldDepth = nodeDepth;
     nodeDepth = std::move(std::vector<double>(numNodes + 1 + 1, 0.0));
-    if (true)
-    {
+    if (true) {
         for (int _i=0, _k=0; _i < (std::min(numNodes + 1 + 1, int(oldDepth.size()))) && _k < (std::min(numNodes + 1 + 1, int(oldDepth.size()))); _i++, _k++) {
             nodeDepth[_i] = oldDepth[_k];
         }
@@ -1151,84 +1144,74 @@ std::tuple<std::vector<double> ,std::vector<double> ,std::vector<double> ,std::v
     nodeDepth[airNode] = 0.0;
     nodeDepth[surfaceNode] = 0.0;
     nodeDepth[topsoilNode] = 0.5 * thickness[1] / 1000.0;
-    for (node=topsoilNode ; node!=numNodes + 1 ; node+=1)
-    {
+    for (node=topsoilNode; node!=numNodes + 1; node+=1) {
         nodeDepth[node + 1] = (Sum(thickness, 1, node - 1, MissingValue) + (0.5 * thickness[node])) / 1000.0;
     }
     oldBulkDensity = bulkDensity;
     bulkDensity = std::move(std::vector<double>(numLayers + 1 + numPhantomNodes, 0.0));
-    if (true)
-    {
+    if (true) {
         for (int _i=0, _k=0; _i < (std::min(numLayers + 1 + numPhantomNodes, int(oldBulkDensity.size()))) && _k < (std::min(numLayers + 1 + numPhantomNodes, int(oldBulkDensity.size()))); _i++, _k++) {
             bulkDensity[_i] = oldBulkDensity[_k];
         }
-    }for (int _i=1, _k=0; _i < (1 + int(physical_BD.size())) && _k < physical_BD.size(); _i++, _k++) {
-    bulkDensity[_i] = physical_BD[_k];
+    }
+    for (int _i=1, _k=0; _i < (1 + int(physical_BD.size())) && _k < physical_BD.size(); _i++, _k++) {
+        bulkDensity[_i] = physical_BD[_k];
     }
     bulkDensity[numNodes] = bulkDensity[numLayers];
-    for (layer=numLayers + 1 ; layer!=numLayers + numPhantomNodes + 1 ; layer+=1)
-    {
+    for (layer=numLayers + 1; layer!=numLayers + numPhantomNodes + 1; layer+=1) {
         bulkDensity[layer] = bulkDensity[numLayers];
     }
     oldSoilWater = soilWater;
     soilWater = std::move(std::vector<double>(numLayers + 1 + numPhantomNodes, 0.0));
-    if (true)
-    {
+    if (true) {
         for (int _i=0, _k=0; _i < (std::min(numLayers + 1 + numPhantomNodes, int(oldSoilWater.size()))) && _k < (std::min(numLayers + 1 + numPhantomNodes, int(oldSoilWater.size()))); _i++, _k++) {
             soilWater[_i] = oldSoilWater[_k];
         }
     }
-    if (true)
-    {
-        for (layer=1 ; layer!=numLayers + 1 ; layer+=1)
-        {
+    if (true) {
+        for (layer=1; layer!=numLayers + 1; layer+=1) {
             soilWater[layer] = Divide(waterBalance_SW[(layer - 1)] * thickness[(layer - 1)], thickness[layer], float(0));
         }
-        for (layer=numLayers + 1 ; layer!=numLayers + numPhantomNodes + 1 ; layer+=1)
-        {
+        for (layer=numLayers + 1; layer!=numLayers + numPhantomNodes + 1; layer+=1) {
             soilWater[layer] = soilWater[numLayers];
         }
-    }carbon = std::move(std::vector<double>(numLayers + 1 + numPhantomNodes, 0.0));
-    for (layer=1 ; layer!=numLayers + 1 ; layer+=1)
-    {
+    }
+    carbon = std::move(std::vector<double>(numLayers + 1 + numPhantomNodes, 0.0));
+    for (layer=1; layer!=numLayers + 1; layer+=1) {
         carbon[layer] = organic_Carbon[layer - 1];
     }
-    for (layer=numLayers + 1 ; layer!=numLayers + numPhantomNodes + 1 ; layer+=1)
-    {
+    for (layer=numLayers + 1; layer!=numLayers + numPhantomNodes + 1; layer+=1) {
         carbon[layer] = carbon[numLayers];
-    }rocks = std::move(std::vector<double>(numLayers + 1 + numPhantomNodes, 0.0));
-    for (layer=1 ; layer!=numLayers + 1 ; layer+=1)
-    {
+    }
+    rocks = std::move(std::vector<double>(numLayers + 1 + numPhantomNodes, 0.0));
+    for (layer=1; layer!=numLayers + 1; layer+=1) {
         rocks[layer] = physical_Rocks[layer - 1];
     }
-    for (layer=numLayers + 1 ; layer!=numLayers + numPhantomNodes + 1 ; layer+=1)
-    {
+    for (layer=numLayers + 1; layer!=numLayers + numPhantomNodes + 1; layer+=1) {
         rocks[layer] = rocks[numLayers];
-    }sand = std::move(std::vector<double>(numLayers + 1 + numPhantomNodes, 0.0));
-    for (layer=1 ; layer!=numLayers + 1 ; layer+=1)
-    {
+    }
+    sand = std::move(std::vector<double>(numLayers + 1 + numPhantomNodes, 0.0));
+    for (layer=1; layer!=numLayers + 1; layer+=1) {
         sand[layer] = physical_ParticleSizeSand[layer - 1];
     }
-    for (layer=numLayers + 1 ; layer!=numLayers + numPhantomNodes + 1 ; layer+=1)
-    {
+    for (layer=numLayers + 1; layer!=numLayers + numPhantomNodes + 1; layer+=1) {
         sand[layer] = sand[numLayers];
-    }silt = std::move(std::vector<double>(numLayers + 1 + numPhantomNodes, 0.0));
-    for (layer=1 ; layer!=numLayers + 1 ; layer+=1)
-    {
+    }
+    silt = std::move(std::vector<double>(numLayers + 1 + numPhantomNodes, 0.0));
+    for (layer=1; layer!=numLayers + 1; layer+=1) {
         silt[layer] = physical_ParticleSizeSilt[layer - 1];
     }
-    for (layer=numLayers + 1 ; layer!=numLayers + numPhantomNodes + 1 ; layer+=1)
-    {
+    for (layer=numLayers + 1; layer!=numLayers + numPhantomNodes + 1; layer+=1) {
         silt[layer] = silt[numLayers];
-    }clay = std::move(std::vector<double>(numLayers + 1 + numPhantomNodes, 0.0));
-    for (layer=1 ; layer!=numLayers + 1 ; layer+=1)
-    {
+    }
+    clay = std::move(std::vector<double>(numLayers + 1 + numPhantomNodes, 0.0));
+    for (layer=1; layer!=numLayers + 1; layer+=1) {
         clay[layer] = physical_ParticleSizeClay[layer - 1];
     }
-    for (layer=numLayers + 1 ; layer!=numLayers + numPhantomNodes + 1 ; layer+=1)
-    {
+    for (layer=numLayers + 1; layer!=numLayers + numPhantomNodes + 1; layer+=1) {
         clay[layer] = clay[numLayers];
-    }maxSoilTemp = std::move(std::vector<double>(numLayers + 1 + numPhantomNodes, 0.0));
+    }
+    maxSoilTemp = std::move(std::vector<double>(numLayers + 1 + numPhantomNodes, 0.0));
     minSoilTemp = std::move(std::vector<double>(numLayers + 1 + numPhantomNodes, 0.0));
     aveSoilTemp = std::move(std::vector<double>(numLayers + 1 + numPhantomNodes, 0.0));
     volSpecHeatSoil = std::move(std::vector<double>(numNodes + 1, 0.0));
@@ -1250,38 +1233,33 @@ std::tuple<std::vector<double> ,std::vector<double> ,std::vector<double> ,std::v
     int element;
     oldGC1 = thermCondPar1;
     thermCondPar1 = std::move(std::vector<double>(numNodes + 1, 0.0));
-    if (true)
-    {
+    if (true) {
         for (int _i=0, _k=0; _i < (std::min(numNodes + 1, int(oldGC1.size()))) && _k < (std::min(numNodes + 1, int(oldGC1.size()))); _i++, _k++) {
             thermCondPar1[_i] = oldGC1[_k];
         }
     }
     oldGC2 = thermCondPar2;
     thermCondPar2 = std::move(std::vector<double>(numNodes + 1, 0.0));
-    if (true)
-    {
+    if (true) {
         for (int _i=0, _k=0; _i < (std::min(numNodes + 1, int(oldGC2.size()))) && _k < (std::min(numNodes + 1, int(oldGC2.size()))); _i++, _k++) {
             thermCondPar2[_i] = oldGC2[_k];
         }
     }
     oldGC3 = thermCondPar3;
     thermCondPar3 = std::move(std::vector<double>(numNodes + 1, 0.0));
-    if (true)
-    {
+    if (true) {
         for (int _i=0, _k=0; _i < (std::min(numNodes + 1, int(oldGC3.size()))) && _k < (std::min(numNodes + 1, int(oldGC3.size()))); _i++, _k++) {
             thermCondPar3[_i] = oldGC3[_k];
         }
     }
     oldGC4 = thermCondPar4;
     thermCondPar4 = std::move(std::vector<double>(numNodes + 1, 0.0));
-    if (true)
-    {
+    if (true) {
         for (int _i=0, _k=0; _i < (std::min(numNodes + 1, int(oldGC4.size()))) && _k < (std::min(numNodes + 1, int(oldGC4.size()))); _i++, _k++) {
             thermCondPar4[_i] = oldGC4[_k];
         }
     }
-    for (layer=1 ; layer!=numLayers + 1 + 1 ; layer+=1)
-    {
+    for (layer=1; layer!=numLayers + 1 + 1; layer+=1) {
         element = layer;
         thermCondPar1[element] = 0.65 - (0.78 * bulkDensity[layer]) + (0.6 * std::pow(bulkDensity[layer], 2));
         thermCondPar2[element] = 1.06 * bulkDensity[layer];
@@ -1295,7 +1273,7 @@ std::tuple<std::vector<double> ,std::vector<double> ,std::vector<double> ,std::v
     tie(thermCondPar2, thermCondPar3, thermCondPar4, thermCondPar1) = doThermalConductivityCoeffs(thermCondPar2, numLayers, bulkDensity, numNodes, thermCondPar3, thermCondPar4, clay, thermCondPar1);
     soilTemp = calcSoilTemperature(soilTemp, weather_Tav, clock_Today_DayOfYear, surfaceNode, numNodes, weather_Amp, thickness, weather_Latitude);
     for (int _i=0, _k=0; _i < (0 + int(soilTemp.size())) && _k < soilTemp.size(); _i++, _k++) {
-    newTemperature[_i] = soilTemp[_k];
+        newTemperature[_i] = soilTemp[_k];
     }
     soilRoughnessHeight = bareSoilRoughness;
     return make_tuple(newTemperature, soilTemp, thermCondPar2, thermCondPar3, thermCondPar4, thermCondPar1, soilRoughnessHeight);
@@ -1303,7 +1281,7 @@ std::tuple<std::vector<double> ,std::vector<double> ,std::vector<double> ,std::v
 std::tuple<std::vector<double> ,double,double> SoilTemperature::getOtherVariables(int numLayers, int numNodes, std::vector<double> soilWater, double instrumentHeight, double soilRoughnessHeight, std::vector<double> waterBalance_SW, double microClimate_CanopyHeight, double canopyHeight)
 {
     for (int _i=1, _k=0; _i < (1 + int(waterBalance_SW.size())) && _k < waterBalance_SW.size(); _i++, _k++) {
-    soilWater[_i] = waterBalance_SW[_k];
+        soilWater[_i] = waterBalance_SW[_k];
     }
     soilWater[numNodes] = soilWater[numLayers];
     canopyHeight = std::max(microClimate_CanopyHeight, soilRoughnessHeight) / 1000.0;
@@ -1346,8 +1324,7 @@ double SoilTemperature::kelvinT(double celciusT)
 }
 double SoilTemperature::Divide(double value1, double value2, double errVal)
 {
-    if (value2 != float(0))
-    {
+    if (value2 != float(0)) {
         return value1 / value2;
     }
     return errVal;
@@ -1359,16 +1336,13 @@ double SoilTemperature::Sum(std::vector<double> values, int startIndex, int endI
     int index;
     result = 0.0;
     index = -1;
-    for(const auto& value_cyml : values)
-    {
+    for (const auto& value_cyml : values) {
         value = value_cyml;
         index = index + 1;
-        if (index >= startIndex && value != MissingValue)
-        {
+        if (index >= startIndex && value != MissingValue) {
             result = result + value;
         }
-        if (index == endIndex)
-        {
+        if (index == endIndex) {
             break;
         }
     }
@@ -1394,36 +1368,28 @@ double SoilTemperature::volumetricSpecificHeat(std::string name, int layer)
     specificHeatIce = 2.18;
     specificHeatAir = 0.025;
     result = 0.0;
-    if (name == "Rocks")
-    {
+    if (name == "Rocks") {
         result = specificHeatRocks;
     }
-    else if ( name == "OrganicMatter")
-    {
+    else if (name == "OrganicMatter") {
         result = specificHeatOM;
     }
-    else if ( name == "Sand")
-    {
+    else if (name == "Sand") {
         result = specificHeatSand;
     }
-    else if ( name == "Silt")
-    {
+    else if (name == "Silt") {
         result = specificHeatSilt;
     }
-    else if ( name == "Clay")
-    {
+    else if (name == "Clay") {
         result = specificHeatClay;
     }
-    else if ( name == "Water")
-    {
+    else if (name == "Water") {
         result = specificHeatWater;
     }
-    else if ( name == "Ice")
-    {
+    else if (name == "Ice") {
         result = specificHeatIce;
     }
-    else if ( name == "Air")
-    {
+    else if (name == "Air") {
         result = specificHeatAir;
     }
     return result;
@@ -1454,8 +1420,7 @@ std::vector<double>  SoilTemperature::mapLayer2Node(std::vector<double> layerArr
     double d1;
     double d2;
     double dSum;
-    for (node=surfaceNode ; node!=numNodes + 1 ; node+=1)
-    {
+    for (node=surfaceNode; node!=numNodes + 1; node+=1) {
         layer = node - 1;
         depthLayerAbove = layer >= 1 ? Sum(thickness, 1, layer, MissingValue) : 0.0;
         d1 = depthLayerAbove - (nodeDepth[node] * 1000.0);
@@ -1485,40 +1450,31 @@ double SoilTemperature::ThermalConductance(std::string name, int layer, std::vec
     thermalConductanceIce = 1.73;
     thermalConductanceAir = 0.0012;
     result = 0.0;
-    if (name == "Rocks")
-    {
+    if (name == "Rocks") {
         result = thermalConductanceRocks;
     }
-    else if ( name == "OrganicMatter")
-    {
+    else if (name == "OrganicMatter") {
         result = thermalConductanceOM;
     }
-    else if ( name == "Sand")
-    {
+    else if (name == "Sand") {
         result = thermalConductanceSand;
     }
-    else if ( name == "Silt")
-    {
+    else if (name == "Silt") {
         result = thermalConductanceSilt;
     }
-    else if ( name == "Clay")
-    {
+    else if (name == "Clay") {
         result = thermalConductanceClay;
     }
-    else if ( name == "Water")
-    {
+    else if (name == "Water") {
         result = thermalConductanceWater;
     }
-    else if ( name == "Ice")
-    {
+    else if (name == "Ice") {
         result = thermalConductanceIce;
     }
-    else if ( name == "Air")
-    {
+    else if (name == "Air") {
         result = thermalConductanceAir;
     }
-    else if ( name == "Minerals")
-    {
+    else if (name == "Minerals") {
         result = std::pow(thermalConductanceRocks, volumetricFractionRocks(layer, rocks)) * std::pow(thermalConductanceSand, volumetricFractionSand(layer, bulkDensity, sand, ps, carbon, pom, rocks)) + std::pow(thermalConductanceSilt, volumetricFractionSilt(layer, bulkDensity, silt, ps, carbon, pom, rocks)) + std::pow(thermalConductanceClay, volumetricFractionClay(layer, bulkDensity, ps, clay, carbon, pom, rocks));
     }
     result = volumetricSpecificHeat(name, layer);
@@ -1540,42 +1496,33 @@ double SoilTemperature::shapeFactor(std::string name, int layer, std::vector<dou
     shapeFactorClay = 0.007755;
     shapeFactorWater = 1.0;
     result = 0.0;
-    if (name == "Rocks")
-    {
+    if (name == "Rocks") {
         result = shapeFactorRocks;
     }
-    else if ( name == "OrganicMatter")
-    {
+    else if (name == "OrganicMatter") {
         result = shapeFactorOM;
     }
-    else if ( name == "Sand")
-    {
+    else if (name == "Sand") {
         result = shapeFactorSand;
     }
-    else if ( name == "Silt")
-    {
+    else if (name == "Silt") {
         result = shapeFactorSilt;
     }
-    else if ( name == "Clay")
-    {
+    else if (name == "Clay") {
         result = shapeFactorClay;
     }
-    else if ( name == "Water")
-    {
+    else if (name == "Water") {
         result = shapeFactorWater;
     }
-    else if ( name == "Ice")
-    {
+    else if (name == "Ice") {
         result = 0.333 - (0.333 * volumetricFractionIce(layer) / (volumetricFractionWater(layer, soilWater, carbon, bulkDensity, pom) + volumetricFractionIce(layer) + volumetricFractionAir(layer, rocks, carbon, bulkDensity, pom, sand, ps, silt, clay, soilWater)));
         return result;
     }
-    else if ( name == "Air")
-    {
+    else if (name == "Air") {
         result = 0.333 - (0.333 * volumetricFractionAir(layer, rocks, carbon, bulkDensity, pom, sand, ps, silt, clay, soilWater) / (volumetricFractionWater(layer, soilWater, carbon, bulkDensity, pom) + volumetricFractionIce(layer) + volumetricFractionAir(layer, rocks, carbon, bulkDensity, pom, sand, ps, silt, clay, soilWater)));
         return result;
     }
-    else if ( name == "Minerals")
-    {
+    else if (name == "Minerals") {
         result = shapeFactorRocks * volumetricFractionRocks(layer, rocks) + (shapeFactorSand * volumetricFractionSand(layer, bulkDensity, sand, ps, carbon, pom, rocks)) + (shapeFactorSilt * volumetricFractionSilt(layer, bulkDensity, silt, ps, carbon, pom, rocks)) + (shapeFactorClay * volumetricFractionClay(layer, bulkDensity, ps, clay, carbon, pom, rocks));
     }
     result = volumetricSpecificHeat(name, layer);
@@ -1585,24 +1532,19 @@ std::tuple<std::vector<double> ,std::vector<double> ,std::vector<double> ,std::v
 {
     int node;
     for (int _i=0, _k=0; _i < (0 + int(newTemperature.size())) && _k < newTemperature.size(); _i++, _k++) {
-    soilTemp[_i] = newTemperature[_k];
+        soilTemp[_i] = newTemperature[_k];
     }
-    if (timeOfDaySecs < (internalTimeStep * 1.2))
-    {
-        for (node=surfaceNode ; node!=numNodes + 1 ; node+=1)
-        {
+    if (timeOfDaySecs < (internalTimeStep * 1.2)) {
+        for (node=surfaceNode; node!=numNodes + 1; node+=1) {
             minSoilTemp[node] = soilTemp[node];
             maxSoilTemp[node] = soilTemp[node];
         }
     }
-    for (node=surfaceNode ; node!=numNodes + 1 ; node+=1)
-    {
-        if (soilTemp[node] < minSoilTemp[node])
-        {
+    for (node=surfaceNode; node!=numNodes + 1; node+=1) {
+        if (soilTemp[node] < minSoilTemp[node]) {
             minSoilTemp[node] = soilTemp[node];
         }
-        else if ( soilTemp[node] > maxSoilTemp[node])
-        {
+        else if (soilTemp[node] > maxSoilTemp[node]) {
             maxSoilTemp[node] = soilTemp[node];
         }
         aveSoilTemp[node] = aveSoilTemp[node] + Divide(soilTemp[node], float(numInterationsPerDay), float(0));
@@ -1625,16 +1567,14 @@ std::tuple<std::vector<double> ,std::vector<double> ,std::vector<double> > SoilT
     double latentHeatFlux;
     double soilSurfaceHeatFlux;
     thermalConductance[airNode] = thermalConductivity[airNode];
-    for (node=surfaceNode ; node!=numNodes + 1 ; node+=1)
-    {
+    for (node=surfaceNode; node!=numNodes + 1; node+=1) {
         volumeOfSoilAtNode = 0.5 * (nodeDepth[node + 1] - nodeDepth[node - 1]);
         heatStorage[node] = Divide(volSpecHeatSoil[node] * volumeOfSoilAtNode, internalTimeStep, float(0));
         elementLength = nodeDepth[node + 1] - nodeDepth[node];
         thermalConductance[node] = Divide(thermalConductivity[node], elementLength, float(0));
     }
     g = 1 - nu;
-    for (node=surfaceNode ; node!=numNodes + 1 ; node+=1)
-    {
+    for (node=surfaceNode; node!=numNodes + 1; node+=1) {
         c[node] = -nu * thermalConductance[node];
         a[node + 1] = c[node];
         b[node] = nu * (thermalConductance[node] + thermalConductance[node - 1]) + heatStorage[node];
@@ -1643,28 +1583,24 @@ std::tuple<std::vector<double> ,std::vector<double> ,std::vector<double> > SoilT
     a[surfaceNode] = 0.0;
     sensibleHeatFlux = nu * thermalConductance[airNode] * newTemps[airNode];
     radnNet = 0.0;
-    if (netRadiationSource == "calc")
-    {
+    if (netRadiationSource == "calc") {
         radnNet = Divide(netRadiation * 1000000.0, internalTimeStep, float(0));
     }
-    else if ( netRadiationSource == "eos")
-    {
+    else if (netRadiationSource == "eos") {
         radnNet = Divide(waterBalance_Eos * latentHeatOfVapourisation, timestep, float(0));
     }
     latentHeatFlux = Divide(waterBalance_Es * latentHeatOfVapourisation, timestep, float(0));
     soilSurfaceHeatFlux = sensibleHeatFlux + radnNet - latentHeatFlux;
     d[surfaceNode] = d[surfaceNode] + soilSurfaceHeatFlux;
     d[numNodes] = d[numNodes] + (nu * thermalConductance[numNodes] * newTemps[(numNodes + 1)]);
-    for (node=surfaceNode ; node!=numNodes - 1 + 1 ; node+=1)
-    {
+    for (node=surfaceNode; node!=numNodes - 1 + 1; node+=1) {
         c[node] = Divide(c[node], b[node], float(0));
         d[node] = Divide(d[node], b[node], float(0));
         b[node + 1] = b[node + 1] - (a[(node + 1)] * c[node]);
         d[node + 1] = d[node + 1] - (a[(node + 1)] * d[node]);
     }
     newTemps[numNodes] = Divide(d[numNodes], b[numNodes], float(0));
-    for (node=numNodes - 1 ; node!=surfaceNode - 1 ; node+=-1)
-    {
+    for (node=numNodes - 1; node!=surfaceNode - 1; node+=-1) {
         newTemps[node] = d[node] - (c[node] * newTemps[(node + 1)]);
     }
     return make_tuple(newTemps, heatStorage, thermalConductance);
@@ -1706,20 +1642,17 @@ std::tuple<double,std::vector<double> > SoilTemperature::getBoundaryLayerConduct
     stabilityCorrectionMomentum = 0.0;
     stabilityCorrectionHeat = 0.0;
     heatFluxDensity = 0.0;
-    for (iteration=1 ; iteration!=3 + 1 ; iteration+=1)
-    {
+    for (iteration=1; iteration!=3 + 1; iteration+=1) {
         frictionVelocity = Divide(weather_Wind * vonKarmanConstant, std::log(Divide(instrumentHeight - d + roughnessFactorMomentum, roughnessFactorMomentum, float(0))) + stabilityCorrectionMomentum, float(0));
         boundaryLayerCond = Divide(SpecificHeatAir * vonKarmanConstant * frictionVelocity, std::log(Divide(instrumentHeight - d + roughnessFactorHeat, roughnessFactorHeat, float(0))) + stabilityCorrectionHeat, float(0));
         boundaryLayerCond = boundaryLayerCond + radiativeConductance;
         heatFluxDensity = boundaryLayerCond * (surfaceTemperature - airTemperature);
         stabilityParammeter = Divide(-vonKarmanConstant * instrumentHeight * gravitationalConstant * heatFluxDensity, SpecificHeatAir * kelvinT(airTemperature) * std::pow(frictionVelocity, 3.0), float(0));
-        if (stabilityParammeter > 0.0)
-        {
+        if (stabilityParammeter > 0.0) {
             stabilityCorrectionHeat = 4.7 * stabilityParammeter;
             stabilityCorrectionMomentum = stabilityCorrectionHeat;
         }
-        else
-        {
+        else {
             stabilityCorrectionHeat = -2.0 * std::log((1.0 + std::sqrt(1.0 - (16.0 * stabilityParammeter))) / 2.0);
             stabilityCorrectionMomentum = 0.6 * stabilityCorrectionHeat;
         }
@@ -1761,23 +1694,19 @@ double SoilTemperature::interpolateTemperature(double timeHours, double minTempY
     time = timeHours / 24.0;
     maxT_time = defaultTimeOfMaximumTemperature / 24.0;
     minT_time = maxT_time - 0.5;
-    if (time < minT_time)
-    {
+    if (time < minT_time) {
         midnightT = std::sin((0.0 + 0.25 - maxT_time) * 2.0 * M_PI) * (maxTempYesterday - minTempYesterday) / 2.0 + ((maxTempYesterday + minTempYesterday) / 2.0);
         tScale = (minT_time - time) / minT_time;
-        if (tScale > 1.0)
-        {
+        if (tScale > 1.0) {
             tScale = 1.0;
         }
-        else if ( tScale < float(0))
-        {
+        else if (tScale < float(0)) {
             tScale = float(0);
         }
         currentTemperature = weather_MinT + (tScale * (midnightT - weather_MinT));
         return currentTemperature;
     }
-    else
-    {
+    else {
         currentTemperature = std::sin((time + 0.25 - maxT_time) * 2.0 * M_PI) * (weather_MaxT - weather_MinT) / 2.0 + weather_MeanT;
         return currentTemperature;
     }
@@ -1793,12 +1722,10 @@ std::vector<double>  SoilTemperature::doThermalConductivity(std::vector<std::str
     double thermalConductanceConstituent;
     double thermalConductanceWater;
     double k;
-    for (node=1 ; node!=numNodes + 1 ; node+=1)
-    {
+    for (node=1; node!=numNodes + 1; node+=1) {
         numerator = 0.0;
         denominator = 0.0;
-        for(const auto& constituentName_cyml : soilConstituentNames)
-        {
+        for (const auto& constituentName_cyml : soilConstituentNames) {
             constituentName = constituentName_cyml;
             shapeFactorConstituent = shapeFactor(constituentName, node, soilWater, carbon, bulkDensity, pom, rocks, sand, ps, silt, clay);
             thermalConductanceConstituent = ThermalConductance(constituentName, node, rocks, bulkDensity, sand, ps, carbon, pom, silt, clay);
@@ -1817,14 +1744,11 @@ std::vector<double>  SoilTemperature::doVolumetricSpecificHeat(std::vector<std::
     int node;
     std::string constituentName;
     std::vector<double> volspecHeatSoil_(numNodes + 1);
-    for (node=1 ; node!=numNodes + 1 ; node+=1)
-    {
+    for (node=1; node!=numNodes + 1; node+=1) {
         volspecHeatSoil_[node] = float(0);
-        for(const auto& constituentName_cyml : soilConstituentNames)
-        {
+        for (const auto& constituentName_cyml : soilConstituentNames) {
             constituentName = constituentName_cyml;
-            if (!(std::set<std::string>({"Minerals"}).count(constituentName) > 0))
-            {
+            if (!(std::set<std::string>({"Minerals"}).count(constituentName) > 0)) {
                 volspecHeatSoil_[node] = volspecHeatSoil_[node] + (volumetricSpecificHeat(constituentName, node) * 1000000.0 * soilWater[node]);
             }
         }
@@ -1835,10 +1759,8 @@ std::vector<double>  SoilTemperature::doVolumetricSpecificHeat(std::vector<std::
 std::vector<double>  SoilTemperature::Zero(std::vector<double> arr)
 {
     int i;
-    if (true)
-    {
-        for (i=0 ; i!=int(arr.size()) ; i+=1)
-        {
+    if (true) {
+        for (i=0; i!=int(arr.size()); i+=1) {
             arr[i] = float(0);
         }
     }
@@ -1860,15 +1782,12 @@ std::tuple<std::vector<double> ,double,double> SoilTemperature::doNetRadiation(s
     solarDeclination = 0.3985 * std::sin((4.869 + (clock_Today_DayOfYear * 2.0 * M_PI / 365.25) + (0.03345 * std::sin((6.224 + (clock_Today_DayOfYear * 2.0 * M_PI / 365.25))))));
     cD = std::sqrt(1.0 - (solarDeclination * solarDeclination));
     m1Tot = 0.0;
-    for (timestepNumber=1 ; timestepNumber!=ITERATIONSperDAY + 1 ; timestepNumber+=1)
-    {
+    for (timestepNumber=1; timestepNumber!=ITERATIONSperDAY + 1; timestepNumber+=1) {
         m1[timestepNumber] = (solarDeclination * std::sin(weather_Latitude * M_PI / 180.0) + (cD * std::cos(weather_Latitude * M_PI / 180.0) * std::cos(TSTEPS2RAD * (timestepNumber - (ITERATIONSperDAY / 2.0))))) * 24.0 / ITERATIONSperDAY;
-        if (m1[timestepNumber] > 0.0)
-        {
+        if (m1[timestepNumber] > 0.0) {
             m1Tot = m1Tot + m1[timestepNumber];
         }
-        else
-        {
+        else {
             m1[timestepNumber] = 0.0;
         }
     }
@@ -1876,8 +1795,7 @@ std::tuple<std::vector<double> ,double,double> SoilTemperature::doNetRadiation(s
     fr = Divide(std::max(weather_Radn, 0.1), psr, float(0));
     cloudFr = 2.33 - (3.33 * fr);
     cloudFr = std::min(std::max(cloudFr, 0.0), 1.0);
-    for (timestepNumber=1 ; timestepNumber!=ITERATIONSperDAY + 1 ; timestepNumber+=1)
-    {
+    for (timestepNumber=1; timestepNumber!=ITERATIONSperDAY + 1; timestepNumber+=1) {
         solarRadn[timestepNumber] = std::max(weather_Radn, 0.1) * Divide(m1[timestepNumber], m1Tot, float(0));
     }
     cva = std::exp((31.3716 - (6014.79 / kelvinT(weather_MinT)) - (0.00792495 * kelvinT(weather_MinT)))) / kelvinT(weather_MinT);
@@ -1902,38 +1820,31 @@ std::tuple<std::vector<double> ,std::vector<double> ,std::vector<double> ,std::v
     internalTimeStep = std::round(timestep / interactionsPerDay);
     volSpecHeatSoil = doVolumetricSpecificHeat(soilConstituentNames, numNodes, volSpecHeatSoil, soilWater, nodeDepth, thickness, surfaceNode, MissingValue);
     thermalConductivity = doThermalConductivity(soilConstituentNames, numNodes, soilWater, thermalConductivity, carbon, bulkDensity, pom, rocks, sand, ps, silt, clay, nodeDepth, thickness, surfaceNode, MissingValue);
-    for (timeStepIteration=1 ; timeStepIteration!=interactionsPerDay + 1 ; timeStepIteration+=1)
-    {
+    for (timeStepIteration=1; timeStepIteration!=interactionsPerDay + 1; timeStepIteration+=1) {
         timeOfDaySecs = internalTimeStep * float(timeStepIteration);
-        if (timestep < (24.0 * 60.0 * 60.0))
-        {
+        if (timestep < (24.0 * 60.0 * 60.0)) {
             airTemperature = weather_MeanT;
         }
-        else
-        {
+        else {
             airTemperature = interpolateTemperature(timeOfDaySecs / 3600.0, minTempYesterday, maxTempYesterday, weather_MeanT, weather_MaxT, weather_MinT, defaultTimeOfMaximumTemperature);
         }
         newTemperature[airNode] = airTemperature;
         netRadiation = interpolateNetRadiation(solarRadn[timeStepIteration], cloudFr, cva, waterBalance_Eo, waterBalance_Eos, waterBalance_Salb, soilTemp, airTemperature, surfaceNode, internalTimeStep, stefanBoltzmannConstant);
-        if (boundarLayerConductanceSource == "constant")
-        {
+        if (boundarLayerConductanceSource == "constant") {
             thermalConductivity[airNode] = constantBoundaryLayerConductance;
         }
-        else if ( boundarLayerConductanceSource == "calc")
-        {
+        else if (boundarLayerConductanceSource == "calc") {
             tie(thermalConductivity[airNode], newTemperature) = getBoundaryLayerConductance(newTemperature, weather_AirPressure, stefanBoltzmannConstant, waterBalance_Eos, weather_Wind, airTemperature, surfaceNode, waterBalance_Eo, instrumentHeight, canopyHeight);
-            for (iteration=1 ; iteration!=numIterationsForBoundaryLayerConductance + 1 ; iteration+=1)
-            {
+            for (iteration=1; iteration!=numIterationsForBoundaryLayerConductance + 1; iteration+=1) {
                 tie(newTemperature, heatStorage, thermalConductance) = doThomas(newTemperature, netRadiation, heatStorage, waterBalance_Eos, numNodes, timestep, netRadiationSource, latentHeatOfVapourisation, nodeDepth, waterBalance_Es, airNode, soilTemp, surfaceNode, internalTimeStep, thermalConductance, thermalConductivity, nu, volSpecHeatSoil);
                 tie(thermalConductivity[airNode], newTemperature) = getBoundaryLayerConductance(newTemperature, weather_AirPressure, stefanBoltzmannConstant, waterBalance_Eos, weather_Wind, airTemperature, surfaceNode, waterBalance_Eo, instrumentHeight, canopyHeight);
             }
         }
         tie(newTemperature, heatStorage, thermalConductance) = doThomas(newTemperature, netRadiation, heatStorage, waterBalance_Eos, numNodes, timestep, netRadiationSource, latentHeatOfVapourisation, nodeDepth, waterBalance_Es, airNode, soilTemp, surfaceNode, internalTimeStep, thermalConductance, thermalConductivity, nu, volSpecHeatSoil);
         tie(minSoilTemp, soilTemp, maxSoilTemp, aveSoilTemp, boundaryLayerConductance) = doUpdate(interactionsPerDay, timeOfDaySecs, boundaryLayerConductance, minSoilTemp, airNode, soilTemp, newTemperature, numNodes, surfaceNode, internalTimeStep, maxSoilTemp, aveSoilTemp, thermalConductivity);
-        if (std::abs(timeOfDaySecs - (5.0 * 3600.0)) <= (std::min(timeOfDaySecs, 5.0 * 3600.0) * 0.0001))
-        {
+        if (std::abs(timeOfDaySecs - (5.0 * 3600.0)) <= (std::min(timeOfDaySecs, 5.0 * 3600.0) * 0.0001)) {
             for (int _i=0, _k=0; _i < (0 + int(soilTemp.size())) && _k < soilTemp.size(); _i++, _k++) {
-            morningSoilTemp[_i] = soilTemp[_k];
+                morningSoilTemp[_i] = soilTemp[_k];
             }
         }
     }
@@ -1945,11 +1856,9 @@ std::vector<double>  SoilTemperature::ToCumThickness(std::vector<double> Thickne
 {
     int Layer;
     std::vector<double> CumThickness(int(Thickness.size()));
-    if (int(Thickness.size()) > 0)
-    {
+    if (int(Thickness.size()) > 0) {
         CumThickness[0] = Thickness[0];
-        for (Layer=1 ; Layer!=int(Thickness.size()) ; Layer+=1)
-        {
+        for (Layer=1; Layer!=int(Thickness.size()); Layer+=1) {
             CumThickness[Layer] = Thickness[Layer] + CumThickness[Layer - 1];
         }
     }
@@ -1969,14 +1878,13 @@ std::vector<double>  SoilTemperature::calcSoilTemperature(std::vector<double> so
     dh = 0.6;
     zd = std::sqrt(2 * dh / w);
     offset = 0.25;
-    if (weather_Latitude > 0.0)
-    {
+    if (weather_Latitude > 0.0) {
         offset = -0.25;
     }
-    for (nodes=1 ; nodes!=numNodes + 1 ; nodes+=1)
-    {
+    for (nodes=1; nodes!=numNodes + 1; nodes+=1) {
         soilTemp[nodes] = weather_Tav + (weather_Amp * std::exp(-1 * cumulativeDepth[nodes] / zd) * std::sin(((clock_Today_DayOfYear / 365.0 + offset) * 2.0 * M_PI - (cumulativeDepth[nodes] / zd))));
-    }for (int _i=surfaceNode, _k=0; _i < (surfaceNode + numNodes) && _k < (0 + numNodes); _i++, _k++) {
+    }
+    for (int _i=surfaceNode, _k=0; _i < (surfaceNode + numNodes) && _k < (0 + numNodes); _i++, _k++) {
         soilTempIO[_i] = soilTemp[_k];
     }
     return soilTempIO;
@@ -1990,13 +1898,10 @@ double SoilTemperature::calcSurfaceTemperature(double weather_MeanT, double weat
 bool SoilTemperature::ValuesInArray(std::vector<double> Values, double MissingValue)
 {
     double Value;
-    if (true)
-    {
-        for(const auto& Value_cyml : Values)
-        {
+    if (true) {
+        for (const auto& Value_cyml : Values) {
             Value = Value_cyml;
-            if (Value != MissingValue && !std::isnan(Value))
-            {
+            if (Value != MissingValue && !std::isnan(Value)) {
                 return true;
             }
         }
