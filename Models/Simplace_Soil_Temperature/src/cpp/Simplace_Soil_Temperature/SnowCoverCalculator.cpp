@@ -318,7 +318,7 @@ void SnowCoverCalculator::Calculate_Model(SoilTemperatureState &s, SoilTemperatu
     DST = TMEAN + (TAMPL * (iRadiation * (1 - pInternalAlbedo) - 14) / 20);
     if (iRAIN > float(0) && (tiSoilTempArray < float(1) || (SnowWaterContent > float(3) || SoilSurfaceTemperature < float(0))))
     {
-        SnowWaterContent = SnowWaterContent + iRAIN;
+        SnowWaterContent = SnowWaterContent;
     }
     tSnowIsolationIndex = 1.0;
     if (tiCropResidues < float(10))

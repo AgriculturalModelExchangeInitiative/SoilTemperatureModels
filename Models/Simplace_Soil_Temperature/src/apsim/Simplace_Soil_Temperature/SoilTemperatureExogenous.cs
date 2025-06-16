@@ -18,10 +18,7 @@ public class SoilTemperatureExogenous
     private double _iCropResidues;
     private double _iPotentialSoilEvaporation;
     private double _iLeafAreaIndex;
-    private double[] _SoilTempArray;
-    private double[] _iSoilTempArray;
     private double _iSoilWaterContent;
-    private double _iSoilSurfaceTemperature;
 
     /// <summary>
     /// Constructor SoilTemperatureExogenous domain class
@@ -47,16 +44,7 @@ public class SoilTemperatureExogenous
             iCropResidues = toCopy.iCropResidues;
             iPotentialSoilEvaporation = toCopy.iPotentialSoilEvaporation;
             iLeafAreaIndex = toCopy.iLeafAreaIndex;
-            SoilTempArray = new double[toCopy.SoilTempArray.Length];
-        for (int i = 0; i < toCopy.SoilTempArray.Length; i++)
-        { SoilTempArray[i] = toCopy.SoilTempArray[i]; }
-    
-            iSoilTempArray = new double[toCopy.iSoilTempArray.Length];
-        for (int i = 0; i < toCopy.iSoilTempArray.Length; i++)
-        { iSoilTempArray[i] = toCopy.iSoilTempArray[i]; }
-    
             iSoilWaterContent = toCopy.iSoilWaterContent;
-            iSoilSurfaceTemperature = toCopy.iSoilSurfaceTemperature;
         }
     }
 
@@ -171,28 +159,6 @@ public class SoilTemperatureExogenous
     }
 
     /// <summary>
-    /// Gets and sets the Soil Temp array of last day
-    /// </summary>
-    [Description("Soil Temp array of last day")] 
-    [Units("http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius")] 
-    public double[] SoilTempArray
-    {
-        get { return this._SoilTempArray; }
-        set { this._SoilTempArray= value; } 
-    }
-
-    /// <summary>
-    /// Gets and sets the Soil Temp array of last day
-    /// </summary>
-    [Description("Soil Temp array of last day")] 
-    [Units("http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius")] 
-    public double[] iSoilTempArray
-    {
-        get { return this._iSoilTempArray; }
-        set { this._iSoilTempArray= value; } 
-    }
-
-    /// <summary>
     /// Gets and sets the Water content, sum of whole soil profile
     /// </summary>
     [Description("Water content, sum of whole soil profile")] 
@@ -201,17 +167,6 @@ public class SoilTemperatureExogenous
     {
         get { return this._iSoilWaterContent; }
         set { this._iSoilWaterContent= value; } 
-    }
-
-    /// <summary>
-    /// Gets and sets the Temperature at soil surface
-    /// </summary>
-    [Description("Temperature at soil surface")] 
-    [Units("http://www.wurvoc.org/vocabularies/om-1.8/degree_Celsius")] 
-    public double iSoilSurfaceTemperature
-    {
-        get { return this._iSoilSurfaceTemperature; }
-        set { this._iSoilSurfaceTemperature= value; } 
     }
 
 }

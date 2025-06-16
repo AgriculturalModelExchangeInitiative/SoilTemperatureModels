@@ -8,7 +8,6 @@ CONTAINS
         cABD, &
         cDampingDepth, &
         iSoilWaterContent, &
-        iSoilSurfaceTemperature, &
         SoilTempArray, &
         rSoilTempArrayRate, &
         pSoilLayerDepth)
@@ -20,7 +19,6 @@ CONTAINS
         REAL, INTENT(IN) :: cABD
         REAL, INTENT(IN) :: cDampingDepth
         REAL, INTENT(IN) :: iSoilWaterContent
-        REAL, INTENT(IN) :: iSoilSurfaceTemperature
         REAL , DIMENSION(: ), ALLOCATABLE , INTENT(OUT) :: SoilTempArray
         REAL , DIMENSION(: ), ALLOCATABLE , INTENT(OUT) :: rSoilTempArrayRate
         REAL , DIMENSION(: ), ALLOCATABLE , INTENT(OUT) :: pSoilLayerDepth
@@ -156,7 +154,7 @@ CONTAINS
     !            * name: iSoilSurfaceTemperature
     !                          ** description : Temperature at soil surface
     !                          ** inputtype : variable
-    !                          ** variablecategory : exogenous
+    !                          ** variablecategory : auxiliary
     !                          ** datatype : DOUBLE
     !                          ** max : 20.0
     !                          ** min : 1.5

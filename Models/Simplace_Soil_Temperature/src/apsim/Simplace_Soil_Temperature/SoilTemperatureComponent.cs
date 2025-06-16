@@ -54,6 +54,74 @@ public class SoilTemperatureComponent
     }
 
     /// <summary>
+    /// Gets and sets the Initial age of snow
+    /// </summary>
+    [Description("Initial age of snow")] 
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/percent")] 
+    public int cInitialAgeOfSnow
+    {
+        get
+        {
+             return _SnowCoverCalculator.cInitialAgeOfSnow; 
+        }
+        set
+        {
+            _SnowCoverCalculator.cInitialAgeOfSnow = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets the Initial snow water content
+    /// </summary>
+    [Description("Initial snow water content")] 
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/percent")] 
+    public double cInitialSnowWaterContent
+    {
+        get
+        {
+             return _SnowCoverCalculator.cInitialSnowWaterContent; 
+        }
+        set
+        {
+            _SnowCoverCalculator.cInitialSnowWaterContent = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets the Static part of the snow isolation index calculation
+    /// </summary>
+    [Description("Static part of the snow isolation index calculation")] 
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/one")] 
+    public double cSnowIsolationFactorA
+    {
+        get
+        {
+             return _SnowCoverCalculator.cSnowIsolationFactorA; 
+        }
+        set
+        {
+            _SnowCoverCalculator.cSnowIsolationFactorA = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets the Dynamic part of the snow isolation index calculation
+    /// </summary>
+    [Description("Dynamic part of the snow isolation index calculation")] 
+    [Units("http://www.wurvoc.org/vocabularies/om-1.8/one")] 
+    public double cSnowIsolationFactorB
+    {
+        get
+        {
+             return _SnowCoverCalculator.cSnowIsolationFactorB; 
+        }
+        set
+        {
+            _SnowCoverCalculator.cSnowIsolationFactorB = value;
+        }
+    }
+
+    /// <summary>
     /// Gets and sets the Depth of soil layer
     /// </summary>
     [Description("Depth of soil layer")] 
@@ -146,9 +214,9 @@ public class SoilTemperatureComponent
         ex.iTempMax = ex.iAirTemperatureMax;
         ex.iTempMin = ex.iAirTemperatureMin;
         ex.iRadiation = ex.iGlobalSolarRadiation;
-        ex.iSoilTempArray = s.SoilTempArray;
+        a.iSoilTempArray = s.SoilTempArray;
         _SnowCoverCalculator.CalculateModel(s,s1, r, a, ex);
-        ex.iSoilSurfaceTemperature = s.SoilSurfaceTemperature;
+        a.iSoilSurfaceTemperature = s.SoilSurfaceTemperature;
         _STMPsimCalculator.CalculateModel(s,s1, r, a, ex);
     }
 
@@ -167,15 +235,19 @@ public class SoilTemperatureComponent
     /// <param name="toCopy"></param>
     public SoilTemperatureComponent(SoilTemperatureComponent toCopy): this() // copy constructor 
     {
-        cCarbonContent = toCopy.cCarbonContent;
-        cAlbedo = toCopy.cAlbedo;
-        
-        for (int i = 0; i < toCopy.cSoilLayerDepth.Length; i++)
-        { cSoilLayerDepth[i] = toCopy.cSoilLayerDepth[i]; }
+            cCarbonContent = toCopy.cCarbonContent;
+            cAlbedo = toCopy.cAlbedo;
+            cInitialAgeOfSnow = toCopy.cInitialAgeOfSnow;
+            cInitialSnowWaterContent = toCopy.cInitialSnowWaterContent;
+            cSnowIsolationFactorA = toCopy.cSnowIsolationFactorA;
+            cSnowIsolationFactorB = toCopy.cSnowIsolationFactorB;
+            
+            for (int i = 0; i < toCopy.cSoilLayerDepth.Length; i++)
+                { cSoilLayerDepth[i] = toCopy.cSoilLayerDepth[i]; }
     
-        cFirstDayMeanTemp = toCopy.cFirstDayMeanTemp;
-        cAverageGroundTemperature = toCopy.cAverageGroundTemperature;
-        cAverageBulkDensity = toCopy.cAverageBulkDensity;
-        cDampingDepth = toCopy.cDampingDepth;
+            cFirstDayMeanTemp = toCopy.cFirstDayMeanTemp;
+            cAverageGroundTemperature = toCopy.cAverageGroundTemperature;
+            cAverageBulkDensity = toCopy.cAverageBulkDensity;
+            cDampingDepth = toCopy.cDampingDepth;
     }
 }

@@ -20,8 +20,7 @@ def init_snowcovercalculator(cCarbonContent:float,
          iRAIN:float,
          iCropResidues:float,
          iPotentialSoilEvaporation:float,
-         iLeafAreaIndex:float,
-         iSoilTempArray:'Array[float]'):
+         iLeafAreaIndex:float):
     pInternalAlbedo:float
     SnowWaterContent:float = 0.0
     SoilSurfaceTemperature:float = 0.0
@@ -201,7 +200,7 @@ def model_snowcovercalculator(cCarbonContent:float,
                  * name: iSoilTempArray
                                ** description : Soil Temp array of last day
                                ** inputtype : variable
-                               ** variablecategory : exogenous
+                               ** variablecategory : auxiliary
                                ** datatype : DOUBLEARRAY
                                ** len : 
                                ** max : 35.0
@@ -309,7 +308,7 @@ def model_snowcovercalculator(cCarbonContent:float,
     TAMPL = 0.5 * (iTempMax - iTempMin)
     DST = TMEAN + (TAMPL * (iRadiation * (1 - pInternalAlbedo) - 14) / 20)
     if iRAIN > float(0) and (tiSoilTempArray < float(1) or (SnowWaterContent > float(3) or SoilSurfaceTemperature < float(0))):
-        SnowWaterContent = SnowWaterContent + iRAIN
+        SnowWaterContent = SnowWaterContent
     tSnowIsolationIndex = 1.0
     if tiCropResidues < float(10):
         tSnowIsolationIndex = tiCropResidues / (tiCropResidues + exp(5.34 - (2.4 * tiCropResidues)))

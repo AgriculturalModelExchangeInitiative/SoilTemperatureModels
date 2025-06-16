@@ -96,10 +96,10 @@ namespace SiriusQualitySoilTemperature.Strategies
             pd1.PropertyVarInfo =(SiriusQualitySoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.iSoilWaterContent);
             _inputs0_0.Add(pd1);
             PropertyDescription pd2 = new PropertyDescription();
-            pd2.DomainClassType = typeof(SiriusQualitySoilTemperature.DomainClass.SoilTemperatureExogenous);
+            pd2.DomainClassType = typeof(SiriusQualitySoilTemperature.DomainClass.SoilTemperatureAuxiliary);
             pd2.PropertyName = "iSoilSurfaceTemperature";
-            pd2.PropertyType = (SiriusQualitySoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.iSoilSurfaceTemperature).ValueType.TypeForCurrentValue;
-            pd2.PropertyVarInfo =(SiriusQualitySoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.iSoilSurfaceTemperature);
+            pd2.PropertyType = (SiriusQualitySoilTemperature.DomainClass.SoilTemperatureAuxiliaryVarInfo.iSoilSurfaceTemperature).ValueType.TypeForCurrentValue;
+            pd2.PropertyVarInfo =(SiriusQualitySoilTemperature.DomainClass.SoilTemperatureAuxiliaryVarInfo.iSoilSurfaceTemperature);
             _inputs0_0.Add(pd2);
             PropertyDescription pd3 = new PropertyDescription();
             pd3.DomainClassType = typeof(SiriusQualitySoilTemperature.DomainClass.SoilTemperatureState);
@@ -375,7 +375,7 @@ namespace SiriusQualitySoilTemperature.Strategies
             {
                 //Set current values of the inputs to the static VarInfo representing the inputs properties of the domain classes
                 SiriusQualitySoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.iSoilWaterContent.CurrentValue=ex.iSoilWaterContent;
-                SiriusQualitySoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.iSoilSurfaceTemperature.CurrentValue=ex.iSoilSurfaceTemperature;
+                SiriusQualitySoilTemperature.DomainClass.SoilTemperatureAuxiliaryVarInfo.iSoilSurfaceTemperature.CurrentValue=a.iSoilSurfaceTemperature;
                 SiriusQualitySoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SoilTempArray.CurrentValue=s.SoilTempArray;
                 SiriusQualitySoilTemperature.DomainClass.SoilTemperatureStateVarInfo.rSoilTempArrayRate.CurrentValue=s.rSoilTempArrayRate;
                 SiriusQualitySoilTemperature.DomainClass.SoilTemperatureStateVarInfo.pSoilLayerDepth.CurrentValue=s.pSoilLayerDepth;
@@ -383,8 +383,8 @@ namespace SiriusQualitySoilTemperature.Strategies
                 Preconditions pre = new Preconditions(); 
                 RangeBasedCondition r1 = new RangeBasedCondition(SiriusQualitySoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.iSoilWaterContent);
                 if(r1.ApplicableVarInfoValueTypes.Contains( SiriusQualitySoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.iSoilWaterContent.ValueType)){prc.AddCondition(r1);}
-                RangeBasedCondition r2 = new RangeBasedCondition(SiriusQualitySoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.iSoilSurfaceTemperature);
-                if(r2.ApplicableVarInfoValueTypes.Contains( SiriusQualitySoilTemperature.DomainClass.SoilTemperatureExogenousVarInfo.iSoilSurfaceTemperature.ValueType)){prc.AddCondition(r2);}
+                RangeBasedCondition r2 = new RangeBasedCondition(SiriusQualitySoilTemperature.DomainClass.SoilTemperatureAuxiliaryVarInfo.iSoilSurfaceTemperature);
+                if(r2.ApplicableVarInfoValueTypes.Contains( SiriusQualitySoilTemperature.DomainClass.SoilTemperatureAuxiliaryVarInfo.iSoilSurfaceTemperature.ValueType)){prc.AddCondition(r2);}
                 RangeBasedCondition r3 = new RangeBasedCondition(SiriusQualitySoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SoilTempArray);
                 if(r3.ApplicableVarInfoValueTypes.Contains( SiriusQualitySoilTemperature.DomainClass.SoilTemperatureStateVarInfo.SoilTempArray.ValueType)){prc.AddCondition(r3);}
                 RangeBasedCondition r4 = new RangeBasedCondition(SiriusQualitySoilTemperature.DomainClass.SoilTemperatureStateVarInfo.rSoilTempArrayRate);
@@ -421,7 +421,6 @@ namespace SiriusQualitySoilTemperature.Strategies
         public void Init(SiriusQualitySoilTemperature.DomainClass.SoilTemperatureState s, SiriusQualitySoilTemperature.DomainClass.SoilTemperatureState s1, SiriusQualitySoilTemperature.DomainClass.SoilTemperatureRate r, SiriusQualitySoilTemperature.DomainClass.SoilTemperatureAuxiliary a, SiriusQualitySoilTemperature.DomainClass.SoilTemperatureExogenous ex)
         {
             double iSoilWaterContent;
-            double iSoilSurfaceTemperature;
             double[] SoilTempArray ;
             double[] rSoilTempArrayRate ;
             double[] pSoilLayerDepth ;
@@ -465,7 +464,7 @@ namespace SiriusQualitySoilTemperature.Strategies
         private void CalculateModel(SiriusQualitySoilTemperature.DomainClass.SoilTemperatureState s, SiriusQualitySoilTemperature.DomainClass.SoilTemperatureState s1, SiriusQualitySoilTemperature.DomainClass.SoilTemperatureRate r, SiriusQualitySoilTemperature.DomainClass.SoilTemperatureAuxiliary a, SiriusQualitySoilTemperature.DomainClass.SoilTemperatureExogenous ex)
         {
             double iSoilWaterContent = ex.iSoilWaterContent;
-            double iSoilSurfaceTemperature = ex.iSoilSurfaceTemperature;
+            double iSoilSurfaceTemperature = a.iSoilSurfaceTemperature;
             double[] SoilTempArray = s.SoilTempArray;
             double[] rSoilTempArrayRate = s.rSoilTempArrayRate;
             double[] pSoilLayerDepth = s.pSoilLayerDepth;
@@ -478,16 +477,16 @@ namespace SiriusQualitySoilTemperature.Strategies
             int i;
             double ZD;
             double RATE;
-            XLAG = .80d;
+            XLAG = .8;
             XLG1 = 1 - XLAG;
-            DP = 1 + (2.50d * cABD / (cABD + Math.Exp(6.530d - (5.630d * cABD))));
-            WC = 0.0010d * iSoilWaterContent / ((.3560d - (.1440d * cABD)) * cSoilLayerDepth[(cSoilLayerDepth.Length - 1)]);
-            DD = Math.Exp(Math.Log(0.50d / DP) * ((1 - WC) / (1 + WC)) * 2) * DP;
+            DP = 1 + (2.5 * cABD / (cABD + Math.Exp(6.53 - (5.63 * cABD))));
+            WC = 0.001 * iSoilWaterContent / ((.356 - (.144 * cABD)) * cSoilLayerDepth[(cSoilLayerDepth.Length - 1)]);
+            DD = Math.Exp(Math.Log(0.5 / DP) * ((1 - WC) / (1 + WC)) * 2) * DP;
             Z1 = (double)(0);
             for (i=0 ; i!=SoilTempArray.Length ; i+=1)
             {
-                ZD = 0.50d * (Z1 + pSoilLayerDepth[i]) / DD;
-                RATE = ZD / (ZD + Math.Exp(-.86690d - (2.07750d * ZD))) * (cAVT - iSoilSurfaceTemperature);
+                ZD = 0.5 * (Z1 + pSoilLayerDepth[i]) / DD;
+                RATE = ZD / (ZD + Math.Exp(-.8669 - (2.0775 * ZD))) * (cAVT - iSoilSurfaceTemperature);
                 RATE = XLG1 * (RATE + iSoilSurfaceTemperature - SoilTempArray[i]);
                 Z1 = pSoilLayerDepth[i];
                 rSoilTempArrayRate[i] = RATE;

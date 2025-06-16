@@ -143,7 +143,7 @@ namespace Models.Crop2ML;
 ///            * name: iSoilTempArray
 ///                          ** description : Soil Temp array of last day
 ///                          ** inputtype : variable
-///                          ** variablecategory : exogenous
+///                          ** variablecategory : auxiliary
 ///                          ** datatype : DOUBLEARRAY
 ///                          ** len : 
 ///                          ** max : 35.0
@@ -243,25 +243,24 @@ public class SnowCoverCalculator
         double iCropResidues = ex.iCropResidues;
         double iPotentialSoilEvaporation = ex.iPotentialSoilEvaporation;
         double iLeafAreaIndex = ex.iLeafAreaIndex;
-        double[] iSoilTempArray = ex.iSoilTempArray;
         double pInternalAlbedo;
         double SnowWaterContent = 0.0;
         double SoilSurfaceTemperature = 0.0;
         int AgeOfSnow = 0;
-        pInternalAlbedo = 0.00d;
+        pInternalAlbedo = 0.0;
         double TMEAN;
         double TAMPL;
         double DST;
         if (Albedo == (double)(0))
         {
-            pInternalAlbedo = 0.02260d * Math.Log(cCarbonContent, 10) + 0.15020d;
+            pInternalAlbedo = 0.0226 * Math.Log(cCarbonContent, 10) + 0.1502;
         }
         else
         {
             pInternalAlbedo = Albedo;
         }
-        TMEAN = 0.50d * (iTempMax + iTempMin);
-        TAMPL = 0.50d * (iTempMax - iTempMin);
+        TMEAN = 0.5 * (iTempMax + iTempMin);
+        TAMPL = 0.5 * (iTempMax - iTempMin);
         DST = TMEAN + (TAMPL * (iRadiation * (1 - pInternalAlbedo) - 14) / 20);
         SoilSurfaceTemperature = DST;
         AgeOfSnow = cInitialAgeOfSnow;
@@ -369,7 +368,7 @@ public class SnowCoverCalculator
         double iCropResidues = ex.iCropResidues;
         double iPotentialSoilEvaporation = ex.iPotentialSoilEvaporation;
         double iLeafAreaIndex = ex.iLeafAreaIndex;
-        double[] iSoilTempArray = ex.iSoilTempArray;
+        double[] iSoilTempArray = a.iSoilTempArray;
         double SnowWaterContent = s.SnowWaterContent;
         double SoilSurfaceTemperature = s.SoilSurfaceTemperature;
         int AgeOfSnow = s.AgeOfSnow;
@@ -389,24 +388,24 @@ public class SnowCoverCalculator
         double EAJ;
         double ageOfSnowFactor;
         double SNPKT;
-        tiCropResidues = iCropResidues * 10.00d;
+        tiCropResidues = iCropResidues * 10.0;
         tiSoilTempArray = iSoilTempArray[0];
-        TMEAN = 0.50d * (iTempMax + iTempMin);
-        TAMPL = 0.50d * (iTempMax - iTempMin);
+        TMEAN = 0.5 * (iTempMax + iTempMin);
+        TAMPL = 0.5 * (iTempMax - iTempMin);
         DST = TMEAN + (TAMPL * (iRadiation * (1 - pInternalAlbedo) - 14) / 20);
         if (iRAIN > (double)(0) && (tiSoilTempArray < (double)(1) || (SnowWaterContent > (double)(3) || SoilSurfaceTemperature < (double)(0))))
         {
-            SnowWaterContent = SnowWaterContent + iRAIN;
+            SnowWaterContent = SnowWaterContent;
         }
-        tSnowIsolationIndex = 1.00d;
+        tSnowIsolationIndex = 1.0;
         if (tiCropResidues < (double)(10))
         {
-            tSnowIsolationIndex = tiCropResidues / (tiCropResidues + Math.Exp(5.340d - (2.40d * tiCropResidues)));
+            tSnowIsolationIndex = tiCropResidues / (tiCropResidues + Math.Exp(5.34 - (2.4 * tiCropResidues)));
         }
-        if (SnowWaterContent < 1E-10)
+        if (SnowWaterContent < 10E-10)
         {
-            tSnowIsolationIndex = tSnowIsolationIndex * 0.850d;
-            tSoilSurfaceTemperature = 0.50d * (DST + ((1 - tSnowIsolationIndex) * DST) + (tSnowIsolationIndex * tiSoilTempArray));
+            tSnowIsolationIndex = tSnowIsolationIndex * 0.85;
+            tSoilSurfaceTemperature = 0.5 * (DST + ((1 - tSnowIsolationIndex) * DST) + (tSnowIsolationIndex * tiSoilTempArray));
         }
         else
         {
@@ -419,17 +418,17 @@ public class SnowCoverCalculator
         }
         else
         {
-            EAJ = .50d;
+            EAJ = .5;
             if (SnowWaterContent < (double)(5))
             {
-                EAJ = Math.Exp(-Math.Max((0.40d * iLeafAreaIndex), (0.10d * (tiCropResidues + 0.10d))));
+                EAJ = Math.Exp(-Math.Max((0.4 * iLeafAreaIndex), (0.1 * (tiCropResidues + 0.1))));
             }
             SNOWEVAPORATION = iPotentialSoilEvaporation * EAJ;
-            ageOfSnowFactor = AgeOfSnow / (AgeOfSnow + Math.Exp(5.340d - (2.3950d * AgeOfSnow)));
-            SNPKT = .33330d * (2 * Math.Min(tSoilSurfaceTemperature, tiSoilTempArray) + iTempMax);
+            ageOfSnowFactor = AgeOfSnow / (AgeOfSnow + Math.Exp(5.34 - (2.395 * AgeOfSnow)));
+            SNPKT = .3333 * (2 * Math.Min(tSoilSurfaceTemperature, tiSoilTempArray) + iTempMax);
             if (TMEAN > (double)(0))
             {
-                SNOWMELT = Math.Max(0, Math.Sqrt(iTempMax * iRadiation) * (1.520d + (.540d * ageOfSnowFactor * SNPKT)));
+                SNOWMELT = Math.Max(0, Math.Sqrt(iTempMax * iRadiation) * (1.52 + (.54 * ageOfSnowFactor * SNPKT)));
             }
             else
             {

@@ -1,5 +1,5 @@
 library(gsubfn)
-#setwd('d:/Docs/AMEI_Workshop/AMEI_10_14_2022/Models/Simplace_Soil_Temperature/src/r')
+#setwd('/src/r')
 source('Snowcovercalculator.r')
 source('Stmpsimcalculator.r')
 #' @Title Initialization of SoilTemperature component

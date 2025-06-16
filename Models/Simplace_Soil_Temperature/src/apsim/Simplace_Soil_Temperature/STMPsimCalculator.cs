@@ -72,7 +72,7 @@ namespace Models.Crop2ML;
 ///            * name: iSoilSurfaceTemperature
 ///                          ** description : Temperature at soil surface
 ///                          ** inputtype : variable
-///                          ** variablecategory : exogenous
+///                          ** variablecategory : auxiliary
 ///                          ** datatype : DOUBLE
 ///                          ** max : 20.0
 ///                          ** min : 1.5
@@ -135,7 +135,6 @@ public class STMPsimCalculator
     public void Init(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a, SoilTemperatureExogenous ex)
     {
         double iSoilWaterContent = ex.iSoilWaterContent;
-        double iSoilSurfaceTemperature = ex.iSoilSurfaceTemperature;
         double[] SoilTempArray ;
         double[] rSoilTempArrayRate ;
         double[] pSoilLayerDepth ;
@@ -253,7 +252,7 @@ public class STMPsimCalculator
     public void  CalculateModel(SoilTemperatureState s, SoilTemperatureState s1, SoilTemperatureRate r, SoilTemperatureAuxiliary a, SoilTemperatureExogenous ex)
     {
         double iSoilWaterContent = ex.iSoilWaterContent;
-        double iSoilSurfaceTemperature = ex.iSoilSurfaceTemperature;
+        double iSoilSurfaceTemperature = a.iSoilSurfaceTemperature;
         double[] SoilTempArray = s.SoilTempArray;
         double[] rSoilTempArrayRate = s.rSoilTempArrayRate;
         double[] pSoilLayerDepth = s.pSoilLayerDepth;
@@ -266,16 +265,16 @@ public class STMPsimCalculator
         int i;
         double ZD;
         double RATE;
-        XLAG = .80d;
+        XLAG = .8;
         XLG1 = 1 - XLAG;
-        DP = 1 + (2.50d * cABD / (cABD + Math.Exp(6.530d - (5.630d * cABD))));
-        WC = 0.0010d * iSoilWaterContent / ((.3560d - (.1440d * cABD)) * cSoilLayerDepth[(cSoilLayerDepth.Length - 1)]);
-        DD = Math.Exp(Math.Log(0.50d / DP) * ((1 - WC) / (1 + WC)) * 2) * DP;
+        DP = 1 + (2.5 * cABD / (cABD + Math.Exp(6.53 - (5.63 * cABD))));
+        WC = 0.001 * iSoilWaterContent / ((.356 - (.144 * cABD)) * cSoilLayerDepth[(cSoilLayerDepth.Length - 1)]);
+        DD = Math.Exp(Math.Log(0.5 / DP) * ((1 - WC) / (1 + WC)) * 2) * DP;
         Z1 = (double)(0);
         for (i=0 ; i!=SoilTempArray.Length ; i+=1)
         {
-            ZD = 0.50d * (Z1 + pSoilLayerDepth[i]) / DD;
-            RATE = ZD / (ZD + Math.Exp(-.86690d - (2.07750d * ZD))) * (cAVT - iSoilSurfaceTemperature);
+            ZD = 0.5 * (Z1 + pSoilLayerDepth[i]) / DD;
+            RATE = ZD / (ZD + Math.Exp(-.8669 - (2.0775 * ZD))) * (cAVT - iSoilSurfaceTemperature);
             RATE = XLG1 * (RATE + iSoilSurfaceTemperature - SoilTempArray[i]);
             Z1 = pSoilLayerDepth[i];
             rSoilTempArrayRate[i] = RATE;
