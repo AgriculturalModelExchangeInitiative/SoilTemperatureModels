@@ -14,6 +14,7 @@ code2M = dict((code, models[name]()) for code, name in code2model.items() if nam
 
 output_dir = Path('OutputData')
 output_monica = Path('OutputData')/'monica'
+output_simplace = Path('OutputData')/'simplace'
 
 def get_filename(weather_station, soil, water_content, lai, model_code):
     """ Return the filename for each simulation
@@ -80,6 +81,25 @@ def run_monica(weather_station, soil, water_content, lai):
         failure +=1
     return failure
 
+def run_simplace(weather_station, soil, water_content, lai):
+    failure = 0
+    model_code = 'SAC'
+    if code2model[model_code] not in models:
+        return 
+    fn = get_filename(weather_station, soil, water_content, lai, model_code)
+    if (output_simplace/fn).exists():
+        print(f'{fn} is already computed')
+        return
+    #try:
+    print(f'Run {weather_station, soil, water_content, lai, code2model[model_code]}')
+    simulate(weather_station, soil=soil, water_content=water_content, 
+        lai=lai, model_code=model_code,
+        nb_steps=-1, output_dir=output_simplace)
+    #except: 
+    #    print('#'*80)
+    #    print(f'ERROR : Run {weather_station, soil, water_content, lai, model_code}')    
+    #    failure +=1
+    return failure
 
 def main(i=0):
     ws = WST_IDs[i]
@@ -95,6 +115,12 @@ def mainmoc(i=0):
             for water_content in AWCs:
                 run_monica(ws, soil, water_content, lai)
 
+def mainsim(i=0):
+    ws = WST_IDs[i]
+    for soil in SOIL_IDs:
+        for lai in LAIDs:
+            for water_content in AWCs:
+                run_simplace(ws, soil, water_content, lai)
 
 
 
@@ -125,6 +151,15 @@ python -c 'from simul import mainmoc; mainmoc(3)'&
 python -c 'from simul import mainmoc; mainmoc(4)'&
 python -c 'from simul import mainmoc; mainmoc(5)'&
 python -c 'from simul import mainmoc; mainmoc(6)'&
+
+# run in a shell to use 7 proc
+python -c 'from simul import mainsim; mainsim(0)'&
+python -c 'from simul import mainsim; mainsim(1)'&
+python -c 'from simul import mainsim; mainsim(2)'&
+python -c 'from simul import mainsim; mainsim(3)'&
+python -c 'from simul import mainsim; mainsim(4)'&
+python -c 'from simul import mainsim; mainsim(5)'&
+python -c 'from simul import mainsim; mainsim(6)'&
 
 """
 

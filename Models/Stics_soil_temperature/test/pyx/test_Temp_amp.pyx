@@ -2,5 +2,6 @@
 
 from temp_amp import *
 from math import *
-import numpy 
-
+import numpy
+ 
+ 

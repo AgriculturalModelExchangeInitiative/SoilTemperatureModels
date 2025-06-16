@@ -188,25 +188,6 @@ def model_stemp_epic(int NL,
 
 
 
-#=======================================================================
-#%%CyML Model End%%
-#=======================================================================
-#  SOILT_EPIC, Subroutine
-#  Determines soil temperature by layer
-#-----------------------------------------------------------------------
-#  Revision history
-#  02/09/1933 PWW Header revision and minor changes.
-#  12/09/1999 CHP Revisions for modular format.
-#  01/01/2000 AJG Added surface temperature for the CENTURY-based
-#                SOM/soil-N module.
-#  01/14/2005 CHP Added METMP = 3: Corrected water content in temp. eqn.
-#  12/07/2008 CHP Removed METMP -- use only corrected water content
-#  09/16/2010 CHP / MSC modified for EPIC soil temperature method.
-#-----------------------------------------------------------------------
-#  Called : STEMP
-#  Calls  : None
-#=======================================================================
-
 def SOILT_EPIC(int NL,
          float B,
          float BCV,
@@ -292,6 +273,4 @@ def SOILT_EPIC(int NL,
     #
     #-----------------------------------------------------------------------
     return (TMA, SRFTEMP, ST, X2_AVG, X2_PREV)
-
-
 
