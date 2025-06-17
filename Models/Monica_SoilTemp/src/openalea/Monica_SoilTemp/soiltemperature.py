@@ -8,10 +8,11 @@ from datetime import datetime
 import numpy
 
 #%%CyML Init Begin%%
-def init_soiltemperature(noOfTempLayers:int,
-         noOfSoilLayers:int,
+def init_soiltemperature(noOfSoilLayers:int,
+         noOfTempLayers:int,
+         noOfTempLayersPlus1:int,
          timeStep:float,
-         soilMoistureConst:float,
+         soilMoistureConst:'Array[float]',
          baseTemp:float,
          initialSurfaceTemp:float,
          densityAir:float,
@@ -28,34 +29,34 @@ def init_soiltemperature(noOfTempLayers:int,
          saturation:'Array[float]',
          soilOrganicMatter:'Array[float]'):
     soilSurfaceTemperature:float = 0.0
-    soilTemperature:'array[float]' = array('f',[0.0]*22)
-    V:'array[float]' = array('f',[0.0]*22)
-    B:'array[float]' = array('f',[0.0]*22)
-    volumeMatrix:'array[float]' = array('f',[0.0]*22)
-    volumeMatrixOld:'array[float]' = array('f',[0.0]*22)
-    matrixPrimaryDiagonal:'array[float]' = array('f',[0.0]*22)
-    matrixSecondaryDiagonal:'array[float]' = array('f',[0.0]*23)
-    heatConductivity:'array[float]' = array('f',[0.0]*22)
-    heatConductivityMean:'array[float]' = array('f',[0.0]*22)
-    heatCapacity:'array[float]' = array('f',[0.0]*22)
-    solution:'array[float]' = array('f',[0.0]*22)
-    matrixDiagonal:'array[float]' = array('f',[0.0]*22)
-    matrixLowerTriangle:'array[float]' = array('f',[0.0]*22)
-    heatFlow:'array[float]' = array('f',[0.0]*22)
-    soilTemperature = array('f', [0.0]*22)
-    V = array('f', [0.0]*22)
-    B = array('f', [0.0]*22)
-    volumeMatrix = array('f', [0.0]*22)
-    volumeMatrixOld = array('f', [0.0]*22)
-    matrixPrimaryDiagonal = array('f', [0.0]*22)
-    matrixSecondaryDiagonal = array('f', [0.0]*23)
-    heatConductivity = array('f', [0.0]*22)
-    heatConductivityMean = array('f', [0.0]*22)
-    heatCapacity = array('f', [0.0]*22)
-    solution = array('f', [0.0]*22)
-    matrixDiagonal = array('f', [0.0]*22)
-    matrixLowerTriangle = array('f', [0.0]*22)
-    heatFlow = array('f', [0.0]*22)
+    soilTemperature:'array[float]' = array('f',[0.0]*(noOfTempLayers))
+    V:'array[float]' = array('f',[0.0]*(noOfTempLayers))
+    B:'array[float]' = array('f',[0.0]*(noOfTempLayers))
+    volumeMatrix:'array[float]' = array('f',[0.0]*(noOfTempLayers))
+    volumeMatrixOld:'array[float]' = array('f',[0.0]*(noOfTempLayers))
+    matrixPrimaryDiagonal:'array[float]' = array('f',[0.0]*(noOfTempLayers))
+    matrixSecondaryDiagonal:'array[float]' = array('f',[0.0]*(noOfTempLayersPlus1))
+    heatConductivity:'array[float]' = array('f',[0.0]*(noOfTempLayers))
+    heatConductivityMean:'array[float]' = array('f',[0.0]*(noOfTempLayers))
+    heatCapacity:'array[float]' = array('f',[0.0]*(noOfTempLayers))
+    solution:'array[float]' = array('f',[0.0]*(noOfTempLayers))
+    matrixDiagonal:'array[float]' = array('f',[0.0]*(noOfTempLayers))
+    matrixLowerTriangle:'array[float]' = array('f',[0.0]*(noOfTempLayers))
+    heatFlow:'array[float]' = array('f',[0.0]*(noOfTempLayers))
+    soilTemperature = array('f', [0.0]*(noOfTempLayers))
+    V = array('f', [0.0]*(noOfTempLayers))
+    B = array('f', [0.0]*(noOfTempLayers))
+    volumeMatrix = array('f', [0.0]*(noOfTempLayers))
+    volumeMatrixOld = array('f', [0.0]*(noOfTempLayers))
+    matrixPrimaryDiagonal = array('f', [0.0]*(noOfTempLayers))
+    matrixSecondaryDiagonal = array('f', [0.0]*(noOfTempLayersPlus1))
+    heatConductivity = array('f', [0.0]*(noOfTempLayers))
+    heatConductivityMean = array('f', [0.0]*(noOfTempLayers))
+    heatCapacity = array('f', [0.0]*(noOfTempLayers))
+    solution = array('f', [0.0]*(noOfTempLayers))
+    matrixDiagonal = array('f', [0.0]*(noOfTempLayers))
+    matrixLowerTriangle = array('f', [0.0]*(noOfTempLayers))
+    heatFlow = array('f', [0.0]*(noOfTempLayers))
     groundLayer:int
     bottomLayer:int
     lti_1:float
@@ -102,7 +103,7 @@ def init_soiltemperature(noOfTempLayers:int,
     ch = specificHeatCapacityHumus
     for i in range(0 , noOfSoilLayers , 1):
         sbdi = soilBulkDensity[i]
-        smi = soilMoistureConst
+        smi = soilMoistureConst[i]
         heatConductivity[i] = (3.0 * (sbdi / 1000.0) - 1.7) * 0.001 / (1.0 + ((11.5 - (5.0 * (sbdi / 1000.0))) * exp(-50.0 * pow(smi / (sbdi / 1000.0), 1.5)))) * 86400.0 * ts * 100.0 * 4.184
         sati = saturation[i]
         somi = soilOrganicMatter[i] / da * sbdi
@@ -130,11 +131,12 @@ def init_soiltemperature(noOfTempLayers:int,
 #%%CyML Init End%%
 
 #%%CyML Model Begin%%
-def model_soiltemperature(noOfTempLayers:int,
-         noOfSoilLayers:int,
+def model_soiltemperature(noOfSoilLayers:int,
+         noOfTempLayers:int,
+         noOfTempLayersPlus1:int,
          soilSurfaceTemperature:float,
          timeStep:float,
-         soilMoistureConst:float,
+         soilMoistureConst:'Array[float]',
          baseTemp:float,
          initialSurfaceTemp:float,
          densityAir:float,
@@ -174,6 +176,15 @@ def model_soiltemperature(noOfTempLayers:int,
                  * ExtendedDescription: None
                  * ShortDescription: Calculates the soil temperature at all soil layers
      - inputs:
+                 * name: noOfSoilLayers
+                               ** description : noOfSoilLayers
+                               ** inputtype : parameter
+                               ** parametercategory : constant
+                               ** datatype : INT
+                               ** max : 
+                               ** min : 
+                               ** default : 20
+                               ** unit : dimensionless
                  * name: noOfTempLayers
                                ** description : noOfTempLayers=noOfSoilLayers+2
                                ** inputtype : parameter
@@ -183,14 +194,14 @@ def model_soiltemperature(noOfTempLayers:int,
                                ** min : 
                                ** default : 22
                                ** unit : dimensionless
-                 * name: noOfSoilLayers
-                               ** description : noOfSoilLayers
+                 * name: noOfTempLayersPlus1
+                               ** description : for matrixSecondaryDiagonal
                                ** inputtype : parameter
                                ** parametercategory : constant
                                ** datatype : INT
                                ** max : 
                                ** min : 
-                               ** default : 20.0
+                               ** default : 23
                                ** unit : dimensionless
                  * name: soilSurfaceTemperature
                                ** description : current soilSurfaceTemperature
@@ -211,13 +222,14 @@ def model_soiltemperature(noOfTempLayers:int,
                                ** default : 1.0
                                ** unit : dimensionless
                  * name: soilMoistureConst
-                               ** description : initial soilmoisture
+                               ** description : constant soilmoisture during the model run
                                ** inputtype : parameter
                                ** parametercategory : constant
-                               ** datatype : DOUBLE
+                               ** datatype : DOUBLEARRAY
+                               ** len : noOfSoilLayers
                                ** max : 
                                ** min : 
-                               ** default : 0.25
+                               ** default : 
                                ** unit : m**3/m**3
                  * name: baseTemp
                                ** description : baseTemperature
@@ -323,7 +335,7 @@ def model_soiltemperature(noOfTempLayers:int,
                                ** inputtype : parameter
                                ** parametercategory : constant
                                ** datatype : DOUBLEARRAY
-                               ** len : 22
+                               ** len : noOfTempLayers
                                ** max : 
                                ** min : 
                                ** default : 
@@ -333,7 +345,7 @@ def model_soiltemperature(noOfTempLayers:int,
                                ** inputtype : parameter
                                ** parametercategory : constant
                                ** datatype : DOUBLEARRAY
-                               ** len : 20
+                               ** len : noOfSoilLayers
                                ** max : 
                                ** min : 
                                ** default : 
@@ -343,7 +355,7 @@ def model_soiltemperature(noOfTempLayers:int,
                                ** inputtype : parameter
                                ** parametercategory : constant
                                ** datatype : DOUBLEARRAY
-                               ** len : 20
+                               ** len : noOfSoilLayers
                                ** max : 
                                ** min : 
                                ** default : 
@@ -353,7 +365,7 @@ def model_soiltemperature(noOfTempLayers:int,
                                ** inputtype : parameter
                                ** parametercategory : constant
                                ** datatype : DOUBLEARRAY
-                               ** len : 20
+                               ** len : noOfSoilLayers
                                ** max : 
                                ** min : 
                                ** default : 
@@ -363,7 +375,7 @@ def model_soiltemperature(noOfTempLayers:int,
                                ** inputtype : variable
                                ** variablecategory : state
                                ** datatype : DOUBLEARRAY
-                               ** len : 22
+                               ** len : noOfTempLayers
                                ** max : 
                                ** min : 
                                ** default : 
@@ -373,7 +385,7 @@ def model_soiltemperature(noOfTempLayers:int,
                                ** inputtype : variable
                                ** variablecategory : state
                                ** datatype : DOUBLEARRAY
-                               ** len : 22
+                               ** len : noOfTempLayers
                                ** max : 
                                ** min : 
                                ** default : 
@@ -383,7 +395,7 @@ def model_soiltemperature(noOfTempLayers:int,
                                ** inputtype : variable
                                ** variablecategory : state
                                ** datatype : DOUBLEARRAY
-                               ** len : 22
+                               ** len : noOfTempLayers
                                ** max : 
                                ** min : 
                                ** default : 
@@ -393,7 +405,7 @@ def model_soiltemperature(noOfTempLayers:int,
                                ** inputtype : variable
                                ** variablecategory : state
                                ** datatype : DOUBLEARRAY
-                               ** len : 22
+                               ** len : noOfTempLayers
                                ** max : 
                                ** min : 
                                ** default : 
@@ -403,7 +415,7 @@ def model_soiltemperature(noOfTempLayers:int,
                                ** inputtype : variable
                                ** variablecategory : state
                                ** datatype : DOUBLEARRAY
-                               ** len : 22
+                               ** len : noOfTempLayers
                                ** max : 
                                ** min : 
                                ** default : 
@@ -413,7 +425,7 @@ def model_soiltemperature(noOfTempLayers:int,
                                ** inputtype : variable
                                ** variablecategory : state
                                ** datatype : DOUBLEARRAY
-                               ** len : 22
+                               ** len : noOfTempLayers
                                ** max : 
                                ** min : 
                                ** default : 
@@ -423,7 +435,7 @@ def model_soiltemperature(noOfTempLayers:int,
                                ** inputtype : variable
                                ** variablecategory : state
                                ** datatype : DOUBLEARRAY
-                               ** len : 23
+                               ** len : noOfTempLayersPlus1
                                ** max : 
                                ** min : 
                                ** default : 
@@ -433,7 +445,7 @@ def model_soiltemperature(noOfTempLayers:int,
                                ** inputtype : variable
                                ** variablecategory : state
                                ** datatype : DOUBLEARRAY
-                               ** len : 22
+                               ** len : noOfTempLayers
                                ** max : 
                                ** min : 
                                ** default : 
@@ -443,7 +455,7 @@ def model_soiltemperature(noOfTempLayers:int,
                                ** inputtype : variable
                                ** variablecategory : state
                                ** datatype : DOUBLEARRAY
-                               ** len : 22
+                               ** len : noOfTempLayers
                                ** max : 
                                ** min : 
                                ** default : 
@@ -453,7 +465,7 @@ def model_soiltemperature(noOfTempLayers:int,
                                ** inputtype : variable
                                ** variablecategory : state
                                ** datatype : DOUBLEARRAY
-                               ** len : 22
+                               ** len : noOfTempLayers
                                ** max : 
                                ** min : 
                                ** default : 
@@ -463,7 +475,7 @@ def model_soiltemperature(noOfTempLayers:int,
                                ** inputtype : variable
                                ** variablecategory : state
                                ** datatype : DOUBLEARRAY
-                               ** len : 22
+                               ** len : noOfTempLayers
                                ** max : 
                                ** min : 
                                ** default : 
@@ -473,7 +485,7 @@ def model_soiltemperature(noOfTempLayers:int,
                                ** inputtype : variable
                                ** variablecategory : state
                                ** datatype : DOUBLEARRAY
-                               ** len : 22
+                               ** len : noOfTempLayers
                                ** max : 
                                ** min : 
                                ** default : 
@@ -483,7 +495,7 @@ def model_soiltemperature(noOfTempLayers:int,
                                ** inputtype : variable
                                ** variablecategory : state
                                ** datatype : DOUBLEARRAY
-                               ** len : 22
+                               ** len : noOfTempLayers
                                ** max : 
                                ** min : 
                                ** default : 
@@ -493,7 +505,7 @@ def model_soiltemperature(noOfTempLayers:int,
                                ** inputtype : variable
                                ** variablecategory : state
                                ** datatype : DOUBLEARRAY
-                               ** len : 22
+                               ** len : noOfTempLayers
                                ** max : 
                                ** min : 
                                ** default : 
