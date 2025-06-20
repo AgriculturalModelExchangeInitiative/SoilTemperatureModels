@@ -47,3 +47,41 @@ for e in mu.exogenous:
     exos.setdefault(klass, []).append(name)
 
 pprint(exos)
+
+
+class model:
+    def __init__(self, config):
+        self.internal = {}
+
+    def init(self):
+        # call the init function of the model
+        # update internal with structured variables or flat dict.
+        pass
+
+    def step(self, weather):
+        # call the model function
+        # update internal with structured variables or flat dict.
+        pass
+
+    def run(self, config):
+        pass
+
+
+a=1
+b=2
+
+def f(a, b):
+    " c,d=f(a,b) "
+    return a + b, a-b
+
+inputs = {'a': a, 'b': b}
+outputs = f(**inputs)
+outs = dict(zip(('c', 'd'), outputs))
+print(f"Outputs: {outs}")
+
+# 1. définir notre modèle objet (weather, soil, crop, management
+# 2. Retourver celui de APSIM à partir de crop2ml
+# 3. Analyser et classer les variables (input/output) de APSIM 
+# 4. Mapper les datat APSIM avec le modèle de donnée
+# 5. gérer les states/rates à récuperer du init à passer au modèle en entrée et à mettre à jour en sortie
+)
