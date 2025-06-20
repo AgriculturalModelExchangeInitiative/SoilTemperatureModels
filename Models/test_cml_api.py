@@ -1,3 +1,4 @@
+from pprint import pprint
 from pathlib import Path
 
 from pycropml import pparse, render_cyml
@@ -45,4 +46,4 @@ for e in mu.exogenous:
         name= None
     exos.setdefault(klass, []).append(name)
 
-print("Categories : ", exos)
+pprint(exos)
