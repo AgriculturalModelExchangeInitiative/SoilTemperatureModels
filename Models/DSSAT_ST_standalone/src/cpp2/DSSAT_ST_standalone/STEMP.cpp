@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <array>
 #include <map>
+#include <set>
 #include <tuple>
 #include "STEMP.h"
 using namespace DSSAT_ST_standalone;
@@ -40,12 +41,10 @@ void STEMP::Init(STEMP_State &s, STEMP_State &s1, STEMP_Rate &r, STEMP_Auxiliary
     std::vector<double> SWI(NL);
     SWI = SW;
     DSI = DS;
-    if (XLAT < 0.0)
-    {
+    if (XLAT < 0.0) {
         s.HDAY = 20.0;
     }
-    else
-    {
+    else {
         s.HDAY = 200.0;
     }
     TBD = 0.0;
@@ -53,14 +52,11 @@ void STEMP::Init(STEMP_State &s, STEMP_State &s1, STEMP_Rate &r, STEMP_Auxiliary
     TSW = 0.0;
     s.TDL = 0.0;
     s.CUMDPT = 0.0;
-    for (L=1 ; L!=NLAYR + 1 ; L+=1)
-    {
-        if (L == 1)
-        {
+    for (L=1; L!=NLAYR + 1; L+=1) {
+        if (L == 1) {
             DLI[L - 1] = DSI[L - 1];
         }
-        else
-        {
+        else {
             DLI[L - 1] = DSI[L - 1] - DSI[L - 1 - 1];
         }
         s.DSMID[L - 1] = s.CUMDPT + (DLI[(L - 1)] * 5.0);
@@ -70,12 +66,10 @@ void STEMP::Init(STEMP_State &s, STEMP_State &s1, STEMP_Rate &r, STEMP_Auxiliary
         TSW = TSW + (SWI[(L - 1)] * DLI[(L - 1)]);
         s.TDL = s.TDL + (DUL[(L - 1)] * DLI[(L - 1)]);
     }
-    if (ISWWAT == "Y")
-    {
+    if (ISWWAT == "Y") {
         PESW = std::max(0.0, TSW - TLL);
     }
-    else
-    {
+    else {
         PESW = std::max(0.0, s.TDL - TLL);
     }
     ABD = TBD / DSI[(NLAYR - 1)];
@@ -84,17 +78,14 @@ void STEMP::Init(STEMP_State &s, STEMP_State &s1, STEMP_Rate &r, STEMP_Auxiliary
     WW = 0.356 - (0.144 * ABD);
     B = std::log(500.0 / DP);
     ALBEDO = MSALB;
-    for (I=1 ; I!=5 + 1 ; I+=1)
-    {
+    for (I=1; I!=5 + 1; I+=1) {
         s.TMA[I - 1] = int(ex.TAVG * 10000.) / 10000.;
     }
     s.ATOT = s.TMA[(1 - 1)] * 5.0;
-    for (L=1 ; L!=NLAYR + 1 ; L+=1)
-    {
+    for (L=1; L!=NLAYR + 1; L+=1) {
         s.ST[L - 1] = ex.TAVG;
     }
-    for (I=1 ; I!=8 + 1 ; I+=1)
-    {
+    for (I=1; I!=8 + 1; I+=1) {
         tie(s.ATOT, s.TMA, s.SRFTEMP, s.ST) = SOILT(NL, ALBEDO, B, s.CUMDPT, ex.DOY, DP, s.HDAY, NLAYR, PESW, ex.SRAD, ex.TAMP, ex.TAV, ex.TAVG, ex.TMAX, WW, s.DSMID, s.ATOT, s.TMA);
     }
 }
@@ -445,8 +436,7 @@ void STEMP::Calculate_Model(STEMP_State &s, STEMP_State &s1, STEMP_Rate &r, STEM
     TBD = 0.0;
     TLL = 0.0;
     TSW = 0.0;
-    for (L=1 ; L!=NLAYR + 1 ; L+=1)
-    {
+    for (L=1; L!=NLAYR + 1; L+=1) {
         TBD = TBD + (BD[(L - 1)] * DLAYR[(L - 1)]);
         s.TDL = s.TDL + (DUL[(L - 1)] * DLAYR[(L - 1)]);
         TLL = TLL + (LL[(L - 1)] * DLAYR[(L - 1)]);
@@ -458,12 +448,10 @@ void STEMP::Calculate_Model(STEMP_State &s, STEMP_State &s1, STEMP_Rate &r, STEM
     WW = 0.356 - (0.144 * ABD);
     B = std::log(500.0 / DP);
     ALBEDO = MSALB;
-    if (ISWWAT == "Y")
-    {
+    if (ISWWAT == "Y") {
         PESW = std::max(0.0, TSW - TLL);
     }
-    else
-    {
+    else {
         PESW = std::max(0.0, s.TDL - TLL);
     }
     tie(s.ATOT, s.TMA, s.SRFTEMP, s.ST) = SOILT(NL, ALBEDO, B, s.CUMDPT, ex.DOY, DP, s.HDAY, NLAYR, PESW, ex.SRAD, ex.TAMP, ex.TAV, ex.TAVG, ex.TMAX, WW, s.DSMID, s.ATOT, s.TMA);
@@ -483,8 +471,7 @@ std::tuple<double,std::vector<double> ,double,std::vector<double> > STEMP::SOILT
     std::vector<double> ST(NL);
     ALX = (float(DOY) - HDAY) * 0.0174;
     ATOT = ATOT - TMA[5 - 1];
-    for (K=5 ; K!=2 - 1 ; K+=-1)
-    {
+    for (K=5; K!=2 - 1; K+=-1) {
         TMA[K - 1] = TMA[K - 1 - 1];
     }
     TMA[1 - 1] = TAVG;
@@ -495,11 +482,9 @@ std::tuple<double,std::vector<double> ,double,std::vector<double> > STEMP::SOILT
     DD = FX * DP;
     TA = TAV + (TAMP * std::cos(ALX) / 2.0);
     DT = ATOT / 5.0 - TA;
-    for (L=1 ; L!=NLAYR + 1 ; L+=1)
-    {
+    for (L=1; L!=NLAYR + 1; L+=1) {
         ZD = -(DSMID[(L - 1)] / DD);
         ST[L - 1] = TAV + ((TAMP / 2.0 * std::cos((ALX + ZD)) + DT) * std::exp(ZD));
-        ST[L - 1] = int(ST[(L - 1)] * 1000.) / 1000.;
     }
     SRFTEMP = TAV + (TAMP / 2. * std::cos(ALX) + DT);
     return make_tuple(ATOT, TMA, SRFTEMP, ST);

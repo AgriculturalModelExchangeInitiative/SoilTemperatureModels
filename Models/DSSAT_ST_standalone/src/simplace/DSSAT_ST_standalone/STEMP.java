@@ -1,14 +1,15 @@
-package net.simplace.usermodules.amei.DSSAT_ST_standalone;
-import java.util.Arrays;
-import java.util.HashMap;
-
-import org.jdom2.Element;
-
+package net.simplace.sim.components.DSSAT_ST_standalone;
+import  java.io.*;
+import  java.util.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import net.simplace.sim.model.FWSimComponent;
 import net.simplace.sim.util.FWSimVarMap;
 import net.simplace.sim.util.FWSimVariable;
 import net.simplace.sim.util.FWSimVariable.CONTENT_TYPE;
 import net.simplace.sim.util.FWSimVariable.DATA_TYPE;
+import org.jdom2.Element;
 
 
 public class STEMP extends FWSimComponent
@@ -91,23 +92,23 @@ public class STEMP extends FWSimComponent
         Double [] t_DUL = DUL.getValue();
         Double [] t_LL = LL.getValue();
         Integer t_NLAYR = NLAYR.getValue();
-        Double t_MSALB = MSALB.getValue();
-        Double t_SRAD = SRAD.getValue();
+        double t_MSALB = MSALB.getValue();
+        double t_SRAD = SRAD.getValue();
         Double [] t_SW = SW.getValue();
-        Double t_TAVG = TAVG.getValue();
-        Double t_TMAX = TMAX.getValue();
-        Double t_XLAT = XLAT.getValue();
-        Double t_TAV = TAV.getValue();
-        Double t_TAMP = TAMP.getValue();
+        double t_TAVG = TAVG.getValue();
+        double t_TMAX = TMAX.getValue();
+        double t_XLAT = XLAT.getValue();
+        double t_TAV = TAV.getValue();
+        double t_TAMP = TAMP.getValue();
         Integer t_DOY = DOY.getValue();
-        Double t_CUMDPT = CUMDPT.getDefault();
-        Double [] t_DSMID = new Double[t_NL];
-        Double t_TDL = TDL.getDefault();
-        Double [] t_TMA = new Double[5];
-        Double t_ATOT = ATOT.getDefault();
-        Double t_SRFTEMP = SRFTEMP.getDefault();
-        Double [] t_ST = new Double[t_NL];
-        Double t_HDAY = HDAY.getDefault();
+        double t_CUMDPT = CUMDPT.getDefault();
+        Double [] t_DSMID = DSMID.getDefault();
+        double t_TDL = TDL.getDefault();
+        Double [] t_TMA = TMA.getDefault();
+        double t_ATOT = ATOT.getDefault();
+        double t_SRFTEMP = SRFTEMP.getDefault();
+        Double [] t_ST = ST.getDefault();
+        double t_HDAY = HDAY.getDefault();
         t_CUMDPT = 0.0d;
         Arrays.fill(t_DSMID, 0.0d);
         t_TDL = 0.0d;
@@ -118,16 +119,16 @@ public class STEMP extends FWSimComponent
         t_HDAY = 0.0d;
         Integer I;
         Integer L;
-        Double ABD;
-        Double ALBEDO;
-        Double B;
-        Double DP;
-        Double FX;
-        Double PESW;
-        Double TBD;
-        Double WW;
-        Double TLL;
-        Double TSW;
+        double ABD;
+        double ALBEDO;
+        double B;
+        double DP;
+        double FX;
+        double PESW;
+        double TBD;
+        double WW;
+        double TLL;
+        double TSW;
         Double[] DLI = new Double[t_NL];
         Double[] DSI = new Double[t_NL];
         Double[] SWI = new Double[t_NL];
@@ -188,7 +189,7 @@ public class STEMP extends FWSimComponent
         }
         for (I=1 ; I!=8 + 1 ; I+=1)
         {
-            zz_SOILT = Calculate_SOILT(t_NL, ALBEDO, B, t_CUMDPT, t_DOY, DP, t_HDAY, t_NLAYR, PESW, t_SRAD, t_TAMP, t_TAV, t_TAVG, t_TMAX, WW, t_DSMID, t_ATOT, t_TMA, t_ST);
+            zz_SOILT = Calculate_SOILT(t_NL, ALBEDO, B, t_CUMDPT, t_DOY, DP, t_HDAY, t_NLAYR, PESW, t_SRAD, t_TAMP, t_TAV, t_TAVG, t_TMAX, WW, t_DSMID, t_ATOT, t_TMA);
             t_ATOT = zz_SOILT.getATOT();
             t_TMA = zz_SOILT.getTMA();
             t_SRFTEMP = zz_SOILT.getSRFTEMP();
@@ -215,34 +216,34 @@ public class STEMP extends FWSimComponent
         Double [] t_DUL = DUL.getValue();
         Double [] t_LL = LL.getValue();
         Integer t_NLAYR = NLAYR.getValue();
-        Double t_MSALB = MSALB.getValue();
-        Double t_SRAD = SRAD.getValue();
+        double t_MSALB = MSALB.getValue();
+        double t_SRAD = SRAD.getValue();
         Double [] t_SW = SW.getValue();
-        Double t_TAVG = TAVG.getValue();
-        Double t_TMAX = TMAX.getValue();
-        Double t_XLAT = XLAT.getValue();
-        Double t_TAV = TAV.getValue();
-        Double t_TAMP = TAMP.getValue();
-        Double t_CUMDPT = CUMDPT.getValue();
+        double t_TAVG = TAVG.getValue();
+        double t_TMAX = TMAX.getValue();
+        double t_XLAT = XLAT.getValue();
+        double t_TAV = TAV.getValue();
+        double t_TAMP = TAMP.getValue();
+        double t_CUMDPT = CUMDPT.getValue();
         Double [] t_DSMID = DSMID.getValue();
-        Double t_TDL = TDL.getValue();
+        double t_TDL = TDL.getValue();
         Double [] t_TMA = TMA.getValue();
-        Double t_ATOT = ATOT.getValue();
-        Double t_SRFTEMP = SRFTEMP.getValue();
+        double t_ATOT = ATOT.getValue();
+        double t_SRFTEMP = SRFTEMP.getValue();
         Double [] t_ST = ST.getValue();
         Integer t_DOY = DOY.getValue();
-        Double t_HDAY = HDAY.getValue();
+        double t_HDAY = HDAY.getValue();
         Integer L;
-        Double ABD;
-        Double ALBEDO;
-        Double B;
-        Double DP;
-        Double FX;
-        Double PESW;
-        Double TBD;
-        Double WW;
-        Double TLL;
-        Double TSW;
+        double ABD;
+        double ALBEDO;
+        double B;
+        double DP;
+        double FX;
+        double PESW;
+        double TBD;
+        double WW;
+        double TLL;
+        double TSW;
         TBD = 0.0d;
         TLL = 0.0d;
         TSW = 0.0d;
@@ -259,7 +260,7 @@ public class STEMP extends FWSimComponent
         WW = 0.356d - (0.144d * ABD);
         B = Math.log(500.0d / DP);
         ALBEDO = t_MSALB;
-        if (t_ISWWAT.equalsIgnoreCase("Y"))
+        if (t_ISWWAT == "Y")
         {
             PESW = Math.max(0.0d, TSW - TLL);
         }
@@ -267,7 +268,7 @@ public class STEMP extends FWSimComponent
         {
             PESW = Math.max(0.0d, t_TDL - TLL);
         }
-        zz_SOILT = Calculate_SOILT(t_NL, ALBEDO, B, t_CUMDPT, t_DOY, DP, t_HDAY, t_NLAYR, PESW, t_SRAD, t_TAMP, t_TAV, t_TAVG, t_TMAX, WW, t_DSMID, t_ATOT, t_TMA, t_ST);
+        zz_SOILT = Calculate_SOILT(t_NL, ALBEDO, B, t_CUMDPT, t_DOY, DP, t_HDAY, t_NLAYR, PESW, t_SRAD, t_TAMP, t_TAV, t_TAVG, t_TMAX, WW, t_DSMID, t_ATOT, t_TMA);
         t_ATOT = zz_SOILT.getATOT();
         t_TMA = zz_SOILT.getTMA();
         t_SRFTEMP = zz_SOILT.getSRFTEMP();
@@ -280,41 +281,40 @@ public class STEMP extends FWSimComponent
         SRFTEMP.setValue(t_SRFTEMP, this);
         ST.setValue(t_ST, this);
     }
-    public SOILT Calculate_SOILT (Integer t_NL, Double ALBEDO, Double B, Double t_CUMDPT, Integer t_DOY, Double DP, Double t_HDAY, Integer t_NLAYR, Double PESW, Double t_SRAD, Double t_TAMP, Double t_TAV, Double t_TAVG, Double t_TMAX, Double WW, Double [] t_DSMID, Double t_ATOT, Double [] t_TMA, Double[] t_ST)
+    public SOILT Calculate_SOILT (Integer NL, double ALBEDO, double B, double CUMDPT, Integer DOY, double DP, double HDAY, Integer NLAYR, double PESW, double SRAD, double TAMP, double TAV, double TAVG, double TMAX, double WW, Double [] DSMID, double ATOT, Double [] TMA)
     {
         Integer K;
         Integer L;
-        Double ALX;
-        Double DD;
-        Double DT;
-        Double FX;
-        Double t_SRFTEMP;
-        Double TA;
-        Double WC;
-        Double ZD;
-        Double[] ST = new Double[t_NL];
-        ALX = ((double)(t_DOY) - t_HDAY) * 0.0174d;
-        t_ATOT = t_ATOT - t_TMA[5 - 1];
+        double ALX;
+        double DD;
+        double DT;
+        double FX;
+        double t_SRFTEMP;
+        double TA;
+        double WC;
+        double ZD;
+        Double[] ST = new Double[NL];
+        ALX = ((double)(DOY) - HDAY) * 0.0174d;
+        ATOT = ATOT - TMA[5 - 1];
         for (K=5 ; K!=2 - 1 ; K+=-1)
         {
-            t_TMA[K - 1] = t_TMA[K - 1 - 1];
+            TMA[K - 1] = TMA[K - 1 - 1];
         }
-        t_TMA[1 - 1] = (1.0d - ALBEDO) * (t_TAVG + ((t_TMAX - t_TAVG) * Math.sqrt(t_SRAD * 0.03d))) + (ALBEDO * t_TMA[(1 - 1)]);
-        t_TMA[1 - 1] = (int)(t_TMA[(1 - 1)] * 10000.d) / 10000.d;
-        t_ATOT = t_ATOT + t_TMA[1 - 1];
-        WC = Math.max(0.01d, PESW) / (WW * t_CUMDPT) * 10.0d;
+        TMA[1 - 1] = TAVG;
+        TMA[1 - 1] = (int)(TMA[(1 - 1)] * 10000.d) / 10000.d;
+        ATOT = ATOT + TMA[1 - 1];
+        WC = Math.max(0.01d, PESW) / (WW * CUMDPT) * 10.0d;
         FX = Math.exp(B * Math.pow((1.0d - WC) / (1.0d + WC), 2));
         DD = FX * DP;
-        TA = t_TAV + (t_TAMP * Math.cos(ALX) / 2.0d);
-        DT = t_ATOT / 5.0d - TA;
-        for (L=1 ; L!=t_NLAYR + 1 ; L+=1)
+        TA = TAV + (TAMP * Math.cos(ALX) / 2.0d);
+        DT = ATOT / 5.0d - TA;
+        for (L=1 ; L!=NLAYR + 1 ; L+=1)
         {
-            ZD = -(t_DSMID[(L - 1)] / DD);
-            t_ST[L - 1] = t_TAV + ((t_TAMP / 2.0d * Math.cos((ALX + ZD)) + DT) * Math.exp(ZD));
-            t_ST[L - 1] = (int)(t_ST[(L - 1)] * 1000.d) / 1000.d;
+            ZD = -(DSMID[(L - 1)] / DD);
+            ST[L - 1] = TAV + ((TAMP / 2.0d * Math.cos((ALX + ZD)) + DT) * Math.exp(ZD));
         }
-        t_SRFTEMP = t_TAV + (t_TAMP / 2.d * Math.cos(ALX) + DT);
-        return new SOILT(t_ATOT, t_TMA, t_SRFTEMP, t_ST);
+        SRFTEMP = TAV + (TAMP / 2.d * Math.cos(ALX) + DT);
+        return new SOILT(ATOT, TMA, SRFTEMP, ST);
     }
 
     public HashMap<String, FWSimVariable<?>> fillTestVariables(int aParamIndex, TEST_STATE aDefineOrCheck)
@@ -329,11 +329,11 @@ public class STEMP extends FWSimComponent
     }
 }
 final class SOILT {
-    private Double ATOT;
-    public Double getATOT()
+    private double ATOT;
+    public double getATOT()
     { return ATOT; }
 
-    public void setATOT(Double _ATOT)
+    public void setATOT(double _ATOT)
     { this.ATOT= _ATOT; } 
     
     private Double [] TMA;
@@ -343,11 +343,11 @@ final class SOILT {
     public void setTMA(Double [] _TMA)
     { this.TMA= _TMA; } 
     
-    private Double SRFTEMP;
-    public Double getSRFTEMP()
+    private double SRFTEMP;
+    public double getSRFTEMP()
     { return SRFTEMP; }
 
-    public void setSRFTEMP(Double _SRFTEMP)
+    public void setSRFTEMP(double _SRFTEMP)
     { this.SRFTEMP= _SRFTEMP; } 
     
     private Double [] ST;
@@ -357,7 +357,7 @@ final class SOILT {
     public void setST(Double [] _ST)
     { this.ST= _ST; } 
     
-    public SOILT(Double ATOT,Double [] TMA,Double SRFTEMP,Double [] ST)
+    public SOILT(double ATOT,Double [] TMA,double SRFTEMP,Double [] ST)
     {
         this.ATOT = ATOT;
         this.TMA = TMA;

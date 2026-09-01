@@ -135,7 +135,7 @@ class STEMP_Wrapper :  Model
         stemp_Component.NLAYR = null; // To be modified
         stemp_Component.DS = null; // To be modified
         stemp_Component.DLAYR = null; // To be modified
-        stemp_Component.ISWWAT = null; // To be modified
+        stemp_Component.ISWWAT = 'Y'
         stemp_Component.BD = null; // To be modified
         stemp_Component.SW = null; // To be modified
         stemp_Component.XLAT = null; // To be modified

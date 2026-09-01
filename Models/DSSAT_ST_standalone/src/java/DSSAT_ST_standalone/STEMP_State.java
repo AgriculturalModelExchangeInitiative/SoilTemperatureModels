@@ -3,13 +3,13 @@ import  java.util.*;
 import java.time.LocalDateTime;
 public class STEMP_State
 {
-    private Double HDAY;
-    private Double SRFTEMP;
+    private double HDAY;
+    private double SRFTEMP;
     private Double [] ST;
     private Double [] TMA;
-    private Double TDL;
-    private Double CUMDPT;
-    private Double ATOT;
+    private double TDL;
+    private double CUMDPT;
+    private double ATOT;
     private Double [] DSMID;
     
     public STEMP_State() { }
@@ -40,16 +40,16 @@ public class STEMP_State
         }
         }
     }
-    public Double getHDAY()
+    public double getHDAY()
     { return HDAY; }
 
-    public void setHDAY(Double _HDAY)
+    public void setHDAY(double _HDAY)
     { this.HDAY= _HDAY; } 
     
-    public Double getSRFTEMP()
+    public double getSRFTEMP()
     { return SRFTEMP; }
 
-    public void setSRFTEMP(Double _SRFTEMP)
+    public void setSRFTEMP(double _SRFTEMP)
     { this.SRFTEMP= _SRFTEMP; } 
     
     public Double [] getST()
@@ -64,22 +64,22 @@ public class STEMP_State
     public void setTMA(Double [] _TMA)
     { this.TMA= _TMA; } 
     
-    public Double getTDL()
+    public double getTDL()
     { return TDL; }
 
-    public void setTDL(Double _TDL)
+    public void setTDL(double _TDL)
     { this.TDL= _TDL; } 
     
-    public Double getCUMDPT()
+    public double getCUMDPT()
     { return CUMDPT; }
 
-    public void setCUMDPT(Double _CUMDPT)
+    public void setCUMDPT(double _CUMDPT)
     { this.CUMDPT= _CUMDPT; } 
     
-    public Double getATOT()
+    public double getATOT()
     { return ATOT; }
 
-    public void setATOT(Double _ATOT)
+    public void setATOT(double _ATOT)
     { this.ATOT= _ATOT; } 
     
     public Double [] getDSMID()

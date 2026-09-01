@@ -8,20 +8,20 @@ public class STEMP
     public void Init(STEMP_State s, STEMP_State s1, STEMP_Rate r, STEMP_Auxiliary a,  STEMP_Exogenous ex)
     {
         SOILT zz_SOILT;
-        Double SRAD = ex.getSRAD();
-        Double TAVG = ex.getTAVG();
-        Double TMAX = ex.getTMAX();
-        Double TAV = ex.getTAV();
-        Double TAMP = ex.getTAMP();
+        double SRAD = ex.getSRAD();
+        double TAVG = ex.getTAVG();
+        double TMAX = ex.getTMAX();
+        double TAV = ex.getTAV();
+        double TAMP = ex.getTAMP();
         Integer DOY = ex.getDOY();
-        Double CUMDPT;
+        double CUMDPT;
         Double[] DSMID =  new Double [NL];
-        Double TDL;
+        double TDL;
         Double[] TMA =  new Double [5];
-        Double ATOT;
-        Double SRFTEMP;
+        double ATOT;
+        double SRFTEMP;
         Double[] ST =  new Double [NL];
-        Double HDAY;
+        double HDAY;
         CUMDPT = 0.0d;
         DSMID= new Double[NL];
         Arrays.fill(DSMID, 0.0d);
@@ -35,16 +35,16 @@ public class STEMP
         HDAY = 0.0d;
         Integer I;
         Integer L;
-        Double ABD;
-        Double ALBEDO;
-        Double B;
-        Double DP;
-        Double FX;
-        Double PESW;
-        Double TBD;
-        Double WW;
-        Double TLL;
-        Double TSW;
+        double ABD;
+        double ALBEDO;
+        double B;
+        double DP;
+        double FX;
+        double PESW;
+        double TBD;
+        double WW;
+        double TLL;
+        double TSW;
         Double[] DLI =  new Double [NL];
         Double[] DSI =  new Double [NL];
         Double[] SWI =  new Double [NL];
@@ -176,11 +176,11 @@ public class STEMP
     public void setNLAYR(Integer _NLAYR)
     { this.NLAYR= _NLAYR; } 
     
-    private Double MSALB;
-    public Double getMSALB()
+    private double MSALB;
+    public double getMSALB()
     { return MSALB; }
 
-    public void setMSALB(Double _MSALB)
+    public void setMSALB(double _MSALB)
     { this.MSALB= _MSALB; } 
     
     private Double [] SW;
@@ -190,11 +190,11 @@ public class STEMP
     public void setSW(Double [] _SW)
     { this.SW= _SW; } 
     
-    private Double XLAT;
-    public Double getXLAT()
+    private double XLAT;
+    public double getXLAT()
     { return XLAT; }
 
-    public void setXLAT(Double _XLAT)
+    public void setXLAT(double _XLAT)
     { this.XLAT= _XLAT; } 
     
     public STEMP() { }
@@ -497,31 +497,31 @@ public class STEMP
     //                          ** min : 
     //                          ** unit : degC
         SOILT zz_SOILT;
-        Double SRAD = ex.getSRAD();
-        Double TAVG = ex.getTAVG();
-        Double TMAX = ex.getTMAX();
-        Double TAV = ex.getTAV();
-        Double TAMP = ex.getTAMP();
-        Double CUMDPT = s.getCUMDPT();
+        double SRAD = ex.getSRAD();
+        double TAVG = ex.getTAVG();
+        double TMAX = ex.getTMAX();
+        double TAV = ex.getTAV();
+        double TAMP = ex.getTAMP();
+        double CUMDPT = s.getCUMDPT();
         Double [] DSMID = s.getDSMID();
-        Double TDL = s.getTDL();
+        double TDL = s.getTDL();
         Double [] TMA = s.getTMA();
-        Double ATOT = s.getATOT();
-        Double SRFTEMP = s.getSRFTEMP();
+        double ATOT = s.getATOT();
+        double SRFTEMP = s.getSRFTEMP();
         Double [] ST = s.getST();
         Integer DOY = ex.getDOY();
-        Double HDAY = s.getHDAY();
+        double HDAY = s.getHDAY();
         Integer L;
-        Double ABD;
-        Double ALBEDO;
-        Double B;
-        Double DP;
-        Double FX;
-        Double PESW;
-        Double TBD;
-        Double WW;
-        Double TLL;
-        Double TSW;
+        double ABD;
+        double ALBEDO;
+        double B;
+        double DP;
+        double FX;
+        double PESW;
+        double TBD;
+        double WW;
+        double TLL;
+        double TSW;
         TBD = 0.0d;
         TLL = 0.0d;
         TSW = 0.0d;
@@ -559,18 +559,18 @@ public class STEMP
         s.setSRFTEMP(SRFTEMP);
         s.setST(ST);
     }
-    public SOILT Calculate_SOILT (Integer NL, Double ALBEDO, Double B, Double CUMDPT, Integer DOY, Double DP, Double HDAY, Integer NLAYR, Double PESW, Double SRAD, Double TAMP, Double TAV, Double TAVG, Double TMAX, Double WW, Double [] DSMID, Double ATOT, Double [] TMA)
+    public SOILT Calculate_SOILT (Integer NL, double ALBEDO, double B, double CUMDPT, Integer DOY, double DP, double HDAY, Integer NLAYR, double PESW, double SRAD, double TAMP, double TAV, double TAVG, double TMAX, double WW, Double [] DSMID, double ATOT, Double [] TMA)
     {
         Integer K;
         Integer L;
-        Double ALX;
-        Double DD;
-        Double DT;
-        Double FX;
-        Double SRFTEMP;
-        Double TA;
-        Double WC;
-        Double ZD;
+        double ALX;
+        double DD;
+        double DT;
+        double FX;
+        double SRFTEMP;
+        double TA;
+        double WC;
+        double ZD;
         Double[] ST =  new Double [NL];
         ALX = ((double)(DOY) - HDAY) * 0.0174d;
         ATOT = ATOT - TMA[5 - 1];
@@ -590,18 +590,17 @@ public class STEMP
         {
             ZD = -(DSMID[(L - 1)] / DD);
             ST[L - 1] = TAV + ((TAMP / 2.0d * Math.cos((ALX + ZD)) + DT) * Math.exp(ZD));
-            ST[L - 1] = (int)(ST[(L - 1)] * 1000.d) / 1000.d;
         }
         SRFTEMP = TAV + (TAMP / 2.d * Math.cos(ALX) + DT);
         return new SOILT(ATOT, TMA, SRFTEMP, ST);
     }
 }
 final class SOILT {
-    private Double ATOT;
-    public Double getATOT()
+    private double ATOT;
+    public double getATOT()
     { return ATOT; }
 
-    public void setATOT(Double _ATOT)
+    public void setATOT(double _ATOT)
     { this.ATOT= _ATOT; } 
     
     private Double [] TMA;
@@ -611,11 +610,11 @@ final class SOILT {
     public void setTMA(Double [] _TMA)
     { this.TMA= _TMA; } 
     
-    private Double SRFTEMP;
-    public Double getSRFTEMP()
+    private double SRFTEMP;
+    public double getSRFTEMP()
     { return SRFTEMP; }
 
-    public void setSRFTEMP(Double _SRFTEMP)
+    public void setSRFTEMP(double _SRFTEMP)
     { this.SRFTEMP= _SRFTEMP; } 
     
     private Double [] ST;
@@ -625,7 +624,7 @@ final class SOILT {
     public void setST(Double [] _ST)
     { this.ST= _ST; } 
     
-    public SOILT(Double ATOT,Double [] TMA,Double SRFTEMP,Double [] ST)
+    public SOILT(double ATOT,Double [] TMA,double SRFTEMP,Double [] ST)
     {
         this.ATOT = ATOT;
         this.TMA = TMA;

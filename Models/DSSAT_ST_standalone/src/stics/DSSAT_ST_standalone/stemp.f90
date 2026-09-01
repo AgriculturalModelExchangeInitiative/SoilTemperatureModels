@@ -31,16 +31,16 @@ CONTAINS
         IMPLICIT NONE
         INTEGER:: i_cyml_r
         INTEGER, INTENT(IN) :: NL
-        CHARACTER(65), INTENT(IN) :: ISWWAT
+        CHARACTER(len=*), INTENT(IN) :: ISWWAT
         REAL , DIMENSION(NL ), INTENT(IN) :: BD
         REAL , DIMENSION(NL ), INTENT(IN) :: DLAYR
-        REAL , DIMENSION(NL ), INTENT(IN) :: DS
+        REAL , DIMENSION(NL ), ALLOCATABLE , INTENT(IN) :: DS
         REAL , DIMENSION(NL ), INTENT(IN) :: DUL
         REAL , DIMENSION(NL ), INTENT(IN) :: LL
         INTEGER, INTENT(IN) :: NLAYR
         REAL, INTENT(IN) :: MSALB
         REAL, INTENT(IN) :: SRAD
-        REAL , DIMENSION(NL ), INTENT(IN) :: SW
+        REAL , DIMENSION(NL ), ALLOCATABLE , INTENT(IN) :: SW
         REAL, INTENT(IN) :: TAVG
         REAL, INTENT(IN) :: TMAX
         REAL, INTENT(IN) :: XLAT
@@ -48,12 +48,12 @@ CONTAINS
         REAL, INTENT(IN) :: TAMP
         INTEGER, INTENT(IN) :: DOY
         REAL, INTENT(OUT) :: CUMDPT
-        REAL , DIMENSION(NL ), INTENT(OUT) :: DSMID
+        REAL , DIMENSION(: ), ALLOCATABLE , INTENT(OUT) :: DSMID
         REAL, INTENT(OUT) :: TDL
-        REAL , DIMENSION(5 ), INTENT(OUT) :: TMA
+        REAL , DIMENSION(: ), ALLOCATABLE , INTENT(OUT) :: TMA
         REAL, INTENT(OUT) :: ATOT
         REAL, INTENT(OUT) :: SRFTEMP
-        REAL , DIMENSION(NL ), INTENT(OUT) :: ST
+        REAL , DIMENSION(: ), ALLOCATABLE , INTENT(OUT) :: ST
         REAL, INTENT(OUT) :: HDAY
         INTEGER:: I
         INTEGER:: L
@@ -67,19 +67,33 @@ CONTAINS
         REAL:: WW
         REAL:: TLL
         REAL:: TSW
-        REAL , DIMENSION(NL ):: DLI
-        REAL , DIMENSION(NL ):: DSI
-        REAL , DIMENSION(NL ):: SWI
+        REAL , DIMENSION(: ), ALLOCATABLE :: DLI
+        REAL , DIMENSION(: ), ALLOCATABLE :: DSI
+        REAL , DIMENSION(: ), ALLOCATABLE :: SWI
+        ALLOCATE(DSMID(NL))
+        ALLOCATE(ST(NL))
+        ALLOCATE(DLI(NL))
+        ALLOCATE(DSI(NL))
+        ALLOCATE(SWI(NL))
         CUMDPT = 0.0
+        ALLOCATE(DSMID(NL))
         DSMID = 0.0
         TDL = 0.0
+        ALLOCATE(TMA(5))
         TMA = 0.0
         ATOT = 0.0
         SRFTEMP = 0.0
+        ALLOCATE(ST(NL))
         ST = 0.0
         HDAY = 0.0
-        SWI = SW
-        DSI = DS
+        IF (ALLOCATED(SW)) THEN
+            ALLOCATE(SWI(SIZE(SW)))
+            SWI = SW
+        END IF
+        IF (ALLOCATED(DS)) THEN
+            ALLOCATE(DSI(SIZE(DS)))
+            DSI = DS
+        END IF
         IF(XLAT .LT. 0.0) THEN
             HDAY = 20.0
         ELSE
@@ -155,7 +169,7 @@ CONTAINS
         IMPLICIT NONE
         INTEGER:: i_cyml_r
         INTEGER, INTENT(IN) :: NL
-        CHARACTER(65), INTENT(IN) :: ISWWAT
+        CHARACTER(len=*), INTENT(IN) :: ISWWAT
         REAL , DIMENSION(NL ), INTENT(IN) :: BD
         REAL , DIMENSION(NL ), INTENT(IN) :: DLAYR
         REAL , DIMENSION(NL ), INTENT(IN) :: DS
@@ -171,12 +185,12 @@ CONTAINS
         REAL, INTENT(IN) :: TAV
         REAL, INTENT(IN) :: TAMP
         REAL, INTENT(INOUT) :: CUMDPT
-        REAL , DIMENSION(NL ), INTENT(INOUT) :: DSMID
+        REAL , DIMENSION(NL ), ALLOCATABLE , INTENT(INOUT) :: DSMID
         REAL, INTENT(INOUT) :: TDL
-        REAL , DIMENSION(5 ), INTENT(INOUT) :: TMA
+        REAL , DIMENSION(5 ), ALLOCATABLE , INTENT(INOUT) :: TMA
         REAL, INTENT(INOUT) :: ATOT
         REAL, INTENT(INOUT) :: SRFTEMP
-        REAL , DIMENSION(NL ), INTENT(INOUT) :: ST
+        REAL , DIMENSION(: ), ALLOCATABLE , INTENT(INOUT) :: ST
         INTEGER, INTENT(IN) :: DOY
         REAL, INTENT(IN) :: HDAY
         INTEGER:: L
@@ -560,7 +574,8 @@ CONTAINS
         REAL:: TA
         REAL:: WC
         REAL:: ZD
-        REAL , DIMENSION(NL ), INTENT(OUT) :: ST
+        REAL , DIMENSION(: ), ALLOCATABLE , INTENT(OUT) :: ST
+        ALLOCATE(ST(NL))
         ALX = (REAL(DOY) - HDAY) * 0.0174
         ATOT = ATOT - TMA(5 - 1+1)
         DO K = 5 , 2 - 1+1, -1
@@ -577,7 +592,6 @@ CONTAINS
         DO L = 1 , NLAYR + 1-1, 1
             ZD = -DSMID((L - 1)+1) / DD
             ST(L - 1+1) = TAV + ((TAMP / 2.0 * COS((ALX + ZD)) + DT) * EXP(ZD))
-            ST(L - 1+1) = INT(ST((L - 1)+1) * 1000.) / 1000.
         END DO
         SRFTEMP = TAV + (TAMP / 2. * COS(ALX) + DT)
     END SUBROUTINE SOILT

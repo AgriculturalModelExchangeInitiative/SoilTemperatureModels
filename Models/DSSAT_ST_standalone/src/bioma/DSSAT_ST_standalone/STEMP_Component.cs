@@ -21,27 +21,27 @@ namespace STEMP_.Strategies
             ModellingOptions mo0_0 = new ModellingOptions();
             //Parameters
             List<VarInfo> _parameters0_0 = new List<VarInfo>();
-            VarInfo v1 = new CompositeStrategyVarInfo(_STEMP, "MSALB");
+            VarInfo v1 = new CompositeStrategyVarInfo(_{'modu': 'STEMP', 'var': 'MSALB'}, "MSALB");
             _parameters0_0.Add(v1);
-            VarInfo v2 = new CompositeStrategyVarInfo(_STEMP, "NL");
+            VarInfo v2 = new CompositeStrategyVarInfo(_{'modu': 'STEMP', 'var': 'NL'}, "NL");
             _parameters0_0.Add(v2);
-            VarInfo v3 = new CompositeStrategyVarInfo(_STEMP, "LL");
+            VarInfo v3 = new CompositeStrategyVarInfo(_{'modu': 'STEMP', 'var': 'LL'}, "LL");
             _parameters0_0.Add(v3);
-            VarInfo v4 = new CompositeStrategyVarInfo(_STEMP, "NLAYR");
+            VarInfo v4 = new CompositeStrategyVarInfo(_{'modu': 'STEMP', 'var': 'NLAYR'}, "NLAYR");
             _parameters0_0.Add(v4);
-            VarInfo v5 = new CompositeStrategyVarInfo(_STEMP, "DS");
+            VarInfo v5 = new CompositeStrategyVarInfo(_{'modu': 'STEMP', 'var': 'DS'}, "DS");
             _parameters0_0.Add(v5);
-            VarInfo v6 = new CompositeStrategyVarInfo(_STEMP, "DLAYR");
+            VarInfo v6 = new CompositeStrategyVarInfo(_{'modu': 'STEMP', 'var': 'DLAYR'}, "DLAYR");
             _parameters0_0.Add(v6);
-            VarInfo v7 = new CompositeStrategyVarInfo(_STEMP, "ISWWAT");
+            VarInfo v7 = new CompositeStrategyVarInfo(_{'modu': 'STEMP', 'var': 'ISWWAT'}, "ISWWAT");
             _parameters0_0.Add(v7);
-            VarInfo v8 = new CompositeStrategyVarInfo(_STEMP, "BD");
+            VarInfo v8 = new CompositeStrategyVarInfo(_{'modu': 'STEMP', 'var': 'BD'}, "BD");
             _parameters0_0.Add(v8);
-            VarInfo v9 = new CompositeStrategyVarInfo(_STEMP, "SW");
+            VarInfo v9 = new CompositeStrategyVarInfo(_{'modu': 'STEMP', 'var': 'SW'}, "SW");
             _parameters0_0.Add(v9);
-            VarInfo v10 = new CompositeStrategyVarInfo(_STEMP, "XLAT");
+            VarInfo v10 = new CompositeStrategyVarInfo(_{'modu': 'STEMP', 'var': 'XLAT'}, "XLAT");
             _parameters0_0.Add(v10);
-            VarInfo v11 = new CompositeStrategyVarInfo(_STEMP, "DUL");
+            VarInfo v11 = new CompositeStrategyVarInfo(_{'modu': 'STEMP', 'var': 'DUL'}, "DUL");
             _parameters0_0.Add(v11);
             List<PropertyDescription> _inputs0_0 = new List<PropertyDescription>();
             PropertyDescription pd1 = new PropertyDescription();
@@ -462,57 +462,57 @@ namespace STEMP_.Strategies
 
         public static VarInfo MSALBVarInfo
         {
-            get { return STEMP_.Strategies.STEMP.MSALBVarInfo;} 
+            get { return STEMP_.Strategies.{'modu': 'STEMP', 'var': 'MSALB'}.MSALBVarInfo;} 
         }
 
         public static VarInfo NLVarInfo
         {
-            get { return STEMP_.Strategies.STEMP.NLVarInfo;} 
+            get { return STEMP_.Strategies.{'modu': 'STEMP', 'var': 'NL'}.NLVarInfo;} 
         }
 
         public static VarInfo LLVarInfo
         {
-            get { return STEMP_.Strategies.STEMP.LLVarInfo;} 
+            get { return STEMP_.Strategies.{'modu': 'STEMP', 'var': 'LL'}.LLVarInfo;} 
         }
 
         public static VarInfo NLAYRVarInfo
         {
-            get { return STEMP_.Strategies.STEMP.NLAYRVarInfo;} 
+            get { return STEMP_.Strategies.{'modu': 'STEMP', 'var': 'NLAYR'}.NLAYRVarInfo;} 
         }
 
         public static VarInfo DSVarInfo
         {
-            get { return STEMP_.Strategies.STEMP.DSVarInfo;} 
+            get { return STEMP_.Strategies.{'modu': 'STEMP', 'var': 'DS'}.DSVarInfo;} 
         }
 
         public static VarInfo DLAYRVarInfo
         {
-            get { return STEMP_.Strategies.STEMP.DLAYRVarInfo;} 
+            get { return STEMP_.Strategies.{'modu': 'STEMP', 'var': 'DLAYR'}.DLAYRVarInfo;} 
         }
 
         public static VarInfo ISWWATVarInfo
         {
-            get { return STEMP_.Strategies.STEMP.ISWWATVarInfo;} 
+            get { return STEMP_.Strategies.{'modu': 'STEMP', 'var': 'ISWWAT'}.ISWWATVarInfo;} 
         }
 
         public static VarInfo BDVarInfo
         {
-            get { return STEMP_.Strategies.STEMP.BDVarInfo;} 
+            get { return STEMP_.Strategies.{'modu': 'STEMP', 'var': 'BD'}.BDVarInfo;} 
         }
 
         public static VarInfo SWVarInfo
         {
-            get { return STEMP_.Strategies.STEMP.SWVarInfo;} 
+            get { return STEMP_.Strategies.{'modu': 'STEMP', 'var': 'SW'}.SWVarInfo;} 
         }
 
         public static VarInfo XLATVarInfo
         {
-            get { return STEMP_.Strategies.STEMP.XLATVarInfo;} 
+            get { return STEMP_.Strategies.{'modu': 'STEMP', 'var': 'XLAT'}.XLATVarInfo;} 
         }
 
         public static VarInfo DULVarInfo
         {
-            get { return STEMP_.Strategies.STEMP.DULVarInfo;} 
+            get { return STEMP_.Strategies.{'modu': 'STEMP', 'var': 'DUL'}.DULVarInfo;} 
         }
 
         public string TestPostConditions(STEMP_.DomainClass.STEMP_State s,STEMP_.DomainClass.STEMP_State s1,STEMP_.DomainClass.STEMP_Rate r,STEMP_.DomainClass.STEMP_Auxiliary a,STEMP_.DomainClass.STEMP_Exogenous ex,string callID)
@@ -659,37 +659,47 @@ namespace STEMP_.Strategies
             _stemp.Estimate(s,s1, r, a, ex);
         }
 
+        public void Init(STEMP_.DomainClass.STEMP_State s,STEMP_.DomainClass.STEMP_State s1,STEMP_.DomainClass.STEMP_Rate r,STEMP_.DomainClass.STEMP_Auxiliary a,STEMP_.DomainClass.STEMP_Exogenous ex)
+        {
+            Tuple.Create(s.CUMDPT, s.DSMID, s.TDL, s.TMA, s.ATOT, s.SRFTEMP, s.ST, s.HDAY) = init_stemp(NL, ISWWAT, BD, DLAYR, DS, DUL, LL, NLAYR, MSALB, ex.SRAD, SW, ex.TAVG, ex.TMAX, XLAT, ex.TAV, ex.TAMP, ex.DOY);
+        }
+
+        public void Init(STEMP_State s, STEMP_State s1, STEMP_Rate r, STEMP_Auxiliary a, STEMP_Exogenous ex)
+        {
+            _STEMP.Init(s, s1, r, a, ex);
+        }
+
         public STEMP_Component(STEMP_Component toCopy): this() // copy constructor 
         {
                 MSALB = toCopy.MSALB;
                 NL = toCopy.NL;
                 
-            for (int i = 0; i < NL; i++)
+        for (int i = 0; i < NL; i++)
             { LL[i] = toCopy.LL[i]; }
     
                 NLAYR = toCopy.NLAYR;
                 
-            for (int i = 0; i < NL; i++)
+        for (int i = 0; i < NL; i++)
             { DS[i] = toCopy.DS[i]; }
     
                 
-            for (int i = 0; i < NL; i++)
+        for (int i = 0; i < NL; i++)
             { DLAYR[i] = toCopy.DLAYR[i]; }
     
                 ISWWAT = toCopy.ISWWAT;
                 
-            for (int i = 0; i < NL; i++)
+        for (int i = 0; i < NL; i++)
             { BD[i] = toCopy.BD[i]; }
     
                 
-            for (int i = 0; i < NL; i++)
+        for (int i = 0; i < NL; i++)
             { SW[i] = toCopy.SW[i]; }
     
                 XLAT = toCopy.XLAT;
                 
-            for (int i = 0; i < NL; i++)
+        for (int i = 0; i < NL; i++)
             { DUL[i] = toCopy.DUL[i]; }
     
+            }
         }
     }
-}

@@ -53,33 +53,34 @@ namespace Model.Model.STEMP_
         }
 
         public void Init(){
-            stemp_Component.Init(s, r, a);
+            setExogenous();
             loadParameters();
+            stemp_Component.Init(s, s1, r, a, ex);
         }
 
         private void loadParameters()
         {
-            stemp_Component.MSALB = MSALB;
-            stemp_Component.NL = NL;
-            stemp_Component.LL = LL;
-            stemp_Component.NLAYR = NLAYR;
-            stemp_Component.DS = DS;
-            stemp_Component.DLAYR = DLAYR;
-            stemp_Component.ISWWAT = ISWWAT;
-            stemp_Component.BD = BD;
-            stemp_Component.SW = SW;
-            stemp_Component.XLAT = XLAT;
-            stemp_Component.DUL = DUL;
+            stemp_Component.MSALB = null; // To be modified
+            stemp_Component.NL = null; // To be modified
+            stemp_Component.LL = null; // To be modified
+            stemp_Component.NLAYR = null; // To be modified
+            stemp_Component.DS = null; // To be modified
+            stemp_Component.DLAYR = null; // To be modified
+            stemp_Component.ISWWAT = 'Y'
+            stemp_Component.BD = null; // To be modified
+            stemp_Component.SW = null; // To be modified
+            stemp_Component.XLAT = null; // To be modified
+            stemp_Component.DUL = null; // To be modified
         }
 
         public void EstimateSTEMP_(double TMAX, double SRAD, double TAMP, double TAVG, double TAV, int DOY)
         {
-            a.TMAX = TMAX;
-            a.SRAD = SRAD;
-            a.TAMP = TAMP;
-            a.TAVG = TAVG;
-            a.TAV = TAV;
-            a.DOY = DOY;
+            ex.TMAX = TMAX;
+            ex.SRAD = SRAD;
+            ex.TAMP = TAMP;
+            ex.TAVG = TAVG;
+            ex.TAV = TAV;
+            ex.DOY = DOY;
             stemp_Component.CalculateModel(s,s1, r, a, ex);
         }
 

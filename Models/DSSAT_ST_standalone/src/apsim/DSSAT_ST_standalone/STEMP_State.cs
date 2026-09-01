@@ -34,19 +34,19 @@ public class STEMP_State
             HDAY = toCopy.HDAY;
             SRFTEMP = toCopy.SRFTEMP;
             ST = new double[toCopy.ST.Length];
-            for (int i = 0; i < toCopy.ST.Length; i++)
-                { ST[i] = toCopy.ST[i]; }
+        for (int i = 0; i < toCopy.ST.Length; i++)
+            { ST[i] = toCopy.ST[i]; }
     
             TMA = new double[5];
-            for (int i = 0; i < 5; i++)
-                { TMA[i] = toCopy.TMA[i]; }
+        for (int i = 0; i < 5; i++)
+            { TMA[i] = toCopy.TMA[i]; }
     
             TDL = toCopy.TDL;
             CUMDPT = toCopy.CUMDPT;
             ATOT = toCopy.ATOT;
             DSMID = new double[toCopy.DSMID.Length];
-            for (int i = 0; i < toCopy.DSMID.Length; i++)
-                { DSMID[i] = toCopy.DSMID[i]; }
+        for (int i = 0; i < toCopy.DSMID.Length; i++)
+            { DSMID[i] = toCopy.DSMID[i]; }
     
         }
     }

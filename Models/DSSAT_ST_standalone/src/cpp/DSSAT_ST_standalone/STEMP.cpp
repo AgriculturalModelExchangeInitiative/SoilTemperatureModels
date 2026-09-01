@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <array>
 #include <map>
+#include <set>
 #include <tuple>
 #include "STEMP.h"
 using namespace DSSAT_ST_standalone;
@@ -19,12 +20,12 @@ void STEMP::Init(STEMP_State &s, STEMP_State &s1, STEMP_Rate &r, STEMP_Auxiliary
     double TAMP = ex.getTAMP();
     int DOY = ex.getDOY();
     double CUMDPT;
-    std::vector<double> DSMID;
+    std::vector<double> DSMID(NL);
     double TDL;
-    std::vector<double> TMA;
+    std::vector<double> TMA(5);
     double ATOT;
     double SRFTEMP;
-    std::vector<double> ST;
+    std::vector<double> ST(NL);
     double HDAY;
     CUMDPT = 0.0;
     DSMID = std::move(std::vector<double>(NL, 0.0));
@@ -539,7 +540,6 @@ std::tuple<double,std::vector<double> ,double,std::vector<double> > STEMP::SOILT
     {
         ZD = -(DSMID[(L - 1)] / DD);
         ST[L - 1] = TAV + ((TAMP / 2.0 * std::cos((ALX + ZD)) + DT) * std::exp(ZD));
-        ST[L - 1] = int(ST[(L - 1)] * 1000.) / 1000.;
     }
     SRFTEMP = TAV + (TAMP / 2. * std::cos(ALX) + DT);
     return make_tuple(ATOT, TMA, SRFTEMP, ST);

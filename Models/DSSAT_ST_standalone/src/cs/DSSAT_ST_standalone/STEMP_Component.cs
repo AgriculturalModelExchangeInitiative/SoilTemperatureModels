@@ -1,7 +1,10 @@
 public class STEMP_Component
 {
     
-        public STEMP_Component() { }
+    /// <summary>
+    /// Constructor of the STEMP_Component component")
+    /// </summary>  
+    public STEMP_Component() { }
     
 
     //Declaration of the associated strategies
@@ -140,31 +143,44 @@ public class STEMP_Component
         MSALB = toCopy.MSALB;
         NL = toCopy.NL;
         
-            for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 100; i++)
             { LL[i] = toCopy.LL[i]; }
     
         NLAYR = toCopy.NLAYR;
         
-            for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 100; i++)
             { DS[i] = toCopy.DS[i]; }
     
         
-            for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 100; i++)
             { DLAYR[i] = toCopy.DLAYR[i]; }
     
         ISWWAT = toCopy.ISWWAT;
         
-            for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 100; i++)
             { BD[i] = toCopy.BD[i]; }
     
         
-            for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 100; i++)
             { SW[i] = toCopy.SW[i]; }
     
         XLAT = toCopy.XLAT;
         
-            for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 100; i++)
             { DUL[i] = toCopy.DUL[i]; }
     
     }
+    
+
+    
+
+    /// <summary>
+    /// Initialization of STEMP_ component
+    /// </summary>
+
+    public void Init(STEMP_State s, STEMP_State s1, STEMP_Rate r, STEMP_Auxiliary a, STEMP_Exogenous ex)
+    {
+        _STEMP.Init(s,s1, r, a, ex);
+    }
+    
 }

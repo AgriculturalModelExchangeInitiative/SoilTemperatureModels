@@ -631,7 +631,7 @@ public class STEMP
     /// <summary>
     /// 
     /// </summary>
-    public static void  SOILT(int NL, double ALBEDO, double B, double CUMDPT, int DOY, double DP, double HDAY, int NLAYR, double PESW, double SRAD, double TAMP, double TAV, double TAVG, double TMAX, double WW, double[] DSMID, ref double ATOT, ref double[] TMA, out double SRFTEMP, out double[] ST)
+    public static void  SOILT(int NL, double ALBEDO, double B, double CUMDPT, int DOY, double DP, double HDAY, int NLAYR, double PESW, double SRAD, double TAMP, double TAV, double TAVG, double TMAX, double WW, double[] DSMID, ref double ATOT, ref double[] TMA)
     {
         int K;
         int L;
@@ -661,7 +661,6 @@ public class STEMP
         {
             ZD = -(DSMID[(L - 1)] / DD);
             ST[L - 1] = TAV + ((TAMP / 2.0 * Math.Cos((ALX + ZD)) + DT) * Math.Exp(ZD));
-            ST[L - 1] = (int)(ST[(L - 1)] * 1000.0d) / 1000.0d;
         }
         SRFTEMP = TAV + (TAMP / 2.0d * Math.Cos(ALX) + DT);
     }

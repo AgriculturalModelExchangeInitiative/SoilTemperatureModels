@@ -38,13 +38,13 @@ CONTAINS
         REAL , DIMENSION(NL ), INTENT(IN) :: LL
         INTEGER, INTENT(IN) :: NLAYR
         REAL , DIMENSION(NL ), INTENT(IN) :: DS
-        REAL , DIMENSION(NL ), INTENT(INOUT) :: ST
+        REAL , DIMENSION(NL ), ALLOCATABLE , INTENT(INOUT) :: ST
         REAL, INTENT(IN) :: SRAD
         REAL, INTENT(IN) :: TAMP
         REAL , DIMENSION(NL ), INTENT(IN) :: DLAYR
-        REAL , DIMENSION(5 ), INTENT(INOUT) :: TMA
+        REAL , DIMENSION(5 ), ALLOCATABLE , INTENT(INOUT) :: TMA
         REAL, INTENT(INOUT) :: TDL
-        CHARACTER(65), INTENT(IN) :: ISWWAT
+        CHARACTER(len=*), INTENT(IN) :: ISWWAT
         REAL, INTENT(INOUT) :: CUMDPT
         REAL, INTENT(IN) :: TAVG
         REAL , DIMENSION(NL ), INTENT(IN) :: BD
@@ -53,7 +53,7 @@ CONTAINS
         REAL, INTENT(IN) :: TAV
         REAL, INTENT(IN) :: XLAT
         REAL , DIMENSION(NL ), INTENT(IN) :: DUL
-        REAL , DIMENSION(NL ), INTENT(INOUT) :: DSMID
+        REAL , DIMENSION(NL ), ALLOCATABLE , INTENT(INOUT) :: DSMID
         INTEGER, INTENT(IN) :: DOY
         !- Name: STEMP_ -Version:  1.0, -Time step:  1
         !- Description:
@@ -355,5 +355,64 @@ CONTAINS
                 SRAD, SW, TAVG, TMAX, XLAT, TAV, TAMP, CUMDPT, DSMID, TDL, TMA, ATOT,  &
                 SRFTEMP, ST, DOY, HDAY)
     END SUBROUTINE model_stemp_
+
+    SUBROUTINE init_stemp_(NL, &
+        ISWWAT, &
+        BD, &
+        DLAYR, &
+        DS, &
+        DUL, &
+        LL, &
+        NLAYR, &
+        MSALB, &
+        SRAD, &
+        SW, &
+        TAVG, &
+        TMAX, &
+        XLAT, &
+        TAV, &
+        TAMP, &
+        DOY, &
+        CUMDPT, &
+        DSMID, &
+        TDL, &
+        TMA, &
+        ATOT, &
+        SRFTEMP, &
+        ST, &
+        HDAY)
+        IMPLICIT NONE
+        INTEGER:: i_cyml_r
+        INTEGER, INTENT(IN) :: NL
+        CHARACTER(len=*), INTENT(IN) :: ISWWAT
+        REAL , DIMENSION(NL ), INTENT(IN) :: BD
+        REAL , DIMENSION(NL ), INTENT(IN) :: DLAYR
+        REAL , DIMENSION(NL ), INTENT(IN) :: DS
+        REAL , DIMENSION(NL ), INTENT(IN) :: DUL
+        REAL , DIMENSION(NL ), INTENT(IN) :: LL
+        INTEGER, INTENT(IN) :: NLAYR
+        REAL, INTENT(IN) :: MSALB
+        REAL, INTENT(IN) :: SRAD
+        REAL , DIMENSION(NL ), INTENT(IN) :: SW
+        REAL, INTENT(IN) :: TAVG
+        REAL, INTENT(IN) :: TMAX
+        REAL, INTENT(IN) :: XLAT
+        REAL, INTENT(IN) :: TAV
+        REAL, INTENT(IN) :: TAMP
+        INTEGER, INTENT(IN) :: DOY
+        REAL, INTENT(OUT) :: HDAY
+        REAL, INTENT(OUT) :: SRFTEMP
+        REAL , DIMENSION(: ), ALLOCATABLE , INTENT(OUT) :: ST
+        REAL , DIMENSION(5 ), ALLOCATABLE , INTENT(OUT) :: TMA
+        REAL, INTENT(OUT) :: TDL
+        REAL, INTENT(OUT) :: CUMDPT
+        REAL, INTENT(OUT) :: ATOT
+        REAL , DIMENSION(: ), ALLOCATABLE , INTENT(OUT) :: DSMID
+        ALLOCATE(ST(NL))
+        ALLOCATE(DSMID(NL))
+        call init_stemp(NL, ISWWAT, BD, DLAYR, DS, DUL, LL, NLAYR, MSALB,  &
+                SRAD, SW, TAVG, TMAX, XLAT, TAV, TAMP,  &
+                DOY,CUMDPT,DSMID,TDL,TMA,ATOT,SRFTEMP,ST,HDAY)
+    END SUBROUTINE init_stemp_
 
 END MODULE

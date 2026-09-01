@@ -5,9 +5,9 @@ public class STEMP_Component
 
     STEMP _STEMP = new STEMP();
 
-    public Double getMSALB()
+    public double getMSALB()
     { return _STEMP.getMSALB(); }
-    public void setMSALB(Double _MSALB){
+    public void setMSALB(double _MSALB){
     _STEMP.setMSALB(_MSALB);
     }
 
@@ -59,9 +59,9 @@ public class STEMP_Component
     _STEMP.setSW(_SW);
     }
 
-    public Double getXLAT()
+    public double getXLAT()
     { return _STEMP.getXLAT(); }
-    public void setXLAT(Double _XLAT){
+    public void setXLAT(double _XLAT){
     _STEMP.setXLAT(_XLAT);
     }
 
@@ -74,7 +74,7 @@ public class STEMP_Component
     {
         _STEMP.Calculate_Model(s, s1, r, a, ex);
     }
-    private Double MSALB;
+    private double MSALB;
     private Integer NL;
     private Double [] LL;
     private Integer NLAYR;
@@ -83,7 +83,7 @@ public class STEMP_Component
     private String ISWWAT;
     private Double [] BD;
     private Double [] SW;
-    private Double XLAT;
+    private double XLAT;
     private Double [] DUL;
     public STEMP_Component(STEMP_Component toCopy) // copy constructor 
     {
@@ -124,4 +124,13 @@ public class STEMP_Component
         }
 
     }
+    
+
+    
+
+    public void Init(STEMP_State s, STEMP_State s1, STEMP_Rate r, STEMP_Auxiliary a, STEMP_Exogenous ex)
+    {
+        _STEMP.Init(s, s1, r, a, ex);
+    }
+    
 }

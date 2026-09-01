@@ -104,3 +104,9 @@ STEMP_Component::STEMP_Component(STEMP_Component& toCopy)
 }
 
 }
+
+
+void STEMP_Component::Init(STEMP_State &s, STEMP_State &s1, STEMP_Rate &r, STEMP_Auxiliary &a, STEMP_Exogenous &ex)
+{
+    _STEMP.Init(s, s1, r, a, ex);
+}

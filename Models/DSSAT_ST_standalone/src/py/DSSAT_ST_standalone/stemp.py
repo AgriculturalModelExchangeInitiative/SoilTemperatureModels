@@ -26,20 +26,20 @@ def init_stemp(NL:int,
          TAMP:float,
          DOY:int):
     CUMDPT:float
-    DSMID:'array[float]' = array('f',[0.0]*NL)
+    DSMID:'array[float]' = array('f',[0.0]*(NL))
     TDL:float
-    TMA:'array[float]' = array('f',[0.0]*5)
+    TMA:'array[float]' = array('f',[0.0]*(5))
     ATOT:float
     SRFTEMP:float
-    ST:'array[float]' = array('f',[0.0]*NL)
+    ST:'array[float]' = array('f',[0.0]*(NL))
     HDAY:float
     CUMDPT = 0.0
-    DSMID = array('f', [0.0]*NL)
+    DSMID = array('f', [0.0]*(NL))
     TDL = 0.0
-    TMA = array('f', [0.0]*5)
+    TMA = array('f', [0.0]*(5))
     ATOT = 0.0
     SRFTEMP = 0.0
-    ST = array('f', [0.0]*NL)
+    ST = array('f', [0.0]*(NL))
     HDAY = 0.0
     I:int
     L:int
@@ -53,9 +53,9 @@ def init_stemp(NL:int,
     WW:float
     TLL:float
     TSW:float
-    DLI:'array[float]' = array('f',[0.0]*NL)
-    DSI:'array[float]' = array('f',[0.0]*NL)
-    SWI:'array[float]' = array('f',[0.0]*NL)
+    DLI:'array[float]' = array('f',[0.0]*(NL))
+    DSI:'array[float]' = array('f',[0.0]*(NL))
+    SWI:'array[float]' = array('f',[0.0]*(NL))
     SWI = SW
     DSI = DS
     if XLAT < 0.0:
@@ -484,7 +484,7 @@ def SOILT(NL:int,
     TA:float
     WC:float
     ZD:float
-    ST:'array[float]' = array('f',[0.0]*NL)
+    ST:'array[float]' = array('f',[0.0]*(NL))
     ALX = (float(DOY) - HDAY) * 0.0174
     ATOT = ATOT - TMA[5 - 1]
     for K in range(5 , 2 - 1 , -1):
@@ -500,6 +500,5 @@ def SOILT(NL:int,
     for L in range(1 , NLAYR + 1 , 1):
         ZD = -(DSMID[(L - 1)] / DD)
         ST[L - 1] = TAV + ((TAMP / 2.0 * cos((ALX + ZD)) + DT) * exp(ZD))
-        ST[L - 1] = int(ST[(L - 1)] * 1000.) / 1000.
     SRFTEMP = TAV + (TAMP / 2. * cos(ALX) + DT)
     return (ATOT, TMA, SRFTEMP, ST)

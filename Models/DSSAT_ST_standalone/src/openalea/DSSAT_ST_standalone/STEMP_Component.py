@@ -5,7 +5,7 @@ from math import *
 from typing import *
 from datetime import datetime
 
-from DSSAT_ST_standalone.stemp import model_stemp
+from DSSAT_ST_standalone.stemp import model_stemp, init_stemp
 
 #%%CyML Model Begin%%
 def model_stemp_(TMAX:float,
@@ -335,3 +335,33 @@ def model_stemp_(TMAX:float,
     (CUMDPT, DSMID, TDL, TMA, ATOT, SRFTEMP, ST) = model_stemp(NL, ISWWAT, BD, DLAYR, DS, DUL, LL, NLAYR, MSALB, SRAD, SW, TAVG, TMAX, XLAT, TAV, TAMP, CUMDPT, DSMID, TDL, TMA, ATOT, SRFTEMP, ST, DOY, HDAY)
     return (CUMDPT, DSMID, TDL, TMA, ATOT, SRFTEMP, ST)
 #%%CyML Model End%%
+
+#%%CyML Init Begin%%
+def init_stemp_(NL:int,
+         ISWWAT:str,
+         BD:'Array[float]',
+         DLAYR:'Array[float]',
+         DS:'Array[float]',
+         DUL:'Array[float]',
+         LL:'Array[float]',
+         NLAYR:int,
+         MSALB:float,
+         SRAD:float,
+         SW:'Array[float]',
+         TAVG:float,
+         TMAX:float,
+         XLAT:float,
+         TAV:float,
+         TAMP:float,
+         DOY:int):
+    HDAY:float
+    SRFTEMP:float
+    ST:'array[float]' = array('f',[0.0]*(NL))
+    TMA:'array[float]' = array('f',[0.0]*(5))
+    TDL:float
+    CUMDPT:float
+    ATOT:float
+    DSMID:'array[float]' = array('f',[0.0]*(NL))
+    (CUMDPT, DSMID, TDL, TMA, ATOT, SRFTEMP, ST, HDAY) = init_stemp(NL, ISWWAT, BD, DLAYR, DS, DUL, LL, NLAYR, MSALB, SRAD, SW, TAVG, TMAX, XLAT, TAV, TAMP, DOY)
+    return (CUMDPT, DSMID, TDL, TMA, ATOT, SRFTEMP, ST, HDAY)
+#%%CyML Init End%%

@@ -82,7 +82,7 @@ def SOILT(int NL,
         ZD=-(DSMID[(L - 1)] / DD)
         ST[L - 1]=TAV + ((TAMP / 2.0 * cos((ALX + ZD)) + DT) * exp(ZD))
         #debug vs release fix
-        ST[L - 1]=int(ST[(L - 1)] * 1000.) / 1000.
+    #    ST[L - 1]=int(ST[(L - 1)] * 1000.) / 1000.
     #     Added: soil T for surface litter layer.
     #     NB: this should be done by adding array element 0 to ST(L). Now
     #     temporarily done differently.
